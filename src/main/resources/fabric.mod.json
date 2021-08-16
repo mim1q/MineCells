@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "minecells",
+  "version": "${version}",
+  "name": "Minecells",
+  "description": "This mod brings content from Dead Cells into Minecraft.",
+  "authors": [
+    "Mim1q"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/minecells/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.github.mim1q.minecells.client.MinecellsClient"
+    ],
+    "main": [
+      "com.github.mim1q.minecells.Minecells"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
