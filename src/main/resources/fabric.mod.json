@@ -13,10 +13,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.github.mim1q.minecells.client.MinecellsClient"
+      "com.github.mim1q.minecells.client.MineCellsClient"
     ],
     "main": [
-      "com.github.mim1q.minecells.Minecells"
+      "com.github.mim1q.minecells.MineCells"
     ]
   },
   "depends": {
