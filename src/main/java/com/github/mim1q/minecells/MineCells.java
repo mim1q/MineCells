@@ -12,6 +12,6 @@ public class MineCells implements ModInitializer {
     @Override
     public void onInitialize() {
         // Construct registries
-        new EntityRegistry();
+        EntityRegistry.register();
     }
 }
