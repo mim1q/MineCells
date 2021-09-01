@@ -9,6 +9,6 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 public class JumpingZombieEntityRenderer extends GeoEntityRenderer<JumpingZombieEntity> {
     public JumpingZombieEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new JumpingZombieEntityModel());
-        this.shadowRadius = 0.75f;
+        this.shadowRadius = 0.25f;
     }
 }
