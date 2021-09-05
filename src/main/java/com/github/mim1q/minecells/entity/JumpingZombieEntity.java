@@ -23,13 +23,16 @@ public class JumpingZombieEntity extends PathAwareEntity implements IAnimatable 
 
     public JumpingZombieEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        this.goalSelector.add(1, new WanderAroundFarGoal(this, 1.0d, 60));
+        this.ignoreCameraFrustum = true;
+
+        this.goalSelector.add(1, new WanderAroundFarGoal(this, 1.0d));
     }
 
     private<E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if (event.isMoving()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.walking", true));
-        } else {
+        }
+        else {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.idle", true));
         }
         return PlayState.CONTINUE;
@@ -37,15 +40,16 @@ public class JumpingZombieEntity extends PathAwareEntity implements IAnimatable 
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 10, this::predicate));
+        data.addAnimationController(new AnimationController<>(this, "controller", 5, this::predicate));
     }
 
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
     }
+
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return PathAwareEntity.createMobAttributes()
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15d);
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513d);
     }
 }
