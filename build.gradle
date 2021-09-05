@@ -20,7 +20,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation "software.bernie.geckolib:geckolib-fabric-1.17:3.0.12:dev"
+    modImplementation "software.bernie.geckolib:geckolib-fabric-1.17:3.0.13:dev"
 }
 
 processResources {
