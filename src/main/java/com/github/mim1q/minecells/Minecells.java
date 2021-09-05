@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.registry.EntityRegistry;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.geckolib3.GeckoLib;
 
 public class MineCells implements ModInitializer {
     public static final String MOD_ID = "minecells";
@@ -11,6 +12,7 @@ public class MineCells implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        GeckoLib.initialize();
         // Construct registries
         EntityRegistry.register();
     }
