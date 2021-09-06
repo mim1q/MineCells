@@ -33,10 +33,15 @@
 					]
 				},
 				{
-					"name": "Head",
+					"name": "Neck",
 					"parent": "Body",
 					"pivot": [0, 24, 0],
-					"rotation": [-15, 0, 0],
+					"rotation": [-15, 0, 0]
+				},
+				{
+					"name": "Head",
+					"parent": "Neck",
+					"pivot": [0, 24, 0],
 					"cubes": [
 						{"origin": [-3, 22.5, -4], "size": [6, 8, 6], "uv": [0, 0]}
 					]
@@ -46,6 +51,7 @@
 					"parent": "Body",
 					"pivot": [4, 22, 0.5],
 					"rotation": [-15, 0, 0],
+					"mirror": true,
 					"cubes": [
 						{"origin": [4, 9.5, -1], "size": [2, 14, 3], "uv": [32, 34], "mirror": false}
 					]
@@ -62,6 +68,7 @@
 					"name": "LeftLeg",
 					"parent": "Root",
 					"pivot": [-2, 12, 0],
+					"mirror": true,
 					"cubes": [
 						{"origin": [0.5, 0, -1], "size": [3, 12, 3], "uv": [0, 25], "mirror": false}
 					]
