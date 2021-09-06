@@ -160,6 +160,14 @@
 						}
 					}
 				}
+			},
+			"sound_effects": {
+				"0.0": {
+					"effect": "melee_attack"
+				}
+			},
+			"timeline": {
+				"0.75": ["melee_attack_damage"]
 			}
 		},
 		"animation.jumping_zombie.attack.jump": {

@@ -14,9 +14,13 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.CustomInstructionKeyframeEvent;
+import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.network.GeckoLibNetwork;
+import software.bernie.geckolib3.network.ISyncable;
 
 public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable {
 
@@ -82,7 +86,19 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable 
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "movementController", 5, this::movementPredicate));
-        data.addAnimationController(new AnimationController<>(this, "attackController", 5, this::attackPredicate));
+        AnimationController<JumpingZombieEntity> attackController = new AnimationController<>(this, "attackController", 5, this::attackPredicate);
+        data.addAnimationController(attackController);
+
+        attackController.registerSoundListener(this::soundListener);
+        attackController.registerCustomInstructionListener(this::instructionListener);
+    }
+
+    private<E extends IAnimatable> void soundListener(SoundKeyframeEvent<E> event) {
+
+    }
+
+    private<E extends IAnimatable> void instructionListener(CustomInstructionKeyframeEvent<E> event) {
+
     }
 
     @Override
