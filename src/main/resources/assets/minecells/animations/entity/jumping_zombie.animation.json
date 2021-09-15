@@ -167,7 +167,8 @@
 				}
 			},
 			"timeline": {
-				"0.75": ["melee_attack_damage"]
+				"0.75": ["melee_attack_damage"],
+				"0.95": ["end_attack"]
 			}
 		},
 		"animation.jumping_zombie.attack.jump": {
@@ -261,6 +262,9 @@
 						}
 					}
 				}
+			},
+			"timeline": {
+				"2.25": ["end_attack"]
 			}
 		}
 	},
