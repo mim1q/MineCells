@@ -7,22 +7,22 @@
 			"bones": {
 				"Body": {
 					"rotation": {
-						"vector": ["math.sin(query.anim_time * 180) * 2", 0, 0]
+						"vector": ["math.sin(query.anim_time * 180) * 3", 0, 0]
 					}
 				},
 				"Head": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 - 15) * 2", 0, 0]
+						"vector": ["-math.sin(query.anim_time * 180 - 15) * 3", 0, 0]
 					}
 				},
 				"LeftArm": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 - 30) * 2", 0, 0]
+						"vector": ["math.cos(query.anim_time*180+60)*3", 0, 0]
 					}
 				},
 				"RightArm": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 - 45) * 2", 0, 0]
+						"vector": ["math.cos(query.anim_time*180+45)*3", 0, 0]
 					}
 				},
 				"LeftLeg": {
@@ -39,36 +39,36 @@
 		},
 		"animation.jumping_zombie.walking": {
 			"loop": true,
-			"animation_length": 2,
+			"animation_length": 4,
 			"bones": {
 				"Body": {
 					"rotation": {
-						"vector": ["math.sin(query.anim_time * 360) * 3", 0, 0]
+						"vector": ["math.sin(query.anim_time * 540) * 3", 0, 0]
 					}
 				},
 				"LeftArm": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 + 270) * 20", 0, 0]
+						"vector": ["-math.sin(query.anim_time * 270 + 270) * 20", 0, 0]
 					}
 				},
 				"RightArm": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 + 90) * 20", 0, 0]
+						"vector": ["-math.sin(query.anim_time * 270 + 90) * 20", 0, 0]
 					}
 				},
 				"Head": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 360 - 15) * 3", 0, 0]
+						"vector": ["-math.sin(query.anim_time * 540 - 15) * 3", 0, 0]
 					}
 				},
 				"LeftLeg": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 + 90) * 20", 0, 0]
+						"vector": ["-math.sin(query.anim_time * 270 + 90) * 20", 0, 0]
 					}
 				},
 				"RightLeg": {
 					"rotation": {
-						"vector": ["-math.sin(query.anim_time * 180 + 270) * 20", 0, 0]
+						"vector": ["-math.sin(query.anim_time * 270 + 270) * 20", 0, 0]
 					}
 				}
 			}
@@ -165,10 +165,6 @@
 				"0.0": {
 					"effect": "melee_attack"
 				}
-			},
-			"timeline": {
-				"0.75": ["melee_attack_damage"],
-				"0.95": ["end_attack"]
 			}
 		},
 		"animation.jumping_zombie.attack.jump": {
@@ -262,9 +258,6 @@
 						}
 					}
 				}
-			},
-			"timeline": {
-				"2.25": ["end_attack"]
 			}
 		}
 	},
