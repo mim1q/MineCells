@@ -1,19 +1,19 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.entity.interfaces.AnimatedMeleeAttackEntity;
+import com.github.mim1q.minecells.entity.interfaces.AnimatedAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.HostileEntity;
 
 import java.util.EnumSet;
 
-public class AnimatedMeleeAttackGoal<E extends HostileEntity & AnimatedMeleeAttackEntity> extends Goal {
+public class AnimatedAttackGoal<E extends HostileEntity & AnimatedAttackEntity> extends Goal {
 
-    E entity;
-    int attackTicks = 0;
-    int attackCooldown = 0;
+    protected E entity;
+    protected int attackTicks = 0;
+    protected int attackCooldown = 0;
 
-    public AnimatedMeleeAttackGoal(E entity) {
+    public AnimatedAttackGoal(E entity) {
         this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         this.entity = entity;
     }
@@ -41,14 +41,17 @@ public class AnimatedMeleeAttackGoal<E extends HostileEntity & AnimatedMeleeAtta
             this.entity.getNavigation().startMovingTo(target, 0.6d);
             double d = this.entity.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
 
-            if (this.attackCooldown == 0 && d <= 1.5d || this.attackTicks > 0) {
+            if (this.attackCooldown == 0 && d <= 3.0d || this.attackTicks > 0) {
                 this.entity.setAttackState("melee");
                 this.attackTicks++;
                 if(this.attackTicks == this.entity.getAttackTickCount("melee")) {
-                    this.attackTicks = 0;
+                    if(d <= 5.0d)
+                        this.attack(target);
+                }
+                else if(this.attackTicks == this.entity.getAttackLength("melee")) {
                     this.attackCooldown = this.entity.getAttackCooldown("melee");
-                    this.attack(target);
                     this.entity.stopAnimations();
+                    this.attackTicks = 0;
                 }
             }
         }

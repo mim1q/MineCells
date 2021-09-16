@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.entity.ai.goal.AnimatedMeleeAttackGoal;
-import com.github.mim1q.minecells.entity.interfaces.AnimatedMeleeAttackEntity;
+import com.github.mim1q.minecells.entity.ai.goal.AnimatedAttackGoal;
+import com.github.mim1q.minecells.entity.ai.goal.JumpingZombieJumpAttackGoal;
+import com.github.mim1q.minecells.entity.interfaces.AnimatedAttackEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -13,6 +13,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -21,7 +22,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class JumpingZombieEntity extends HostileEntity implements IAnimatable, AnimatedMeleeAttackEntity {
+public class JumpingZombieEntity extends HostileEntity implements IAnimatable, AnimatedAttackEntity {
     AnimationFactory factory = new AnimationFactory(this);
 
     public JumpingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
@@ -32,13 +33,14 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
 
     @Override
     public void initGoals() {
-        this.goalSelector.add(1, new LookAroundGoal(this));
-        this.goalSelector.add(1, new WanderAroundGoal(this, 1.0d));
-        this.goalSelector.add(1, new WanderAroundFarGoal(this, 1.0d));
+        this.goalSelector.add(3, new LookAroundGoal(this));
+        this.goalSelector.add(4, new WanderAroundGoal(this, 0.6d));
+        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.6d));
 
         this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, false));
 
-        this.goalSelector.add(1, new AnimatedMeleeAttackGoal<>(this));
+        this.goalSelector.add(1, new AnimatedAttackGoal<>(this));
+        this.goalSelector.add(1, new JumpingZombieJumpAttackGoal(this));
     }
 
     @Override
@@ -58,7 +60,10 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
         boolean isMoving = event.getLimbSwingAmount() > 0.05f || event.getLimbSwingAmount() < -0.05f;
 
         if(isMoving)
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.walking"));
+            if(this.getAttackState().equals("none"))
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.walking"));
+            else
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.walking_legs"));
         else
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.idle"));
         return PlayState.CONTINUE;
@@ -66,12 +71,19 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
 
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
 
-        if (this.getAttackState().equals("melee")) {
+        if(this.getAttackState().equals("melee")) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.attack.melee"));
             return PlayState.CONTINUE;
         }
+        else if(this.getAttackState().equals("jump")) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.jumping_zombie.attack.jump"));
+            return PlayState.CONTINUE;
+        }
 
-        event.getController().markNeedsReload();
+        if(event.getController().getAnimationState() == AnimationState.Stopped) {
+            event.getController().markNeedsReload();
+            return PlayState.STOP;
+        }
         return PlayState.CONTINUE;
     }
 
@@ -84,7 +96,7 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3d)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 30.0d)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 5.0d)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
@@ -92,7 +104,11 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
 
     @Override
     public int getAttackTickCount(String attackName) {
-        return 15;
+        return switch (attackName) {
+            case "melee" -> 15;
+            case "jump" -> 27;
+            default -> 0;
+        };
     }
 
     @Override
@@ -107,12 +123,24 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
 
     @Override
     public int getAttackCooldown(String attackName) {
-        return 30;
+        return switch (attackName) {
+            case "melee" -> 20;
+            case "jump" -> 50;
+            default -> 0;
+        };
+    }
+
+    @Override
+    public int getAttackLength(String attackName) {
+        return switch (attackName) {
+            case "melee" -> 20;
+            case "jump" -> 45;
+            default -> 0;
+        };
     }
 
     @Override
     public void stopAnimations() {
         setAttackState("none");
     }
-
 }
