@@ -168,6 +168,7 @@
 			}
 		},
 		"animation.jumping_zombie.attack.jump": {
+			"loop": "hold_on_last_frame",
 			"animation_length": 2.25,
 			"bones": {
 				"Body": {
@@ -260,6 +261,5 @@
 				}
 			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }
