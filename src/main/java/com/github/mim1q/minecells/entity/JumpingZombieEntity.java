@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.AnimatedAttackGoal;
 import com.github.mim1q.minecells.entity.ai.goal.JumpingZombieJumpAttackGoal;
-import com.github.mim1q.minecells.entity.interfaces.AnimatedAttackEntity;
+import com.github.mim1q.minecells.entity.interfaces.IAnimatedAttackEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -22,7 +22,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class JumpingZombieEntity extends HostileEntity implements IAnimatable, AnimatedAttackEntity {
+
+public class JumpingZombieEntity extends HostileEntity implements IAnimatable, IAnimatedAttackEntity {
     AnimationFactory factory = new AnimationFactory(this);
 
     public JumpingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
@@ -30,16 +31,17 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
     }
 
     public static final TrackedData<String> ATTACK_STATE = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.STRING);
+    public static final TrackedData<Integer> JUMP_COOLDOWN_TICKS = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Override
     public void initGoals() {
         this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(4, new WanderAroundGoal(this, 0.6d));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.6d));
+        this.goalSelector.add(3, new WanderAroundGoal(this, 0.6d));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.6d));
 
         this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, false));
 
-        this.goalSelector.add(1, new AnimatedAttackGoal<>(this));
+        this.goalSelector.add(2, new JumpingZombieMeleeAttackGoal(this, "melee"));
         this.goalSelector.add(1, new JumpingZombieJumpAttackGoal(this));
     }
 
@@ -48,11 +50,12 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
         super.initDataTracker();
 
         this.dataTracker.startTracking(ATTACK_STATE, "none");
+        this.dataTracker.startTracking(JUMP_COOLDOWN_TICKS, 0);
     }
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "movementController", 10, this::movementPredicate));
+        data.addAnimationController(new AnimationController<>(this, "movementController", 5, this::movementPredicate));
         data.addAnimationController(new AnimationController<>(this, "attackController", 0, this::attackPredicate));
     }
 
@@ -84,9 +87,15 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
             event.getController().markNeedsReload();
             return PlayState.STOP;
         }
-        return PlayState.CONTINUE;
+        return PlayState.STOP;
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if(this.getJumpCooldownTicks() > 0) //&& !this.getAttackState().equals("jump"))
+            this.setJumpCooldownTicks(this.getJumpCooldownTicks() - 1);
+    }
 
     @Override
     public AnimationFactory getFactory() {
@@ -96,10 +105,18 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3d)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 5.0d)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
+    }
+
+    public void setJumpCooldownTicks(int ticks) {
+        this.dataTracker.set(JUMP_COOLDOWN_TICKS, ticks);
+    }
+
+    public int getJumpCooldownTicks() {
+        return this.dataTracker.get(JUMP_COOLDOWN_TICKS);
     }
 
     @Override
@@ -125,7 +142,7 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
     public int getAttackCooldown(String attackName) {
         return switch (attackName) {
             case "melee" -> 20;
-            case "jump" -> 50;
+            case "jump" -> 300;
             default -> 0;
         };
     }
@@ -141,6 +158,18 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, A
 
     @Override
     public void stopAnimations() {
-        setAttackState("none");
+        this.setAttackState("none");
+    }
+
+    public static class JumpingZombieMeleeAttackGoal extends AnimatedAttackGoal<JumpingZombieEntity> {
+
+        public JumpingZombieMeleeAttackGoal(JumpingZombieEntity entity, String attackName) {
+            super(entity, attackName);
+        }
+
+        @Override
+        public boolean canStart() {
+            return super.canStart() && this.entity.getJumpCooldownTicks() < 100;
+        }
     }
 }

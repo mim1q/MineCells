@@ -1,31 +1,35 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.entity.interfaces.AnimatedAttackEntity;
+import com.github.mim1q.minecells.entity.interfaces.IAnimatedAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.EnumSet;
 
-public class AnimatedAttackGoal<E extends HostileEntity & AnimatedAttackEntity> extends Goal {
+public class AnimatedAttackGoal<E extends HostileEntity & IAnimatedAttackEntity> extends Goal {
 
     protected E entity;
     protected int attackTicks = 0;
     protected int attackCooldown = 0;
+    protected final String attackName;
 
-    public AnimatedAttackGoal(E entity) {
+    public AnimatedAttackGoal(E entity, String attackName) {
         this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+        this.attackName = attackName;
         this.entity = entity;
     }
 
     @Override
     public boolean canStart() {
-        return this.entity.getTarget() != null;
+        return this.entity.getTarget() != null && this.entity.getAttackState().equals("none");
     }
 
     @Override
     public boolean shouldContinue() {
-        return canStart();
+        LivingEntity target = this.entity.getTarget();
+        return target != null && !target.isSpectator() && !((PlayerEntity)target).isCreative();
     }
 
     @Override
@@ -41,15 +45,15 @@ public class AnimatedAttackGoal<E extends HostileEntity & AnimatedAttackEntity> 
             this.entity.getNavigation().startMovingTo(target, 0.6d);
             double d = this.entity.squaredDistanceTo(target.getX(), target.getY(), target.getZ());
 
-            if (this.attackCooldown == 0 && d <= 3.0d || this.attackTicks > 0) {
-                this.entity.setAttackState("melee");
+            if(this.attackCooldown == 0 && d <= 3.0d || this.attackTicks > 0) {
+                this.entity.setAttackState(this.attackName);
                 this.attackTicks++;
-                if(this.attackTicks == this.entity.getAttackTickCount("melee")) {
-                    if(d <= 5.0d)
+                if(this.attackTicks == this.entity.getAttackTickCount(this.attackName)) {
+                    if(d <= 6.0d)
                         this.attack(target);
                 }
-                else if(this.attackTicks == this.entity.getAttackLength("melee")) {
-                    this.attackCooldown = this.entity.getAttackCooldown("melee");
+                else if(this.attackTicks == this.entity.getAttackLength(this.attackName)) {
+                    this.attackCooldown = this.entity.getAttackCooldown(this.attackName);
                     this.entity.stopAnimations();
                     this.attackTicks = 0;
                 }

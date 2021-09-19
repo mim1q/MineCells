@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity.interfaces;
 
-public interface AnimatedAttackEntity {
+public interface IAnimatedAttackEntity {
 
     int getAttackTickCount(String attackName);
 
