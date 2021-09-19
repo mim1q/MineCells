@@ -1,0 +1,12 @@
+{
+  "jumping_zombie.melee": {
+    "sounds": [
+      "minecells:jumping_zombie/melee"
+    ]
+  },
+  "jumping_zombie.jump": {
+    "sounds": [
+      "minecells:jumping_zombie/jump"
+    ]
+  }
+}
