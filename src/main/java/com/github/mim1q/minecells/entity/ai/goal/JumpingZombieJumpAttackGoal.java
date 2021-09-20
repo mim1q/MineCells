@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
@@ -21,7 +22,7 @@ public class JumpingZombieJumpAttackGoal extends Goal {
     protected int attackTicks = 0;
 
     public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
-        this.setControls(EnumSet.of(Control.LOOK));
+        this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
         this.entity = entity;
     }
 
@@ -33,7 +34,8 @@ public class JumpingZombieJumpAttackGoal extends Goal {
 
         double d = this.entity.distanceTo(target);
 
-        return this.entity.getJumpCooldownTicks() == 0 && d >= 3.0 && d <= 15.0d;
+        boolean canJump = this.entity.getY() >= this.entity.getTarget().getY();
+        return canJump && this.entity.getJumpCooldownTicks() == 0 && d >= 3.5d && d <= 15.0d && this.entity.getRandom().nextFloat() < 0.15f;
     }
 
     @Override
@@ -61,7 +63,7 @@ public class JumpingZombieJumpAttackGoal extends Goal {
     @Override
     public void stop() {
         this.entity.stopAnimations();
-        this.entity.setJumpCooldownTicks(50 + this.entity.getRandom().nextInt(50));
+        this.entity.setJumpCooldownTicks(50 + this.entity.getRandom().nextInt(25));
     }
 
     @Override
@@ -87,7 +89,7 @@ public class JumpingZombieJumpAttackGoal extends Goal {
     public void attack() {
         for(PlayerEntity player : this.entity.world.getPlayers()) {
             double d = this.entity.distanceTo(player);
-            if(d <= 1.75d)
+            if(d <= 1.5d)
                 this.entity.tryAttack(player);
         }
     }

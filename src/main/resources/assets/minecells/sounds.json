@@ -8,5 +8,10 @@
     "sounds": [
       "minecells:jumping_zombie/jump"
     ]
+  },
+  "jumping_zombie.death": {
+    "sounds": [
+      "minecells:jumping_zombie/death"
+    ]
   }
 }

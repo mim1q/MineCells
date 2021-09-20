@@ -1,10 +1,10 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.ai.goal.JumpingZombieMeleeAttackGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.ai.goal.JumpingZombieJumpAttackGoal;
 import com.github.mim1q.minecells.entity.interfaces.IAnimatedAttackEntity;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -14,8 +14,8 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -108,7 +108,7 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, I
         return createLivingAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3d)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0d)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
     }
@@ -129,7 +129,6 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, I
         return this.dataTracker.get(MELEE_COOLDOWN_TICKS);
     }
 
-    @Override
     public int getAttackTickCount(String attackName) {
         return switch (attackName) {
             case "melee" -> 15;
@@ -138,17 +137,14 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, I
         };
     }
 
-    @Override
     public void setAttackState(String attackName) {
         this.dataTracker.set(ATTACK_STATE, attackName);
     }
 
-    @Override
     public String getAttackState() {
         return this.dataTracker.get(ATTACK_STATE);
     }
 
-    @Override
     public int getAttackCooldown(String attackName) {
         return switch (attackName) {
             case "melee" -> 20;
@@ -157,7 +153,6 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, I
         };
     }
 
-    @Override
     public int getAttackLength(String attackName) {
         return switch (attackName) {
             case "melee" -> 20;
@@ -166,8 +161,12 @@ public class JumpingZombieEntity extends HostileEntity implements IAnimatable, I
         };
     }
 
-    @Override
     public void stopAnimations() {
         this.setAttackState("none");
+    }
+
+    @Override
+    public SoundEvent getDeathSound() {
+        return SoundRegistry.JUMPING_ZOMBIE_DEATH_SOUND_EVENT;
     }
 }

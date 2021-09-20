@@ -27,7 +27,8 @@ public class JumpingZombieMeleeAttackGoal extends Goal {
         if(this.target == null)
             return false;
         double d = this.entity.distanceTo(target);
-        return this.entity.getJumpCooldownTicks() < 80 && this.entity.getMeleeCooldownTicks() == 0 && d <= 2.5d && this.entity.getRandom().nextFloat() < 0.2f;
+        boolean canAttack = this.entity.getY() > this.entity.getTarget().getY() - 2.0d;
+        return canAttack && this.entity.getJumpCooldownTicks() < 80 && this.entity.getMeleeCooldownTicks() == 0 && d <= 2.5d && this.entity.getRandom().nextFloat() < 0.2f;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class JumpingZombieMeleeAttackGoal extends Goal {
     @Override
     public void stop() {
         this.entity.stopAnimations();
-        this.entity.setMeleeCooldownTicks(10);
+        this.entity.setMeleeCooldownTicks(10 + this.entity.getRandom().nextInt(10));
     }
 
     @Override
