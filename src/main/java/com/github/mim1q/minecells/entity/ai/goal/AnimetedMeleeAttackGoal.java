@@ -1,22 +1,21 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.entity.JumpingZombieEntity;
+import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
+import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
 
-public class JumpingZombieMeleeAttackGoal extends Goal {
+public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEntity> extends Goal {
 
-    protected JumpingZombieEntity entity;
+    protected E entity;
     protected LivingEntity target;
     protected int attackTicks = 0;
 
-    public JumpingZombieMeleeAttackGoal(JumpingZombieEntity entity) {
+    public AnimetedMeleeAttackGoal(E entity) {
         this.setControls(EnumSet.of(Control.LOOK));
         this.entity = entity;
     }
@@ -28,7 +27,7 @@ public class JumpingZombieMeleeAttackGoal extends Goal {
             return false;
         double d = this.entity.distanceTo(target);
         boolean canAttack = this.entity.getY() > this.entity.getTarget().getY() - 2.0d;
-        return canAttack && this.entity.getJumpCooldownTicks() < 80 && this.entity.getMeleeCooldownTicks() == 0 && d <= 2.5d && this.entity.getRandom().nextFloat() < 0.2f;
+        return canAttack && this.entity.getMeleeAttackCooldown() == 0 && d <= 2.5d && this.entity.getRandom().nextFloat() < 0.2f;
     }
 
     @Override
@@ -50,13 +49,13 @@ public class JumpingZombieMeleeAttackGoal extends Goal {
 
     @Override
     public boolean shouldContinue() {
-        return this.attackTicks < this.entity.getAttackLength("melee") && this.target.isAlive();
+        return this.attackTicks < this.entity.getMeleeAttackLength() && this.target.isAlive();
     }
 
     @Override
     public void stop() {
-        this.entity.stopAnimations();
-        this.entity.setMeleeCooldownTicks(10 + this.entity.getRandom().nextInt(10));
+        this.entity.resetState();
+        this.entity.setMeleeAttackCooldown(this.entity.getMeleeAttackMaxCooldown());
     }
 
     @Override
@@ -64,7 +63,7 @@ public class JumpingZombieMeleeAttackGoal extends Goal {
         if(this.target != null) {
             this.entity.getLookControl().lookAt(this.target);
             double d = this.entity.distanceTo(target);
-            if(this.attackTicks == this.entity.getAttackTickCount("melee") && d <= 2.5d) {
+            if(this.attackTicks == this.entity.getMeleeAttackActionTick() && d <= 2.5d) {
                 this.attack(this.target);
             }
             this.attackTicks++;
