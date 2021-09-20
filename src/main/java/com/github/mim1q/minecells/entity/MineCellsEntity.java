@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.entity.JumpingZombieEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

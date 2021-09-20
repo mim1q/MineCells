@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;

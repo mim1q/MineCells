@@ -1,13 +1,16 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.AnimetedMeleeAttackGoal;
-import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.ai.goal.JumpAttackGoal;
+import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;

@@ -14,7 +14,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
-
 public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> extends Goal {
 
     protected E entity;
