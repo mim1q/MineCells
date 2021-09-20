@@ -1,12 +1,12 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
@@ -20,10 +20,12 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     protected LivingEntity target;
     protected int attackTicks = 0;
     List<UUID> alreadyAttacked;
-    boolean successful = false;
+    protected final SoundEvent ATTACK_SOUND_EVENT;
 
-    public JumpAttackGoal(E entity) {
+
+    public JumpAttackGoal(E entity, SoundEvent sound) {
         this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
+        this.ATTACK_SOUND_EVENT = sound;
         this.entity = entity;
         this.alreadyAttacked = new ArrayList<>();
     }
@@ -45,16 +47,18 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         this.target = this.entity.getTarget();
         this.entity.setAttackState("jump");
         this.attackTicks = 0;
-        this.successful = false;
         this.alreadyAttacked.clear();
-        if(!this.entity.world.isClient()) {
+
+        //TODO Move this somewhere else (maybe entity?)
+
+        if(!this.entity.world.isClient() && this.ATTACK_SOUND_EVENT != null) {
             this.entity.world.playSound(
-                    null,
-                    this.entity.getBlockPos(),
-                    SoundRegistry.JUMPING_ZOMBIE_JUMP_SOUND_EVENT,
-                    SoundCategory.HOSTILE,
-                    0.5f,
-                    1.0f
+                null,
+                this.entity.getBlockPos(),
+                this.ATTACK_SOUND_EVENT,
+                SoundCategory.HOSTILE,
+                0.5f,
+                1.0f
             );
         }
     }
@@ -95,7 +99,6 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         for(PlayerEntity player : players) {
             this.entity.tryAttack(player);
             this.alreadyAttacked.add(player.getUuid());
-            this.successful = true;
         }
     }
 }

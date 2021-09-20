@@ -2,10 +2,10 @@ package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 
 import java.util.EnumSet;
 
@@ -14,9 +14,11 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
     protected E entity;
     protected LivingEntity target;
     protected int attackTicks = 0;
+    protected final SoundEvent ATTACK_SOUND_EVENT;
 
-    public AnimetedMeleeAttackGoal(E entity) {
+    public AnimetedMeleeAttackGoal(E entity, SoundEvent sound) {
         this.setControls(EnumSet.of(Control.LOOK));
+        this.ATTACK_SOUND_EVENT = sound;
         this.entity = entity;
     }
 
@@ -35,14 +37,17 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
         this.target = this.entity.getTarget();
         this.entity.setAttackState("melee");
         this.attackTicks = 0;
-        if(!this.entity.world.isClient()) {
+
+        //TODO Move this somewhere else (maybe entity?)
+
+        if(!this.entity.world.isClient() && this.ATTACK_SOUND_EVENT != null) {
             this.entity.world.playSound(
-                    null,
-                    this.entity.getBlockPos(),
-                    SoundRegistry.JUMPING_ZOMBIE_MELEE_SOUND_EVENT,
-                    SoundCategory.HOSTILE,
-                    0.5f,
-                    1.0f
+                null,
+                this.entity.getBlockPos(),
+                this.ATTACK_SOUND_EVENT,
+                SoundCategory.HOSTILE,
+                0.5f,
+                1.0f
             );
         }
     }

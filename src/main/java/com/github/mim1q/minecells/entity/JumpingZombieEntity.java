@@ -52,8 +52,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(2, new WalkTowardsTargetGoal(this));
-        this.goalSelector.add(1, new JumpAttackGoal<>(this));
-        this.goalSelector.add(1, new AnimetedMeleeAttackGoal<>(this));
+        this.goalSelector.add(1, new JumpAttackGoal<>(this, SoundRegistry.JUMPING_ZOMBIE_JUMP_SOUND_EVENT));
+        this.goalSelector.add(1, new AnimetedMeleeAttackGoal<>(this, SoundRegistry.JUMPING_ZOMBIE_MELEE_SOUND_EVENT));
     }
 
     @Override
