@@ -29,7 +29,7 @@ public class MineCellsEntity extends HostileEntity {
         return this.dataTracker.get(ATTACK_STATE);
     };
 
-    public void resetState() {
+    public void resetAttackState() {
         this.setAttackState("none");
     };
 }

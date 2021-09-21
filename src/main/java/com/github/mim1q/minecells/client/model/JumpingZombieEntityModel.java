@@ -8,23 +8,19 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
-public class JumpingZombieEntityModel extends AnimatedGeoModel<JumpingZombieEntity>
-{
+public class JumpingZombieEntityModel extends AnimatedGeoModel<JumpingZombieEntity> {
     @Override
-    public Identifier getModelLocation(JumpingZombieEntity object)
-    {
+    public Identifier getModelLocation(JumpingZombieEntity object) {
         return new Identifier(MineCells.MOD_ID, "geo/entity/jumping_zombie.geo.json");
     }
 
     @Override
-    public Identifier getTextureLocation(JumpingZombieEntity object)
-    {
+    public Identifier getTextureLocation(JumpingZombieEntity object) {
         return new Identifier(MineCells.MOD_ID, "textures/entity/jumping_zombie.png");
     }
 
     @Override
-    public Identifier getAnimationFileLocation(JumpingZombieEntity object)
-    {
+    public Identifier getAnimationFileLocation(JumpingZombieEntity object) {
         return new Identifier(MineCells.MOD_ID, "animations/entity/jumping_zombie.animation.json");
     }
 

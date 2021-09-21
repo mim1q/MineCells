@@ -46,12 +46,12 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     @Override
     public void initGoals() {
         this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(3, new WanderAroundGoal(this, 0.6d));
-        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.6d));
+        this.goalSelector.add(2, new WanderAroundGoal(this, 0.6d));
+        this.goalSelector.add(2, new WanderAroundFarGoal(this, 0.6d));
 
         this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
-        this.goalSelector.add(2, new WalkTowardsTargetGoal(this));
+        this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0d, false));
         this.goalSelector.add(1, new JumpAttackGoal<>(this, SoundRegistry.JUMPING_ZOMBIE_JUMP_SOUND_EVENT));
         this.goalSelector.add(1, new AnimetedMeleeAttackGoal<>(this, SoundRegistry.JUMPING_ZOMBIE_MELEE_SOUND_EVENT));
     }
@@ -116,7 +116,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3d)
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20d)
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
@@ -138,7 +138,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     public int getJumpAttackMaxCooldown() {
-        return 40 + this.getRandom().nextInt(30);
+        return 80 + this.getRandom().nextInt(80);
     }
 
     public int getJumpAttackLength() {

@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 
 import java.util.EnumSet;
@@ -13,7 +12,7 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
 
     protected E entity;
     protected LivingEntity target;
-    protected int attackTicks = 0;
+    protected int ticks = 0;
     protected final SoundEvent ATTACK_SOUND_EVENT;
 
     public AnimetedMeleeAttackGoal(E entity, SoundEvent sound) {
@@ -36,16 +35,11 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
     public void start() {
         this.target = this.entity.getTarget();
         this.entity.setAttackState("melee");
-        this.attackTicks = 0;
-
-        //TODO Move this somewhere else (maybe entity?)
+        this.ticks = 0;
 
         if(!this.entity.world.isClient() && this.ATTACK_SOUND_EVENT != null) {
-            this.entity.world.playSound(
-                null,
-                this.entity.getBlockPos(),
+            this.entity.playSound(
                 this.ATTACK_SOUND_EVENT,
-                SoundCategory.HOSTILE,
                 0.5f,
                 1.0f
             );
@@ -54,12 +48,12 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
 
     @Override
     public boolean shouldContinue() {
-        return this.attackTicks < this.entity.getMeleeAttackLength() && this.target.isAlive();
+        return this.ticks < this.entity.getMeleeAttackLength() && this.target.isAlive();
     }
 
     @Override
     public void stop() {
-        this.entity.resetState();
+        this.entity.resetAttackState();
         this.entity.setMeleeAttackCooldown(this.entity.getMeleeAttackMaxCooldown());
     }
 
@@ -68,10 +62,10 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
         if(this.target != null) {
             this.entity.getLookControl().lookAt(this.target);
             double d = this.entity.distanceTo(target);
-            if(this.attackTicks == this.entity.getMeleeAttackActionTick() && d <= 2.5d) {
+            if(this.ticks == this.entity.getMeleeAttackActionTick() && d <= 2.5d) {
                 this.attack(this.target);
             }
-            this.attackTicks++;
+            this.ticks++;
         }
     }
 
