@@ -1,0 +1,82 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.shocker",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 4,
+				"visible_bounds_height": 3.5,
+				"visible_bounds_offset": [0, 1.25, 0]
+			},
+			"bones": [
+				{
+					"name": "Root",
+					"pivot": [4, -1, 0]
+				},
+				{
+					"name": "Body",
+					"parent": "Root",
+					"pivot": [0, 4, 9],
+					"cubes": [
+						{"origin": [6, -2, -6], "size": [3, 2, 12], "uv": [72, 50]},
+						{"origin": [-6, -2, -8], "size": [12, 2, 16], "uv": [40, 12]},
+						{"origin": [-9, -2, -6], "size": [3, 2, 12], "uv": [72, 30]},
+						{"origin": [5, 5, -5], "size": [3, 14, 10], "uv": [26, 52]},
+						{"origin": [-5, 5, -7], "size": [10, 14, 14], "uv": [0, 0]},
+						{"origin": [-6, 1, -8], "size": [12, 4, 16], "uv": [0, 28]},
+						{"origin": [-8, 5, -5], "size": [3, 14, 10], "uv": [0, 48]},
+						{"origin": [4, 18, -4], "size": [3, 14, 8], "uv": [0, 72]},
+						{"origin": [-7, 18, -4], "size": [3, 14, 8], "uv": [22, 76]},
+						{"origin": [-4, 18, -6], "size": [8, 14, 12], "uv": [44, 36]},
+						{"origin": [-9, 1, -6], "size": [3, 4, 12], "uv": [52, 62]},
+						{"origin": [-4, 32, -4], "size": [8, 4, 8], "uv": [34, 0]},
+						{"origin": [6, 1, -6], "size": [3, 4, 12], "uv": [70, 66]}
+					]
+				},
+				{
+					"name": "eyesocket",
+					"parent": "Body",
+					"pivot": [0, 0, -1],
+					"cubes": [
+						{"origin": [-5, 10, -8], "size": [2, 8, 1], "uv": [0, 48]},
+						{"origin": [-4, 9, -8], "size": [8, 2, 1], "uv": [40, 33]},
+						{"origin": [-4, 17, -8], "size": [8, 2, 1], "uv": [40, 30]},
+						{"origin": [3, 10, -8], "size": [2, 8, 1], "uv": [48, 12]}
+					]
+				},
+				{
+					"name": "eye",
+					"parent": "eyesocket",
+					"pivot": [0, 14, -7],
+					"cubes": [
+						{"origin": [-1, 13, -8], "size": [2, 2, 2], "uv": [34, 0]}
+					]
+				},
+				{
+					"name": "SidePlates",
+					"parent": "Root",
+					"pivot": [0, 23.5, 0],
+					"rotation": [0, -10, 0]
+				},
+				{
+					"name": "PlateLeft",
+					"parent": "SidePlates",
+					"pivot": [0, 10, 0],
+					"cubes": [
+						{"origin": [-14, 9, -2.5], "size": [2, 6, 5], "pivot": [-12.5, 12, 0], "rotation": [0, 0, 15], "uv": [0, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "PlateRight",
+					"parent": "SidePlates",
+					"pivot": [0, 10, 0],
+					"cubes": [
+						{"origin": [11, 19, -3.5], "size": [2, 9, 6], "pivot": [13.5, 23.5, -0.5], "rotation": [0, 0, -22.5], "uv": [0, 28], "mirror": true}
+					]
+				}
+			]
+		}
+	]
+}

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.JumpingZombieEntity;
+import com.github.mim1q.minecells.entity.ShockerEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -16,11 +17,19 @@ import net.minecraft.util.registry.Registry;
 public final class EntityRegistry {
     // Create EntityTypes
     public static final EntityType<JumpingZombieEntity> JUMPING_ZOMBIE = Registry.register(
-            Registry.ENTITY_TYPE,
-            new Identifier(MineCells.MOD_ID, "jumping_zombie"),
-            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, JumpingZombieEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.75f, 2.0f))
-                    .build()
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "jumping_zombie"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, JumpingZombieEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75f, 2.0f))
+            .build()
+    );
+
+    public static final EntityType<ShockerEntity> SHOCKER = Registry.register(
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "shocker"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShockerEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75f, 2.0f))
+            .build()
     );
 
     // Create Spawn Egg Items
@@ -31,11 +40,20 @@ public final class EntityRegistry {
             new Item.Settings().group(ItemGroup.MISC)
     );
 
+    public static final Item SHOCKER_SPAWN_EGG = new SpawnEggItem(
+            SHOCKER,
+            0x2B5369,
+            0x5FBED1,
+            new Item.Settings().group(ItemGroup.MISC)
+    );
+
     public static void register() {
         // Register Attributes
         FabricDefaultAttributeRegistry.register(JUMPING_ZOMBIE, JumpingZombieEntity.createJumpingZombieAttributes());
+        FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createLivingAttributes());
 
         // Register Spawn Eggs
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "jumping_zombie_spawn_egg"), JUMPING_ZOMBIE_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shocker_spawn_egg"), SHOCKER_SPAWN_EGG);
     }
 }
