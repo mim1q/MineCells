@@ -50,7 +50,7 @@ public final class EntityRegistry {
     public static void register() {
         // Register Attributes
         FabricDefaultAttributeRegistry.register(JUMPING_ZOMBIE, JumpingZombieEntity.createJumpingZombieAttributes());
-        FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createLivingAttributes());
+        FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createShockerAttributes());
 
         // Register Spawn Eggs
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "jumping_zombie_spawn_egg"), JUMPING_ZOMBIE_SPAWN_EGG);
