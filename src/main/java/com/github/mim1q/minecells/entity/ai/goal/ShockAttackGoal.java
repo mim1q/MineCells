@@ -1,10 +1,8 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.entity.ShockerEntity;
 import com.github.mim1q.minecells.entity.interfaces.IShockAttackEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -60,13 +58,13 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
     }
 
     protected void damage() {
-        List<Entity> entitiesInRange = this.entity.world.getOtherEntities(
+        List<Entity> playersInRange = this.entity.world.getOtherEntities(
                 this.entity,
                 this.entity.getBoundingBox().expand(this.radius),
-                (e) -> e instanceof LivingEntity && this.entity.distanceTo(e) <= this.radius && !(e instanceof ShockerEntity)
+                (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
-        for(Entity entity : entitiesInRange) {
-            entity.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+        for(Entity player : playersInRange) {
+            player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
         }
     }
 }
