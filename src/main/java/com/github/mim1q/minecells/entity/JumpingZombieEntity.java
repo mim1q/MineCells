@@ -38,10 +38,16 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         this.ignoreCameraFrustum = true;
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        this.decrementCooldowns();
+    }
+
     // Goals and Tracked Data ==========================================================================================
 
-    public static final TrackedData<Integer> JUMP_COOLDOWN_TICKS = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    public static final TrackedData<Integer> MELEE_COOLDOWN_TICKS = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Integer> JUMP_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Integer> MELEE_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Override
     public void initGoals() {
@@ -52,16 +58,16 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0d, false));
-        this.goalSelector.add(1, new JumpAttackGoal<>(this, SoundRegistry.JUMPING_ZOMBIE_JUMP_SOUND_EVENT));
-        this.goalSelector.add(1, new AnimetedMeleeAttackGoal<>(this, SoundRegistry.JUMPING_ZOMBIE_MELEE_SOUND_EVENT));
+        this.goalSelector.add(1, new JumpAttackGoal<>(this));
+        this.goalSelector.add(1, new AnimetedMeleeAttackGoal<>(this));
     }
 
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
 
-        this.dataTracker.startTracking(JUMP_COOLDOWN_TICKS, 50);
-        this.dataTracker.startTracking(MELEE_COOLDOWN_TICKS, 50);
+        this.dataTracker.startTracking(JUMP_COOLDOWN, 50);
+        this.dataTracker.startTracking(MELEE_COOLDOWN, 50);
     }
 
     // Animations ======================================================================================================
@@ -101,11 +107,9 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         return this.factory;
     }
 
-    // Countdown Cooldowns =============================================================================================
+    // Decrement Cooldowns =============================================================================================
 
-    @Override
-    public void tick() {
-        super.tick();
+    private void decrementCooldowns() {
         if(this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
             this.setJumpAttackCooldown(this.getJumpAttackCooldown() - 1);
         if(this.getMeleeAttackCooldown() > 0 && !this.getAttackState().equals("melee"))
@@ -123,14 +127,14 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
     }
 
-    // Jump Attack Entity Implementation ===============================================================================
+    // IJumpAttackEntity Implementation ================================================================================
 
     public void setJumpAttackCooldown(int ticks) {
-        this.dataTracker.set(JUMP_COOLDOWN_TICKS, ticks);
+        this.dataTracker.set(JUMP_COOLDOWN, ticks);
     }
 
     public int getJumpAttackCooldown() {
-        return this.dataTracker.get(JUMP_COOLDOWN_TICKS);
+        return this.dataTracker.get(JUMP_COOLDOWN);
     }
 
     public int getJumpAttackActionTick() {
@@ -145,14 +149,19 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         return 47;
     }
 
-    // Melee Attack Entity Implementation ==============================================================================
+    @Override
+    public SoundEvent getJumpAttackSoundEvent() {
+        return SoundRegistry.JUMPING_ZOMBIE_JUMP_SOUND_EVENT;
+    }
+
+    // IMeleeAttackEntity Implementation ===============================================================================
 
     public void setMeleeAttackCooldown(int ticks) {
-        this.dataTracker.set(MELEE_COOLDOWN_TICKS, ticks);
+        this.dataTracker.set(MELEE_COOLDOWN, ticks);
     }
 
     public int getMeleeAttackCooldown() {
-        return this.dataTracker.get(MELEE_COOLDOWN_TICKS);
+        return this.dataTracker.get(MELEE_COOLDOWN);
     }
 
     public int getMeleeAttackActionTick() {
@@ -165,6 +174,11 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     public int getMeleeAttackLength() {
         return 20;
+    }
+
+    @Override
+    public SoundEvent getMeleeAttackSoundEvent() {
+        return SoundRegistry.JUMPING_ZOMBIE_MELEE_SOUND_EVENT;
     }
 
     // Sounds ==========================================================================================================

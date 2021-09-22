@@ -5,7 +5,6 @@ import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
@@ -19,12 +18,10 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     protected LivingEntity target;
     protected int ticks = 0;
     List<UUID> alreadyAttacked;
-    protected final SoundEvent ATTACK_SOUND_EVENT;
 
 
-    public JumpAttackGoal(E entity, SoundEvent sound) {
+    public JumpAttackGoal(E entity) {
         this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
-        this.ATTACK_SOUND_EVENT = sound;
         this.entity = entity;
         this.alreadyAttacked = new ArrayList<>();
     }
@@ -48,12 +45,8 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         this.ticks = 0;
         this.alreadyAttacked.clear();
 
-        if(!this.entity.world.isClient() && this.ATTACK_SOUND_EVENT != null) {
-            this.entity.playSound(
-                this.ATTACK_SOUND_EVENT,
-                0.5f,
-                1.0f
-            );
+        if(!this.entity.world.isClient() && this.entity.getJumpAttackSoundEvent() != null) {
+            this.entity.playSound(this.entity.getJumpAttackSoundEvent(),0.5f,1.0f);
         }
     }
 

@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.sound.SoundEvent;
 
 import java.util.EnumSet;
 
@@ -13,11 +12,9 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
     protected E entity;
     protected LivingEntity target;
     protected int ticks = 0;
-    protected final SoundEvent ATTACK_SOUND_EVENT;
 
-    public AnimetedMeleeAttackGoal(E entity, SoundEvent sound) {
+    public AnimetedMeleeAttackGoal(E entity) {
         this.setControls(EnumSet.of(Control.LOOK));
-        this.ATTACK_SOUND_EVENT = sound;
         this.entity = entity;
     }
 
@@ -37,12 +34,8 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
         this.entity.setAttackState("melee");
         this.ticks = 0;
 
-        if(!this.entity.world.isClient() && this.ATTACK_SOUND_EVENT != null) {
-            this.entity.playSound(
-                this.ATTACK_SOUND_EVENT,
-                0.5f,
-                1.0f
-            );
+        if(!this.entity.world.isClient() && this.entity.getMeleeAttackSoundEvent() != null) {
+            this.entity.playSound(this.entity.getMeleeAttackSoundEvent(),0.5f,1.0f);
         }
     }
 
