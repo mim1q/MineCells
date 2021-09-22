@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.ShockAttackGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShockAttackEntity;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -15,7 +16,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -140,11 +140,11 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     }
 
     public SoundEvent getShockAttackChargeSoundEvent() {
-        return SoundEvents.ENTITY_HUSK_CONVERTED_TO_ZOMBIE;
+        return SoundRegistry.SHOCKER_CHARGE;
     }
 
     public SoundEvent getShockAttackReleaseSoundEvent() {
-        return SoundEvents.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR;
+        return SoundRegistry.SHOCKER_RELEASE;
     }
 
     public void spawnParticles(ParticleEffect particle, int amount, double radius, double speed) {

@@ -151,7 +151,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     @Override
     public SoundEvent getJumpAttackSoundEvent() {
-        return SoundRegistry.JUMPING_ZOMBIE_JUMP_SOUND_EVENT;
+        return SoundRegistry.JUMPING_ZOMBIE_JUMP;
     }
 
     // IMeleeAttackEntity Implementation ===============================================================================
@@ -178,13 +178,13 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     @Override
     public SoundEvent getMeleeAttackSoundEvent() {
-        return SoundRegistry.JUMPING_ZOMBIE_MELEE_SOUND_EVENT;
+        return SoundRegistry.JUMPING_ZOMBIE_MELEE;
     }
 
     // Sounds ==========================================================================================================
 
     @Override
     public SoundEvent getDeathSound() {
-        return SoundRegistry.JUMPING_ZOMBIE_DEATH_SOUND_EVENT;
+        return SoundRegistry.JUMPING_ZOMBIE_DEATH;
     }
 }

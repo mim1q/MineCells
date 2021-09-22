@@ -13,5 +13,20 @@
     "sounds": [
       "minecells:jumping_zombie/death"
     ]
+  },
+  "shocker.charge": {
+    "sounds": [
+      "minecells:shocker/charge"
+    ]
+  },
+  "shocker.release": {
+    "sounds": [
+      "minecells:shocker/release"
+    ]
+  },
+  "shocker.death": {
+    "sounds": [
+      "minecells:shocker/death"
+    ]
   }
 }
