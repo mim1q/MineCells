@@ -52,7 +52,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     @Override
     public boolean shouldContinue() {
-        return this.ticks < this.entity.getJumpAttackLength() && this.entity.isOnGround() && this.target.isAlive();
+        return (this.ticks < this.entity.getJumpAttackLength() || !this.entity.isOnGround()) && this.target.isAlive();
     }
 
     @Override
