@@ -58,7 +58,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     @Override
     public void initGoals() {
         super.initGoals();
-        this.goalSelector.add(1, new ShockAttackGoal<>(this, 10.0d));
+        this.goalSelector.add(1, new ShockAttackGoal<>(this, 12.0d));
     }
 
     // Animations ======================================================================================================
@@ -98,6 +98,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         }
         else if(this.getAttackState().equals("shock_release")) {
             this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, 100, 9.5d, 0.3d);
+            this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, 10, 1.0d, 5.0d);
         }
     }
 
@@ -105,9 +106,12 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
 
     public static DefaultAttributeContainer.Builder createShockerAttributes() {
         return createLivingAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0d);
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0d)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0d)
+                .add(EntityAttributes.GENERIC_ARMOR, 10.0d);
     }
 
     @Override
@@ -120,7 +124,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     // IShockAttackEntity Implementation ===============================================================================
 
     public int getShockAttackReleaseTick() {
-        return 40;
+        return 35;
     }
 
     public int getShockAttackMaxCooldown() {

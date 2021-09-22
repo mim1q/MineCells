@@ -1,12 +1,14 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.entity.ShockerEntity;
 import com.github.mim1q.minecells.entity.interfaces.IShockAttackEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
@@ -23,7 +25,9 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
 
     @Override
     public boolean canStart() {
-        return this.entity.getShockAttackCooldown() == 0 && this.entity.world.getClosestPlayer(this.entity, 10.0d) != null;
+        PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 2.0d);
+        return this.entity.getShockAttackCooldown() == 0
+                && closestPlayer != null && !(closestPlayer.isCreative() || closestPlayer.isSpectator());
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
         List<Entity> entitiesInRange = this.entity.world.getOtherEntities(
                 this.entity,
                 this.entity.getBoundingBox().expand(this.radius),
-                (e) -> e instanceof LivingEntity && this.entity.distanceTo(e) <= this.radius
+                (e) -> e instanceof LivingEntity && this.entity.distanceTo(e) <= this.radius && !(e instanceof ShockerEntity)
         );
         for(Entity entity : entitiesInRange) {
             entity.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
