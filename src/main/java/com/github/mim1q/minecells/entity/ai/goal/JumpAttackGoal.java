@@ -4,8 +4,10 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -35,7 +37,8 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         double d = this.entity.distanceTo(target);
 
         boolean canJump = this.entity.getY() >= this.entity.getTarget().getY() && this.entity.canSee(target);
-        return canJump && this.entity.getJumpAttackCooldown() == 0 && d >= 3.5d && d <= 15.0d && this.entity.getRandom().nextFloat() < 0.05f;
+        boolean ready = this.entity.getJumpAttackCooldown() == 0 && d >= 3.5d && d <= 15.0d && this.entity.getRandom().nextFloat() < 0.05f;
+        return canJump && ready;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         if(this.target != null) {
 
             if(this.ticks < this.entity.getJumpAttackActionTick())
-                this.entity.getLookControl().lookAt(this.target, 30.0f, 30.0f);
+                this.entity.getLookControl().lookAt(this.target, 100.0f, 100.0f);
             if(this.ticks == this.entity.getJumpAttackActionTick())
                 this.jump();
             else if(!this.entity.isOnGround())

@@ -19,7 +19,6 @@ public class ItemRegistry {
             })
             .build();
 
-
     public static void register() {
 
     }

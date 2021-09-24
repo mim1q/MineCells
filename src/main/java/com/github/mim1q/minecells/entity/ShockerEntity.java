@@ -94,11 +94,11 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
 
     private void handleStates() {
         if(this.getAttackState().equals("shock_charge")) {
-            this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, 5, 2.0d, -0.5d);
+            this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 5, 2.0d, -0.5d);
         }
         else if(this.getAttackState().equals("shock_release")) {
-            this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, 100, 9.5d, 0.3d);
-            this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, 10, 1.0d, 5.0d);
+            this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 100, 9.5d, 0.3d);
+            this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 10, 1.0d, 5.0d);
         }
     }
 
@@ -151,7 +151,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         return SoundRegistry.SHOCKER_RELEASE;
     }
 
-    public void spawnParticles(ParticleEffect particle, int amount, double radius, double speed) {
+    public void spawnShockParticles(ParticleEffect particle, int amount, double radius, double speed) {
         for(int i = 0; i < amount; i++) {
             Vec3d offset = new Vec3d(
                     this.getRandom().nextDouble() * 2.0d - 1.0d,
@@ -168,5 +168,12 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
                     velocity.x, velocity.y, velocity.z
             );
         }
+    }
+
+    // Sounds ==========================================================================================================
+
+    @Override
+    public SoundEvent getDeathSound() {
+        return SoundRegistry.SHOCKER_DEATH;
     }
 }

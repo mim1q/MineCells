@@ -15,5 +15,5 @@ public interface IShockAttackEntity {
     SoundEvent getShockAttackReleaseSoundEvent();
 
     @Environment(EnvType.CLIENT)
-    void spawnParticles(ParticleEffect particle, int amount, double radius, double speed);
+    void spawnShockParticles(ParticleEffect particle, int amount, double radius, double speed);
 }
