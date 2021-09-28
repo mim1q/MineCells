@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 
 public class ItemRegistry {
 
-    // Item Groups =====================================================================================================
+    //region ItemGroups
 
     public static final ItemGroup MINECELLS_EGGS = FabricItemGroupBuilder.create(
             new Identifier(MineCells.MOD_ID, "eggs"))
@@ -18,6 +18,8 @@ public class ItemRegistry {
                 stacks.add(new ItemStack(EntityRegistry.SHOCKER_SPAWN_EGG));
             })
             .build();
+
+    //endregion
 
     public static void register() {
 

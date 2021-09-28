@@ -45,7 +45,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         this.handleStates();
     }
 
-    // Goals and Tracked Data ==========================================================================================
+    //region Goals and Tracked Data
 
     public static final TrackedData<Integer> SHOCK_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -61,7 +61,8 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         this.goalSelector.add(1, new ShockAttackGoal<>(this, 12.0d));
     }
 
-    // Animations ======================================================================================================
+    //endregion
+    //region Animations
 
     @Override
     public void registerControllers(AnimationData data) {
@@ -83,14 +84,15 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         return factory;
     }
 
-    // Decrement Cooldowns =============================================================================================
+    //endregion
+    //region Decrement Cooldowns
 
     private void decrementCooldowns() {
         if (this.getShockAttackCooldown() > 0)
             this.setShockAttackCooldown(this.getShockAttackCooldown() - 1);
     }
-
-    // Handle States ===================================================================================================
+    //endregion
+    //region Handle States
 
     private void handleStates() {
         if(this.getAttackState().equals("shock_charge")) {
@@ -101,8 +103,8 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
             this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 10, 1.0d, 5.0d);
         }
     }
-
-    // Attributes and Initialization ===================================================================================
+    //endregion
+    //region Attributes and Initialization
 
     public static DefaultAttributeContainer.Builder createShockerAttributes() {
         return createLivingAttributes()
@@ -120,8 +122,8 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         this.setPosition(this.getPos().add(0.0d, 1.5d, 0.0d));
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
-
-    // IShockAttackEntity Implementation ===============================================================================
+    //endregion
+    //region IShockAttackEntity Implementation
 
     public int getShockAttackReleaseTick() {
         return 35;
@@ -169,11 +171,12 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
             );
         }
     }
-
-    // Sounds ==========================================================================================================
+    //endregion
+    //region Sounds
 
     @Override
     public SoundEvent getDeathSound() {
         return SoundRegistry.SHOCKER_DEATH;
     }
+    //endregion
 }

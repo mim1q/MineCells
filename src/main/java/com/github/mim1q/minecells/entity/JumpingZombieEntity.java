@@ -44,7 +44,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         this.decrementCooldowns();
     }
 
-    // Goals and Tracked Data ==========================================================================================
+    //region Goals and Tracked Data
 
     public static final TrackedData<Integer> JUMP_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final TrackedData<Integer> MELEE_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -70,7 +70,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         this.dataTracker.startTracking(MELEE_COOLDOWN, 50);
     }
 
-    // Animations ======================================================================================================
+    //endregion
+    //region Animations
 
     @Override
     public void registerControllers(AnimationData data) {
@@ -107,7 +108,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         return this.factory;
     }
 
-    // Decrement Cooldowns =============================================================================================
+    //endregion
+    //region Decrement Cooldowns
 
     private void decrementCooldowns() {
         if(this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
@@ -116,7 +118,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
             this.setMeleeAttackCooldown(this.getMeleeAttackCooldown() - 1);
     }
 
-    // Attributes ======================================================================================================
+    //endregion
+    //region Attributes
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()
@@ -127,7 +130,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
     }
 
-    // IJumpAttackEntity Implementation ================================================================================
+    //endregion
+    //region IJumpAttackEntity Implementation
 
     public void setJumpAttackCooldown(int ticks) {
         this.dataTracker.set(JUMP_COOLDOWN, ticks);
@@ -154,7 +158,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         return SoundRegistry.JUMPING_ZOMBIE_JUMP;
     }
 
-    // IMeleeAttackEntity Implementation ===============================================================================
+    //endregion
+    //region IMeleeAttackEntity Implementation
 
     public void setMeleeAttackCooldown(int ticks) {
         this.dataTracker.set(MELEE_COOLDOWN, ticks);
@@ -181,10 +186,13 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         return SoundRegistry.JUMPING_ZOMBIE_MELEE;
     }
 
-    // Sounds ==========================================================================================================
+    //endregion
+    //region Sounds
 
     @Override
     public SoundEvent getDeathSound() {
         return SoundRegistry.JUMPING_ZOMBIE_DEATH;
     }
+
+    //endregion
 }

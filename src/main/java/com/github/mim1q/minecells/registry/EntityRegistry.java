@@ -15,7 +15,7 @@ import net.minecraft.util.registry.Registry;
 
 public final class EntityRegistry {
 
-    // Create EntityTypes ==============================================================================================
+    //region EntityTypes
 
     public static final EntityType<JumpingZombieEntity> JUMPING_ZOMBIE = Registry.register(
         Registry.ENTITY_TYPE,
@@ -32,8 +32,8 @@ public final class EntityRegistry {
             .dimensions(EntityDimensions.fixed(0.75f, 2.0f))
             .build()
     );
-
-    // Create Spawn Egg Items ==========================================================================================
+    //endregion
+    //region Spawn Egg Items
 
     public static final Item JUMPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
             JUMPING_ZOMBIE,
@@ -48,15 +48,16 @@ public final class EntityRegistry {
             0x5FBED1,
             new Item.Settings().group(ItemRegistry.MINECELLS_EGGS)
     );
+    //endregion
 
     public static void register() {
 
-        // Register Attributes =========================================================================================
+        // Register Attributes
 
         FabricDefaultAttributeRegistry.register(JUMPING_ZOMBIE, JumpingZombieEntity.createJumpingZombieAttributes());
         FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createShockerAttributes());
 
-        // Register Spawn Eggs =========================================================================================
+        // Register Spawn Eggs
 
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "jumping_zombie_spawn_egg"), JUMPING_ZOMBIE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shocker_spawn_egg"), SHOCKER_SPAWN_EGG);
