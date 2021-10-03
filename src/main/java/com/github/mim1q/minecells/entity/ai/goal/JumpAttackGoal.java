@@ -4,10 +4,8 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -48,8 +46,8 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         this.ticks = 0;
         this.alreadyAttacked.clear();
 
-        if(!this.entity.world.isClient() && this.entity.getJumpAttackSoundEvent() != null) {
-            this.entity.playSound(this.entity.getJumpAttackSoundEvent(),0.5f,1.0f);
+        if(!this.entity.world.isClient() && this.entity.getJumpAttackChargeSoundEvent() != null) {
+            this.entity.playSound(this.entity.getJumpAttackChargeSoundEvent(),0.5f,1.0f);
         }
     }
 
@@ -82,6 +80,9 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     public void jump() {
         Vec3d diff = this.entity.getPos().add(this.target.getPos().multiply(-1.0d)).normalize();
         this.entity.setVelocity(diff.multiply(-2.0d, 0.0d, -2.0d).add(0.0d, 0.5d, 0.0d));
+        if(!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
+            this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0f);
+        }
     }
 
     public void attack() {

@@ -1,12 +1,22 @@
 {
-  "jumping_zombie.melee": {
+  "jumping_zombie.melee_charge": {
     "sounds": [
-      "minecells:jumping_zombie/melee"
+      "minecells:jumping_zombie/melee_charge"
     ]
   },
-  "jumping_zombie.jump": {
+  "jumping_zombie.melee_release": {
     "sounds": [
-      "minecells:jumping_zombie/jump"
+      "minecells:jumping_zombie/melee_release"
+    ]
+  },
+  "jumping_zombie.jump_charge": {
+    "sounds": [
+      "minecells:jumping_zombie/jump_charge"
+    ]
+  },
+  "jumping_zombie.jump_release": {
+    "sounds": [
+      "minecells:jumping_zombie/jump_release"
     ]
   },
   "jumping_zombie.death": {

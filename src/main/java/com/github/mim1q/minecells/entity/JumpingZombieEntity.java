@@ -71,6 +71,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
+
     //region Animations
 
     @Override
@@ -109,6 +110,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
+
     //region Decrement Cooldowns
 
     private void decrementCooldowns() {
@@ -119,6 +121,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
+
     //region Attributes
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
@@ -131,6 +134,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
+
     //region IJumpAttackEntity Implementation
 
     public void setJumpAttackCooldown(int ticks) {
@@ -142,7 +146,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     public int getJumpAttackActionTick() {
-        return 27;
+        return 10;
     }
 
     public int getJumpAttackMaxCooldown() {
@@ -150,15 +154,11 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     public int getJumpAttackLength() {
-        return 47;
-    }
-
-    @Override
-    public SoundEvent getJumpAttackSoundEvent() {
-        return SoundRegistry.JUMPING_ZOMBIE_JUMP;
+        return 35;
     }
 
     //endregion
+
     //region IMeleeAttackEntity Implementation
 
     public void setMeleeAttackCooldown(int ticks) {
@@ -170,28 +170,44 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     public int getMeleeAttackActionTick() {
-        return 15;
+        return 10;
     }
 
     public int getMeleeAttackMaxCooldown() {
-        return 20;
+        return 15;
     }
 
     public int getMeleeAttackLength() {
-        return 20;
-    }
-
-    @Override
-    public SoundEvent getMeleeAttackSoundEvent() {
-        return SoundRegistry.JUMPING_ZOMBIE_MELEE;
+        return 15;
     }
 
     //endregion
+
     //region Sounds
 
     @Override
     public SoundEvent getDeathSound() {
         return SoundRegistry.JUMPING_ZOMBIE_DEATH;
+    }
+
+    @Override
+    public SoundEvent getJumpAttackChargeSoundEvent() {
+        return SoundRegistry.JUMPING_ZOMBIE_JUMP_CHARGE;
+    }
+
+    @Override
+    public SoundEvent getJumpAttackReleaseSoundEvent() {
+        return SoundRegistry.JUMPING_ZOMBIE_JUMP_RELEASE;
+    }
+
+    @Override
+    public SoundEvent getMeleeAttackChargeSoundEvent() {
+        return SoundRegistry.JUMPING_ZOMBIE_MELEE_CHARGE;
+    }
+
+    @Override
+    public SoundEvent getMeleeAttackReleaseSoundEvent() {
+        return SoundRegistry.JUMPING_ZOMBIE_MELEE_RELEASE;
     }
 
     //endregion

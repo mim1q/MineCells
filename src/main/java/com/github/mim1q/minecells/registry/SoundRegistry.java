@@ -9,16 +9,23 @@ public final class SoundRegistry {
 
     //region Jumping Zombie
 
-    public static final Identifier JUMPING_ZOMBIE_MELEE_ID = new Identifier("minecells:jumping_zombie.melee");
-    public static final SoundEvent JUMPING_ZOMBIE_MELEE = new SoundEvent(JUMPING_ZOMBIE_MELEE_ID);
+    public static final Identifier JUMPING_ZOMBIE_MELEE_CHARGE_ID = new Identifier("minecells:jumping_zombie.melee_charge");
+    public static final SoundEvent JUMPING_ZOMBIE_MELEE_CHARGE = new SoundEvent(JUMPING_ZOMBIE_MELEE_CHARGE_ID);
 
-    public static final Identifier JUMPING_ZOMBIE_JUMP_ID = new Identifier("minecells:jumping_zombie.jump");
-    public static final SoundEvent JUMPING_ZOMBIE_JUMP = new SoundEvent(JUMPING_ZOMBIE_JUMP_ID);
+    public static final Identifier JUMPING_ZOMBIE_MELEE_RELEASE_ID = new Identifier("minecells:jumping_zombie.melee_release");
+    public static final SoundEvent JUMPING_ZOMBIE_MELEE_RELEASE = new SoundEvent(JUMPING_ZOMBIE_MELEE_RELEASE_ID);
+
+    public static final Identifier JUMPING_ZOMBIE_JUMP_CHARGE_ID = new Identifier("minecells:jumping_zombie.jump_charge");
+    public static final SoundEvent JUMPING_ZOMBIE_JUMP_CHARGE = new SoundEvent(JUMPING_ZOMBIE_JUMP_CHARGE_ID);
+
+    public static final Identifier JUMPING_ZOMBIE_JUMP_RELEASE_ID = new Identifier("minecells:jumping_zombie.jump_release");
+    public static final SoundEvent JUMPING_ZOMBIE_JUMP_RELEASE = new SoundEvent(JUMPING_ZOMBIE_JUMP_RELEASE_ID);
 
     public static final Identifier JUMPING_ZOMBIE_DEATH_ID = new Identifier("minecells:jumping_zombie.death");
     public static final SoundEvent JUMPING_ZOMBIE_DEATH = new SoundEvent(JUMPING_ZOMBIE_DEATH_ID);
 
     //endregion
+
     //region Shocker
 
     public static final Identifier SHOCKER_DEATH_ID = new Identifier("minecells:shocker.death");
@@ -36,8 +43,10 @@ public final class SoundRegistry {
 
         //region Jumping Zombie
 
-        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_MELEE_ID, JUMPING_ZOMBIE_MELEE);
-        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_JUMP_ID, JUMPING_ZOMBIE_JUMP);
+        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_MELEE_CHARGE_ID, JUMPING_ZOMBIE_MELEE_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_MELEE_RELEASE_ID, JUMPING_ZOMBIE_MELEE_RELEASE);
+        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_JUMP_CHARGE_ID, JUMPING_ZOMBIE_JUMP_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_JUMP_RELEASE_ID, JUMPING_ZOMBIE_JUMP_RELEASE);
         Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_DEATH_ID, JUMPING_ZOMBIE_DEATH);
 
         //endregion

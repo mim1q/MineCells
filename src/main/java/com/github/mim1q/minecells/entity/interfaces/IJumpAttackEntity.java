@@ -8,5 +8,6 @@ public interface IJumpAttackEntity {
     int getJumpAttackLength();
     int getJumpAttackCooldown();
     void setJumpAttackCooldown(int ticks);
-    SoundEvent getJumpAttackSoundEvent();
+    SoundEvent getJumpAttackChargeSoundEvent();
+    SoundEvent getJumpAttackReleaseSoundEvent();
 }

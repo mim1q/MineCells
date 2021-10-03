@@ -34,8 +34,8 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
         this.entity.setAttackState("melee");
         this.ticks = 0;
 
-        if(!this.entity.world.isClient() && this.entity.getMeleeAttackSoundEvent() != null) {
-            this.entity.playSound(this.entity.getMeleeAttackSoundEvent(),0.5f,1.0f);
+        if(!this.entity.world.isClient() && this.entity.getMeleeAttackChargeSoundEvent() != null) {
+            this.entity.playSound(this.entity.getMeleeAttackChargeSoundEvent(),0.5f,1.0f);
         }
     }
 
@@ -64,5 +64,8 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
 
     public void attack(LivingEntity target) {
         this.entity.tryAttack(target);
+        if(!this.entity.world.isClient() && this.entity.getMeleeAttackReleaseSoundEvent() != null) {
+            this.entity.playSound(this.entity.getMeleeAttackReleaseSoundEvent(),0.5f,1.0f);
+        }
     }
 }

@@ -8,5 +8,6 @@ public interface IMeleeAttackEntity {
     int getMeleeAttackLength();
     int getMeleeAttackCooldown();
     void setMeleeAttackCooldown(int ticks);
-    SoundEvent getMeleeAttackSoundEvent();
+    SoundEvent getMeleeAttackChargeSoundEvent();
+    SoundEvent getMeleeAttackReleaseSoundEvent();
 }
