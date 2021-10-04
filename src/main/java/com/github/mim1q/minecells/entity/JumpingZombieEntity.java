@@ -52,13 +52,13 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     @Override
     public void initGoals() {
         this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(2, new WanderAroundGoal(this, 0.6d));
-        this.goalSelector.add(2, new WanderAroundFarGoal(this, 0.6d));
+        this.goalSelector.add(2, new WanderAroundGoal(this, 1.0d));
+        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0d));
 
         this.targetSelector.add(1, new FollowTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0d, false));
-        this.goalSelector.add(1, new JumpAttackGoal<>(this));
+        this.goalSelector.add(1, new JumpingZombieJumpAttackGoal(this));
         this.goalSelector.add(1, new AnimetedMeleeAttackGoal<>(this));
     }
 
@@ -76,7 +76,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "movementController", 10, this::movementPredicate));
+        data.addAnimationController(new AnimationController<>(this, "movementController", 5, this::movementPredicate));
         data.addAnimationController(new AnimationController<>(this, "attackController", 0, this::attackPredicate));
     }
 
@@ -107,30 +107,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
-    }
-
-    //endregion
-
-    //region Decrement Cooldowns
-
-    private void decrementCooldowns() {
-        if(this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
-            this.setJumpAttackCooldown(this.getJumpAttackCooldown() - 1);
-        if(this.getMeleeAttackCooldown() > 0 && !this.getAttackState().equals("melee"))
-            this.setMeleeAttackCooldown(this.getMeleeAttackCooldown() - 1);
-    }
-
-    //endregion
-
-    //region Attributes
-
-    public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
-        return createLivingAttributes()
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20d)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
-            .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
-            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
     }
 
     //endregion
@@ -211,4 +187,37 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
+
+    private void decrementCooldowns() {
+        if(this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
+            this.setJumpAttackCooldown(this.getJumpAttackCooldown() - 1);
+        if(this.getMeleeAttackCooldown() > 0 && !this.getAttackState().equals("melee"))
+            this.setMeleeAttackCooldown(this.getMeleeAttackCooldown() - 1);
+    }
+
+    public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
+        return createLivingAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2d)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
+    }
+
+    static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
+
+        public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
+            super(entity);
+        }
+
+        @Override
+        public boolean canStart() {
+            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.05f;
+            if(!canJump)
+                return false;
+            double d = this.entity.distanceTo(this.entity.getTarget());
+            return d >= 4.0d && d <= 12.0d;
+        }
+    }
+
 }

@@ -32,11 +32,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         if (target == null)
             return false;
 
-        double d = this.entity.distanceTo(target);
-
-        boolean canJump = this.entity.getY() >= this.entity.getTarget().getY() && this.entity.canSee(target);
-        boolean ready = this.entity.getJumpAttackCooldown() == 0 && d >= 3.5d && d <= 15.0d && this.entity.getRandom().nextFloat() < 0.05f;
-        return canJump && ready;
+        return this.entity.getY() >= this.entity.getTarget().getY() && this.entity.canSee(target) && this.entity.getJumpAttackCooldown() == 0;
     }
 
     @Override
@@ -79,7 +75,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     public void jump() {
         Vec3d diff = this.entity.getPos().add(this.target.getPos().multiply(-1.0d)).normalize();
-        this.entity.setVelocity(diff.multiply(-2.0d, 0.0d, -2.0d).add(0.0d, 0.5d, 0.0d));
+        this.entity.setVelocity(diff.multiply(-1.75d, 0.0d, -1.75d).add(0.0d, 0.5d, 0.0d));
         if(!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
             this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0f);
         }
