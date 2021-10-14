@@ -14,7 +14,7 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
     protected int ticks = 0;
 
     public AnimetedMeleeAttackGoal(E entity) {
-        this.setControls(EnumSet.of(Control.LOOK));
+        this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
         this.entity = entity;
     }
 
@@ -53,10 +53,16 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
     @Override
     public void tick() {
         if(this.target != null) {
-            this.entity.getLookControl().lookAt(this.target);
+            this.entity.getLookControl().lookAt(this.target, 90, 30.0f);
+            this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0d);
             double d = this.entity.distanceTo(target);
-            if(this.ticks == this.entity.getMeleeAttackActionTick() && d <= 2.5d) {
-                this.attack(this.target);
+            if(this.ticks == this.entity.getMeleeAttackActionTick()) {
+                if(!this.entity.world.isClient() && this.entity.getMeleeAttackReleaseSoundEvent() != null) {
+                    this.entity.playSound(this.entity.getMeleeAttackReleaseSoundEvent(),0.5f,1.0f);
+                }
+                if(d <= 2.5d) {
+                    this.attack(this.target);
+                }
             }
             this.ticks++;
         }
@@ -64,8 +70,5 @@ public class AnimetedMeleeAttackGoal<E extends MineCellsEntity & IMeleeAttackEnt
 
     public void attack(LivingEntity target) {
         this.entity.tryAttack(target);
-        if(!this.entity.world.isClient() && this.entity.getMeleeAttackReleaseSoundEvent() != null) {
-            this.entity.playSound(this.entity.getMeleeAttackReleaseSoundEvent(),0.5f,1.0f);
-        }
     }
 }

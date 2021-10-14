@@ -21,7 +21,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
 
     public JumpAttackGoal(E entity) {
-        this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
+        this.setControls(EnumSet.of(Control.MOVE));
         this.entity = entity;
         this.alreadyAttacked = new ArrayList<>();
     }
@@ -62,9 +62,10 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     public void tick() {
         if(this.target != null) {
 
-            if(this.ticks < this.entity.getJumpAttackActionTick())
-                this.entity.getLookControl().lookAt(this.target, 100.0f, 100.0f);
-            if(this.ticks == this.entity.getJumpAttackActionTick())
+            if(this.ticks < this.entity.getJumpAttackActionTick()) {
+                this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0d);
+            }
+            else if(this.ticks == this.entity.getJumpAttackActionTick())
                 this.jump();
             else if(!this.entity.isOnGround())
                 this.attack();

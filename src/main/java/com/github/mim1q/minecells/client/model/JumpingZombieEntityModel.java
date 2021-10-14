@@ -24,7 +24,6 @@ public class JumpingZombieEntityModel extends AnimatedGeoModel<JumpingZombieEnti
         return new Identifier(MineCells.MOD_ID, "animations/entity/jumping_zombie.animation.json");
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void setLivingAnimations(JumpingZombieEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);

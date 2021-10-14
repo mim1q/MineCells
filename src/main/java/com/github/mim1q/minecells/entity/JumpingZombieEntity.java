@@ -7,10 +7,7 @@ import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import com.github.mim1q.minecells.entity.interfaces.IMeleeAttackEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -212,12 +209,11 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
         @Override
         public boolean canStart() {
-            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.05f;
+            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.2f;
             if(!canJump)
                 return false;
             double d = this.entity.distanceTo(this.entity.getTarget());
             return d >= 4.0d && d <= 12.0d;
         }
     }
-
 }
