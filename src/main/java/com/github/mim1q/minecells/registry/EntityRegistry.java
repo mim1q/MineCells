@@ -29,7 +29,7 @@ public final class EntityRegistry {
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "shocker"),
         FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShockerEntity::new)
-            .dimensions(EntityDimensions.fixed(0.75f, 2.0f))
+            .dimensions(EntityDimensions.fixed(1.0f, 3.0f))
             .build()
     );
     //endregion
