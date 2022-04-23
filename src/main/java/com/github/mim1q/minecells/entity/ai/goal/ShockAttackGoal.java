@@ -15,10 +15,14 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
     protected E entity;
     protected double radius;
     protected int ticks = 0;
+    protected int actionTick;
+    protected int lengthTicks;
 
-    public ShockAttackGoal(E entity, double radius) {
+    public ShockAttackGoal(E entity, double radius, int actionTick, int lengthTicks) {
         this.entity = entity;
         this.radius = radius;
+        this.actionTick = actionTick;
+        this.lengthTicks = lengthTicks;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
 
     @Override
     public boolean shouldContinue() {
-        return this.ticks < this.entity.getShockAttackLength();
+        return this.ticks < this.lengthTicks;
     }
 
     @Override
@@ -48,10 +52,10 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
 
     @Override
     public void tick() {
-        if(this.ticks == this.entity.getShockAttackReleaseTick()) {
+        if(this.ticks == this.actionTick) {
             this.entity.setAttackState("shock_release");
             this.entity.playSound(this.entity.getShockAttackReleaseSoundEvent(), 0.5f, 1.0f);
-        } else if(this.ticks > this.entity.getShockAttackReleaseTick()) {
+        } else if(this.ticks > this.actionTick) {
             this.damage();
         }
         this.ticks++;

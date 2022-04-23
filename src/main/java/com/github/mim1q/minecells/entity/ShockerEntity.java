@@ -58,7 +58,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     @Override
     public void initGoals() {
         super.initGoals();
-        this.goalSelector.add(1, new ShockAttackGoal<>(this, 12.0d));
+        this.goalSelector.add(1, new ShockAttackGoal<>(this, 12.0d, 20, 40));
     }
 
     //endregion
@@ -125,16 +125,8 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     //endregion
     //region IShockAttackEntity Implementation
 
-    public int getShockAttackReleaseTick() {
-        return 20;
-    }
-
     public int getShockAttackMaxCooldown() {
         return 20;
-    }
-
-    public int getShockAttackLength() {
-        return 40;
     }
 
     public int getShockAttackCooldown() {

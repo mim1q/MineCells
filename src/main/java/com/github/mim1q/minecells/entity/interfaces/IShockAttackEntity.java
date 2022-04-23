@@ -6,9 +6,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.SoundEvent;
 
 public interface IShockAttackEntity {
-    int getShockAttackReleaseTick();
     int getShockAttackMaxCooldown();
-    int getShockAttackLength();
     int getShockAttackCooldown();
     void setShockAttackCooldown(int ticks);
     SoundEvent getShockAttackChargeSoundEvent();

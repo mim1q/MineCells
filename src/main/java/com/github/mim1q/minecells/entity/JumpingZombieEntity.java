@@ -113,28 +113,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         return this.dataTracker.get(JUMP_COOLDOWN);
     }
 
-    public int getJumpAttackActionTick() {
-        return 10;
-    }
-
     public int getJumpAttackMaxCooldown() {
         return 80 + this.getRandom().nextInt(80);
-    }
-
-    public int getJumpAttackLength() {
-        return 30;
-    }
-
-    //endregion
-
-    //region IMeleeAttackEntity Implementation
-
-    public void setMeleeAttackCooldown(int ticks) {
-        this.dataTracker.set(MELEE_COOLDOWN, ticks);
-    }
-
-    public int getMeleeAttackCooldown() {
-        return this.dataTracker.get(MELEE_COOLDOWN);
     }
 
     //endregion
@@ -171,8 +151,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     private void decrementCooldowns() {
         if(this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
             this.setJumpAttackCooldown(this.getJumpAttackCooldown() - 1);
-        if(this.getMeleeAttackCooldown() > 0 && !this.getAttackState().equals("melee"))
-            this.setMeleeAttackCooldown(this.getMeleeAttackCooldown() - 1);
     }
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
@@ -187,7 +165,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
 
         public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
-            super(entity);
+            super(entity, 10, 15);
         }
 
         @Override

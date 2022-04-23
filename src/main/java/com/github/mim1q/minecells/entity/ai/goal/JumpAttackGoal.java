@@ -17,9 +17,13 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     protected E entity;
     protected LivingEntity target;
     protected int ticks = 0;
+    protected final int actionTick;
+    protected final int lengthTicks;
     List<UUID> alreadyAttacked;
 
-    public JumpAttackGoal(E entity) {
+    public JumpAttackGoal(E entity, int actionTick, int lengthTicks) {
+        this.actionTick = actionTick;
+        this.lengthTicks = lengthTicks;
         this.setControls(EnumSet.of(Control.MOVE));
         this.entity = entity;
         this.alreadyAttacked = new ArrayList<>();
@@ -48,7 +52,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     @Override
     public boolean shouldContinue() {
-        return (this.ticks < this.entity.getJumpAttackLength() || !this.entity.isOnGround()) && this.target.isAlive();
+        return (this.ticks < this.lengthTicks || !this.entity.isOnGround()) && this.target.isAlive();
     }
 
     @Override
@@ -61,10 +65,10 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     public void tick() {
         if(this.target != null) {
 
-            if(this.ticks < this.entity.getJumpAttackActionTick()) {
+            if(this.ticks < this.actionTick) {
                 this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0d);
             }
-            else if(this.ticks == this.entity.getJumpAttackActionTick())
+            else if(this.ticks == this.actionTick)
                 this.jump();
             else if(!this.entity.isOnGround())
                 this.attack();
