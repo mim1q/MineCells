@@ -19,7 +19,6 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     protected int ticks = 0;
     List<UUID> alreadyAttacked;
 
-
     public JumpAttackGoal(E entity) {
         this.setControls(EnumSet.of(Control.MOVE));
         this.entity = entity;
@@ -75,8 +74,8 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     }
 
     public void jump() {
-        Vec3d diff = this.entity.getPos().add(this.target.getPos().multiply(-1.0d)).normalize();
-        this.entity.setVelocity(diff.multiply(-1.75d, 0.0d, -1.75d).add(0.0d, 0.5d, 0.0d));
+        Vec3d diff = this.entity.getPos().add(this.target.getPos().multiply(-1.0d));
+        this.entity.setVelocity(diff.multiply(-0.2d, 0.05d, -0.2d).add(0.0d, 0.5d, 0.0d));
         if(!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
             this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0f);
         }
