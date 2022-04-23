@@ -13,7 +13,7 @@ public class ShockerEntityModel extends AnimatedGeoModel<ShockerEntity> {
 
     @Override
     public Identifier getTextureLocation(ShockerEntity object) {
-        return new Identifier(MineCells.MOD_ID, "textures/entity/shocker.png");
+        return new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker.png");
     }
 
     @Override

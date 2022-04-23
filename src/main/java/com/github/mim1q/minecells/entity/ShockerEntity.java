@@ -71,10 +71,10 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         if(this.getAttackState().equals("none")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.shocker.idle"));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("shocker.idle"));
         }
         else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.shocker.attack"));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("shocker.attack"));
         }
         return PlayState.CONTINUE;
     }
@@ -126,15 +126,15 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     //region IShockAttackEntity Implementation
 
     public int getShockAttackReleaseTick() {
-        return 35;
+        return 20;
     }
 
     public int getShockAttackMaxCooldown() {
-        return 40;
+        return 20;
     }
 
     public int getShockAttackLength() {
-        return 60;
+        return 40;
     }
 
     public int getShockAttackCooldown() {
