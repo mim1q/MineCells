@@ -77,7 +77,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
         boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
 
-        if(this.getAttackState().equals("none") && isMoving)
+        if (this.getAttackState().equals("none") && isMoving)
             event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.walk"));
         else
             event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.idle"));
@@ -86,10 +86,10 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
-        if(this.getAttackState().equals("jump"))
+        if (this.getAttackState().equals("jump"))
             event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.jump"));
 
-        if(this.getAttackState().equals("none")) {
+        if (this.getAttackState().equals("none")) {
             event.getController().markNeedsReload();
             return PlayState.STOP;
         }
@@ -135,21 +135,11 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     public SoundEvent getJumpAttackReleaseSoundEvent() {
         return SoundRegistry.JUMPING_ZOMBIE_JUMP_RELEASE;
     }
-//
-//    @Override
-//    public SoundEvent getMeleeAttackChargeSoundEvent() {
-//        return SoundRegistry.JUMPING_ZOMBIE_MELEE_CHARGE;
-//    }
-//
-//    @Override
-//    public SoundEvent getMeleeAttackReleaseSoundEvent() {
-//        return SoundRegistry.JUMPING_ZOMBIE_MELEE_RELEASE;
-//    }
 
     //endregion
 
     private void decrementCooldowns() {
-        if(this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
+        if (this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
             this.setJumpAttackCooldown(this.getJumpAttackCooldown() - 1);
     }
 
@@ -171,7 +161,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         @Override
         public boolean canStart() {
             boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.2f;
-            if(!canJump)
+            if (!canJump)
                 return false;
             double d = this.entity.distanceTo(this.entity.getTarget());
             return d >= 4.0d && d <= 12.0d;

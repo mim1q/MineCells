@@ -52,10 +52,10 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
 
     @Override
     public void tick() {
-        if(this.ticks == this.actionTick) {
+        if (this.ticks == this.actionTick) {
             this.entity.setAttackState("shock_release");
             this.entity.playSound(this.entity.getShockAttackReleaseSoundEvent(), 0.5f, 1.0f);
-        } else if(this.ticks > this.actionTick) {
+        } else if (this.ticks > this.actionTick) {
             this.damage();
         }
         this.ticks++;
@@ -67,7 +67,7 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
                 this.entity.getBoundingBox().expand(this.radius),
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
-        for(Entity player : playersInRange) {
+        for (Entity player : playersInRange) {
             player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
         }
     }

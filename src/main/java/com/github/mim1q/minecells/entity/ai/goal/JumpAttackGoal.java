@@ -45,7 +45,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         this.ticks = 0;
         this.alreadyAttacked.clear();
 
-        if(!this.entity.world.isClient() && this.entity.getJumpAttackChargeSoundEvent() != null) {
+        if (!this.entity.world.isClient() && this.entity.getJumpAttackChargeSoundEvent() != null) {
             this.entity.playSound(this.entity.getJumpAttackChargeSoundEvent(),0.5f,1.0f);
         }
     }
@@ -63,14 +63,14 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     @Override
     public void tick() {
-        if(this.target != null) {
+        if (this.target != null) {
 
-            if(this.ticks < this.actionTick) {
+            if (this.ticks < this.actionTick) {
                 this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0d);
             }
-            else if(this.ticks == this.actionTick)
+            else if (this.ticks == this.actionTick)
                 this.jump();
-            else if(!this.entity.isOnGround())
+            else if (!this.entity.isOnGround())
                 this.attack();
 
             this.ticks++;
@@ -80,14 +80,14 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     public void jump() {
         Vec3d diff = this.entity.getPos().add(this.target.getPos().multiply(-1.0d));
         this.entity.setVelocity(diff.multiply(-0.2d, 0.05d, -0.2d).add(0.0d, 0.5d, 0.0d));
-        if(!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
+        if (!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
             this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0f);
         }
     }
 
     public void attack() {
         List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.25d), (e) -> !this.alreadyAttacked.contains(e.getUuid()));
-        for(PlayerEntity player : players) {
+        for (PlayerEntity player : players) {
             this.entity.tryAttack(player);
             this.alreadyAttacked.add(player.getUuid());
         }
