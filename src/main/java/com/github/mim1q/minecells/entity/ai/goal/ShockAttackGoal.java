@@ -2,10 +2,13 @@ package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IShockAttackEntity;
+import com.github.mim1q.minecells.registry.StatusEffectRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
@@ -67,8 +70,9 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
                 this.entity.getBoundingBox().expand(this.radius),
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
+        StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.ELECTRIFIED, 100, 1, false, false, true);
         for (Entity player : playersInRange) {
-            player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+            ((LivingEntity) player).addStatusEffect(effect);
         }
     }
 }
