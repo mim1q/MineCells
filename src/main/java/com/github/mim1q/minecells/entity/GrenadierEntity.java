@@ -63,7 +63,7 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable {
     public void tick() {
         super.tick();
         if (this.age % 50 == 0 && !this.world.isClient()) {
-            GrenadeEntity.spawnGrenade(this.world, this.getX(), this.getY(), this.getZ());
+            GrenadeEntity.spawnGrenade(this.world, GrenadeEntity.Variants.BIG, this.getX(), this.getY(), this.getZ());
         }
     }
 
