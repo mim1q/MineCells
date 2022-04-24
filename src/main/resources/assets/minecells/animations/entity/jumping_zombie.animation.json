@@ -155,7 +155,7 @@
 			}
 		},
 		"jumping_zombie.jump": {
-			"animation_length": 2.5,
+			"animation_length": 4,
 			"bones": {
 				"lowerTorso": {
 					"rotation": {

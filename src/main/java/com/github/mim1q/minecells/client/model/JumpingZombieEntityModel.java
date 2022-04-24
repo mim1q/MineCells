@@ -16,7 +16,7 @@ public class JumpingZombieEntityModel extends AnimatedGeoModel<JumpingZombieEnti
 
     @Override
     public Identifier getTextureLocation(JumpingZombieEntity object) {
-        return new Identifier(MineCells.MOD_ID, "textures/entity/jumping_zombie.png");
+        return new Identifier(MineCells.MOD_ID, "textures/entity/jumping_zombie/jumping_zombie.png");
     }
 
     @Override
@@ -27,7 +27,7 @@ public class JumpingZombieEntityModel extends AnimatedGeoModel<JumpingZombieEnti
     @Override
     public void setLivingAnimations(JumpingZombieEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone head = this.getAnimationProcessor().getBone("Head");
+        IBone head = this.getAnimationProcessor().getBone("neck");
 
         EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
         if (head != null) {

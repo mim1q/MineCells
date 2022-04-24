@@ -42,7 +42,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     //region Goals and Tracked Data
 
     public static final TrackedData<Integer> JUMP_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    public static final TrackedData<Integer> MELEE_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Override
     public void initGoals() {
@@ -61,7 +60,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         super.initDataTracker();
 
         this.dataTracker.startTracking(JUMP_COOLDOWN, 50);
-        this.dataTracker.startTracking(MELEE_COOLDOWN, 50);
     }
 
     //endregion
@@ -72,6 +70,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "movementController", 5, this::movementPredicate));
         data.addAnimationController(new AnimationController<>(this, "attackController", 0, this::attackPredicate));
+        data.setResetSpeedInTicks(0);
     }
 
     private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
@@ -86,13 +85,12 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
-        if (this.getAttackState().equals("jump"))
+        if (this.getAttackState().equals("jump")) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.jump"));
-
-        if (this.getAttackState().equals("none")) {
+        } else {
             event.getController().markNeedsReload();
-            return PlayState.STOP;
         }
+
         return PlayState.CONTINUE;
     }
 
@@ -155,7 +153,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
 
         public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
-            super(entity, 10, 15);
+            super(entity, 10, 30);
         }
 
         @Override
