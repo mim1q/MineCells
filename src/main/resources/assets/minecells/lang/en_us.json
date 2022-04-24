@@ -3,7 +3,11 @@
 
   "item.minecells.shocker_spawn_egg": "Shocker Spawn Egg",
   "item.minecells.jumping_zombie_spawn_egg": "Jumping Zombie Spawn Egg",
+  "item.minecells.grenadier_spawn_egg": "Grenadier Spawn Egg",
 
   "entity.minecells.shocker": "Shocker",
-  "entity.minecells.jumping_zombie": "Jumping Zombie"
+  "entity.minecells.jumping_zombie": "Jumping Zombie",
+  "entity.minecells.grenadier": "Grenadier",
+
+  "effect.minecells.electrified": "Electrified"
 }
