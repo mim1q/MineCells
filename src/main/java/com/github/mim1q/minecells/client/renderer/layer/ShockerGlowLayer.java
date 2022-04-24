@@ -24,11 +24,7 @@ public class ShockerGlowLayer extends GeoLayerRenderer<ShockerEntity> {
     @Override
     public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn, ShockerEntity entityLivingBaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         RenderLayer cameo =  RenderLayer.getEyes(entityLivingBaseIn.getAttackState().equals("none") ? LAYER_NORMAL : LAYER_ANGRY);
-        matrixStackIn.push();
-        matrixStackIn.scale(1.0f, 1.0f, 1.0f);
-        matrixStackIn.translate(0.0d, 0.0d, 0.0d);
         this.getRenderer().render(this.getEntityModel().getModel(MODEL), entityLivingBaseIn, partialTicks, cameo, matrixStackIn, bufferIn,
                 bufferIn.getBuffer(cameo), packedLightIn, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
-        matrixStackIn.pop();
     }
 }
