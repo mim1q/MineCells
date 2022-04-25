@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.client.renderer.GrenadierEntityRenderer;
 import com.github.mim1q.minecells.entity.GrenadierEntity;
 import com.github.mim1q.minecells.entity.JumpingZombieEntity;
 import com.github.mim1q.minecells.entity.ShockerEntity;
+import com.github.mim1q.minecells.entity.projectile.BigGrenadeEntity;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -48,8 +49,16 @@ public final class EntityRegistry {
             Registry.ENTITY_TYPE,
             new Identifier(MineCells.MOD_ID, "grenade"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, GrenadeEntity::new)
-                .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+                .dimensions(EntityDimensions.changing(0.5F, 0.5F))
                 .build()
+    );
+
+    public static final EntityType<BigGrenadeEntity> BIG_GRENADE = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MineCells.MOD_ID, "big_grenade"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, BigGrenadeEntity::new)
+                    .dimensions(EntityDimensions.changing(0.75F, 0.75F))
+                    .build()
     );
 
     //endregion
