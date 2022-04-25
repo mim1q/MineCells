@@ -13,7 +13,7 @@ public class MineCellsEntity extends HostileEntity {
         super(entityType, world);
     }
 
-    public static final TrackedData<String> ATTACK_STATE = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.STRING);
+    public static final TrackedData<String> ATTACK_STATE = DataTracker.registerData(MineCellsEntity.class, TrackedDataHandlerRegistry.STRING);
 
     @Override
     protected void initDataTracker() {
@@ -23,13 +23,13 @@ public class MineCellsEntity extends HostileEntity {
 
     public void setAttackState(String attackName) {
         this.dataTracker.set(ATTACK_STATE, attackName);
-    };
+    }
 
     public String getAttackState() {
         return this.dataTracker.get(ATTACK_STATE);
-    };
+    }
 
     public void resetAttackState() {
         this.setAttackState("none");
-    };
+    }
 }
