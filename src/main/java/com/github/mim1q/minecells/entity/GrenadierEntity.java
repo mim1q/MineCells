@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
+import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.projectile.BigGrenadeEntity;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
@@ -74,12 +75,13 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
     @Override
     public void initGoals() {
         this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(2, new WanderAroundGoal(this, 1.0d));
-        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0d));
+        this.goalSelector.add(2, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0D));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(0, new GrenadierShootGoal(this, 18, 30));
+        this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 7.0D));
     }
 
     @Override
@@ -147,7 +149,7 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
 
             Vec3d delta = targetPos.subtract(entityPos).multiply(0.035D).add(0.0D, 0.5D, 0.0D);
 
-            BigGrenadeEntity grenade = new BigGrenadeEntity(EntityRegistry.BIG_GRENADE, this.entity.world);
+            GrenadeEntity grenade = new GrenadeEntity(EntityRegistry.GRENADE, this.entity.world);
             grenade.setPosition(entityPos.add(0.0D, 1.5D, 0.0D));
             grenade.shoot(delta);
 
