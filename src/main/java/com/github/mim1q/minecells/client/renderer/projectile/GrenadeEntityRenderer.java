@@ -25,7 +25,7 @@ public class GrenadeEntityRenderer<E extends GrenadeEntity> extends EntityRender
     public void render(E entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
         int overlay = OverlayTexture.DEFAULT_UV;
-        if (entity.getFuse() < 25 && entity.getFuse() / 5 % 2 == 0 ) {
+        if (entity.getFuse() < 15 && entity.getFuse() / 2 % 2 == 0 ) {
             overlay = OverlayTexture.packUv(OverlayTexture.getU(1.0F), 10);
         }
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.MODEL.getLayer(TEXTURE));

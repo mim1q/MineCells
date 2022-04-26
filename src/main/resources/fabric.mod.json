@@ -19,6 +19,7 @@
       "com.github.mim1q.minecells.MineCells"
     ]
   },
+  "accessWidener": "minecells.accesswidener",
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",

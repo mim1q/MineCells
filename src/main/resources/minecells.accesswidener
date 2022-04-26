@@ -1,0 +1,3 @@
+accessWidener v2 named
+
+extendable method net/minecraft/entity/projectile/ProjectileEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V
