@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
@@ -86,9 +88,9 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     }
 
     public void attack() {
-        List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.25d), (e) -> !this.alreadyAttacked.contains(e.getUuid()));
+        List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.5d), (e) -> !this.alreadyAttacked.contains(e.getUuid()));
         for (PlayerEntity player : players) {
-            this.entity.tryAttack(player);
+            player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 3.0F);
             this.alreadyAttacked.add(player.getUuid());
         }
     }

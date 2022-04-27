@@ -143,11 +143,11 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2d)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
     }
 
     static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
