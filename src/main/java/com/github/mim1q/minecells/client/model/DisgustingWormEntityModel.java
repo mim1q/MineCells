@@ -2,9 +2,11 @@ package com.github.mim1q.minecells.client.model;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.DisgustingWormEntity;
-import com.github.mim1q.minecells.entity.DisgustingWormEntity;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.resource.GeckoLibCache;
+import software.bernie.shadowed.eliotlash.molang.MolangParser;
 
 public class DisgustingWormEntityModel extends AnimatedGeoModel<DisgustingWormEntity> {
     @Override
@@ -20,5 +22,13 @@ public class DisgustingWormEntityModel extends AnimatedGeoModel<DisgustingWormEn
     @Override
     public Identifier getAnimationFileLocation(DisgustingWormEntity object) {
         return new Identifier(MineCells.MOD_ID, "animations/entity/disgusting_worm.animation.json");
+    }
+
+    @Override
+    public void setMolangQueries(IAnimatable animatable, double currentTick) {
+        super.setMolangQueries(animatable, currentTick);
+        MolangParser parser = GeckoLibCache.getInstance().parser;
+        parser.setValue("amount", 0.5D);
+        parser.setValue("speed", 2.0D);
     }
 }

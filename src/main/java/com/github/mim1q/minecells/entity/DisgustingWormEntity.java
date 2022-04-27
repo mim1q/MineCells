@@ -65,11 +65,12 @@ public class DisgustingWormEntity extends MineCellsEntity implements IAnimatable
     @Override
     public void onDeath(DamageSource source) {
         for (int i = 0; i < 6; i++) {
-            Vec3d velocity = new Vec3d(this.random.nextDouble() - 0.5D, this.random.nextDouble(), this.random.nextDouble() - 0.5D).multiply(0.7D);
+            Vec3d velocity = new Vec3d(this.random.nextDouble() - 0.5D, 0.5D + this.random.nextDouble() * 0.5D, this.random.nextDouble() - 0.5D).multiply(0.3D);
 
             DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(EntityRegistry.DISGUSTING_WORM_EGG, this.world);
             grenade.setPosition(this.getPos());
             grenade.shoot(velocity);
+            grenade.setFuse(15 + i * 5 + this.random.nextInt(5));
 
             this.world.spawnEntity(grenade);
         }

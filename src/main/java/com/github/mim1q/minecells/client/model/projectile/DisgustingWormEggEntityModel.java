@@ -19,7 +19,7 @@ public class DisgustingWormEggEntityModel extends AbstractGrenadeEntityModel<Dis
                                 6.0F, 6.0F, 6.0F),
                 ModelTransform.NONE
         );
-        return TexturedModelData.of(modelData, 18, 12);
+        return TexturedModelData.of(modelData, 24, 12);
     }
 }
 
