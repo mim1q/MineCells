@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -31,5 +33,13 @@ public class MineCellsEntity extends HostileEntity {
 
     public void resetAttackState() {
         this.setAttackState("none");
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        if (damageSource instanceof GrenadeEntity.GrenadeDamageSource) {
+            return true;
+        }
+        return super.isInvulnerableTo(damageSource);
     }
 }

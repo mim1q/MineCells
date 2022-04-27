@@ -27,7 +27,7 @@
 				},
 				"head": {
 					"scale": {
-						"vector": [1, "1 + math.sin(query.anim_time * 180 * speed - -180) * amount * 0.1", "1 + math.sin(query.anim_time * 180 * speed - 220) * amount"]
+						"vector": [1, "1 + math.sin(query.anim_time * 180 * speed - -180) * amount * 0.1", "1 + math.sin(query.anim_time * 180 * speed - 220) * amount * 0.1"]
 					}
 				},
 				"egg": {
