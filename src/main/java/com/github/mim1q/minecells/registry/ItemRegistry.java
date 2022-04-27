@@ -17,6 +17,7 @@ public class ItemRegistry {
                 stacks.add(new ItemStack(EntityRegistry.JUMPING_ZOMBIE_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.SHOCKER_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.GRENADIER_SPAWN_EGG));
+                stacks.add(new ItemStack(EntityRegistry.DISGUSTING_WORM_SPAWN_EGG));
             })
             .build();
 
