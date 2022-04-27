@@ -10,6 +10,6 @@ public class DisgustingWormEntityRenderer extends GeoEntityRenderer<DisgustingWo
     public DisgustingWormEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new DisgustingWormEntityModel());
         this.addLayer(new DisgustingWormGlowLayer(this));
-        this.shadowRadius = 0.35f;
+        this.shadowRadius = 0.45f;
     }
 }

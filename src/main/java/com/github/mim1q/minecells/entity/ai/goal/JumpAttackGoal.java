@@ -70,10 +70,12 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
             if (this.ticks < this.actionTick) {
                 this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0d);
             }
-            else if (this.ticks == this.actionTick)
+            else if (this.ticks == this.actionTick) {
                 this.jump();
-            else if (!this.entity.isOnGround())
+            }
+            else if (!this.entity.isOnGround()) {
                 this.attack();
+            }
 
             this.ticks++;
         }
@@ -90,7 +92,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     public void attack() {
         List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.5d), (e) -> !this.alreadyAttacked.contains(e.getUuid()));
         for (PlayerEntity player : players) {
-            player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 3.0F);
+            player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5F);
             this.alreadyAttacked.add(player.getUuid());
         }
     }
