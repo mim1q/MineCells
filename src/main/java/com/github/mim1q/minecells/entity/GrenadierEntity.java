@@ -3,9 +3,9 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
-import com.github.mim1q.minecells.entity.projectile.BigGrenadeEntity;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -129,12 +129,17 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
 
     @Override
     public SoundEvent getShootChargeSoundEvent() {
-        return null;
+        return SoundRegistry.GRENADIER_CHARGE;
     }
 
     @Override
     public SoundEvent getShootReleaseSoundEvent() {
         return null;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.JUMPING_ZOMBIE_DEATH;
     }
 
     public static class GrenadierShootGoal extends ShootGoal<GrenadierEntity> {

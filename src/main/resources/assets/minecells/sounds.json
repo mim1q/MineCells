@@ -1,14 +1,4 @@
 {
-  "jumping_zombie.melee_charge": {
-    "sounds": [
-      "minecells:jumping_zombie/melee_charge"
-    ]
-  },
-  "jumping_zombie.melee_release": {
-    "sounds": [
-      "minecells:jumping_zombie/melee_release"
-    ]
-  },
   "jumping_zombie.jump_charge": {
     "sounds": [
       "minecells:jumping_zombie/jump_charge"
@@ -37,6 +27,21 @@
   "shocker.death": {
     "sounds": [
       "minecells:shocker/death"
+    ]
+  },
+  "grenadier.charge": {
+    "sounds": [
+      "minecells:grenadier/charge"
+    ]
+  },
+  "disgusting_worm.attack": {
+    "sounds": [
+      "minecells:disgusting_worm/attack"
+    ]
+  },
+  "disgusting_worm.death": {
+    "sounds": [
+      "minecells:disgusting_worm/death"
     ]
   }
 }

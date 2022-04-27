@@ -26,9 +26,10 @@ public class DisgustingWormEntityModel extends AnimatedGeoModel<DisgustingWormEn
 
     @Override
     public void setMolangQueries(IAnimatable animatable, double currentTick) {
+        DisgustingWormEntity entity = (DisgustingWormEntity)animatable;
         super.setMolangQueries(animatable, currentTick);
         MolangParser parser = GeckoLibCache.getInstance().parser;
         parser.setValue("amount", 0.5D);
-        parser.setValue("speed", 2.0D);
+        parser.setValue("speed", entity.isAttacking() ? 3.0D : 1.5D);
     }
 }
