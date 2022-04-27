@@ -1,11 +1,11 @@
 package com.github.mim1q.minecells.client.model.projectile;
 
-import com.github.mim1q.minecells.entity.projectile.BigGrenadeEntity;
+import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
 import net.minecraft.client.model.*;
 
-public class BigGrenadeEntityModel extends AbstractGrenadeEntityModel<BigGrenadeEntity> {
+public class DisgustingWormEggEntityModel extends AbstractGrenadeEntityModel<DisgustingWormEggEntity> {
 
-    public BigGrenadeEntityModel(ModelPart root) {
+    public DisgustingWormEggEntityModel(ModelPart root) {
         super(root);
     }
 
@@ -15,10 +15,11 @@ public class BigGrenadeEntityModel extends AbstractGrenadeEntityModel<BigGrenade
         modelPartData.addChild("body",
                 ModelPartBuilder.create()
                         .uv(0, 0)
-                        .cuboid(-6.0F, 0.0F, -6.0F,
-                                12.0F, 12.0F, 12.0F),
+                        .cuboid(-3.0F, 0.0F, -3.0F,
+                                6.0F, 6.0F, 6.0F),
                 ModelTransform.NONE
         );
-        return TexturedModelData.of(modelData, 48, 24);
+        return TexturedModelData.of(modelData, 18, 12);
     }
 }
+

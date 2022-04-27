@@ -2,10 +2,12 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.renderer.GrenadierEntityRenderer;
+import com.github.mim1q.minecells.entity.DisgustingWormEntity;
 import com.github.mim1q.minecells.entity.GrenadierEntity;
 import com.github.mim1q.minecells.entity.JumpingZombieEntity;
 import com.github.mim1q.minecells.entity.ShockerEntity;
 import com.github.mim1q.minecells.entity.projectile.BigGrenadeEntity;
+import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -45,6 +47,14 @@ public final class EntityRegistry {
                     .build()
     );
 
+    public static final EntityType<DisgustingWormEntity> DISGUSTING_WORM = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MineCells.MOD_ID, "disgusting_worm"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DisgustingWormEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.8f, 0.8f))
+                    .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MineCells.MOD_ID, "grenade"),
@@ -58,6 +68,14 @@ public final class EntityRegistry {
             new Identifier(MineCells.MOD_ID, "big_grenade"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, BigGrenadeEntity::new)
                     .dimensions(EntityDimensions.changing(0.75F, 0.75F))
+                    .build()
+    );
+
+    public static final EntityType<DisgustingWormEggEntity> DISGUSTING_WORM_EGG = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MineCells.MOD_ID, "disgusting_worm_egg"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, DisgustingWormEggEntity::new)
+                    .dimensions(EntityDimensions.changing(0.375F, 0.375F))
                     .build()
     );
 
@@ -84,6 +102,13 @@ public final class EntityRegistry {
             0xDB7CDB,
             new Item.Settings().group(ItemRegistry.MINECELLS_EGGS)
     );
+
+    public static final Item DISGUSTING_WORM_SPAWN_EGG = new SpawnEggItem(
+            DISGUSTING_WORM,
+            0x67DFCF,
+            0xFF44C6,
+            new Item.Settings().group(ItemRegistry.MINECELLS_EGGS)
+    );
     //endregion
 
     public static void register() {
@@ -93,11 +118,13 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(JUMPING_ZOMBIE, JumpingZombieEntity.createJumpingZombieAttributes());
         FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createShockerAttributes());
         FabricDefaultAttributeRegistry.register(GRENADIER, GrenadierEntity.createGrenadierAttributes());
+        FabricDefaultAttributeRegistry.register(DISGUSTING_WORM, DisgustingWormEntity.createDisgustingWormAttributes());
 
         // Register Spawn Eggs
 
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "jumping_zombie_spawn_egg"), JUMPING_ZOMBIE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shocker_spawn_egg"), SHOCKER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "grenadier_spawn_egg"), GRENADIER_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "disgusting_worm_spawn_egg"), DISGUSTING_WORM_SPAWN_EGG);
     }
 }
