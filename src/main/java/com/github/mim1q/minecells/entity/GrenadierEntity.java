@@ -86,7 +86,6 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
 
     @Override
     public void tick() {
-        System.out.println(this.getShootCooldown());
         super.tick();
         this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
     }
