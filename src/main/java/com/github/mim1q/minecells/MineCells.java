@@ -1,9 +1,7 @@
 package com.github.mim1q.minecells;
 
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.ItemRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.registry.StatusEffectRegistry;
+import com.github.mim1q.minecells.network.PacketHandler;
+import com.github.mim1q.minecells.registry.*;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,5 +19,6 @@ public class MineCells implements ModInitializer {
         SoundRegistry.register();
         ItemRegistry.register();
         StatusEffectRegistry.register();
+        ParticleRegistry.register();
     }
 }

@@ -6,12 +6,10 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.SoundEvent;
 
 public interface IShockAttackEntity {
+    float getShockAttackDamage();
     int getShockAttackMaxCooldown();
     int getShockAttackCooldown();
     void setShockAttackCooldown(int ticks);
     SoundEvent getShockAttackChargeSoundEvent();
     SoundEvent getShockAttackReleaseSoundEvent();
-
-    @Environment(EnvType.CLIENT)
-    void spawnShockParticles(ParticleEffect particle, int amount, double radius, double speed);
 }

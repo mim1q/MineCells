@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.client.renderer.ShockerEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.GrenadeEntityRenderer;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.RendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -17,5 +18,6 @@ public class MineCellsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         RendererRegistry.register();
+        ParticleRegistry.registerClient();
     }
 }
