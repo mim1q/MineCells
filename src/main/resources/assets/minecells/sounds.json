@@ -43,5 +43,12 @@
     "sounds": [
       "minecells:disgusting_worm/death"
     ]
+  },
+
+
+  "shock": {
+    "sounds": [
+      "minecells:shock"
+    ]
   }
 }

@@ -58,7 +58,7 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
         if (this.ticks == this.actionTick) {
             this.entity.setAttackState("shock_release");
             this.entity.playSound(this.entity.getShockAttackReleaseSoundEvent(), 0.5f, 1.0f);
-        } else if (this.ticks > this.actionTick) {
+        } else if (this.ticks >= this.actionTick && this.ticks % 5 == 0) {
             this.damage();
         }
         this.ticks++;
@@ -70,7 +70,7 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
                 this.entity.getBoundingBox().expand(this.radius),
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
-        StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.ELECTRIFIED, 100, 1, false, false, true);
+        StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.ELECTRIFIED, 40, 1, false, false, true);
         for (Entity player : playersInRange) {
             ((LivingEntity) player).addStatusEffect(effect);
         }

@@ -58,7 +58,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     @Override
     public void initGoals() {
         super.initGoals();
-        this.goalSelector.add(1, new ShockAttackGoal<>(this, 12.0d, 20, 40));
+        this.goalSelector.add(1, new ShockAttackGoal<>(this, 10.0d, 20, 40));
     }
 
     //endregion
@@ -139,21 +139,23 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     }
 
     public void spawnShockParticles(ParticleEffect particle, int amount, double radius, double speed) {
-        for (int i = 0; i < amount; i++) {
-            Vec3d offset = new Vec3d(
-                    this.getRandom().nextDouble() * 2.0d - 1.0d,
-                    this.getRandom().nextDouble() * 2.0d - 1.0d,
-                    this.getRandom().nextDouble() * 2.0d - 1.0d
-            ).normalize();
-            Vec3d velocity = offset.multiply(speed);
-            offset = offset.multiply(radius);
-            this.world.addParticle(
-                    particle,
-                    this.getX() + offset.x,
-                    this.getY() + offset.y + 1.0d,
-                    this.getZ() + offset.z,
-                    velocity.x, velocity.y, velocity.z
-            );
+        if (this.world.isClient()) {
+            for (int i = 0; i < amount; i++) {
+                Vec3d offset = new Vec3d(
+                        this.getRandom().nextDouble() * 2.0d - 1.0d,
+                        this.getRandom().nextDouble() * 2.0d - 1.0d,
+                        this.getRandom().nextDouble() * 2.0d - 1.0d
+                ).normalize();
+                Vec3d velocity = offset.multiply(speed);
+                offset = offset.multiply(radius);
+                this.world.addParticle(
+                        particle,
+                        this.getX() + offset.x,
+                        this.getY() + offset.y + 1.0d,
+                        this.getZ() + offset.z,
+                        velocity.x, velocity.y, velocity.z
+                );
+            }
         }
     }
     //endregion

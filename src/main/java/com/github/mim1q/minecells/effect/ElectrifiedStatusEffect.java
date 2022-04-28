@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.effect;
 
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.registry.StatusEffectRegistry;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -8,6 +10,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 
 import java.util.List;
 
@@ -23,12 +27,7 @@ public class ElectrifiedStatusEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        int interval = 20 / (amplifier + 1) + 15;
-        if ((entity.age % interval == 0 )) {
-            entity.damage(DamageSource.MAGIC, 1.0F);
-        }
-
-        if ((amplifier == 1 && entity.isInsideWaterOrBubbleColumn()) || amplifier >= 2) {
+        if ((amplifier == 1 && entity.isInsideWaterOrBubbleColumn()) || amplifier >= 2 && entity.age % 5 == 0) {
             List<Entity> entities = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(3.0D), e -> e instanceof LivingEntity);
             StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.ELECTRIFIED, 60, amplifier - 1, false, false, true);
             for (Entity e : entities) {
@@ -41,6 +40,11 @@ public class ElectrifiedStatusEffect extends StatusEffect {
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        entity.damage(DamageSource.MAGIC, amplifier * 2.0F);
+        float damage = 1.0F + amplifier * 2.0F;
+        if (entity.isInsideWaterOrBubbleColumn()) {
+            damage *= 1.25F;
+        }
+        entity.damage(DamageSource.MAGIC, damage);
+        entity.world.playSound(null, entity.getBlockPos(), SoundRegistry.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
     }
 }

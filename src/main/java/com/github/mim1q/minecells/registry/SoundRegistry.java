@@ -5,6 +5,7 @@ import net.minecraft.client.sound.Sound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
 
 
 public final class SoundRegistry {
@@ -44,6 +45,11 @@ public final class SoundRegistry {
     public static final Identifier DISGUSTING_WORM_DEATH_ID = new Identifier(MineCells.MOD_ID, "disgusting_worm.death");
     public static final SoundEvent DISGUSTING_WORM_DEATH = new SoundEvent(DISGUSTING_WORM_DEATH_ID);
 
+    // Other
+
+    public static final Identifier SHOCK_ID = new Identifier(MineCells.MOD_ID, "shock");
+    public static final SoundEvent SHOCK = new SoundEvent(SHOCK_ID);
+
     public static void register() {
 
         // Jumping Zombie
@@ -67,6 +73,9 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, DISGUSTING_WORM_ATTACK_ID, DISGUSTING_WORM_ATTACK);
         Registry.register(Registry.SOUND_EVENT, DISGUSTING_WORM_DEATH_ID, DISGUSTING_WORM_DEATH);
 
+        // Other
+
+        Registry.register(Registry.SOUND_EVENT, SHOCK_ID, SHOCK);
 
     }
 }
