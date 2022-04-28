@@ -41,7 +41,7 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     @Override
     public void tick() {
         super.tick();
-        this.decrementCooldowns();
+        this.decrementCooldown(SHOCK_COOLDOWN, null);
         this.handleStates();
     }
 
@@ -84,13 +84,6 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         return factory;
     }
 
-    //endregion
-    //region Decrement Cooldowns
-
-    private void decrementCooldowns() {
-        if (this.getShockAttackCooldown() > 0)
-            this.setShockAttackCooldown(this.getShockAttackCooldown() - 1);
-    }
     //endregion
     //region Handle States
 

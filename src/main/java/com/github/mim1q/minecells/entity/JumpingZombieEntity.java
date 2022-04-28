@@ -36,7 +36,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     @Override
     public void tick() {
         super.tick();
-        this.decrementCooldowns();
+        this.decrementCooldown(JUMP_COOLDOWN, "jump");
     }
 
     //region Goals and Tracked Data
@@ -135,11 +135,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
-
-    private void decrementCooldowns() {
-        if (this.getJumpAttackCooldown() > 0 && !this.getAttackState().equals("jump"))
-            this.setJumpAttackCooldown(this.getJumpAttackCooldown() - 1);
-    }
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()

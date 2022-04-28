@@ -88,7 +88,7 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
     public void tick() {
         System.out.println(this.getShootCooldown());
         super.tick();
-        this.decrementCooldowns();
+        this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
     }
 
     @Override
@@ -104,12 +104,6 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 3.0D);
-    }
-
-    private void decrementCooldowns() {
-        if (this.getShootCooldown() > 0 && !this.getAttackState().equals("shoot")) {
-            this.setShootCooldown(this.getShootCooldown() - 1);
-        }
     }
 
     @Override

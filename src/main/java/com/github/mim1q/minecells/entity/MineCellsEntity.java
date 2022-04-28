@@ -9,6 +9,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class MineCellsEntity extends HostileEntity {
 
     protected MineCellsEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -41,5 +43,12 @@ public class MineCellsEntity extends HostileEntity {
             return true;
         }
         return super.isInvulnerableTo(damageSource);
+    }
+
+    protected void decrementCooldown(TrackedData<Integer> cooldown, @Nullable String state) {
+        int current = this.dataTracker.get(cooldown);
+        if (current > 0 && !this.getAttackState().equals(state)) {
+            this.dataTracker.set(cooldown, current - 1);
+        }
     }
 }
