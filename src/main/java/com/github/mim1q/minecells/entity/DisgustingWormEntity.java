@@ -68,7 +68,7 @@ public class DisgustingWormEntity extends MineCellsEntity implements IAnimatable
     @Override
     public void tick() {
         super.tick();
-        if (this.world.isClient() && this.isAttacking()) {
+        if (!this.world.isClient() && this.isAttacking()) {
             if (this.soundCountdown > 0) {
                 this.soundCountdown--;
             } else {
