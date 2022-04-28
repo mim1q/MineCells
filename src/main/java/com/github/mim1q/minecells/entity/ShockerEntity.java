@@ -1,8 +1,11 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.entity.ai.goal.ShockAttackGoal;
-import com.github.mim1q.minecells.entity.interfaces.IShockAttackEntity;
+import com.github.mim1q.minecells.entity.ai.goal.AuraAttackGoal;
+import com.github.mim1q.minecells.entity.interfaces.IAuraAttackEntity;
+import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.util.ParticleHelper;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -13,8 +16,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
@@ -29,7 +30,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShockAttackEntity {
+public class ShockerEntity extends MineCellsEntity implements IAnimatable, IAuraAttackEntity {
 
     AnimationFactory factory = new AnimationFactory(this);
 
@@ -41,24 +42,24 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     @Override
     public void tick() {
         super.tick();
-        this.decrementCooldown(SHOCK_COOLDOWN, null);
+        this.decrementCooldown(AURA_COOLDOWN, null);
         this.handleStates();
     }
 
     //region Goals and Tracked Data
 
-    public static final TrackedData<Integer> SHOCK_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Integer> AURA_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Override
     public void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(SHOCK_COOLDOWN, 50);
+        this.dataTracker.startTracking(AURA_COOLDOWN, 50);
     }
 
     @Override
     public void initGoals() {
         super.initGoals();
-        this.goalSelector.add(1, new ShockAttackGoal<>(this, 10.0d, 20, 40));
+        this.goalSelector.add(1, new AuraAttackGoal<>(this, 10.0d, 20, 50));
     }
 
     //endregion
@@ -88,12 +89,17 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
     //region Handle States
 
     private void handleStates() {
-        if (this.getAttackState().equals("shock_charge")) {
-            this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 5, 2.0d, -0.5d);
-        }
-        else if (this.getAttackState().equals("shock_release")) {
-            this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 100, 9.5d, 0.3d);
-            this.spawnShockParticles(ParticleTypes.ELECTRIC_SPARK, 10, 1.0d, 5.0d);
+        if (this.world.isClient()) {
+            if (!this.getAttackState().equals("none")) {
+                Vec3d pos = this.getPos().add(0.0D, 1.0D, 0.0D);
+
+                if (this.getAttackState().equals("aura_charge")) {
+                    ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 5, 2.0D, -0.1D);
+                } else {
+                    ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 100, 9.5D, 0.01D);
+                    ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
+                }
+            }
         }
     }
     //endregion
@@ -116,48 +122,32 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IShoc
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
     //endregion
-    //region IShockAttackEntity Implementation
+    //region IAuraAttackEntity Implementation
 
-    public int getShockAttackMaxCooldown() {
+    public float getAuraAttackDamage() {
+        return 4.0F;
+    }
+
+    public int getAuraAttackMaxCooldown() {
         return 20;
     }
 
-    public int getShockAttackCooldown() {
-        return this.dataTracker.get(SHOCK_COOLDOWN);
+    public int getAuraAttackCooldown() {
+        return this.dataTracker.get(AURA_COOLDOWN);
     }
 
-    public void setShockAttackCooldown(int ticks) {
-        this.dataTracker.set(SHOCK_COOLDOWN, ticks);
+    public void setAuraAttackCooldown(int ticks) {
+        this.dataTracker.set(AURA_COOLDOWN, ticks);
     }
 
-    public SoundEvent getShockAttackChargeSoundEvent() {
+    public SoundEvent getAuraAttackChargeSoundEvent() {
         return SoundRegistry.SHOCKER_CHARGE;
     }
 
-    public SoundEvent getShockAttackReleaseSoundEvent() {
+    public SoundEvent getAuraAttackReleaseSoundEvent() {
         return SoundRegistry.SHOCKER_RELEASE;
     }
 
-    public void spawnShockParticles(ParticleEffect particle, int amount, double radius, double speed) {
-        if (this.world.isClient()) {
-            for (int i = 0; i < amount; i++) {
-                Vec3d offset = new Vec3d(
-                        this.getRandom().nextDouble() * 2.0d - 1.0d,
-                        this.getRandom().nextDouble() * 2.0d - 1.0d,
-                        this.getRandom().nextDouble() * 2.0d - 1.0d
-                ).normalize();
-                Vec3d velocity = offset.multiply(speed);
-                offset = offset.multiply(radius);
-                this.world.addParticle(
-                        particle,
-                        this.getX() + offset.x,
-                        this.getY() + offset.y + 1.0d,
-                        this.getZ() + offset.z,
-                        velocity.x, velocity.y, velocity.z
-                );
-            }
-        }
-    }
     //endregion
     //region Sounds
 

@@ -1,19 +1,15 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.entity.interfaces.IShockAttackEntity;
-import com.github.mim1q.minecells.registry.StatusEffectRegistry;
+import com.github.mim1q.minecells.entity.interfaces.IAuraAttackEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
-public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> extends Goal {
+public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> extends Goal {
 
     protected E entity;
     protected double radius;
@@ -21,7 +17,7 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
     protected int actionTick;
     protected int lengthTicks;
 
-    public ShockAttackGoal(E entity, double radius, int actionTick, int lengthTicks) {
+    public AuraAttackGoal(E entity, double radius, int actionTick, int lengthTicks) {
         this.entity = entity;
         this.radius = radius;
         this.actionTick = actionTick;
@@ -31,15 +27,15 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
     @Override
     public boolean canStart() {
         PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 2.0d);
-        return this.entity.getShockAttackCooldown() == 0
+        return this.entity.getAuraAttackCooldown() == 0
                 && closestPlayer != null && !(closestPlayer.isCreative() || closestPlayer.isSpectator());
     }
 
     @Override
     public void start() {
         this.ticks = 0;
-        this.entity.setAttackState("shock_charge");
-        this.entity.playSound(this.entity.getShockAttackChargeSoundEvent(), 0.5f, 1.0f);
+        this.entity.setAttackState("aura_charge");
+        this.entity.playSound(this.entity.getAuraAttackChargeSoundEvent(), 0.5f, 1.0f);
     }
 
     @Override
@@ -50,15 +46,15 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
     @Override
     public void stop() {
         this.entity.resetAttackState();
-        this.entity.setShockAttackCooldown(this.entity.getShockAttackMaxCooldown());
+        this.entity.setAuraAttackCooldown(this.entity.getAuraAttackMaxCooldown());
     }
 
     @Override
     public void tick() {
         if (this.ticks == this.actionTick) {
-            this.entity.setAttackState("shock_release");
-            this.entity.playSound(this.entity.getShockAttackReleaseSoundEvent(), 0.5f, 1.0f);
-        } else if (this.ticks >= this.actionTick && this.ticks % 5 == 0) {
+            this.entity.setAttackState("aura_release");
+            this.entity.playSound(this.entity.getAuraAttackReleaseSoundEvent(), 0.5f, 1.0f);
+        } else if (this.ticks >= this.actionTick && this.ticks % 2 == 0) {
             this.damage();
         }
         this.ticks++;
@@ -70,9 +66,8 @@ public class ShockAttackGoal<E extends MineCellsEntity & IShockAttackEntity> ext
                 this.entity.getBoundingBox().expand(this.radius),
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
-        StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.ELECTRIFIED, 40, 1, false, false, true);
         for (Entity player : playersInRange) {
-            ((LivingEntity) player).addStatusEffect(effect);
+            player.damage(DamageSource.mob(this.entity), this.entity.getAuraAttackDamage());
         }
     }
 }
