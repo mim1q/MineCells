@@ -10,15 +10,6 @@ public class BigGrenadeEntityModel extends AbstractGrenadeEntityModel<BigGrenade
     }
 
     public static TexturedModelData getTexturedModelData() {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild("body",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-6.0F, 0.0F, -6.0F,
-                                12.0F, 12.0F, 12.0F),
-                ModelTransform.NONE
-        );
-        return TexturedModelData.of(modelData, 48, 24);
+        return AbstractGrenadeEntityModel.getTexturedModelData(12.0F);
     }
 }

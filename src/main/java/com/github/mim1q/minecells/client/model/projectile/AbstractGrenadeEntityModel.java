@@ -16,16 +16,20 @@ public abstract class AbstractGrenadeEntityModel<E extends GrenadeEntity> extend
     }
 
     public static TexturedModelData getTexturedModelData() {
+        return getTexturedModelData(8.0F);
+    }
+
+    public static TexturedModelData getTexturedModelData(float size) {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         modelPartData.addChild("body",
                 ModelPartBuilder.create()
                         .uv(0, 0)
-                        .cuboid(-4.0F, 0.0F, -4.0F,
-                                8.0F, 8.0F, 8.0F),
+                        .cuboid(-size / 2.0F, 0.0F, -size / 2.0F,
+                                size, size, size),
                 ModelTransform.NONE
         );
-        return TexturedModelData.of(modelData, 32, 16);
+        return TexturedModelData.of(modelData, (int)size * 4, (int)size * 2);
     }
 
     @Override

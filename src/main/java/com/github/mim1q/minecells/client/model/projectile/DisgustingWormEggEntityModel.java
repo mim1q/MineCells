@@ -10,16 +10,7 @@ public class DisgustingWormEggEntityModel extends AbstractGrenadeEntityModel<Dis
     }
 
     public static TexturedModelData getTexturedModelData() {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild("body",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-3.0F, 0.0F, -3.0F,
-                                6.0F, 6.0F, 6.0F),
-                ModelTransform.NONE
-        );
-        return TexturedModelData.of(modelData, 24, 12);
+        return AbstractGrenadeEntityModel.getTexturedModelData(6.0F);
     }
 }
 
