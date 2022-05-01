@@ -15,15 +15,20 @@ import net.minecraft.util.registry.Registry;
 public class ParticleRegistry {
 
     public static final DefaultParticleType AURA = FabricParticleTypes.simple();
+    public static final DefaultParticleType MAGIC_ORB = FabricParticleTypes.simple();
 
     public static void register() {
         Registry.register(Registry.PARTICLE_TYPE, new Identifier(MineCells.MOD_ID, "aura"), AURA);
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier(MineCells.MOD_ID, "magic_orb"), MAGIC_ORB);
     }
 
     public static void registerClient() {
-        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) ->
-                registry.register(new Identifier(MineCells.MOD_ID, "particle/aura")));
+        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
+                registry.register(new Identifier(MineCells.MOD_ID, "particle/aura"));
+                registry.register(new Identifier(MineCells.MOD_ID, "particle/magic_orb"));
+                });
 
         ParticleFactoryRegistry.getInstance().register(AURA, FlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(MAGIC_ORB, FlameParticle.Factory::new);
     }
 }
