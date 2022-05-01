@@ -1,29 +1,16 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import com.github.mim1q.minecells.item.AssassinsDaggerItem;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class ItemRegistry {
 
-    //region ItemGroups
-
-    public static final ItemGroup MINECELLS_EGGS = FabricItemGroupBuilder.create(
-            new Identifier(MineCells.MOD_ID, "eggs"))
-            .icon(() -> new ItemStack(EntityRegistry.JUMPING_ZOMBIE_SPAWN_EGG))
-            .appendItems(stacks -> {
-                stacks.add(new ItemStack(EntityRegistry.JUMPING_ZOMBIE_SPAWN_EGG));
-                stacks.add(new ItemStack(EntityRegistry.SHOCKER_SPAWN_EGG));
-                stacks.add(new ItemStack(EntityRegistry.GRENADIER_SPAWN_EGG));
-                stacks.add(new ItemStack(EntityRegistry.DISGUSTING_WORM_SPAWN_EGG));
-            })
-            .build();
-
-    //endregion
+    public static final AssassinsDaggerItem ASSASSINS_DAGGER_ITEM = new AssassinsDaggerItem(new FabricItemSettings().group(ItemGroupRegistry.MINECELLS_WEAPONS));
 
     public static void register() {
-
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "assassins_dagger"), ASSASSINS_DAGGER_ITEM);
     }
 }
