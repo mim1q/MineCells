@@ -45,7 +45,11 @@
     ]
   },
 
-
+  "crit": {
+    "sounds": [
+      "minecells:crit"
+    ]
+  },
   "shock": {
     "sounds": [
       "minecells:shock"

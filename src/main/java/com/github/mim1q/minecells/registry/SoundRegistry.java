@@ -47,6 +47,9 @@ public final class SoundRegistry {
 
     // Other
 
+    public static final Identifier CRIT_ID = new Identifier(MineCells.MOD_ID, "crit");
+    public static final SoundEvent CRIT = new SoundEvent(CRIT_ID);
+
     public static final Identifier SHOCK_ID = new Identifier(MineCells.MOD_ID, "shock");
     public static final SoundEvent SHOCK = new SoundEvent(SHOCK_ID);
 
@@ -75,6 +78,7 @@ public final class SoundRegistry {
 
         // Other
 
+        Registry.register(Registry.SOUND_EVENT, CRIT_ID, CRIT);
         Registry.register(Registry.SOUND_EVENT, SHOCK_ID, SHOCK);
 
     }
