@@ -4,13 +4,11 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.model.projectile.BigGrenadeEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.GrenadeEntityModel;
-import com.github.mim1q.minecells.client.renderer.DisgustingWormEntityRenderer;
-import com.github.mim1q.minecells.client.renderer.GrenadierEntityRenderer;
-import com.github.mim1q.minecells.client.renderer.JumpingZombieEntityRenderer;
-import com.github.mim1q.minecells.client.renderer.ShockerEntityRenderer;
+import com.github.mim1q.minecells.client.renderer.*;
 import com.github.mim1q.minecells.client.renderer.projectile.BigGrenadeEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.DisgustingWormEggEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.GrenadeEntityRenderer;
+import com.github.mim1q.minecells.client.renderer.projectile.MagicOrbEntityRenderer;
 import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -28,9 +26,12 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.SHOCKER, ShockerEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.GRENADIER, GrenadierEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM, DisgustingWormEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.INQUISITOR, InquisitorEntityRenderer::new);
+
         EntityRendererRegistry.register(EntityRegistry.GRENADE, GrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM_EGG, DisgustingWormEggEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.MAGIC_ORB, MagicOrbEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
