@@ -25,6 +25,7 @@ public class JumpingZombieEntityModel extends AnimatedGeoModel<JumpingZombieEnti
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void setLivingAnimations(JumpingZombieEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
         IBone head = this.getAnimationProcessor().getBone("neck");
