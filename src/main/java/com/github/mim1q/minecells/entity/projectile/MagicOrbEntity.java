@@ -7,14 +7,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.particle.ParticleEffect;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class MagicOrbEntity extends ProjectileEntity {
 
@@ -28,10 +34,13 @@ public class MagicOrbEntity extends ProjectileEntity {
         super.tick();
         this.move(MovementType.SELF, this.getVelocity());
         if (this.world.isClient()) {
-            ParticleHelper.addAura((ClientWorld)this.world, this.getPos(), ParticleTypes.WITCH, 3, 0.5D, 0.0D);
-            ParticleHelper.addAura((ClientWorld)this.world, this.getPos(), ParticleTypes.WITCH, 3, 0.1D, 0.0D);
+            if (this.age == 1) {
+                ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 15, 0.0D, 0.5D);
+            }
+            ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.5D, 0.0D);
+            ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.0D, 0.0D);
         } else {
-            if (this.age >= 200) {
+            if (this.age > 200) {
                 this.discard();
             }
 
@@ -55,8 +64,6 @@ public class MagicOrbEntity extends ProjectileEntity {
             this.discard();
         }
     }
-
-
 
     @Override
     protected void initDataTracker() { }

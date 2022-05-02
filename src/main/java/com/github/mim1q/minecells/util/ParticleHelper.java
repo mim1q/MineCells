@@ -1,8 +1,11 @@
 package com.github.mim1q.minecells.util;
 
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 
 public class ParticleHelper {
 
@@ -26,5 +29,17 @@ public class ParticleHelper {
                     velocity
             );
         }
+    }
+
+    public static Vec3d vectorRotateY(Vec3d vector, float theta) {
+        double z = vector.z * MathHelper.sin(theta) + vector.x * MathHelper.cos(theta);
+        double x = vector.z * MathHelper.cos(theta) - vector.x * MathHelper.sin(theta);
+        return new Vec3d(x, vector.y, z);
+    }
+
+    public static Vec3f vectorRotateY(Vec3f vector, float theta) {
+        float z = vector.getZ() * MathHelper.sin(theta) + vector.getX() * MathHelper.cos(theta);
+        float x = vector.getZ() * MathHelper.cos(theta) - vector.getX() * MathHelper.sin(theta);
+        return new Vec3f(x, vector.getY(), z);
     }
 }

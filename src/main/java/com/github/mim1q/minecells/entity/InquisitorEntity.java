@@ -2,14 +2,10 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
-import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.entity.projectile.MagicOrbEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -18,11 +14,14 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -38,6 +37,14 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
     private final AnimationFactory factory = new AnimationFactory(this);
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
+    private static final Vec3d[] ORB_OFFSETS = {
+            new Vec3d(-0.25D, 2.25D, 0.0D),
+            new Vec3d(0.3D, 0.8D, 0.5D),
+            new Vec3d(0.3D, 0.8D, -0.5D)
+    };
+
+    private final MagicOrbEntity[] orbs = new MagicOrbEntity[3];
 
     public InquisitorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -82,11 +89,26 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
 
     @Override
     public void tick() {
+//        if (this.age == 1) {
+//            for (int i = 0; i < 3; i++) {
+//                orbs[i] = new MagicOrbEntity(EntityRegistry.MAGIC_ORB, this.world);
+//                orbs[i].setOwner(this);
+//                orbs[i].isBound = true;
+//                world.spawnEntity(orbs[i]);
+//            }
+//        }
+
         super.tick();
         this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
-        if (this.world.isClient()) {
-            ParticleHelper.addParticle((ClientWorld) this.world, ParticleTypes.WITCH, this.getPos().add(0.0D, 2.25D, 0.0D), Vec3d.ZERO);
-        }
+
+//        float theta = this.bodyYaw * MathHelper.PI / 180.0F;
+//        float thetaHead = this.headYaw * MathHelper.PI / 180.0F;
+//        for (int i = 0; i < 3; i++) {
+//            Vec3d offset = ParticleHelper.vectorRotateY(ORB_OFFSETS[i], i == 0 ? thetaHead : theta);
+//            if (orbs[i] != null) {
+//                orbs[i].setPosition(this.getPos().add(offset));
+//            }
+//        }
     }
 
     @Override
@@ -158,6 +180,7 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
             MagicOrbEntity orb = new MagicOrbEntity(EntityRegistry.MAGIC_ORB, this.entity.world);
             orb.setPosition(entityPos);
             orb.setVelocity(vel);
+            orb.setOwner(this.entity);
 
             this.entity.world.spawnEntity(orb);
         }
