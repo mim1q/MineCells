@@ -7,6 +7,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class GrenadierEntityRenderer extends GeoEntityRenderer<GrenadierEntity> {
+
     public GrenadierEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new GrenadierEntityModel());
         this.addLayer(new GrenadierGlowLayer(this));

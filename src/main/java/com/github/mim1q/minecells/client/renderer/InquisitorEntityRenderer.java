@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.client.renderer;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.model.InquisitorEntityModel;
 import com.github.mim1q.minecells.entity.InquisitorEntity;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.MineCellsMathHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
@@ -37,7 +37,7 @@ public class InquisitorEntityRenderer extends GeoEntityRenderer<InquisitorEntity
 
     public void renderOrb(float yaw, int age, Vec3f offset, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider) {
         matrixStack.push();
-        offset = ParticleHelper.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
+        offset = MineCellsMathHelper.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
         matrixStack.translate(offset.getX(), offset.getY() + MathHelper.sin((float)age * MathHelper.PI / 45.0F) * 0.1F, offset.getZ());
         matrixStack.scale(0.375F, 0.375F, 0.375F);
         matrixStack.multiply(this.dispatcher.getRotation());

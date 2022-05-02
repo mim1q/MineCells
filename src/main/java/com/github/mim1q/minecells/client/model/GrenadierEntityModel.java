@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.client.model;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.GrenadierEntity;
-import com.github.mim1q.minecells.entity.JumpingZombieEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -26,6 +25,7 @@ public class GrenadierEntityModel extends AnimatedGeoModel<GrenadierEntity> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void setLivingAnimations(GrenadierEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
         IBone head = this.getAnimationProcessor().getBone("neck");

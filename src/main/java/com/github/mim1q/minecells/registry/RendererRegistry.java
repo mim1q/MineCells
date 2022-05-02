@@ -9,7 +9,6 @@ import com.github.mim1q.minecells.client.renderer.projectile.BigGrenadeEntityRen
 import com.github.mim1q.minecells.client.renderer.projectile.DisgustingWormEggEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.GrenadeEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.MagicOrbEntityRenderer;
-import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;

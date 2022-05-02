@@ -4,9 +4,12 @@ import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.projectile.MagicOrbEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.util.ParticleHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -14,14 +17,10 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -89,26 +88,8 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
 
     @Override
     public void tick() {
-//        if (this.age == 1) {
-//            for (int i = 0; i < 3; i++) {
-//                orbs[i] = new MagicOrbEntity(EntityRegistry.MAGIC_ORB, this.world);
-//                orbs[i].setOwner(this);
-//                orbs[i].isBound = true;
-//                world.spawnEntity(orbs[i]);
-//            }
-//        }
-
         super.tick();
         this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
-
-//        float theta = this.bodyYaw * MathHelper.PI / 180.0F;
-//        float thetaHead = this.headYaw * MathHelper.PI / 180.0F;
-//        for (int i = 0; i < 3; i++) {
-//            Vec3d offset = ParticleHelper.vectorRotateY(ORB_OFFSETS[i], i == 0 ? thetaHead : theta);
-//            if (orbs[i] != null) {
-//                orbs[i].setPosition(this.getPos().add(offset));
-//            }
-//        }
     }
 
     @Override

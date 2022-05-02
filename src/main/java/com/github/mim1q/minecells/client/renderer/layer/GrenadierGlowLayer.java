@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.client.renderer.layer;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.GrenadierEntity;
-import com.github.mim1q.minecells.entity.ShockerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
