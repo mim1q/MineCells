@@ -44,6 +44,16 @@
       "minecells:disgusting_worm/death"
     ]
   },
+  "inquisitor.charge": {
+    "sounds": [
+      "minecells:inquisitor/charge"
+    ]
+  },
+  "inquisitor.release": {
+    "sounds": [
+      "minecells:inquisitor/release"
+    ]
+  },
 
   "crit": {
     "sounds": [

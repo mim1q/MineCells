@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.projectile.MagicOrbEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -109,12 +110,12 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
 
     @Override
     public SoundEvent getShootChargeSoundEvent() {
-        return null;
+        return SoundRegistry.INQUISITOR_CHARGE;
     }
 
     @Override
     public SoundEvent getShootReleaseSoundEvent() {
-        return null;
+        return SoundRegistry.INQUISITOR_RELEASE;
     }
 
     public static DefaultAttributeContainer.Builder createInquisitorAttributes() {

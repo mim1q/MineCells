@@ -43,6 +43,14 @@ public final class SoundRegistry {
     public static final Identifier DISGUSTING_WORM_DEATH_ID = new Identifier(MineCells.MOD_ID, "disgusting_worm.death");
     public static final SoundEvent DISGUSTING_WORM_DEATH = new SoundEvent(DISGUSTING_WORM_DEATH_ID);
 
+    // Inquisitor
+
+    public static final Identifier INQUISITOR_CHARGE_ID = new Identifier(MineCells.MOD_ID, "inquisitor.charge");
+    public static final SoundEvent INQUISITOR_CHARGE = new SoundEvent(INQUISITOR_CHARGE_ID);
+
+    public static final Identifier INQUISITOR_RELEASE_ID = new Identifier(MineCells.MOD_ID, "inquisitor.release");
+    public static final SoundEvent INQUISITOR_RELEASE = new SoundEvent(INQUISITOR_RELEASE_ID);
+
     // Other
 
     public static final Identifier CRIT_ID = new Identifier(MineCells.MOD_ID, "crit");
@@ -73,6 +81,11 @@ public final class SoundRegistry {
 
         Registry.register(Registry.SOUND_EVENT, DISGUSTING_WORM_ATTACK_ID, DISGUSTING_WORM_ATTACK);
         Registry.register(Registry.SOUND_EVENT, DISGUSTING_WORM_DEATH_ID, DISGUSTING_WORM_DEATH);
+
+        // Inquisitor
+
+        Registry.register(Registry.SOUND_EVENT, INQUISITOR_CHARGE_ID, INQUISITOR_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, INQUISITOR_RELEASE_ID, INQUISITOR_RELEASE);
 
         // Other
 
