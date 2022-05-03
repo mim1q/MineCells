@@ -64,7 +64,6 @@
 		},
 		"disgusting_worm.eggs": {
 			"loop": true,
-			"animation_length": 282.70833,
 			"bones": {
 				"egg": {
 					"scale": {

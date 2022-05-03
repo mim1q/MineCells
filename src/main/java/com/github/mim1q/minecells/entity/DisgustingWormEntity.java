@@ -73,7 +73,6 @@ public class DisgustingWormEntity extends MineCellsEntity implements IAnimatable
                 this.soundCountdown--;
             } else {
                 this.world.playSound(null, getX(), getY(), getZ(), SoundRegistry.DISGUSTING_WORM_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F);
-                System.out.println("AAAAmogus");
                 this.soundCountdown = 60 + this.random.nextInt(100);
             }
         }

@@ -23,6 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
@@ -32,22 +33,15 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
 
-public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IShootEntity {
+public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IShootEntity, IAnimationTickable {
 
     private final AnimationFactory factory = new AnimationFactory(this);
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    private static final Vec3d[] ORB_OFFSETS = {
-            new Vec3d(-0.25D, 2.25D, 0.0D),
-            new Vec3d(0.3D, 0.8D, 0.5D),
-            new Vec3d(0.3D, 0.8D, -0.5D)
-    };
-
-    private final MagicOrbEntity[] orbs = new MagicOrbEntity[3];
-
     public InquisitorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        this.ignoreCameraFrustum = true;
     }
 
     @Override
@@ -91,6 +85,11 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
     public void tick() {
         super.tick();
         this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
+    }
+
+    @Override
+    public int tickTimer() {
+        return this.age;
     }
 
     @Override

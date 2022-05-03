@@ -6,9 +6,10 @@ import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.model.AnimatedTickingGeoModel;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
-public class InquisitorEntityModel extends AnimatedGeoModel<InquisitorEntity> {
+public class InquisitorEntityModel extends AnimatedTickingGeoModel<InquisitorEntity> {
     @Override
     public Identifier getModelLocation(InquisitorEntity object) {
         return new Identifier(MineCells.MOD_ID, "geo/entity/inquisitor.geo.json");

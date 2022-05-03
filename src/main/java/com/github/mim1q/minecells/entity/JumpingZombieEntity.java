@@ -28,6 +28,9 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
 
     AnimationFactory factory = new AnimationFactory(this);
 
+    private final AnimationBuilder IDLE_ANIMATION = new AnimationBuilder().addAnimation("jumping_zombie.idle", true);
+    private final AnimationBuilder WALK_ANIMATION = new AnimationBuilder().addAnimation("jumping_zombie.walk", true);
+
     public JumpingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
         this.ignoreCameraFrustum = true;
@@ -77,9 +80,9 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
 
         if (this.getAttackState().equals("none") && isMoving)
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.walk"));
+            event.getController().setAnimation(WALK_ANIMATION);
         else
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.idle"));
+            event.getController().setAnimation(IDLE_ANIMATION);
 
         return PlayState.CONTINUE;
     }
@@ -118,11 +121,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     //endregion
 
     //region Sounds
-
-    @Override
-    public SoundEvent getDeathSound() {
-        return SoundRegistry.JUMPING_ZOMBIE_DEATH;
-    }
 
     @Override
     public SoundEvent getJumpAttackChargeSoundEvent() {
