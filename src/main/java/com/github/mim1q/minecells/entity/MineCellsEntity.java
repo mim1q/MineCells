@@ -1,12 +1,14 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -50,5 +52,10 @@ public class MineCellsEntity extends HostileEntity {
         if (current > 0 && !this.getAttackState().equals(state)) {
             this.dataTracker.set(cooldown, current - 1);
         }
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.JUMPING_ZOMBIE_DEATH;
     }
 }
