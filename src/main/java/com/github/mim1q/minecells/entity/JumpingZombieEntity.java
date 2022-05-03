@@ -13,23 +13,10 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 
-public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable, IJumpAttackEntity {
-
-    AnimationFactory factory = new AnimationFactory(this);
-
-    private final AnimationBuilder IDLE_ANIMATION = new AnimationBuilder().addAnimation("jumping_zombie.idle", true);
-    private final AnimationBuilder WALK_ANIMATION = new AnimationBuilder().addAnimation("jumping_zombie.walk", true);
+public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackEntity {
 
     public JumpingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
@@ -66,44 +53,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
-
-    //region Animations
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "movementController", 5, this::movementPredicate));
-        data.addAnimationController(new AnimationController<>(this, "attackController", 0, this::attackPredicate));
-        data.setResetSpeedInTicks(0);
-    }
-
-    private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
-        boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
-
-        if (this.getAttackState().equals("none") && isMoving)
-            event.getController().setAnimation(WALK_ANIMATION);
-        else
-            event.getController().setAnimation(IDLE_ANIMATION);
-
-        return PlayState.CONTINUE;
-    }
-
-    private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
-        if (this.getAttackState().equals("jump")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.jump"));
-        } else {
-            event.getController().markNeedsReload();
-        }
-
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
-    }
-
-    //endregion
-
     //region IJumpAttackEntity Implementation
 
     public void setJumpAttackCooldown(int ticks) {

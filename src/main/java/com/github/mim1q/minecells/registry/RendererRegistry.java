@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.client.model.JumpingZombieEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.BigGrenadeEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.GrenadeEntityModel;
@@ -15,6 +16,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
 public class RendererRegistry {
+    public static final EntityModelLayer JUMPING_ZOMBIE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "jumping_zombie_layer"), "jumping_zombie_layer");
+
 
     public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade_render_layer"), "grenade_render_layer");
     public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render_layer"), "big_grenade_render_layer");
@@ -31,6 +34,8 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM_EGG, DisgustingWormEggEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.MAGIC_ORB, MagicOrbEntityRenderer::new);
+
+        EntityModelLayerRegistry.registerModelLayer(JUMPING_ZOMBIE_LAYER, JumpingZombieEntityModel::getTexturedModelData);
 
         EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
