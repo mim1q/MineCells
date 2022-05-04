@@ -30,9 +30,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ShockerEntity extends MineCellsEntity implements IAnimatable, IAuraAttackEntity {
-
-    AnimationFactory factory = new AnimationFactory(this);
+public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity {
 
     public ShockerEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -60,29 +58,6 @@ public class ShockerEntity extends MineCellsEntity implements IAnimatable, IAura
     public void initGoals() {
         super.initGoals();
         this.goalSelector.add(1, new AuraAttackGoal<>(this, 10.0d, 20, 50));
-    }
-
-    //endregion
-    //region Animations
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (this.getAttackState().equals("none")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("shocker.idle"));
-        }
-        else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("shocker.attack"));
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
     }
 
     //endregion

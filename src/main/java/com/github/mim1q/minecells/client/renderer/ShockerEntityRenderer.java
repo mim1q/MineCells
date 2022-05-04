@@ -1,15 +1,27 @@
 package com.github.mim1q.minecells.client.renderer;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.model.ShockerEntityModel;
-import com.github.mim1q.minecells.client.renderer.layer.ShockerGlowLayer;
+import com.github.mim1q.minecells.client.renderer.feature.ShockerGlowFeatureRenderer;
 import com.github.mim1q.minecells.entity.ShockerEntity;
+import com.github.mim1q.minecells.registry.RendererRegistry;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class ShockerEntityRenderer extends GeoEntityRenderer<ShockerEntity> {
+public class ShockerEntityRenderer extends MobEntityRenderer<ShockerEntity, ShockerEntityModel> {
+
+    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker.png");
+    private static final Identifier GLOW_TEXTURE_NORMAL = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker_glow.png");
+    private static final Identifier GLOW_TEXTURE_ANGRY = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker_glow_angry.png");
+
     public ShockerEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new ShockerEntityModel());
-        this.addLayer(new ShockerGlowLayer(this));
-        this.shadowRadius = 0.5f;
+        super(ctx, new ShockerEntityModel(ctx.getPart(RendererRegistry.SHOCKER_LAYER)), 0.5F);
+        this.addFeature(new ShockerGlowFeatureRenderer(this, GLOW_TEXTURE_NORMAL, GLOW_TEXTURE_ANGRY));
+    }
+
+    @Override
+    public Identifier getTexture(ShockerEntity entity) {
+        return TEXTURE;
     }
 }
