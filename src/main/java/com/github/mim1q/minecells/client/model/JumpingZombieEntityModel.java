@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.model;
 
 import com.github.mim1q.minecells.entity.JumpingZombieEntity;
+import com.github.mim1q.minecells.util.AnimationHelper;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -8,8 +9,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
-
-    protected String currentAnimation = "none";
 
     private final ModelPart root;
     private final ModelPart waist;
@@ -73,17 +72,41 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
                 .cuboid(-4.0F, -4.0F, -2.5F, 8.0F, 5.0F, 5.0F),
             ModelTransform.pivot(0.0F, -5.0F, 0.0F));
 
+        dUpperTorso.addChild("wing_1",
+            ModelPartBuilder.create()
+                .uv(38, 0)
+                .cuboid(0.0F, -2.0F, 0.0F, 1, 2, 3),
+            ModelTransform.of(2.0F, -2.0F, 2.0F, MathHelper.PI / 6.0F, 0.0F, 0.1F));
+
+        dUpperTorso.addChild("wing_2",
+                ModelPartBuilder.create()
+                        .uv(38, 0)
+                        .cuboid(-1.0F, -2.0F, 0.0F, 1, 2, 3),
+                ModelTransform.of(-2.0F, -2.0F, 2.0F, MathHelper.PI / 6.0F, 0.0F, -0.1F));
+
+        dUpperTorso.addChild("wing_3",
+                ModelPartBuilder.create()
+                        .uv(38, 0)
+                        .cuboid(0.0F, 0.0F, 0.0F, 1, 2, 3),
+                ModelTransform.of(2.0F, -1.0F, 2.0F, -MathHelper.PI / 6.0F, 0.0F, 0.1F));
+
+        dUpperTorso.addChild("wing_4",
+                ModelPartBuilder.create()
+                        .uv(38, 0)
+                        .cuboid(-1.0F, 0.0F, 0.0F, 1, 2, 3),
+                ModelTransform.of(-2.0F, -1.0F, 2.0F, -MathHelper.PI / 6.0F, 0.0F, -0.1F));
+
         dUpperTorso.addChild("left_arm",
             ModelPartBuilder.create()
                 .uv(22, 27)
-                .cuboid(0.0F, -1.5F, 0.0F, 2, 12, 3),
-            ModelTransform.pivot(4.0F, -2.5F, -1.5F));
+                .cuboid(0.0F, -1.5F, -1.5F, 2, 12, 3),
+            ModelTransform.pivot(4.0F, -2.5F, 0.0F));
 
         dUpperTorso.addChild("right_arm",
                 ModelPartBuilder.create()
-                    .uv(22, 27)
-                    .cuboid(-2.0F, -1.5F, 0.0F, 2, 12, 3),
-                ModelTransform.pivot(-4.0F, -2.5F, -1.5F));
+                    .uv(12, 24)
+                    .cuboid(-2.0F, -1.5F, -1.5F, 2, 12, 3),
+                ModelTransform.pivot(-4.0F, -2.5F, 0.0F));
 
         ModelPartData dNeck = dUpperTorso.addChild("neck",
                 ModelPartBuilder.create(),
@@ -100,17 +123,45 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
     @Override
     public void setAngles(JumpingZombieEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        this.rightLeg.pitch = MathHelper.sin(limbAngle / 3.0F) * limbDistance;
-        this.leftLeg.pitch = -MathHelper.sin(limbAngle / 3.0F) * limbDistance;
-        this.leftArm.pitch = -20.0F * MathHelper.RADIANS_PER_DEGREE + this.rightLeg.pitch;
-        this.rightArm.pitch = -20.0F * MathHelper.RADIANS_PER_DEGREE + this.leftLeg.pitch;
-        this.lowerTorso.pitch = (10.0F + MathHelper.sin(limbAngle / 1.5F) * limbDistance * 10.0F) * MathHelper.RADIANS_PER_DEGREE;
-        this.upperTorso.pitch = (10.0F + MathHelper.sin(animationProgress / 6.0F) * 5.0F) * MathHelper.RADIANS_PER_DEGREE;
-        this.upperTorso.pitch += MathHelper.sin((limbAngle - MathHelper.PI / 4.0F) / 1.5F) * limbDistance * 10.0 * MathHelper.RADIANS_PER_DEGREE;
-        this.upperTorso.roll = (MathHelper.sin((limbAngle + MathHelper.PI) / 3.0F) * limbDistance * 10.0F) * MathHelper.RADIANS_PER_DEGREE;
-        this.neck.pitch = -15.0F * MathHelper.RADIANS_PER_DEGREE;
-        this.head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
-        this.head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
+
+        // Head rotation
+
+        neck.pitch = -20.0F * MathHelper.RADIANS_PER_DEGREE;
+        head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
+        head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
+
+        // Walking animation
+
+        AnimationHelper.bipedZombieWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
+
+        // Jumping animation
+
+        float timestamp = entity.animationTimestamp;
+        String animationState = entity.getAttackState();
+
+        if (!animationState.equals(entity.lastAnimation)) {
+            entity.animationTimestamp = animationProgress;
+        }
+
+        float targetAdditionalRotation = 0.0F;
+        float startAdditionalRotation = -MathHelper.PI * 1.5F;
+        if (animationState.equals("jump")) {
+            startAdditionalRotation = 0.0F;
+            targetAdditionalRotation = -MathHelper.PI * 1.5F;
+        }
+
+        float animationTime = animationProgress - timestamp;
+        entity.additionalRotation = MathHelper.clampedLerp(
+                startAdditionalRotation,
+                targetAdditionalRotation,
+                animationTime / 10.0F);
+
+        this.leftArm.pitch += entity.additionalRotation;
+        this.rightArm.pitch += entity.additionalRotation;
+        this.lowerTorso.pitch = 0.0F + entity.additionalRotation * 0.2F;
+        this.upperTorso.pitch += entity.additionalRotation * 0.2F;
+
+        entity.lastAnimation = animationState;
     }
 
     @Override

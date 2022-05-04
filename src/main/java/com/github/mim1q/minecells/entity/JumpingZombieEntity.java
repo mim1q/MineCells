@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.JumpAttackGoal;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -17,6 +19,10 @@ import net.minecraft.world.World;
 
 
 public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackEntity {
+
+    // Animation Data
+    @Environment(EnvType.CLIENT)
+    public float additionalRotation = 0.0F;
 
     public JumpingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
@@ -42,7 +48,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackE
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(0, new JumpingZombieJumpAttackGoal(this));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));
     }
 
     @Override
@@ -64,7 +70,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackE
     }
 
     public int getJumpAttackMaxCooldown() {
-        return 80 + this.getRandom().nextInt(80);
+        return 20 + this.getRandom().nextInt(40);
     }
 
     //endregion
@@ -95,12 +101,12 @@ public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackE
     static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
 
         public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
-            super(entity, 10, 30);
+            super(entity, 10, 15);
         }
 
         @Override
         public boolean canStart() {
-            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.2f;
+            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.03f;
             if (!canJump)
                 return false;
             double d = this.entity.distanceTo(this.entity.getTarget());
