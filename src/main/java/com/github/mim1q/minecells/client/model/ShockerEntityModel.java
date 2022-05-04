@@ -11,9 +11,6 @@ public class ShockerEntityModel extends EntityModel<ShockerEntity> {
 
     private final ModelPart root;
     private final ModelPart base;
-    private final ModelPart baseRing;
-    private final ModelPart baseTop;
-    private final ModelPart eyeRim;
     private final ModelPart eye;
     private final ModelPart rightFloater;
     private final ModelPart leftFloater;
@@ -22,10 +19,8 @@ public class ShockerEntityModel extends EntityModel<ShockerEntity> {
     public ShockerEntityModel(ModelPart root) {
         this.root = root.getChild("root");
         this.base = this.root.getChild("base");
-        this.baseRing = this.base.getChild("base_ring");
-        this.baseTop = this.base.getChild("base_top");
-        this.eyeRim = this.base.getChild("eye_rim");
-        this.eye = this.eyeRim.getChild("eye");
+        ModelPart eyeRim = this.base.getChild("eye_rim");
+        this.eye = eyeRim.getChild("eye");
         this.rightFloater = this.root.getChild("right_floater");
         this.leftFloater = this.root.getChild("left_floater");
         this.bottomFloater = this.root.getChild("bottom_floater");

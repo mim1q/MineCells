@@ -11,7 +11,6 @@ import net.minecraft.util.math.MathHelper;
 public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
     private final ModelPart root;
-    private final ModelPart waist;
     private final ModelPart leftLeg;
     private final ModelPart rightLeg;
     private final ModelPart lowerTorso;
@@ -23,10 +22,10 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
     public JumpingZombieEntityModel(ModelPart root) {
         this.root = root.getChild("root");
-        this.waist = this.root.getChild("waist");
-        this.leftLeg = this.waist.getChild("left_leg");
-        this.rightLeg = this.waist.getChild("right_leg");
-        this.lowerTorso = this.waist.getChild("lower_torso");
+        ModelPart waist = this.root.getChild("waist");
+        this.leftLeg = waist.getChild("left_leg");
+        this.rightLeg = waist.getChild("right_leg");
+        this.lowerTorso = waist.getChild("lower_torso");
         this.upperTorso = this.lowerTorso.getChild("upper_torso");
         this.leftArm = this.upperTorso.getChild("left_arm");
         this.rightArm = this.upperTorso.getChild("right_arm");
