@@ -22,7 +22,7 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
     private final ModelPart neck;
     private final ModelPart head;
     private final ModelPart[] balls = new ModelPart[5];
-    private static final float[] ballOffsets = { -5.0F, -3.0F, -3.0F, 1.0F, 1.0F };
+    private static final float[] ballOffsets = { -5.0F, -3.0F, -3.0F, 2.0F, 2.0F };
 
     public GrenadierEntityModel(ModelPart root) {
         this.root = root.getChild("root");
@@ -114,7 +114,7 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
                 .cuboid(-4.0F, -4.0F, -4.0F, 8, 8, 8),
             ModelTransform.of(
                 0.5F, -5.0F, 7.5F,
-                0.0F, 0.0F, 0.0F
+                -10.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F
             ));
 
         dUpperTorso.addChild("ball_1",
@@ -123,7 +123,7 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
                 .cuboid(-3.0F, -3.0F, -3.0F, 6, 6, 6),
             ModelTransform.of(
                 5.0F, -3.0F, 6.0F,
-                0.0F, 0.0F, 0.0F
+                10.0F * RADIANS_PER_DEGREE, 25.0F * RADIANS_PER_DEGREE, 0.0F
             ));
 
         dUpperTorso.addChild("ball_2",
@@ -132,7 +132,7 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
                 .cuboid(-3.0F, -3.0F, -3.0F, 6, 6, 6),
             ModelTransform.of(
                 -5.0F, -3.0F, 6.0F,
-                0.0F, 0.0F, 0.0F
+                10.0F * RADIANS_PER_DEGREE, -25.0F * RADIANS_PER_DEGREE, 0.0F
             ));
 
         dUpperTorso.addChild("ball_3",
@@ -140,8 +140,8 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
                 .uv(26, 10)
                 .cuboid(-3.0F, -3.0F, -3.0F, 6, 6, 6),
             ModelTransform.of(
-                3.5F, 2.0F, 7.0F,
-                0.0F, 0.0F, 0.0F
+                3.5F, 2.0F, 3.5F,
+                -60.0F * RADIANS_PER_DEGREE, 10.0F * RADIANS_PER_DEGREE, -15.0F * RADIANS_PER_DEGREE
             ));
 
         dUpperTorso.addChild("ball_4",
@@ -149,10 +149,9 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
                 .uv(26, 10)
                 .cuboid(-3.0F, -3.0F, -3.0F, 6, 6, 6),
             ModelTransform.of(
-                -3.5F, 2.0F, 7.0F,
-                0.0F, 0.0F, 0.0F
+                -3.5F, 2.0F, 3.5F,
+                -45.0F * RADIANS_PER_DEGREE, -20.0F * RADIANS_PER_DEGREE, 15.0F * RADIANS_PER_DEGREE
             ));
-
 
         return TexturedModelData.of(modelData, 64, 64);
     }
@@ -164,21 +163,19 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
         AnimationHelper.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
 
         this.neck.pitch = -30.0F * RADIANS_PER_DEGREE;
-        this.upperTorso.roll *= 20.0F;
 
         this.upperTorso.pitch += 20.0F * RADIANS_PER_DEGREE;
         this.lowerTorso.pitch += 10.0F * RADIANS_PER_DEGREE;
 
-        this.leftArm.pitch *= 1.5F;
         this.leftArm.pitch -= 30.0F * RADIANS_PER_DEGREE;
-        this.rightArm.pitch *= 1.5F;
         this.rightArm.pitch -= 30.0F * RADIANS_PER_DEGREE;
 
         // Balls ;)
 
         for (int i = 0; i < 5; i++) {
-            balls[i].pivotY = ballOffsets[i] + MathHelper.sin(animationProgress * 0.25F + i * 0.25F) * 2.0F;
+            balls[i].pivotY = ballOffsets[i] + MathHelper.sin(animationProgress * 0.25F + i * 0.2F) * 1.75F;
         }
+        balls[3].pivotZ = balls[4].pivotZ = 3.5F;
     }
 
     @Override

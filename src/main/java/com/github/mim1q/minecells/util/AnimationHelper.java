@@ -14,7 +14,6 @@ public class AnimationHelper {
 
         root.pivotY = 24.0F - MathHelper.abs(MathHelper.sin((limbAngle + MathHelper.PI) * 0.5F)) * limbDistance;
 
-        upperTorso.roll = MathHelper.sin((limbAngle + MathHelper.PI) * 0.5F) * limbDistance * MathHelper.RADIANS_PER_DEGREE;
         upperTorso.pitch = MathHelper.sin(limbAngle + MathHelper.PI) * limbDistance * MathHelper.RADIANS_PER_DEGREE;
         lowerTorso.pitch = upperTorso.pitch;
     }
