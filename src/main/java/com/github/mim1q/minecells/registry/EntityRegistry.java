@@ -48,7 +48,7 @@ public final class EntityRegistry {
             Registry.ENTITY_TYPE,
             new Identifier(MineCells.MOD_ID, "disgusting_worm"),
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DisgustingWormEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.75F, 2.0F))
+                    .dimensions(EntityDimensions.fixed(0.9F, 0.6F))
                     .build()
     );
 

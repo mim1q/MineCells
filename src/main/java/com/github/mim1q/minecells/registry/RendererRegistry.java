@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.client.model.DisgustingWormEntityModel;
+import com.github.mim1q.minecells.client.model.InquisitorEntityModel;
 import com.github.mim1q.minecells.client.model.JumpingZombieEntityModel;
 import com.github.mim1q.minecells.client.model.ShockerEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.BigGrenadeEntityModel;
@@ -19,6 +21,8 @@ import net.minecraft.util.Identifier;
 public class RendererRegistry {
     public static final EntityModelLayer JUMPING_ZOMBIE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "jumping_zombie_layer"), "jumping_zombie_layer");
     public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "shocker_layer"), "shocker_layer");
+    public static final EntityModelLayer DISGUSTING_WORM_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm"), "disgusting_worm");
+    public static final EntityModelLayer INQUISITOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "inquisitor_layer"), "inquisitor_layer");
 
     public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade_render_layer"), "grenade_render_layer");
     public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render_layer"), "big_grenade_render_layer");
@@ -27,6 +31,8 @@ public class RendererRegistry {
     public static void register() {
         EntityModelLayerRegistry.registerModelLayer(JUMPING_ZOMBIE_LAYER, JumpingZombieEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SHOCKER_LAYER, ShockerEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(DISGUSTING_WORM_LAYER, DisgustingWormEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(INQUISITOR_LAYER, InquisitorEntityModel::getTexturedModelData);
 
         EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);

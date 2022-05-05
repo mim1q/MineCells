@@ -3,25 +3,27 @@ package com.github.mim1q.minecells.client.renderer;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.model.InquisitorEntityModel;
 import com.github.mim1q.minecells.entity.InquisitorEntity;
+import com.github.mim1q.minecells.registry.RendererRegistry;
 import com.github.mim1q.minecells.util.MineCellsMathHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-public class InquisitorEntityRenderer extends GeoEntityRenderer<InquisitorEntity> {
+public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity, InquisitorEntityModel> {
 
     public static final Identifier ORB_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/particle/magic_orb.png");
+    public static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/inquisitor.png");
     public static RenderLayer ORB_LAYER = RenderLayer.getEntityShadow(ORB_TEXTURE);
 
     float newOffset = 0.0F;
     float currentOffset = 0.0F;
 
-    public InquisitorEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new InquisitorEntityModel());
-        this.shadowRadius = 0.35F;
+    public InquisitorEntityRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx, new InquisitorEntityModel(ctx.getPart(RendererRegistry.INQUISITOR_LAYER)), 0.35F);
     }
 
     @Override
@@ -33,6 +35,11 @@ public class InquisitorEntityRenderer extends GeoEntityRenderer<InquisitorEntity
         renderOrb(entity.headYaw, entity.age, new Vec3f(-0.25F, 2.1F, 0.0F), stack, bufferIn);
         renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.5F, 0.8F + currentOffset, 0.5F + currentOffset), stack, bufferIn);
         renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.5F, 0.8F + currentOffset, -0.5F - currentOffset), stack, bufferIn);
+    }
+
+    @Override
+    public Identifier getTexture(InquisitorEntity entity) {
+        return TEXTURE;
     }
 
     public void renderOrb(float yaw, int age, Vec3f offset, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider) {

@@ -22,35 +22,12 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class DisgustingWormEntity extends MineCellsEntity implements IAnimatable {
+public class DisgustingWormEntity extends MineCellsEntity {
 
-    private final AnimationFactory factory = new AnimationFactory(this);
     private int soundCountdown = 0;
 
     public DisgustingWormEntity(EntityType<DisgustingWormEntity> entityType, World world) {
         super(entityType, world);
-    }
-
-    @Override
-    public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "movementController", 0, this::movementPredicate));
-        animationData.addAnimationController(new AnimationController<>(this, "eggsController", 0, this::eggsPredicate));
-        animationData.setResetSpeedInTicks(10);
-    }
-
-    private PlayState movementPredicate(AnimationEvent<DisgustingWormEntity> event) {
-        boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
-        if (isMoving) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("disgusting_worm.walk"));
-            return PlayState.CONTINUE;
-        }
-
-        return PlayState.STOP;
-    }
-
-    private PlayState eggsPredicate(AnimationEvent<DisgustingWormEntity> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("disgusting_worm.eggs"));
-        return PlayState.CONTINUE;
     }
 
     @Override
@@ -104,10 +81,5 @@ public class DisgustingWormEntity extends MineCellsEntity implements IAnimatable
     @Override
     protected SoundEvent getDeathSound() {
         return SoundRegistry.DISGUSTING_WORM_DEATH;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
     }
 }

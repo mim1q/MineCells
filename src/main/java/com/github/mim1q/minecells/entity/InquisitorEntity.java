@@ -33,35 +33,13 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
 
-public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IShootEntity, IAnimationTickable {
-
-    private final AnimationFactory factory = new AnimationFactory(this);
+public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     public InquisitorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.ignoreCameraFrustum = true;
-    }
-
-    @Override
-    public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "movementController", 8, this::predicate));
-    }
-
-    private PlayState predicate(AnimationEvent<InquisitorEntity> event) {
-        boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
-
-        if (this.getAttackState().equals("shoot")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("inquisitor.shoot"));
-        } else {
-            if (isMoving) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("inquisitor.walk"));
-            } else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("inquisitor.idle"));
-            }
-        }
-        return PlayState.CONTINUE;
     }
 
     @Override
@@ -85,11 +63,6 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
     public void tick() {
         super.tick();
         this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
-    }
-
-    @Override
-    public int tickTimer() {
-        return this.age;
     }
 
     @Override
@@ -123,11 +96,6 @@ public class InquisitorEntity extends MineCellsEntity implements IAnimatable, IS
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 5.0D);
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
     }
 
     public static class InquisitorShootGoal extends ShootGoal<InquisitorEntity> {

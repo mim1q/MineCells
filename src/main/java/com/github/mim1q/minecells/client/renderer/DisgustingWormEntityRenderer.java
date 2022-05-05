@@ -1,15 +1,26 @@
 package com.github.mim1q.minecells.client.renderer;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.model.DisgustingWormEntityModel;
-import com.github.mim1q.minecells.client.renderer.layer.DisgustingWormGlowLayer;
+import com.github.mim1q.minecells.client.renderer.feature.GlowFeatureRenderer;
 import com.github.mim1q.minecells.entity.DisgustingWormEntity;
+import com.github.mim1q.minecells.registry.RendererRegistry;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
+import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.util.Identifier;
 
-public class DisgustingWormEntityRenderer extends GeoEntityRenderer<DisgustingWormEntity> {
-    public DisgustingWormEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new DisgustingWormEntityModel());
-        this.addLayer(new DisgustingWormGlowLayer(this));
-        this.shadowRadius = 0.45f;
+public class DisgustingWormEntityRenderer extends MobEntityRenderer<DisgustingWormEntity, DisgustingWormEntityModel> {
+
+    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/disgusting_worm/disgusting_worm.png");
+    private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/disgusting_worm/disgusting_worm_glow.png");
+
+    public DisgustingWormEntityRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx, new DisgustingWormEntityModel(ctx.getPart(RendererRegistry.DISGUSTING_WORM_LAYER)), 0.75F);
+        this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
+    }
+
+    @Override
+    public Identifier getTexture(DisgustingWormEntity entity) {
+        return TEXTURE;
     }
 }
