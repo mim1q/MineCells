@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.JumpAttackGoal;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -13,20 +15,14 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 
-public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable, IJumpAttackEntity {
+public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackEntity {
 
-    AnimationFactory factory = new AnimationFactory(this);
+    // Animation Data
+    @Environment(EnvType.CLIENT)
+    public float additionalRotation = 0.0F;
 
     public JumpingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
@@ -52,7 +48,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(0, new JumpingZombieJumpAttackGoal(this));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));
     }
 
     @Override
@@ -63,44 +59,6 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     //endregion
-
-    //region Animations
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "movementController", 5, this::movementPredicate));
-        data.addAnimationController(new AnimationController<>(this, "attackController", 0, this::attackPredicate));
-        data.setResetSpeedInTicks(0);
-    }
-
-    private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
-        boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
-
-        if (this.getAttackState().equals("none") && isMoving)
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.walk"));
-        else
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.idle"));
-
-        return PlayState.CONTINUE;
-    }
-
-    private <E extends IAnimatable> PlayState attackPredicate(AnimationEvent<E> event) {
-        if (this.getAttackState().equals("jump")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("jumping_zombie.jump"));
-        } else {
-            event.getController().markNeedsReload();
-        }
-
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
-    }
-
-    //endregion
-
     //region IJumpAttackEntity Implementation
 
     public void setJumpAttackCooldown(int ticks) {
@@ -112,17 +70,12 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     }
 
     public int getJumpAttackMaxCooldown() {
-        return 80 + this.getRandom().nextInt(80);
+        return 20 + this.getRandom().nextInt(40);
     }
 
     //endregion
 
     //region Sounds
-
-    @Override
-    public SoundEvent getDeathSound() {
-        return SoundRegistry.JUMPING_ZOMBIE_DEATH;
-    }
 
     @Override
     public SoundEvent getJumpAttackChargeSoundEvent() {
@@ -148,12 +101,12 @@ public class JumpingZombieEntity extends MineCellsEntity implements IAnimatable,
     static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
 
         public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
-            super(entity, 10, 30);
+            super(entity, 10, 15);
         }
 
         @Override
         public boolean canStart() {
-            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.2f;
+            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.03f;
             if (!canJump)
                 return false;
             double d = this.entity.distanceTo(this.entity.getTarget());

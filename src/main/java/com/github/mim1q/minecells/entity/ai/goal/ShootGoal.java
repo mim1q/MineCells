@@ -1,17 +1,11 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
-import java.util.UUID;
 
 public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
 
@@ -64,10 +58,11 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
         if (this.target != null) {
             this.entity.getLookControl().lookAt(target);
             if (this.ticks == this.actionTick) {
-                if (!this.entity.world.isClient() && this.entity.getShootReleaseSoundEvent() != null) {
-                    this.entity.playSound(this.entity.getShootReleaseSoundEvent(), 0.5f, 1.0f);
-                }
+                this.entity.resetAttackState();
                 if (!this.entity.world.isClient()) {
+                    if (this.entity.getShootReleaseSoundEvent() != null) {
+                        this.entity.playSound(this.entity.getShootReleaseSoundEvent(), 0.5f, 1.0f);
+                    }
                     this.shoot(this.target);
                 }
             }

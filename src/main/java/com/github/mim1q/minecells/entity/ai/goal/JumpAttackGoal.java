@@ -59,8 +59,8 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     @Override
     public void stop() {
-        this.entity.resetAttackState();
         this.entity.setJumpAttackCooldown(this.entity.getJumpAttackMaxCooldown());
+        this.entity.resetAttackState();
     }
 
     @Override
@@ -87,6 +87,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         if (!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
             this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0f);
         }
+        this.entity.resetAttackState();
     }
 
     public void attack() {
