@@ -125,9 +125,9 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
         // Head rotation
 
-        neck.pitch = -20.0F * MathHelper.RADIANS_PER_DEGREE;
-        head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
-        head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
+        this.neck.pitch = -20.0F * MathHelper.RADIANS_PER_DEGREE;
+        this.head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
+        this.head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
 
         // Walking animation
 
@@ -157,7 +157,7 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
         this.leftArm.pitch += entity.additionalRotation;
         this.rightArm.pitch += entity.additionalRotation;
-        this.lowerTorso.pitch = 0.0F + entity.additionalRotation * 0.2F;
+        this.lowerTorso.pitch = entity.additionalRotation * 0.2F;
         this.upperTorso.pitch += entity.additionalRotation * 0.2F;
 
         entity.lastAnimation = animationState;
