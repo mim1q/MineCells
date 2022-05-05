@@ -8,6 +8,8 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
+import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
+
 public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
     private final ModelPart root;
@@ -123,15 +125,19 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
     @Override
     public void setAngles(JumpingZombieEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
-        // Head rotation
+        AnimationHelper.rotateHead(headYaw, headPitch, this.head);
+        AnimationHelper.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
 
-        this.neck.pitch = -20.0F * MathHelper.RADIANS_PER_DEGREE;
-        this.head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
-        this.head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
+        this.upperTorso.pitch *= 10.0F;
+        this.lowerTorso.pitch *= 5.0F;
 
-        // Walking animation
+        this.lowerTorso.pitch += 10.0F * RADIANS_PER_DEGREE;
+        this.upperTorso.pitch += 10.0F * RADIANS_PER_DEGREE;
 
-        AnimationHelper.bipedZombieWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
+        this.leftArm.pitch -= 20.0F * RADIANS_PER_DEGREE;
+        this.rightArm.pitch -= 20.0F * RADIANS_PER_DEGREE;
+
+        this.neck.pitch = -20.0F * RADIANS_PER_DEGREE;
 
         // Jumping animation
 
@@ -157,7 +163,7 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
         this.leftArm.pitch += entity.additionalRotation;
         this.rightArm.pitch += entity.additionalRotation;
-        this.lowerTorso.pitch = entity.additionalRotation * 0.2F;
+        this.lowerTorso.pitch += entity.additionalRotation * 0.2F;
         this.upperTorso.pitch += entity.additionalRotation * 0.2F;
 
         entity.lastAnimation = animationState;

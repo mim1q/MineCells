@@ -5,6 +5,8 @@ import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.projectile.MagicOrbEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -34,6 +36,13 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import java.util.EnumSet;
 
 public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
+
+    // Animation data
+
+    @Environment(EnvType.CLIENT)
+    public float offset = 0.0F;
+    @Environment(EnvType.CLIENT)
+    public float targetOffset = 0.0F;
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 

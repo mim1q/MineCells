@@ -67,7 +67,7 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
             ModelPartBuilder.create()
                 .uv(34,50)
                 .cuboid(-2.0F, -0.0F, 0.0F, 4, 12, 0),
-            ModelTransform.pivot(0.0F, 0.0F, -2.01F));
+            ModelTransform.pivot(0.0F, 0.0F, -2.05F));
 
         ModelPartData dUpperTorso = dWaist.addChild("upper_torso",
             ModelPartBuilder.create()
@@ -119,19 +119,13 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
     @Override
     public void setAngles(InquisitorEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
-        // Head rotation
+        AnimationHelper.rotateHead(headYaw, headPitch, this.head);
+        AnimationHelper.bipedWalk(limbAngle * 2.0F, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.upperTorso, this.waist);
 
-        this.head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
-        this.head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
-
-        // Walking animation
-
-        AnimationHelper.bipedZombieWalk(limbAngle * 2.0F, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.upperTorso, this.waist);
-        this.rightArm.roll = 15.0F * MathHelper.RADIANS_PER_DEGREE;
-        this.leftArm.roll = -15.0F * MathHelper.RADIANS_PER_DEGREE;
-        this.rightLeg.pivotY = 0.0F;
-        this.leftLeg.pivotY = 0.0F;
-        this.waist.pitch = 0.0F;
+        this.rightArm.roll = 30.0F * MathHelper.RADIANS_PER_DEGREE;
+        this.leftArm.roll = -30.0F * MathHelper.RADIANS_PER_DEGREE;
+        this.leftArm.pitch += -30.0F * MathHelper.RADIANS_PER_DEGREE;
+        this.rightArm.pitch += -30.0F * MathHelper.RADIANS_PER_DEGREE;
 
         this.belt.pitch = -Math.abs(MathHelper.sin(limbAngle) * limbDistance) * 1.5F;
 

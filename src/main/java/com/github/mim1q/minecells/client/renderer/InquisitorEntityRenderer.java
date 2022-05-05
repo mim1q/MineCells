@@ -9,7 +9,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 
@@ -19,9 +18,6 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
     public static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/inquisitor.png");
     public static RenderLayer ORB_LAYER = RenderLayer.getEntityShadow(ORB_TEXTURE);
 
-    float newOffset = 0.0F;
-    float currentOffset = 0.0F;
-
     public InquisitorEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new InquisitorEntityModel(ctx.getPart(RendererRegistry.INQUISITOR_LAYER)), 0.35F);
     }
@@ -30,11 +26,11 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
     public void render(InquisitorEntity entity, float entityYaw, float partialTicks, MatrixStack stack, VertexConsumerProvider bufferIn, int packedLightIn) {
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
 
-        newOffset = entity.getAttackState().equals("none") ? 0.0F : 0.3F;
-        currentOffset = MathHelper.lerp(0.01F, currentOffset, newOffset);
-        renderOrb(entity.headYaw, entity.age, new Vec3f(-0.25F, 2.1F, 0.0F), stack, bufferIn);
-        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.5F, 0.8F + currentOffset, 0.5F + currentOffset), stack, bufferIn);
-        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.5F, 0.8F + currentOffset, -0.5F - currentOffset), stack, bufferIn);
+        entity.targetOffset = entity.getAttackState().equals("none") ? 0.0F : 0.3F;
+        entity.offset = MathHelper.lerp(0.01F, entity.offset, entity.targetOffset);
+        renderOrb(entity.headYaw, entity.age, new Vec3f(-0.25F, 2.25F, 0.0F), stack, bufferIn);
+        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, 0.4F + entity.offset), stack, bufferIn);
+        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, -0.4F - entity.offset), stack, bufferIn);
     }
 
     @Override
