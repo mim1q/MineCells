@@ -1,10 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.client.model.DisgustingWormEntityModel;
-import com.github.mim1q.minecells.client.model.InquisitorEntityModel;
-import com.github.mim1q.minecells.client.model.JumpingZombieEntityModel;
-import com.github.mim1q.minecells.client.model.ShockerEntityModel;
+import com.github.mim1q.minecells.client.model.*;
 import com.github.mim1q.minecells.client.model.projectile.BigGrenadeEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.GrenadeEntityModel;
@@ -21,6 +18,7 @@ import net.minecraft.util.Identifier;
 public class RendererRegistry {
     public static final EntityModelLayer JUMPING_ZOMBIE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "jumping_zombie_layer"), "jumping_zombie_layer");
     public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "shocker_layer"), "shocker_layer");
+    public static final EntityModelLayer GRENADIER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenadier_layer"), "grenadier_layer");
     public static final EntityModelLayer DISGUSTING_WORM_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm"), "disgusting_worm");
     public static final EntityModelLayer INQUISITOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "inquisitor_layer"), "inquisitor_layer");
 
@@ -31,6 +29,7 @@ public class RendererRegistry {
     public static void register() {
         EntityModelLayerRegistry.registerModelLayer(JUMPING_ZOMBIE_LAYER, JumpingZombieEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SHOCKER_LAYER, ShockerEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(GRENADIER_LAYER, GrenadierEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(DISGUSTING_WORM_LAYER, DisgustingWormEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(INQUISITOR_LAYER, InquisitorEntityModel::getTexturedModelData);
 

@@ -17,52 +17,15 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class GrenadierEntity extends MineCellsEntity implements IAnimatable, IShootEntity {
-
-    private final AnimationFactory factory = new AnimationFactory(this);
+public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     public GrenadierEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
-    }
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "ballsController", 0, this::ballsPredicate));
-        data.addAnimationController(new AnimationController<>(this, "movementPredicate", 5, this::movementPredicate));
-    }
-
-    private PlayState movementPredicate(AnimationEvent<GrenadierEntity> event) {
-        boolean isMoving = MathHelper.abs(event.getLimbSwingAmount()) > 0.05f;
-
-       if (this.getAttackState().equals("none")) {
-            if (isMoving) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("grenadier.walk"));
-            } else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("grenadier.idle"));
-            }
-        } else if (this.getAttackState().equals("shoot")) {
-           event.getController().setAnimation(new AnimationBuilder().addAnimation("grenadier.throw"));
-       }
-
-        return PlayState.CONTINUE;
-    }
-
-    private PlayState ballsPredicate(AnimationEvent<GrenadierEntity> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("grenadier.bombs"));
-        return PlayState.CONTINUE;
     }
 
     @Override
@@ -88,11 +51,6 @@ public class GrenadierEntity extends MineCellsEntity implements IAnimatable, ISh
     public void tick() {
         super.tick();
         this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
     }
 
     public static DefaultAttributeContainer.Builder createGrenadierAttributes() {
