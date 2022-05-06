@@ -6,6 +6,8 @@ import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -21,6 +23,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
+
+    // Animation data
+    @Environment(EnvType.CLIENT)
+    public float additionalRotation = 0.0F;
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -43,7 +49,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
-        this.goalSelector.add(0, new GrenadierShootGoal(this, 18, 30));
+        this.goalSelector.add(0, new GrenadierShootGoal(this, 10, 20));
         this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 7.0D));
     }
 
@@ -108,7 +114,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
             GrenadeEntity grenade = new GrenadeEntity(EntityRegistry.GRENADE, this.entity.world);
             grenade.setPosition(entityPos.add(0.0D, 1.5D, 0.0D));
-            grenade.shoot(delta);
+            grenade.shoot(delta, 0.2D);
 
             this.entity.world.spawnEntity(grenade);
         }

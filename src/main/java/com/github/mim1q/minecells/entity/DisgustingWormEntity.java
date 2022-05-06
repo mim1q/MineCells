@@ -54,7 +54,7 @@ public class DisgustingWormEntity extends MineCellsEntity {
 
             DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(EntityRegistry.DISGUSTING_WORM_EGG, this.world);
             grenade.setPosition(this.getPos());
-            grenade.shoot(velocity);
+            grenade.shoot(velocity, 0.0D);
             grenade.setFuse(15 + i * 5 + this.random.nextInt(5));
 
             this.world.spawnEntity(grenade);

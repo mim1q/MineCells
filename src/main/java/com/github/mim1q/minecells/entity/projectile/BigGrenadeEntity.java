@@ -23,7 +23,7 @@ public class BigGrenadeEntity extends GrenadeEntity {
 
             GrenadeEntity grenade = new GrenadeEntity(EntityRegistry.GRENADE, this.world);
             grenade.setPosition(this.getPos());
-            grenade.shoot(velocity);
+            grenade.shoot(velocity, 0.0D);
 
             this.world.spawnEntity(grenade);
         }

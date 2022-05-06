@@ -22,13 +22,17 @@ public class GrenadeEntity extends ProjectileEntity {
         super(type, world);
     }
 
-    public void shoot(Vec3d v) {
+    public void shoot(Vec3d v, double deviation) {
         this.shouldResetVelocity = true;
-        shootVector = v;
+        Vec3d deviationVec = new Vec3d(
+                (this.random.nextDouble() - 0.5D) * deviation,
+                (this.random.nextDouble() - 0.5D) * deviation,
+                (this.random.nextDouble() - 0.5D) * deviation);
+        shootVector = v.add(deviationVec);
     }
 
     public int getMaxFuse() {
-        return 15 + this.random.nextInt(10);
+        return 10 + this.random.nextInt(5);
     }
 
     @Override
