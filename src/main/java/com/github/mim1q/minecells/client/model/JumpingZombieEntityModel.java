@@ -141,12 +141,12 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
 
         // Jumping animation
 
-        float timestamp = entity.animationTimestamp;
         String animationState = entity.getAttackState();
 
         if (!animationState.equals(entity.lastAnimation)) {
             entity.animationTimestamp = animationProgress;
         }
+        float timestamp = entity.animationTimestamp;
 
         float targetAdditionalRotation = 0.0F;
         float startAdditionalRotation = -MathHelper.PI * 1.5F;

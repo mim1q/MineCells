@@ -175,7 +175,37 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
         for (int i = 0; i < 5; i++) {
             balls[i].pivotY = ballOffsets[i] + MathHelper.sin(animationProgress * 0.25F + i * 0.2F) * 1.75F;
         }
-        balls[3].pivotZ = balls[4].pivotZ = 3.5F;
+
+        // Throwing animation
+
+        String animationState = entity.getAttackState();
+
+        if (!animationState.equals(entity.lastAnimation)) {
+            entity.animationTimestamp = animationProgress;
+        }
+        float timestamp = entity.animationTimestamp;
+
+        float targetAdditionalRotation = 0.0F;
+        float startAdditionalRotation = -MathHelper.PI * 1.25F;
+        if (animationState.equals("shoot")) {
+            startAdditionalRotation = 0.0F;
+            targetAdditionalRotation = -MathHelper.PI * 1.25F;
+        }
+
+        float animationTime = animationProgress - timestamp;
+        entity.additionalRotation = MathHelper.clampedLerp(
+                startAdditionalRotation,
+                targetAdditionalRotation,
+                animationTime * 0.15F
+                );
+
+        this.leftArm.pitch += entity.additionalRotation;
+        this.rightArm.pitch += entity.additionalRotation;
+        this.lowerTorso.pitch += entity.additionalRotation * 0.1F;
+        this.upperTorso.pitch += entity.additionalRotation * 0.1F;
+
+        entity.lastAnimation = animationState;
+
     }
 
     @Override
