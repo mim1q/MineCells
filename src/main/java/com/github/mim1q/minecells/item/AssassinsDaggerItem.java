@@ -17,6 +17,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -25,7 +27,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+// TODO: Extract some functionality to parent class
 
 public class AssassinsDaggerItem extends ToolItem {
     public AssassinsDaggerItem(Settings settings) {
@@ -59,15 +65,21 @@ public class AssassinsDaggerItem extends ToolItem {
     }
 
     public float getDamage() {
-        return 2.0F;
+        return 5.5F;
     }
 
     public float getCritDamage() {
-        return 4.0F;
+        return 7.5F;
     }
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(new TranslatableText("item.minecells.assassins_dagger.tooltip").formatted(Formatting.GRAY));
+        tooltip.add(new LiteralText(""));
+        tooltip.add(new TranslatableText("item.modifiers.mainhand").formatted(Formatting.GRAY));
+        MutableText damageTooltip = new LiteralText(" " + this.getDamage()).formatted(Formatting.DARK_GREEN);
+        damageTooltip.append(new LiteralText(" (" + this.getCritDamage() + ") ").formatted(Formatting.DARK_RED));
+        damageTooltip.append(new TranslatableText("attribute.name.generic.attack_damage").formatted(Formatting.DARK_GREEN));
+        tooltip.add(damageTooltip);
     }
 }
