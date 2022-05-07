@@ -29,8 +29,7 @@ public class AssassinsDaggerItem extends AbstractCritWeaponItem {
     @Override
     public boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         float difference = MathHelper.angleBetween(target.bodyYaw, attacker.getHeadYaw());
-        if (difference < 60.0F) System.out.println("AMOGUSSY");
-        return (difference < 60.0F);
+        return difference < 60.0F;
     }
 
     @Override
