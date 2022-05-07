@@ -4,8 +4,6 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
@@ -21,11 +19,13 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     protected int ticks = 0;
     protected final int actionTick;
     protected final int lengthTicks;
+    protected final float chance;
     List<UUID> alreadyAttacked;
 
-    public JumpAttackGoal(E entity, int actionTick, int lengthTicks) {
+    public JumpAttackGoal(E entity, int actionTick, int lengthTicks, float chance) {
         this.actionTick = actionTick;
         this.lengthTicks = lengthTicks;
+        this.chance = chance;
         this.setControls(EnumSet.of(Control.MOVE));
         this.entity = entity;
         this.alreadyAttacked = new ArrayList<>();
@@ -37,7 +37,10 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         if (target == null)
             return false;
 
-        return this.entity.getY() >= this.entity.getTarget().getY() && this.entity.canSee(target) && this.entity.getJumpAttackCooldown() == 0;
+        return this.entity.getJumpAttackCooldown() == 0
+            && this.entity.canSee(target)
+            && this.entity.getY() >= this.entity.getTarget().getY()
+            && this.entity.getRandom().nextFloat() < this.chance;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         this.alreadyAttacked.clear();
 
         if (!this.entity.world.isClient() && this.entity.getJumpAttackChargeSoundEvent() != null) {
-            this.entity.playSound(this.entity.getJumpAttackChargeSoundEvent(),0.5f,1.0f);
+            this.entity.playSound(this.entity.getJumpAttackChargeSoundEvent(),0.5F,1.0F);
         }
     }
 
@@ -68,7 +71,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         if (this.target != null) {
 
             if (this.ticks < this.actionTick) {
-                this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0d);
+                this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0D);
             }
             else if (this.ticks == this.actionTick) {
                 this.jump();
@@ -82,18 +85,21 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     }
 
     public void jump() {
-        Vec3d diff = this.entity.getPos().add(this.target.getPos().multiply(-1.0d));
-        this.entity.setVelocity(diff.multiply(-0.2d, 0.05d, -0.2d).add(0.0d, 0.5d, 0.0d));
+        Vec3d diff = this.target.getPos().add(this.entity.getPos().multiply(-1.0D));
+        this.entity.setVelocity(diff.multiply(0.25D, 0.05D, 0.25D).add(0.0D, 0.25D, 0.0D));
         if (!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
-            this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0f);
+            this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0F);
         }
         this.entity.resetAttackState();
     }
 
     public void attack() {
-        List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.5d), (e) -> !this.alreadyAttacked.contains(e.getUuid()));
+        List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.5D), e -> !this.alreadyAttacked.contains(e.getUuid()));
         for (PlayerEntity player : players) {
-            player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5F);
+            this.entity.tryAttack(this.target);
+//            if (!player.isBlocking()) {
+//                player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5F);
+//            }
             this.alreadyAttacked.add(player.getUuid());
         }
     }

@@ -10,7 +10,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -50,7 +53,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
         this.goalSelector.add(0, new GrenadierShootGoal(this, 10, 20));
-        this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 7.0D));
+        this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 5.0D));
     }
 
     @Override
@@ -61,17 +64,15 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
     public static DefaultAttributeContainer.Builder createGrenadierAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D)
-                .add(EntityAttributes.GENERIC_ARMOR, 3.0D);
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
+            .add(EntityAttributes.GENERIC_ARMOR, 6.0D);
     }
 
     @Override
     public int getShootMaxCooldown() {
-        return 60;
+        return 20 + this.random.nextInt(40);
     }
 
     @Override
@@ -102,19 +103,19 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
     public static class GrenadierShootGoal extends ShootGoal<GrenadierEntity> {
 
         public GrenadierShootGoal(GrenadierEntity entity, int actionTick, int lengthTicks) {
-            super(entity, actionTick, lengthTicks);
+            super(entity, actionTick, lengthTicks, 0.3F);
         }
 
         @Override
         public void shoot(LivingEntity target) {
-            Vec3d targetPos = target.getPos();
+            Vec3d targetPos = target.getPos().add(this.entity.random.nextDouble() * 2.0D - 1.0D, 0.0D, this.entity.random.nextDouble() * 2.0D - 1.0D);
             Vec3d entityPos = this.entity.getPos();
 
             Vec3d delta = targetPos.subtract(entityPos).multiply(0.035D).add(0.0D, 0.5D, 0.0D);
 
             GrenadeEntity grenade = new GrenadeEntity(EntityRegistry.GRENADE, this.entity.world);
             grenade.setPosition(entityPos.add(0.0D, 1.5D, 0.0D));
-            grenade.shoot(delta, 0.2D);
+            grenade.shoot(delta);
 
             this.entity.world.spawnEntity(grenade);
         }

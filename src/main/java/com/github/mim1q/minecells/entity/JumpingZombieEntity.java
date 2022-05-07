@@ -42,8 +42,8 @@ public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackE
     @Override
     public void initGoals() {
         this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(2, new WanderAroundGoal(this, 1.0d));
-        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0d));
+        this.goalSelector.add(2, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0D));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
@@ -70,7 +70,7 @@ public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackE
     }
 
     public int getJumpAttackMaxCooldown() {
-        return 20 + this.getRandom().nextInt(40);
+        return 20 + this.getRandom().nextInt(20);
     }
 
     //endregion
@@ -91,26 +91,27 @@ public class JumpingZombieEntity extends MineCellsEntity implements IJumpAttackE
 
     public static DefaultAttributeContainer.Builder createJumpingZombieAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
+            .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
     }
 
     static class JumpingZombieJumpAttackGoal extends JumpAttackGoal<JumpingZombieEntity> {
 
         public JumpingZombieJumpAttackGoal(JumpingZombieEntity entity) {
-            super(entity, 10, 15);
+            super(entity, 15, 20, 0.3F);
         }
 
         @Override
         public boolean canStart() {
-            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.03f;
+            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.1F;
             if (!canJump)
                 return false;
             double d = this.entity.distanceTo(this.entity.getTarget());
-            return d >= 4.0d && d <= 12.0d;
+            return d <= 15.0D;
         }
     }
 }

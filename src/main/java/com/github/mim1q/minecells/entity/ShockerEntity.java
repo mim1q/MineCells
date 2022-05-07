@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -50,7 +51,7 @@ public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity 
     @Override
     public void initGoals() {
         super.initGoals();
-        this.goalSelector.add(1, new AuraAttackGoal<>(this, 10.0d, 20, 50));
+        this.goalSelector.add(1, new AuraAttackGoal<>(this, 10.0d, 15, 60, 1.0F));
     }
 
     //endregion
@@ -75,12 +76,11 @@ public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity 
 
     public static DefaultAttributeContainer.Builder createShockerAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0d)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0d)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0d)
-                .add(EntityAttributes.GENERIC_ARMOR, 10.0d);
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
+                .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
     }
 
     @Override
@@ -90,6 +90,19 @@ public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity 
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
     //endregion
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (source.isFire() || source.isMagic()) {
+            return false;
+        }
+        if (source.isProjectile()) {
+            amount = amount * 0.2F;
+        }
+        return super.damage(source, amount);
+    }
+
+
     //region IAuraAttackEntity Implementation
 
     public float getAuraAttackDamage() {

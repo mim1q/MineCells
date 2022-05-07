@@ -67,7 +67,7 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
     @Override
     public int getShootMaxCooldown() {
-        return 50 + this.random.nextInt(50);
+        return 20 + this.random.nextInt(20);
     }
 
     @Override
@@ -92,16 +92,16 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
     public static DefaultAttributeContainer.Builder createInquisitorAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_ARMOR, 5.0D);
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
+            .add(EntityAttributes.GENERIC_ARMOR, 3.0D);
     }
 
     public static class InquisitorShootGoal extends ShootGoal<InquisitorEntity> {
 
         public InquisitorShootGoal(InquisitorEntity entity, int actionTick, int lengthTicks) {
-            super(entity, actionTick, lengthTicks);
+            super(entity, actionTick, lengthTicks, 0.3F);
             this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         }
 
@@ -124,7 +124,7 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
             Vec3d targetPos = target.getPos().add(0.0D, 1.3D, 0.0D);
             Vec3d entityPos = this.entity.getPos().add(0.0D, 2.25D, 0.0D);
 
-            Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(0.8D);
+            Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(1.25D);
 
             MagicOrbEntity orb = new MagicOrbEntity(EntityRegistry.MAGIC_ORB, this.entity.world);
             orb.setPosition(entityPos);

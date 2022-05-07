@@ -54,7 +54,7 @@ public class DisgustingWormEntity extends MineCellsEntity {
 
             DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(EntityRegistry.DISGUSTING_WORM_EGG, this.world);
             grenade.setPosition(this.getPos());
-            grenade.shoot(velocity, 0.0D);
+            grenade.shoot(velocity);
             grenade.setFuse(15 + i * 5 + this.random.nextInt(5));
 
             this.world.spawnEntity(grenade);
@@ -63,11 +63,11 @@ public class DisgustingWormEntity extends MineCellsEntity {
 
     public static DefaultAttributeContainer.Builder createDisgustingWormAttributes() {
         return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2d)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0d)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0d)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0d);
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.5D);
     }
 
     @Override

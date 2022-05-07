@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.util.ParticleHelper;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,7 +45,7 @@ public class MagicOrbEntity extends ProjectileEntity {
     }
 
     protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
-        return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D), this::canHit);
+        return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()), this::canHit);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class MagicOrbEntity extends ProjectileEntity {
         Entity entity = entityHitResult.getEntity();
 
         if (entity instanceof PlayerEntity) {
-            entity.damage(DamageSource.MAGIC, 5.0F);
+            entity.damage(DamageSource.mob((LivingEntity)this.getOwner()), 5.0F);
             this.discard();
         }
     }

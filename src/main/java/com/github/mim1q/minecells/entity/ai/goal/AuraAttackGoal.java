@@ -12,23 +12,27 @@ import java.util.List;
 public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> extends Goal {
 
     protected E entity;
-    protected double radius;
     protected int ticks = 0;
-    protected int actionTick;
-    protected int lengthTicks;
+    protected final double radius;
+    protected final int actionTick;
+    protected final int lengthTicks;
+    protected final float chance;
 
-    public AuraAttackGoal(E entity, double radius, int actionTick, int lengthTicks) {
+    public AuraAttackGoal(E entity, double radius, int actionTick, int lengthTicks, float chance) {
         this.entity = entity;
         this.radius = radius;
         this.actionTick = actionTick;
         this.lengthTicks = lengthTicks;
+        this.chance = chance;
     }
 
     @Override
     public boolean canStart() {
-        PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 2.0d);
+        PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 1.0D);
         return this.entity.getAuraAttackCooldown() == 0
-                && closestPlayer != null && !(closestPlayer.isCreative() || closestPlayer.isSpectator());
+            && closestPlayer != null
+            && !(closestPlayer.isCreative() || closestPlayer.isSpectator())
+            && this.entity.getRandom().nextFloat() < this.chance;
     }
 
     @Override

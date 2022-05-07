@@ -14,10 +14,12 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
     protected int ticks = 0;
     protected final int actionTick;
     protected final int lengthTicks;
+    protected final float chance;
 
-    public ShootGoal(E entity, int actionTick, int lengthTicks) {
+    public ShootGoal(E entity, int actionTick, int lengthTicks, float chance) {
         this.actionTick = actionTick;
         this.lengthTicks = lengthTicks;
+        this.chance = chance;
         this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         this.entity = entity;
     }
@@ -28,7 +30,9 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
         if (target == null)
             return false;
 
-        return this.entity.canSee(target) && this.entity.getShootCooldown() == 0;
+        return this.entity.getShootCooldown() == 0
+            && this.entity.canSee(target)
+            && this.entity.getRandom().nextFloat() < this.chance;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
 
     @Override
     public boolean shouldContinue() {
-        return (this.ticks < this.lengthTicks && this.target.isAlive());
+        return (this.ticks < this.lengthTicks && this.target.isAlive() && this.target != null);
     }
 
     @Override
