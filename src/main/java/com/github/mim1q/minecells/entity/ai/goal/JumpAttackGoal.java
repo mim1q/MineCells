@@ -86,7 +86,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     public void jump() {
         Vec3d diff = this.target.getPos().add(this.entity.getPos().multiply(-1.0D));
-        this.entity.setVelocity(diff.multiply(0.25D, 0.05D, 0.25D).add(0.0D, 0.25D, 0.0D));
+        this.entity.setVelocity(diff.multiply(0.3D, 0.05D, 0.3D).add(0.0D, 0.3D, 0.0D));
         if (!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
             this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0F);
         }
@@ -97,9 +97,6 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.5D), e -> !this.alreadyAttacked.contains(e.getUuid()));
         for (PlayerEntity player : players) {
             this.entity.tryAttack(this.target);
-//            if (!player.isBlocking()) {
-//                player.damage(DamageSource.mob(this.entity), (float)this.entity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5F);
-//            }
             this.alreadyAttacked.add(player.getUuid());
         }
     }

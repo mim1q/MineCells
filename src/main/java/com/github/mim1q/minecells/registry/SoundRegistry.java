@@ -59,6 +59,9 @@ public final class SoundRegistry {
     public static final Identifier SHOCK_ID = new Identifier(MineCells.MOD_ID, "shock");
     public static final SoundEvent SHOCK = new SoundEvent(SHOCK_ID);
 
+    public static final Identifier EXPLOSION_ID = new Identifier(MineCells.MOD_ID, "explosion");
+    public static final SoundEvent EXPLOSION = new SoundEvent(EXPLOSION_ID);
+
     public static void register() {
 
         // Jumping Zombie
@@ -91,6 +94,7 @@ public final class SoundRegistry {
 
         Registry.register(Registry.SOUND_EVENT, CRIT_ID, CRIT);
         Registry.register(Registry.SOUND_EVENT, SHOCK_ID, SHOCK);
+        Registry.register(Registry.SOUND_EVENT, EXPLOSION_ID, EXPLOSION);
 
     }
 }

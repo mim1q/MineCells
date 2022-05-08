@@ -64,5 +64,11 @@
     "sounds": [
       "minecells:shock"
     ]
+  },
+  "explosion": {
+    "sounds": [
+      "minecells:explosion"
+    ]
   }
+
 }

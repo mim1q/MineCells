@@ -17,15 +17,14 @@ public class ItemGroupRegistry {
                 stacks.add(new ItemStack(EntityRegistry.GRENADIER_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.DISGUSTING_WORM_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.INQUISITOR_SPAWN_EGG));
+                stacks.add(new ItemStack(EntityRegistry.KAMIKAZE_SPAWN_EGG));
             })
             .build();
 
     public static final ItemGroup MINECELLS_WEAPONS = FabricItemGroupBuilder.create(
             new Identifier(MineCells.MOD_ID, "weapons"))
             .icon(() -> new ItemStack(ItemRegistry.ASSASSINS_DAGGER_ITEM))
-            .appendItems(stacks -> {
-                stacks.add(new ItemStack(ItemRegistry.ASSASSINS_DAGGER_ITEM));
-            })
+            .appendItems(stacks -> stacks.add(new ItemStack(ItemRegistry.ASSASSINS_DAGGER_ITEM)))
             .build();
 
     //endregion

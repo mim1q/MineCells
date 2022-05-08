@@ -60,6 +60,14 @@ public final class EntityRegistry {
                     .build()
     );
 
+    public static final EntityType<KamikazeEntity> KAMIKAZE = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MineCells.MOD_ID, "kamikaze"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, KamikazeEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
+                    .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MineCells.MOD_ID, "grenade"),
@@ -97,8 +105,8 @@ public final class EntityRegistry {
 
     public static final Item JUMPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
             JUMPING_ZOMBIE,
-            0x56A25F,
-            0xAEEE4E,
+            0x5B7B53,
+            0x8DBB4E,
             new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
@@ -129,6 +137,14 @@ public final class EntityRegistry {
             0xE52806,
             new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
+
+    public static final Item KAMIKAZE_SPAWN_EGG = new SpawnEggItem(
+            KAMIKAZE,
+            0x0A6F47,
+            0x15FF4E,
+            new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -140,6 +156,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(GRENADIER, GrenadierEntity.createGrenadierAttributes());
         FabricDefaultAttributeRegistry.register(DISGUSTING_WORM, DisgustingWormEntity.createDisgustingWormAttributes());
         FabricDefaultAttributeRegistry.register(INQUISITOR, InquisitorEntity.createInquisitorAttributes());
+        FabricDefaultAttributeRegistry.register(KAMIKAZE, KamikazeEntity.createKamikazeAttributes());
 
         // Register Spawn Eggs
 
@@ -148,5 +165,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "grenadier_spawn_egg"), GRENADIER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "disgusting_worm_spawn_egg"), DISGUSTING_WORM_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "inquisitor_spawn_egg"), INQUISITOR_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "kamikaze_spawn_egg"), KAMIKAZE_SPAWN_EGG);
     }
 }
