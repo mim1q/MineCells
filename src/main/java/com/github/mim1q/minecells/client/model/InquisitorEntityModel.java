@@ -108,7 +108,7 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
                 .uv(28, 20)
                 .cuboid(-3.0F, -6.0F, -3.0F, 6, 6, 6)
                 .uv(0, 0)
-                .cuboid(-9.5F, -19.0F, 3.51F, 19, 20, 0)
+                .cuboid(-9.5F, -19.0F, 3.51F, 19, 20, 0, new Dilation(0.001F))
                 .uv(0, 20)
                 .cuboid(-3.5F, -8.0F, -3.5F, 7, 8, 7),
             ModelTransform.pivot(0.0F, 0.0F, 0.0F));
