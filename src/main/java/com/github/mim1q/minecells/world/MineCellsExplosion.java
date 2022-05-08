@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.world;
 
+import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.PacketHandler;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -47,7 +48,7 @@ public class MineCellsExplosion {
         List<Entity> list = world.getOtherEntities(causingEntity, new Box(k, r, t, l, s, u));
 
         for (Entity entity : list) {
-            if (!entity.isImmuneToExplosion()) {
+            if (!entity.isImmuneToExplosion() && !(entity instanceof MineCellsEntity)) {
                 double w = Math.sqrt(entity.squaredDistanceTo(pos)) / q;
                 if (w <= 1.0D) {
                     double x = entity.getX() - pos.x;

@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.entity.projectile;
 
+import com.github.mim1q.minecells.world.MineCellsExplosion;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -8,9 +10,9 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 
 public class GrenadeEntity extends ProjectileEntity {
     private Vec3d shootVector;
@@ -63,7 +65,8 @@ public class GrenadeEntity extends ProjectileEntity {
     }
 
     public void explode(float power) {
-        this.world.createExplosion(this, new GrenadeDamageSource(), null, this.getX(), this.getY(), this.getZ(), power, false, Explosion.DestructionType.NONE);
+        MineCellsExplosion.explode((ServerWorld)this.world, (LivingEntity)this.getOwner(), this.getPos(), power);
+        //this.world.createExplosion(this, new GrenadeDamageSource(), null, this.getX(), this.getY(), this.getZ(), power, false, Explosion.DestructionType.NONE);
     }
 
     public int getFuse() {
