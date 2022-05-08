@@ -1,19 +1,27 @@
 {
   "itemGroup.minecells.eggs": "MineCells Spawn Eggs",
+
   "item.minecells.shocker_spawn_egg": "Shocker Spawn Egg",
   "item.minecells.jumping_zombie_spawn_egg": "Leaping Zombie Spawn Egg",
   "item.minecells.grenadier_spawn_egg": "Grenadier Spawn Egg",
   "item.minecells.disgusting_worm_spawn_egg": "Disgusting Worm Spawn Egg",
   "item.minecells.inquisitor_spawn_egg": "Inquisitor Spawn Egg",
   "item.minecells.kamikaze_spawn_egg": "Kamikaze Spawn Egg",
+
+
   "itemGroup.minecells.weapons": "MineCells Weapons",
+
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
+
+
   "entity.minecells.shocker": "Shocker",
   "entity.minecells.jumping_zombie": "Leaping Zombie",
   "entity.minecells.grenadier": "Grenadier",
   "entity.minecells.disgusting_worm": "Disgusting Worm",
   "entity.minecells.inquisitor": "Inquisitor",
   "entity.minecells.kamikaze": "Kamikaze",
+
+
   "effect.minecells.electrified": "Electrified"
 }
