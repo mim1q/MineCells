@@ -51,6 +51,17 @@ public final class SoundRegistry {
     public static final Identifier INQUISITOR_RELEASE_ID = new Identifier(MineCells.MOD_ID, "inquisitor.release");
     public static final SoundEvent INQUISITOR_RELEASE = new SoundEvent(INQUISITOR_RELEASE_ID);
 
+    // Kamikaze
+
+    public static final Identifier KAMIKAZE_WAKE_ID = new Identifier(MineCells.MOD_ID, "kamikaze.wake");
+    public static final SoundEvent KAMIKAZE_WAKE = new SoundEvent(KAMIKAZE_WAKE_ID);
+
+    public static final Identifier KAMIKAZE_CHARGE_ID = new Identifier(MineCells.MOD_ID, "kamikaze.charge");
+    public static final SoundEvent KAMIKAZE_CHARGE = new SoundEvent(KAMIKAZE_CHARGE_ID);
+
+    public static final Identifier KAMIKAZE_DEATH_ID = new Identifier(MineCells.MOD_ID, "kamikaze.death");
+    public static final SoundEvent KAMIKAZE_DEATH = new SoundEvent(KAMIKAZE_DEATH_ID);
+
     // Other
 
     public static final Identifier CRIT_ID = new Identifier(MineCells.MOD_ID, "crit");
@@ -89,6 +100,12 @@ public final class SoundRegistry {
 
         Registry.register(Registry.SOUND_EVENT, INQUISITOR_CHARGE_ID, INQUISITOR_CHARGE);
         Registry.register(Registry.SOUND_EVENT, INQUISITOR_RELEASE_ID, INQUISITOR_RELEASE);
+
+        // Kamikaze
+
+        Registry.register(Registry.SOUND_EVENT, KAMIKAZE_WAKE_ID, KAMIKAZE_WAKE);
+        Registry.register(Registry.SOUND_EVENT, KAMIKAZE_CHARGE_ID, KAMIKAZE_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, KAMIKAZE_DEATH_ID, KAMIKAZE_DEATH);
 
         // Other
 

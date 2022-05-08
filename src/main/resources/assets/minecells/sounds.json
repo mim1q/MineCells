@@ -54,7 +54,21 @@
       "minecells:inquisitor/release"
     ]
   },
-
+  "kamikaze.wake": {
+    "sounds": [
+      "minecells:kamikaze/wake"
+    ]
+  },
+  "kamikaze.charge": {
+    "sounds": [
+      "minecells:kamikaze/charge"
+    ]
+  },
+  "kamikaze.death": {
+    "sounds": [
+      "minecells:kamikaze/death"
+    ]
+  },
   "crit": {
     "sounds": [
       "minecells:crit"

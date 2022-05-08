@@ -84,14 +84,17 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
             this.upperLeftWing.pitch = -MathHelper.sin(animationProgress * 0.8F + 1.5F) * RADIANS_PER_DEGREE * 45.0F;
             this.upperLeftWing.pitch += 45.0F * RADIANS_PER_DEGREE;
 
-            this.root.pitch = 0.0F;
-            this.bulb.pitch = 0.0F;
+            float animationTime = animationProgress - entity.animationTimestamp;
+            this.root.pitch = MathHelper.clampedLerp(-MathHelper.PI, 0.0F, animationTime / 10.0F);
+            this.bulb.pitch = this.root.pitch;
         } else {
             this.root.pitch = -MathHelper.PI;
             this.bulb.pitch = -MathHelper.PI;
 
             this.lowerLeftWing.yaw = 45.0F * RADIANS_PER_DEGREE;
             this.upperLeftWing.pitch = 120.0F * RADIANS_PER_DEGREE;
+
+            entity.animationTimestamp = animationProgress;
         }
 
         this.lowerRightWing.yaw = -this.lowerLeftWing.yaw;
