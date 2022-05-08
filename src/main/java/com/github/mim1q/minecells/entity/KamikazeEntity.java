@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.world.MineCellsExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -21,6 +22,8 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -68,9 +71,8 @@ public class KamikazeEntity extends MineCellsEntity {
         int fuse = this.getFuse();
         if (fuse == 0 && this.isAlive()) {
             this.explode(4.0F);
-            this.discard();
+            this.kill();
         }
-        System.out.println(fuse);
         this.setFuse(fuse - 1);
     }
 
@@ -86,6 +88,11 @@ public class KamikazeEntity extends MineCellsEntity {
 
     public void setFuse(int fuse) {
         this.dataTracker.set(FUSE, fuse);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.KAMIKAZE_DEATH;
     }
 
     public static DefaultAttributeContainer.Builder createKamikazeAttributes() {
@@ -153,6 +160,7 @@ public class KamikazeEntity extends MineCellsEntity {
         @Override
         public void start() {
             this.entity.setAttackState("attack");
+            this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), SoundRegistry.KAMIKAZE_WAKE, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
 
         @Override
@@ -169,6 +177,7 @@ public class KamikazeEntity extends MineCellsEntity {
                 this.entity.getLookControl().lookAt(target);
                 if (this.entity.distanceTo(target) <= this.distance && this.entity.getFuse() < 0) {
                     this.entity.setFuse(30);
+                    this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), SoundRegistry.KAMIKAZE_CHARGE, SoundCategory.HOSTILE, 1.0F, 1.0F);
                 }
             }
         }
