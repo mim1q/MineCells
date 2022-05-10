@@ -15,6 +15,7 @@ public class MineCells implements ModInitializer {
         // Construct registries
         EntityRegistry.register();
         SoundRegistry.register();
+        BlockRegistry.register();
         ItemRegistry.register();
         ItemGroupRegistry.register();
         StatusEffectRegistry.register();
