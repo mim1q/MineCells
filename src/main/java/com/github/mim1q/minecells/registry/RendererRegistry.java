@@ -6,12 +6,10 @@ import com.github.mim1q.minecells.client.model.projectile.BigGrenadeEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.model.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.renderer.*;
-import com.github.mim1q.minecells.client.renderer.blockentity.ElevatorBlockEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.BigGrenadeEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.DisgustingWormEggEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.GrenadeEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.MagicOrbEntityRenderer;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -29,8 +27,6 @@ public class RendererRegistry {
     public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render_layer"), "big_grenade_render_layer");
     public static final EntityModelLayer DISGUSTING_WORM_EGG_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm_egg_render_layer"), "disgusting_worm_egg_render_layer");
 
-    public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "elevator_layer"), "elevator_layer");
-
     public static void register() {
         EntityModelLayerRegistry.registerModelLayer(JUMPING_ZOMBIE_LAYER, JumpingZombieEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SHOCKER_LAYER, ShockerEntityModel::getTexturedModelData);
@@ -43,7 +39,6 @@ public class RendererRegistry {
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(DISGUSTING_WORM_EGG_LAYER, DisgustingWormEggEntityModel::getTexturedModelData);
 
-        EntityModelLayerRegistry.registerModelLayer(ELEVATOR_LAYER, ElevatorBlockEntityRenderer::getTexturedModelData);
 
         EntityRendererRegistry.register(EntityRegistry.JUMPING_ZOMBIE, JumpingZombieEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.SHOCKER, ShockerEntityRenderer::new);
@@ -56,7 +51,5 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM_EGG, DisgustingWormEggEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.MAGIC_ORB, MagicOrbEntityRenderer::new);
-
-        BlockEntityRendererRegistry.register(BlockRegistry.ELEVATOR_BLOCK_ENTITY, ElevatorBlockEntityRenderer::new);
     }
 }
