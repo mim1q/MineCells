@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
+import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.entity.projectile.BigGrenadeEntity;
 import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
 import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
@@ -97,6 +98,14 @@ public final class EntityRegistry {
             new Identifier(MineCells.MOD_ID, "magic_orb"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicOrbEntity::new)
                     .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
+                    .build()
+    );
+
+    public static final EntityType<ElevatorEntity> ELEVATOR = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MineCells.MOD_ID, "elevator"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, ElevatorEntity::new)
+                    .dimensions(EntityDimensions.fixed(2.0F, 0.5F))
                     .build()
     );
 
