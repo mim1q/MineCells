@@ -1,7 +1,5 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChainBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
@@ -14,50 +12,83 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+
 public class ElevatorEntity extends Entity {
+
     private static final TrackedData<Boolean> IS_MOVING = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_GOING_UP = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Float> TARGET_VELOCITY = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    protected ArrayList<Entity> usingEntities = new ArrayList<>();
+
+    private final int MIN_Y = 53;
+    private final int MAX_Y = 73;
 
     public ElevatorEntity(EntityType<?> type, World world) {
         super(type, world);
         this.intersectionChecked = true;
-        //this.noClip = true;
+        this.noClip = true;
     }
 
     @Override
     protected void initDataTracker() {
         this.dataTracker.startTracking(IS_MOVING, false);
         this.dataTracker.startTracking(IS_GOING_UP, false);
-        this.dataTracker.startTracking(TARGET_VELOCITY, 0.0F);
     }
 
     @Override
     public void tick() {
         this.move(MovementType.SELF, this.getVelocity());
-        super.tick();
 
-        boolean moving = this.getIsMoving();
         boolean up = this.getIsGoingUp();
-        if (this.isLogicalSideForUpdatingMovement()) {
-            this.setTargetVelocity(up ? 2.0F : -2.0F);
-            double yv = MathHelper.lerp(0.01F, this.getVelocity().y, this.getTargetVelocity());
-            this.setVelocityClient(0.0D, yv, 0.0D);
-        }
-        if (moving) {
-            for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().expand(0.0D, 2.0D, 0.0D).shrink(0.1D, 0.0D, 0.1D))) {
-                e.move(MovementType.SELF, new Vec3d(0.0D, (this.getY() + 0.5D) - e.getY(), 0.0D));
-                e.setVelocityClient(e.getVelocity().x, up ? 0.0D : -10.0D, e.getVelocity().z);
-                e.setOnGround(true);
-                e.setAir(0);
+        double yv = MathHelper.lerp(0.02F, this.getVelocity().y, up ? 1.5F : -1.5F);
+
+        if (!this.world.isClient()) {
+            boolean moving = this.getIsMoving();
+            if (this.getY() < this.MIN_Y) {
+                this.setPos(this.getX(), this.MIN_Y, this.getZ());
+                moving = false;
+            } else if (this.getY() > this.MAX_Y) {
+                this.setPos(this.getX(), this.MAX_Y, this.getZ());
+                moving = false;
             }
+            this.setIsMoving(moving);
         }
 
+        if (this.getIsMoving()) {
+            for (Entity e : this.usingEntities) {
+                e.fallDistance = 0;
+                e.setVelocityClient(0.0D, yv, 0.0D);
+                e.setOnGround(true);
+
+                if (e instanceof PlayerEntity && (!world.isClient() || ((PlayerEntity)e).isMainPlayer())) {
+                    e.setPos(e.prevX, this.getY() + 0.5D, e.prevZ);
+                } else if (!this.world.isClient()) {
+                    e.setPosition(e.prevX, this.getY() + 0.5D + yv + e.getY() - e.prevY, e.prevZ);
+                }
+            }
+            for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().offset(0.0D, 1.0D, 0.0D))){
+                if (!this.usingEntities.contains(e)) {
+                    this.usingEntities.add(e);
+                }
+            }
+        } else {
+            this.setVelocity(Vec3d.ZERO);
+            for (Entity e : usingEntities) {
+                e.setVelocity(Vec3d.ZERO);
+                e.setPos(e.getX(), this.getY() + 0.6D, e.getZ());
+                //e.setPos(e.getX(), e.getY() - yv - e.getY() + e.prevY, e.getZ());
+            }
+            this.usingEntities.clear();
+        }
+        if (!this.world.isClient() && this.getIsMoving()) {
+            this.setVelocity(0.0D, yv, 0.0D);
+        }
+
+        super.tick();
     }
 
     @Override
@@ -91,25 +122,9 @@ public class ElevatorEntity extends Entity {
         this.dataTracker.set(IS_GOING_UP, isGoingUp);
     }
 
-    public float getTargetVelocity() {
-        return this.dataTracker.get(TARGET_VELOCITY);
-    }
-
-    public void setTargetVelocity(float velocity) {
-        this.dataTracker.set(TARGET_VELOCITY, velocity);
-    }
-
-    @Override
-    public boolean collidesWithStateAtPos(BlockPos pos, BlockState state) {
-        if (this.world.getBlockState(pos.west()).getBlock() instanceof ChainBlock) {
-            return false;
-        }
-        return collidesWithStateAtPos(pos, state);
-    }
-
     @Override
     public boolean isCollidable() {
-        return !(this.getIsMoving() & this.getIsGoingUp());
+        return !this.getIsMoving();
     }
 
     @Override
@@ -119,12 +134,12 @@ public class ElevatorEntity extends Entity {
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-
+        this.setIsGoingUp(nbt.getBoolean("Up"));
     }
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-
+        nbt.putBoolean("Up", getIsGoingUp());
     }
 
     @Override
