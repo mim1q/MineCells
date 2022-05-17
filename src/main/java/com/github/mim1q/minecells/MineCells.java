@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells;
 
-import com.github.mim1q.minecells.network.PacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +19,5 @@ public class MineCells implements ModInitializer {
         ItemGroupRegistry.register();
         StatusEffectRegistry.register();
         ParticleRegistry.register();
-        PacketHandler.register();
     }
 }
