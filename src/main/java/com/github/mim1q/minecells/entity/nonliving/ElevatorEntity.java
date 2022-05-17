@@ -1,5 +1,9 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.network.PacketIdentifiers;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -11,7 +15,10 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -54,6 +61,16 @@ public class ElevatorEntity extends Entity {
 
         if (!this.world.isClient()) {
             boolean isMoving = !(y < this.minY || y > this.maxY);
+            if (getIsMoving()) {
+                for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld)this.world)) {
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    buf.writeBoolean(this.getIsGoingUp());
+                    buf.writeDouble(this.getX());
+                    buf.writeDouble(this.getY());
+                    buf.writeDouble(this.getZ());
+                    ServerPlayNetworking.send(player, PacketIdentifiers.ELEVATOR_MOVE, buf);
+                }
+            }
             this.setIsMoving(isMoving);
             double targetYv = this.getIsGoingUp() ? 5.0D : -5.0D;
             this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.005F : 0.005F), 1.0F));
