@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.world;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.network.PacketHandler;
+import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -33,7 +33,7 @@ public class MineCellsExplosion {
         buf.writeDouble(position.z);
         buf.writeDouble(power);
         for (ServerPlayerEntity player : PlayerLookup.tracking(world, new BlockPos(position))) {
-            ServerPlayNetworking.send(player, PacketHandler.EXPLOSION, buf);
+            ServerPlayNetworking.send(player, PacketIdentifiers.EXPLOSION, buf);
         }
     }
 

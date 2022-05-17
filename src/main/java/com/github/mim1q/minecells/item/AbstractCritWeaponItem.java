@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.item;
 
-import com.github.mim1q.minecells.network.PacketHandler;
+import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -51,7 +51,7 @@ public abstract  class AbstractCritWeaponItem extends ToolItem implements Vanish
                 buf.writeDouble(target.getX());
                 buf.writeDouble(target.getY() + 1.5D);
                 buf.writeDouble(target.getZ());
-                ServerPlayNetworking.send(player, PacketHandler.CRIT, buf);
+                ServerPlayNetworking.send(player, PacketIdentifiers.CRIT, buf);
             }
             target.damage(DamageSource.mob(attacker), this.attackDamage + this.critAttackDamage);
         }
