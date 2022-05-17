@@ -2,7 +2,9 @@ package com.github.mim1q.minecells.entity.nonliving;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -17,15 +19,18 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ElevatorEntity extends Entity {
 
     private static final TrackedData<Boolean> IS_MOVING = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_GOING_UP = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected ArrayList<Entity> usingEntities = new ArrayList<>();
+    private static final TrackedData<Float> SPEED = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    protected ArrayList<PlayerEntity> usingPlayers = new ArrayList<>();
+    protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
 
-    private final int MIN_Y = 53;
-    private final int MAX_Y = 73;
+    private final int minY = 53;
+    private final int maxY = 73;
 
     public ElevatorEntity(EntityType<?> type, World world) {
         super(type, world);
@@ -37,64 +42,87 @@ public class ElevatorEntity extends Entity {
     protected void initDataTracker() {
         this.dataTracker.startTracking(IS_MOVING, false);
         this.dataTracker.startTracking(IS_GOING_UP, false);
+        this.dataTracker.startTracking(SPEED, 0.0F);
     }
 
     @Override
     public void tick() {
+        double y = this.getY() + this.getVelocity().y;
         this.move(MovementType.SELF, this.getVelocity());
-
-        boolean up = this.getIsGoingUp();
-        double yv = MathHelper.lerp(0.02F, this.getVelocity().y, up ? 1.5F : -1.5F);
+        double clampedY = MathHelper.clamp(this.getY(), this.minY, this.maxY);
+        this.setPosition(this.getX(), clampedY, this.getZ());
 
         if (!this.world.isClient()) {
-            boolean moving = this.getIsMoving();
-            if (this.getY() < this.MIN_Y) {
-                this.setPos(this.getX(), this.MIN_Y, this.getZ());
-                moving = false;
-            } else if (this.getY() > this.MAX_Y) {
-                this.setPos(this.getX(), this.MAX_Y, this.getZ());
-                moving = false;
-            }
-            this.setIsMoving(moving);
+            boolean isMoving = !(y < this.minY || y > this.maxY);
+            this.setIsMoving(isMoving);
+            double targetYv = this.getIsGoingUp() ? 5.0D : -5.0D;
+            this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.005F : 0.005F), 1.0F));
+            this.setVelocity(0.0D, targetYv * this.getSpeed(), 0.0D);
+        }
+        if (!this.world.isClient() && this.getIsMoving() && !this.getIsGoingUp()) {
+            this.handleEntitiesBelow();
+        }
+
+        this.handlePlayers();
+        super.tick();
+    }
+
+    public void handlePlayers() {
+        // Update riding players' positions
+        for (PlayerEntity e : this.usingPlayers) {
+            e.setVelocity(this.getIsGoingUp() ? this.getVelocity() : Vec3d.ZERO);
+            e.setPosition(e.prevX, this.getY() + 0.5D, e.prevZ);
+            e.fallDistance = 0.0F;
+            e.setOnGround(true);
         }
 
         if (this.getIsMoving()) {
-            for (Entity e : this.usingEntities) {
-                e.fallDistance = 0;
-                e.setVelocityClient(0.0D, yv, 0.0D);
-                e.setOnGround(true);
+            // Add riding players
+            List<PlayerEntity> players = this.world.getEntitiesByClass(
+                    PlayerEntity.class,
+                    this.getBoundingBox().expand(0.0D, 1.0D, 0.0D),
+                    e -> !this.usingPlayers.contains(e));
 
-                if (e instanceof PlayerEntity && (!world.isClient() || ((PlayerEntity)e).isMainPlayer())) {
-                    e.setPos(e.prevX, this.getY() + 0.5D, e.prevZ);
-                } else if (!this.world.isClient()) {
-                    e.setPosition(e.prevX, this.getY() + 0.5D + yv + e.getY() - e.prevY, e.prevZ);
-                }
-            }
-            for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().offset(0.0D, 1.0D, 0.0D))){
-                if (!this.usingEntities.contains(e)) {
-                    this.usingEntities.add(e);
+            for (PlayerEntity e : players) {
+                if (!this.usingPlayers.contains(e)) {
+                    this.usingPlayers.add(e);
                 }
             }
         } else {
-            this.setVelocity(Vec3d.ZERO);
-            for (Entity e : usingEntities) {
+            // Remove players when elevator stops
+            for (PlayerEntity e : this.usingPlayers) {
                 e.setVelocity(Vec3d.ZERO);
-                e.setPos(e.getX(), this.getY() + 0.6D, e.getZ());
-                //e.setPos(e.getX(), e.getY() - yv - e.getY() + e.prevY, e.getZ());
             }
-            this.usingEntities.clear();
+            this.setVelocity(0.0D, MathHelper.clamp(this.getVelocity().y, -1.0D, 1.0D), 0.0D);
+            this.usingPlayers.clear();
+            this.hitEntities.clear();
         }
-        if (!this.world.isClient() && this.getIsMoving()) {
-            this.setVelocity(0.0D, yv, 0.0D);
-        }
+    }
 
-        super.tick();
+    public void handleEntitiesBelow() {
+        List<LivingEntity> entities = this.world.getEntitiesByClass(
+                LivingEntity.class,
+                this.getBoundingBox().offset(0.0D, -1.0D, 0.0D),
+                e -> !this.hitEntities.contains(e));
+
+        for (LivingEntity e : entities) {
+            if (!this.hitEntities.contains(e) && e.getVelocity().y >= -0.1F) {
+                e.setVelocity(e.getPos()
+                        .subtract(this.getPos())
+                        .normalize()
+                        .multiply(5.0D, 0.0D, 5.0D)
+                        .add(0.0D, 0.5D, 0.0D));
+                e.damage(DamageSource.ANVIL, 10.0F);
+                this.hitEntities.add(e);
+            }
+        }
     }
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         this.setIsGoingUp(!this.getIsGoingUp());
         this.setIsMoving(true);
+        this.setSpeed(0.0F);
         return ActionResult.SUCCESS;
     }
 
@@ -120,6 +148,14 @@ public class ElevatorEntity extends Entity {
 
     public void setIsGoingUp(boolean isGoingUp) {
         this.dataTracker.set(IS_GOING_UP, isGoingUp);
+    }
+
+    public float getSpeed() {
+        return this.dataTracker.get(SPEED);
+    }
+
+    public void setSpeed(float speed) {
+        this.dataTracker.set(SPEED, speed);
     }
 
     @Override
