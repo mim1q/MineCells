@@ -54,13 +54,10 @@ public class ElevatorEntity extends Entity {
 
     @Override
     public void tick() {
-        double y = this.getY() + this.getVelocity().y;
-        this.move(MovementType.SELF, this.getVelocity());
-        double clampedY = MathHelper.clamp(this.getY(), this.minY, this.maxY);
-        this.setPosition(this.getX(), clampedY, this.getZ());
+        double nextY = this.getY() + this.getVelocity().y;
+        boolean isMoving = !(nextY < this.minY || nextY > this.maxY);
 
         if (!this.world.isClient()) {
-            boolean isMoving = !(y < this.minY || y > this.maxY);
             if (getIsMoving()) {
                 for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld)this.world)) {
                     PacketByteBuf buf = PacketByteBufs.create();
@@ -75,7 +72,13 @@ public class ElevatorEntity extends Entity {
             double targetYv = this.getIsGoingUp() ? 5.0D : -5.0D;
             this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.005F : 0.005F), 1.0F));
             this.setVelocity(0.0D, targetYv * this.getSpeed(), 0.0D);
+            this.velocityDirty = true;
+            this.velocityModified = true;
         }
+
+        double clampedY = MathHelper.clamp(this.getY() + this.getVelocity().y, this.minY, this.maxY);
+        this.setPosition(this.getX(), clampedY, this.getZ());
+
         if (!this.world.isClient() && this.getIsMoving() && !this.getIsGoingUp()) {
             this.handleEntitiesBelow();
         }
@@ -137,10 +140,13 @@ public class ElevatorEntity extends Entity {
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        this.setIsGoingUp(!this.getIsGoingUp());
-        this.setIsMoving(true);
-        this.setSpeed(0.0F);
-        return ActionResult.SUCCESS;
+        if (!this.getIsMoving()) {
+            this.setIsGoingUp(!this.getIsGoingUp());
+            this.setIsMoving(true);
+            this.setSpeed(0.0F);
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.FAIL;
     }
 
     @Override
