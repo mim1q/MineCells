@@ -73,6 +73,12 @@ public final class SoundRegistry {
     public static final Identifier EXPLOSION_ID = new Identifier(MineCells.MOD_ID, "explosion");
     public static final SoundEvent EXPLOSION = new SoundEvent(EXPLOSION_ID);
 
+    public static final Identifier ELEVATOR_START_ID = new Identifier(MineCells.MOD_ID, "elevator_start");
+    public static final SoundEvent ELEVATOR_START = new SoundEvent(ELEVATOR_START_ID);
+
+    public static final Identifier ELEVATOR_STOP_ID = new Identifier(MineCells.MOD_ID, "elevator_stop");
+    public static final SoundEvent ELEVATOR_STOP = new SoundEvent(ELEVATOR_STOP_ID);
+
     public static void register() {
 
         // Jumping Zombie
@@ -112,6 +118,8 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, CRIT_ID, CRIT);
         Registry.register(Registry.SOUND_EVENT, SHOCK_ID, SHOCK);
         Registry.register(Registry.SOUND_EVENT, EXPLOSION_ID, EXPLOSION);
+        Registry.register(Registry.SOUND_EVENT, ELEVATOR_START_ID, ELEVATOR_START);
+        Registry.register(Registry.SOUND_EVENT, ELEVATOR_STOP_ID, ELEVATOR_STOP);
 
     }
 }

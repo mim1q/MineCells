@@ -83,6 +83,15 @@
     "sounds": [
       "minecells:explosion"
     ]
+  },
+  "elevator_start": {
+    "sounds": [
+      "minecells:elevator_start"
+    ]
+  },
+  "elevator_stop": {
+    "sounds": [
+      "minecells:elevator_stop"
+    ]
   }
-
 }

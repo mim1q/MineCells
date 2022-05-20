@@ -30,7 +30,9 @@ public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
 
     @Override
     public void render(ElevatorEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+        matrices.push();
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(LAYER);
         this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        matrices.pop();
     }
 }
