@@ -1,3 +1,8 @@
+[DOWNLOAD ON MODRINTH](https://modrinth.com/mod/minecells)
+
+[DOWNLOAD ON CURSEFORGE](https://www.curseforge.com/minecraft/mc-mods/minecells)
+
+
 ![Mine Cells Logo](https://github.com/mim1q/MineCells/blob/main/project/logo_big.png?raw=true)
 ![Early development](https://github.com/mim1q/MineCells/blob/main/project/early.png)
 
