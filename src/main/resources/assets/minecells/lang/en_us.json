@@ -1,5 +1,5 @@
 {
-  "itemGroup.minecells.eggs": "MineCells Spawn Eggs",
+  "itemGroup.minecells.eggs": "Mine Cells Spawn Eggs",
 
   "item.minecells.shocker_spawn_egg": "Shocker Spawn Egg",
   "item.minecells.jumping_zombie_spawn_egg": "Leaping Zombie Spawn Egg",
@@ -8,8 +8,11 @@
   "item.minecells.inquisitor_spawn_egg": "Inquisitor Spawn Egg",
   "item.minecells.kamikaze_spawn_egg": "Kamikaze Spawn Egg",
 
+  "itemGroup.minecells.blocks": "Mine Cells Blocks",
 
-  "itemGroup.minecells.weapons": "MineCells Weapons",
+  "block.minecells.elevator_assembler": "Elevator Assembler",
+
+  "itemGroup.minecells.weapons": "Mine Cells Weapons",
 
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
