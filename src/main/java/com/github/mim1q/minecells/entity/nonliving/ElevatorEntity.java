@@ -1,7 +1,10 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ChainBlock;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,12 +18,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -35,17 +38,29 @@ public class ElevatorEntity extends Entity {
     private static final TrackedData<Integer> MIN_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> MAX_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    protected double serverY = 0.0D;
+    protected double serverY;
     protected int interpolationSteps = 0;
     protected boolean setup = false;
+    boolean wasMoving = false;
 
     protected ArrayList<PlayerEntity> usingPlayers = new ArrayList<>();
     protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
 
-    public ElevatorEntity(EntityType<?> type, World world) {
+    public ElevatorEntity(EntityType<ElevatorEntity> type, World world) {
         super(type, world);
         this.intersectionChecked = true;
         this.noClip = true;
+        this.serverY = this.getY();
+    }
+
+    public static void spawn(World world, int x, int z, int minY, int maxY, boolean isRotated, boolean isGoingUp) {
+        ElevatorEntity elevator = new ElevatorEntity(EntityRegistry.ELEVATOR, world);
+        elevator.setPosition(x + 0.5D, isGoingUp ? maxY : minY, z + 0.5D);
+        elevator.setMaxY(maxY);
+        elevator.setMinY(minY);
+        elevator.setIsRotated(isRotated);
+        elevator.setIsGoingUp(isGoingUp);
+        world.spawnEntity(elevator);
     }
 
     @Override
@@ -54,20 +69,17 @@ public class ElevatorEntity extends Entity {
         this.dataTracker.startTracking(IS_GOING_UP, false);
         this.dataTracker.startTracking(IS_ROTATED, false);
         this.dataTracker.startTracking(SPEED, 0.0F);
-        this.dataTracker.startTracking(MIN_Y, 0);
-        this.dataTracker.startTracking(MAX_Y, 0);
+        this.dataTracker.startTracking(MIN_Y, (int)this.getY());
+        this.dataTracker.startTracking(MAX_Y, (int)this.getY());
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!setup && !this.world.isClient()) {
-            this.setup();
-        }
 
         if (this.isLogicalSideForUpdatingMovement()) {
-            double targetYv = this.getIsGoingUp() ? 5.0D : -5.0D;
-            this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.005F : 0.005F), 1.0F));
+            double targetYv = this.getIsGoingUp() ? 1.0D : -1.0D;
+            this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.01F : 0.01F), 1.0F));
             this.setVelocity(0.0D, targetYv * this.getSpeed(), 0.0D);
             this.velocityDirty = true;
             this.velocityModified = true;
@@ -75,17 +87,26 @@ public class ElevatorEntity extends Entity {
             double nextY = this.getY() + this.getVelocity().y;
             boolean isMoving = !(nextY < this.getMinY() || nextY > this.getMaxY());
 
-            if (getIsMoving()) {
-                if (!isMoving) {
-                    this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
-                }
+            if (getIsMoving() && !isMoving) {
+                this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
             }
             this.setIsMoving(isMoving);
-        }
 
-        if (this.isLogicalSideForUpdatingMovement()) {
             this.interpolationSteps = 0;
             this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
+        } else {
+            if (wasMoving && !getIsMoving() && !this.getIsGoingUp()) {
+                BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
+                ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, this.world.getBlockState(pos));
+                for (int i = 0; i < 20; i++) {
+                    double rx = this.random.nextDouble() - 0.5D;
+                    double rz = this.random.nextDouble() - 0.5D;
+                    Vec3d vel = new Vec3d(rx, 0.1D, rz).normalize();
+                    ParticleHelper.addParticle((ClientWorld)this.world, particle, this.getPos().add(vel), vel.multiply(10.0D));
+                    ParticleHelper.addParticle((ClientWorld)this.world, ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
+                }
+            }
+            this.wasMoving = this.getIsMoving();
         }
 
         if (this.interpolationSteps > 0) {
@@ -99,11 +120,12 @@ public class ElevatorEntity extends Entity {
         double clampedY = MathHelper.clamp(this.getY() + this.getVelocity().y, this.getMinY(), this.getMaxY());
         this.setPosition(this.getX(), clampedY, this.getZ());
 
-
         if (this.getIsMoving()) {
             if (this.world.isClient()) {
-                this.spawnParticles(new Vec3d(1.0D, 0.0D, 0.0D));
-                this.spawnParticles(new Vec3d(-1.0D, 0.0D, 0.0D));
+                double z = this.getIsRotated() ? 1.0D : 0.0D;
+                double x = 1.0D - z;
+                    this.spawnParticles(new Vec3d(-x, 0.0D, -z));
+                    this.spawnParticles(new Vec3d(x, 0.0D, z));
             }
             if (this.isLogicalSideForUpdatingMovement() && !this.getIsGoingUp()) {
                 this.handleEntitiesBelow();
@@ -127,7 +149,7 @@ public class ElevatorEntity extends Entity {
             ParticleHelper.addParticle((ClientWorld)this.world,
                     ParticleTypes.ELECTRIC_SPARK,
                     this.getPos().add(offset),
-                    new Vec3d(rx, this.getIsGoingUp() ? -2.0D : 1.0D, rz));
+                    new Vec3d(rx, this.getIsGoingUp() ? -1.0D : 1.0D, rz));
         }
     }
 
@@ -182,31 +204,50 @@ public class ElevatorEntity extends Entity {
         }
     }
 
-    public void setup() {
-        this.setup = true;
-
-        final BlockPos[] offsets = {
-                new BlockPos(-1, 0, -1),
-                new BlockPos(-1, 0,  0),
-                new BlockPos(-1, 0,  1),
-                new BlockPos( 0, 0, -1),
-                new BlockPos( 0, 0,  1),
-                new BlockPos( 1, 0, -1),
-                new BlockPos( 1, 0,  0),
-                new BlockPos( 1, 0,  1),
+    public static boolean validateShaft(World world, int x, int z, int minY, int maxY, boolean rotated) {
+        Vec3i[] offsets = {
+                new Vec3i(-1, 0, -1),
+                new Vec3i(-1, 0,  0), // [1] West
+                new Vec3i(-1, 0,  1),
+                new Vec3i( 0, 0, -1), // [3] North
+                new Vec3i( 0, 0,  0),
+                new Vec3i( 0, 0,  1), // [5] South
+                new Vec3i( 1, 0, -1),
+                new Vec3i( 1, 0,  0), // [7] East
+                new Vec3i( 1, 0,  1),
         };
+        int chain0 = 1;
+        int chain1 = 7;
+        if (rotated) {
+            chain0 = 3;
+            chain1 = 5;
+        }
 
-        this.setMinY((int)this.getY());
-        this.setMaxY((int)this.getY() + 20);
+        for (int i = 0; i < 9; i++) {
+            boolean chain = i == chain0 || i == chain1;
+            for (int y = minY; y <= maxY; y++) {
+                if (i == 4 && (y == minY || y == maxY)) {
+                    continue;
+                }
+                BlockPos pos = new BlockPos(x, y, z);
+                BlockPos offsetPos = pos.add(offsets[i]);
+                BlockState state = world.getBlockState(offsetPos);
+                if (chain) {
+                    if (!(state.getBlock() instanceof ChainBlock) || state.get(ChainBlock.AXIS) != Direction.Axis.Y) {
+                        return false;
+                    }
+                } else if (!state.getCollisionShape(world, pos).isEmpty()) {
+                    return false;
+                }
+            }
+        }
 
-        int maxHeight = 0;
-        BlockPos pos = this.getBlockPos();
-        this.setPosition(Vec3d.ofBottomCenter(pos));
+        return true;
     }
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        if (!this.getIsMoving()) {
+        if (!this.getIsMoving() && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated())) {
             if (!this.world.isClient()) {
                 this.setIsGoingUp(!this.getIsGoingUp());
                 this.setIsMoving(true);
@@ -289,6 +330,7 @@ public class ElevatorEntity extends Entity {
         this.setIsGoingUp(nbt.getBoolean("up"));
         this.setMinY(nbt.getInt("minY"));
         this.setMaxY(nbt.getInt("maxY"));
+        this.setIsRotated(nbt.getBoolean("rotated"));
         this.setup = nbt.getBoolean("setup");
     }
 
@@ -297,17 +339,12 @@ public class ElevatorEntity extends Entity {
         nbt.putBoolean("up", this.getIsGoingUp());
         nbt.putInt("minY", this.getMinY());
         nbt.putInt("maxY", this.getMaxY());
+        nbt.putBoolean("rotated", this.getIsRotated());
         nbt.putBoolean("setup", this.setup);
     }
 
     @Override
     public Packet<?> createSpawnPacket() {
         return new EntitySpawnS2CPacket(this);
-    }
-
-    public enum SetupResult {
-        SUCCESS,
-        SUCCESS_ROTATE,
-        FAIL
     }
 }

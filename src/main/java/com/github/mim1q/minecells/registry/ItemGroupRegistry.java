@@ -27,6 +27,12 @@ public class ItemGroupRegistry {
             .appendItems(stacks -> stacks.add(new ItemStack(ItemRegistry.ASSASSINS_DAGGER_ITEM)))
             .build();
 
+    public static final ItemGroup MINECELLS_BLOCKS = FabricItemGroupBuilder.create(
+            new Identifier(MineCells.MOD_ID, "blocks"))
+            .icon(() -> new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK))
+            .appendItems(stacks -> stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK)))
+            .build();
+
     //endregion
 
     public static void register() { }
