@@ -44,9 +44,6 @@ public class ElevatorAssemblerBlock extends Block {
 
         boolean goingUp = second < pos.getY();
 
-        System.out.println(pos.getY());
-        System.out.println(second);
-
         int elevatorMinY = Math.min(pos.getY(), second);
         int elevatorMaxY = Math.max(pos.getY(), second);
 

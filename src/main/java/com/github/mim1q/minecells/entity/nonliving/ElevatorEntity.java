@@ -43,6 +43,9 @@ public class ElevatorEntity extends Entity {
     protected boolean setup = false;
     boolean wasMoving = false;
 
+    boolean poweredTop = false;
+    boolean poweredBottom = false;
+
     protected ArrayList<PlayerEntity> usingPlayers = new ArrayList<>();
     protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
 
@@ -87,23 +90,31 @@ public class ElevatorEntity extends Entity {
             double nextY = this.getY() + this.getVelocity().y;
             boolean isMoving = !(nextY < this.getMinY() || nextY > this.getMaxY());
 
-            if (getIsMoving() && !isMoving) {
-                this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
+            if (getIsMoving()) {
+                if (!isMoving) {
+                    this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
+                }
+            } else {
+                this.handleRedstone();
             }
             this.setIsMoving(isMoving);
 
             this.interpolationSteps = 0;
             this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
+
         } else {
             if (wasMoving && !getIsMoving() && !this.getIsGoingUp()) {
                 BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
-                ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, this.world.getBlockState(pos));
-                for (int i = 0; i < 20; i++) {
-                    double rx = this.random.nextDouble() - 0.5D;
-                    double rz = this.random.nextDouble() - 0.5D;
-                    Vec3d vel = new Vec3d(rx, 0.1D, rz).normalize();
-                    ParticleHelper.addParticle((ClientWorld)this.world, particle, this.getPos().add(vel), vel.multiply(10.0D));
-                    ParticleHelper.addParticle((ClientWorld)this.world, ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
+                BlockState state = this.world.getBlockState(pos);
+                ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, state);
+                if (!state.isAir()) {
+                    for (int i = 0; i < 20; i++) {
+                        double rx = this.random.nextDouble() - 0.5D;
+                        double rz = this.random.nextDouble() - 0.5D;
+                        Vec3d vel = new Vec3d(rx, 0.1D, rz).normalize();
+                        ParticleHelper.addParticle((ClientWorld)this.world, particle, this.getPos().add(vel), vel.multiply(10.0D));
+                        ParticleHelper.addParticle((ClientWorld)this.world, ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
+                    }
                 }
             }
             this.wasMoving = this.getIsMoving();
@@ -113,7 +124,7 @@ public class ElevatorEntity extends Entity {
             double d = this.getX();
             double e = this.getY() + (this.serverY - this.getY()) / (double)this.interpolationSteps;
             double f = this.getZ();
-            --this.interpolationSteps;
+            this.interpolationSteps--;
             this.setPosition(d, e, f);
         }
 
@@ -204,8 +215,46 @@ public class ElevatorEntity extends Entity {
         }
     }
 
+    public void handleRedstone() {
+
+        boolean top = this.checkSignal(this.getMaxY());
+        boolean bottom = this.checkSignal(this.getMinY());
+
+        if (!this.getIsMoving()) {
+            if (top && !this.poweredTop && !this.getIsGoingUp()){
+                startMoving(true);
+            } else if (bottom & !this.poweredBottom && this.getIsGoingUp()) {
+                startMoving(false);
+            }
+        }
+
+        this.poweredTop = top;
+        this.poweredBottom = bottom;
+    }
+
+    protected boolean checkSignal(int y) {
+        final Vec3i[] offsets = {
+                new Vec3i(-2, 0,  0),
+                new Vec3i( 0, 0, -2),
+                new Vec3i( 0, 0,  2),
+                new Vec3i( 2, 0,  0),
+                new Vec3i(-2, 1,  0),
+                new Vec3i( 0, 1, -2),
+                new Vec3i( 0, 1,  2),
+                new Vec3i( 2, 1,  0)
+        };
+
+        BlockPos pos = new BlockPos(this.getBlockX(), y, this.getBlockZ());
+        for (Vec3i offset : offsets) {
+            if (this.world.getBlockState(pos.add(offset)).getStrongRedstonePower(world, pos, Direction.UP) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean validateShaft(World world, int x, int z, int minY, int maxY, boolean rotated) {
-        Vec3i[] offsets = {
+        final Vec3i[] offsets = {
                 new Vec3i(-1, 0, -1),
                 new Vec3i(-1, 0,  0), // [1] West
                 new Vec3i(-1, 0,  1),
@@ -222,10 +271,11 @@ public class ElevatorEntity extends Entity {
             chain0 = 3;
             chain1 = 5;
         }
-
+        // Check if ceretain blocks are air and chains
         for (int i = 0; i < 9; i++) {
             boolean chain = i == chain0 || i == chain1;
             for (int y = minY; y <= maxY; y++) {
+                // Skip assembler positions
                 if (i == 4 && (y == minY || y == maxY)) {
                     continue;
                 }
@@ -245,18 +295,23 @@ public class ElevatorEntity extends Entity {
         return true;
     }
 
-    @Override
-    public ActionResult interact(PlayerEntity player, Hand hand) {
+    public boolean startMoving(boolean isGoingUp) {
         if (!this.getIsMoving() && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated())) {
             if (!this.world.isClient()) {
-                this.setIsGoingUp(!this.getIsGoingUp());
+                this.setIsGoingUp(isGoingUp);
                 this.setIsMoving(true);
                 this.setSpeed(0.0F);
                 this.playSound(SoundRegistry.ELEVATOR_START, 0.5F, 1.0F);
             }
-            return ActionResult.SUCCESS;
+            return true;
         }
-        return ActionResult.FAIL;
+        return false;
+    }
+
+    @Override
+    public ActionResult interact(PlayerEntity player, Hand hand) {
+        boolean result = startMoving(!this.getIsGoingUp());
+        return result ? ActionResult.SUCCESS : ActionResult.FAIL;
     }
 
     @Override
@@ -332,6 +387,8 @@ public class ElevatorEntity extends Entity {
         this.setMaxY(nbt.getInt("maxY"));
         this.setIsRotated(nbt.getBoolean("rotated"));
         this.setup = nbt.getBoolean("setup");
+        this.poweredTop = nbt.getBoolean("poweredTop");
+        this.poweredBottom = nbt.getBoolean("poweredBottom");
     }
 
     @Override
@@ -341,6 +398,8 @@ public class ElevatorEntity extends Entity {
         nbt.putInt("maxY", this.getMaxY());
         nbt.putBoolean("rotated", this.getIsRotated());
         nbt.putBoolean("setup", this.setup);
+        nbt.putBoolean("poweredTop", this.poweredTop);
+        nbt.putBoolean("poweredBottom", this.poweredBottom);
     }
 
     @Override
