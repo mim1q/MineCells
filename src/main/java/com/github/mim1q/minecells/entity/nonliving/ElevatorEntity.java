@@ -1,10 +1,8 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
-import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.SoundRegistry;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import com.github.mim1q.minecells.util.ParticleHelper;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -16,10 +14,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +34,10 @@ public class ElevatorEntity extends Entity {
     private static final TrackedData<Float> SPEED = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Integer> MIN_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> MAX_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
+    protected double serverY = 0.0D;
+    protected int interpolationSteps = 0;
+    protected boolean setup = false;
 
     protected ArrayList<PlayerEntity> usingPlayers = new ArrayList<>();
     protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
@@ -60,11 +60,12 @@ public class ElevatorEntity extends Entity {
 
     @Override
     public void tick() {
-        if (this.age == 1 && !this.world.isClient()) {
+        super.tick();
+        if (!setup && !this.world.isClient()) {
             this.setup();
         }
 
-        if (!this.world.isClient()) {
+        if (this.isLogicalSideForUpdatingMovement()) {
             double targetYv = this.getIsGoingUp() ? 5.0D : -5.0D;
             this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.005F : 0.005F), 1.0F));
             this.setVelocity(0.0D, targetYv * this.getSpeed(), 0.0D);
@@ -78,33 +79,64 @@ public class ElevatorEntity extends Entity {
                 if (!isMoving) {
                     this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
                 }
-                for (ServerPlayerEntity player : PlayerLookup.world((ServerWorld)this.world)) {
-                    PacketByteBuf buf = PacketByteBufs.create();
-                    buf.writeBoolean(this.getIsGoingUp());
-                    buf.writeDouble(this.getX());
-                    buf.writeDouble(this.getY());
-                    buf.writeDouble(this.getZ());
-                    ServerPlayNetworking.send(player, PacketIdentifiers.ELEVATOR_MOVE, buf);
-                }
             }
             this.setIsMoving(isMoving);
-            double clampedY = MathHelper.clamp(this.getY() + this.getVelocity().y, this.getMinY(), this.getMaxY());
-            this.setPosition(this.getX(), clampedY, this.getZ());
         }
 
-        if (!this.world.isClient() && this.getIsMoving() && !this.getIsGoingUp()) {
-            this.handleEntitiesBelow();
+        if (this.isLogicalSideForUpdatingMovement()) {
+            this.interpolationSteps = 0;
+            this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
+        }
+
+        if (this.interpolationSteps > 0) {
+            double d = this.getX();
+            double e = this.getY() + (this.serverY - this.getY()) / (double)this.interpolationSteps;
+            double f = this.getZ();
+            --this.interpolationSteps;
+            this.setPosition(d, e, f);
+        }
+
+        double clampedY = MathHelper.clamp(this.getY() + this.getVelocity().y, this.getMinY(), this.getMaxY());
+        this.setPosition(this.getX(), clampedY, this.getZ());
+
+
+        if (this.getIsMoving()) {
+            if (this.world.isClient()) {
+                this.spawnParticles(new Vec3d(1.0D, 0.0D, 0.0D));
+                this.spawnParticles(new Vec3d(-1.0D, 0.0D, 0.0D));
+            }
+            if (this.isLogicalSideForUpdatingMovement() && !this.getIsGoingUp()) {
+                this.handleEntitiesBelow();
+            }
         }
 
         this.handlePlayers();
-        super.tick();
+    }
+
+    @Override
+    public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+        this.setPosition(x, this.getY(), z);
+        this.serverY = y;
+        this.interpolationSteps = interpolationSteps;
+    }
+
+    protected void spawnParticles(Vec3d offset) {
+        for (int i = 0; i < 5; i++) {
+            double rx = (this.random.nextDouble() - 0.5D) * 0.5D;
+            double rz = (this.random.nextDouble() - 0.5D) * 0.5D;
+            ParticleHelper.addParticle((ClientWorld)this.world,
+                    ParticleTypes.ELECTRIC_SPARK,
+                    this.getPos().add(offset),
+                    new Vec3d(rx, this.getIsGoingUp() ? -2.0D : 1.0D, rz));
+        }
     }
 
     public void handlePlayers() {
         // Update riding players' positions
         for (PlayerEntity e : this.usingPlayers) {
-            e.setVelocity(this.getIsGoingUp() ? this.getVelocity() : Vec3d.ZERO);
             e.setPosition(e.prevX, this.getY() + 0.5D, e.prevZ);
+            e.setVelocityClient(0.0D, this.getIsGoingUp() ? this.getVelocity().y : 0.0D, 0.0D);
+            e.velocityDirty = true;
             e.fallDistance = 0.0F;
             e.setOnGround(true);
         }
@@ -126,8 +158,6 @@ public class ElevatorEntity extends Entity {
             for (PlayerEntity e : this.usingPlayers) {
                 e.setVelocity(Vec3d.ZERO);
             }
-            this.setVelocity(0.0D, MathHelper.clamp(this.getVelocity().y, -1.0D, 1.0D), 0.0D);
-            this.refreshPositionAfterTeleport(this.getPos());
             this.usingPlayers.clear();
             this.hitEntities.clear();
         }
@@ -153,15 +183,17 @@ public class ElevatorEntity extends Entity {
     }
 
     public void setup() {
-        final Vec3d[] offsets = {
-                new Vec3d(-1.0D, 0.0D, -1.0D),
-                new Vec3d(-1.0D, 0.0D,  0.0D),
-                new Vec3d(-1.0D, 0.0D,  1.0D),
-                new Vec3d( 0.0D, 0.0D, -1.0D),
-                new Vec3d( 0.0D, 0.0D,  1.0D),
-                new Vec3d( 1.0D, 0.0D, -1.0D),
-                new Vec3d( 1.0D, 0.0D,  0.0D),
-                new Vec3d( 1.0D, 0.0D,  1.0D),
+        this.setup = true;
+
+        final BlockPos[] offsets = {
+                new BlockPos(-1, 0, -1),
+                new BlockPos(-1, 0,  0),
+                new BlockPos(-1, 0,  1),
+                new BlockPos( 0, 0, -1),
+                new BlockPos( 0, 0,  1),
+                new BlockPos( 1, 0, -1),
+                new BlockPos( 1, 0,  0),
+                new BlockPos( 1, 0,  1),
         };
 
         this.setMinY((int)this.getY());
@@ -242,7 +274,6 @@ public class ElevatorEntity extends Entity {
         this.dataTracker.set(MIN_Y, minY);
     }
 
-
     @Override
     public boolean isCollidable() {
         return !this.getIsMoving();
@@ -255,12 +286,18 @@ public class ElevatorEntity extends Entity {
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        this.setIsGoingUp(nbt.getBoolean("Up"));
+        this.setIsGoingUp(nbt.getBoolean("up"));
+        this.setMinY(nbt.getInt("minY"));
+        this.setMaxY(nbt.getInt("maxY"));
+        this.setup = nbt.getBoolean("setup");
     }
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putBoolean("Up", getIsGoingUp());
+        nbt.putBoolean("up", this.getIsGoingUp());
+        nbt.putInt("minY", this.getMinY());
+        nbt.putInt("maxY", this.getMaxY());
+        nbt.putBoolean("setup", this.setup);
     }
 
     @Override
@@ -268,9 +305,9 @@ public class ElevatorEntity extends Entity {
         return new EntitySpawnS2CPacket(this);
     }
 
-    public enum SetupState {
-        GOOD,
-        GOOD_ROTATE,
+    public enum SetupResult {
+        SUCCESS,
+        SUCCESS_ROTATE,
         FAIL
     }
 }
