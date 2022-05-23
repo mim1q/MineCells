@@ -16,4 +16,12 @@ public class MineCellsMathHelper {
         float x = vector.getZ() * MathHelper.cos(theta) - vector.getX() * MathHelper.sin(theta);
         return new Vec3f(x, vector.getY(), z);
     }
+
+    public static Vec3d lerp(Vec3d v0, Vec3d v1, float delta) {
+        double x = MathHelper.lerp(delta, v0.x, v1.x);
+        double y = MathHelper.lerp(delta, v0.y, v1.y);
+        double z = MathHelper.lerp(delta, v0.z, v1.z);
+
+        return new Vec3d(x, y, z);
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.mim1q.minecells.mixin",
+  "mixins": [
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "LivingEntityRendererMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -19,6 +19,9 @@
       "com.github.mim1q.minecells.MineCells"
     ]
   },
+  "mixins": [
+    "minecells.mixins.json"
+  ],
   "accessWidener": "minecells.accesswidener",
   "depends": {
     "fabricloader": ">=0.13.3",

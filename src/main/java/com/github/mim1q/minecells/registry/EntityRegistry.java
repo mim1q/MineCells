@@ -69,6 +69,14 @@ public final class EntityRegistry {
                     .build()
     );
 
+    public static final EntityType<ProtectorEntity> PROTECTOR = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MineCells.MOD_ID, "protector"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ProtectorEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.75F, 2.0F))
+                    .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MineCells.MOD_ID, "grenade"),
@@ -154,6 +162,13 @@ public final class EntityRegistry {
             new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
+    public static final Item PROTECTOR_SPAWN_EGG = new SpawnEggItem(
+            PROTECTOR,
+            0xC0861D,
+            0x5FBED1,
+            new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -166,6 +181,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(DISGUSTING_WORM, DisgustingWormEntity.createDisgustingWormAttributes());
         FabricDefaultAttributeRegistry.register(INQUISITOR, InquisitorEntity.createInquisitorAttributes());
         FabricDefaultAttributeRegistry.register(KAMIKAZE, KamikazeEntity.createKamikazeAttributes());
+        FabricDefaultAttributeRegistry.register(PROTECTOR, ProtectorEntity.createProtectorAttributes());
 
         // Register Spawn Eggs
 
@@ -175,5 +191,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "disgusting_worm_spawn_egg"), DISGUSTING_WORM_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "inquisitor_spawn_egg"), INQUISITOR_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "kamikaze_spawn_egg"), KAMIKAZE_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "protector_spawn_egg"), PROTECTOR_SPAWN_EGG);
     }
 }

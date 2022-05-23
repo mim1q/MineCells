@@ -18,6 +18,7 @@ public class ItemGroupRegistry {
                 stacks.add(new ItemStack(EntityRegistry.DISGUSTING_WORM_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.INQUISITOR_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.KAMIKAZE_SPAWN_EGG));
+                stacks.add(new ItemStack(EntityRegistry.PROTECTOR_SPAWN_EGG));
             })
             .build();
 

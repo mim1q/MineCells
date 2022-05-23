@@ -12,7 +12,6 @@ import com.github.mim1q.minecells.client.renderer.projectile.BigGrenadeEntityRen
 import com.github.mim1q.minecells.client.renderer.projectile.DisgustingWormEggEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.GrenadeEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.projectile.MagicOrbEntityRenderer;
-import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -25,6 +24,7 @@ public class RendererRegistry {
     public static final EntityModelLayer DISGUSTING_WORM_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm"), "disgusting_worm");
     public static final EntityModelLayer INQUISITOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "inquisitor_layer"), "inquisitor_layer");
     public static final EntityModelLayer KAMIKAZE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "kamikaze_layer"), "kamikaze_layer");
+    public static final EntityModelLayer PROTECTOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "protector"), "protector");
 
     public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade_render_layer"), "grenade_render_layer");
     public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render_layer"), "big_grenade_render_layer");
@@ -39,6 +39,7 @@ public class RendererRegistry {
         EntityModelLayerRegistry.registerModelLayer(DISGUSTING_WORM_LAYER, DisgustingWormEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(INQUISITOR_LAYER, InquisitorEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(KAMIKAZE_LAYER, KamikazeEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(PROTECTOR_LAYER, ProtectorEntityModel::getTexturedModelData);
 
         EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
@@ -53,6 +54,7 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM, DisgustingWormEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.INQUISITOR, InquisitorEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.KAMIKAZE, KamikazeEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.PROTECTOR, ProtectorEntityRenderer::new);
 
         EntityRendererRegistry.register(EntityRegistry.GRENADE, GrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);
