@@ -1,20 +1,21 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.ItemRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
@@ -28,6 +29,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ElevatorEntity extends Entity {
 
@@ -101,7 +103,6 @@ public class ElevatorEntity extends Entity {
 
             this.interpolationSteps = 0;
             this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
-
         } else {
             if (wasMoving && !getIsMoving() && !this.getIsGoingUp()) {
                 BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
@@ -144,7 +145,56 @@ public class ElevatorEntity extends Entity {
         }
 
         this.handlePlayers();
+
+        if (this.shouldBeRemoved()) {
+            this.kill();
+        }
     }
+
+    private boolean shouldBeRemoved() {
+        BlockPos pos0 = this.getBlockPos().west();
+        BlockPos pos1 = this.getBlockPos().east();
+        if (this.getIsRotated()) {
+            pos0 = this.getBlockPos().south();
+            pos1 = this.getBlockPos().north();
+        }
+        BlockState state0 = this.world.getBlockState(pos0);
+        BlockState state1 = this.world.getBlockState(pos1);
+
+        if (state0.getBlock() instanceof ChainBlock && state1.getBlock() instanceof ChainBlock) {
+            return state0.get(ChainBlock.AXIS) != Direction.Axis.Y && state1.get(ChainBlock.AXIS) != Direction.Axis.Y;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean handleAttack(Entity attacker) {
+        if (attacker instanceof PlayerEntity player) {
+            if (player.preferredHand != null && player.getStackInHand(player.preferredHand).getItem() instanceof AxeItem) {
+                this.kill();
+            }
+        }
+        return super.handleAttack(attacker);
+    }
+
+    @Override
+    public void kill() {
+        if (!this.world.isClient()) {
+            ItemStack[] items = {
+                new ItemStack(Blocks.CHAIN, this.random.nextInt(3) + 2),
+                new ItemStack(Blocks.OAK_SLAB, 1),
+                new ItemStack(ItemRegistry.ELEVATOR_MECHANISM, this.random.nextInt(0, 3))
+            };
+
+            for (ItemStack itemStack : items) {
+                ItemEntity entity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), itemStack);
+                this.world.spawnEntity(entity);
+            }
+            super.kill();
+        }
+    }
+
+
 
     @Override
     public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
@@ -179,7 +229,7 @@ public class ElevatorEntity extends Entity {
             List<PlayerEntity> players = this.world.getEntitiesByClass(
                     PlayerEntity.class,
                     this.getBoundingBox().expand(0.0D, 1.0D, 0.0D),
-                    e -> !this.usingPlayers.contains(e));
+                    e -> !this.usingPlayers.contains(e) && e.getY() >= this.getY());
 
             for (PlayerEntity e : players) {
                 if (!this.usingPlayers.contains(e)) {
@@ -207,7 +257,7 @@ public class ElevatorEntity extends Entity {
                 e.setVelocity(e.getPos()
                         .subtract(this.getPos())
                         .normalize()
-                        .multiply(5.0D, 0.0D, 5.0D)
+                        .multiply(3.0D, 0.0D, 3.0D)
                         .add(0.0D, 0.5D, 0.0D));
                 e.damage(DamageSource.ANVIL, 10.0F);
                 this.hitEntities.add(e);
@@ -253,7 +303,13 @@ public class ElevatorEntity extends Entity {
         return false;
     }
 
-    public static boolean validateShaft(World world, int x, int z, int minY, int maxY, boolean rotated) {
+    public static boolean validateShaft(World world, int x, int z, int minY, int maxY, boolean rotated, boolean placed) {
+        Box box = new Box(x - 2.0D, minY - 1.0D, z - 2.0D, x + 3.0D, maxY + 1.0D, x + 3.0D);
+        List<ElevatorEntity> elevators = world.getEntitiesByClass(ElevatorEntity.class, box, Objects::nonNull);
+        if (elevators.size() > (placed ? 1 : 0)) {
+            return false;
+        }
+
         final Vec3i[] offsets = {
                 new Vec3i(-1, 0, -1),
                 new Vec3i(-1, 0,  0), // [1] West
@@ -274,7 +330,7 @@ public class ElevatorEntity extends Entity {
         // Check if ceretain blocks are air and chains
         for (int i = 0; i < 9; i++) {
             boolean chain = i == chain0 || i == chain1;
-            for (int y = minY; y <= maxY; y++) {
+            for (int y = minY; y <= maxY + 1; y++) {
                 // Skip assembler positions
                 if (i == 4 && (y == minY || y == maxY)) {
                     continue;
@@ -296,7 +352,7 @@ public class ElevatorEntity extends Entity {
     }
 
     public boolean startMoving(boolean isGoingUp) {
-        if (!this.getIsMoving() && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated())) {
+        if (!this.getIsMoving() && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated(), true)) {
             if (!this.world.isClient()) {
                 this.setIsGoingUp(isGoingUp);
                 this.setIsMoving(true);

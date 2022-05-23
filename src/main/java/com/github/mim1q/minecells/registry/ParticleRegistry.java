@@ -23,9 +23,9 @@ public class ParticleRegistry {
 
     public static void registerClient() {
         ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
-                registry.register(new Identifier(MineCells.MOD_ID, "particle/aura"));
-                registry.register(new Identifier(MineCells.MOD_ID, "particle/explosion"));
-                });
+            registry.register(new Identifier(MineCells.MOD_ID, "particle/aura"));
+            registry.register(new Identifier(MineCells.MOD_ID, "particle/explosion"));
+            });
 
         ParticleFactoryRegistry.getInstance().register(AURA, FlameParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(EXPLOSION, ExplosionParticle.Factory::new);

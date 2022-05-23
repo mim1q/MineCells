@@ -47,7 +47,6 @@ public class RendererRegistry {
 
         EntityModelLayerRegistry.registerModelLayer(ELEVATOR_LAYER, ElevatorEntityModel::getTexturedModelData);
 
-
         EntityRendererRegistry.register(EntityRegistry.JUMPING_ZOMBIE, JumpingZombieEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.SHOCKER, ShockerEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.GRENADIER, GrenadierEntityRenderer::new);

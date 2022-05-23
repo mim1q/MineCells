@@ -18,6 +18,10 @@
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
 
+  "itemGroup.minecells.artifacts": "Mine Cells Artifacts",
+  
+  "item.minecells.elevator_mechanism": "Elevator Mechanism",
+
   "entity.minecells.shocker": "Shocker",
   "entity.minecells.jumping_zombie": "Leaping Zombie",
   "entity.minecells.grenadier": "Grenadier",

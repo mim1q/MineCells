@@ -52,7 +52,7 @@ public class ElevatorAssemblerBlock extends Block {
 
         boolean rotated = north instanceof ChainBlock && south instanceof ChainBlock;
 
-        if (ElevatorEntity.validateShaft(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated)) {
+        if (ElevatorEntity.validateShaft(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, false)) {
             ElevatorEntity.spawn(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, goingUp);
             world.breakBlock(pos, false);
             world.breakBlock(new BlockPos(pos.getX(), second, pos.getZ()), false);

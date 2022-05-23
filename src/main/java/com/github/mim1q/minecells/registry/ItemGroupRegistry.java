@@ -24,14 +24,24 @@ public class ItemGroupRegistry {
 
     public static final ItemGroup MINECELLS_WEAPONS = FabricItemGroupBuilder.create(
             new Identifier(MineCells.MOD_ID, "weapons"))
-            .icon(() -> new ItemStack(ItemRegistry.ASSASSINS_DAGGER_ITEM))
-            .appendItems(stacks -> stacks.add(new ItemStack(ItemRegistry.ASSASSINS_DAGGER_ITEM)))
+            .icon(() -> new ItemStack(ItemRegistry.ASSASSINS_DAGGER))
+            .appendItems(stacks -> {
+                stacks.add(new ItemStack(ItemRegistry.ASSASSINS_DAGGER));
+            })
             .build();
 
     public static final ItemGroup MINECELLS_BLOCKS = FabricItemGroupBuilder.create(
             new Identifier(MineCells.MOD_ID, "blocks"))
-            .icon(() -> new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK))
-            .appendItems(stacks -> stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK)))
+            .icon(() -> new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER))
+            .build();
+
+    public static final ItemGroup MINECELLS_ARTIFACTS = FabricItemGroupBuilder.create(
+            new Identifier(MineCells.MOD_ID, "artifacts"))
+            .icon(() -> new ItemStack(ItemRegistry.ELEVATOR_MECHANISM))
+            .appendItems(stacks -> {
+                stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER));
+                stacks.add(new ItemStack(ItemRegistry.ELEVATOR_MECHANISM));
+            })
             .build();
 
     //endregion
