@@ -38,7 +38,7 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
     @Override
     public void start() {
         this.target = this.entity.getTarget();
-        this.entity.setAttackState("shoot");
+        this.entity.setShootCharging(true);
         this.ticks = 0;
 
         if (!this.entity.world.isClient() && this.entity.getShootChargeSoundEvent() != null) {
@@ -53,7 +53,8 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
 
     @Override
     public void stop() {
-        this.entity.resetAttackState();
+        this.entity.setShootCharging(false);
+        this.entity.setShootReleasing(false);
         this.entity.setShootCooldown(this.entity.getShootMaxCooldown());
     }
 
@@ -61,20 +62,18 @@ public class ShootGoal <E extends MineCellsEntity & IShootEntity> extends Goal {
     public void tick() {
         if (this.target != null) {
             this.entity.getLookControl().lookAt(target);
-            if (this.ticks == this.actionTick) {
-                this.entity.resetAttackState();
-                if (!this.entity.world.isClient()) {
-                    if (this.entity.getShootReleaseSoundEvent() != null) {
-                        this.entity.playSound(this.entity.getShootReleaseSoundEvent(), 0.5f, 1.0f);
-                    }
-                    this.shoot(this.target);
+            if (this.ticks == this.actionTick && !this.entity.world.isClient()) {
+                if (this.entity.getShootReleaseSoundEvent() != null) {
+                    this.entity.playSound(this.entity.getShootReleaseSoundEvent(), 0.5f, 1.0f);
                 }
+                this.shoot(this.target);
             }
         }
         this.ticks++;
     }
 
     public void shoot(LivingEntity target) {
-
+        this.entity.setShootCharging(false);
+        this.entity.setShootReleasing(true);
     }
 }

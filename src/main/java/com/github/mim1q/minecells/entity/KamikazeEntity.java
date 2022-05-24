@@ -35,6 +35,7 @@ import java.util.EnumSet;
 public class KamikazeEntity extends MineCellsEntity {
 
     private static final TrackedData<Integer> FUSE = DataTracker.registerData(KamikazeEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Boolean> SLEEPING = DataTracker.registerData(KamikazeEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public KamikazeEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -46,16 +47,15 @@ public class KamikazeEntity extends MineCellsEntity {
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(FUSE, -1);
-        this.setAttackState("sleeping");
+        this.dataTracker.startTracking(SLEEPING, true);
     }
 
     @Override
     protected void initGoals() {
         this.goalSelector.add(3, new KamikazeFlyGoal(this, 1.0D));
+        this.goalSelector.add(0, new KamikazeAttackGoal(this, 1.0D, 3.0D));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
-
-        this.goalSelector.add(0, new KamikazeAttackGoal(this, 1.0D, 3.0D));
     }
 
     @Nullable
@@ -83,29 +83,6 @@ public class KamikazeEntity extends MineCellsEntity {
         }
     }
 
-    public int getFuse() {
-        return this.dataTracker.get(FUSE);
-    }
-
-    public void setFuse(int fuse) {
-        this.dataTracker.set(FUSE, fuse);
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundRegistry.KAMIKAZE_DEATH;
-    }
-
-    public static DefaultAttributeContainer.Builder createKamikazeAttributes() {
-        return createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-                .add(EntityAttributes.GENERIC_FLYING_SPEED, 3.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 15.0D)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 2.0D);
-    }
-
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;
@@ -120,6 +97,47 @@ public class KamikazeEntity extends MineCellsEntity {
         return navigation;
     }
 
+    public int getFuse() {
+        return this.dataTracker.get(FUSE);
+    }
+    public void setFuse(int fuse) {
+        this.dataTracker.set(FUSE, fuse);
+    }
+
+    public boolean isSleeping() {
+        return this.dataTracker.get(SLEEPING);
+    }
+    public void setSleeping(boolean sleeping) {
+        this.dataTracker.set(SLEEPING, sleeping);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.KAMIKAZE_DEATH;
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putBoolean("sleeping", this.isSleeping());
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.setSleeping(nbt.getBoolean("sleeping"));
+    }
+
+    public static DefaultAttributeContainer.Builder createKamikazeAttributes() {
+        return createLivingAttributes()
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+            .add(EntityAttributes.GENERIC_FLYING_SPEED, 3.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 15.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 2.0D);
+    }
+
     public static class KamikazeFlyGoal extends FlyGoal {
 
         protected final KamikazeEntity entity;
@@ -131,7 +149,7 @@ public class KamikazeEntity extends MineCellsEntity {
 
         @Override
         public boolean canStart() {
-            return super.canStart() && !this.entity.getAttackState().equals("sleeping");
+            return super.canStart() && !this.entity.isSleeping();
         }
     }
 
@@ -160,14 +178,12 @@ public class KamikazeEntity extends MineCellsEntity {
 
         @Override
         public void start() {
-            this.entity.setAttackState("attack");
+            this.entity.setSleeping(false);
             this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), SoundRegistry.KAMIKAZE_WAKE, SoundCategory.HOSTILE, 0.5F, 1.0F);
         }
 
         @Override
-        public void stop() {
-            this.entity.setAttackState("none");
-        }
+        public void stop() {}
 
         @Override
         public void tick() {

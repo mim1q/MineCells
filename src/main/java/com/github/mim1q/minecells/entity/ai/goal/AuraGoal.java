@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.entity.interfaces.IAuraAttackEntity;
+import com.github.mim1q.minecells.entity.interfaces.IAuraEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.damage.DamageSource;
@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
-public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> extends Goal {
+public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
 
     protected E entity;
     protected int ticks = 0;
@@ -18,7 +18,7 @@ public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> exten
     protected final int lengthTicks;
     protected final float chance;
 
-    public AuraAttackGoal(E entity, double radius, int actionTick, int lengthTicks, float chance) {
+    public AuraGoal(E entity, double radius, int actionTick, int lengthTicks, float chance) {
         this.entity = entity;
         this.radius = radius;
         this.actionTick = actionTick;
@@ -29,7 +29,7 @@ public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> exten
     @Override
     public boolean canStart() {
         PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 1.0D);
-        return this.entity.getAuraAttackCooldown() == 0
+        return this.entity.getAuraCooldown() == 0
             && closestPlayer != null
             && !(closestPlayer.isCreative() || closestPlayer.isSpectator())
             && this.entity.getRandom().nextFloat() < this.chance;
@@ -38,8 +38,8 @@ public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> exten
     @Override
     public void start() {
         this.ticks = 0;
-        this.entity.setAttackState("aura_charge");
-        this.entity.playSound(this.entity.getAuraAttackChargeSoundEvent(), 0.5f, 1.0f);
+        this.entity.setAuraCharging(true);
+        this.entity.playSound(this.entity.getAuraChargeSoundEvent(), 0.5f, 1.0f);
     }
 
     @Override
@@ -49,15 +49,17 @@ public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> exten
 
     @Override
     public void stop() {
-        this.entity.resetAttackState();
-        this.entity.setAuraAttackCooldown(this.entity.getAuraAttackMaxCooldown());
+        this.entity.setAuraCharging(false);
+        this.entity.setAuraReleasing(false);
+        this.entity.setAuraCooldown(this.entity.getAuraMaxCooldown());
     }
 
     @Override
     public void tick() {
         if (this.ticks == this.actionTick) {
-            this.entity.setAttackState("aura_release");
-            this.entity.playSound(this.entity.getAuraAttackReleaseSoundEvent(), 0.5f, 1.0f);
+            this.entity.setAuraCharging(false);
+            this.entity.setAuraReleasing(true);
+            this.entity.playSound(this.entity.getAuraReleaseSoundEvent(), 0.5f, 1.0f);
         } else if (this.ticks >= this.actionTick && this.ticks % 2 == 0) {
             this.damage();
         }
@@ -71,7 +73,7 @@ public class AuraAttackGoal<E extends MineCellsEntity & IAuraAttackEntity> exten
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
         for (Entity player : playersInRange) {
-            player.damage(DamageSource.mob(this.entity), this.entity.getAuraAttackDamage());
+            player.damage(DamageSource.mob(this.entity), this.entity.getAuraDamage());
         }
     }
 }

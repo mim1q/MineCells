@@ -20,6 +20,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -29,17 +30,26 @@ import java.util.EnumSet;
 public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
     // Animation data
-
     @Environment(EnvType.CLIENT)
     public float offset = 0.0F;
     @Environment(EnvType.CLIENT)
     public float targetOffset = 0.0F;
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> SHOOT_RELEASING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public InquisitorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.ignoreCameraFrustum = true;
+    }
+
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(SHOOT_COOLDOWN, 0);
+        this.dataTracker.startTracking(SHOOT_CHARGING, false);
+        this.dataTracker.startTracking(SHOOT_RELEASING, false);
     }
 
     @Override
@@ -54,15 +64,36 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(SHOOT_COOLDOWN, 0);
+    public void tick() {
+        super.tick();
+        this.decrementCooldown(SHOOT_COOLDOWN);
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        this.decrementCooldown(SHOOT_COOLDOWN, "shoot");
+    public boolean isShootReleasing() {
+        return this.dataTracker.get(SHOOT_RELEASING);
+    }
+    @Override
+    public void setShootReleasing(boolean releasing) {
+        this.dataTracker.set(SHOOT_RELEASING, releasing);
+    }
+
+    @Override
+    public boolean isShootCharging() {
+        return this.dataTracker.get(SHOOT_CHARGING);
+    }
+    @Override
+    public void setShootCharging(boolean charging) {
+        this.dataTracker.set(SHOOT_CHARGING, charging);
+    }
+
+    @Override
+    public int getShootCooldown() {
+        return this.dataTracker.get(SHOOT_COOLDOWN);
+    }
+    @Override
+    public void setShootCooldown(int ticks) {
+        this.dataTracker.set(SHOOT_COOLDOWN, ticks);
     }
 
     @Override
@@ -71,23 +102,25 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
     }
 
     @Override
-    public int getShootCooldown() {
-        return this.dataTracker.get(SHOOT_COOLDOWN);
-    }
-
-    @Override
-    public void setShootCooldown(int ticks) {
-        this.dataTracker.set(SHOOT_COOLDOWN, ticks);
-    }
-
-    @Override
     public SoundEvent getShootChargeSoundEvent() {
         return SoundRegistry.INQUISITOR_CHARGE;
     }
-
     @Override
     public SoundEvent getShootReleaseSoundEvent() {
         return SoundRegistry.INQUISITOR_RELEASE;
+    }
+
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("shootCooldown", this.getShootCooldown());
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.setShootCooldown(nbt.getInt("shootCooldown"));
     }
 
     public static DefaultAttributeContainer.Builder createInquisitorAttributes() {
