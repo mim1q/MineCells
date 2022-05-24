@@ -62,6 +62,13 @@ public class MineCellsEntity extends HostileEntity {
         }
     }
 
+    protected void decrementCooldown(TrackedData<Integer> cooldown) {
+        int current = this.dataTracker.get(cooldown);
+        if (current > 0) {
+            this.dataTracker.set(cooldown, current - 1);
+        }
+    }
+
     @Override
     public void tick() {
         super.tick();

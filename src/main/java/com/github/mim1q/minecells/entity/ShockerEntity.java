@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.AuraAttackGoal;
-import com.github.mim1q.minecells.entity.interfaces.IAuraAttackEntity;
+import com.github.mim1q.minecells.entity.interfaces.IAuraEntity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
@@ -24,7 +24,11 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity {
+public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
+
+    public static final TrackedData<Integer> AURA_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public ShockerEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -32,20 +36,18 @@ public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity 
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        this.decrementCooldown(AURA_COOLDOWN, null);
-        this.handleStates();
-    }
-
-    //region Goals and Tracked Data
-
-    public static final TrackedData<Integer> AURA_COOLDOWN = DataTracker.registerData(JumpingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
-    @Override
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(AURA_COOLDOWN, 50);
+        this.dataTracker.startTracking(AURA_CHARGING, false);
+        this.dataTracker.startTracking(AURA_RELEASING, false);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        this.decrementCooldown(AURA_COOLDOWN);
+        this.handleStates();
     }
 
     @Override
@@ -59,15 +61,12 @@ public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity 
 
     private void handleStates() {
         if (this.world.isClient()) {
-            if (!this.getAttackState().equals("none")) {
-                Vec3d pos = this.getPos().add(0.0D, 1.0D, 0.0D);
-
-                if (this.getAttackState().equals("aura_charge")) {
-                    ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 5, 2.0D, -0.1D);
-                } else {
-                    ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 100, 9.5D, 0.01D);
-                    ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
-                }
+            Vec3d pos = this.getPos().add(0.0D, 1.0D, 0.0D);
+            if (this.isAuraCharging()) {
+                ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 5, 2.0D, -0.1D);
+            } else if (this.isAuraReleasing()) {
+                ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 100, 9.5D, 0.01D);
+                ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
             }
         }
     }
@@ -103,38 +102,66 @@ public class ShockerEntity extends MineCellsEntity implements IAuraAttackEntity 
     }
 
 
+    public boolean isAuraCharging() {
+        return this.dataTracker.get(AURA_CHARGING);
+    }
+
+    public void setAuraCharging(boolean charging) {
+        this.dataTracker.set(AURA_CHARGING, charging);
+    }
+
+    public boolean isAuraReleasing() {
+        return this.dataTracker.get(AURA_RELEASING);
+    }
+
+    public void setAuraReleasing(boolean releasing) {
+        this.dataTracker.set(AURA_RELEASING, releasing);
+    }
+
     //region IAuraAttackEntity Implementation
 
-    public float getAuraAttackDamage() {
+    public float getAuraDamage() {
         return 4.0F;
     }
 
-    public int getAuraAttackMaxCooldown() {
+    public int getAuraMaxCooldown() {
         return 20;
     }
 
-    public int getAuraAttackCooldown() {
+    public int getAuraCooldown() {
         return this.dataTracker.get(AURA_COOLDOWN);
     }
 
-    public void setAuraAttackCooldown(int ticks) {
+    public void setAuraCooldown(int ticks) {
         this.dataTracker.set(AURA_COOLDOWN, ticks);
     }
 
-    public SoundEvent getAuraAttackChargeSoundEvent() {
+    public SoundEvent getAuraChargeSoundEvent() {
         return SoundRegistry.SHOCKER_CHARGE;
     }
 
-    public SoundEvent getAuraAttackReleaseSoundEvent() {
+    public SoundEvent getAuraReleaseSoundEvent() {
         return SoundRegistry.SHOCKER_RELEASE;
     }
 
     //endregion
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        nbt.putInt("auraCooldown", this.getAuraCooldown());
+        super.writeCustomDataToNbt(nbt);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        this.setAuraCooldown(nbt.getInt("auraCooldown"));
+        super.readCustomDataFromNbt(nbt);
+    }
+
     //region Sounds
 
     @Override
     public SoundEvent getDeathSound() {
         return SoundRegistry.SHOCKER_DEATH;
     }
-    //endregion
 }

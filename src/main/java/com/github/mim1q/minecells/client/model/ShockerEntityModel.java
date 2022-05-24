@@ -99,10 +99,7 @@ public class ShockerEntityModel extends EntityModel<ShockerEntity> {
 
     @Override
     public void setAngles(ShockerEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        float multiplier = 1.0F;
-        if (!entity.getAttackState().equals("none")) {
-            multiplier = 20.0F;
-        }
+        float multiplier = entity.isAuraCharging() || entity.isAuraReleasing() ? 15.0F : 1.0F;
 
         this.base.pivotY = -5.0F + MathHelper.sin(animationProgress * 0.1F) * 4.0F;
         this.bottomFloater.pivotY = MathHelper.sin((animationProgress + 2.0F) * 0.1F) * 4.0F;
