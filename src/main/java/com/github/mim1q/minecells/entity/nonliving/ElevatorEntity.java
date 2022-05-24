@@ -296,14 +296,14 @@ public class ElevatorEntity extends Entity {
 
     protected boolean checkSignal(int y) {
         final Vec3i[] offsets = {
-                new Vec3i(-2, 0,  0),
-                new Vec3i( 0, 0, -2),
-                new Vec3i( 0, 0,  2),
-                new Vec3i( 2, 0,  0),
-                new Vec3i(-2, 1,  0),
-                new Vec3i( 0, 1, -2),
-                new Vec3i( 0, 1,  2),
-                new Vec3i( 2, 1,  0)
+            new Vec3i(-2, 0,  0),
+            new Vec3i( 0, 0, -2),
+            new Vec3i( 0, 0,  2),
+            new Vec3i( 2, 0,  0),
+            new Vec3i(-2, 1,  0),
+            new Vec3i( 0, 1, -2),
+            new Vec3i( 0, 1,  2),
+            new Vec3i( 2, 1,  0)
         };
 
         BlockPos pos = new BlockPos(this.getBlockX(), y, this.getBlockZ());
@@ -323,15 +323,15 @@ public class ElevatorEntity extends Entity {
         }
 
         final Vec3i[] offsets = {
-                new Vec3i(-1, 0, -1),
-                new Vec3i(-1, 0,  0), // [1] West
-                new Vec3i(-1, 0,  1),
-                new Vec3i( 0, 0, -1), // [3] North
-                new Vec3i( 0, 0,  0),
-                new Vec3i( 0, 0,  1), // [5] South
-                new Vec3i( 1, 0, -1),
-                new Vec3i( 1, 0,  0), // [7] East
-                new Vec3i( 1, 0,  1),
+            new Vec3i(-1, 0, -1),
+            new Vec3i(-1, 0,  0), // [1] West
+            new Vec3i(-1, 0,  1),
+            new Vec3i( 0, 0, -1), // [3] North
+            new Vec3i( 0, 0,  0),
+            new Vec3i( 0, 0,  1), // [5] South
+            new Vec3i( 1, 0, -1),
+            new Vec3i( 1, 0,  0), // [7] East
+            new Vec3i( 1, 0,  1),
         };
         int chain0 = 1;
         int chain1 = 7;
@@ -390,6 +390,17 @@ public class ElevatorEntity extends Entity {
         super.move(movementType, movement);
     }
 
+
+    @Override
+    public boolean isCollidable() {
+        return !this.getIsMoving();
+    }
+
+    @Override
+    public boolean collides() {
+        return true;
+    }
+
     public boolean getIsMoving() {
         return this.dataTracker.get(IS_MOVING);
     }
@@ -436,16 +447,6 @@ public class ElevatorEntity extends Entity {
 
     public void setMinY(int minY) {
         this.dataTracker.set(MIN_Y, minY);
-    }
-
-    @Override
-    public boolean isCollidable() {
-        return !this.getIsMoving();
-    }
-
-    @Override
-    public boolean collides() {
-        return true;
     }
 
     @Override
