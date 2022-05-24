@@ -1,9 +1,13 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ItemRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
@@ -18,10 +22,13 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
@@ -143,7 +150,6 @@ public class ElevatorEntity extends Entity {
                 this.handleEntitiesBelow();
             }
         }
-
         this.handlePlayers();
 
         if (this.shouldBeRemoved()) {
@@ -190,11 +196,17 @@ public class ElevatorEntity extends Entity {
                 ItemEntity entity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), itemStack);
                 this.world.spawnEntity(entity);
             }
+            this.playSound(SoundEvents.BLOCK_WOOD_BREAK, 1.0F, 1.0F);
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeDouble(this.getX());
+            buf.writeDouble(this.getY());
+            buf.writeDouble(this.getZ());
+            for (ServerPlayerEntity player : PlayerLookup.tracking(this)) {
+                ServerPlayNetworking.send(player, PacketIdentifiers.ELEVATOR_DESTROYED, buf);
+            }
             super.kill();
         }
     }
-
-
 
     @Override
     public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
