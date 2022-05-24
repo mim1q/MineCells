@@ -178,7 +178,8 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
 
         // Throwing animation
 
-        String animationState = entity.getAttackState();
+        String animationState = "idle";
+        if (entity.isShootCharging()) { animationState = "shoot"; }
 
         if (!animationState.equals(entity.lastAnimation)) {
             entity.animationTimestamp = animationProgress;

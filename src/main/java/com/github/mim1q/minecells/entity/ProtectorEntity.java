@@ -1,74 +1,72 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.StatusEffectRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProtectorEntity extends MineCellsEntity {
 
+    @Environment(EnvType.SERVER)
     protected int stateTicks = 0;
+    List<Entity> trackedEntities = new ArrayList<>();
+
+    private static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(ProtectorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public ProtectorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
-    public void tick() {
-        String state = this.getAttackState();
-        if (!this.world.isClient()) {
-            if (stateTicks > 40 && state.equals("none")) {
-                this.stateTicks = 0;
-                this.setAttackState("protect");
-            }
-            if (state.equals("protect")) {
-                List<Entity> entities = this.world.getOtherEntities(this, Box.of(this.getPos(), 15.0D, 15.0D, 15.0D), ProtectorEntity::canProtect);
-                for (Entity e : entities) {
-                    StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 60 - stateTicks, 5, false, false);
-                    ((LivingEntity)e).addStatusEffect(effect);
-                    for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld)this.world, this.getPos(), 30.0F)) {
-                        PacketByteBuf buf = PacketByteBufs.create();
-                        buf.writeDouble(this.getX());
-                        buf.writeDouble(this.getY() + this.getHeight() / 2.0D);
-                        buf.writeDouble(this.getZ());
-                        buf.writeDouble(e.getX());
-                        buf.writeDouble(e.getY() + e.getHeight() / 2.0D);
-                        buf.writeDouble(e.getZ());
-                        ServerPlayNetworking.send(player, PacketIdentifiers.CONNECT, buf);
-                    }
-                }
-                if (stateTicks > 60) {
-                    this.stateTicks = 0;
-                    this.setAttackState("none");
-                }
-            }
-        }
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(ACTIVE, false);
+    }
 
-        if (state.equals("protect")) {
+    @Override
+    public void tick() {
+        if (this.isActive()) {
+            List<Entity> entities = this.world.getOtherEntities(this, Box.of(this.getPos(), 15.0D, 15.0D, 15.0D), ProtectorEntity::canProtect);
+            this.trackedEntities = entities;
             if (this.world.isClient()) {
                 ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 1.5D, 0.0D), ParticleTypes.ENCHANTED_HIT, 1, 0.1D, 0.5D);
+            } else {
+                if (this.stateTicks > 40) {
+                    this.setActive(false);
+                    this.stateTicks = 0;
+                }
+                for (Entity e : entities) {
+                    StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 60 - stateTicks, 5, false, false);
+                    ((LivingEntity) e).addStatusEffect(effect);
+                }
             }
         }
+        if (!this.world.isClient) {
+            if (!this.isActive() && this.stateTicks > 80) {
+                this.setActive(true);
+                this.stateTicks = 0;
+            }
+            this.stateTicks++;
+        }
 
-        stateTicks++;
         super.tick();
         this.setPosition(this.prevX, this.getY(), this.prevZ);
     }
@@ -83,6 +81,25 @@ public class ProtectorEntity extends MineCellsEntity {
     @Override
     public boolean isPushable() {
         return false;
+    }
+
+    public boolean isActive() {
+        return this.dataTracker.get(ACTIVE);
+    }
+    public void setActive(boolean active) {
+        this.dataTracker.set(ACTIVE, active);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("stateTicks", stateTicks);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.stateTicks = nbt.getInt("stateTicks");
     }
 
     public static DefaultAttributeContainer.Builder createProtectorAttributes() {

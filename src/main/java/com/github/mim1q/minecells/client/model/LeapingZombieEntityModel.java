@@ -80,22 +80,22 @@ public class LeapingZombieEntityModel extends EntityModel<LeapingZombieEntity> {
             ModelTransform.of(2.0F, -2.0F, 2.0F, MathHelper.PI / 6.0F, 0.0F, 0.1F));
 
         dUpperTorso.addChild("wing_2",
-                ModelPartBuilder.create()
-                        .uv(38, 0)
-                        .cuboid(-1.0F, -2.0F, 0.0F, 1, 2, 3),
-                ModelTransform.of(-2.0F, -2.0F, 2.0F, MathHelper.PI / 6.0F, 0.0F, -0.1F));
+            ModelPartBuilder.create()
+                .uv(38, 0)
+                .cuboid(-1.0F, -2.0F, 0.0F, 1, 2, 3),
+            ModelTransform.of(-2.0F, -2.0F, 2.0F, MathHelper.PI / 6.0F, 0.0F, -0.1F));
 
         dUpperTorso.addChild("wing_3",
-                ModelPartBuilder.create()
-                        .uv(38, 0)
-                        .cuboid(0.0F, 0.0F, 0.0F, 1, 2, 3),
-                ModelTransform.of(2.0F, -1.0F, 2.0F, -MathHelper.PI / 6.0F, 0.0F, 0.1F));
+            ModelPartBuilder.create()
+                .uv(38, 0)
+                .cuboid(0.0F, 0.0F, 0.0F, 1, 2, 3),
+            ModelTransform.of(2.0F, -1.0F, 2.0F, -MathHelper.PI / 6.0F, 0.0F, 0.1F));
 
         dUpperTorso.addChild("wing_4",
-                ModelPartBuilder.create()
-                        .uv(38, 0)
-                        .cuboid(-1.0F, 0.0F, 0.0F, 1, 2, 3),
-                ModelTransform.of(-2.0F, -1.0F, 2.0F, -MathHelper.PI / 6.0F, 0.0F, -0.1F));
+            ModelPartBuilder.create()
+                .uv(38, 0)
+                .cuboid(-1.0F, 0.0F, 0.0F, 1, 2, 3),
+            ModelTransform.of(-2.0F, -1.0F, 2.0F, -MathHelper.PI / 6.0F, 0.0F, -0.1F));
 
         dUpperTorso.addChild("left_arm",
             ModelPartBuilder.create()
@@ -104,20 +104,20 @@ public class LeapingZombieEntityModel extends EntityModel<LeapingZombieEntity> {
             ModelTransform.pivot(4.0F, -2.5F, 0.0F));
 
         dUpperTorso.addChild("right_arm",
-                ModelPartBuilder.create()
-                    .uv(12, 24)
-                    .cuboid(-2.0F, -1.5F, -1.5F, 2, 12, 3),
-                ModelTransform.pivot(-4.0F, -2.5F, 0.0F));
+            ModelPartBuilder.create()
+                .uv(12, 24)
+                .cuboid(-2.0F, -1.5F, -1.5F, 2, 12, 3),
+            ModelTransform.pivot(-4.0F, -2.5F, 0.0F));
 
         ModelPartData dNeck = dUpperTorso.addChild("neck",
-                ModelPartBuilder.create(),
-                ModelTransform.pivot(0.0F, -4.0F, -0.5F));
+            ModelPartBuilder.create(),
+            ModelTransform.pivot(0.0F, -4.0F, -0.5F));
 
         dNeck.addChild("head",
-                ModelPartBuilder.create()
-                        .uv(0, 11)
-                        .cuboid(-3.0F, -7.0F, -3.0F, 6, 7, 6),
-                ModelTransform.NONE);
+            ModelPartBuilder.create()
+                .uv(0, 11)
+                .cuboid(-3.0F, -7.0F, -3.0F, 6, 7, 6),
+            ModelTransform.NONE);
 
         return TexturedModelData.of(modelData, 64, 64);
     }
@@ -141,7 +141,8 @@ public class LeapingZombieEntityModel extends EntityModel<LeapingZombieEntity> {
 
         // Jumping animation
 
-        String animationState = entity.getAttackState();
+        String animationState = "idle";
+        if (entity.isLeapCharging()) { animationState = "leap"; }
 
         if (!animationState.equals(entity.lastAnimation)) {
             entity.animationTimestamp = animationProgress;
@@ -150,7 +151,7 @@ public class LeapingZombieEntityModel extends EntityModel<LeapingZombieEntity> {
 
         float targetAdditionalRotation = 0.0F;
         float startAdditionalRotation = -MathHelper.PI * 1.5F;
-        if (animationState.equals("jump")) {
+        if (animationState.equals("leap")) {
             startAdditionalRotation = 0.0F;
             targetAdditionalRotation = -MathHelper.PI * 1.5F;
         }

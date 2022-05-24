@@ -13,6 +13,7 @@ public interface ILeapEntity {
     void setLeapCooldown(int ticks);
 
     int getLeapMaxCooldown();
+
     float getLeapDamage();
 
     SoundEvent getLeapChargeSoundEvent();

@@ -10,9 +10,9 @@ public class ItemGroupRegistry {
 
     public static final ItemGroup MINECELLS_EGGS = FabricItemGroupBuilder.create(
             new Identifier(MineCells.MOD_ID, "eggs"))
-            .icon(() -> new ItemStack(EntityRegistry.JUMPING_ZOMBIE_SPAWN_EGG))
+            .icon(() -> new ItemStack(EntityRegistry.LEAPING_ZOMBIE_SPAWN_EGG))
             .appendItems(stacks -> {
-                stacks.add(new ItemStack(EntityRegistry.JUMPING_ZOMBIE_SPAWN_EGG));
+                stacks.add(new ItemStack(EntityRegistry.LEAPING_ZOMBIE_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.SHOCKER_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.GRENADIER_SPAWN_EGG));
                 stacks.add(new ItemStack(EntityRegistry.DISGUSTING_WORM_SPAWN_EGG));

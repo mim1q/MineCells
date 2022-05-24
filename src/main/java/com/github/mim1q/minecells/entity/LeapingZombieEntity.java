@@ -130,14 +130,14 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putInt("leapCooldown", this.getLeapCooldown());
         super.writeCustomDataToNbt(nbt);
+        nbt.putInt("leapCooldown", this.getLeapCooldown());
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
-        this.setLeapCooldown(nbt.getInt("leapCooldown"));
         super.readCustomDataFromNbt(nbt);
+        this.setLeapCooldown(nbt.getInt("leapCooldown"));
     }
 
     static class LeapingZombieLeapGoal extends LeapGoal<LeapingZombieEntity> {

@@ -35,59 +35,49 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
         ModelPartData modelPartData = modelData.getRoot();
 
         ModelPartData dRoot = modelPartData.addChild("root",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-1.5F, -1.0F, 0.0F, 3, 1, 0, new Dilation(0.001F))
-                        .uv(12, 18)
-                        .cuboid(-1.5F, -5.0F, -1.0F, 3, 4, 2),
-                ModelTransform.pivot(0.0F, 18.0F, 0.0F));
+            ModelPartBuilder.create()
+                .uv(0, 0)
+                .cuboid(-1.5F, -1.0F, 0.0F, 3, 1, 0, new Dilation(0.001F))
+                .uv(12, 18)
+                .cuboid(-1.5F, -5.0F, -1.0F, 3, 4, 2),
+            ModelTransform.pivot(0.0F, 18.0F, 0.0F));
 
         modelPartData.addChild("bulb",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-3.0F, 0.0F, -3.0F, 6, 6, 6),
-                ModelTransform.pivot(0.0F, 18.0F, 0.0F));
+            ModelPartBuilder.create()
+                .uv(0, 0)
+                .cuboid(-3.0F, 0.0F, -3.0F, 6, 6, 6),
+            ModelTransform.pivot(0.0F, 18.0F, 0.0F));
 
         ModelPartData dLowerLeftWing = dRoot.addChild("lower_left_wing",
-                ModelPartBuilder.create()
-                        .uv(18, 0)
-                        .cuboid(0.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
-                ModelTransform.of(1.0F, -3.5F, 0.0F, 20.0F * RADIANS_PER_DEGREE, 0.0F, 15.0F * RADIANS_PER_DEGREE));
+            ModelPartBuilder.create()
+                .uv(18, 0)
+                .cuboid(0.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+            ModelTransform.of(1.0F, -3.5F, 0.0F, 20.0F * RADIANS_PER_DEGREE, 0.0F, 15.0F * RADIANS_PER_DEGREE));
 
         dLowerLeftWing.addChild("upper_left_wing",
-                ModelPartBuilder.create()
-                        .uv(0, 18)
-                        .cuboid(-1.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
-                ModelTransform.pivot(1.0F, -2.0F, 0.0F));
+            ModelPartBuilder.create()
+                .uv(0, 18)
+                .cuboid(-1.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+            ModelTransform.pivot(1.0F, -2.0F, 0.0F));
 
         ModelPartData dLowerRightWing = dRoot.addChild("lower_right_wing",
-                ModelPartBuilder.create()
-                        .uv(12, 12)
-                        .cuboid(-6.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
-                ModelTransform.of(-1.0F, -3.5F, 0.0F, 0.0F, 20.0F * RADIANS_PER_DEGREE, -15.0F * RADIANS_PER_DEGREE));
+            ModelPartBuilder.create()
+                .uv(12, 12)
+                .cuboid(-6.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+            ModelTransform.of(-1.0F, -3.5F, 0.0F, 0.0F, 20.0F * RADIANS_PER_DEGREE, -15.0F * RADIANS_PER_DEGREE));
 
         dLowerRightWing.addChild("upper_right_wing",
-                ModelPartBuilder.create()
-                        .uv(0, 12)
-                        .cuboid(-5.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
-                ModelTransform.pivot(-1.0F, -2.0F, 0.0F));
+            ModelPartBuilder.create()
+                .uv(0, 12)
+                .cuboid(-5.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+            ModelTransform.pivot(-1.0F, -2.0F, 0.0F));
 
         return TexturedModelData.of(modelData, 32, 32);
     }
 
     @Override
     public void setAngles(KamikazeEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        boolean isSleeping = entity.getAttackState().equals("sleeping");
-
-        if (!isSleeping) {
-            this.lowerLeftWing.yaw = MathHelper.sin(animationProgress * 0.8F) * RADIANS_PER_DEGREE * 45.0F;
-            this.upperLeftWing.pitch = -MathHelper.sin(animationProgress * 0.8F + 1.5F) * RADIANS_PER_DEGREE * 45.0F;
-            this.upperLeftWing.pitch += 45.0F * RADIANS_PER_DEGREE;
-
-            float animationTime = animationProgress - entity.animationTimestamp;
-            this.root.pitch = MathHelper.clampedLerp(-MathHelper.PI, 0.0F, animationTime / 10.0F);
-            this.bulb.pitch = this.root.pitch;
-        } else {
+        if (entity.isSleeping()) {
             this.root.pitch = -MathHelper.PI;
             this.bulb.pitch = -MathHelper.PI;
 
@@ -95,6 +85,14 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
             this.upperLeftWing.pitch = 120.0F * RADIANS_PER_DEGREE;
 
             entity.animationTimestamp = animationProgress;
+        } else {
+            this.lowerLeftWing.yaw = MathHelper.sin(animationProgress * 0.8F) * RADIANS_PER_DEGREE * 45.0F;
+            this.upperLeftWing.pitch = -MathHelper.sin(animationProgress * 0.8F + 1.5F) * RADIANS_PER_DEGREE * 45.0F;
+            this.upperLeftWing.pitch += 45.0F * RADIANS_PER_DEGREE;
+
+            float animationTime = animationProgress - entity.animationTimestamp;
+            this.root.pitch = MathHelper.clampedLerp(-MathHelper.PI, 0.0F, animationTime / 10.0F);
+            this.bulb.pitch = this.root.pitch;
         }
 
         this.lowerRightWing.yaw = -this.lowerLeftWing.yaw;

@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
-public class AuraAttackGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
+public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
 
     protected E entity;
     protected int ticks = 0;
@@ -18,7 +18,7 @@ public class AuraAttackGoal<E extends MineCellsEntity & IAuraEntity> extends Goa
     protected final int lengthTicks;
     protected final float chance;
 
-    public AuraAttackGoal(E entity, double radius, int actionTick, int lengthTicks, float chance) {
+    public AuraGoal(E entity, double radius, int actionTick, int lengthTicks, float chance) {
         this.entity = entity;
         this.radius = radius;
         this.actionTick = actionTick;

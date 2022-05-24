@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -16,6 +18,7 @@ import net.minecraft.world.World;
 
 public class DisgustingWormEntity extends MineCellsEntity {
 
+    @Environment(EnvType.SERVER)
     private int soundCountdown = 0;
 
     public DisgustingWormEntity(EntityType<DisgustingWormEntity> entityType, World world) {
@@ -61,6 +64,11 @@ public class DisgustingWormEntity extends MineCellsEntity {
         }
     }
 
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.DISGUSTING_WORM_DEATH;
+    }
+
     public static DefaultAttributeContainer.Builder createDisgustingWormAttributes() {
         return createLivingAttributes()
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
@@ -68,10 +76,5 @@ public class DisgustingWormEntity extends MineCellsEntity {
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.5D);
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundRegistry.DISGUSTING_WORM_DEATH;
     }
 }

@@ -65,7 +65,6 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
         this.entity.setLeapCharging(false);
         this.entity.setLeapReleasing(false);
         this.entity.setLeapCooldown(this.entity.getLeapMaxCooldown());
-        this.entity.resetAttackState();
     }
 
     @Override

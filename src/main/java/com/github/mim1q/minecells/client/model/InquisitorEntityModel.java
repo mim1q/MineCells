@@ -57,10 +57,10 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
 
         dWaist.addChild("left_leg",
             ModelPartBuilder.create()
-                    .uv(38, 0)
-                    .cuboid(-2.0F, 0.0F, -2.0F, 4, 11, 4)
-                    .uv(51, 40)
-                    .cuboid(-1.5F, 11.0F, -1.5F, 3, 4, 3),
+                .uv(38, 0)
+                .cuboid(-2.0F, 0.0F, -2.0F, 4, 11, 4)
+                .uv(51, 40)
+                .cuboid(-1.5F, 11.0F, -1.5F, 3, 4, 3),
             ModelTransform.pivot(2.0F, 0.0F, 0.0F));
 
         dWaist.addChild("belt",
@@ -131,12 +131,12 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
 
         // Shooting animation
 
-        String animationState = entity.getAttackState();
+        String animationState = "idle";
+        if (entity.isShootCharging() || entity.isShootReleasing()) { animationState = "shoot"; }
 
         if (!animationState.equals(entity.lastAnimation)) {
             entity.animationTimestamp = animationProgress;
         }
-
         float timestamp = entity.animationTimestamp;
 
         float targetAdditionalRotation = 0.0F;
