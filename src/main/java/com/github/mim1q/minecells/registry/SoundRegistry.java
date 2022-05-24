@@ -8,16 +8,16 @@ import net.minecraft.util.registry.Registry;
 
 public final class SoundRegistry {
 
-    // Jumping Zombie
+    // Leaping Zombie
     
-    public static final Identifier JUMPING_ZOMBIE_JUMP_CHARGE_ID = new Identifier(MineCells.MOD_ID, "jumping_zombie.jump_charge");
-    public static final SoundEvent JUMPING_ZOMBIE_JUMP_CHARGE = new SoundEvent(JUMPING_ZOMBIE_JUMP_CHARGE_ID);
+    public static final Identifier LEAPING_ZOMBIE_CHARGE_ID = new Identifier(MineCells.MOD_ID, "leaping_zombie.leap_charge");
+    public static final SoundEvent LEAPING_ZOMBIE_CHARGE = new SoundEvent(LEAPING_ZOMBIE_CHARGE_ID);
 
-    public static final Identifier JUMPING_ZOMBIE_JUMP_RELEASE_ID = new Identifier(MineCells.MOD_ID, "jumping_zombie.jump_release");
-    public static final SoundEvent JUMPING_ZOMBIE_JUMP_RELEASE = new SoundEvent(JUMPING_ZOMBIE_JUMP_RELEASE_ID);
+    public static final Identifier LEAPING_ZOMBIE_RELEASE_ID = new Identifier(MineCells.MOD_ID, "leaping_zombie.leap_release");
+    public static final SoundEvent LEAPING_ZOMBIE_RELEASE = new SoundEvent(LEAPING_ZOMBIE_RELEASE_ID);
 
-    public static final Identifier JUMPING_ZOMBIE_DEATH_ID = new Identifier(MineCells.MOD_ID, "jumping_zombie.death");
-    public static final SoundEvent JUMPING_ZOMBIE_DEATH = new SoundEvent(JUMPING_ZOMBIE_DEATH_ID);
+    public static final Identifier LEAPING_ZOMBIE_DEATH_ID = new Identifier(MineCells.MOD_ID, "leaping_zombie.death");
+    public static final SoundEvent LEAPING_ZOMBIE_DEATH = new SoundEvent(LEAPING_ZOMBIE_DEATH_ID);
 
     // Shocker
 
@@ -81,11 +81,11 @@ public final class SoundRegistry {
 
     public static void register() {
 
-        // Jumping Zombie
+        // Leaping Zombie
 
-        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_JUMP_CHARGE_ID, JUMPING_ZOMBIE_JUMP_CHARGE);
-        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_JUMP_RELEASE_ID, JUMPING_ZOMBIE_JUMP_RELEASE);
-        Registry.register(Registry.SOUND_EVENT, JUMPING_ZOMBIE_DEATH_ID, JUMPING_ZOMBIE_DEATH);
+        Registry.register(Registry.SOUND_EVENT, LEAPING_ZOMBIE_CHARGE_ID, LEAPING_ZOMBIE_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, LEAPING_ZOMBIE_RELEASE_ID, LEAPING_ZOMBIE_RELEASE);
+        Registry.register(Registry.SOUND_EVENT, LEAPING_ZOMBIE_DEATH_ID, LEAPING_ZOMBIE_DEATH);
 
         // Shocker
 

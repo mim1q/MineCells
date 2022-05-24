@@ -1,17 +1,17 @@
 {
-  "jumping_zombie.jump_charge": {
+  "leaping_zombie.leap_charge": {
     "sounds": [
-      "minecells:jumping_zombie/jump_charge"
+      "minecells:leaping_zombie/leap_charge"
     ]
   },
-  "jumping_zombie.jump_release": {
+  "leaping_zombie.leap_release": {
     "sounds": [
-      "minecells:jumping_zombie/jump_release"
+      "minecells:leaping_zombie/leap_release"
     ]
   },
-  "jumping_zombie.death": {
+  "leaping_zombie.death": {
     "sounds": [
-      "minecells:jumping_zombie/death"
+      "minecells:leaping_zombie/death"
     ]
   },
   "shocker.charge": {

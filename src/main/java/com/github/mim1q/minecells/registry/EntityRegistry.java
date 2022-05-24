@@ -21,10 +21,10 @@ public final class EntityRegistry {
 
     //region EntityTypes
 
-    public static final EntityType<JumpingZombieEntity> JUMPING_ZOMBIE = Registry.register(
+    public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = Registry.register(
         Registry.ENTITY_TYPE,
-        new Identifier(MineCells.MOD_ID, "jumping_zombie"),
-        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, JumpingZombieEntity::new)
+        new Identifier(MineCells.MOD_ID, "leaping_zombie"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, LeapingZombieEntity::new)
             .dimensions(EntityDimensions.fixed(0.75F, 2.0F))
             .build()
     );
@@ -120,8 +120,8 @@ public final class EntityRegistry {
     //endregion
     //region Spawn Egg Items
 
-    public static final Item JUMPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
-            JUMPING_ZOMBIE,
+    public static final Item LEAPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
+        LEAPING_ZOMBIE,
             0x5B7B53,
             0x8DBB4E,
             new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
@@ -175,7 +175,7 @@ public final class EntityRegistry {
 
         // Register Attributes
 
-        FabricDefaultAttributeRegistry.register(JUMPING_ZOMBIE, JumpingZombieEntity.createJumpingZombieAttributes());
+        FabricDefaultAttributeRegistry.register(LEAPING_ZOMBIE, LeapingZombieEntity.createLeapingZombieAttributes());
         FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createShockerAttributes());
         FabricDefaultAttributeRegistry.register(GRENADIER, GrenadierEntity.createGrenadierAttributes());
         FabricDefaultAttributeRegistry.register(DISGUSTING_WORM, DisgustingWormEntity.createDisgustingWormAttributes());
@@ -185,7 +185,7 @@ public final class EntityRegistry {
 
         // Register Spawn Eggs
 
-        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "jumping_zombie_spawn_egg"), JUMPING_ZOMBIE_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "leaping_zombie_spawn_egg"), LEAPING_ZOMBIE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shocker_spawn_egg"), SHOCKER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "grenadier_spawn_egg"), GRENADIER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "disgusting_worm_spawn_egg"), DISGUSTING_WORM_SPAWN_EGG);

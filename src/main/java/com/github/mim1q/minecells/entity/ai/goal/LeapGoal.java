@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.entity.interfaces.IJumpAttackEntity;
+import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +12,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
-public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> extends Goal {
+public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
 
     protected E entity;
     protected LivingEntity target;
@@ -22,7 +22,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     protected final float chance;
     List<UUID> alreadyAttacked;
 
-    public JumpAttackGoal(E entity, int actionTick, int lengthTicks, float chance) {
+    public LeapGoal(E entity, int actionTick, int lengthTicks, float chance) {
         this.actionTick = actionTick;
         this.lengthTicks = lengthTicks;
         this.chance = chance;
@@ -37,7 +37,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         if (target == null)
             return false;
 
-        return this.entity.getJumpAttackCooldown() == 0
+        return this.entity.getLeapCooldown() == 0
             && this.entity.canSee(target)
             && this.entity.getY() >= this.entity.getTarget().getY()
             && this.entity.getRandom().nextFloat() < this.chance;
@@ -46,12 +46,12 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
     @Override
     public void start() {
         this.target = this.entity.getTarget();
-        this.entity.setAttackState("jump");
+        this.entity.setLeapCharging(true);
         this.ticks = 0;
         this.alreadyAttacked.clear();
 
-        if (!this.entity.world.isClient() && this.entity.getJumpAttackChargeSoundEvent() != null) {
-            this.entity.playSound(this.entity.getJumpAttackChargeSoundEvent(),0.5F,1.0F);
+        if (!this.entity.world.isClient() && this.entity.getLeapChargeSoundEvent() != null) {
+            this.entity.playSound(this.entity.getLeapChargeSoundEvent(),0.5F,1.0F);
         }
     }
 
@@ -62,7 +62,9 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
 
     @Override
     public void stop() {
-        this.entity.setJumpAttackCooldown(this.entity.getJumpAttackMaxCooldown());
+        this.entity.setLeapCharging(false);
+        this.entity.setLeapReleasing(false);
+        this.entity.setLeapCooldown(this.entity.getLeapMaxCooldown());
         this.entity.resetAttackState();
     }
 
@@ -74,7 +76,7 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
                 this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0D);
             }
             else if (this.ticks == this.actionTick) {
-                this.jump();
+                this.leap();
             }
             else if (!this.entity.isOnGround()) {
                 this.attack();
@@ -84,13 +86,15 @@ public class JumpAttackGoal<E extends MineCellsEntity & IJumpAttackEntity> exten
         }
     }
 
-    public void jump() {
+    public void leap() {
+        this.entity.setLeapCharging(false);
+        this.entity.setLeapReleasing(true);
+
         Vec3d diff = this.target.getPos().add(this.entity.getPos().multiply(-1.0D));
         this.entity.setVelocity(diff.multiply(0.3D, 0.05D, 0.3D).add(0.0D, 0.3D, 0.0D));
-        if (!this.entity.world.isClient() && this.entity.getJumpAttackReleaseSoundEvent() != null) {
-            this.entity.playSound(this.entity.getJumpAttackReleaseSoundEvent(),0.5f,1.0F);
+        if (!this.entity.world.isClient() && this.entity.getLeapReleaseSoundEvent() != null) {
+            this.entity.playSound(this.entity.getLeapReleaseSoundEvent(),0.5f,1.0F);
         }
-        this.entity.resetAttackState();
     }
 
     public void attack() {

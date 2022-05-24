@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.client.model;
 
-import com.github.mim1q.minecells.entity.JumpingZombieEntity;
+import com.github.mim1q.minecells.entity.LeapingZombieEntity;
 import com.github.mim1q.minecells.util.AnimationHelper;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
-public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
+public class LeapingZombieEntityModel extends EntityModel<LeapingZombieEntity> {
 
     private final ModelPart root;
     private final ModelPart leftLeg;
@@ -22,7 +22,7 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
     private final ModelPart neck;
     private final ModelPart head;
 
-    public JumpingZombieEntityModel(ModelPart root) {
+    public LeapingZombieEntityModel(ModelPart root) {
         this.root = root.getChild("root");
         ModelPart waist = this.root.getChild("waist");
         this.leftLeg = waist.getChild("left_leg");
@@ -123,7 +123,7 @@ public class JumpingZombieEntityModel extends EntityModel<JumpingZombieEntity> {
     }
 
     @Override
-    public void setAngles(JumpingZombieEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+    public void setAngles(LeapingZombieEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
         AnimationHelper.rotateHead(headYaw, headPitch, this.head);
         AnimationHelper.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
