@@ -27,7 +27,7 @@ public class ProtectorEntity extends MineCellsEntity {
 
     @Environment(EnvType.SERVER)
     protected int stateTicks = 0;
-    List<Entity> trackedEntities = new ArrayList<>();
+    public List<Entity> trackedEntities = new ArrayList<>();
 
     private static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(ProtectorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
@@ -54,7 +54,7 @@ public class ProtectorEntity extends MineCellsEntity {
                     this.stateTicks = 0;
                 }
                 for (Entity e : entities) {
-                    StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 60 - stateTicks, 5, false, false);
+                    StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 5, 0, false, false);
                     ((LivingEntity) e).addStatusEffect(effect);
                 }
             }
