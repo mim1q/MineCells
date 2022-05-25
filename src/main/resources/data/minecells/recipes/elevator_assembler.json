@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C C",
+    "MSM",
+    "C C"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "M": {
+      "item": "minecells:elevator_mechanism"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "item": "minecells:elevator_assembler",
+    "count": 2
+  }
+}
