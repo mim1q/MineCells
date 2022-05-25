@@ -22,7 +22,7 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
 
     public static final Identifier ORB_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/particle/magic_orb.png");
     public static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/inquisitor.png");
-    public static RenderLayer ORB_LAYER = RenderLayer.getEntityShadow(ORB_TEXTURE);
+    public static final RenderLayer ORB_LAYER = RenderLayer.getEntityShadow(ORB_TEXTURE);
 
     public InquisitorEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new InquisitorEntityModel(ctx.getPart(RendererRegistry.INQUISITOR_LAYER)), 0.35F);
@@ -39,11 +39,6 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
         renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, -0.4F - entity.offset), stack, bufferIn);
     }
 
-    @Override
-    public Identifier getTexture(InquisitorEntity entity) {
-        return TEXTURE;
-    }
-
     public void renderOrb(float yaw, int age, Vec3f offset, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider) {
         matrixStack.push();
         offset = MineCellsMathHelper.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
@@ -55,14 +50,19 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
         Matrix4f matrix4f = entry.getPositionMatrix();
         Matrix3f matrix3f = entry.getNormalMatrix();
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(ORB_LAYER);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 0.0F, 0, 0, 1);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 1.0F, 0, 1, 1);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 1.0F, 1, 1, 0);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 0.0F, 1, 0, 0);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 0.0F, 0.0F, 0, 1);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 1.0F, 0.0F, 1, 1);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 1.0F, 1.0F, 1, 0);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 0.0F, 1.0F, 0, 0);
         matrixStack.pop();
     }
 
-    public static void produceVertex(VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, int light, float x, int y, int textureU, int textureV) {
-        vertexConsumer.vertex(positionMatrix, x - 0.5F, (float)y - 0.25F, 0.0F).color(255, 255, 255, 255).texture((float)textureU, (float)textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
+    public static void produceVertex(VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, int light, float x, float y, int textureU, int textureV) {
+        vertexConsumer.vertex(positionMatrix, x - 0.5F, y - 0.25F, 0.0F).color(255, 255, 255, 255).texture((float)textureU, (float)textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
+    }
+
+    @Override
+    public Identifier getTexture(InquisitorEntity entity) {
+        return TEXTURE;
     }
 }
