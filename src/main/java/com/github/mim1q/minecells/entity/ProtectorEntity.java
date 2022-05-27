@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.StatusEffectRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
 import net.fabricmc.api.EnvType;
@@ -16,8 +17,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class ProtectorEntity extends MineCellsEntity {
 
     public ProtectorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        this.ignoreCameraFrustum = true;
     }
 
     @Override
@@ -46,9 +48,7 @@ public class ProtectorEntity extends MineCellsEntity {
         if (this.isActive()) {
             List<Entity> entities = this.world.getOtherEntities(this, Box.of(this.getPos(), 15.0D, 15.0D, 15.0D), ProtectorEntity::canProtect);
             this.trackedEntities = entities;
-            if (this.world.isClient()) {
-                ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 1.5D, 0.0D), ParticleTypes.ENCHANTED_HIT, 1, 0.1D, 0.5D);
-            } else {
+            if (!this.world.isClient()) {
                 if (this.stateTicks > 40) {
                     this.setActive(false);
                     this.stateTicks = 0;
@@ -57,6 +57,8 @@ public class ProtectorEntity extends MineCellsEntity {
                     StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 5, 0, false, false);
                     ((LivingEntity) e).addStatusEffect(effect);
                 }
+            } else if (!this.trackedEntities.isEmpty()) {
+                ParticleHelper.addParticle((ClientWorld)this.world, ParticleRegistry.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
             }
         }
         if (!this.world.isClient) {

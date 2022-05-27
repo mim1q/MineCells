@@ -32,14 +32,14 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
     public void render(InquisitorEntity entity, float entityYaw, float partialTicks, MatrixStack stack, VertexConsumerProvider bufferIn, int packedLightIn) {
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
 
-        entity.targetOffset = (entity.isShootCharging() || entity.isShootReleasing()) ? 0.0F : 0.3F;
+        entity.targetOffset = (entity.isShootCharging() || entity.isShootReleasing()) ? 0.3F : 0.0F;
         entity.offset = MathHelper.lerp(0.01F, entity.offset, entity.targetOffset);
-        renderOrb(entity.headYaw, entity.age, new Vec3f(-0.25F, 2.25F, 0.0F), stack, bufferIn);
-        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, 0.4F + entity.offset), stack, bufferIn);
-        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, -0.4F - entity.offset), stack, bufferIn);
+        renderOrb(entity.headYaw, entity.age, new Vec3f(-0.25F, 2.25F, 0.0F), stack, bufferIn, packedLightIn);
+        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, 0.4F + entity.offset), stack, bufferIn, packedLightIn);
+        renderOrb(entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, -0.4F - entity.offset), stack, bufferIn, packedLightIn);
     }
 
-    public void renderOrb(float yaw, int age, Vec3f offset, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider) {
+    public void renderOrb(float yaw, int age, Vec3f offset, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
         matrixStack.push();
         offset = MineCellsMathHelper.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
         matrixStack.translate(offset.getX(), offset.getY() + MathHelper.sin((float)age * MathHelper.PI / 45.0F) * 0.1F, offset.getZ());
@@ -50,10 +50,10 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
         Matrix4f matrix4f = entry.getPositionMatrix();
         Matrix3f matrix3f = entry.getNormalMatrix();
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(ORB_LAYER);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 0.0F, 0.0F, 0, 1);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 1.0F, 0.0F, 1, 1);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 1.0F, 1.0F, 1, 0);
-        produceVertex(vertexConsumer, matrix4f, matrix3f, 255, 0.0F, 1.0F, 0, 0);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, light, 0.0F, 0.0F, 0, 1);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, light, 1.0F, 0.0F, 1, 1);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, light, 1.0F, 1.0F, 1, 0);
+        produceVertex(vertexConsumer, matrix4f, matrix3f, light, 0.0F, 1.0F, 0, 0);
         matrixStack.pop();
     }
 

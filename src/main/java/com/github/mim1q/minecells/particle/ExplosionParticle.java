@@ -37,16 +37,6 @@ public class ExplosionParticle extends SpriteBillboardParticle {
     }
 
     @Override
-    public Particle move(float speed) {
-        return this;
-    }
-
-    @Override
-    public Particle scale(float scale) {
-        return super.scale(scale);
-    }
-
-    @Override
     public ParticleTextureSheet getType() {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
