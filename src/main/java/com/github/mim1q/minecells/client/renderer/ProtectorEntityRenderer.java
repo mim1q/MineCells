@@ -15,6 +15,7 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
@@ -61,22 +62,35 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
         float y1 = (float)p1.y;
         float z1 = (float)p1.z;
 
-        float o = 1.0F;
+        float dx = x1 - x0;
+        float dy = y1 - y0;
+        float dz = z1 - z0;
+
+        dx = dx == 0 ? 0.001F : dx;
+
+        float dHorizontal = MathHelper.sqrt(dx * dx + dz * dz);
+        float length = MathHelper.sqrt(dHorizontal * dHorizontal + dy * dy);
+
+        float offset = 0.5F;
+
+        float yOffset = offset * (dHorizontal / length);
+        float xOffset = offset * (dy / length) * (dx / dHorizontal);
+        float zOffset = offset * (dy / length) * (dz / dHorizontal);
+
         float v0 = frame * 0.125F;
         float v1 = v0 + 0.125F;
 
         VertexCoordinates[] vertices = {
-            new VertexCoordinates(x0, y0, z0, 0.0F, v1),
-            new VertexCoordinates(x1, y1, z1, 1.0F, v1),
-            new VertexCoordinates(x1, y1 + o, z1, 1.0F, v0),
-            new VertexCoordinates(x0, y0 + o, z0, 0.0F, v0),
+            new VertexCoordinates(x0 + xOffset, y0 - yOffset, z0 + zOffset, 0.0F, v1),
+            new VertexCoordinates(x1 + xOffset, y1 - yOffset, z1 + zOffset, 1.0F, v1),
+            new VertexCoordinates(x1 - xOffset, y1 + yOffset, z1 - zOffset, 1.0F, v0),
+            new VertexCoordinates(x0 - xOffset, y0 + yOffset, z0 - zOffset, 0.0F, v0),
         };
 
         int[] indices = { 0, 1, 2, 3, 3, 2, 1, 0 };
         for (int i : indices) {
             RenderHelper.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, light);
         }
-
     }
 
     @Override
