@@ -30,14 +30,9 @@ public class ItemGroupRegistry {
             })
             .build();
 
-    public static final ItemGroup MINECELLS_BLOCKS = FabricItemGroupBuilder.create(
-            new Identifier(MineCells.MOD_ID, "blocks"))
+    public static final ItemGroup MINECELLS_BLOCKS_AND_ITEMS = FabricItemGroupBuilder.create(
+            new Identifier(MineCells.MOD_ID, "blocks_and_items"))
             .icon(() -> new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER))
-            .build();
-
-    public static final ItemGroup MINECELLS_ARTIFACTS = FabricItemGroupBuilder.create(
-            new Identifier(MineCells.MOD_ID, "artifacts"))
-            .icon(() -> new ItemStack(ItemRegistry.ELEVATOR_MECHANISM))
             .appendItems(stacks -> {
                 stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER));
                 stacks.add(new ItemStack(ItemRegistry.ELEVATOR_MECHANISM));

@@ -9,7 +9,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ItemRegistry {
 
-    public static final Item ELEVATOR_MECHANISM = new Item(new FabricItemSettings().group(ItemGroupRegistry.MINECELLS_ARTIFACTS));
+    public static final Item ELEVATOR_MECHANISM = new Item(new FabricItemSettings().group(ItemGroupRegistry.MINECELLS_BLOCKS_AND_ITEMS));
 
     public static final AssassinsDaggerItem ASSASSINS_DAGGER = new AssassinsDaggerItem(new FabricItemSettings()
         .group(ItemGroupRegistry.MINECELLS_WEAPONS)

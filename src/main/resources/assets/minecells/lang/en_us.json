@@ -9,18 +9,15 @@
   "item.minecells.kamikaze_spawn_egg": "Kamikaze Spawn Egg",
   "item.minecells.protector_spawn_egg": "Protector Spawn Egg",
 
-  "itemGroup.minecells.blocks": "Mine Cells Blocks",
+  "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
   "block.minecells.elevator_assembler": "Elevator Assembler",
+  "item.minecells.elevator_mechanism": "Elevator Mechanism",
 
   "itemGroup.minecells.weapons": "Mine Cells Weapons",
 
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
-
-  "itemGroup.minecells.artifacts": "Mine Cells Artifacts",
-  
-  "item.minecells.elevator_mechanism": "Elevator Mechanism",
 
   "entity.minecells.shocker": "Shocker",
   "entity.minecells.leaping_zombie": "Leaping Zombie",
