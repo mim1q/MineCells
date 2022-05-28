@@ -55,7 +55,7 @@ public class KamikazeEntity extends MineCellsEntity {
         this.goalSelector.add(3, new KamikazeFlyGoal(this, 1.0D));
         this.goalSelector.add(0, new KamikazeAttackGoal(this, 1.0D, 3.0D));
 
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, true, false, null));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, true, true, null));
     }
 
     @Nullable

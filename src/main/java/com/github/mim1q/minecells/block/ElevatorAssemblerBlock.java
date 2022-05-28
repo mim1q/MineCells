@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
+import com.github.mim1q.minecells.registry.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -66,4 +68,11 @@ public class ElevatorAssemblerBlock extends Block {
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         this.assemble(world, pos);
     }
+
+    @Override
+    public Item asItem() {
+        return BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK_ITEM;
+    }
+
+
 }

@@ -2,15 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "C C",
-    "MSM",
+    "CSC",
     "C C"
   ],
   "key": {
     "C": {
       "item": "minecraft:chain"
-    },
-    "M": {
-      "item": "minecells:elevator_mechanism"
     },
     "S": {
       "tag": "minecraft:wooden_slabs"

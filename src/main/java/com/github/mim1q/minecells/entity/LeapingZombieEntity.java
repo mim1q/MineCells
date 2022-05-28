@@ -21,27 +21,18 @@ import net.minecraft.world.World;
 
 public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity {
 
-    private static final TrackedData<Integer> LEAP_COOLDOWN = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Boolean> LEAP_CHARGING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Boolean> LEAP_RELEASING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
     // Animation Data
     @Environment(EnvType.CLIENT)
     public float additionalRotation = 0.0F;
 
+    private static final TrackedData<Integer> LEAP_COOLDOWN = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Boolean> LEAP_CHARGING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> LEAP_RELEASING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
+
     public LeapingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
         this.ignoreCameraFrustum = true;
-    }
-
-    public static DefaultAttributeContainer.Builder createLeapingZombieAttributes() {
-        return createLivingAttributes()
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
-            .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
-            .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
-            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
     }
 
     @Override
@@ -52,16 +43,11 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
         this.dataTracker.startTracking(LEAP_RELEASING, false);
     }
 
-    //region Goals and Tracked Data
-
     @Override
     public void tick() {
         super.tick();
         this.decrementCooldown(LEAP_COOLDOWN);
     }
-
-    //endregion
-    //region IJumpAttackEntity Implementation
 
     @Override
     public void initGoals() {
@@ -113,15 +99,13 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
 
     @Override
     public float getLeapDamage() {
-        return 15.0F;
+        return 10.0F;
     }
 
     @Override
     public SoundEvent getLeapChargeSoundEvent() {
         return SoundRegistry.LEAPING_ZOMBIE_CHARGE;
     }
-
-    //endregion
 
     @Override
     public SoundEvent getLeapReleaseSoundEvent() {
@@ -138,6 +122,16 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.setLeapCooldown(nbt.getInt("leapCooldown"));
+    }
+
+    public static DefaultAttributeContainer.Builder createLeapingZombieAttributes() {
+        return createLivingAttributes()
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
+            .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
     }
 
     static class LeapingZombieLeapGoal extends LeapGoal<LeapingZombieEntity> {

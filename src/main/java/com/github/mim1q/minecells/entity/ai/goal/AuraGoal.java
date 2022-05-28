@@ -31,6 +31,7 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
         PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 1.0D);
         return this.entity.getAuraCooldown() == 0
             && closestPlayer != null
+            && this.entity.canSee(closestPlayer)
             && !(closestPlayer.isCreative() || closestPlayer.isSpectator())
             && this.entity.getRandom().nextFloat() < this.chance;
     }
@@ -73,7 +74,7 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
         for (Entity player : playersInRange) {
-            player.damage(DamageSource.mob(this.entity), this.entity.getAuraDamage());
+            player.damage(DamageSource.mob(this.entity).setUsesMagic(), this.entity.getAuraDamage());
         }
     }
 }

@@ -11,11 +11,11 @@ import net.minecraft.util.registry.Registry;
 
 public class BlockRegistry {
 
-    public static final ElevatorAssemblerBlock ELEVATOR_ASSEMBLER = new ElevatorAssemblerBlock(FabricBlockSettings.of(Material.WOOD));
+    public static final ElevatorAssemblerBlock ELEVATOR_ASSEMBLER = new ElevatorAssemblerBlock(FabricBlockSettings.of(Material.WOOD).hardness(2.0F));
+    public static final BlockItem ELEVATOR_ASSEMBLER_BLOCK_ITEM = new BlockItem(ELEVATOR_ASSEMBLER, new Item.Settings().group(ItemGroupRegistry.MINECELLS_BLOCKS));
 
     public static void register() {
         Registry.register(Registry.BLOCK, new Identifier(MineCells.MOD_ID, "elevator_assembler"), ELEVATOR_ASSEMBLER);
-        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "elevator_assembler"),
-                new BlockItem(ELEVATOR_ASSEMBLER, new Item.Settings().group(ItemGroupRegistry.MINECELLS_BLOCKS)));
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
     }
 }

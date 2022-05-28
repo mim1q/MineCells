@@ -45,7 +45,7 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
                     vertexConsumerProvider.getBuffer(CONNECTION_LAYER),
                     matrix4f,
                     matrix3f,
-                    new Vec3d(0.0D, 0.75D, 0.0D),
+                    new Vec3d(0.0D, 1.25D, 0.0D),
                     e.getPos().subtract(mobEntity.getPos()).add(0.0D, e.getHeight() * 0.5D, 0.0D),
                     (e.age / 2) % 8,
                     i

@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
@@ -97,9 +98,9 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
     }
 
     public void attack() {
-        List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.5D), e -> !this.alreadyAttacked.contains(e.getUuid()));
+        List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.33D), e -> !this.alreadyAttacked.contains(e.getUuid()));
         for (PlayerEntity player : players) {
-            this.entity.tryAttack(this.target);
+            player.damage(DamageSource.mob(this.entity), this.entity.getLeapDamage());
             this.alreadyAttacked.add(player.getUuid());
         }
     }

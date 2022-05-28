@@ -119,7 +119,7 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
     @Override
     public float getAuraDamage() {
-        return 10.0F;
+        return 5.0F;
     }
 
     @Override

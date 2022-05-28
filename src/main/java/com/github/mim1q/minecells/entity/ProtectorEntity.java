@@ -46,10 +46,15 @@ public class ProtectorEntity extends MineCellsEntity {
     @Override
     public void tick() {
         if (this.isActive()) {
-            List<Entity> entities = this.world.getOtherEntities(this, Box.of(this.getPos(), 15.0D, 15.0D, 15.0D), ProtectorEntity::canProtect);
+            List<Entity> entities = this.world.getOtherEntities(
+                this,
+                Box.of(this.getPos(), 15.0D, 15.0D, 15.0D),
+                entity -> ProtectorEntity.canProtect(entity) && entity.distanceTo(this) < 7.5D
+            );
             this.trackedEntities = entities;
+
             if (!this.world.isClient()) {
-                if (this.stateTicks > 40) {
+                if (this.stateTicks > 50) {
                     this.setActive(false);
                     this.stateTicks = 0;
                 }
@@ -62,7 +67,7 @@ public class ProtectorEntity extends MineCellsEntity {
             }
         }
         if (!this.world.isClient) {
-            if (!this.isActive() && this.stateTicks > 80) {
+            if (!this.isActive() && this.stateTicks > 100) {
                 this.setActive(true);
                 this.stateTicks = 0;
             }
