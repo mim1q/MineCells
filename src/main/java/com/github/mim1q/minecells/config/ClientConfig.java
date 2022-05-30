@@ -8,27 +8,31 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class ClientConfig implements Config {
 
-    public Rendering rendering = new Rendering();
-
     @Override
     public String getName() {
         return "minecells-client";
     }
 
+    public Rendering rendering = new Rendering();
+
+    public void correctValues() {
+
+    }
+
     public static class Rendering {
-        @Comment("Default: true")
+        @Comment(" default: true")
         public boolean shockerGlow = true;
 
-        @Comment("Default: true")
+        @Comment(" default: true")
         public boolean grenadierGlow = true;
 
-        @Comment("Default: true")
+        @Comment(" default: true")
         public boolean leapingZombieGlow = true;
 
-        @Comment("Default: true")
+        @Comment(" default: true")
         public boolean disgustingWormGlow = true;
 
-        @Comment("Default: true")
+        @Comment(" default: true")
         public boolean protectorGlow = true;
     }
 }

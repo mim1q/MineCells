@@ -16,6 +16,7 @@ public class MineCellsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        CLIENT_CONFIG.correctValues();
         CLIENT_CONFIG.save();
 
         RendererRegistry.register();
