@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.client.MineCellsClient;
 import com.github.mim1q.minecells.client.model.DisgustingWormEntityModel;
 import com.github.mim1q.minecells.client.renderer.feature.GlowFeatureRenderer;
 import com.github.mim1q.minecells.entity.DisgustingWormEntity;
@@ -16,7 +17,9 @@ public class DisgustingWormEntityRenderer extends MobEntityRenderer<DisgustingWo
 
     public DisgustingWormEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new DisgustingWormEntityModel(ctx.getPart(RendererRegistry.DISGUSTING_WORM_LAYER)), 0.75F);
-        this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
+        if (MineCellsClient.CLIENT_CONFIG.rendering.disgustingWormGlow) {
+            this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
+        }
     }
 
     @Override

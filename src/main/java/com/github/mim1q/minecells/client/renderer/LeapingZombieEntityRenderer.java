@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.client.MineCellsClient;
 import com.github.mim1q.minecells.client.model.LeapingZombieEntityModel;
 import com.github.mim1q.minecells.client.renderer.feature.GlowFeatureRenderer;
 import com.github.mim1q.minecells.entity.LeapingZombieEntity;
@@ -16,7 +17,9 @@ public class LeapingZombieEntityRenderer extends MobEntityRenderer<LeapingZombie
 
     public LeapingZombieEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new LeapingZombieEntityModel(ctx.getPart(RendererRegistry.LEAPING_ZOMBIE_LAYER)), 0.35F);
-        this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
+        if (MineCellsClient.CLIENT_CONFIG.rendering.leapingZombieGlow) {
+            this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.client.MineCellsClient;
 import com.github.mim1q.minecells.client.model.ShockerEntityModel;
 import com.github.mim1q.minecells.client.renderer.feature.ShockerGlowFeatureRenderer;
 import com.github.mim1q.minecells.entity.ShockerEntity;
@@ -17,7 +18,9 @@ public class ShockerEntityRenderer extends MobEntityRenderer<ShockerEntity, Shoc
 
     public ShockerEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new ShockerEntityModel(ctx.getPart(RendererRegistry.SHOCKER_LAYER)), 0.5F);
-        this.addFeature(new ShockerGlowFeatureRenderer(this, GLOW_TEXTURE_NORMAL, GLOW_TEXTURE_ANGRY));
+        if (MineCellsClient.CLIENT_CONFIG.rendering.shockerGlow) {
+            this.addFeature(new ShockerGlowFeatureRenderer(this, GLOW_TEXTURE_NORMAL, GLOW_TEXTURE_ANGRY));
+        }
     }
 
     @Override
