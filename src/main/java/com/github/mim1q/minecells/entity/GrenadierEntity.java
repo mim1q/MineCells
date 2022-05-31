@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
-import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;

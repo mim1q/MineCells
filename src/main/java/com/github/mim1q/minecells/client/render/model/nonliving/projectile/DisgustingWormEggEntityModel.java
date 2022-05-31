@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.client.render.model.nonliving.projectile;
 
-import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.DisgustingWormEggEntity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
 

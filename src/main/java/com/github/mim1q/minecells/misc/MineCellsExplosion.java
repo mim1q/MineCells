@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.world;
+package com.github.mim1q.minecells.misc;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.PacketIdentifiers;

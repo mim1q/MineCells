@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.world.MineCellsExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;

@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.nonliving.projectile;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.entity.projectile.MagicOrbEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.MagicOrbEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

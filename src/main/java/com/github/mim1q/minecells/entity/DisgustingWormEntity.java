@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.DisgustingWormEggEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;

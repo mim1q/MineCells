@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

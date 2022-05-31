@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
-import com.github.mim1q.minecells.entity.projectile.MagicOrbEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.MagicOrbEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;

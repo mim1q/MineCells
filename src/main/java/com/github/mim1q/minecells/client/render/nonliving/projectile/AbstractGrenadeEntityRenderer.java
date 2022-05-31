@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.client.render.nonliving.projectile;
 
-import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

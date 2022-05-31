@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.entity.projectile;
+package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;

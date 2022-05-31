@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.client.render.nonliving.projectile;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
-import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 

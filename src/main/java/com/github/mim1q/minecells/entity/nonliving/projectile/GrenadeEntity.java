@@ -1,6 +1,6 @@
-package com.github.mim1q.minecells.entity.projectile;
+package com.github.mim1q.minecells.entity.nonliving.projectile;
 
-import com.github.mim1q.minecells.world.MineCellsExplosion;
+import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;

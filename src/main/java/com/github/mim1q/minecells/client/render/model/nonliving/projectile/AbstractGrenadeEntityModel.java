@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.client.render.model.nonliving.projectile;
 
-import com.github.mim1q.minecells.entity.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;

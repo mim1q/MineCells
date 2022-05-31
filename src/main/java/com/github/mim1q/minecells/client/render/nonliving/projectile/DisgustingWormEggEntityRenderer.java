@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.client.render.nonliving.projectile;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.DisgustingWormEggEntityModel;
-import com.github.mim1q.minecells.entity.projectile.DisgustingWormEggEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.DisgustingWormEggEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 
