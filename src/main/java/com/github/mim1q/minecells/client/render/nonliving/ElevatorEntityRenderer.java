@@ -33,7 +33,7 @@ public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
     @Override
     public void render(ElevatorEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
-        if (entity.getIsRotated()) {
+        if (entity.isRotated()) {
             matrices.multiply(Quaternion.fromEulerYxz(MathHelper.HALF_PI, 0.0F, 0.0F));
         }
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(LAYER);
