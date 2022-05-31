@@ -13,10 +13,15 @@ public class ClientConfig implements Config {
         return "minecells-client";
     }
 
+    @Override
+    public String getExtension() {
+        return "json5";
+    }
+
     public Rendering rendering = new Rendering();
 
     public void correctValues() {
-
+        this.save();
     }
 
     public static class Rendering {
