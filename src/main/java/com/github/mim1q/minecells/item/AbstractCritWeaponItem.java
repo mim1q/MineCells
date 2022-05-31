@@ -53,7 +53,7 @@ public abstract  class AbstractCritWeaponItem extends ToolItem implements Vanish
                 buf.writeDouble(target.getZ());
                 ServerPlayNetworking.send(player, PacketIdentifiers.CRIT, buf);
             }
-            target.damage(DamageSource.mob(attacker), this.attackDamage + this.critAttackDamage);
+            target.damage(this.getDamageSource(stack, attacker, target), this.attackDamage + this.critAttackDamage);
         }
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         return super.postHit(stack, target, attacker);
@@ -68,4 +68,6 @@ public abstract  class AbstractCritWeaponItem extends ToolItem implements Vanish
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
         return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
     }
+
+    public abstract DamageSource getDamageSource(ItemStack stack, LivingEntity attacker, LivingEntity target);
 }

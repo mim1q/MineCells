@@ -31,5 +31,6 @@
   "effect.minecells.protected": "Protected",
 
   "death.attack.minecells_aura": "%s got too close to %s",
+  "death.attack.minecells_backstab": "%s was backstabbed by %s",
   "death.attack.minecells_elevator": "%s turned into a pancake"
 }
