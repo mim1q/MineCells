@@ -28,12 +28,12 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     }
 
     @Override
-    public boolean getIsProtected() {
+    public boolean isProtected() {
         return this.dataTracker.get(IS_PROTECTED);
     }
 
     @Override
-    public void setIsProtected(boolean isProtected) {
+    public void setProtected(boolean isProtected) {
         this.dataTracker.set(IS_PROTECTED, isProtected);
     }
 

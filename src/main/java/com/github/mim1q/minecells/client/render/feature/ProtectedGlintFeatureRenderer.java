@@ -19,7 +19,7 @@ public class ProtectedGlintFeatureRenderer <E extends LivingEntity, M extends En
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, E entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if (((LivingEntityAccessor)entity).getIsProtected()) {
+        if (((LivingEntityAccessor)entity).isProtected()) {
             matrices.push();
             VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityGlint());
             this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
