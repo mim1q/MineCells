@@ -28,5 +28,8 @@
   "entity.minecells.protector": "Protector",
 
   "effect.minecells.electrified": "Electrified",
-  "effect.minecells.protected": "Protected"
+  "effect.minecells.protected": "Protected",
+
+  "death.attack.minecells_aura": "%s got too close to %s",
+  "death.attack.minecells_elevator": "%s turned into a pancake"
 }

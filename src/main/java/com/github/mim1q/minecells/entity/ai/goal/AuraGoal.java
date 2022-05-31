@@ -1,10 +1,10 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.interfaces.IAuraEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
@@ -74,7 +74,7 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
                 (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
         );
         for (Entity player : playersInRange) {
-            player.damage(DamageSource.mob(this.entity).setUsesMagic(), this.entity.getAuraDamage());
+            player.damage(MineCellsDamageSource.aura(this.entity), this.entity.getAuraDamage());
         }
     }
 }

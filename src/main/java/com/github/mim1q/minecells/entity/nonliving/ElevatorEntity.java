@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.BlockRegistry;
 import com.github.mim1q.minecells.registry.EntityRegistry;
@@ -15,7 +16,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -273,7 +273,7 @@ public class ElevatorEntity extends Entity {
                     .normalize()
                     .multiply(3.0D, 0.0D, 3.0D)
                     .add(0.0D, 0.5D, 0.0D));
-                e.damage(DamageSource.ANVIL, this.damage);
+                e.damage(MineCellsDamageSource.ELEVATOR, this.damage);
                 this.hitEntities.add(e);
             }
         }
