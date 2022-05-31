@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ItemRegistry;
@@ -43,19 +44,19 @@ public class ElevatorEntity extends Entity {
     private static final TrackedData<Boolean> IS_MOVING = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_GOING_UP = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_ROTATED = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Float> SPEED = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> VELOCITY_MODIFIER = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Integer> MIN_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> MAX_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     protected double serverY;
     protected int interpolationSteps = 0;
+    protected int stoppedTicks = 0;
     protected boolean setup = false;
     boolean wasMoving = false;
 
     boolean poweredTop = false;
     boolean poweredBottom = false;
 
-    protected ArrayList<PlayerEntity> usingPlayers = new ArrayList<>();
     protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
 
     public ElevatorEntity(EntityType<ElevatorEntity> type, World world) {
@@ -80,7 +81,7 @@ public class ElevatorEntity extends Entity {
         this.dataTracker.startTracking(IS_MOVING, false);
         this.dataTracker.startTracking(IS_GOING_UP, false);
         this.dataTracker.startTracking(IS_ROTATED, false);
-        this.dataTracker.startTracking(SPEED, 0.0F);
+        this.dataTracker.startTracking(VELOCITY_MODIFIER, 0.0F);
         this.dataTracker.startTracking(MIN_Y, (int)this.getY());
         this.dataTracker.startTracking(MAX_Y, (int)this.getY());
     }
@@ -89,10 +90,13 @@ public class ElevatorEntity extends Entity {
     public void tick() {
         super.tick();
 
-        if (this.isLogicalSideForUpdatingMovement()) {
-            double targetYv = this.getIsGoingUp() ? 1.0D : -1.0D;
-            this.setSpeed(Math.min(this.getSpeed() + (this.getIsGoingUp() ? 0.01F : 0.01F), 1.0F));
-            this.setVelocity(0.0D, targetYv * this.getSpeed(), 0.0D);
+        if (!this.world.isClient()) {
+            float maxSpeed = MineCells.COMMON_CONFIG.elevator.speed;
+            float acceleration = MineCells.COMMON_CONFIG.elevator.acceleration;
+
+            double targetYv = this.getIsGoingUp() ? maxSpeed : -maxSpeed;
+            this.setVelocityModifier(Math.min(this.getVelocityModifier() + acceleration, 1.0F));
+            this.setVelocity(0.0D, targetYv * this.getVelocityModifier(), 0.0D);
             this.velocityDirty = true;
             this.velocityModified = true;
 
@@ -103,13 +107,16 @@ public class ElevatorEntity extends Entity {
                 if (!isMoving) {
                     this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
                 }
+                this.stoppedTicks = 0;
             } else {
                 this.handleRedstone();
+                this.stoppedTicks++;
             }
             this.setIsMoving(isMoving);
 
             this.interpolationSteps = 0;
             this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
+            this.handlePassengers();
         } else {
             if (wasMoving && !getIsMoving() && !this.getIsGoingUp()) {
                 BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
@@ -143,14 +150,13 @@ public class ElevatorEntity extends Entity {
             if (this.world.isClient()) {
                 double z = this.getIsRotated() ? 1.0D : 0.0D;
                 double x = 1.0D - z;
-                    this.spawnParticles(new Vec3d(-x, 0.0D, -z));
-                    this.spawnParticles(new Vec3d(x, 0.0D, z));
+                    this.spawnMovementParticles(new Vec3d(-x, 0.0D, -z));
+                    this.spawnMovementParticles(new Vec3d(x, 0.0D, z));
             }
             if (this.isLogicalSideForUpdatingMovement() && !this.getIsGoingUp()) {
                 this.handleEntitiesBelow();
             }
         }
-        this.handlePlayers();
 
         if (this.shouldBeRemoved()) {
             this.kill();
@@ -215,62 +221,50 @@ public class ElevatorEntity extends Entity {
         this.interpolationSteps = interpolationSteps;
     }
 
-    protected void spawnParticles(Vec3d offset) {
+    protected void spawnMovementParticles(Vec3d offset) {
         for (int i = 0; i < 5; i++) {
             double rx = (this.random.nextDouble() - 0.5D) * 0.5D;
             double rz = (this.random.nextDouble() - 0.5D) * 0.5D;
             ParticleHelper.addParticle((ClientWorld)this.world,
-                    ParticleTypes.ELECTRIC_SPARK,
-                    this.getPos().add(offset),
-                    new Vec3d(rx, this.getIsGoingUp() ? -1.0D : 1.0D, rz));
+                ParticleTypes.ELECTRIC_SPARK,
+                this.getPos().add(offset),
+                new Vec3d(rx, this.getIsGoingUp() ? -1.0D : 1.0D, rz));
         }
     }
 
-    public void handlePlayers() {
-        // Update riding players' positions
-        for (PlayerEntity e : this.usingPlayers) {
-            e.setPosition(e.prevX, this.getY() + 0.5D, e.prevZ);
-            e.setVelocityClient(0.0D, this.getIsGoingUp() ? this.getVelocity().y : 0.0D, 0.0D);
-            e.velocityDirty = true;
-            e.fallDistance = 0.0F;
-            e.setOnGround(true);
-        }
-
+    public void handlePassengers() {
         if (this.getIsMoving()) {
-            // Add riding players
-            List<PlayerEntity> players = this.world.getEntitiesByClass(
-                    PlayerEntity.class,
-                    this.getBoundingBox().expand(0.0D, 1.0D, 0.0D),
-                    e -> !this.usingPlayers.contains(e) && e.getY() >= this.getY());
-
-            for (PlayerEntity e : players) {
-                if (!this.usingPlayers.contains(e)) {
-                    this.usingPlayers.add(e);
-                }
-            }
-        } else {
-            // Remove players when elevator stops
-            for (PlayerEntity e : this.usingPlayers) {
-                e.setVelocity(Vec3d.ZERO);
-            }
-            this.usingPlayers.clear();
+            this.addPassengers();
+        } else if (this.stoppedTicks > 1) {
+            this.removeAllPassengers();
             this.hitEntities.clear();
+        }
+    }
+
+    public void addPassengers() {
+        List<LivingEntity> players = this.world.getEntitiesByClass(
+            LivingEntity.class,
+            this.getBoundingBox().expand(0.0D, 1.0D, 0.0D),
+            e -> e.getY() >= this.getY() + 0.25D);
+
+        for (LivingEntity e : players) {
+            e.startRiding(this);
         }
     }
 
     public void handleEntitiesBelow() {
         List<LivingEntity> entities = this.world.getEntitiesByClass(
-                LivingEntity.class,
-                this.getBoundingBox().offset(0.0D, -1.0D, 0.0D),
-                e -> !this.hitEntities.contains(e));
+            LivingEntity.class,
+            this.getBoundingBox().offset(0.0D, -1.0D, 0.0D),
+            e -> !this.hitEntities.contains(e));
 
         for (LivingEntity e : entities) {
             if (!this.hitEntities.contains(e) && e.getVelocity().y >= -0.1F) {
                 e.setVelocity(e.getPos()
-                        .subtract(this.getPos())
-                        .normalize()
-                        .multiply(3.0D, 0.0D, 3.0D)
-                        .add(0.0D, 0.5D, 0.0D));
+                    .subtract(this.getPos())
+                    .normalize()
+                    .multiply(3.0D, 0.0D, 3.0D)
+                    .add(0.0D, 0.5D, 0.0D));
                 e.damage(DamageSource.ANVIL, 10.0F);
                 this.hitEntities.add(e);
             }
@@ -368,7 +362,7 @@ public class ElevatorEntity extends Entity {
             if (!this.world.isClient()) {
                 this.setIsGoingUp(isGoingUp);
                 this.setIsMoving(true);
-                this.setSpeed(0.0F);
+                this.setVelocityModifier(0.0F);
                 this.playSound(SoundRegistry.ELEVATOR_START, 0.5F, 1.0F);
             }
             return true;
@@ -379,7 +373,28 @@ public class ElevatorEntity extends Entity {
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         boolean result = startMoving(!this.getIsGoingUp());
+        if (result && !this.world.isClient()) {
+            this.addPassengers();
+        }
         return result ? ActionResult.SUCCESS : ActionResult.FAIL;
+    }
+
+    @Override
+    public void updatePassengerPosition(Entity passenger) {
+        passenger.setPosition(passenger.prevX, this.getY() + 0.5D, passenger.prevZ);
+    }
+
+    @Override
+    public Vec3d updatePassengerForDismount(LivingEntity passenger) {
+        if (this.getIsMoving()) {
+            return new Vec3d(passenger.prevX, this.getY(), passenger.prevZ);
+        }
+        return new Vec3d(passenger.prevX, this.getY() + 0.5D, passenger.prevZ);
+    }
+
+    @Override
+    protected boolean canAddPassenger(Entity passenger) {
+        return true;
     }
 
     @Override
@@ -389,7 +404,6 @@ public class ElevatorEntity extends Entity {
         }
         super.move(movementType, movement);
     }
-
 
     @Override
     public boolean isCollidable() {
@@ -425,12 +439,12 @@ public class ElevatorEntity extends Entity {
         this.dataTracker.set(IS_ROTATED, isRotated);
     }
 
-    public float getSpeed() {
-        return this.dataTracker.get(SPEED);
+    public float getVelocityModifier() {
+        return this.dataTracker.get(VELOCITY_MODIFIER);
     }
 
-    public void setSpeed(float speed) {
-        this.dataTracker.set(SPEED, speed);
+    public void setVelocityModifier(float velocityModifier) {
+        this.dataTracker.set(VELOCITY_MODIFIER, velocityModifier);
     }
 
     public int getMaxY() {
