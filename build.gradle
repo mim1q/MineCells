@@ -1,8 +1,8 @@
 import com.modrinth.minotaur.dependencies.ModDependency
 
 plugins {
-    id 'fabric-loom' version '0.11-SNAPSHOT'
-    id 'maven-publish'
+    id "fabric-loom" version "0.11-SNAPSHOT"
+    id "maven-publish"
     id "com.modrinth.minotaur" version "2.+"
 }
 
@@ -23,20 +23,23 @@ modrinth {
     versionType.set("alpha")
 
     dependencies.set([
-            new ModDependency("P7dR8mSH", "required")
+        new ModDependency("P7dR8mSH", "required")
     ])
 }
 
 repositories {
-
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    include("com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}")
+    modImplementation("com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}")
 }
 
 processResources {

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
+import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,12 +29,17 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     }
 
     @Override
-    public boolean getIsProtected() {
+    protected boolean canStartRiding(Entity entity) {
+        return entity instanceof ElevatorEntity || super.canStartRiding(entity);
+    }
+
+    @Override
+    public boolean isProtected() {
         return this.dataTracker.get(IS_PROTECTED);
     }
 
     @Override
-    public void setIsProtected(boolean isProtected) {
+    public void setProtected(boolean isProtected) {
         this.dataTracker.set(IS_PROTECTED, isProtected);
     }
 

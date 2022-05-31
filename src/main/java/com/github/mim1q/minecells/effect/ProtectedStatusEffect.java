@@ -14,14 +14,14 @@ public class ProtectedStatusEffect extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         entity.setInvulnerable(true);
-        ((LivingEntityAccessor)entity).setIsProtected(true);
+        ((LivingEntityAccessor)entity).setProtected(true);
         super.onApplied(entity, attributes, amplifier);
     }
 
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         entity.setInvulnerable(false);
-        ((LivingEntityAccessor)entity).setIsProtected(false);
+        ((LivingEntityAccessor)entity).setProtected(false);
         super.onRemoved(entity, attributes, amplifier);
     }
 }

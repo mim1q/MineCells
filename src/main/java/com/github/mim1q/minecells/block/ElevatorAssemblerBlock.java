@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.BlockRegistry;
 import net.minecraft.block.Block;
@@ -26,9 +27,11 @@ public class ElevatorAssemblerBlock extends Block {
     }
 
     public boolean assemble(World world, BlockPos pos) {
+        int maxHeight = MineCells.COMMON_CONFIG.elevator.maxAssemblyHeight;
+        int minHeight = MineCells.COMMON_CONFIG.elevator.minAssemblyHeight;
         // Search for another elevator assembler
-        int minY = Math.max(world.getBottomY(), pos.getY() - 64);
-        int maxY = Math.min(world.getTopY(), pos.getY() + 64);
+        int minY = Math.max(world.getBottomY(), pos.getY() - maxHeight);
+        int maxY = Math.min(world.getTopY(), pos.getY() + maxHeight);
         int second = pos.getY();
         for (int y = minY; y <= maxY; y++) {
             if (y == pos.getY()) {
@@ -39,8 +42,8 @@ public class ElevatorAssemblerBlock extends Block {
                 break;
             }
         }
-        // Minimum elevator shaft height is 5
-        if (Math.abs(pos.getY() - second) < 5) {
+
+        if (Math.abs(pos.getY() - second) < minHeight) {
             return false;
         }
 

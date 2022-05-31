@@ -1,17 +1,22 @@
 package com.github.mim1q.minecells;
 
+import com.github.mim1q.minecells.config.CommonConfig;
 import com.github.mim1q.minecells.registry.*;
+import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MineCells implements ModInitializer {
+
+    public static final CommonConfig COMMON_CONFIG = OmegaConfig.register(CommonConfig.class);
+
     public static final String MOD_ID = "minecells";
     public static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public void onInitialize() {
-        // Construct registries
+        COMMON_CONFIG.correctValues();
         EntityRegistry.register();
         SoundRegistry.register();
         BlockRegistry.register();

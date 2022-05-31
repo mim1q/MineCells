@@ -6,6 +6,7 @@
     "LivingEntityMixin"
   ],
   "client": [
+    "BipedEntityModelMixin",
     "LivingEntityRendererMixin"
   ],
   "server": [],
