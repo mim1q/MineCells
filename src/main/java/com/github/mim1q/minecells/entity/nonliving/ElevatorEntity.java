@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
+import com.github.mim1q.minecells.registry.BlockRegistry;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ItemRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
@@ -18,6 +19,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
@@ -34,6 +36,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +57,8 @@ public class ElevatorEntity extends Entity {
     protected boolean setup = false;
     boolean wasMoving = false;
 
-    boolean poweredTop = false;
-    boolean poweredBottom = false;
+    boolean poweredTop = true;
+    boolean poweredBottom = true;
 
     float maxSpeed = MineCells.COMMON_CONFIG.elevator.speed;
     float acceleration = MineCells.COMMON_CONFIG.elevator.acceleration;
@@ -113,7 +116,6 @@ public class ElevatorEntity extends Entity {
                 this.stoppedTicks++;
             }
 
-
             this.setMoving(isMoving);
 
             this.interpolationSteps = 0;
@@ -153,8 +155,8 @@ public class ElevatorEntity extends Entity {
             if (this.world.isClient()) {
                 double z = this.isRotated() ? 1.0D : 0.0D;
                 double x = 1.0D - z;
-                    this.spawnMovementParticles(new Vec3d(-x, 0.0D, -z));
-                    this.spawnMovementParticles(new Vec3d(x, 0.0D, z));
+                this.spawnMovementParticles(new Vec3d(-x, 0.0D, -z));
+                this.spawnMovementParticles(new Vec3d(x, 0.0D, z));
             }
             else if (!this.getGoingUp()) {
                 this.handleEntitiesBelow();
@@ -245,12 +247,15 @@ public class ElevatorEntity extends Entity {
     }
 
     public void addPassengers() {
-        List<LivingEntity> players = this.world.getEntitiesByClass(
+        List<LivingEntity> entities = this.world.getEntitiesByClass(
             LivingEntity.class,
-            this.getBoundingBox().expand(0.0D, 1.0D, 0.0D),
-            e -> !this.hitEntities.contains(e) && e.getY() >= this.getY() + 0.25D);
+            this.getBoundingBox().expand(0.0D, 0.5D, 0.0D),
+            e -> !this.hitEntities.contains(e) && e.getY() > this.getY() && !e.isSneaking());
 
-        for (LivingEntity e : players) {
+        for (LivingEntity e : entities) {
+            if (e instanceof PathAwareEntity pathAwareEntity) {
+                pathAwareEntity.getNavigation().stop();
+            }
             e.startRiding(this);
         }
     }
@@ -262,7 +267,7 @@ public class ElevatorEntity extends Entity {
             e -> !this.hitEntities.contains(e));
 
         for (LivingEntity e : entities) {
-            if (!this.hitEntities.contains(e) && e.getVelocity().y >= -0.1F) {
+            if (!this.hitEntities.contains(e)) {
                 e.setVelocity(e.getPos()
                     .subtract(this.getPos())
                     .normalize()
@@ -275,7 +280,6 @@ public class ElevatorEntity extends Entity {
     }
 
     public void handleRedstone() {
-
         boolean top = this.checkSignal(this.getMaxY());
         boolean bottom = this.checkSignal(this.getMinY());
 
@@ -334,7 +338,7 @@ public class ElevatorEntity extends Entity {
             chain0 = 3;
             chain1 = 5;
         }
-        // Check if ceretain blocks are air and chains
+        // Check if certain blocks are air and chains
         for (int i = 0; i < 9; i++) {
             boolean chain = i == chain0 || i == chain1;
             for (int y = minY; y <= maxY + 1; y++) {
@@ -359,7 +363,6 @@ public class ElevatorEntity extends Entity {
     }
 
     public boolean startMoving(boolean isGoingUp, boolean fromRedstone) {
-        System.out.println("Start moving");
         if ((!this.isMoving() || fromRedstone)
             && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated(), true)) {
             if (!this.world.isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
@@ -382,6 +385,12 @@ public class ElevatorEntity extends Entity {
             this.addPassengers();
         }
         return result ? ActionResult.SUCCESS : ActionResult.FAIL;
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getPickBlockStack() {
+        return new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK_ITEM);
     }
 
     @Override

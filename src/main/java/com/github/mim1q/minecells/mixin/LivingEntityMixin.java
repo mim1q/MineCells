@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
+import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +26,11 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     @Inject(method = "initDataTracker()V", at = @At("TAIL"))
     public void initDataTracker(CallbackInfo ci) {
         this.dataTracker.startTracking(IS_PROTECTED, false);
+    }
+
+    @Override
+    protected boolean canStartRiding(Entity entity) {
+        return entity instanceof ElevatorEntity || super.canStartRiding(entity);
     }
 
     @Override
