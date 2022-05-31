@@ -105,13 +105,15 @@ public class ElevatorEntity extends Entity {
             boolean isMoving = !(nextY < this.getMinY() || nextY > this.getMaxY());
 
             if (isMoving()) {
-                if (!isMoving) {
-                    this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
-                }
                 this.stoppedTicks = 0;
             } else {
+                if (this.stoppedTicks == 1) {
+                    this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
+                }
                 this.stoppedTicks++;
             }
+
+
             this.setMoving(isMoving);
 
             this.interpolationSteps = 0;
@@ -362,7 +364,7 @@ public class ElevatorEntity extends Entity {
             && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated(), true)) {
             if (!this.world.isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
                 this.setGoingUp(isGoingUp);
-                if (!this.isMoving()) {
+                if (!this.isMoving() && this.stoppedTicks > 5) {
                     this.setVelocityModifier(0.0F);
                     this.playSound(SoundRegistry.ELEVATOR_START, 0.5F, 1.0F);
                 }
