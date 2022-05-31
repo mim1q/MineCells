@@ -57,6 +57,10 @@ public class ElevatorEntity extends Entity {
     boolean poweredTop = false;
     boolean poweredBottom = false;
 
+    float maxSpeed = MineCells.COMMON_CONFIG.elevator.speed;
+    float acceleration = MineCells.COMMON_CONFIG.elevator.acceleration;
+    float damage = MineCells.COMMON_CONFIG.elevator.damage;
+
     protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
 
     public ElevatorEntity(EntityType<ElevatorEntity> type, World world) {
@@ -89,18 +93,15 @@ public class ElevatorEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
+        double nextY = this.getY() + this.getVelocity().y;
 
-        if (this.isLogicalSideForUpdatingMovement()) {
-            float maxSpeed = MineCells.COMMON_CONFIG.elevator.speed;
-            float acceleration = MineCells.COMMON_CONFIG.elevator.acceleration;
-
-            double targetYv = this.getIsGoingUp() ? maxSpeed : -maxSpeed;
-            this.setVelocityModifier(Math.min(this.getVelocityModifier() + acceleration, 1.0F));
-            this.setVelocity(0.0D, targetYv * this.getVelocityModifier(), 0.0D);
+        if (!this.world.isClient()) {
+            float modifiedAcceleration = this.getIsGoingUp() ? this.acceleration : -this.acceleration;
+            this.setVelocityModifier(MathHelper.clamp(modifiedAcceleration + this.getVelocityModifier(), -1.0F, 1.0F));
+            this.setVelocity(0.0D, this.maxSpeed * this.getVelocityModifier(), 0.0D);
             this.velocityDirty = true;
             this.velocityModified = true;
 
-            double nextY = this.getY() + this.getVelocity().y;
             boolean isMoving = !(nextY < this.getMinY() || nextY > this.getMaxY());
 
             if (getIsMoving()) {
@@ -109,7 +110,6 @@ public class ElevatorEntity extends Entity {
                 }
                 this.stoppedTicks = 0;
             } else {
-                this.handleRedstone();
                 this.stoppedTicks++;
             }
             this.setIsMoving(isMoving);
@@ -117,12 +117,13 @@ public class ElevatorEntity extends Entity {
             this.interpolationSteps = 0;
             this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
             this.handlePassengers();
+            this.handleRedstone();
         } else {
             if (wasMoving && !getIsMoving() && !this.getIsGoingUp()) {
                 BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
                 BlockState state = this.world.getBlockState(pos);
                 ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, state);
-                if (!state.isAir()) {
+                if (!state.isAir() && nextY < this.getMinY()) {
                     for (int i = 0; i < 20; i++) {
                         double rx = this.random.nextDouble() - 0.5D;
                         double rz = this.random.nextDouble() - 0.5D;
@@ -245,7 +246,7 @@ public class ElevatorEntity extends Entity {
         List<LivingEntity> players = this.world.getEntitiesByClass(
             LivingEntity.class,
             this.getBoundingBox().expand(0.0D, 1.0D, 0.0D),
-            e -> e.getY() >= this.getY() + 0.25D);
+            e -> !this.hitEntities.contains(e) && e.getY() >= this.getY() + 0.25D);
 
         for (LivingEntity e : players) {
             e.startRiding(this);
@@ -265,7 +266,7 @@ public class ElevatorEntity extends Entity {
                     .normalize()
                     .multiply(3.0D, 0.0D, 3.0D)
                     .add(0.0D, 0.5D, 0.0D));
-                e.damage(DamageSource.ANVIL, 10.0F);
+                e.damage(DamageSource.ANVIL, this.damage);
                 this.hitEntities.add(e);
             }
         }
@@ -276,12 +277,10 @@ public class ElevatorEntity extends Entity {
         boolean top = this.checkSignal(this.getMaxY());
         boolean bottom = this.checkSignal(this.getMinY());
 
-        if (!this.getIsMoving()) {
-            if (top && !this.poweredTop && !this.getIsGoingUp()){
-                startMoving(true);
-            } else if (bottom & !this.poweredBottom && this.getIsGoingUp()) {
-                startMoving(false);
-            }
+        if (top && !this.poweredTop && !this.getIsGoingUp()){
+            startMoving(true, true);
+        } else if (bottom & !this.poweredBottom && this.getIsGoingUp()) {
+            startMoving(false, true);
         }
 
         this.poweredTop = top;
@@ -357,13 +356,17 @@ public class ElevatorEntity extends Entity {
         return true;
     }
 
-    public boolean startMoving(boolean isGoingUp) {
-        if (!this.getIsMoving() && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated(), true)) {
-            if (!this.world.isClient() && this.stoppedTicks > 5) {
+    public boolean startMoving(boolean isGoingUp, boolean fromRedstone) {
+        System.out.println("Start moving");
+        if ((!this.getIsMoving() || fromRedstone)
+            && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated(), true)) {
+            if (!this.world.isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
                 this.setIsGoingUp(isGoingUp);
+                if (!this.getIsMoving()) {
+                    this.setVelocityModifier(0.0F);
+                    this.playSound(SoundRegistry.ELEVATOR_START, 0.5F, 1.0F);
+                }
                 this.setIsMoving(true);
-                this.setVelocityModifier(0.0F);
-                this.playSound(SoundRegistry.ELEVATOR_START, 0.5F, 1.0F);
             }
             return true;
         }
@@ -372,7 +375,7 @@ public class ElevatorEntity extends Entity {
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        boolean result = startMoving(!this.getIsGoingUp());
+        boolean result = startMoving(!this.getIsGoingUp(), false);
         if (result && !this.world.isClient()) {
             this.addPassengers();
         }
