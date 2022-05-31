@@ -90,7 +90,7 @@ public class ElevatorEntity extends Entity {
     public void tick() {
         super.tick();
 
-        if (!this.world.isClient()) {
+        if (this.isLogicalSideForUpdatingMovement()) {
             float maxSpeed = MineCells.COMMON_CONFIG.elevator.speed;
             float acceleration = MineCells.COMMON_CONFIG.elevator.acceleration;
 
@@ -153,7 +153,7 @@ public class ElevatorEntity extends Entity {
                     this.spawnMovementParticles(new Vec3d(-x, 0.0D, -z));
                     this.spawnMovementParticles(new Vec3d(x, 0.0D, z));
             }
-            if (this.isLogicalSideForUpdatingMovement() && !this.getIsGoingUp()) {
+            else if (!this.getIsGoingUp()) {
                 this.handleEntitiesBelow();
             }
         }
@@ -359,7 +359,7 @@ public class ElevatorEntity extends Entity {
 
     public boolean startMoving(boolean isGoingUp) {
         if (!this.getIsMoving() && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.getIsRotated(), true)) {
-            if (!this.world.isClient()) {
+            if (!this.world.isClient() && this.stoppedTicks > 5) {
                 this.setIsGoingUp(isGoingUp);
                 this.setIsMoving(true);
                 this.setVelocityModifier(0.0F);
