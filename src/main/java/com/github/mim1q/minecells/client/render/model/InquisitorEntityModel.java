@@ -66,7 +66,7 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
         dWaist.addChild("belt",
             ModelPartBuilder.create()
                 .uv(34,50)
-                .cuboid(-2.0F, -0.0F, 0.0F, 4, 12, 0),
+                .cuboid(-2.0F, -0.0F, 0.0F, 4, 12, 0, new Dilation(0.001F)),
             ModelTransform.pivot(0.0F, 0.0F, -2.05F));
 
         ModelPartData dUpperTorso = dWaist.addChild("upper_torso",
