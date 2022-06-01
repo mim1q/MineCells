@@ -91,7 +91,11 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
         this.entity.setLeapReleasing(true);
 
         Vec3d diff = this.target.getPos().add(this.entity.getPos().multiply(-1.0D));
-        this.entity.setVelocity(diff.multiply(0.3D, 0.05D, 0.3D).add(0.0D, 0.3D, 0.0D));
+        Vec3d vel = diff.multiply(0.3D, 0.05D, 0.3D).add(0.0D, 0.3D, 0.0D);
+        if (vel.length() > 3.0D) {
+            vel = vel.normalize().multiply(3.0D);
+        }
+        this.entity.setVelocity(vel);
         if (!this.entity.world.isClient() && this.entity.getLeapReleaseSoundEvent() != null) {
             this.entity.playSound(this.entity.getLeapReleaseSoundEvent(),0.5f,1.0F);
         }
