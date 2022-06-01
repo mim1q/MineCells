@@ -26,7 +26,7 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
     private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/protector/protector.png");
     private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/protector/protector_glow.png");
     private static final Identifier CONNECTION_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/misc/electric_arch.png");
-    private static final RenderLayer CONNECTION_LAYER = RenderLayer.getEntityTranslucent(CONNECTION_TEXTURE);
+    private static final RenderLayer CONNECTION_LAYER = RenderLayer.getEntityCutout(CONNECTION_TEXTURE);
 
     public ProtectorEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new ProtectorEntityModel(ctx.getPart(RendererRegistry.PROTECTOR_LAYER)), 0.35F);
@@ -50,7 +50,7 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
                     matrix3f,
                     new Vec3d(0.0D, 1.25D, 0.0D),
                     e.getPos().subtract(mobEntity.getPos()).add(0.0D, e.getHeight() * 0.5D, 0.0D),
-                    (e.age / 2) % 8,
+                    (e.age) % 8,
                     i
                 );
             }
@@ -92,7 +92,7 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
 
         int[] indices = { 0, 1, 2, 3, 3, 2, 1, 0 };
         for (int i : indices) {
-            RenderHelper.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, light);
+            RenderHelper.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, 255);
         }
     }
 

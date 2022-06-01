@@ -69,6 +69,11 @@
       "minecells:kamikaze/death"
     ]
   },
+  "buzz": {
+    "sounds": [
+      "minecells:buzz"
+    ]
+  },
   "crit": {
     "sounds": [
       "minecells:crit"

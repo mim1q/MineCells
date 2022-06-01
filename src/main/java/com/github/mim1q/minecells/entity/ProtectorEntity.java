@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.registry.ParticleRegistry;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.registry.StatusEffectRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
 import net.fabricmc.api.EnvType;
@@ -54,6 +55,9 @@ public class ProtectorEntity extends MineCellsEntity {
             this.trackedEntities = entities;
 
             if (!this.world.isClient()) {
+                if (this.stateTicks == 1 || this.stateTicks % 20 == 0) {
+                    this.playSound(SoundRegistry.BUZZ, 0.25F, 1.0F);
+                }
                 if (this.stateTicks > 50) {
                     this.setActive(false);
                     this.stateTicks = 0;
@@ -101,12 +105,14 @@ public class ProtectorEntity extends MineCellsEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putInt("stateTicks", stateTicks);
+        nbt.putBoolean("active", this.isActive());
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.stateTicks = nbt.getInt("stateTicks");
+        this.setActive(nbt.getBoolean("active"));
     }
 
     public static DefaultAttributeContainer.Builder createProtectorAttributes() {
