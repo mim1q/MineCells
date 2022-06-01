@@ -36,6 +36,7 @@ public class ItemGroupRegistry {
             .appendItems(stacks -> {
                 stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER));
                 stacks.add(new ItemStack(ItemRegistry.ELEVATOR_MECHANISM));
+                stacks.add(new ItemStack(BlockRegistry.BIG_CHAIN));
             })
             .build();
 

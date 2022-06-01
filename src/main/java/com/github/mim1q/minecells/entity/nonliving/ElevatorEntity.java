@@ -350,7 +350,7 @@ public class ElevatorEntity extends Entity {
                 BlockPos offsetPos = pos.add(offsets[i]);
                 BlockState state = world.getBlockState(offsetPos);
                 if (chain) {
-                    if (!(state.getBlock() instanceof ChainBlock) || state.get(ChainBlock.AXIS) != Direction.Axis.Y) {
+                    if (!(state.getBlock() == Blocks.CHAIN) || state.get(ChainBlock.AXIS) != Direction.Axis.Y) {
                         return false;
                     }
                 } else if (!state.getCollisionShape(world, pos).isEmpty()) {

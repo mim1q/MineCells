@@ -1,0 +1,29 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "minecells:block/big_chain",
+    "all": "minecells:block/big_chain"
+  },
+  "elements": [
+    {
+      "from": [4, 0, 8],
+      "to": [12, 16, 8],
+      "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45},
+      "shade": false,
+      "faces": {
+        "north": {"uv": [0, 0, 8, 16], "texture": "#all"},
+        "south": {"uv": [0, 0, 8, 16], "texture": "#all"}
+      }
+    },
+    {
+      "from": [8, 0, 4],
+      "to": [8, 16, 12],
+      "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45},
+      "shade": false,
+      "faces": {
+        "east": {"uv": [8, 0, 16, 16], "texture": "#all"},
+        "west": {"uv": [8, 0, 16, 16], "texture": "#all"}
+      }
+    }
+  ]
+}
