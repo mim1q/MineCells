@@ -20,8 +20,9 @@ public class ClientConfig implements Config {
 
     public Rendering rendering = new Rendering();
 
-    public void correctValues() {
-        this.save();
+    @Override
+    public void save() {
+        Config.super.save();
     }
 
     public static class Rendering {

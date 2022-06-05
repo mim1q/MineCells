@@ -16,7 +16,7 @@ public class MineCells implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        COMMON_CONFIG.correctValues();
+        COMMON_CONFIG.save();
         EntityRegistry.register();
         SoundRegistry.register();
         BlockRegistry.register();
