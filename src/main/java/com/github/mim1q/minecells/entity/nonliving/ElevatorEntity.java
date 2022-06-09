@@ -99,7 +99,7 @@ public class ElevatorEntity extends Entity {
         double nextY = this.getY() + this.getVelocity().y;
 
         if (!this.world.isClient()) {
-            float modifiedAcceleration = this.getGoingUp() ? this.acceleration : -this.acceleration;
+            float modifiedAcceleration = this.isGoingUp() ? this.acceleration : -this.acceleration;
             this.setVelocityModifier(MathHelper.clamp(modifiedAcceleration + this.getVelocityModifier(), -1.0F, 1.0F));
             this.setVelocity(0.0D, this.maxSpeed * this.getVelocityModifier(), 0.0D);
             this.velocityDirty = true;
@@ -116,6 +116,14 @@ public class ElevatorEntity extends Entity {
                 this.stoppedTicks++;
             }
 
+            if (!isMoving) {
+                if (this.isGoingUp()) {
+                    this.setVelocityModifier(Math.max(this.getVelocityModifier(), 0.0F));
+                } else {
+                    this.setVelocityModifier(Math.min(this.getVelocityModifier(), 0.0F));
+                }
+            }
+
             this.setMoving(isMoving);
 
             this.interpolationSteps = 0;
@@ -123,7 +131,7 @@ public class ElevatorEntity extends Entity {
             this.handlePassengers();
             this.handleRedstone();
         } else {
-            if (wasMoving && !isMoving() && !this.getGoingUp()) {
+            if (wasMoving && !isMoving() && !this.isGoingUp()) {
                 BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
                 BlockState state = this.world.getBlockState(pos);
                 ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, state);
@@ -158,7 +166,7 @@ public class ElevatorEntity extends Entity {
                 this.spawnMovementParticles(new Vec3d(-x, 0.0D, -z));
                 this.spawnMovementParticles(new Vec3d(x, 0.0D, z));
             }
-            else if (!this.getGoingUp()) {
+            else if (!this.isGoingUp()) {
                 this.handleEntitiesBelow();
             }
         }
@@ -233,7 +241,7 @@ public class ElevatorEntity extends Entity {
             ParticleHelper.addParticle((ClientWorld)this.world,
                 ParticleTypes.ELECTRIC_SPARK,
                 this.getPos().add(offset),
-                new Vec3d(rx, this.getGoingUp() ? -1.0D : 1.0D, rz));
+                new Vec3d(rx, this.isGoingUp() ? -1.0D : 1.0D, rz));
         }
     }
 
@@ -283,9 +291,9 @@ public class ElevatorEntity extends Entity {
         boolean top = this.checkSignal(this.getMaxY());
         boolean bottom = this.checkSignal(this.getMinY());
 
-        if (top && !this.poweredTop && !this.getGoingUp()){
+        if (top && !this.poweredTop && !this.isGoingUp()){
             startMoving(true, true);
-        } else if (bottom & !this.poweredBottom && this.getGoingUp()) {
+        } else if (bottom & !this.poweredBottom && this.isGoingUp()) {
             startMoving(false, true);
         }
 
@@ -380,7 +388,7 @@ public class ElevatorEntity extends Entity {
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        boolean result = startMoving(!this.getGoingUp(), false);
+        boolean result = startMoving(!this.isGoingUp(), false);
         if (result && !this.world.isClient()) {
             this.addPassengers();
         }
@@ -437,7 +445,7 @@ public class ElevatorEntity extends Entity {
         this.dataTracker.set(MOVING, moving);
     }
 
-    public boolean getGoingUp() {
+    public boolean isGoingUp() {
         return this.dataTracker.get(GOING_UP);
     }
 
@@ -490,7 +498,7 @@ public class ElevatorEntity extends Entity {
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putBoolean("up", this.getGoingUp());
+        nbt.putBoolean("up", this.isGoingUp());
         nbt.putInt("minY", this.getMinY());
         nbt.putInt("maxY", this.getMaxY());
         nbt.putBoolean("rotated", this.isRotated());
