@@ -14,8 +14,13 @@ public class AnimationHelper {
 
         root.pivotY = 24.0F - MathHelper.abs(MathHelper.sin((limbAngle + MathHelper.PI) * 0.5F)) * limbDistance;
 
-        upperTorso.pitch = MathHelper.sin(limbAngle + MathHelper.PI) * limbDistance * MathHelper.RADIANS_PER_DEGREE;
-        lowerTorso.pitch = upperTorso.pitch;
+        float torso = MathHelper.sin(limbAngle + MathHelper.PI) * limbDistance * MathHelper.RADIANS_PER_DEGREE;
+        if (upperTorso != null) {
+            upperTorso.pitch = torso;
+        }
+        if (lowerTorso != null) {
+            lowerTorso.pitch = torso;
+        }
     }
 
     public static void rotateHead(float headYaw, float headPitch, ModelPart head) {

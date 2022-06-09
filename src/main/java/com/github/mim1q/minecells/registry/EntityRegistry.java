@@ -77,6 +77,14 @@ public final class EntityRegistry {
             .build()
     );
 
+    public static final EntityType<UndeadArcherEntity> UNDEAD_ARCHER = Registry.register(
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "undead_archer"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, UndeadArcherEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
+            .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "grenade"),
@@ -169,6 +177,13 @@ public final class EntityRegistry {
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
+    public static final Item UNDEAD_ARCHER_SPAWN_EGG = new SpawnEggItem(
+        UNDEAD_ARCHER,
+        0x4C854A,
+        0x755240,
+        new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -182,6 +197,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(INQUISITOR, InquisitorEntity.createInquisitorAttributes());
         FabricDefaultAttributeRegistry.register(KAMIKAZE, KamikazeEntity.createKamikazeAttributes());
         FabricDefaultAttributeRegistry.register(PROTECTOR, ProtectorEntity.createProtectorAttributes());
+        FabricDefaultAttributeRegistry.register(UNDEAD_ARCHER, UndeadArcherEntity.createUndeadArcherAttributes());
 
         // Register Spawn Eggs
 
@@ -192,5 +208,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "inquisitor_spawn_egg"), INQUISITOR_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "kamikaze_spawn_egg"), KAMIKAZE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "protector_spawn_egg"), PROTECTOR_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "undead_archer_spawn_egg"), UNDEAD_ARCHER_SPAWN_EGG);
     }
 }
