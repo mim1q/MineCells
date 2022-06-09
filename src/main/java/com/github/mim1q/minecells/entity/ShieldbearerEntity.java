@@ -1,19 +1,33 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.DashGoal;
+import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
+import com.github.mim1q.minecells.registry.SoundRegistry;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
@@ -26,9 +40,38 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
     }
 
     @Override
+    protected void initGoals() {
+        super.initGoals();
+
+        this.goalSelector.add(3, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(4, new LookAroundGoal(this));
+        this.goalSelector.add(0, new DashGoal<>(this, 20, 40, 80, 0.1F, 0.75F));
+        this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 1.0D));
+
+        this.targetSelector.add(0, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+    }
+
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(DASH_COOLDOWN, 0);
+        this.dataTracker.startTracking(DASH_CHARGING, false);
+        this.dataTracker.startTracking(DASH_RELEASING, false);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         this.decrementCooldown(DASH_COOLDOWN);
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        this.setLeftHanded(false);
+        this.setStackInHand(this.getActiveHand(), Items.SHIELD.getDefaultStack());
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
     @Override
@@ -43,6 +86,11 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
             }
         }
         return super.isInvulnerableTo(damageSource);
+    }
+
+    @Override
+    public boolean collides() {
+        return super.collides() && !this.isDashReleasing();
     }
 
     public static DefaultAttributeContainer.Builder createShieldbearerAttributes() {
@@ -96,12 +144,12 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     public SoundEvent getDashChargeSoundEvent() {
-        return null;
+        return SoundRegistry.BOW_CHARGE;
     }
 
     @Override
     public SoundEvent getDashReleaseSoundEvent() {
-        return null;
+        return SoundRegistry.BOW_RELEASE;
     }
 
     @Override
