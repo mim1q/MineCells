@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -71,9 +72,10 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     public static DefaultAttributeContainer.Builder createUndeadArcherAttributes() {
         return createHostileAttributes()
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+            .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
+            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
     }
 
     @Override
@@ -114,12 +116,12 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
 
     @Override
     public SoundEvent getShootChargeSoundEvent() {
-        return null;
+        return SoundRegistry.BOW_CHARGE;
     }
 
     @Override
     public SoundEvent getShootReleaseSoundEvent() {
-        return null;
+        return SoundRegistry.BOW_RELEASE;
     }
 
     @Override
@@ -152,7 +154,7 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
             double e = target.getBodyY(0.33D) - persistentProjectileEntity.getY();
             double f = target.getZ() - this.entity.getZ();
             double g = Math.sqrt(d * d + f * f);
-            persistentProjectileEntity.setVelocity(d, e + g * 0.20000000298023224D, f, 1.6F, 1.0F);
+            persistentProjectileEntity.setVelocity(d, e + g * 0.2D, f, 1.6F, 1.0F);
             this.entity.world.spawnEntity(persistentProjectileEntity);
         }
 

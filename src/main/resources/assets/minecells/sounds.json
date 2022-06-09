@@ -69,6 +69,16 @@
       "minecells:kamikaze/death"
     ]
   },
+  "weapon.bow.charge": {
+    "sounds": [
+      "minecells:weapon/bow/charge"
+    ]
+  },
+  "weapon.bow.release": {
+    "sounds": [
+      "minecells:weapon/bow/release"
+    ]
+  },
   "buzz": {
     "sounds": [
       "minecells:buzz"

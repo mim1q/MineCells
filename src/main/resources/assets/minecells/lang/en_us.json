@@ -8,6 +8,7 @@
   "item.minecells.inquisitor_spawn_egg": "Inquisitor Spawn Egg",
   "item.minecells.kamikaze_spawn_egg": "Kamikaze Spawn Egg",
   "item.minecells.protector_spawn_egg": "Protector Spawn Egg",
+  "item.minecells.undead_archer_spawn_egg": "Undead Archer Spawn Egg",
 
   "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
@@ -27,6 +28,7 @@
   "entity.minecells.inquisitor": "Inquisitor",
   "entity.minecells.kamikaze": "Kamikaze",
   "entity.minecells.protector": "Protector",
+    "entity.minecells.undead_archer": "Undead Archer",
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",

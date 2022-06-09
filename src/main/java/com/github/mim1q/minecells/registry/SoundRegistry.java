@@ -56,6 +56,13 @@ public final class SoundRegistry {
     public static final Identifier KAMIKAZE_DEATH_ID = new Identifier(MineCells.MOD_ID, "kamikaze.death");
     public static final SoundEvent KAMIKAZE_DEATH = new SoundEvent(KAMIKAZE_DEATH_ID);
 
+    // Weapons
+    public static final Identifier BOW_CHARGE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.charge");
+    public static final SoundEvent BOW_CHARGE = new SoundEvent(BOW_CHARGE_ID);
+
+    public static final Identifier BOW_RELEASE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.release");
+    public static final SoundEvent BOW_RELEASE = new SoundEvent(BOW_RELEASE_ID);
+
     // Other
     public static final Identifier CRIT_ID = new Identifier(MineCells.MOD_ID, "crit");
     public static final SoundEvent CRIT = new SoundEvent(CRIT_ID);
@@ -102,6 +109,10 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, KAMIKAZE_WAKE_ID, KAMIKAZE_WAKE);
         Registry.register(Registry.SOUND_EVENT, KAMIKAZE_CHARGE_ID, KAMIKAZE_CHARGE);
         Registry.register(Registry.SOUND_EVENT, KAMIKAZE_DEATH_ID, KAMIKAZE_DEATH);
+
+        // Weapons
+        Registry.register(Registry.SOUND_EVENT, BOW_CHARGE_ID, BOW_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, BOW_RELEASE_ID, BOW_RELEASE);
 
         // Other
         Registry.register(Registry.SOUND_EVENT, CRIT_ID, CRIT);
