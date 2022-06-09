@@ -52,7 +52,7 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
         this.alreadyAttacked.clear();
 
         if (!this.entity.world.isClient() && this.entity.getLeapChargeSoundEvent() != null) {
-            this.entity.playSound(this.entity.getLeapChargeSoundEvent(),0.5F,1.0F);
+            this.entity.playSound(this.entity.getLeapChargeSoundEvent(), 0.5F, 1.0F);
         }
     }
 

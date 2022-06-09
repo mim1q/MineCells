@@ -9,6 +9,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -42,6 +44,8 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
         super.initGoals();
 
         this.goalSelector.add(2, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(3, new LookAroundGoal(this));
         this.goalSelector.add(0, new UndeadArcherShootGoal(this, 20, 25, 0.5F));
         this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, false, 3.0F));
 
