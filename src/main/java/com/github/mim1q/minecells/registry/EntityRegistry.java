@@ -194,8 +194,8 @@ public final class EntityRegistry {
 
     public static final Item SHIELDBEARER_SPAWN_EGG = new SpawnEggItem(
         SHIELDBEARER,
-        0xC0861D,
-        0x5FBED1,
+        0x8459AA,
+        0xA2A9B6,
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 

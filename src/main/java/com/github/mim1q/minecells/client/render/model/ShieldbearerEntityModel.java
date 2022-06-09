@@ -8,8 +8,9 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
+import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3f;
 
-import static net.minecraft.util.math.MathHelper.DEGREES_PER_RADIAN;
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
 public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> implements ModelWithArms {
@@ -66,38 +67,38 @@ public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> imp
         ModelPartData dLowerTorso = dWaist.addChild("lower_torso",
             ModelPartBuilder.create()
                 .uv(32, 27)
-                .cuboid(-3.0F, -5.0F, -1.5F, 6, 6, 3),
+                .cuboid(-2.0F, -5.0F, -1.0F, 4, 6, 2),
             ModelTransform.pivot(0.0F, 0.0F, 0.5F));
 
         ModelPartData dUpperTorso = dLowerTorso.addChild("upper_torso",
             ModelPartBuilder.create()
                 .uv(0, 1)
                 .cuboid(-4.0F, -4.0F, -2.5F, 8.0F, 5.0F, 5.0F),
-            ModelTransform.pivot(0.0F, -5.0F, 0.0F));
+            ModelTransform.pivot(0.0F, -5.0F, -1.0F));
 
         dUpperTorso.addChild("wing_1",
             ModelPartBuilder.create()
-                .uv(38, 0)
-                .cuboid(0.0F, -2.0F, -1.0F, 0, 3, 4),
-            ModelTransform.of(2.0F, -2.0F, 2.0F, 15.0F * DEGREES_PER_RADIAN, -10.0F * DEGREES_PER_RADIAN, 0.0F));
+                .uv(0, 41)
+                .cuboid(0.0F, -2.0F, -2.0F, 0, 3, 4, new Dilation(0.001F)),
+            ModelTransform.of(2.0F, -2.0F, 4.0F, 10.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("wing_2",
             ModelPartBuilder.create()
-                .uv(38, 0)
-                .cuboid(0.0F, -2.0F, -1.0F, 0, 3, 4),
-            ModelTransform.of(-2.0F, -2.0F, 2.0F, 15.0F * DEGREES_PER_RADIAN, 10.0F * DEGREES_PER_RADIAN, 0.0F));
+                .uv(0, 41)
+                .cuboid(0.0F, -2.0F, -2.0F, 0, 3, 4, new Dilation(0.001F)),
+            ModelTransform.of(-2.0F, -2.0F, 4.0F, 10.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("wing_3",
             ModelPartBuilder.create()
                 .uv(38, 0)
-                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4),
-            ModelTransform.of(2.0F, -1.0F, 2.0F, 30.0F * DEGREES_PER_RADIAN, -5.0F * DEGREES_PER_RADIAN, 0.0F));
+                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4, new Dilation(0.001F)),
+            ModelTransform.of(1.5F, -1.0F, 1.0F, -45.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("wing_4",
             ModelPartBuilder.create()
                 .uv(38, 0)
-                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4),
-            ModelTransform.of(-2.0F, -1.0F, 2.0F, 30.0F * DEGREES_PER_RADIAN, 5.0F * DEGREES_PER_RADIAN, 0.0F));
+                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4, new Dilation(0.001F)),
+            ModelTransform.of(-1.5F, -1.0F, 1.0F, -45.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("left_arm",
             ModelPartBuilder.create()
@@ -139,6 +140,9 @@ public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> imp
         this.rightArm.pitch -= 20.0F * RADIANS_PER_DEGREE;
 
         this.neck.pitch = -20.0F * RADIANS_PER_DEGREE;
+
+        this.rightArm.pitch = -0.9424779F;
+        this.rightArm.yaw = -0.5235988F;
     }
 
     @Override
@@ -148,6 +152,8 @@ public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> imp
 
     @Override
     public void setArmAngle(Arm arm, MatrixStack matrices) {
-        this.rightArm.rotate(matrices);
+        matrices.translate(0.3F, 0.6F, -0.3F);
+        Vec3f rot = new Vec3f(90.0F, 0.0F, 90.0F);
+        matrices.multiply(Quaternion.fromEulerXyzDegrees(rot));
     }
 }
