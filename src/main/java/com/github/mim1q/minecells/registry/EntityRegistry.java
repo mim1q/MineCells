@@ -85,6 +85,14 @@ public final class EntityRegistry {
             .build()
     );
 
+    public static final EntityType<ShieldbearerEntity> SHIELDBEARER = Registry.register(
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "shieldbearer"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShieldbearerEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
+            .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "grenade"),
@@ -184,6 +192,13 @@ public final class EntityRegistry {
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
+    public static final Item SHIELDBEARER_SPAWN_EGG = new SpawnEggItem(
+        SHIELDBEARER,
+        0xC0861D,
+        0x5FBED1,
+        new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -198,6 +213,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(KAMIKAZE, KamikazeEntity.createKamikazeAttributes());
         FabricDefaultAttributeRegistry.register(PROTECTOR, ProtectorEntity.createProtectorAttributes());
         FabricDefaultAttributeRegistry.register(UNDEAD_ARCHER, UndeadArcherEntity.createUndeadArcherAttributes());
+        FabricDefaultAttributeRegistry.register(SHIELDBEARER, ShieldbearerEntity.createShieldbearerAttributes());
 
         // Register Spawn Eggs
 
@@ -209,5 +225,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "kamikaze_spawn_egg"), KAMIKAZE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "protector_spawn_egg"), PROTECTOR_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "undead_archer_spawn_egg"), UNDEAD_ARCHER_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shieldbearer_spawn_egg"), SHIELDBEARER_SPAWN_EGG);
     }
 }
