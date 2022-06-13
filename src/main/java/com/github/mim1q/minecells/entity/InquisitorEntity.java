@@ -36,8 +36,8 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
     public float targetOffset = 0.0F;
 
     private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Boolean> SHOOT_RELEASING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> SHOOT_RELEASING = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public InquisitorEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);

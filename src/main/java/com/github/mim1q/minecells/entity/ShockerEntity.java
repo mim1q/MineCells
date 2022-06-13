@@ -26,9 +26,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
-    public static final TrackedData<Integer> AURA_COOLDOWN = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final TrackedData<Integer> AURA_COOLDOWN = DataTracker.registerData(ShockerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(ShockerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(ShockerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public ShockerEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
