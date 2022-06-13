@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.util;
 
+import com.github.mim1q.minecells.MineCellsClient;
+import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.util.math.Box;
@@ -40,5 +42,11 @@ public class ParticleHelper {
 
             addParticle(world, effect, new Vec3d(x, y, z), vel);
         }
+    }
+
+    public static ParticleTextureSheet getTranslucentParticleType() {
+        return MineCellsClient.CLIENT_CONFIG.rendering.opaqueParticles
+            ? ParticleTextureSheet.PARTICLE_SHEET_OPAQUE
+            : ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 }

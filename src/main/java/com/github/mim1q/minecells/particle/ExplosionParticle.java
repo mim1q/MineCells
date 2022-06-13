@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.particle;
 
+import com.github.mim1q.minecells.util.ParticleHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
@@ -38,7 +39,7 @@ public class ExplosionParticle extends SpriteBillboardParticle {
 
     @Override
     public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+        return ParticleHelper.getTranslucentParticleType();
     }
 
     @Environment(EnvType.CLIENT)

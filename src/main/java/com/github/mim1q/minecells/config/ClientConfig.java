@@ -26,6 +26,9 @@ public class ClientConfig implements Config {
     }
 
     public static class Rendering {
+        @Comment(" default: false")
+        public boolean opaqueParticles = false;
+
         @Comment(" default: true")
         public boolean shockerGlow = true;
 
