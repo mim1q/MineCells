@@ -137,7 +137,6 @@ public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> imp
         this.upperTorso.pitch += 10.0F * RADIANS_PER_DEGREE;
 
         this.leftArm.pitch -= 20.0F * RADIANS_PER_DEGREE;
-        this.rightArm.pitch -= 20.0F * RADIANS_PER_DEGREE;
 
         this.neck.pitch = -20.0F * RADIANS_PER_DEGREE;
 

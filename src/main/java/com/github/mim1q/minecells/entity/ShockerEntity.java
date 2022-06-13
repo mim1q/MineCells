@@ -58,9 +58,11 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
     private void handleStates() {
         if (this.world.isClient()) {
-            Vec3d pos = this.getPos().add(0.0D, 1.0D, 0.0D);
+            Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
             if (this.isAuraCharging()) {
-                ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 5, 2.0D, -0.1D);
+                for (int i = 0; i < 10; i++) {
+                    ParticleHelper.addParticle((ClientWorld)this.world, ParticleRegistry.CHARGE, pos, Vec3d.ZERO);
+                }
             } else if (this.isAuraReleasing()) {
                 ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 100, 9.5D, 0.01D);
                 ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);

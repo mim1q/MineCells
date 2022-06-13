@@ -3,7 +3,10 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.DashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
+import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.util.ParticleHelper;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -22,6 +25,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
@@ -63,15 +67,21 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
     @Override
     public void tick() {
         super.tick();
+        if (this.isDashCharging() && this.world.isClient()) {
+            for (int _i = 0; _i < 5; _i++){
+                ParticleHelper.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
+            }
+        }
         this.decrementCooldown(DASH_COOLDOWN);
     }
 
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        EntityData result = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
         this.setLeftHanded(false);
-        this.setStackInHand(this.getActiveHand(), Items.SHIELD.getDefaultStack());
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+        this.setStackInHand(Hand.MAIN_HAND, Items.SHIELD.getDefaultStack());
+        return result;
     }
 
     @Override
