@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.entity.ai.goal.DashGoal;
+import com.github.mim1q.minecells.entity.ai.goal.GroundDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
@@ -50,7 +50,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
         this.goalSelector.add(3, new WanderAroundGoal(this, 1.0D));
         this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
         this.goalSelector.add(4, new LookAroundGoal(this));
-        this.goalSelector.add(0, new DashGoal<>(this, 20, 40, 80, 0.1F, 0.75F));
+        this.goalSelector.add(0, new GroundDashGoal<>(this, 20, 40, 80, 0.1F, 0.75F));
         this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 1.0D));
 
         this.targetSelector.add(0, new ActiveTargetGoal<>(this, PlayerEntity.class, true));

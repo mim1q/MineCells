@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -53,6 +54,7 @@ public class KamikazeEntity extends MineCellsEntity {
     @Override
     protected void initGoals() {
         this.goalSelector.add(3, new KamikazeFlyGoal(this, 1.0D));
+        this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(0, new KamikazeAttackGoal(this, 1.0D, 3.0D));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, true, true, null));

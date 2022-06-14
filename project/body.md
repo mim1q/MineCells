@@ -26,12 +26,11 @@ I recommend playing this mod with
 for shader support.
 
 Some shaderpacks that work well with Mine Cells:
-* [Complementary Shaders](https://www.curseforge.com/minecraft/customization/complementary-shaders)
-  ★★★★★
-  (with and without Compatibility Mode)
 * [BSL Shaders](https://www.curseforge.com/minecraft/customization/bsl-shaders)
+  ★★★★★
+* [Complementary Shaders](https://www.curseforge.com/minecraft/customization/complementary-shaders)
   ★★★★
-  (bloom turned down)
+  (with and without Compatibility Mode)
 * [Sora Shaders](https://www.curseforge.com/minecraft/customization/sora-shaders)
   ★★★★
 

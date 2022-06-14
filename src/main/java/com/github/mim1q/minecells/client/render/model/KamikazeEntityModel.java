@@ -64,7 +64,7 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
             ModelPartBuilder.create()
                 .uv(12, 12)
                 .cuboid(-6.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
-            ModelTransform.of(-1.0F, -3.5F, 0.0F, 0.0F, 20.0F * RADIANS_PER_DEGREE, -15.0F * RADIANS_PER_DEGREE));
+            ModelTransform.of(-1.0F, -3.5F, 0.0F, 20.0F * RADIANS_PER_DEGREE, 0.0F, -15.0F * RADIANS_PER_DEGREE));
 
         dLowerRightWing.addChild("upper_right_wing",
             ModelPartBuilder.create()
