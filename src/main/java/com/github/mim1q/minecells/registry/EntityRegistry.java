@@ -93,6 +93,14 @@ public final class EntityRegistry {
             .build()
     );
 
+    public static final EntityType<MutatedBatEntity> MUTATED_BAT = Registry.register(
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "mutated_bat"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MutatedBatEntity::new)
+            .dimensions(EntityDimensions.fixed(0.75F, 0.5F))
+            .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "grenade"),
@@ -199,6 +207,13 @@ public final class EntityRegistry {
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
+    public static final Item MUTATED_BAT_SPAWN_EGG = new SpawnEggItem(
+        MUTATED_BAT,
+        0xE788E1,
+        0xECEDD9,
+        new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -214,6 +229,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(PROTECTOR, ProtectorEntity.createProtectorAttributes());
         FabricDefaultAttributeRegistry.register(UNDEAD_ARCHER, UndeadArcherEntity.createUndeadArcherAttributes());
         FabricDefaultAttributeRegistry.register(SHIELDBEARER, ShieldbearerEntity.createShieldbearerAttributes());
+        FabricDefaultAttributeRegistry.register(MUTATED_BAT, MutatedBatEntity.createMutatedBatAttributes());
 
         // Register Spawn Eggs
 
@@ -226,5 +242,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "protector_spawn_egg"), PROTECTOR_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "undead_archer_spawn_egg"), UNDEAD_ARCHER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shieldbearer_spawn_egg"), SHIELDBEARER_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "mutated_bat_spawn_egg"), MUTATED_BAT_SPAWN_EGG);
     }
 }

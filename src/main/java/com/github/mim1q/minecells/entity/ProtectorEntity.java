@@ -85,6 +85,7 @@ public class ProtectorEntity extends MineCellsEntity {
     protected static boolean canProtect(Entity e) {
         if (e instanceof KamikazeEntity) { return false; }
         if (e instanceof ProtectorEntity) { return false; }
+        if (e instanceof MutatedBatEntity) { return false; }
 
         return e instanceof HostileEntity;
     }

@@ -44,14 +44,11 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
     @Override
     public boolean canStart() {
         this.target = this.entity.getTarget();
-        if (this.target == null) {
-            return false;
-        }
 
-        return this.entity.getDashCooldown() == 0
+        return this.target != null
+            && this.entity.getDashCooldown() == 0
             && this.entity.canSee(this.target)
             && this.entity.getPos().distanceTo(this.target.getPos()) < 10.0F
-            && this.entity.getY() >= this.entity.getTarget().getY()
             && this.entity.getRandom().nextFloat() < this.chance;
     }
 
@@ -96,16 +93,21 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
             this.moveToTarget();
             this.attack();
         } else if (this.entity.isDashCharging()) {
-            this.entity.getLookControl().lookAt(this.target);
+            this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.01F);
+            this.entity.move(MovementType.SELF, this.getVelocity().multiply(0.01F));
+            this.entity.getLookControl().lookAt(this.target, 360.0F, 360.0F);
             this.entity.getNavigation().stop();
-            this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0F);
         }
 
         this.ticks++;
     }
 
     protected Vec3d getVelocity() {
-        return this.target.getPos().subtract(this.entity.getPos()).normalize().multiply(this.speed, 0.0D, this.speed);
+        return this.target.getPos()
+            .add(0.0D, this.target.getStandingEyeHeight(), 0.0D)
+            .subtract(this.entity.getPos())
+            .normalize()
+            .multiply(this.speed);
     }
 
     protected void moveToTarget() {
