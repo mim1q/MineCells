@@ -68,7 +68,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
     public void tick() {
         super.tick();
         if (this.isDashCharging() && this.world.isClient()) {
-            for (int _i = 0; _i < 5; _i++){
+            for (int i = 0; i < 5; i++){
                 ParticleHelper.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
             }
         }
@@ -154,12 +154,12 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     public SoundEvent getDashChargeSoundEvent() {
-        return SoundRegistry.BOW_CHARGE;
+        return SoundRegistry.SHIELDBEARER_CHARGE;
     }
 
     @Override
     public SoundEvent getDashReleaseSoundEvent() {
-        return SoundRegistry.BOW_RELEASE;
+        return SoundRegistry.SHIELDBEARER_RELEASE;
     }
 
     @Override

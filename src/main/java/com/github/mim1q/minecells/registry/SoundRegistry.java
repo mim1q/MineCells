@@ -56,6 +56,13 @@ public final class SoundRegistry {
     public static final Identifier KAMIKAZE_DEATH_ID = new Identifier(MineCells.MOD_ID, "kamikaze.death");
     public static final SoundEvent KAMIKAZE_DEATH = new SoundEvent(KAMIKAZE_DEATH_ID);
 
+    // Shieldbearer
+    public static final Identifier SHIELDBEARER_CHARGE_ID = new Identifier(MineCells.MOD_ID, "shieldbearer.charge");
+    public static final SoundEvent SHIELDBEARER_CHARGE = new SoundEvent(SHIELDBEARER_CHARGE_ID);
+
+    public static final Identifier SHIELDBEARER_RELEASE_ID = new Identifier(MineCells.MOD_ID, "shieldbearer.release");
+    public static final SoundEvent SHIELDBEARER_RELEASE = new SoundEvent(SHIELDBEARER_RELEASE_ID);
+
     // Weapons
     public static final Identifier BOW_CHARGE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.charge");
     public static final SoundEvent BOW_CHARGE = new SoundEvent(BOW_CHARGE_ID);

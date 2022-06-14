@@ -8,10 +8,7 @@ import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -50,6 +47,7 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
         this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, false, 3.0F));
 
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
+        this.targetSelector.add(0, new RevengeGoal(this));
     }
 
     @Override
@@ -63,8 +61,10 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        EntityData result = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
         this.setStackInHand(this.getActiveHand(), Items.BOW.getDefaultStack());
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+        this.setLeftHanded(false);
+        return result;
     }
 
     @Override

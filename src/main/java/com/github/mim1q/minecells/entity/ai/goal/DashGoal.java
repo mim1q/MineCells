@@ -18,7 +18,7 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
 
     protected final E entity;
     protected LivingEntity target;
-    protected Vec3d targetPos;
+    protected Vec3d velocity;
     protected double distance;
     protected double distanceTravelled;
     protected int ticks = 0;
@@ -43,21 +43,20 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
 
     @Override
     public boolean canStart() {
-        LivingEntity target = this.entity.getTarget();
-        if (target == null) {
+        this.target = this.entity.getTarget();
+        if (this.target == null) {
             return false;
         }
 
         return this.entity.getDashCooldown() == 0
-            && this.entity.canSee(target)
+            && this.entity.canSee(this.target)
+            && this.entity.getPos().distanceTo(this.target.getPos()) < 10.0F
             && this.entity.getY() >= this.entity.getTarget().getY()
             && this.entity.getRandom().nextFloat() < this.chance;
     }
 
     @Override
     public void start() {
-        System.out.println("startuwa!!");
-        this.target = this.entity.getTarget();
         this.entity.setDashCharging(true);
         this.ticks = 0;
         this.distanceTravelled = 0;
@@ -85,23 +84,33 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
         if (this.ticks == this.restTick || this.distanceTravelled > this.distance + 2.0D) {
             this.entity.setDashReleasing(false);
         } else if (this.ticks == this.releaseTick) {
-            this.targetPos = this.target.getPos().subtract(this.entity.getPos()).normalize().multiply(this.speed);
+            this.velocity = this.getVelocity();
             this.distance = this.target.getPos().distanceTo(this.entity.getPos());
             this.entity.setDashCharging(false);
             this.entity.setDashReleasing(true);
-            this.entity.playSound(this.entity.getDashReleaseSoundEvent(), 0.5F, 1.0F);
+            if (this.entity.getDashReleaseSoundEvent() != null) {
+                this.entity.playSound(this.entity.getDashReleaseSoundEvent(), 0.5F, 1.0F);
+            }
         }
         if (this.entity.isDashReleasing()) {
-            this.entity.move(MovementType.SELF, this.targetPos);
-            this.distanceTravelled += this.speed;
+            this.moveToTarget();
             this.attack();
         } else if (this.entity.isDashCharging()) {
             this.entity.getLookControl().lookAt(this.target);
             this.entity.getNavigation().stop();
-            this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), this.speed);
+            this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0F);
         }
 
         this.ticks++;
+    }
+
+    protected Vec3d getVelocity() {
+        return this.target.getPos().subtract(this.entity.getPos()).normalize().multiply(this.speed, 0.0D, this.speed);
+    }
+
+    protected void moveToTarget() {
+        this.entity.move(MovementType.SELF, this.velocity);
+        this.distanceTravelled += this.speed;
     }
 
     public void attack() {

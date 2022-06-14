@@ -69,6 +69,16 @@
       "minecells:kamikaze/death"
     ]
   },
+  "shieldbearer.charge": {
+    "sounds": [
+      "minecells:shieldbearer/charge"
+    ]
+  },
+  "shieldbearer.release": {
+      "sounds": [
+      "minecells:shieldbearer/release"
+      ]
+  },
   "weapon.bow.charge": {
     "sounds": [
       "minecells:weapon/bow/charge"
