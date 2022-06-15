@@ -23,6 +23,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -136,6 +137,18 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
             .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.3D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D)
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("dashCooldown", this.getDashCooldown());
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.setDashCooldown(nbt.getInt("dashCooldown"));
     }
 
     public static class MutatedBatNavigation extends BirdNavigation {

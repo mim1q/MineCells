@@ -80,13 +80,13 @@ public class GrenadeEntity extends ProjectileEntity {
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        this.setFuse(nbt.getInt("Fuse"));
+        this.setFuse(nbt.getInt("fuse"));
     }
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putInt("Fuse", this.getFuse());
+        nbt.putInt("fuse", this.getFuse());
     }
 
     public static class GrenadeDamageSource extends DamageSource {
