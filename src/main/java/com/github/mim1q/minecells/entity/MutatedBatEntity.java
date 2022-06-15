@@ -49,8 +49,6 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     protected void initGoals() {
-        super.initGoals();
-
         this.goalSelector.add(4, new FlyGoal(this, 1.0D));
         this.goalSelector.add(0, new DashGoal<>(this, 20, 40, 45, 1.0F, 1.0F));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 3.0D, false));

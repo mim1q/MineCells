@@ -45,8 +45,7 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
     @Override
     public void initGoals() {
-        super.initGoals();
-        this.goalSelector.add(1, new AuraGoal<>(this, 10.0d, 15, 60, 1.0F));
+        this.goalSelector.add(0, new AuraGoal<>(this, 10.0d, 15, 60, 1.0F));
     }
 
     @Override

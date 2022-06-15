@@ -6,14 +6,13 @@ import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
@@ -51,11 +50,7 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
 
     @Override
     public void initGoals() {
-        this.goalSelector.add(3, new LookAroundGoal(this));
-        this.goalSelector.add(2, new WanderAroundGoal(this, 1.0D));
-        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0D));
-
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
+        super.initGoals();
 
         this.goalSelector.add(0, new LeapingZombieLeapGoal(this));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));

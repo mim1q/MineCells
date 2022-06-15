@@ -45,6 +45,9 @@ public class ProtectorEntity extends MineCellsEntity {
     }
 
     @Override
+    protected void initGoals() { }
+
+    @Override
     public void tick() {
         if (this.isActive()) {
             List<Entity> entities = this.world.getOtherEntities(
