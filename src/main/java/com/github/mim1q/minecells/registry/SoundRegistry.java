@@ -63,6 +63,17 @@ public final class SoundRegistry {
     public static final Identifier SHIELDBEARER_RELEASE_ID = new Identifier(MineCells.MOD_ID, "shieldbearer.release");
     public static final SoundEvent SHIELDBEARER_RELEASE = new SoundEvent(SHIELDBEARER_RELEASE_ID);
 
+    // Mutated Bat
+
+    public static final Identifier MUTATED_BAT_CHARGE_ID = new Identifier(MineCells.MOD_ID, "mutated_bat.charge");
+    public static final SoundEvent MUTATED_BAT_CHARGE = new SoundEvent(MUTATED_BAT_CHARGE_ID);
+
+    public static final Identifier MUTATED_BAT_RELEASE_ID = new Identifier(MineCells.MOD_ID, "mutated_bat.release");
+    public static final SoundEvent MUTATED_BAT_RELEASE = new SoundEvent(MUTATED_BAT_RELEASE_ID);
+
+    public static final Identifier MUTATED_BAT_WAKE_ID = new Identifier(MineCells.MOD_ID, "mutated_bat.wake");
+    public static final SoundEvent MUTATED_BAT_WAKE = new SoundEvent(MUTATED_BAT_WAKE_ID);
+
     // Weapons
     public static final Identifier BOW_CHARGE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.charge");
     public static final SoundEvent BOW_CHARGE = new SoundEvent(BOW_CHARGE_ID);
@@ -116,6 +127,14 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, KAMIKAZE_WAKE_ID, KAMIKAZE_WAKE);
         Registry.register(Registry.SOUND_EVENT, KAMIKAZE_CHARGE_ID, KAMIKAZE_CHARGE);
         Registry.register(Registry.SOUND_EVENT, KAMIKAZE_DEATH_ID, KAMIKAZE_DEATH);
+
+        // Shieldbearer
+        Registry.register(Registry.SOUND_EVENT, SHIELDBEARER_CHARGE_ID, SHIELDBEARER_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, SHIELDBEARER_RELEASE_ID, SHIELDBEARER_RELEASE);
+
+        // Mutated Bat
+        Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_CHARGE_ID, MUTATED_BAT_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_RELEASE_ID, MUTATED_BAT_RELEASE);
 
         // Weapons
         Registry.register(Registry.SOUND_EVENT, BOW_CHARGE_ID, BOW_CHARGE);

@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.DashGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleHelper;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -66,7 +67,6 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
                 ParticleHelper.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, 0.2D, 0.0D), Vec3d.ZERO);
             }
         }
-
         this.decrementCooldown(DASH_COOLDOWN);
     }
 
@@ -122,12 +122,12 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     public SoundEvent getDashChargeSoundEvent() {
-        return null;
+        return SoundRegistry.MUTATED_BAT_CHARGE;
     }
 
     @Override
     public SoundEvent getDashReleaseSoundEvent() {
-        return null;
+        return SoundRegistry.MUTATED_BAT_RELEASE;
     }
 
     public static DefaultAttributeContainer.Builder createMutatedBatAttributes() {

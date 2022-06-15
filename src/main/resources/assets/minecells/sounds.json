@@ -79,6 +79,16 @@
       "minecells:shieldbearer/release"
       ]
   },
+  "mutated_bat.charge": {
+    "sounds": [
+      "minecells:mutated_bat/charge"
+    ]
+  },
+  "mutate_bat.release": {
+    "sounds": [
+      "minecells:mutated_bat/release"
+    ]
+  },
   "weapon.bow.charge": {
     "sounds": [
       "minecells:weapon/bow/charge"
