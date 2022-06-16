@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.BlockRegistry;
@@ -258,7 +259,7 @@ public class ElevatorEntity extends Entity {
         List<LivingEntity> entities = this.world.getEntitiesByClass(
             LivingEntity.class,
             this.getBoundingBox().expand(0.0D, 0.5D, 0.0D),
-            e -> !this.hitEntities.contains(e) && e.getY() > this.getY() && !e.isSneaking());
+            this::canBePassenger);
 
         for (LivingEntity e : entities) {
             if (e instanceof PathAwareEntity pathAwareEntity) {
@@ -266,6 +267,13 @@ public class ElevatorEntity extends Entity {
             }
             e.startRiding(this);
         }
+    }
+
+    protected boolean canBePassenger(LivingEntity entity) {
+        return !this.hitEntities.contains(entity)
+            && entity.getY() > this.getY()
+            && !entity.isSneaking()
+            && !(entity instanceof SewersTentacleEntity);
     }
 
     public void handleEntitiesBelow() {

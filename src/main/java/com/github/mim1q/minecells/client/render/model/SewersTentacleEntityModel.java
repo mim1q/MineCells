@@ -73,10 +73,12 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
 
     @Override
     public void setAngles(SewersTentacleEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        for (int i = 0; i < this.segments.length; i++) {
+        for (int i = 0; i < this.segments.length - 1; i++) {
             this.segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + entity.getId() * 255) * 15 * RADIANS_PER_DEGREE;
-            this.segments[i].pitch -= limbDistance * (10.0F + i) * RADIANS_PER_DEGREE;
+            this.segments[i].pitch -= 15.0F * RADIANS_PER_DEGREE;
         }
+        this.segments[3].pitch += 15.0F * RADIANS_PER_DEGREE;
+        this.segments[4].pitch = 15.0F * RADIANS_PER_DEGREE;
         float partialTicks = entity.buriedTicks;
         if (partialTicks > 0.0F && partialTicks < 20.0F) {
             partialTicks += MinecraftClient.getInstance().getTickDelta() * (entity.isBuried() ? 1.0F : -1.0F);

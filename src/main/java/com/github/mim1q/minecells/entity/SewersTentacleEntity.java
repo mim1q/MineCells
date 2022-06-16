@@ -11,7 +11,6 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.entity.ai.pathing.PathNode;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -26,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class SewersTentacleEntity extends MineCellsEntity {
 
@@ -94,7 +92,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
                     (ClientWorld) this.world,
                     particle,
                     Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),
-                    this.isBuried() ? 10 : 2,
+                    this.isBuried() ? 10 : 5,
                     new Vec3d(-0.01D, -0.01D, -0.01D)
                 );
             }
@@ -103,7 +101,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
     @Override
     public boolean tryAttack(Entity target) {
-        if (this.isBuried()) {
+        if (this.isBuried() || this.buriedTicks > 10) {
             return false;
         }
         return super.tryAttack(target);
@@ -188,23 +186,14 @@ public class SewersTentacleEntity extends MineCellsEntity {
         }
 
         @Override
-        public boolean startMovingAlong(@Nullable Path path, double speed) {
-            ((SewersTentacleEntity)this.entity).setBuried(this.shouldBury(path));
-            return super.startMovingAlong(path, speed);
+        public void tick() {
+            super.tick();
+            ((SewersTentacleEntity)this.entity).setBuried(this.shouldBury(this.getCurrentPath()));
         }
 
         protected boolean shouldBury(Path path) {
             if (path == null || this.entity.getTarget() == null) {
                 return true;
-            }
-            if (this.entity.getY() != this.entity.getTarget().getY() && this.entity.getTarget().getVelocity().y == 0.0D) {
-                return true;
-            }
-            for (int i = 0; i < path.getLength(); i++) {
-                PathNode pathNode = path.getNode(i);
-                if (pathNode.y != this.entity.getPos().getY()) {
-                    return true;
-                }
             }
             return path.getEnd() != null && path.getEnd().y != this.entity.getPos().y;
         }
