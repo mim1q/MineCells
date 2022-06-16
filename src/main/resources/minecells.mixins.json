@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "com.github.mim1q.minecells.mixin",
   "mixins": [
+    "EntityMixin",
     "LivingEntityMixin"
   ],
   "client": [

@@ -97,7 +97,15 @@ public final class EntityRegistry {
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "mutated_bat"),
         FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MutatedBatEntity::new)
-            .dimensions(EntityDimensions.fixed(0.75F, 0.5F))
+            .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+            .build()
+    );
+
+    public static final EntityType<SewersTentacleEntity> SEWERS_TENTACLE = Registry.register(
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "sewers_tentacle"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SewersTentacleEntity::new)
+            .dimensions(EntityDimensions.changing(0.75F, 2.25F))
             .build()
     );
 
@@ -209,8 +217,15 @@ public final class EntityRegistry {
 
     public static final Item MUTATED_BAT_SPAWN_EGG = new SpawnEggItem(
         MUTATED_BAT,
-        0xE788E1,
-        0xECEDD9,
+        0xD279D2,
+        0xD33D3D,
+        new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
+    public static final Item SEWERS_TENTACLE_SPAWN_EGG = new SpawnEggItem(
+        SEWERS_TENTACLE,
+        0x3983B9,
+        0xFFF0C6,
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
@@ -230,6 +245,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(UNDEAD_ARCHER, UndeadArcherEntity.createUndeadArcherAttributes());
         FabricDefaultAttributeRegistry.register(SHIELDBEARER, ShieldbearerEntity.createShieldbearerAttributes());
         FabricDefaultAttributeRegistry.register(MUTATED_BAT, MutatedBatEntity.createMutatedBatAttributes());
+        FabricDefaultAttributeRegistry.register(SEWERS_TENTACLE, SewersTentacleEntity.createSewersTentacleAttributes());
 
         // Register Spawn Eggs
 
@@ -243,5 +259,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "undead_archer_spawn_egg"), UNDEAD_ARCHER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shieldbearer_spawn_egg"), SHIELDBEARER_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "mutated_bat_spawn_egg"), MUTATED_BAT_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "sewers_tentacle_spawn_egg"), SEWERS_TENTACLE_SPAWN_EGG);
     }
 }

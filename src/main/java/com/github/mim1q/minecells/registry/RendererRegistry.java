@@ -28,6 +28,7 @@ public class RendererRegistry {
     public static final EntityModelLayer UNDEAD_ARCHER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "undead_archer"), "main");
     public static final EntityModelLayer SHIELDBEARER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "shieldbearer"), "main");
     public static final EntityModelLayer MUTATED_BAT_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "mutated_bat"), "main");
+    public static final EntityModelLayer SEWERS_TENTACLE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "sewers_tentacle"), "main");
 
     public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade_render"), "main");
     public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render"), "main");
@@ -46,6 +47,7 @@ public class RendererRegistry {
         EntityModelLayerRegistry.registerModelLayer(UNDEAD_ARCHER_LAYER, UndeadArcherEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SHIELDBEARER_LAYER, ShieldbearerEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MUTATED_BAT_LAYER, MutatedBatEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(SEWERS_TENTACLE_LAYER, SewersTentacleEntityModel::getTexturedModelData);
 
         EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
@@ -63,6 +65,7 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.UNDEAD_ARCHER, UndeadArcherEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.SHIELDBEARER, ShieldbearerEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.MUTATED_BAT, MutatedBatEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.SEWERS_TENTACLE, SewersTentacleEntityRenderer::new);
 
         EntityRendererRegistry.register(EntityRegistry.GRENADE, GrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);

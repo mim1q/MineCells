@@ -22,6 +22,7 @@ public class ItemGroupRegistry {
             stacks.add(new ItemStack(EntityRegistry.UNDEAD_ARCHER_SPAWN_EGG));
             stacks.add(new ItemStack(EntityRegistry.SHIELDBEARER_SPAWN_EGG));
             stacks.add(new ItemStack(EntityRegistry.MUTATED_BAT_SPAWN_EGG));
+            stacks.add(new ItemStack(EntityRegistry.SEWERS_TENTACLE_SPAWN_EGG));
         })
         .build();
 

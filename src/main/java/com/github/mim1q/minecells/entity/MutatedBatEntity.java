@@ -117,7 +117,7 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     public float getDashDamage() {
-        return 10;
+        return 5.0F;
     }
 
     @Override

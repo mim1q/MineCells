@@ -131,7 +131,6 @@ public class UndeadArcherEntityModel extends EntityModel<UndeadArcherEntity> imp
         }
 
         if (!animation.equals(entity.lastAnimation)) {
-            entity.animationTimestamp = 0;
             entity.animationTimestamp = animationProgress;
         }
 

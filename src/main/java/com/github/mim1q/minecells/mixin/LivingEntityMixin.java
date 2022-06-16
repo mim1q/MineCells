@@ -42,5 +42,4 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     public void setProtected(boolean isProtected) {
         this.dataTracker.set(IS_PROTECTED, isProtected);
     }
-
 }
