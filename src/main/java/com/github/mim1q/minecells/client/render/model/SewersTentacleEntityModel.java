@@ -36,28 +36,36 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
         ModelPartData dSegment0 = dRoot.addChild("segment_0",
             ModelPartBuilder.create()
                 .uv(0, 0)
-                .cuboid(-4.0F, -12.0F, -3.0F, 8, 16, 6, new Dilation(0.01F)),
+                .cuboid(-4.0F, -12.0F, -3.0F, 8, 16, 6, new Dilation(0.01F))
+                .uv(26, 31)
+                .cuboid(-2.0F, -9.0F, -4.0F, 4, 5, 1),
             ModelTransform.NONE
         );
 
         ModelPartData dSegment1 = dSegment0.addChild("segment_1",
             ModelPartBuilder.create()
                 .uv(0, 22)
-                .cuboid(-3.5F, -11.0F, -3.0F, 7, 11, 6),
+                .cuboid(-3.5F, -11.0F, -3.0F, 7, 11, 6)
+                .uv(26, 31)
+                .cuboid(-2.0F, -8.0F, -4.0F, 4, 5, 1),
             ModelTransform.pivot(0.0F, -10.0F, 0.0F)
         );
 
         ModelPartData dSegment2 = dSegment1.addChild("segment_2",
             ModelPartBuilder.create()
                 .uv(26, 18)
-                .cuboid(-3.0F, -9.0F, -2.0F, 6, 9, 4),
+                .cuboid(-3.0F, -9.0F, -2.0F, 6, 9, 4)
+                .uv(36, 31)
+                .cuboid(-1.5F, -6.0F, -3.0F, 3, 4, 1),
             ModelTransform.pivot(0.0F, -10.0F, 0.0F)
         );
 
         ModelPartData dSegment3 = dSegment2.addChild("segment_3",
             ModelPartBuilder.create()
                 .uv(28, 0)
-                .cuboid(-2.0F, -8.0F, -1.5F, 4, 8, 3, new Dilation(0.01F)),
+                .cuboid(-2.0F, -8.0F, -1.5F, 4, 8, 3, new Dilation(0.01F))
+                .uv(0, 0)
+                .cuboid(-1.0F, -6.0F, -2.5F, 2, 3, 1),
             ModelTransform.pivot(0.0F, -8.0F, 0.0F)
         );
 
