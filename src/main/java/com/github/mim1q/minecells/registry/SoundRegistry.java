@@ -74,6 +74,14 @@ public final class SoundRegistry {
     public static final Identifier MUTATED_BAT_WAKE_ID = new Identifier(MineCells.MOD_ID, "mutated_bat.wake");
     public static final SoundEvent MUTATED_BAT_WAKE = new SoundEvent(MUTATED_BAT_WAKE_ID);
 
+    // Rancid Rat
+
+    public static final Identifier RANCID_RAT_CHARGE_ID = new Identifier(MineCells.MOD_ID, "rancid_rat.charge");
+    public static final SoundEvent RANCID_RAT_CHARGE = new SoundEvent(RANCID_RAT_CHARGE_ID);
+
+    public static final Identifier RANCID_RAT_RELEASE_ID = new Identifier(MineCells.MOD_ID, "rancid_rat.release");
+    public static final SoundEvent RANCID_RAT_RELEASE = new SoundEvent(RANCID_RAT_RELEASE_ID);
+
     // Weapons
     public static final Identifier BOW_CHARGE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.charge");
     public static final SoundEvent BOW_CHARGE = new SoundEvent(BOW_CHARGE_ID);
@@ -135,6 +143,10 @@ public final class SoundRegistry {
         // Mutated Bat
         Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_CHARGE_ID, MUTATED_BAT_CHARGE);
         Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_RELEASE_ID, MUTATED_BAT_RELEASE);
+
+        // Rancid Rat
+        Registry.register(Registry.SOUND_EVENT, RANCID_RAT_CHARGE_ID, RANCID_RAT_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, RANCID_RAT_RELEASE_ID, RANCID_RAT_RELEASE);
 
         // Weapons
         Registry.register(Registry.SOUND_EVENT, BOW_CHARGE_ID, BOW_CHARGE);

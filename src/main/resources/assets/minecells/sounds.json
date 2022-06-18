@@ -84,10 +84,20 @@
       "minecells:mutated_bat/charge"
     ]
   },
-  "mutate_bat.release": {
+  "mutated_bat.release": {
     "sounds": [
       "minecells:mutated_bat/release"
     ]
+  },
+  "rancid_rat.charge": {
+    "sounds": [
+      "minecells:rancid_rat/charge"
+    ]
+  },
+  "rancid_rat.release": {
+      "sounds": [
+      "minecells:rancid_rat/release"
+      ]
   },
   "weapon.bow.charge": {
     "sounds": [

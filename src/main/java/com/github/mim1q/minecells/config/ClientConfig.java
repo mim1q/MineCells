@@ -43,5 +43,8 @@ public class ClientConfig implements Config {
 
         @Comment(" default: true")
         public boolean protectorGlow = true;
+
+        @Comment(" default: true")
+        public boolean rancidRatGlow = true;
     }
 }

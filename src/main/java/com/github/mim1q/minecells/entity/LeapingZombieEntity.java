@@ -52,7 +52,7 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
     public void initGoals() {
         super.initGoals();
 
-        this.goalSelector.add(0, new LeapingZombieLeapGoal(this));
+        this.goalSelector.add(0, new LeapGoal<>(this, 15, 20, 0.3F));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));
     }
 
@@ -98,6 +98,11 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
     }
 
     @Override
+    public double getLeapRange() {
+        return 15.0F;
+    }
+
+    @Override
     public SoundEvent getLeapChargeSoundEvent() {
         return SoundRegistry.LEAPING_ZOMBIE_CHARGE;
     }
@@ -127,21 +132,5 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
             .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
-    }
-
-    static class LeapingZombieLeapGoal extends LeapGoal<LeapingZombieEntity> {
-
-        public LeapingZombieLeapGoal(LeapingZombieEntity entity) {
-            super(entity, 15, 20, 0.3F);
-        }
-
-        @Override
-        public boolean canStart() {
-            boolean canJump = super.canStart() && this.entity.getRandom().nextFloat() < 0.1F;
-            if (!canJump)
-                return false;
-            double d = this.entity.distanceTo(this.entity.getTarget());
-            return d <= 15.0D;
-        }
     }
 }

@@ -16,6 +16,8 @@ public interface ILeapEntity {
 
     float getLeapDamage();
 
+    double getLeapRange();
+
     SoundEvent getLeapChargeSoundEvent();
     SoundEvent getLeapReleaseSoundEvent();
 }

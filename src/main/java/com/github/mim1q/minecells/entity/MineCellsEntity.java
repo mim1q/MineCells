@@ -51,12 +51,9 @@ public class MineCellsEntity extends HostileEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     protected SoundEvent getDeathSound() {
         return SoundRegistry.LEAPING_ZOMBIE_DEATH;
     }
+
+
 }

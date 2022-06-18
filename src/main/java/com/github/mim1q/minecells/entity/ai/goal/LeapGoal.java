@@ -27,7 +27,7 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
         this.actionTick = actionTick;
         this.lengthTicks = lengthTicks;
         this.chance = chance;
-        this.setControls(EnumSet.of(Control.MOVE));
+        this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         this.entity = entity;
         this.alreadyAttacked = new ArrayList<>();
     }
@@ -41,7 +41,8 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
         return this.entity.getLeapCooldown() == 0
             && this.entity.canSee(target)
             && this.entity.getY() >= this.entity.getTarget().getY()
-            && this.entity.getRandom().nextFloat() < this.chance;
+            && this.entity.getRandom().nextFloat() < this.chance
+            && this.entity.distanceTo(target) <= this.entity.getLeapRange();
     }
 
     @Override
@@ -73,7 +74,8 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
         if (this.target != null) {
 
             if (this.ticks < this.actionTick) {
-                this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.0D);
+                this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.01D);
+                this.entity.getLookControl().lookAt(this.target);
             }
             else if (this.ticks == this.actionTick) {
                 this.leap();
