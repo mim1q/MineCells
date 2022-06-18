@@ -11,6 +11,7 @@
   "item.minecells.undead_archer_spawn_egg": "Undead Archer Spawn Egg",
   "item.minecells.shieldbearer_spawn_egg": "Shieldbearer Spawn Egg",
   "item.minecells.mutated_bat_spawn_egg": "Mutated Bat Spawn Egg",
+  "item.minecells.sewers_tentacle_spawn_egg": "Sewer's Tentacle Spawn Egg",
 
   "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
@@ -33,6 +34,7 @@
   "entity.minecells.undead_archer": "Undead Archer",
   "entity.minecells.shieldbearer": "Shieldbearer",
   "entity.minecells.mutated_bat": "Mutated Bat",
+  "entity.minecells.sewers_tentacle": "Sewer's Tentacle",
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
