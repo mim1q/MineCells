@@ -6,6 +6,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -45,7 +46,14 @@ public class RancidRatEntityModel extends EntityModel<RancidRatEntity> {
         ModelPartData dBody = dRoot.addChild("body",
             ModelPartBuilder.create()
                 .uv(0, 0)
-                .cuboid(-3.0F, -5.0F, -5.0F, 6, 5, 10),
+                .cuboid(-3.0F, -5.0F, -5.0F, 6, 5, 10)
+                .uv(0, 15)
+                .cuboid(-4.0F, -9.0F, 0.5F, 5, 5, 5)
+                .uv(28, 15)
+                .cuboid(1.0F, -6.0F, 1.5F, 3, 3, 3)
+                .cuboid(-4.5F, -6.0F, -3.0F, 3, 3, 3)
+                .uv(22, 0)
+                .cuboid(0.0F, -7.5F, -4.0F, 4, 4, 4),
             ModelTransform.pivot(0.0F, -3.0F, 3.0F)
         );
 
@@ -115,6 +123,7 @@ public class RancidRatEntityModel extends EntityModel<RancidRatEntity> {
     @Override
     public void setAngles(RancidRatEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         AnimationHelper.rotateHead(headYaw, headPitch, this.head);
+        ratWalk(limbAngle, limbDistance, this.root, this.body, this.leftHindLeg, this.rightHindLeg, this.leftFrontLeg, this.rightFrontLeg);
 
         float multiplier = 1.0F - limbDistance;
         for (int i = 0; i < 3; i++) {
@@ -130,7 +139,18 @@ public class RancidRatEntityModel extends EntityModel<RancidRatEntity> {
         entity.torsoRotation.setupTransitionTo(torsoRotation, 5.0F);
         entity.torsoRotation.update(animationProgress);
 
-        this.body.pitch = entity.torsoRotation.getValue();
+        this.body.pitch += entity.torsoRotation.getValue();
+        this.head.pitch -= entity.torsoRotation.getValue();
+        this.tail[0].pitch -= entity.torsoRotation.getValue();
+    }
+
+    public static void ratWalk(float limbAngle, float limbDistance, ModelPart root, ModelPart body, ModelPart leftHindLeg, ModelPart rightHindLeg, ModelPart leftFrontLeg, ModelPart rightFrontLeg) {
+        rightFrontLeg.pitch = MathHelper.sin(limbAngle) * limbDistance * 45.0F * RADIANS_PER_DEGREE;
+        leftFrontLeg.pitch = -rightFrontLeg.pitch;
+        rightHindLeg.pitch = -rightFrontLeg.pitch;
+        leftHindLeg.pitch = rightFrontLeg.pitch;
+        body.pitch = MathHelper.sin(limbAngle) * limbDistance * 10.0F * RADIANS_PER_DEGREE;
+        root.pivotY = 24.0F - MathHelper.abs(MathHelper.sin(limbAngle * 0.5F)) * limbDistance;
     }
 
     @Override
