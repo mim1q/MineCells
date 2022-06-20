@@ -79,25 +79,25 @@ public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> imp
         dUpperTorso.addChild("wing_1",
             ModelPartBuilder.create()
                 .uv(0, 41)
-                .cuboid(0.0F, -2.0F, -2.0F, 0, 3, 4, new Dilation(0.001F)),
+                .cuboid(0.0F, -2.0F, -2.0F, 0, 3, 4, new Dilation(0.01F)),
             ModelTransform.of(2.0F, -2.0F, 4.0F, 10.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("wing_2",
             ModelPartBuilder.create()
                 .uv(0, 41)
-                .cuboid(0.0F, -2.0F, -2.0F, 0, 3, 4, new Dilation(0.001F)),
+                .cuboid(0.0F, -2.0F, -2.0F, 0, 3, 4, new Dilation(0.01F)),
             ModelTransform.of(-2.0F, -2.0F, 4.0F, 10.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("wing_3",
             ModelPartBuilder.create()
                 .uv(38, 0)
-                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4, new Dilation(0.001F)),
+                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4, new Dilation(0.01F)),
             ModelTransform.of(1.5F, -1.0F, 1.0F, -45.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("wing_4",
             ModelPartBuilder.create()
                 .uv(38, 0)
-                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4, new Dilation(0.001F)),
+                .cuboid(0.0F, 0.0F, 0.0F, 0, 2, 4, new Dilation(0.01F)),
             ModelTransform.of(-1.5F, -1.0F, 1.0F, -45.0F * RADIANS_PER_DEGREE, 0.0F, 0.0F));
 
         dUpperTorso.addChild("left_arm",

@@ -41,21 +41,21 @@ public class MutatedBatEntityModel extends EntityModel<MutatedBatEntity> {
                 .uv(12, 27)
                 .cuboid(-1.5F, -1.0F, -2.0F, 3, 4, 2)
                 .uv(22, 26)
-                .cuboid(-4.5F, -1.0F, -1.0F, 9, 8, 0, new Dilation(0.001F)),
+                .cuboid(-4.5F, -1.0F, -1.0F, 9, 8, 0, new Dilation(0.01F)),
             ModelTransform.pivot(0.0F, -3.0F, -5.0F)
         );
 
         dRoot.addChild("left_wing",
             ModelPartBuilder.create()
                 .uv(0, 8)
-                .cuboid(0.0F, 0.0F, -4.0F, 12, 0, 8, new Dilation(0.001F)),
+                .cuboid(0.0F, 0.0F, -4.0F, 12, 0, 8, new Dilation(0.01F)),
             ModelTransform.pivot(1.5F, -5.0F, -2.5F)
         );
 
         dRoot.addChild("right_wing",
             ModelPartBuilder.create()
                 .uv(0, 0)
-                .cuboid(-12.0F, 0.0F, -4.0F, 12, 0, 8, new Dilation(0.001F)),
+                .cuboid(-12.0F, 0.0F, -4.0F, 12, 0, 8, new Dilation(0.01F)),
             ModelTransform.pivot(-1.5F, -5.0F, -2.5F)
         );
 

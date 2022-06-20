@@ -37,7 +37,7 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
         ModelPartData dRoot = modelPartData.addChild("root",
             ModelPartBuilder.create()
                 .uv(0, 0)
-                .cuboid(-1.5F, -1.0F, 0.0F, 3, 1, 0, new Dilation(0.001F))
+                .cuboid(-1.5F, -1.0F, 0.0F, 3, 1, 0, new Dilation(0.01F))
                 .uv(12, 18)
                 .cuboid(-1.5F, -5.0F, -1.0F, 3, 4, 2),
             ModelTransform.pivot(0.0F, 18.0F, 0.0F));
@@ -51,25 +51,25 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
         ModelPartData dLowerLeftWing = dRoot.addChild("lower_left_wing",
             ModelPartBuilder.create()
                 .uv(18, 0)
-                .cuboid(0.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+                .cuboid(0.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.01F)),
             ModelTransform.of(1.0F, -3.5F, 0.0F, 20.0F * RADIANS_PER_DEGREE, 0.0F, 15.0F * RADIANS_PER_DEGREE));
 
         dLowerLeftWing.addChild("upper_left_wing",
             ModelPartBuilder.create()
                 .uv(0, 18)
-                .cuboid(-1.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+                .cuboid(-1.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.01F)),
             ModelTransform.pivot(1.0F, -2.0F, 0.0F));
 
         ModelPartData dLowerRightWing = dRoot.addChild("lower_right_wing",
             ModelPartBuilder.create()
                 .uv(12, 12)
-                .cuboid(-6.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+                .cuboid(-6.0F, -3.0F, 0.0F, 6, 6, 0, new Dilation(0.01F)),
             ModelTransform.of(-1.0F, -3.5F, 0.0F, 20.0F * RADIANS_PER_DEGREE, 0.0F, -15.0F * RADIANS_PER_DEGREE));
 
         dLowerRightWing.addChild("upper_right_wing",
             ModelPartBuilder.create()
                 .uv(0, 12)
-                .cuboid(-5.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.001F)),
+                .cuboid(-5.0F, -6.0F, 0.0F, 6, 6, 0, new Dilation(0.01F)),
             ModelTransform.pivot(-1.0F, -2.0F, 0.0F));
 
         return TexturedModelData.of(modelData, 32, 32);

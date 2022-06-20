@@ -62,7 +62,7 @@ public class RancidRatEntityModel extends EntityModel<RancidRatEntity> {
                 .uv(14, 19)
                 .cuboid(-2.0F, -2.0F, -6.0F, 4, 4, 6)
                 .uv(14, 29)
-                .cuboid(-3.5F, -4.0F, -1.0F, 7, 4, 0, new Dilation(0.001F)),
+                .cuboid(-3.5F, -4.0F, -1.0F, 7, 4, 0, new Dilation(0.01F)),
             ModelTransform.pivot(0.0F, -2.0F, -5.0F)
         );
 
