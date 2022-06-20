@@ -16,7 +16,7 @@ public class ShieldbearerEntityRenderer extends MobEntityRenderer<ShieldbearerEn
 
     public ShieldbearerEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new ShieldbearerEntityModel(ctx.getPart(RendererRegistry.SHIELDBEARER_LAYER)), 0.35f);
-        this.addFeature(new HeldItemFeatureRenderer<>(this));
+        this.addFeature(new HeldItemFeatureRenderer<>(this, ctx.getHeldItemRenderer()));
     }
 
     @Override

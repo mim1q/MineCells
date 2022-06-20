@@ -6,10 +6,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterials;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -35,7 +33,7 @@ public class AssassinsDaggerItem extends AbstractCritWeaponItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        MutableText text = new LiteralText("+" + this.critAttackDamage).formatted(Formatting.RED);
-        tooltip.add(new TranslatableText("item.minecells.assassins_dagger.tooltip", text).formatted(Formatting.GRAY));
+        MutableText text = Text.literal("+" + this.critAttackDamage).formatted(Formatting.RED);
+        tooltip.add(Text.translatable("item.minecells.assassins_dagger.tooltip", text).formatted(Formatting.GRAY));
     }
 }
