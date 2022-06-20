@@ -117,6 +117,14 @@ public final class EntityRegistry {
             .build()
     );
 
+    public static final EntityType<RunnerEntity> RUNNER = Registry.register(
+        Registry.ENTITY_TYPE,
+        new Identifier(MineCells.MOD_ID, "runner"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, RunnerEntity::new)
+            .dimensions(EntityDimensions.fixed(0.8F, 2.1F))
+            .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "grenade"),
@@ -244,6 +252,13 @@ public final class EntityRegistry {
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
+    public static final Item RUNNER_SPAWN_EGG = new SpawnEggItem(
+        RUNNER,
+        0xE43E2C,
+        0xF9F9F9,
+        new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -262,6 +277,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(MUTATED_BAT, MutatedBatEntity.createMutatedBatAttributes());
         FabricDefaultAttributeRegistry.register(SEWERS_TENTACLE, SewersTentacleEntity.createSewersTentacleAttributes());
         FabricDefaultAttributeRegistry.register(RANCID_RAT, RancidRatEntity.createRancidRatAttributes());
+        FabricDefaultAttributeRegistry.register(RUNNER, RunnerEntity.createRunnerAttributes());
 
         // Register Spawn Eggs
 
@@ -277,5 +293,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "mutated_bat_spawn_egg"), MUTATED_BAT_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "sewers_tentacle_spawn_egg"), SEWERS_TENTACLE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "rancid_rat_spawn_egg"), RANCID_RAT_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "runner_spawn_egg"), RUNNER_SPAWN_EGG);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.util.animation;
 
+import com.github.mim1q.minecells.util.MineCellsMathHelper;
 import net.minecraft.util.math.MathHelper;
 
 public class AnimationProperty {
@@ -20,7 +21,7 @@ public class AnimationProperty {
         if (targetValue == this.targetValue) {
             return;
         }
-        this.lastValue = this.targetValue;
+        this.lastValue = this.value;
         this.targetValue = targetValue;
         this.lastTime = this.time;
         this.duration = duration;
@@ -28,7 +29,7 @@ public class AnimationProperty {
 
     public void update(float time) {
         this.time = time;
-        this.value = MathHelper.clampedLerp(this.lastValue, this.targetValue, this.getProgress());
+        this.value = MineCellsMathHelper.easeInOutQuad(this.lastValue, this.targetValue, this.getProgress());
     }
 
     public float getProgress() {

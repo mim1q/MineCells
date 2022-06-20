@@ -21,7 +21,7 @@ modrinth {
     projectId.set("9Qdvz1OV")
     uploadFile.set(remapJar)
     versionType.set("${project.mod_version_type}")
-    versionName.set("minecells-${project.mod_version_type}-${project.mod_version}")
+    versionName.set("minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}")
     changelog.set(rootProject.file("changelogs/minecells_${project.mod_version}.md").text)
     syncBodyFrom.set(rootProject.file("project/body.md").text)
 
