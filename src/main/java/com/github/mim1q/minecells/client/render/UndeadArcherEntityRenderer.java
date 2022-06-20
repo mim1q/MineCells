@@ -15,7 +15,7 @@ public class UndeadArcherEntityRenderer extends MobEntityRenderer<UndeadArcherEn
 
     public UndeadArcherEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new UndeadArcherEntityModel(ctx.getPart(RendererRegistry.UNDEAD_ARCHER_LAYER)), 0.35F);
-        this.addFeature(new HeldItemFeatureRenderer<>(this, ctx.getHeldItemRenderer()));
+        this.addFeature(new HeldItemFeatureRenderer<>(this));
     }
 
     @Override

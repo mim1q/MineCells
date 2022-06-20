@@ -33,9 +33,9 @@ public class ParticleHelper {
 
     public static void addInBox(ClientWorld world, ParticleEffect effect, Box box, int amount, Vec3d velScale) {
         for (int i = 0; i < amount; i++) {
-            double x = box.minX + world.random.nextDouble() * (box.maxX - box.minX);
-            double y = box.minY + world.random.nextDouble() * (box.maxY - box.minY);
-            double z = box.minZ + world.random.nextDouble() * (box.maxZ - box.minZ);
+            double x = world.random.nextDouble(box.minX, box.maxX);
+            double y = world.random.nextDouble(box.minY, box.maxY);
+            double z = world.random.nextDouble(box.minZ, box.maxZ);
 
             Vec3d pos = new Vec3d(x, y, z);
             Vec3d vel = (box.getCenter().subtract(pos).normalize()).multiply(velScale);

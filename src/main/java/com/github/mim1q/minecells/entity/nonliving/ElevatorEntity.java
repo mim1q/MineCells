@@ -209,7 +209,7 @@ public class ElevatorEntity extends Entity {
             ItemStack[] items = {
                 new ItemStack(Blocks.CHAIN, this.random.nextInt(3) + 2),
                 new ItemStack(Blocks.OAK_SLAB, 1),
-                new ItemStack(ItemRegistry.ELEVATOR_MECHANISM, this.random.nextInt(3))
+                new ItemStack(ItemRegistry.ELEVATOR_MECHANISM, this.random.nextInt(0, 3))
             };
 
             for (ItemStack itemStack : items) {

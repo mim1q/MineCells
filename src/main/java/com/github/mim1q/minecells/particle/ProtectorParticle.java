@@ -15,8 +15,8 @@ public class ProtectorParticle extends SpriteBillboardParticle {
     protected ProtectorParticle(ClientWorld clientWorld, double d, double e, double f) {
         super(clientWorld, d, e, f);
         //this.setVelocity(0.0D, 0.0D, 0.0D);
-        this.setMaxAge(clientWorld.random.nextBetween(10, 30));
-        this.angle = clientWorld.random.nextFloat() * MathHelper.PI * 2.0F;
+        this.setMaxAge(clientWorld.random.nextInt(10, 30));
+        this.angle = clientWorld.random.nextFloat(MathHelper.PI * 2.0F);
         this.prevAngle = this.angle;
         this.maxSize = this.getMaxAge() * 0.05F;
     }
