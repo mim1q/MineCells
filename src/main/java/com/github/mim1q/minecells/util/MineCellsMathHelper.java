@@ -24,4 +24,11 @@ public class MineCellsMathHelper {
 
         return new Vec3d(x, y, z);
     }
+
+    public static float easeInOutQuad(float a, float b, float delta) {
+        delta = delta < 0.5F
+            ? 2.0F * delta * delta
+            : 1.0F - (-2.0F * delta + 2.0F) * (-2.0F * delta + 2.0F) * 0.5F;
+        return MathHelper.lerp(delta, a, b);
+    }
 }

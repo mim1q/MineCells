@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.config.CommonConfig;
 import com.github.mim1q.minecells.registry.*;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,5 +25,9 @@ public class MineCells implements ModInitializer {
         ItemGroupRegistry.register();
         StatusEffectRegistry.register();
         ParticleRegistry.register();
+    }
+
+    public static Identifier createId(String path) {
+        return new Identifier(MOD_ID, path);
     }
 }
