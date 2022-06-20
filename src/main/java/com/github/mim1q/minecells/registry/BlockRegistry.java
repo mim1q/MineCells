@@ -25,7 +25,9 @@ public class BlockRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
         Registry.register(Registry.BLOCK, new Identifier(MineCells.MOD_ID, "big_chain"), BIG_CHAIN);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "big_chain"), BIG_CHAIN_BLOCK_ITEM);
+    }
 
+    public static void registerClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(BIG_CHAIN, RenderLayer.getCutout());
     }
 }
