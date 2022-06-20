@@ -3,9 +3,9 @@
 * Undead Archer
 * Shieldbearer
 * Mutated Bat
-* Runner
+* Rancid Rat
+* Runner\*
 * Sewer's Tentacle\*
-* Rancid Rat\*
 
 \* correct behavior not yet implemented
 
