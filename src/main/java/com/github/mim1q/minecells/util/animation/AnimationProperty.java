@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.animation;
+package com.github.mim1q.minecells.util.animation;
 
 import net.minecraft.util.math.MathHelper;
 

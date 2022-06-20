@@ -1,9 +1,9 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.animation.AnimationProperty;
 import com.github.mim1q.minecells.entity.ai.goal.LeapGoal;
 import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;

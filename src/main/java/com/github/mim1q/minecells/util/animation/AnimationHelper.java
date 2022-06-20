@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.util;
+package com.github.mim1q.minecells.util.animation;
 
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;

@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.InquisitorEntity;
-import com.github.mim1q.minecells.util.AnimationHelper;
+import com.github.mim1q.minecells.util.animation.AnimationHelper;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
