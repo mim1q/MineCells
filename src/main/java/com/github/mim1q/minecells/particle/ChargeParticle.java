@@ -13,8 +13,8 @@ public class ChargeParticle extends SpriteBillboardParticle {
 
     protected ChargeParticle(ClientWorld clientWorld, double d, double e, double f) {
         super(clientWorld, d, e, f);
-        this.setMaxAge(clientWorld.random.nextInt(10, 25));
-        this.angle = clientWorld.random.nextFloat(MathHelper.PI * 2.0F);
+        this.setMaxAge(clientWorld.random.nextBetween(10, 25));
+        this.angle = clientWorld.random.nextFloat() * MathHelper.PI * 2.0F;
         this.prevAngle = this.angle;
         this.maxSize = this.getMaxAge() * 0.1F;
         this.setAlpha(0.0F);
