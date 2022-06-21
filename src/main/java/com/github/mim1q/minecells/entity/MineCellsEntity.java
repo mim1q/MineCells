@@ -36,6 +36,14 @@ public class MineCellsEntity extends HostileEntity {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        if (!this.world.isClient) {
+            this.decrementCooldowns();
+        }
+    }
+
+    @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
         if (damageSource instanceof GrenadeEntity.GrenadeDamageSource) {
             return true;
@@ -49,6 +57,8 @@ public class MineCellsEntity extends HostileEntity {
             this.dataTracker.set(cooldown, current - 1);
         }
     }
+
+    protected void decrementCooldowns() { }
 
     @Override
     protected SoundEvent getDeathSound() {
