@@ -13,6 +13,10 @@ public class WalkTowardsTargetGoal extends MeleeAttackGoal {
         this.minDistance = minDistance;
     }
 
+    public WalkTowardsTargetGoal(PathAwareEntity mob, double speed, boolean pauseWhenMobIdle) {
+        this(mob, speed, pauseWhenMobIdle, 0.0F);
+    }
+
     @Override
     public boolean canStart() {
         return super.canStart() && this.mob.distanceTo(this.mob.getTarget()) >= minDistance;

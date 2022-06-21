@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.util.animation;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 
+import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
+
 public class AnimationHelper {
     public static void bipedWalk(float limbAngle, float limbDistance, ModelPart root, ModelPart rightLeg, ModelPart leftLeg, ModelPart rightArm, ModelPart leftArm, ModelPart lowerTorso, ModelPart upperTorso) {
         float rightLegPitch = MathHelper.sin(limbAngle * 0.5F) * limbDistance;
@@ -14,7 +16,7 @@ public class AnimationHelper {
 
         root.pivotY = 24.0F - MathHelper.abs(MathHelper.sin((limbAngle + MathHelper.PI) * 0.5F)) * limbDistance;
 
-        float torso = MathHelper.sin(limbAngle + MathHelper.PI) * limbDistance * MathHelper.RADIANS_PER_DEGREE;
+        float torso = MathHelper.sin(limbAngle + MathHelper.PI) * limbDistance * RADIANS_PER_DEGREE;
         if (upperTorso != null) {
             upperTorso.pitch = torso;
         }
@@ -24,7 +26,13 @@ public class AnimationHelper {
     }
 
     public static void rotateHead(float headYaw, float headPitch, ModelPart head) {
-        head.yaw = headYaw * MathHelper.RADIANS_PER_DEGREE;
-        head.pitch = headPitch * MathHelper.RADIANS_PER_DEGREE;
+        head.yaw = headYaw * RADIANS_PER_DEGREE;
+        head.pitch = headPitch * RADIANS_PER_DEGREE;
+    }
+
+    public static void lerpModelPartRotation(ModelPart part, float pitch, float yaw, float roll, float delta) {
+        part.pitch = MathHelper.lerp(delta, part.pitch, pitch * RADIANS_PER_DEGREE);
+        part.yaw = MathHelper.lerp(delta, part.yaw, yaw * RADIANS_PER_DEGREE);
+        part.roll = MathHelper.lerp(delta, part.roll, roll * RADIANS_PER_DEGREE);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -22,6 +23,8 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
     private final ModelPart head;
 
     public RunnerEntityModel(ModelPart part) {
+        System.out.println("RunnerEntityModel");
+
         this.root = part.getChild("root");
         this.lowerTorso = this.root.getChild("lower_torso");
         this.upperTorso = this.lowerTorso.getChild("upper_torso");
@@ -121,12 +124,21 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
 
     @Override
     public void setAngles(RunnerEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+
+        // Default / walking pose
         AnimationHelper.rotateHead(headYaw, headPitch, this.head);
         AnimationHelper.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
-        this.rightArm.roll = 25.0F * RADIANS_PER_DEGREE;
-        this.leftArm.roll = -25.0F * RADIANS_PER_DEGREE;
+        this.rightArm.roll = 35.0F * RADIANS_PER_DEGREE;
+        this.leftArm.roll = -35.0F * RADIANS_PER_DEGREE;
         this.rightArm.pitch = 0.0F;
         this.leftArm.pitch = 0.0F;
+        this.upperTorso.roll = 0.0F;
+        this.upperTorso.yaw = 0.0F;
+        this.lowerTorso.yaw = 0.0F;
+        this.leftArm.yaw = 0.0F;
+        this.rightArm.yaw = 0.0F;
+
+        // Setup transitions of animation properties
 
         if (entity.isAttacking() && entity.getVelocity().length() > 0.1D) {
             entity.bendAngle.setupTransitionTo(30.0F, 10.0F);
@@ -134,14 +146,46 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
             entity.bendAngle.setupTransitionTo(0.0F, 10.0F);
         }
 
-        entity.bendAngle.update(animationProgress);
+        if (entity.getDataTracker().get(RunnerEntity.TIMED_ATTACK_CHARGING)) {
+            entity.swingChargeProgress.setupTransitionTo(1.0F, 10.0F);
+        } else {
+            entity.swingChargeProgress.setupTransitionTo(0.0F, 5.0F);
+        }
 
+        if (entity.getDataTracker().get(RunnerEntity.TIMED_ATTACK_RELEASING)) {
+            entity.swingReleaseProgress.setupTransitionTo(1.0F, 3.0F);
+        } else {
+            entity.swingReleaseProgress.setupTransitionTo(0.0F, 10.0F);
+        }
+
+        entity.bendAngle.update(animationProgress);
+        entity.swingChargeProgress.update(animationProgress);
+        entity.swingReleaseProgress.update(animationProgress);
+
+        // Running animation
         float angle = entity.bendAngle.getValue() * RADIANS_PER_DEGREE;
         this.leftArm.pitch += angle;
         this.rightArm.pitch += angle;
         this.lowerTorso.pitch += angle * 0.5F;
         this.upperTorso.pitch += angle * 0.5F;
         this.neck.pitch = -angle;
+
+        // Melee attack charge animation
+        float swingChargeProgress = entity.swingChargeProgress.getValue();
+        AnimationHelper.lerpModelPartRotation(this.leftArm, 45.0F, 15.0F, -90.0F, swingChargeProgress);
+        AnimationHelper.lerpModelPartRotation(this.rightArm, -45.0F, 35.0F, -45.0F, swingChargeProgress);
+        AnimationHelper.lerpModelPartRotation(this.upperTorso, 0.0F, -25.0F, -15.0F, swingChargeProgress);
+        AnimationHelper.lerpModelPartRotation(this.head, 10.0F, -15.0F, 0.0F, swingChargeProgress);
+        this.lowerTorso.yaw = MathHelper.lerp(swingChargeProgress, 0.0F, -15.0F * RADIANS_PER_DEGREE);
+
+        // Melee attack swing animation
+        float swingReleaseProgress = entity.swingReleaseProgress.getValue();
+        AnimationHelper.lerpModelPartRotation(this.leftArm, -60.0F, 40.0F, 25.0F, swingReleaseProgress);
+        AnimationHelper.lerpModelPartRotation(this.rightArm, 20.0F, 0.0F, 0.0F, swingReleaseProgress);
+        AnimationHelper.lerpModelPartRotation(this.upperTorso, 0.0F, 10.0F, -5.0F, swingReleaseProgress);
+        AnimationHelper.lerpModelPartRotation(this.lowerTorso, 0.0F, 10.0F, 0.0F, swingReleaseProgress);
+        AnimationHelper.lerpModelPartRotation(this.head, 5.0F, -15.0F, 0.0F, swingReleaseProgress);
+        this.head.yaw = MathHelper.lerp(swingChargeProgress, this.head.yaw, -15.0F * RADIANS_PER_DEGREE);
     }
 
     @Override
