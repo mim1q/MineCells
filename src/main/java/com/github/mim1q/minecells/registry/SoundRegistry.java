@@ -89,6 +89,9 @@ public final class SoundRegistry {
     public static final Identifier BOW_RELEASE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.release");
     public static final SoundEvent BOW_RELEASE = new SoundEvent(BOW_RELEASE_ID);
 
+    public static final Identifier SWIPE_ID = MineCells.createId("weapon.swipe");
+    public static final SoundEvent SWIPE = new SoundEvent(SWIPE_ID);
+
     // Other
     public static final Identifier CRIT_ID = new Identifier(MineCells.MOD_ID, "crit");
     public static final SoundEvent CRIT = new SoundEvent(CRIT_ID);
@@ -151,6 +154,7 @@ public final class SoundRegistry {
         // Weapons
         Registry.register(Registry.SOUND_EVENT, BOW_CHARGE_ID, BOW_CHARGE);
         Registry.register(Registry.SOUND_EVENT, BOW_RELEASE_ID, BOW_RELEASE);
+        Registry.register(Registry.SOUND_EVENT, SWIPE_ID, SWIPE);
 
         // Other
         Registry.register(Registry.SOUND_EVENT, CRIT_ID, CRIT);

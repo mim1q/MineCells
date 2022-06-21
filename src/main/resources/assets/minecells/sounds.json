@@ -109,6 +109,13 @@
       "minecells:weapon/bow/release"
     ]
   },
+  "weapon.swipe": {
+    "sounds": [
+      "minecells:weapon/swipe/swipe0",
+      "minecells:weapon/swipe/swipe1",
+      "minecells:weapon/swipe/swipe2"
+    ]
+  },
   "buzz": {
     "sounds": [
       "minecells:buzz"
