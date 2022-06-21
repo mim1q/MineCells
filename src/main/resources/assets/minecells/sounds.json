@@ -145,5 +145,15 @@
     "sounds": [
       "minecells:elevator_stop"
     ]
+  },
+  "teleport.charge": {
+    "sounds": [
+      "minecells:teleport/charge"
+    ]
+  },
+  "teleport.release": {
+    "sounds": [
+      "minecells:teleport/release"
+    ]
   }
 }

@@ -111,6 +111,12 @@ public final class SoundRegistry {
     public static final Identifier BUZZ_ID = new Identifier(MineCells.MOD_ID, "buzz");
     public static final SoundEvent BUZZ = new SoundEvent(BUZZ_ID);
 
+    public static final Identifier TELEPORT_CHARGE_ID = MineCells.createId("teleport.charge");
+    public static final SoundEvent TELEPORT_CHARGE = new SoundEvent(TELEPORT_CHARGE_ID);
+
+    public static final Identifier TELEPORT_RELEASE_ID = MineCells.createId("teleport.release");
+    public static final SoundEvent TELEPORT_RELEASE = new SoundEvent(TELEPORT_RELEASE_ID);
+
     public static void register() {
 
         // Leaping Zombie
@@ -163,5 +169,7 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, ELEVATOR_START_ID, ELEVATOR_START);
         Registry.register(Registry.SOUND_EVENT, ELEVATOR_STOP_ID, ELEVATOR_STOP);
         Registry.register(Registry.SOUND_EVENT, BUZZ_ID, BUZZ);
+        Registry.register(Registry.SOUND_EVENT, TELEPORT_CHARGE_ID, TELEPORT_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, TELEPORT_RELEASE_ID, TELEPORT_RELEASE);
     }
 }

@@ -47,17 +47,17 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     @Override
     public void start() {
         this.ticks = 0;
-        this.playSound(this.chargeSound);
         this.stateSetter.setState(State.CHARGE, true);
+        this.playChargeSound();
     }
 
     @Override
     public void tick() {
         if (this.ticks == actionTick) {
-            this.playSound(this.releaseSound);
             this.runAction();
             this.stateSetter.setState(State.CHARGE, false);
             this.stateSetter.setState(State.RELEASE, true);
+            this.playReleaseSound();
         } else if (this.ticks < actionTick) {
             this.charge();
         } else {
@@ -80,6 +80,14 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
     protected void playSound(SoundEvent soundEvent) {
         this.entity.playSound(soundEvent, 0.5F, 1.0F);
+    }
+
+    protected void playChargeSound() {
+        this.playSound(this.chargeSound);
+    }
+
+    protected void playReleaseSound() {
+        this.playSound(this.releaseSound);
     }
 
     @Override
