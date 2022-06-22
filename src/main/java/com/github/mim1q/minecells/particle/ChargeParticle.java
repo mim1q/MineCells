@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.particle;
 
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
@@ -33,7 +33,7 @@ public class ChargeParticle extends SpriteBillboardParticle {
 
     @Override
     public ParticleTextureSheet getType() {
-        return ParticleHelper.getTranslucentParticleType();
+        return ParticleUtils.getTranslucentParticleType();
     }
 
     public static class Factory implements ParticleFactory<DefaultParticleType> {

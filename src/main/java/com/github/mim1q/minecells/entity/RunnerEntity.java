@@ -5,7 +5,7 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedTeleportGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -78,7 +78,7 @@ public class RunnerEntity extends MineCellsEntity {
         super.tick();
         if (this.dataTracker.get(TELEPORT_CHARGING) && this.world.isClient()) {
             for (int i = 0; i < 5; i++){
-                ParticleHelper.addParticle(
+                ParticleUtils.addParticle(
                     (ClientWorld) this.world,
                     ParticleRegistry.CHARGE,
                     this.getPos().add(0.0D, this.getHeight() * 0.5F, 0.0D),

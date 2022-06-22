@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.GrenadierEntity;
-import com.github.mim1q.minecells.util.animation.AnimationHelper;
+import com.github.mim1q.minecells.util.animation.AnimationUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -159,8 +159,8 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
     @Override
     public void setAngles(GrenadierEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
-        AnimationHelper.rotateHead(headYaw, headPitch, this.head);
-        AnimationHelper.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
+        AnimationUtils.rotateHead(headYaw, headPitch, this.head);
+        AnimationUtils.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
 
         this.neck.pitch = -30.0F * RADIANS_PER_DEGREE;
 

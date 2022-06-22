@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.particle;
 
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
@@ -34,7 +34,7 @@ public class ProtectorParticle extends SpriteBillboardParticle {
 
     @Override
     public ParticleTextureSheet getType() {
-        return ParticleHelper.getTranslucentParticleType();
+        return ParticleUtils.getTranslucentParticleType();
     }
 
     @Environment(EnvType.CLIENT)

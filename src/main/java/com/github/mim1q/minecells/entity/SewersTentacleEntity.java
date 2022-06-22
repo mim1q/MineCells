@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.accessor.EntityAccessor;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -88,7 +88,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
             BlockState blockState = this.world.getBlockState(new BlockPos(this.getPos().subtract(0.0F, 0.01F, 0.0F)));
             if (blockState != null && blockState.isOpaque()) {
                 ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState);
-                ParticleHelper.addInBox(
+                ParticleUtils.addInBox(
                     (ClientWorld) this.world,
                     particle,
                     Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),

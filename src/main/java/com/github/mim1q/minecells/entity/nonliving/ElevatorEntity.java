@@ -8,7 +8,7 @@ import com.github.mim1q.minecells.registry.BlockRegistry;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ItemRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -141,8 +141,8 @@ public class ElevatorEntity extends Entity {
                         double rx = this.random.nextDouble() - 0.5D;
                         double rz = this.random.nextDouble() - 0.5D;
                         Vec3d vel = new Vec3d(rx, 0.1D, rz).normalize();
-                        ParticleHelper.addParticle((ClientWorld)this.world, particle, this.getPos().add(vel), vel.multiply(10.0D));
-                        ParticleHelper.addParticle((ClientWorld)this.world, ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
+                        ParticleUtils.addParticle((ClientWorld)this.world, particle, this.getPos().add(vel), vel.multiply(10.0D));
+                        ParticleUtils.addParticle((ClientWorld)this.world, ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
                     }
                 }
             }
@@ -239,7 +239,7 @@ public class ElevatorEntity extends Entity {
         for (int i = 0; i < 5; i++) {
             double rx = (this.random.nextDouble() - 0.5D) * 0.5D;
             double rz = (this.random.nextDouble() - 0.5D) * 0.5D;
-            ParticleHelper.addParticle((ClientWorld)this.world,
+            ParticleUtils.addParticle((ClientWorld)this.world,
                 ParticleTypes.ELECTRIC_SPARK,
                 this.getPos().add(offset),
                 new Vec3d(rx, this.isGoingUp() ? -1.0D : 1.0D, rz));

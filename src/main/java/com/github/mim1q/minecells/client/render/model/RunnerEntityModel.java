@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.RunnerEntity;
-import com.github.mim1q.minecells.util.animation.AnimationHelper;
+import com.github.mim1q.minecells.util.animation.AnimationUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -126,8 +126,8 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
     public void setAngles(RunnerEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
         // Default / walking pose
-        AnimationHelper.rotateHead(headYaw, headPitch, this.head);
-        AnimationHelper.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
+        AnimationUtils.rotateHead(headYaw, headPitch, this.head);
+        AnimationUtils.bipedWalk(limbAngle, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
         this.rightArm.roll = 35.0F * RADIANS_PER_DEGREE;
         this.leftArm.roll = -35.0F * RADIANS_PER_DEGREE;
         this.rightArm.pitch = 0.0F;
@@ -172,19 +172,19 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
 
         // Melee attack charge animation
         float swingChargeProgress = entity.swingChargeProgress.getValue();
-        AnimationHelper.lerpModelPartRotation(this.leftArm, 45.0F, 15.0F, -90.0F, swingChargeProgress);
-        AnimationHelper.lerpModelPartRotation(this.rightArm, -45.0F, 35.0F, -45.0F, swingChargeProgress);
-        AnimationHelper.lerpModelPartRotation(this.upperTorso, 0.0F, -25.0F, -15.0F, swingChargeProgress);
-        AnimationHelper.lerpModelPartRotation(this.head, 10.0F, -15.0F, 0.0F, swingChargeProgress);
+        AnimationUtils.lerpModelPartRotation(this.leftArm, 45.0F, 15.0F, -90.0F, swingChargeProgress);
+        AnimationUtils.lerpModelPartRotation(this.rightArm, -45.0F, 35.0F, -45.0F, swingChargeProgress);
+        AnimationUtils.lerpModelPartRotation(this.upperTorso, 0.0F, -25.0F, -15.0F, swingChargeProgress);
+        AnimationUtils.lerpModelPartRotation(this.head, 10.0F, -15.0F, 0.0F, swingChargeProgress);
         this.lowerTorso.yaw = MathHelper.lerp(swingChargeProgress, 0.0F, -15.0F * RADIANS_PER_DEGREE);
 
         // Melee attack swing animation
         float swingReleaseProgress = entity.swingReleaseProgress.getValue();
-        AnimationHelper.lerpModelPartRotation(this.leftArm, -60.0F, 40.0F, 25.0F, swingReleaseProgress);
-        AnimationHelper.lerpModelPartRotation(this.rightArm, 20.0F, 0.0F, 0.0F, swingReleaseProgress);
-        AnimationHelper.lerpModelPartRotation(this.upperTorso, 0.0F, 10.0F, -5.0F, swingReleaseProgress);
-        AnimationHelper.lerpModelPartRotation(this.lowerTorso, 0.0F, 10.0F, 0.0F, swingReleaseProgress);
-        AnimationHelper.lerpModelPartRotation(this.head, 5.0F, -15.0F, 0.0F, swingReleaseProgress);
+        AnimationUtils.lerpModelPartRotation(this.leftArm, -60.0F, 40.0F, 25.0F, swingReleaseProgress);
+        AnimationUtils.lerpModelPartRotation(this.rightArm, 20.0F, 0.0F, 0.0F, swingReleaseProgress);
+        AnimationUtils.lerpModelPartRotation(this.upperTorso, 0.0F, 10.0F, -5.0F, swingReleaseProgress);
+        AnimationUtils.lerpModelPartRotation(this.lowerTorso, 0.0F, 10.0F, 0.0F, swingReleaseProgress);
+        AnimationUtils.lerpModelPartRotation(this.head, 5.0F, -15.0F, 0.0F, swingReleaseProgress);
         this.head.yaw = MathHelper.lerp(swingChargeProgress, this.head.yaw, -15.0F * RADIANS_PER_DEGREE);
     }
 

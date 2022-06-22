@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -28,10 +28,10 @@ public class MagicOrbEntity extends ProjectileEntity {
         this.move(MovementType.SELF, this.getVelocity());
         if (this.world.isClient()) {
             if (this.age == 1) {
-                ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 15, 0.0D, 0.5D);
+                ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 15, 0.0D, 0.5D);
             }
-            ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.5D, 0.0D);
-            ParticleHelper.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.0D, 0.0D);
+            ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.5D, 0.0D);
+            ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.0D, 0.0D);
         } else {
             if (this.age > 200) {
                 this.discard();

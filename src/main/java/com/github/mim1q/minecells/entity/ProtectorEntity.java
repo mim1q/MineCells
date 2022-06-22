@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.registry.StatusEffectRegistry;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.world.ClientWorld;
@@ -70,7 +70,7 @@ public class ProtectorEntity extends MineCellsEntity {
                     ((LivingEntity) e).addStatusEffect(effect);
                 }
             } else if (!this.trackedEntities.isEmpty()) {
-                ParticleHelper.addParticle((ClientWorld)this.world, ParticleRegistry.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+                ParticleUtils.addParticle((ClientWorld)this.world, ParticleRegistry.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
             }
         }
         if (!this.world.isClient) {

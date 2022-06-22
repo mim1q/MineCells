@@ -6,8 +6,8 @@ import com.github.mim1q.minecells.client.render.feature.GlowFeatureRenderer;
 import com.github.mim1q.minecells.client.render.model.ProtectorEntityModel;
 import com.github.mim1q.minecells.entity.ProtectorEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
-import com.github.mim1q.minecells.util.RenderHelper;
-import com.github.mim1q.minecells.util.RenderHelper.VertexCoordinates;
+import com.github.mim1q.minecells.util.RenderUtils;
+import com.github.mim1q.minecells.util.RenderUtils.VertexCoordinates;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -92,7 +92,7 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
 
         int[] indices = { 0, 1, 2, 3, 3, 2, 1, 0 };
         for (int i : indices) {
-            RenderHelper.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, 255);
+            RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, 255);
         }
     }
 

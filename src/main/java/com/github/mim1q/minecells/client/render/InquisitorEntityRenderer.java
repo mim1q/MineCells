@@ -4,8 +4,8 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.InquisitorEntityModel;
 import com.github.mim1q.minecells.entity.InquisitorEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
-import com.github.mim1q.minecells.util.MineCellsMathHelper;
-import com.github.mim1q.minecells.util.RenderHelper;
+import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -44,7 +44,7 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
 
     public void renderOrb(MatrixStack matrixStack, VertexConsumer vertexConsumer, float yaw, int age, Vec3f offset) {
         matrixStack.push();
-        offset = MineCellsMathHelper.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
+        offset = MathUtils.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
         matrixStack.translate(offset.getX(), offset.getY() + MathHelper.sin((float)age * MathHelper.PI / 45.0F) * 0.1F, offset.getZ());
         matrixStack.scale(0.375F, 0.375F, 0.375F);
         matrixStack.multiply(this.dispatcher.getRotation());
@@ -52,10 +52,10 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
         MatrixStack.Entry entry = matrixStack.peek();
         Matrix4f matrix4f = entry.getPositionMatrix();
         Matrix3f matrix3f = entry.getNormalMatrix();
-        RenderHelper.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);
-        RenderHelper.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0,  0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 255);
-        RenderHelper.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0,  0.5F,  0.5F, 0.0F, 1.0F, 0.0F, 255);
-        RenderHelper.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, -0.5F,  0.5F, 0.0F, 0.0F, 0.0F, 255);
+        RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);
+        RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0,  0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 255);
+        RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0,  0.5F,  0.5F, 0.0F, 1.0F, 0.0F, 255);
+        RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, -0.5F,  0.5F, 0.0F, 0.0F, 0.0F, 255);
         matrixStack.pop();
     }
 

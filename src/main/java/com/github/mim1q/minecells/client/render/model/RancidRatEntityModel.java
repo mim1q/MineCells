@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.RancidRatEntity;
-import com.github.mim1q.minecells.util.animation.AnimationHelper;
+import com.github.mim1q.minecells.util.animation.AnimationUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -122,7 +122,7 @@ public class RancidRatEntityModel extends EntityModel<RancidRatEntity> {
 
     @Override
     public void setAngles(RancidRatEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        AnimationHelper.rotateHead(headYaw, headPitch, this.head);
+        AnimationUtils.rotateHead(headYaw, headPitch, this.head);
         ratWalk(limbAngle, limbDistance, this.root, this.body, this.leftHindLeg, this.rightHindLeg, this.leftFrontLeg, this.rightFrontLeg);
 
         float multiplier = 1.0F - limbDistance;

@@ -7,7 +7,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
-public class ParticleHelper {
+public class ParticleUtils {
 
     public static void addParticle(ClientWorld world, ParticleEffect particle, Vec3d pos, Vec3d vel) {
         world.addParticle(particle, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);

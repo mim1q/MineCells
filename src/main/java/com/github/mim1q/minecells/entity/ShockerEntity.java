@@ -4,7 +4,7 @@ import com.github.mim1q.minecells.entity.ai.goal.AuraGoal;
 import com.github.mim1q.minecells.entity.interfaces.IAuraEntity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -60,11 +60,11 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
             Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
             if (this.isAuraCharging()) {
                 for (int i = 0; i < 10; i++) {
-                    ParticleHelper.addParticle((ClientWorld)this.world, ParticleRegistry.CHARGE, pos, Vec3d.ZERO);
+                    ParticleUtils.addParticle((ClientWorld)this.world, ParticleRegistry.CHARGE, pos, Vec3d.ZERO);
                 }
             } else if (this.isAuraReleasing()) {
-                ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 100, 9.5D, 0.01D);
-                ParticleHelper.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
+                ParticleUtils.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 100, 9.5D, 0.01D);
+                ParticleUtils.addAura((ClientWorld)this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
             }
         }
     }

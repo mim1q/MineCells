@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.util.animation;
 
-import com.github.mim1q.minecells.util.MineCellsMathHelper;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.util.math.MathHelper;
 
 public class AnimationProperty {
@@ -29,7 +29,7 @@ public class AnimationProperty {
 
     public void update(float time) {
         this.time = time;
-        this.value = MineCellsMathHelper.easeInOutQuad(this.lastValue, this.targetValue, this.getProgress());
+        this.value = MathUtils.easeInOutQuad(this.lastValue, this.targetValue, this.getProgress());
     }
 
     public float getProgress() {

@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.network;
 
 import com.github.mim1q.minecells.registry.ParticleRegistry;
-import com.github.mim1q.minecells.util.MineCellsMathHelper;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -31,7 +31,7 @@ public class ClientPacketHandler {
         Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
         client.execute(() -> {
             if (client.player != null) {
-                ParticleHelper.addAura(client.world, pos, ParticleTypes.CRIT, 8, 0.0D, 1.0D);
+                ParticleUtils.addAura(client.world, pos, ParticleTypes.CRIT, 8, 0.0D, 1.0D);
             }
         });
     }
@@ -41,8 +41,8 @@ public class ClientPacketHandler {
         double radius = buf.readDouble();
         client.execute(() -> {
             if (client.player != null && client.world != null) {
-                ParticleHelper.addParticle(client.world, ParticleRegistry.EXPLOSION, pos, new Vec3d(radius, 0.0D, 0.0D));
-                ParticleHelper.addAura(client.world, pos, ParticleTypes.CRIT, 20, 0.0D, radius);
+                ParticleUtils.addParticle(client.world, ParticleRegistry.EXPLOSION, pos, new Vec3d(radius, 0.0D, 0.0D));
+                ParticleUtils.addAura(client.world, pos, ParticleTypes.CRIT, 20, 0.0D, radius);
             }
         });
     }
@@ -55,8 +55,8 @@ public class ClientPacketHandler {
                 double amount = pos0.distanceTo(pos1);
                 Vec3d vel = pos1.subtract(pos0).normalize();
                 for (int i = 0; i < amount; i++) {
-                    Vec3d pos = MineCellsMathHelper.lerp(pos0, pos1, i / (float)amount);
-                    ParticleHelper.addParticle(client.world, ParticleTypes.ENCHANTED_HIT, pos, vel);
+                    Vec3d pos = MathUtils.lerp(pos0, pos1, i / (float)amount);
+                    ParticleUtils.addParticle(client.world, ParticleTypes.ENCHANTED_HIT, pos, vel);
                 }
             }
         });
@@ -68,7 +68,7 @@ public class ClientPacketHandler {
             if (client.world != null) {
                 ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.OAK_PLANKS.getDefaultState());
                 Box box = new Box(pos.add(-1.0D, 0.0D, -1.0D), pos.add(1.0D, 0.5D, 1.0D));
-                ParticleHelper.addInBox(client.world, particle, box, 25, new Vec3d(0.1D, 0.1D, 0.1D));
+                ParticleUtils.addInBox(client.world, particle, box, 25, new Vec3d(0.1D, 0.1D, 0.1D));
             }
         });
     }

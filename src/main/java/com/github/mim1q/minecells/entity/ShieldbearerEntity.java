@@ -5,7 +5,7 @@ import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.util.ParticleHelper;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -58,7 +58,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
         super.tick();
         if (this.isDashCharging() && this.world.isClient()) {
             for (int i = 0; i < 5; i++){
-                ParticleHelper.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
+                ParticleUtils.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
             }
         }
         this.decrementCooldown(DASH_COOLDOWN);

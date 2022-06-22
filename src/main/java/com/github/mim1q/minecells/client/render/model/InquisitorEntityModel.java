@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.InquisitorEntity;
-import com.github.mim1q.minecells.util.animation.AnimationHelper;
+import com.github.mim1q.minecells.util.animation.AnimationUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -119,8 +119,8 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
     @Override
     public void setAngles(InquisitorEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 
-        AnimationHelper.rotateHead(headYaw, headPitch, this.head);
-        AnimationHelper.bipedWalk(limbAngle * 2.0F, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.upperTorso, this.waist);
+        AnimationUtils.rotateHead(headYaw, headPitch, this.head);
+        AnimationUtils.bipedWalk(limbAngle * 2.0F, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.upperTorso, this.waist);
 
         this.rightArm.roll = 30.0F * MathHelper.RADIANS_PER_DEGREE;
         this.leftArm.roll = -30.0F * MathHelper.RADIANS_PER_DEGREE;

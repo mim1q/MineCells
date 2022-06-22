@@ -5,7 +5,7 @@ import net.minecraft.util.math.MathHelper;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
-public class AnimationHelper {
+public class AnimationUtils {
     public static void bipedWalk(float limbAngle, float limbDistance, ModelPart root, ModelPart rightLeg, ModelPart leftLeg, ModelPart rightArm, ModelPart leftArm, ModelPart lowerTorso, ModelPart upperTorso) {
         float rightLegPitch = MathHelper.sin(limbAngle * 0.5F) * limbDistance;
 
