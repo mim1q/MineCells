@@ -15,6 +15,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -113,6 +114,20 @@ public class RunnerEntity extends MineCellsEntity {
         if (state == CHARGE) {
             this.dataTracker.set(TELEPORT_CHARGING, value);
         }
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("attackCooldown", this.attackCooldown);
+        nbt.putInt("teleportCooldown", this.teleportCooldown);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.attackCooldown = nbt.getInt("attackCooldown");
+        this.teleportCooldown = nbt.getInt("teleportCooldown");
     }
 
     public static class RunnerTimedAttackGoal extends TimedActionGoal<RunnerEntity> {

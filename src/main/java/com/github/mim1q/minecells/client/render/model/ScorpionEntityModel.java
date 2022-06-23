@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.ScorpionEntity;
 import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.animation.AnimationUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -12,18 +13,23 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
 
     private final ModelPart root;
     private final ModelPart[] tail = new ModelPart[5];
+    private final ModelPart body;
+    private final ModelPart head;
     private final ModelPart rightHindLeg;
     private final ModelPart leftHindLeg;
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
 
+    private boolean shouldRender = false;
+
     public ScorpionEntityModel(ModelPart bone) {
         this.root = bone.getChild("root");
-        ModelPart body = this.root.getChild("body");
+        this.body = this.root.getChild("body");
         this.tail[0] = body.getChild("tail_0");
         for (int i = 1; i < tail.length; i++) {
             this.tail[i] = this.tail[i - 1].getChild("tail_" + i);
         }
+        this.head = this.body.getChild("head");
         this.leftHindLeg = this.root.getChild("left_hind_leg");
         this.leftFrontLeg = this.root.getChild("left_front_leg");
         this.rightHindLeg = this.root.getChild("right_hind_leg");
@@ -193,6 +199,25 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
 
     @Override
     public void setAngles(ScorpionEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        AnimationUtils.rotateHead(headYaw, headPitch, this.head);
+
+        this.shouldRender = !entity.isSleeping();
+
+        if (!entity.isSleeping()) {
+            entity.buriedProgress.setupTransitionTo(0.0F, 20);
+        }
+
+        if (entity.getDataTracker().get(ScorpionEntity.SHOOT_CHARGING)) {
+            entity.swingProgress.setupTransitionTo(1.0F, 20);
+        } else {
+            entity.swingProgress.setupTransitionTo(0.0F, 5);
+        }
+
+        entity.buriedProgress.update(animationProgress);
+        entity.swingProgress.update(animationProgress);
+
+        this.root.pivotY = 24.0F + entity.buriedProgress.getValue() * 24.0F;
+
         this.tail[0].pitch = MathUtils.radians(55.0F);
         this.tail[1].pitch = MathUtils.radians(30.0F);
         this.tail[2].pitch = MathUtils.radians(30.0F);
@@ -205,6 +230,8 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
             float deltaRoll = MathHelper.sin(limbAngle * 0.25F) * limbDistance;
             this.tail[i].roll = deltaRoll * MathUtils.radians(5.0F);
             this.tail[i].yaw = deltaRoll * MathUtils.radians(5.0F);
+
+            this.tail[i].pitch = MathUtils.easeInOutQuad(this.tail[i].pitch, MathUtils.radians(60.0F), entity.buriedProgress.getValue());
         }
 
         float deltaPivotY = MathHelper.sin(limbAngle * 0.5F) * limbDistance * 3.0F;
@@ -217,10 +244,26 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
         this.rightHindLeg.pivotZ = 5.5F + deltaPivotZ;
         this.leftFrontLeg.pivotZ = -5.5F + deltaPivotZ;
         this.rightFrontLeg.pivotZ = -5.5F - deltaPivotZ;
+
+        float swingProgress = entity.swingProgress.getValue();
+        float shake = MathHelper.sin(animationProgress * 10.0F);
+
+        this.body.pitch = MathUtils.lerp(0.0F, MathUtils.radians(-30.0F), swingProgress);
+        this.head.pitch -= MathUtils.lerp(0.0F, MathUtils.radians(-30.0F + shake * 5.0F), swingProgress);
+
+        for (ModelPart part : this.tail) {
+            part.pitch = MathUtils.lerp(
+                part.pitch,
+                MathUtils.radians(15.0F),
+                swingProgress
+            );
+        }
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-        this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        if (shouldRender) {
+            this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        }
     }
 }

@@ -64,6 +64,4 @@ public class MineCellsEntity extends HostileEntity {
     protected SoundEvent getDeathSound() {
         return SoundRegistry.LEAPING_ZOMBIE_DEATH;
     }
-
-
 }

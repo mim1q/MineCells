@@ -3,10 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.entity.nonliving.projectile.BigGrenadeEntity;
-import com.github.mim1q.minecells.entity.nonliving.projectile.DisgustingWormEggEntity;
-import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
-import com.github.mim1q.minecells.entity.nonliving.projectile.MagicOrbEntity;
+import com.github.mim1q.minecells.entity.nonliving.projectile.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -162,6 +159,14 @@ public final class EntityRegistry {
         new Identifier(MineCells.MOD_ID, "magic_orb"),
         FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicOrbEntity::new)
             .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
+            .build()
+    );
+
+    public static final EntityType<ScorpionSpitEntity> SCORPION_SPIT = Registry.register(
+        Registry.ENTITY_TYPE,
+        MineCells.createId("scorpion_spit"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC, ScorpionSpitEntity::new)
+            .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
             .build()
     );
 

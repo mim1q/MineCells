@@ -8,10 +8,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.BigGr
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.ElevatorEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.projectile.BigGrenadeEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.projectile.DisgustingWormEggEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.projectile.GrenadeEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.projectile.MagicOrbEntityRenderer;
+import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -80,6 +77,7 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM_EGG, DisgustingWormEggEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.MAGIC_ORB, MagicOrbEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.SCORPION_SPIT, ScorpionSpitEntityRenderer::new);
 
         EntityRendererRegistry.register(EntityRegistry.ELEVATOR, ElevatorEntityRenderer::new);
     }

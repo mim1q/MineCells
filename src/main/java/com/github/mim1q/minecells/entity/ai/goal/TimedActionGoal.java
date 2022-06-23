@@ -79,7 +79,9 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     }
 
     protected void playSound(SoundEvent soundEvent) {
-        this.entity.playSound(soundEvent, 0.5F, 1.0F);
+        if (soundEvent != null) {
+            this.entity.playSound(soundEvent, 0.5F, 1.0F);
+        }
     }
 
     protected void playChargeSound() {
@@ -166,7 +168,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
             return (B) this;
         }
 
-        public B chance(int chance) {
+        public B chance(float chance) {
             this.chance = chance;
             return (B) this;
         }

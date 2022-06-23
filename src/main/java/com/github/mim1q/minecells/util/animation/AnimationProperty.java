@@ -14,6 +14,9 @@ public class AnimationProperty {
 
     public AnimationProperty(float value, EasingType easingType) {
         this.value = value;
+        this.lastValue = value;
+        this.targetValue = value;
+        this.easingFunction = EasingType.getFunction(easingType);
     }
 
     public AnimationProperty(float value) {

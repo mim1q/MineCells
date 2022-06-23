@@ -27,11 +27,7 @@ public class MagicOrbEntity extends ProjectileEntity {
         super.tick();
         this.move(MovementType.SELF, this.getVelocity());
         if (this.world.isClient()) {
-            if (this.age == 1) {
-                ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 15, 0.0D, 0.5D);
-            }
-            ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.5D, 0.0D);
-            ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.0D, 0.0D);
+            this.spawnParticles();
         } else {
             if (this.age > 200) {
                 this.discard();
@@ -44,6 +40,14 @@ public class MagicOrbEntity extends ProjectileEntity {
         }
     }
 
+    protected void spawnParticles() {
+        if (this.age == 1) {
+            ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 15, 0.0D, 0.5D);
+        }
+        ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.5D, 0.0D);
+        ParticleUtils.addAura((ClientWorld)this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.0D, 0.0D);
+    }
+
     protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
         return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()), this::canHit);
     }
@@ -53,8 +57,11 @@ public class MagicOrbEntity extends ProjectileEntity {
         Entity entity = entityHitResult.getEntity();
 
         if (entity instanceof PlayerEntity) {
-            entity.damage(DamageSource.mob((LivingEntity)this.getOwner()), 5.0F);
-            this.discard();
+            DamageSource damageSource = this.getOwner() == null
+                ? DamageSource.MAGIC
+                : DamageSource.mob((LivingEntity)this.getOwner());
+            entity.damage(damageSource, 5.0F);
+            this.kill();
         }
     }
 
