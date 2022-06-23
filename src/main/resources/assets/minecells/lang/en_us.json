@@ -14,6 +14,7 @@
   "item.minecells.sewers_tentacle_spawn_egg": "Sewer's Tentacle Spawn Egg",
   "item.minecells.rancid_rat_spawn_egg": "Rancid Rat Spawn Egg",
   "item.minecells.runner_spawn_egg": "Runner Spawn Egg",
+  "item.minecells.scorpion_spawn_egg": "Scorpion Spawn Egg",
 
   "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
@@ -39,6 +40,7 @@
   "entity.minecells.sewers_tentacle": "Sewer's Tentacle",
   "entity.minecells.rancid_rat": "Rancid Rat",
   "entity.minecells.runner": "Runner",
+  "entity.minecells.scorpion": "Scorpion",
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",

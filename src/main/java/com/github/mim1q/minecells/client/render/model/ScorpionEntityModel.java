@@ -95,6 +95,62 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
             ModelTransform.pivot(0.0F, -3.0F, -6.0F)
         );
 
+        ModelPartData dUpperRightMandible = dHead.addChild("upper_right_mandible",
+            ModelPartBuilder.create()
+                .uv(0, 45)
+                .cuboid(-1.0F, -2.0F, -1.0F, 2, 3, 1),
+            ModelTransform.of(-2.5F, -3.0F, -5.0F, MathUtils.radians(45.0F), 0.0F, MathUtils.radians(-30.0F))
+        );
+
+        dUpperRightMandible.addChild("upper_right_spike",
+            ModelPartBuilder.create()
+                .uv(6, 45)
+                .cuboid(-0.5F, -2.0F, -1.0F, 1, 2, 1),
+            ModelTransform.of(0.0F, -2.0F, 0.0F, MathUtils.radians(45.0F), 0.0F, 0.0F)
+        );
+
+        ModelPartData dUpperLeftMandible = dHead.addChild("upper_left_mandible",
+            ModelPartBuilder.create()
+                .uv(0, 45)
+                .cuboid(-1.0F, -2.0F, -1.0F, 2, 3, 1),
+            ModelTransform.of(2.5F, -3.0F, -5.0F, MathUtils.radians(45.0F), 0.0F, MathUtils.radians(30.0F))
+        );
+
+        dUpperLeftMandible.addChild("upper_left_spike",
+            ModelPartBuilder.create()
+                .uv(6, 45)
+                .cuboid(-0.5F, -2.0F, -1.0F, 1, 2, 1),
+            ModelTransform.of(0.0F, -2.0F, 0.0F, MathUtils.radians(45.0F), 0.0F, 0.0F)
+        );
+
+        ModelPartData dLowerLeftMandible = dHead.addChild("lower_left_mandible",
+            ModelPartBuilder.create()
+                .uv(0, 45).mirrored()
+                .cuboid(-1.0F, -1.0F, -1.0F, 2, 3, 1),
+            ModelTransform.of(2.5F, 3.0F, -5.0F, MathUtils.radians(-45.0F), 0.0F, MathUtils.radians(-30.0F))
+        );
+
+        dLowerLeftMandible.addChild("lower_left_spike",
+            ModelPartBuilder.create()
+                .uv(6, 45)
+                .cuboid(-0.5F, 0.0F, -1.0F, 1, 2, 1),
+            ModelTransform.of(0.0F, 2.0F, 0.0F, MathUtils.radians(-45.0F), 0.0F, 0.0F)
+        );
+
+        ModelPartData dLowerRightMandible = dHead.addChild("lower_right_mandible",
+            ModelPartBuilder.create()
+                .uv(0, 45).mirrored()
+                .cuboid(-1.0F, -1.0F, -1.0F, 2, 3, 1),
+            ModelTransform.of(-2.5F, 3.0F, -5.0F, MathUtils.radians(-45.0F), 0.0F, MathUtils.radians(30.0F))
+        );
+
+        dLowerRightMandible.addChild("lower_right_spike",
+            ModelPartBuilder.create()
+                .uv(6, 45)
+                .cuboid(-0.5F, 0.0F, -1.0F, 1, 2, 1),
+            ModelTransform.of(0.0F, 2.0F, 0.0F, MathUtils.radians(-45.0F), 0.0F, 0.0F)
+        );
+
         ModelPartData dTail0 = dBody.addChild("tail_0",
             ModelPartBuilder.create()
                 .uv(0, 18)
