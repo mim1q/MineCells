@@ -27,6 +27,10 @@ public class MathUtils {
         return new Vec3d(x, y, z);
     }
 
+    public static float lerp(float a, float b, float delta) {
+        return MathHelper.lerp(delta, a, b);
+    }
+
     public static float easeInOutQuad(float a, float b, float delta) {
         delta = delta < 0.5F
             ? 2.0F * delta * delta
