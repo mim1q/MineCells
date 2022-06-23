@@ -137,7 +137,7 @@ public class RancidRatEntityModel extends EntityModel<RancidRatEntity> {
         float torsoRotation = entity.isLeapCharging() ? -30.0F : 0.0F;
         torsoRotation *= RADIANS_PER_DEGREE;
         entity.torsoRotation.setupTransitionTo(torsoRotation, 5.0F);
-        entity.torsoRotation.update(animationProgress);
+        entity.torsoRotation.updateQuad(animationProgress);
 
         this.body.pitch += entity.torsoRotation.getValue();
         this.head.pitch -= entity.torsoRotation.getValue();

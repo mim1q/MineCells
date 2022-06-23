@@ -158,9 +158,9 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
             entity.swingReleaseProgress.setupTransitionTo(0.0F, 10.0F);
         }
 
-        entity.bendAngle.update(animationProgress);
-        entity.swingChargeProgress.update(animationProgress);
-        entity.swingReleaseProgress.update(animationProgress);
+        entity.bendAngle.updateQuad(animationProgress);
+        entity.swingChargeProgress.updateQuad(animationProgress);
+        entity.swingReleaseProgress.updateQuad(animationProgress);
 
         // Running animation
         float angle = entity.bendAngle.getValue() * RADIANS_PER_DEGREE;

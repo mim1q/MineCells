@@ -31,6 +31,7 @@ public class RendererRegistry {
     public static final EntityModelLayer SEWERS_TENTACLE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "sewers_tentacle"), "main");
     public static final EntityModelLayer RANCID_RAT_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "rancid_rat"), "main");
     public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "runner"), "main");
+    public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
 
     public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade_render"), "main");
     public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render"), "main");
@@ -52,6 +53,7 @@ public class RendererRegistry {
         EntityModelLayerRegistry.registerModelLayer(SEWERS_TENTACLE_LAYER, SewersTentacleEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(RANCID_RAT_LAYER, RancidRatEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(RUNNER_LAYER, RunnerEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(SCORPION_LAYER, ScorpionEntityModel::getTexturedModelData);
 
         EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
@@ -72,6 +74,7 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.SEWERS_TENTACLE, SewersTentacleEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.RANCID_RAT, RancidRatEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.RUNNER, RunnerEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.SCORPION, ScorpionEntityRenderer::new);
 
         EntityRendererRegistry.register(EntityRegistry.GRENADE, GrenadeEntityRenderer::new);
         EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);

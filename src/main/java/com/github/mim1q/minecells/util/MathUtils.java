@@ -4,6 +4,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
+import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
+
 public class MathUtils {
     public static Vec3d vectorRotateY(Vec3d vector, float theta) {
         double z = vector.z * MathHelper.sin(theta) + vector.x * MathHelper.cos(theta);
@@ -30,5 +32,9 @@ public class MathUtils {
             ? 2.0F * delta * delta
             : 1.0F - (-2.0F * delta + 2.0F) * (-2.0F * delta + 2.0F) * 0.5F;
         return MathHelper.lerp(delta, a, b);
+    }
+
+    public static float radians(float degrees) {
+        return degrees * RADIANS_PER_DEGREE;
     }
 }

@@ -27,9 +27,14 @@ public class AnimationProperty {
         this.duration = duration;
     }
 
-    public void update(float time) {
+    public void updateQuad(float time) {
         this.time = time;
         this.value = MathUtils.easeInOutQuad(this.lastValue, this.targetValue, this.getProgress());
+    }
+
+    public void updateLinear(float time) {
+        this.time = time;
+        this.value = MathHelper.lerp(this.getProgress(), this.lastValue, this.targetValue);
     }
 
     public float getProgress() {

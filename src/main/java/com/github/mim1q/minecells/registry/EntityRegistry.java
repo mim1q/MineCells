@@ -125,6 +125,14 @@ public final class EntityRegistry {
             .build()
     );
 
+    public static final EntityType<ScorpionEntity> SCORPION = Registry.register(
+        Registry.ENTITY_TYPE,
+        MineCells.createId("scorpion"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ScorpionEntity::new)
+            .dimensions(EntityDimensions.fixed(0.8F, 1.5F))
+            .build()
+    );
+
     public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
         Registry.ENTITY_TYPE,
         new Identifier(MineCells.MOD_ID, "grenade"),
@@ -259,6 +267,13 @@ public final class EntityRegistry {
         new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
     );
 
+    public static final Item SCORPION_SPAWN_EGG = new SpawnEggItem(
+        SCORPION,
+        0x6DBCD5,
+        0x4B3A5B,
+        new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
+    );
+
     //endregion
 
     public static void register() {
@@ -278,6 +293,7 @@ public final class EntityRegistry {
         FabricDefaultAttributeRegistry.register(SEWERS_TENTACLE, SewersTentacleEntity.createSewersTentacleAttributes());
         FabricDefaultAttributeRegistry.register(RANCID_RAT, RancidRatEntity.createRancidRatAttributes());
         FabricDefaultAttributeRegistry.register(RUNNER, RunnerEntity.createRunnerAttributes());
+        FabricDefaultAttributeRegistry.register(SCORPION, ScorpionEntity.createScorpionAttributes());
 
         // Register Spawn Eggs
 
@@ -294,5 +310,6 @@ public final class EntityRegistry {
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "sewers_tentacle_spawn_egg"), SEWERS_TENTACLE_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "rancid_rat_spawn_egg"), RANCID_RAT_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "runner_spawn_egg"), RUNNER_SPAWN_EGG);
+        Registry.register(Registry.ITEM, MineCells.createId("scorpion_spawn_egg"), SCORPION_SPAWN_EGG);
     }
 }

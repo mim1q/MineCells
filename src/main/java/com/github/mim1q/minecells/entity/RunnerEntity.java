@@ -128,7 +128,7 @@ public class RunnerEntity extends MineCellsEntity {
             this.target = this.entity.getTarget();
 
             return this.target != null && this.target.isAlive() && this.target.isAttackable()
-                && this.entity.distanceTo(this.target) < 3.0D
+                && this.entity.distanceTo(this.target) < 1.5D
                 && super.canStart();
         }
 
@@ -141,7 +141,7 @@ public class RunnerEntity extends MineCellsEntity {
 
         @Override
         protected void runAction() {
-            if (this.target.isAlive() && this.entity.distanceTo(this.target) < 3.0D) {
+            if (this.target.isAlive() && this.entity.distanceTo(this.target) < 3.5D) {
                 this.entity.tryAttack(this.target);
             }
         }
