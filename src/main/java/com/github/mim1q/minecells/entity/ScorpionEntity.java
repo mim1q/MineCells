@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedShootGoal;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ScorpionSpitEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
@@ -65,6 +66,8 @@ public class ScorpionEntity extends MineCellsEntity {
                 entity.setVelocity(targetPos.subtract(pos).normalize().multiply(0.8D));
                 return entity;
             })
+            .chargeSound(SoundRegistry.SCORPION_CHARGE)
+            .releaseSound(null)
             .actionTick(20)
             .length(20)
             .defaultCooldown(40)
@@ -78,6 +81,7 @@ public class ScorpionEntity extends MineCellsEntity {
         super.tick();
         if (this.isSleeping() && this.world.getClosestPlayer(this, 5.0F) != null) {
             this.dataTracker.set(SLEEPING, false);
+            this.playSound(SoundRegistry.RISE, 0.5F, 1.0F);
             this.initGoalsLate();
         }
         if (this.world.isClient() && this.buriedProgress.getProgress() > 0.0F && this.buriedProgress.getProgress() < 1.0F) {

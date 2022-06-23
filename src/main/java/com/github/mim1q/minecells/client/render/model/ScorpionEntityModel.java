@@ -203,6 +203,7 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
 
         this.shouldRender = !entity.isSleeping();
 
+        // Update animation properties
         if (!entity.isSleeping()) {
             entity.buriedProgress.setupTransitionTo(0.0F, 20);
         }
@@ -218,6 +219,7 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
 
         this.root.pivotY = 24.0F + entity.buriedProgress.getValue() * 24.0F;
 
+        // Walking animation
         this.tail[0].pitch = MathUtils.radians(55.0F);
         this.tail[1].pitch = MathUtils.radians(30.0F);
         this.tail[2].pitch = MathUtils.radians(30.0F);
@@ -233,7 +235,6 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity>  {
 
             this.tail[i].pitch = MathUtils.easeInOutQuad(this.tail[i].pitch, MathUtils.radians(60.0F), entity.buriedProgress.getValue());
         }
-
         float deltaPivotY = MathHelper.sin(limbAngle * 0.5F) * limbDistance * 3.0F;
         float deltaPivotZ = -MathHelper.cos(limbAngle * 0.5F) * limbDistance * 2.0F;
         this.leftHindLeg.pivotY = -9.0F - Math.max(0.0F, deltaPivotY);

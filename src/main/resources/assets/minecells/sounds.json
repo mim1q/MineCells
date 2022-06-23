@@ -95,9 +95,15 @@
     ]
   },
   "rancid_rat.release": {
-      "sounds": [
+    "sounds": [
       "minecells:rancid_rat/release"
-      ]
+    ]
+  },
+  "scorpion.charge": {
+    "sounds": [
+      "minecells:scorpion/charge_0",
+      "minecells:scorpion/charge_1"
+    ]
   },
   "weapon.bow.charge": {
     "sounds": [
@@ -111,9 +117,9 @@
   },
   "weapon.swipe": {
     "sounds": [
-      "minecells:weapon/swipe/swipe0",
-      "minecells:weapon/swipe/swipe1",
-      "minecells:weapon/swipe/swipe2"
+      "minecells:weapon/swipe/swipe_0",
+      "minecells:weapon/swipe/swipe_1",
+      "minecells:weapon/swipe/swipe_2"
     ]
   },
   "buzz": {
@@ -134,6 +140,11 @@
   "explosion": {
     "sounds": [
       "minecells:explosion"
+    ]
+  },
+  "rise": {
+    "sounds": [
+      "minecells:rise"
     ]
   },
   "elevator_start": {

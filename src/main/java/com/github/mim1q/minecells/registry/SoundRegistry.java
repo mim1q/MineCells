@@ -64,7 +64,6 @@ public final class SoundRegistry {
     public static final SoundEvent SHIELDBEARER_RELEASE = new SoundEvent(SHIELDBEARER_RELEASE_ID);
 
     // Mutated Bat
-
     public static final Identifier MUTATED_BAT_CHARGE_ID = new Identifier(MineCells.MOD_ID, "mutated_bat.charge");
     public static final SoundEvent MUTATED_BAT_CHARGE = new SoundEvent(MUTATED_BAT_CHARGE_ID);
 
@@ -75,12 +74,15 @@ public final class SoundRegistry {
     public static final SoundEvent MUTATED_BAT_WAKE = new SoundEvent(MUTATED_BAT_WAKE_ID);
 
     // Rancid Rat
-
     public static final Identifier RANCID_RAT_CHARGE_ID = new Identifier(MineCells.MOD_ID, "rancid_rat.charge");
     public static final SoundEvent RANCID_RAT_CHARGE = new SoundEvent(RANCID_RAT_CHARGE_ID);
 
     public static final Identifier RANCID_RAT_RELEASE_ID = new Identifier(MineCells.MOD_ID, "rancid_rat.release");
     public static final SoundEvent RANCID_RAT_RELEASE = new SoundEvent(RANCID_RAT_RELEASE_ID);
+
+    // Scorpion
+    public static final Identifier SCORPION_CHARGE_ID = MineCells.createId("scorpion.charge");
+    public static final SoundEvent SCORPION_CHARGE = new SoundEvent(SCORPION_CHARGE_ID);
 
     // Weapons
     public static final Identifier BOW_CHARGE_ID = new Identifier(MineCells.MOD_ID, "weapon.bow.charge");
@@ -117,6 +119,9 @@ public final class SoundRegistry {
     public static final Identifier TELEPORT_RELEASE_ID = MineCells.createId("teleport.release");
     public static final SoundEvent TELEPORT_RELEASE = new SoundEvent(TELEPORT_RELEASE_ID);
 
+    public static final Identifier RISE_ID = MineCells.createId("rise");
+    public static final SoundEvent RISE = new SoundEvent(RISE_ID);
+
     public static void register() {
 
         // Leaping Zombie
@@ -152,10 +157,14 @@ public final class SoundRegistry {
         // Mutated Bat
         Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_CHARGE_ID, MUTATED_BAT_CHARGE);
         Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_RELEASE_ID, MUTATED_BAT_RELEASE);
+        Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_WAKE_ID, MUTATED_BAT_WAKE);
 
         // Rancid Rat
         Registry.register(Registry.SOUND_EVENT, RANCID_RAT_CHARGE_ID, RANCID_RAT_CHARGE);
         Registry.register(Registry.SOUND_EVENT, RANCID_RAT_RELEASE_ID, RANCID_RAT_RELEASE);
+
+        // Scorpion
+        Registry.register(Registry.SOUND_EVENT, SCORPION_CHARGE_ID, SCORPION_CHARGE);
 
         // Weapons
         Registry.register(Registry.SOUND_EVENT, BOW_CHARGE_ID, BOW_CHARGE);
@@ -171,5 +180,6 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, BUZZ_ID, BUZZ);
         Registry.register(Registry.SOUND_EVENT, TELEPORT_CHARGE_ID, TELEPORT_CHARGE);
         Registry.register(Registry.SOUND_EVENT, TELEPORT_RELEASE_ID, TELEPORT_RELEASE);
+        Registry.register(Registry.SOUND_EVENT, RISE_ID, RISE);
     }
 }
