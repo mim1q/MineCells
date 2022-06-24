@@ -20,6 +20,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -67,7 +68,6 @@ public class ScorpionEntity extends MineCellsEntity {
                 return entity;
             })
             .chargeSound(SoundRegistry.SCORPION_CHARGE)
-            .releaseSound(null)
             .actionTick(20)
             .length(20)
             .defaultCooldown(40)
@@ -134,5 +134,17 @@ public class ScorpionEntity extends MineCellsEntity {
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("shootCooldown", this.shootCooldown);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.shootCooldown = nbt.getInt("shootCooldown");
     }
 }
