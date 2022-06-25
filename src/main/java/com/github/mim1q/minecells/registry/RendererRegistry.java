@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.ElevatorEntityMo
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.BigGrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
+import com.github.mim1q.minecells.client.render.nonliving.CellEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.ElevatorEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -30,9 +31,9 @@ public class RendererRegistry {
     public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "runner"), "main");
     public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
 
-    public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade_render"), "main");
-    public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade_render"), "main");
-    public static final EntityModelLayer DISGUSTING_WORM_EGG_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm_egg_render"), "main");
+    public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade"), "main");
+    public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade"), "main");
+    public static final EntityModelLayer DISGUSTING_WORM_EGG_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm_egg"), "main");
 
     public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "elevator_render"), "main");
 
@@ -80,5 +81,6 @@ public class RendererRegistry {
         EntityRendererRegistry.register(EntityRegistry.SCORPION_SPIT, ScorpionSpitEntityRenderer::new);
 
         EntityRendererRegistry.register(EntityRegistry.ELEVATOR, ElevatorEntityRenderer::new);
+        EntityRendererRegistry.register(EntityRegistry.CELL, CellEntityRenderer::new);
     }
 }

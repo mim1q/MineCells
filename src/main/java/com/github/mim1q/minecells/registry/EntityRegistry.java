@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
+import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -175,6 +176,14 @@ public final class EntityRegistry {
         new Identifier(MineCells.MOD_ID, "elevator"),
         FabricEntityTypeBuilder.create(SpawnGroup.MISC, ElevatorEntity::new)
             .dimensions(EntityDimensions.fixed(2.0F, 0.5F))
+            .build()
+    );
+
+    public static final EntityType<CellEntity> CELL = Registry.register(
+        Registry.ENTITY_TYPE,
+        MineCells.createId("cell"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC, CellEntity::new)
+            .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
             .build()
     );
 

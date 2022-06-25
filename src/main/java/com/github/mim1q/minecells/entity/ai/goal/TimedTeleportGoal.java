@@ -7,11 +7,14 @@ import net.minecraft.entity.mob.HostileEntity;
 import java.util.EnumSet;
 
 public class TimedTeleportGoal extends TimedActionGoal<HostileEntity> {
+
     Entity target;
 
     public TimedTeleportGoal(Builder builder) {
         super(builder);
-        this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+        if (builder.shouldStandStill) {
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
     }
 
     @Override
@@ -40,10 +43,17 @@ public class TimedTeleportGoal extends TimedActionGoal<HostileEntity> {
 
     public static class Builder extends TimedActionGoal.Builder<HostileEntity, Builder> {
 
+        public boolean shouldStandStill = false;
+
         public Builder(HostileEntity entity) {
             super(entity);
             this.chargeSound = SoundRegistry.TELEPORT_CHARGE;
             this.releaseSound = SoundRegistry.TELEPORT_RELEASE;
+        }
+
+        public Builder standStill() {
+            this.shouldStandStill = true;
+            return this;
         }
 
         public TimedTeleportGoal build() {
