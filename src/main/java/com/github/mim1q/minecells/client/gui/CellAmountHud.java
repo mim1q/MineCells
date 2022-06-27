@@ -9,19 +9,21 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class CellAmountHud extends DrawableHelper {
+public class CellAmountHud {
 
     public static final Identifier CELL_TEXTURE = MineCells.createId("textures/entity/cell.png");
 
     private final MinecraftClient client;
     private ClientPlayerEntity player;
     private int lastChange = 0;
+    private int cellAmount = 0;
     private int lastAmount = 0;
-    private final AnimationProperty offset = new AnimationProperty(16.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+    private final AnimationProperty offset = new AnimationProperty(20.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
     public CellAmountHud(MinecraftClient client) {
         this.client = client;
@@ -31,34 +33,48 @@ public class CellAmountHud extends DrawableHelper {
         this.player = this.client.player;
 
         if (this.player != null) {
-            float width = this.client.getWindow().getScaledWidth();
-            float height = this.client.getWindow().getScaledHeight();
-            int cellAmount = ((PlayerEntityAccessor)this.player).getCells();
+            int width = this.client.getWindow().getScaledWidth();
+            int height = this.client.getWindow().getScaledHeight();
+            this.cellAmount = ((PlayerEntityAccessor)this.player).getCells();
 
-            if (cellAmount != this.lastAmount) {
-                this.lastAmount = cellAmount;
+            if (this.cellAmount != this.lastAmount) {
+                this.lastAmount = this.cellAmount;
                 this.lastChange = this.player.age;
             }
 
             int changeTicks = this.player.age - this.lastChange;
-            if (changeTicks < 100 && cellAmount > 0) {
-                this.offset.setupTransitionTo(-16.0F, 5.0F);
+            if (changeTicks < 100 && this.cellAmount > 0) {
+                this.offset.setupTransitionTo(20.0F, 5.0F);
             } else {
                 this.offset.setupTransitionTo(0.0F, 10.0F);
             }
             this.offset.update(player.age + deltaTick);
 
-            RenderSystem.enableBlend();
-            RenderSystem.setShaderTexture(0, CELL_TEXTURE);
-            this.drawTexture(matrixStack, 0, 0, 0, 0, 16, 16);
-            this.client.textRenderer.drawWithShadow(
-                matrixStack,
-                String.valueOf(cellAmount),
-                width * 0.5F + 100.0F,
-                height + this.offset.getValue(),
-                0x5FC8EF
-            );
-            RenderSystem.disableBlend();
+            this.renderInfo(matrixStack, width / 2 + 96, height - (int)this.offset.getValue());
+        }
+    }
+
+    public void renderInfo(MatrixStack matrixStack, int x, int y) {
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        this.client.textRenderer.drawWithShadow(
+            matrixStack,
+            String.valueOf(this.cellAmount),
+            x + 20,
+            y + 4,
+            0x95D2FF
+        );
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, CELL_TEXTURE);
+        DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, 16, 16, 16, 16);
+        RenderSystem.disableBlend();
+    }
+
+    public void renderInInventory(MatrixStack matrixStack) {
+        int height = this.client.getWindow().getScaledHeight();
+
+        if (this.cellAmount > 0) {
+            this.renderInfo(matrixStack, 4, height - 20);
         }
     }
 }

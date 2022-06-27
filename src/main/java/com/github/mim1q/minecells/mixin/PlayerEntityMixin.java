@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.mixin;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
-import com.github.mim1q.minecells.registry.EntityRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -53,15 +52,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     protected void drop(DamageSource source) {
         super.drop(source);
         int amount = this.getCells() / 2;
-        for (int i = 0; i < amount; i++) {
-            CellEntity cell = new CellEntity(EntityRegistry.CELL, this.world);
-            cell.setPosition(this.getPos());
-            cell.setVelocity(
-                (this.random.nextFloat() - 0.5F) * 0.25F,
-                this.random.nextFloat() * 0.1F,
-                (this.random.nextFloat() - 0.5F) * 0.25F
-            );
-            this.world.spawnEntity(cell);
-        }
+        CellEntity.spawn(this.world, this.getPos(), amount);
     }
 }
