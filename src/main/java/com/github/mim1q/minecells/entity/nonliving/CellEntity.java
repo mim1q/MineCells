@@ -1,27 +1,48 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class CellEntity extends Entity {
 
+    protected static final TrackedData<Integer> AMOUNT = DataTracker.registerData(CellEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
     protected PlayerEntity target;
     protected boolean bound = false;
 
-    public CellEntity(EntityType<CellEntity> type, World world) {
-        super(type, world);
+    public CellEntity(EntityType<CellEntity> entityType, World world) {
+        super(entityType, world);
         this.setPosition(this.getX() + this.random.nextFloat(), this.getY(), this.getZ() + this.random.nextFloat());
     }
 
+    public static void spawn(World world, Vec3d position, int amount) {
+        CellEntity cell = new CellEntity(EntityRegistry.CELL, world);
+        cell.setPosition(position);
+        cell.setVelocity(
+            (world.random.nextFloat() - 0.5F) * 0.25F,
+            world.random.nextFloat() * 0.1F,
+            (world.random.nextFloat() - 0.5F) * 0.25F
+        );
+        cell.setAmount(amount);
+        world.spawnEntity(cell);
+    }
+
     @Override
-    protected void initDataTracker() { }
+    protected void initDataTracker() {
+        this.dataTracker.startTracking(AMOUNT, 1);
+    }
 
     @Override
     public void tick() {
@@ -45,8 +66,8 @@ public class CellEntity extends Entity {
                     .multiply(0.5D * multiplier)
                 );
                 if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
-                    PlayerEntityAccessor target = (PlayerEntityAccessor)this.target;
-                    target.setCells(target.getCells() + 1);
+                    PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
+                    target.setCells(target.getCells() + this.getAmount());
                     this.discard();
                 }
             }
@@ -59,7 +80,15 @@ public class CellEntity extends Entity {
 
     @Override
     protected MoveEffect getMoveEffect() {
-        return MoveEffect.NONE;
+        return MoveEffect.EVENTS;
+    }
+
+    public int getAmount() {
+        return this.dataTracker.get(AMOUNT);
+    }
+
+    public void setAmount(int amount) {
+        this.dataTracker.set(AMOUNT, amount);
     }
 
     @Override
@@ -67,6 +96,7 @@ public class CellEntity extends Entity {
         if (nbt.contains("target")) {
             this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
         }
+        this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
     }
 
     @Override
@@ -74,6 +104,7 @@ public class CellEntity extends Entity {
         if (this.target != null) {
             nbt.putUuid("target", this.target.getUuid());
         }
+        nbt.putInt("amount", this.dataTracker.get(AMOUNT));
     }
 
     @Override
