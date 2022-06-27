@@ -8,7 +8,8 @@
   ],
   "client": [
     "BipedEntityModelMixin",
-    "LivingEntityRendererMixin"
+    "LivingEntityRendererMixin",
+    "InGameHudMixin"
   ],
   "server": [],
   "injectors": {

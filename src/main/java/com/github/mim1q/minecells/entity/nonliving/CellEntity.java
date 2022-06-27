@@ -10,10 +10,12 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
 public class CellEntity extends Entity {
 
     protected PlayerEntity target;
-    protected boolean bound;
+    protected boolean bound = false;
 
     public CellEntity(EntityType<CellEntity> type, World world) {
         super(type, world);
@@ -36,13 +38,13 @@ public class CellEntity extends Entity {
             if (this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
                 double distance = this.target.distanceTo(this);
                 double multiplier = distance == 0.0D
-                        ? 1.0D
-                        : 1.0D / distance;
+                    ? 1.0D
+                    : 1.0D / distance;
                 this.setVelocity(this.target.getPos()
-                        .add(0.0D, 0.5D, 0.0D)
-                        .subtract(this.getPos())
-                        .normalize()
-                        .multiply(0.5D * multiplier)
+                    .add(0.0D, 0.5D, 0.0D)
+                    .subtract(this.getPos())
+                    .normalize()
+                    .multiply(0.5D * multiplier)
                 );
                 if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
                     this.discard();
@@ -57,10 +59,15 @@ public class CellEntity extends Entity {
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
+        PlayerEntity target = this.world.getPlayerByUuid(nbt.getUuid("target"));
+        this.target = target;
     }
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
+        if (this.target != null) {
+            nbt.putUuid("target", this.target.getUuid());
+        }
     }
 
     @Override
