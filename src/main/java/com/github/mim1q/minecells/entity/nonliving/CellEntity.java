@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
@@ -7,10 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class CellEntity extends Entity {
 
@@ -47,6 +45,8 @@ public class CellEntity extends Entity {
                     .multiply(0.5D * multiplier)
                 );
                 if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
+                    PlayerEntityAccessor target = (PlayerEntityAccessor)this.target;
+                    target.setCells(target.getCells() + 1);
                     this.discard();
                 }
             }
@@ -58,9 +58,15 @@ public class CellEntity extends Entity {
     }
 
     @Override
+    protected MoveEffect getMoveEffect() {
+        return MoveEffect.NONE;
+    }
+
+    @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        PlayerEntity target = this.world.getPlayerByUuid(nbt.getUuid("target"));
-        this.target = target;
+        if (nbt.contains("target")) {
+            this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
+        }
     }
 
     @Override

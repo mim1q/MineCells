@@ -4,12 +4,13 @@
   "package": "com.github.mim1q.minecells.mixin",
   "mixins": [
     "EntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
     "BipedEntityModelMixin",
-    "LivingEntityRendererMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "LivingEntityRendererMixin"
   ],
   "server": [],
   "injectors": {

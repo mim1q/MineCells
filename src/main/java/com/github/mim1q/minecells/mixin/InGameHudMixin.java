@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
-public class InGameHudMixin extends DrawableHelper {
+public abstract class InGameHudMixin extends DrawableHelper {
     private CellAmountHud cellAmountHud;
 
     @Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/render/item/ItemRenderer;)V", at = @At(value = "RETURN"))
@@ -21,7 +21,7 @@ public class InGameHudMixin extends DrawableHelper {
     }
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void draw(MatrixStack matrixStack, float deltaTick, CallbackInfo callbackInfo) {
+    private void render(MatrixStack matrixStack, float deltaTick, CallbackInfo ci) {
         this.cellAmountHud.render(matrixStack, deltaTick);
     }
 }
