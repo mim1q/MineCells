@@ -54,7 +54,7 @@ public class CellEntity extends Entity {
             if (!this.bound && this.age % 20 == 1) {
                 this.target = this.world.getClosestPlayer(this, 10.0D);
             }
-            if (this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
+            if (this.age > 40 && this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
                 double distance = this.target.distanceTo(this);
                 double multiplier = distance == 0.0D
                     ? 1.0D

@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
@@ -44,6 +45,16 @@ public class MineCellsEntity extends HostileEntity {
     }
 
     @Override
+    protected void drop(DamageSource source) {
+        super.drop(source);
+        for (int i = 0; i < this.getDroppedCellAmount(); i++) {
+            if (this.random.nextFloat() < this.getDroppedCellChance()) {
+                CellEntity.spawn(this.world, this.getPos(), 1);
+            }
+        }
+    }
+
+    @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
         if (damageSource instanceof GrenadeEntity.GrenadeDamageSource) {
             return true;
@@ -59,6 +70,14 @@ public class MineCellsEntity extends HostileEntity {
     }
 
     protected void decrementCooldowns() { }
+
+    protected float getDroppedCellChance() {
+        return 0.75F;
+    }
+
+    protected int getDroppedCellAmount() {
+        return 1;
+    }
 
     @Override
     protected SoundEvent getDeathSound() {
