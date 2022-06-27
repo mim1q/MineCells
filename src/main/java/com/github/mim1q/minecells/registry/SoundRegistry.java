@@ -122,6 +122,9 @@ public final class SoundRegistry {
     public static final Identifier RISE_ID = MineCells.createId("rise");
     public static final SoundEvent RISE = new SoundEvent(RISE_ID);
 
+    public static final Identifier CELL_ABSORB_ID = MineCells.createId("cell_absorb");
+    public static final SoundEvent CELL_ABSORB = new SoundEvent(CELL_ABSORB_ID);
+
     public static void register() {
 
         // Leaping Zombie
@@ -181,5 +184,6 @@ public final class SoundRegistry {
         Registry.register(Registry.SOUND_EVENT, TELEPORT_CHARGE_ID, TELEPORT_CHARGE);
         Registry.register(Registry.SOUND_EVENT, TELEPORT_RELEASE_ID, TELEPORT_RELEASE);
         Registry.register(Registry.SOUND_EVENT, RISE_ID, RISE);
+        Registry.register(Registry.SOUND_EVENT, CELL_ABSORB_ID, CELL_ABSORB);
     }
 }

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
@@ -68,6 +69,7 @@ public class CellEntity extends Entity {
                 if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
                     PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
                     target.setCells(target.getCells() + this.getAmount());
+                    this.playSound(SoundRegistry.CELL_ABSORB, 0.25F, 1.0F);
                     this.discard();
                 }
             }
@@ -95,6 +97,7 @@ public class CellEntity extends Entity {
     protected void readCustomDataFromNbt(NbtCompound nbt) {
         if (nbt.contains("target")) {
             this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
+            this.bound = true;
         }
         this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
     }

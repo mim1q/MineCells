@@ -166,5 +166,10 @@
     "sounds": [
       "minecells:teleport/release"
     ]
+  },
+  "cell_absorb": {
+    "sounds": [
+      "minecells:cell_absorb"
+    ]
   }
 }

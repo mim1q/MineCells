@@ -52,6 +52,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     protected void drop(DamageSource source) {
         super.drop(source);
         int amount = this.getCells() / 2;
-        CellEntity.spawn(this.world, this.getPos(), amount);
+        if (amount > 0) {
+            CellEntity.spawn(this.world, this.getPos(), amount);
+        }
     }
 }
