@@ -4,6 +4,7 @@ plugins {
     id "fabric-loom" version "0.12-SNAPSHOT"
     id "maven-publish"
     id "com.modrinth.minotaur" version "2.+"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -28,6 +29,30 @@ modrinth {
     dependencies.set([
         new ModDependency("P7dR8mSH", "required")
     ])
+}
+
+curseforge {
+    apiKey = System.getenv("CURSEGRADLE_TOKEN")
+    project {
+        id = "618790"
+        changelog = rootProject.file("changelogs/minecells_${project.mod_version}.md").text
+        changelogType = "markdown"
+        releaseType = "${project.mod_version_type}"
+        addGameVersion "Fabric"
+        addGameVersion "1.19"
+        relations {
+            requiredLibrary "fabric-api"
+        }
+        afterEvaluate {
+            mainArtifact(remapJar) {
+                displayName = "minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}"
+            }
+            uploadTask.dependsOn(remapJar)
+        }
+    }
+    options {
+        forgeGradleIntegration = false
+    }
 }
 
 repositories {
