@@ -25,6 +25,7 @@ public class MineCells implements ModInitializer {
         ItemGroupRegistry.register();
         StatusEffectRegistry.register();
         ParticleRegistry.register();
+        BiomeRegistry.register();
     }
 
     public static Identifier createId(String path) {
