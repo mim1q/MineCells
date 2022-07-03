@@ -11,14 +11,23 @@ import java.util.Optional;
 
 
 public class KingdomBiomeColors {
-    public static final int PROMENADE = 0x00FF00FF;
+    public static final int PROMENADE = 0x00FF00;
 
     public static RegistryEntry<Biome> biomeOf(Color color, Registry<Biome> biomeRegistry) {
-        RegistryKey<Biome> key = BiomeRegistry.PUTRID_WATERS_KEY;
-        if (color.getRGB() == PROMENADE) {
+        RegistryKey<Biome> key;
+        if (colorCode(color) == PROMENADE) {
             key = BiomeRegistry.PROMENADE_KEY;
+        } else {
+            key = BiomeRegistry.PUTRID_WATERS_KEY;
         }
         Optional<RegistryEntry<Biome>> entry = biomeRegistry.getEntry(key);
         return entry.orElse(null);
+    }
+
+    protected static int colorCode(Color color) {
+        int rgb = color.getRed();
+        rgb = (rgb << 8) + color.getGreen();
+        rgb = (rgb << 8) + color.getBlue();
+        return rgb;
     }
 }
