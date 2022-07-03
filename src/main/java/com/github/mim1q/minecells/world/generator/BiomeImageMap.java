@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BiomeImageMap {
-    protected final static String IMAGE_URL = "data/minecells/dimension/island_map.png";
+    protected final static String IMAGE_URL = "data/minecells/dimension/map/biomes.png";
 
     private final List<RegistryEntry<Biome>> biomeArray = new ArrayList<>();
     private final int width;

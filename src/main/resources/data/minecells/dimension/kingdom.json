@@ -2,7 +2,7 @@
   "type": "minecells:kingdom",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:overworld",
+    "settings": "minecells:kingdom_noise_settings",
     "seed": 0,
     "biome_source": {
       "type": "minecells:kingdom_biome_source"

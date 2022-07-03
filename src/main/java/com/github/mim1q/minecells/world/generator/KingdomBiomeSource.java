@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.world.generator;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.util.MapImageReader;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.dynamic.RegistryOps;
 import net.minecraft.util.registry.Registry;
@@ -9,6 +10,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +58,22 @@ public class KingdomBiomeSource extends BiomeSource {
 
     @Override
     public RegistryEntry<Biome> getBiome(int x, int y, int z, MultiNoiseUtil.MultiNoiseSampler noise) {
-        return this.biomeMap.getBiomeAt(x, z);
+        return this.biomeMap.getDataAt(x, z);
+    }
+
+    public static class BiomeImageMap extends MapImageReader<RegistryEntry<Biome>> {
+
+        private final Registry<Biome> registry;
+
+        public BiomeImageMap(Registry<Biome> registry) throws IOException {
+            this.registry = registry;
+            BufferedImage image = this.loadImage(this.getPath("biomes"));
+            this.populateArray(image);
+        }
+
+        @Override
+        protected RegistryEntry<Biome> dataOf(Color color) {
+            return KingdomBiomeColors.biomeOf(color, this.registry);
+        }
     }
 }

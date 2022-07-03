@@ -41,6 +41,7 @@ public class ItemGroupRegistry {
         new Identifier(MineCells.MOD_ID, "blocks_and_items"))
         .icon(() -> new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER))
         .appendItems(stacks -> {
+            stacks.add(BlockRegistry.HARDSTONE_ITEM.getDefaultStack());
             stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER));
             stacks.add(new ItemStack(ItemRegistry.ELEVATOR_MECHANISM));
             stacks.add(new ItemStack(BlockRegistry.BIG_CHAIN));

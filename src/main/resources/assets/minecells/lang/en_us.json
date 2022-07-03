@@ -18,9 +18,11 @@
 
   "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
+  "block.minecells.hardstone": "Hardstone",
   "block.minecells.elevator_assembler": "Elevator Assembler",
-  "item.minecells.elevator_mechanism": "Elevator Mechanism",
   "block.minecells.big_chain": "Big Chain",
+
+  "item.minecells.elevator_mechanism": "Elevator Mechanism",
 
   "itemGroup.minecells.weapons": "Mine Cells Weapons",
 
