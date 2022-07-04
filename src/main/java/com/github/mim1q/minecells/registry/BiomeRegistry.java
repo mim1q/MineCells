@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.world.feature.MineCellsPlacedFeatures;
 import com.github.mim1q.minecells.world.generator.KingdomBiomeSource;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -9,6 +10,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
 import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 
 public class BiomeRegistry {
@@ -28,9 +30,11 @@ public class BiomeRegistry {
 
     private static Biome createPromenade() {
         SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
-        DefaultBiomeFeatures.addFarmAnimals(spawnSettings);
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
+        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
+        DefaultBiomeFeatures.addDefaultGrass(generationSettings);
+        DefaultBiomeFeatures.addJungleGrass(generationSettings);
 
         return new Biome.Builder()
             .precipitation(Biome.Precipitation.RAIN)
@@ -50,7 +54,6 @@ public class BiomeRegistry {
 
     private static Biome createPutridWaters() {
         SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
-        DefaultBiomeFeatures.addFarmAnimals(spawnSettings);
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
 
@@ -59,11 +62,11 @@ public class BiomeRegistry {
             .downfall(0.5F)
             .temperature(0.8F)
             .effects(new BiomeEffects.Builder()
-                .waterColor(0x6100FF)
+                .waterColor(0x60B6FF)
                 .waterFogColor(0x61D8FF)
                 .fogColor(0x4F9FFF)
                 .skyColor(0x61D8FF)
-                .grassColor(0x3F0058)
+                .grassColor(0x4AB96D)
                 .build())
             .spawnSettings(spawnSettings.build())
             .generationSettings(generationSettings.build())

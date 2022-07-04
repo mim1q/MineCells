@@ -2,6 +2,7 @@ package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.CommonConfig;
 import com.github.mim1q.minecells.registry.*;
+import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -26,6 +27,7 @@ public class MineCells implements ModInitializer {
         StatusEffectRegistry.register();
         ParticleRegistry.register();
         BiomeRegistry.register();
+        MineCellsPlacerTypes.register();
     }
 
     public static Identifier createId(String path) {
