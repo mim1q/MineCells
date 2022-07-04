@@ -81,7 +81,6 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer {
         }
     }
 
-
     @Override
     protected TrunkPlacerType<?> getType() {
         return MineCellsPlacerTypes.PROMENADE_TRUNK_PLACER;

@@ -29,6 +29,7 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
     private static final TrackedData<Boolean> LEAP_RELEASING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
 
+
     public LeapingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
         this.ignoreCameraFrustum = true;

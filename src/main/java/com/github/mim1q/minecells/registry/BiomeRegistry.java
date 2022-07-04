@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacedFeatures;
 import com.github.mim1q.minecells.world.generator.KingdomBiomeSource;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -29,7 +30,12 @@ public class BiomeRegistry {
     }
 
     private static Biome createPromenade() {
-        SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
+        SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.LEAPING_ZOMBIE, 100, 1, 3))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.GRENADIER, 75, 1, 2))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.MUTATED_BAT, 150, 1, 2))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 150, 1, 1))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.PROTECTOR, 50, 1, 1));
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
         generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);

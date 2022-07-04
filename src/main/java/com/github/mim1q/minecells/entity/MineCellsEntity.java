@@ -12,7 +12,9 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class MineCellsEntity extends HostileEntity {
 
@@ -52,6 +54,10 @@ public class MineCellsEntity extends HostileEntity {
                 CellEntity.spawn(this.world, this.getPos(), 1);
             }
         }
+    }
+
+    public float getPathfindingFavor(BlockPos pos, WorldView world) {
+        return 0.0F;
     }
 
     @Override
