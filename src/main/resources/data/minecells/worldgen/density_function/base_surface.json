@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:add",
+  "argument1": {
+    "type": "minecraft:y_clamped_gradient",
+    "from_y": 0,
+    "to_y": 96,
+    "from_value": 1,
+    "to_value": -1
+  },
+  "argument2": {
+    "type": "minecraft:interpolated",
+    "argument": {
+      "type": "minecraft:add",
+      "argument1": {
+        "type": "minecraft:interpolated",
+        "argument": {
+          "type": "minecells:image_map",
+          "filename": "height",
+          "scale": 0.25,
+          "from": 0.0,
+          "to": 0.5
+        }
+      },
+      "argument2": {
+        "type": "minecraft:add",
+        "argument1": {
+          "type": "minecraft:mul",
+          "argument1": {
+            "type": "minecraft:noise",
+            "noise": "minecraft:surface",
+            "xz_scale": 0.25,
+            "y_scale": 0.0
+          },
+          "argument2": 0.15
+        },
+        "argument2": {
+          "type": "minecraft:mul",
+          "argument1": {
+            "type": "minecraft:noise",
+            "noise": "minecraft:surface_secondary",
+            "xz_scale": 0.25,
+            "y_scale": 0.1
+          },
+          "argument2": 0.1
+        }
+      }
+    }
+  }
+}
