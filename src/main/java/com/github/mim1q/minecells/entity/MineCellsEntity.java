@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class MineCellsEntity extends HostileEntity {
@@ -58,6 +60,14 @@ public class MineCellsEntity extends HostileEntity {
 
     public float getPathfindingFavor(BlockPos pos, WorldView world) {
         return 0.0F;
+    }
+
+    @Override
+    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
+        if (spawnReason == SpawnReason.NATURAL && world.getClosestPlayer(this, 32.0) != null) {
+            return false;
+        }
+        return super.canSpawn(world, spawnReason);
     }
 
     @Override

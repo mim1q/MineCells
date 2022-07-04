@@ -31,10 +31,10 @@ public class BiomeRegistry {
 
     private static Biome createPromenade() {
         SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
-            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.LEAPING_ZOMBIE, 100, 1, 3))
-            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.GRENADIER, 75, 1, 2))
-            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.MUTATED_BAT, 150, 1, 2))
-            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 150, 1, 1))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.LEAPING_ZOMBIE, 150, 1, 1))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.GRENADIER, 75, 1, 1))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.MUTATED_BAT, 100, 1, 1))
+            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 100, 1, 1))
             .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.PROTECTOR, 50, 1, 1));
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();

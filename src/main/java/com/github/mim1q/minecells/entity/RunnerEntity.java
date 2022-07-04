@@ -78,7 +78,7 @@ public class RunnerEntity extends MineCellsEntity {
     public void tick() {
         super.tick();
         if (this.dataTracker.get(TELEPORT_CHARGING) && this.world.isClient()) {
-            for (int i = 0; i < 5; i++){
+            for (int i = 0; i < 5; i++) {
                 ParticleUtils.addParticle(
                     (ClientWorld) this.world,
                     ParticleRegistry.CHARGE,
@@ -100,7 +100,7 @@ public class RunnerEntity extends MineCellsEntity {
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0D);
     }
 
     public void switchAttackState(TimedActionGoal.State state, boolean value) {
