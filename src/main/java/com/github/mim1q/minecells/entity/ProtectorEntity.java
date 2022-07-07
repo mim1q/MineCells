@@ -7,9 +7,7 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -20,7 +18,10 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,16 @@ public class ProtectorEntity extends MineCellsEntity {
 
         super.tick();
         this.setPosition(this.prevX, this.getY(), this.prevZ);
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        float rotation = this.random.nextFloat() * 360.0F;
+        this.bodyYaw = rotation;
+        this.headYaw = rotation;
+        this.updateTrackedPositionAndAngles(this.getX(), this.getY(), this.getZ(), rotation, 0.0F, 1, false);
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
     protected static boolean canProtect(Entity e) {
