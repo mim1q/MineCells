@@ -99,8 +99,8 @@ public class RunnerEntity extends MineCellsEntity {
         return createHostileAttributes()
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0D);
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
     }
 
     public void switchAttackState(TimedActionGoal.State state, boolean value) {

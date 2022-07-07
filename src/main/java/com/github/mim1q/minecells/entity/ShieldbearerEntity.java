@@ -98,7 +98,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
             .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     public float getDashDamage() {
-        return 10.0F;
+        return 20.0F;
     }
 
     @Override

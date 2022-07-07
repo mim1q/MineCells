@@ -132,8 +132,8 @@ public class ScorpionEntity extends MineCellsEntity {
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
             .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D);
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
+            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D);
     }
 
     @Override

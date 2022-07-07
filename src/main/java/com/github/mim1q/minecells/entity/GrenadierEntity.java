@@ -128,9 +128,9 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
     public static DefaultAttributeContainer.Builder createGrenadierAttributes() {
         return createLivingAttributes()
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 25.0D)
-            .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
-            .add(EntityAttributes.GENERIC_ARMOR, 6.0D);
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
+            .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+            .add(EntityAttributes.GENERIC_ARMOR, 4.0D);
     }
 
     public static class GrenadierShootGoal extends ShootGoal<GrenadierEntity> {

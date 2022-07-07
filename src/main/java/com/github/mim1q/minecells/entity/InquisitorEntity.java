@@ -116,9 +116,9 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
     public static DefaultAttributeContainer.Builder createInquisitorAttributes() {
         return createLivingAttributes()
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.15D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0D)
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
-            .add(EntityAttributes.GENERIC_ARMOR, 3.0D);
+            .add(EntityAttributes.GENERIC_ARMOR, 2.0D);
     }
 
     public static class InquisitorShootGoal extends ShootGoal<InquisitorEntity> {

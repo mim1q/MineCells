@@ -117,7 +117,7 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
     @Override
     public float getDashDamage() {
-        return 5.0F;
+        return 15.0F;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
             .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.3D)
             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
     }
 
     @Override

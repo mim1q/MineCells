@@ -67,7 +67,7 @@ public class MineCellsEntity extends HostileEntity {
         if (spawnReason == SpawnReason.NATURAL && world.getClosestPlayer(this, 64.0) != null) {
             return false;
         }
-        return this.random.nextFloat() < 0.25F
+        return this.random.nextFloat() <= 0.5F
             && this.world.getBlockState(this.getBlockPos().down()).isSolidBlock(this.world, this.getBlockPos());
     }
 
