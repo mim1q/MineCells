@@ -54,7 +54,7 @@
       "shift_y": 0,
       "shift_z": "minecraft:shift_z"
     },
-    "continents": 0,
+    "continents": "minecells:islands",
     "erosion": 0,
     "depth": 0,
     "ridges": 0,
@@ -64,9 +64,6 @@
     "vein_ridged": 0,
     "vein_gap": 0
   },
-  "vein_toggle": 0,
-  "vein_ridged": 0,
-  "vein_gap": 0,
   "spawn_target": [],
   "surface_rule": {
     "type": "minecraft:sequence",

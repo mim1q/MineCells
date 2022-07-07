@@ -37,10 +37,10 @@ public class BiomeRegistry {
             .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 100, 1, 1))
             .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.PROTECTOR, 50, 1, 1));
 
-        GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
-        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
-        DefaultBiomeFeatures.addDefaultGrass(generationSettings);
+        GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
+            .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
         DefaultBiomeFeatures.addJungleGrass(generationSettings);
+        DefaultBiomeFeatures.addGiantTaigaGrass(generationSettings);
 
         return new Biome.Builder()
             .precipitation(Biome.Precipitation.RAIN)

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:spline",
+  "spline": {
+    "coordinate": {
+      "type": "minecraft:noise",
+      "noise": "minecells:continentalness",
+      "xz_scale": 0.25,
+      "y_scale": 0
+    },
+    "points": [
+      {
+        "location": -1,
+        "derivative": 0,
+        "value": -0.5
+      },
+      {
+        "location": -0.19,
+        "derivative": 0.5,
+        "value": 0
+      }
+    ]
+  }
+}
