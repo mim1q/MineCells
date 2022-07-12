@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
+import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
@@ -133,6 +134,14 @@ public final class EntityRegistry {
     MineCells.createId("scorpion"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ScorpionEntity::new)
       .dimensions(EntityDimensions.fixed(0.8F, 1.5F))
+      .build()
+  );
+
+  public static final EntityType<ConjunctiviusEntity> CONJUNCTIVIUS = Registry.register(
+    Registry.ENTITY_TYPE,
+    MineCells.createId("conjunctivius"),
+    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ConjunctiviusEntity::new)
+      .dimensions(EntityDimensions.fixed(3.0F, 3.0F))
       .build()
   );
 
@@ -313,6 +322,7 @@ public final class EntityRegistry {
     FabricDefaultAttributeRegistry.register(RANCID_RAT, RancidRatEntity.createRancidRatAttributes());
     FabricDefaultAttributeRegistry.register(RUNNER, RunnerEntity.createRunnerAttributes());
     FabricDefaultAttributeRegistry.register(SCORPION, ScorpionEntity.createScorpionAttributes());
+    FabricDefaultAttributeRegistry.register(CONJUNCTIVIUS, ConjunctiviusEntity.createConjunctiviusAttributes());
 
     // Register Spawn Eggs
 
