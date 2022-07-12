@@ -15,7 +15,12 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public final class EntityRegistry {
+
+  private static final Set<SpawnEggItem> spawnEggs = new HashSet<>();
 
   //region EntityTypes
 
@@ -190,98 +195,98 @@ public final class EntityRegistry {
   //endregion
   //region Spawn Egg Items
 
-  public static final Item LEAPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem LEAPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
     LEAPING_ZOMBIE,
     0x5B7B53,
     0x8DBB4E,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item SHOCKER_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem SHOCKER_SPAWN_EGG = new SpawnEggItem(
     SHOCKER,
     0x2B5369,
     0x5FBED1,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item GRENADIER_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem GRENADIER_SPAWN_EGG = new SpawnEggItem(
     GRENADIER,
     0x8B3D56,
     0xDB7CDB,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item DISGUSTING_WORM_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem DISGUSTING_WORM_SPAWN_EGG = new SpawnEggItem(
     DISGUSTING_WORM,
     0x67DFCF,
     0xFF44C6,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item INQUISITOR_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem INQUISITOR_SPAWN_EGG = new SpawnEggItem(
     INQUISITOR,
     0xFFFFFF,
     0xE52806,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item KAMIKAZE_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem KAMIKAZE_SPAWN_EGG = new SpawnEggItem(
     KAMIKAZE,
     0x0A6F47,
     0x15FF4E,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item PROTECTOR_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem PROTECTOR_SPAWN_EGG = new SpawnEggItem(
     PROTECTOR,
     0xC0861D,
     0x5FBED1,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item UNDEAD_ARCHER_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem UNDEAD_ARCHER_SPAWN_EGG = new SpawnEggItem(
     UNDEAD_ARCHER,
     0x4C854A,
     0x755240,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item SHIELDBEARER_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem SHIELDBEARER_SPAWN_EGG = new SpawnEggItem(
     SHIELDBEARER,
     0x8459AA,
     0xA2A9B6,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item MUTATED_BAT_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem MUTATED_BAT_SPAWN_EGG = new SpawnEggItem(
     MUTATED_BAT,
     0xD279D2,
     0xD33D3D,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item SEWERS_TENTACLE_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem SEWERS_TENTACLE_SPAWN_EGG = new SpawnEggItem(
     SEWERS_TENTACLE,
     0x3983B9,
     0xFFF0C6,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item RANCID_RAT_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem RANCID_RAT_SPAWN_EGG = new SpawnEggItem(
     RANCID_RAT,
     0x68607C,
     0xF17E5D,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item RUNNER_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem RUNNER_SPAWN_EGG = new SpawnEggItem(
     RUNNER,
     0xE43E2C,
     0xF9F9F9,
     new Item.Settings().group(ItemGroupRegistry.MINECELLS_EGGS)
   );
 
-  public static final Item SCORPION_SPAWN_EGG = new SpawnEggItem(
+  public static final SpawnEggItem SCORPION_SPAWN_EGG = new SpawnEggItem(
     SCORPION,
     0x6DBCD5,
     0x4B3A5B,
@@ -311,19 +316,28 @@ public final class EntityRegistry {
 
     // Register Spawn Eggs
 
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "leaping_zombie_spawn_egg"), LEAPING_ZOMBIE_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shocker_spawn_egg"), SHOCKER_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "grenadier_spawn_egg"), GRENADIER_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "disgusting_worm_spawn_egg"), DISGUSTING_WORM_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "inquisitor_spawn_egg"), INQUISITOR_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "kamikaze_spawn_egg"), KAMIKAZE_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "protector_spawn_egg"), PROTECTOR_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "undead_archer_spawn_egg"), UNDEAD_ARCHER_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "shieldbearer_spawn_egg"), SHIELDBEARER_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "mutated_bat_spawn_egg"), MUTATED_BAT_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "sewers_tentacle_spawn_egg"), SEWERS_TENTACLE_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "rancid_rat_spawn_egg"), RANCID_RAT_SPAWN_EGG);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "runner_spawn_egg"), RUNNER_SPAWN_EGG);
-    Registry.register(Registry.ITEM, MineCells.createId("scorpion_spawn_egg"), SCORPION_SPAWN_EGG);
+    registerSpawnEgg("leaping_zombie", LEAPING_ZOMBIE_SPAWN_EGG);
+    registerSpawnEgg("shocker", SHOCKER_SPAWN_EGG);
+    registerSpawnEgg("grenadier", GRENADIER_SPAWN_EGG);
+    registerSpawnEgg("disgusting_worm", DISGUSTING_WORM_SPAWN_EGG);
+    registerSpawnEgg("inquisitor", INQUISITOR_SPAWN_EGG);
+    registerSpawnEgg("kamikaze", KAMIKAZE_SPAWN_EGG);
+    registerSpawnEgg("protector", PROTECTOR_SPAWN_EGG);
+    registerSpawnEgg("undead_archer", UNDEAD_ARCHER_SPAWN_EGG);
+    registerSpawnEgg("shieldbearer", SHIELDBEARER_SPAWN_EGG);
+    registerSpawnEgg("mutated_bat", MUTATED_BAT_SPAWN_EGG);
+    registerSpawnEgg("sewers_tentacle", SEWERS_TENTACLE_SPAWN_EGG);
+    registerSpawnEgg("rancid_rat", RANCID_RAT_SPAWN_EGG);
+    registerSpawnEgg("runner", RUNNER_SPAWN_EGG);
+    registerSpawnEgg("scorpion", SCORPION_SPAWN_EGG);
+  }
+
+  public static void registerSpawnEgg(String entityName, SpawnEggItem item) {
+    spawnEggs.add(item);
+    Registry.register(Registry.ITEM, MineCells.createId(entityName + "_spawn_egg"), item);
+  }
+
+  public static Set<SpawnEggItem> getSpawnEggs() {
+    return spawnEggs;
   }
 }
