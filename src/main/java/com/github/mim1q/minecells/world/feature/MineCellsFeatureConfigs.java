@@ -10,15 +10,15 @@ import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 public class MineCellsFeatureConfigs {
-    public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 10, 5);
+  public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 10, 5);
 
-    private static TreeFeatureConfig simpleTree(Block trunk, Block leaves, int height, int heightRandom) {
-        return new TreeFeatureConfig.Builder(
-            BlockStateProvider.of(trunk.getDefaultState()),
-            new PromenadeTreeTrunkPlacer(height, heightRandom, 0),
-            BlockStateProvider.of(leaves.getDefaultState()),
-            new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3),
-            new TwoLayersFeatureSize(1, 0, 1)
-        ).ignoreVines().build();
-    }
+  private static TreeFeatureConfig simpleTree(Block trunk, Block leaves, int height, int heightRandom) {
+    return new TreeFeatureConfig.Builder(
+      BlockStateProvider.of(trunk.getDefaultState()),
+      new PromenadeTreeTrunkPlacer(height, heightRandom, 0),
+      BlockStateProvider.of(leaves.getDefaultState()),
+      new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3),
+      new TwoLayersFeatureSize(1, 0, 1)
+    ).ignoreVines().build();
+  }
 }

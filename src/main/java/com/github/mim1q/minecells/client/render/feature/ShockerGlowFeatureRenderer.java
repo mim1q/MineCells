@@ -11,16 +11,16 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class ShockerGlowFeatureRenderer extends GlowFeatureRenderer<ShockerEntity, ShockerEntityModel> {
-    protected final RenderLayer glowLayerAngry;
+  protected final RenderLayer glowLayerAngry;
 
-    public ShockerGlowFeatureRenderer(FeatureRendererContext<ShockerEntity, ShockerEntityModel> context, Identifier glowTexture, Identifier glowTextureAngry) {
-        super(context, glowTexture);
-        this.glowLayerAngry = RenderLayer.getEyes(glowTextureAngry);
-    }
+  public ShockerGlowFeatureRenderer(FeatureRendererContext<ShockerEntity, ShockerEntityModel> context, Identifier glowTexture, Identifier glowTextureAngry) {
+    super(context, glowTexture);
+    this.glowLayerAngry = RenderLayer.getEyes(glowTextureAngry);
+  }
 
-    @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ShockerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(entity.isAuraCharging() || entity.isAuraReleasing() ? this.glowLayerAngry : this.glowLayer);
-        this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-    }
+  @Override
+  public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ShockerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(entity.isAuraCharging() || entity.isAuraReleasing() ? this.glowLayerAngry : this.glowLayer);
+    this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+  }
 }

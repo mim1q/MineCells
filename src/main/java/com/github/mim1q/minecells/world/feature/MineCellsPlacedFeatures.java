@@ -20,22 +20,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MineCellsPlacedFeatures {
-    public static final RegistryEntry<PlacedFeature> PROMENADE_TREE = createPlacedFeature(
-        MineCells.createId("promenade_tree"),
-        MineCellsConfiguredFeatures.PROMENADE_TREE,
-        PlacedFeatures.createCountExtraModifier(1, 0.5F, 1),
-        SquarePlacementModifier.of(),
-        PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
-        BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
-    );
+  public static final RegistryEntry<PlacedFeature> PROMENADE_TREE = createPlacedFeature(
+    MineCells.createId("promenade_tree"),
+    MineCellsConfiguredFeatures.PROMENADE_TREE,
+    PlacedFeatures.createCountExtraModifier(1, 0.5F, 1),
+    SquarePlacementModifier.of(),
+    PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
+    BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
+  );
 
-    public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
-        List<PlacementModifier> list = new ArrayList<>(List.of(placementModifiers));
-        list.add(BiomePlacementModifier.of());
-        return createPlacedFeature(id, feature, list);
-    }
+  public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
+    List<PlacementModifier> list = new ArrayList<>(List.of(placementModifiers));
+    list.add(BiomePlacementModifier.of());
+    return createPlacedFeature(id, feature, list);
+  }
 
-    public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, List<PlacementModifier> placementModifiers) {
-        return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, id, new PlacedFeature(RegistryEntry.upcast(feature), List.copyOf(placementModifiers)));
-    }
+  public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, List<PlacementModifier> placementModifiers) {
+    return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, id, new PlacedFeature(RegistryEntry.upcast(feature), List.copyOf(placementModifiers)));
+  }
 }

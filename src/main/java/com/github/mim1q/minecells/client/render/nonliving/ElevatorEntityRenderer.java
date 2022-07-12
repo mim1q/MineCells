@@ -16,28 +16,28 @@ import net.minecraft.util.math.Quaternion;
 
 public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
 
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/elevator.png");
-    private static final RenderLayer LAYER = RenderLayer.getEntityCutoutNoCull(TEXTURE);
-    private final ElevatorEntityModel model;
+  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/elevator.png");
+  private static final RenderLayer LAYER = RenderLayer.getEntityCutoutNoCull(TEXTURE);
+  private final ElevatorEntityModel model;
 
-    public ElevatorEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx);
-        this.model = new ElevatorEntityModel(ElevatorEntityModel.getTexturedModelData().createModel());
-    }
+  public ElevatorEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx);
+    this.model = new ElevatorEntityModel(ElevatorEntityModel.getTexturedModelData().createModel());
+  }
 
-    @Override
-    public Identifier getTexture(ElevatorEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(ElevatorEntity entity) {
+    return TEXTURE;
+  }
 
-    @Override
-    public void render(ElevatorEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        matrices.push();
-        if (entity.isRotated()) {
-            matrices.multiply(Quaternion.fromEulerYxz(MathHelper.HALF_PI, 0.0F, 0.0F));
-        }
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(LAYER);
-        this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-        matrices.pop();
+  @Override
+  public void render(ElevatorEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    matrices.push();
+    if (entity.isRotated()) {
+      matrices.multiply(Quaternion.fromEulerYxz(MathHelper.HALF_PI, 0.0F, 0.0F));
     }
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(LAYER);
+    this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    matrices.pop();
+  }
 }

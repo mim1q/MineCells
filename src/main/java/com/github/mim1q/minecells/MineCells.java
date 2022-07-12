@@ -11,26 +11,26 @@ import org.apache.logging.log4j.Logger;
 
 public class MineCells implements ModInitializer {
 
-    public static final CommonConfig COMMON_CONFIG = OmegaConfig.register(CommonConfig.class);
+  public static final CommonConfig COMMON_CONFIG = OmegaConfig.register(CommonConfig.class);
 
-    public static final String MOD_ID = "minecells";
-    public static final Logger LOGGER = LogManager.getLogger();
+  public static final String MOD_ID = "minecells";
+  public static final Logger LOGGER = LogManager.getLogger();
 
-    @Override
-    public void onInitialize() {
-        COMMON_CONFIG.save();
-        EntityRegistry.register();
-        SoundRegistry.register();
-        BlockRegistry.register();
-        ItemRegistry.register();
-        ItemGroupRegistry.register();
-        StatusEffectRegistry.register();
-        ParticleRegistry.register();
-        BiomeRegistry.register();
-        MineCellsPlacerTypes.register();
-    }
+  @Override
+  public void onInitialize() {
+    COMMON_CONFIG.save();
+    EntityRegistry.register();
+    SoundRegistry.register();
+    BlockRegistry.register();
+    ItemRegistry.register();
+    ItemGroupRegistry.register();
+    StatusEffectRegistry.register();
+    ParticleRegistry.register();
+    BiomeRegistry.register();
+    MineCellsPlacerTypes.register();
+  }
 
-    public static Identifier createId(String path) {
-        return new Identifier(MOD_ID, path);
-    }
+  public static Identifier createId(String path) {
+    return new Identifier(MOD_ID, path);
+  }
 }

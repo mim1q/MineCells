@@ -3,21 +3,25 @@ package com.github.mim1q.minecells.entity.interfaces;
 import net.minecraft.sound.SoundEvent;
 
 public interface ILeapEntity {
-    boolean isLeapCharging();
-    void setLeapCharging(boolean charging);
+  boolean isLeapCharging();
 
-    boolean isLeapReleasing();
-    void setLeapReleasing(boolean releasing);
+  void setLeapCharging(boolean charging);
 
-    int getLeapCooldown();
-    void setLeapCooldown(int ticks);
+  boolean isLeapReleasing();
 
-    int getLeapMaxCooldown();
+  void setLeapReleasing(boolean releasing);
 
-    float getLeapDamage();
+  int getLeapCooldown();
 
-    double getLeapRange();
+  void setLeapCooldown(int ticks);
 
-    SoundEvent getLeapChargeSoundEvent();
-    SoundEvent getLeapReleaseSoundEvent();
+  int getLeapMaxCooldown();
+
+  float getLeapDamage();
+
+  double getLeapRange();
+
+  SoundEvent getLeapChargeSoundEvent();
+
+  SoundEvent getLeapReleaseSoundEvent();
 }

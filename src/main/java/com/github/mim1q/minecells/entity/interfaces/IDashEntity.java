@@ -3,19 +3,23 @@ package com.github.mim1q.minecells.entity.interfaces;
 import net.minecraft.sound.SoundEvent;
 
 public interface IDashEntity {
-    boolean isDashCharging();
-    void setDashCharging(boolean charging);
+  boolean isDashCharging();
 
-    boolean isDashReleasing();
-    void setDashReleasing(boolean releasing);
+  void setDashCharging(boolean charging);
 
-    int getDashCooldown();
-    void setDashCooldown(int ticks);
+  boolean isDashReleasing();
 
-    int getDashMaxCooldown();
+  void setDashReleasing(boolean releasing);
 
-    float getDashDamage();
+  int getDashCooldown();
 
-    SoundEvent getDashChargeSoundEvent();
-    SoundEvent getDashReleaseSoundEvent();
+  void setDashCooldown(int ticks);
+
+  int getDashMaxCooldown();
+
+  float getDashDamage();
+
+  SoundEvent getDashChargeSoundEvent();
+
+  SoundEvent getDashReleaseSoundEvent();
 }

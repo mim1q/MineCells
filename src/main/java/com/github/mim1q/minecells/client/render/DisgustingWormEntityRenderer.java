@@ -12,18 +12,18 @@ import net.minecraft.util.Identifier;
 
 public class DisgustingWormEntityRenderer extends MobEntityRenderer<DisgustingWormEntity, DisgustingWormEntityModel> {
 
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/disgusting_worm/disgusting_worm.png");
-    private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/disgusting_worm/disgusting_worm_glow.png");
+  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/disgusting_worm/disgusting_worm.png");
+  private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/disgusting_worm/disgusting_worm_glow.png");
 
-    public DisgustingWormEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new DisgustingWormEntityModel(ctx.getPart(RendererRegistry.DISGUSTING_WORM_LAYER)), 0.75F);
-        if (MineCellsClient.CLIENT_CONFIG.rendering.disgustingWormGlow) {
-            this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
-        }
+  public DisgustingWormEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx, new DisgustingWormEntityModel(ctx.getPart(RendererRegistry.DISGUSTING_WORM_LAYER)), 0.75F);
+    if (MineCellsClient.CLIENT_CONFIG.rendering.disgustingWormGlow) {
+      this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
+  }
 
-    @Override
-    public Identifier getTexture(DisgustingWormEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(DisgustingWormEntity entity) {
+    return TEXTURE;
+  }
 }

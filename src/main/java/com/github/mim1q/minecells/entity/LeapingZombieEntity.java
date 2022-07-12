@@ -20,118 +20,117 @@ import net.minecraft.world.World;
 
 public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity {
 
-    // Animation Data
-    @Environment(EnvType.CLIENT)
-    public float additionalRotation = 0.0F;
+  // Animation Data
+  @Environment(EnvType.CLIENT)
+  public float additionalRotation = 0.0F;
 
-    private static final TrackedData<Integer> LEAP_COOLDOWN = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Boolean> LEAP_CHARGING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Boolean> LEAP_RELEASING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Integer> LEAP_COOLDOWN = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
+  private static final TrackedData<Boolean> LEAP_CHARGING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Boolean> LEAP_RELEASING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
 
+  public LeapingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
+    super(type, world);
+    this.ignoreCameraFrustum = true;
+  }
 
-    public LeapingZombieEntity(EntityType<? extends HostileEntity> type, World world) {
-        super(type, world);
-        this.ignoreCameraFrustum = true;
-    }
+  @Override
+  protected void initDataTracker() {
+    super.initDataTracker();
+    this.dataTracker.startTracking(LEAP_COOLDOWN, 50);
+    this.dataTracker.startTracking(LEAP_CHARGING, false);
+    this.dataTracker.startTracking(LEAP_RELEASING, false);
+  }
 
-    @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(LEAP_COOLDOWN, 50);
-        this.dataTracker.startTracking(LEAP_CHARGING, false);
-        this.dataTracker.startTracking(LEAP_RELEASING, false);
-    }
+  @Override
+  public void tick() {
+    super.tick();
+    this.decrementCooldown(LEAP_COOLDOWN);
+  }
 
-    @Override
-    public void tick() {
-        super.tick();
-        this.decrementCooldown(LEAP_COOLDOWN);
-    }
+  @Override
+  public void initGoals() {
+    super.initGoals();
 
-    @Override
-    public void initGoals() {
-        super.initGoals();
+    this.goalSelector.add(0, new LeapGoal<>(this, 15, 20, 0.3F));
+    this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));
+  }
 
-        this.goalSelector.add(0, new LeapGoal<>(this, 15, 20, 0.3F));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));
-    }
+  @Override
+  public boolean isLeapCharging() {
+    return this.dataTracker.get(LEAP_CHARGING);
+  }
 
-    @Override
-    public boolean isLeapCharging() {
-        return this.dataTracker.get(LEAP_CHARGING);
-    }
+  @Override
+  public void setLeapCharging(boolean charging) {
+    this.dataTracker.set(LEAP_CHARGING, charging);
+  }
 
-    @Override
-    public void setLeapCharging(boolean charging) {
-        this.dataTracker.set(LEAP_CHARGING, charging);
-    }
+  @Override
+  public boolean isLeapReleasing() {
+    return this.dataTracker.get(LEAP_RELEASING);
+  }
 
-    @Override
-    public boolean isLeapReleasing() {
-        return this.dataTracker.get(LEAP_RELEASING);
-    }
+  @Override
+  public void setLeapReleasing(boolean releasing) {
+    this.dataTracker.set(LEAP_RELEASING, releasing);
 
-    @Override
-    public void setLeapReleasing(boolean releasing) {
-        this.dataTracker.set(LEAP_RELEASING, releasing);
+  }
 
-    }
+  @Override
+  public int getLeapCooldown() {
+    return this.dataTracker.get(LEAP_COOLDOWN);
+  }
 
-    @Override
-    public int getLeapCooldown() {
-        return this.dataTracker.get(LEAP_COOLDOWN);
-    }
+  @Override
+  public void setLeapCooldown(int ticks) {
+    this.dataTracker.set(LEAP_COOLDOWN, ticks);
+  }
 
-    @Override
-    public void setLeapCooldown(int ticks) {
-        this.dataTracker.set(LEAP_COOLDOWN, ticks);
-    }
+  @Override
+  public int getLeapMaxCooldown() {
+    return 20 + this.getRandom().nextInt(20);
+  }
 
-    @Override
-    public int getLeapMaxCooldown() {
-        return 20 + this.getRandom().nextInt(20);
-    }
+  @Override
+  public float getLeapDamage() {
+    return 10.0F;
+  }
 
-    @Override
-    public float getLeapDamage() {
-        return 10.0F;
-    }
+  @Override
+  public double getLeapRange() {
+    return 15.0F;
+  }
 
-    @Override
-    public double getLeapRange() {
-        return 15.0F;
-    }
+  @Override
+  public SoundEvent getLeapChargeSoundEvent() {
+    return SoundRegistry.LEAPING_ZOMBIE_CHARGE;
+  }
 
-    @Override
-    public SoundEvent getLeapChargeSoundEvent() {
-        return SoundRegistry.LEAPING_ZOMBIE_CHARGE;
-    }
+  @Override
+  public SoundEvent getLeapReleaseSoundEvent() {
+    return SoundRegistry.LEAPING_ZOMBIE_RELEASE;
+  }
 
-    @Override
-    public SoundEvent getLeapReleaseSoundEvent() {
-        return SoundRegistry.LEAPING_ZOMBIE_RELEASE;
-    }
+  @Override
+  public void writeCustomDataToNbt(NbtCompound nbt) {
+    super.writeCustomDataToNbt(nbt);
+    nbt.putInt("leapCooldown", this.getLeapCooldown());
+  }
 
-    @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("leapCooldown", this.getLeapCooldown());
-    }
+  @Override
+  public void readCustomDataFromNbt(NbtCompound nbt) {
+    super.readCustomDataFromNbt(nbt);
+    this.setLeapCooldown(nbt.getInt("leapCooldown"));
+  }
 
-    @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.setLeapCooldown(nbt.getInt("leapCooldown"));
-    }
-
-    public static DefaultAttributeContainer.Builder createLeapingZombieAttributes() {
-        return createLivingAttributes()
-            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-            .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
-            .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-            .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
-            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
-            .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
-    }
+  public static DefaultAttributeContainer.Builder createLeapingZombieAttributes() {
+    return createLivingAttributes()
+             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0D)
+             .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+             .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
+             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
+             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
+  }
 }

@@ -12,18 +12,18 @@ import net.minecraft.util.Identifier;
 
 public class LeapingZombieEntityRenderer extends MobEntityRenderer<LeapingZombieEntity, LeapingZombieEntityModel> {
 
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/leaping_zombie/leaping_zombie.png");
-    private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/leaping_zombie/leaping_zombie_glow.png");
+  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/leaping_zombie/leaping_zombie.png");
+  private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/leaping_zombie/leaping_zombie_glow.png");
 
-    public LeapingZombieEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new LeapingZombieEntityModel(ctx.getPart(RendererRegistry.LEAPING_ZOMBIE_LAYER)), 0.35F);
-        if (MineCellsClient.CLIENT_CONFIG.rendering.leapingZombieGlow) {
-            this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
-        }
+  public LeapingZombieEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx, new LeapingZombieEntityModel(ctx.getPart(RendererRegistry.LEAPING_ZOMBIE_LAYER)), 0.35F);
+    if (MineCellsClient.CLIENT_CONFIG.rendering.leapingZombieGlow) {
+      this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
+  }
 
-    @Override
-    public Identifier getTexture(LeapingZombieEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(LeapingZombieEntity entity) {
+    return TEXTURE;
+  }
 }

@@ -18,100 +18,100 @@ import net.minecraft.world.World;
 
 public class CellEntity extends Entity {
 
-    protected static final TrackedData<Integer> AMOUNT = DataTracker.registerData(CellEntity.class, TrackedDataHandlerRegistry.INTEGER);
+  protected static final TrackedData<Integer> AMOUNT = DataTracker.registerData(CellEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    protected PlayerEntity target;
-    protected boolean bound = false;
+  protected PlayerEntity target;
+  protected boolean bound = false;
 
-    public CellEntity(EntityType<CellEntity> entityType, World world) {
-        super(entityType, world);
-        this.setPosition(this.getX() + this.random.nextFloat(), this.getY(), this.getZ() + this.random.nextFloat());
-    }
+  public CellEntity(EntityType<CellEntity> entityType, World world) {
+    super(entityType, world);
+    this.setPosition(this.getX() + this.random.nextFloat(), this.getY(), this.getZ() + this.random.nextFloat());
+  }
 
-    public static void spawn(World world, Vec3d position, int amount) {
-        CellEntity cell = new CellEntity(EntityRegistry.CELL, world);
-        cell.setPosition(position);
-        cell.setVelocity(
-            (world.random.nextFloat() - 0.5F) * 0.25F,
-            world.random.nextFloat() * 0.1F,
-            (world.random.nextFloat() - 0.5F) * 0.25F
+  public static void spawn(World world, Vec3d position, int amount) {
+    CellEntity cell = new CellEntity(EntityRegistry.CELL, world);
+    cell.setPosition(position);
+    cell.setVelocity(
+      (world.random.nextFloat() - 0.5F) * 0.25F,
+      world.random.nextFloat() * 0.1F,
+      (world.random.nextFloat() - 0.5F) * 0.25F
+    );
+    cell.setAmount(amount);
+    world.spawnEntity(cell);
+  }
+
+  @Override
+  protected void initDataTracker() {
+    this.dataTracker.startTracking(AMOUNT, 1);
+  }
+
+  @Override
+  public void tick() {
+    super.tick();
+    this.prevX = this.getX();
+    this.prevY = this.getY();
+    this.prevZ = this.getZ();
+    if (!this.world.isClient()) {
+      if (!this.bound && this.age % 20 == 1) {
+        this.target = this.world.getClosestPlayer(this, 10.0D);
+      }
+      if (this.age > 40 && this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
+        double distance = this.target.distanceTo(this);
+        double multiplier = distance == 0.0D
+                              ? 1.0D
+                              : 1.0D / distance;
+        this.setVelocity(this.target.getPos()
+                           .add(0.0D, 0.5D, 0.0D)
+                           .subtract(this.getPos())
+                           .normalize()
+                           .multiply(0.5D * multiplier)
         );
-        cell.setAmount(amount);
-        world.spawnEntity(cell);
-    }
-
-    @Override
-    protected void initDataTracker() {
-        this.dataTracker.startTracking(AMOUNT, 1);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        this.prevX = this.getX();
-        this.prevY = this.getY();
-        this.prevZ = this.getZ();
-        if (!this.world.isClient()) {
-            if (!this.bound && this.age % 20 == 1) {
-                this.target = this.world.getClosestPlayer(this, 10.0D);
-            }
-            if (this.age > 40 && this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
-                double distance = this.target.distanceTo(this);
-                double multiplier = distance == 0.0D
-                    ? 1.0D
-                    : 1.0D / distance;
-                this.setVelocity(this.target.getPos()
-                    .add(0.0D, 0.5D, 0.0D)
-                    .subtract(this.getPos())
-                    .normalize()
-                    .multiply(0.5D * multiplier)
-                );
-                if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
-                    PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
-                    target.setCells(target.getCells() + this.getAmount());
-                    this.playSound(SoundRegistry.CELL_ABSORB, 0.25F, 1.0F);
-                    this.discard();
-                }
-            }
-            this.setVelocity(this.getVelocity().multiply(0.95D));
-            this.addVelocity(0.0D, -0.01D, 0.0D);
-            this.velocityModified = true;
+        if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
+          PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
+          target.setCells(target.getCells() + this.getAmount());
+          this.playSound(SoundRegistry.CELL_ABSORB, 0.25F, 1.0F);
+          this.discard();
         }
-        this.move(MovementType.SELF, this.getVelocity());
+      }
+      this.setVelocity(this.getVelocity().multiply(0.95D));
+      this.addVelocity(0.0D, -0.01D, 0.0D);
+      this.velocityModified = true;
     }
+    this.move(MovementType.SELF, this.getVelocity());
+  }
 
-    @Override
-    protected MoveEffect getMoveEffect() {
-        return MoveEffect.EVENTS;
-    }
+  @Override
+  protected MoveEffect getMoveEffect() {
+    return MoveEffect.EVENTS;
+  }
 
-    public int getAmount() {
-        return this.dataTracker.get(AMOUNT);
-    }
+  public int getAmount() {
+    return this.dataTracker.get(AMOUNT);
+  }
 
-    public void setAmount(int amount) {
-        this.dataTracker.set(AMOUNT, amount);
-    }
+  public void setAmount(int amount) {
+    this.dataTracker.set(AMOUNT, amount);
+  }
 
-    @Override
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
-        if (nbt.contains("target")) {
-            this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
-            this.bound = true;
-        }
-        this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
+  @Override
+  protected void readCustomDataFromNbt(NbtCompound nbt) {
+    if (nbt.contains("target")) {
+      this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
+      this.bound = true;
     }
+    this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
+  }
 
-    @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
-        if (this.target != null) {
-            nbt.putUuid("target", this.target.getUuid());
-        }
-        nbt.putInt("amount", this.dataTracker.get(AMOUNT));
+  @Override
+  protected void writeCustomDataToNbt(NbtCompound nbt) {
+    if (this.target != null) {
+      nbt.putUuid("target", this.target.getUuid());
     }
+    nbt.putInt("amount", this.dataTracker.get(AMOUNT));
+  }
 
-    @Override
-    public Packet<?> createSpawnPacket() {
-        return new EntitySpawnS2CPacket(this);
-    }
+  @Override
+  public Packet<?> createSpawnPacket() {
+    return new EntitySpawnS2CPacket(this);
+  }
 }
