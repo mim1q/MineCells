@@ -94,11 +94,11 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
   public static DefaultAttributeContainer.Builder createShieldbearerAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-             .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
   }
 
   @Override

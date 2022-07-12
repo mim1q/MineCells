@@ -140,12 +140,12 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   public static DefaultAttributeContainer.Builder createSewersTentacleAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-             .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
-             .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
+      .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
   }
 
   public int getVariant() {

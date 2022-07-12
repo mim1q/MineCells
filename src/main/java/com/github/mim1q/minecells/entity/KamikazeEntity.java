@@ -134,12 +134,12 @@ public class KamikazeEntity extends MineCellsEntity {
 
   public static DefaultAttributeContainer.Builder createKamikazeAttributes() {
     return createLivingAttributes()
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-             .add(EntityAttributes.GENERIC_FLYING_SPEED, 3.0D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D)
-             .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 2.0D);
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+      .add(EntityAttributes.GENERIC_FLYING_SPEED, 3.0D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D)
+      .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 0.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 2.0D);
   }
 
   public static class KamikazeFlyGoal extends FlyGoal {

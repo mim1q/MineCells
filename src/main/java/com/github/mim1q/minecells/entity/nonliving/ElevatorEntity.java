@@ -270,9 +270,9 @@ public class ElevatorEntity extends Entity {
 
   protected boolean canBePassenger(LivingEntity entity) {
     return !this.hitEntities.contains(entity)
-             && entity.getY() > this.getY()
-             && !entity.isSneaking()
-             && !(entity instanceof SewersTentacleEntity);
+      && entity.getY() > this.getY()
+      && !entity.isSneaking()
+      && !(entity instanceof SewersTentacleEntity);
   }
 
   public void handleEntitiesBelow() {
@@ -284,10 +284,10 @@ public class ElevatorEntity extends Entity {
     for (LivingEntity e : entities) {
       if (!this.hitEntities.contains(e)) {
         e.setVelocity(e.getPos()
-                        .subtract(this.getPos())
-                        .normalize()
-                        .multiply(3.0D, 0.0D, 3.0D)
-                        .add(0.0D, 0.5D, 0.0D));
+          .subtract(this.getPos())
+          .normalize()
+          .multiply(3.0D, 0.0D, 3.0D)
+          .add(0.0D, 0.5D, 0.0D));
         e.damage(MineCellsDamageSource.ELEVATOR, this.damage);
         this.hitEntities.add(e);
       }
@@ -379,7 +379,7 @@ public class ElevatorEntity extends Entity {
 
   public boolean startMoving(boolean isGoingUp, boolean fromRedstone) {
     if ((!this.isMoving() || fromRedstone)
-          && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated(), true)) {
+      && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated(), true)) {
       if (!this.world.isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
         this.setGoingUp(isGoingUp);
         if (!this.isMoving() && this.stoppedTicks > 5) {

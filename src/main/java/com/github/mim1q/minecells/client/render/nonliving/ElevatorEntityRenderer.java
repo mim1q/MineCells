@@ -16,7 +16,7 @@ import net.minecraft.util.math.Quaternion;
 
 public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
 
-  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/elevator.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/elevator.png");
   private static final RenderLayer LAYER = RenderLayer.getEntityCutoutNoCull(TEXTURE);
   private final ElevatorEntityModel model;
 

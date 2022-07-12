@@ -41,8 +41,8 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
 
     if (entity instanceof PlayerEntity playerEntity) {
       DamageSource damageSource = this.getOwner() == null
-                                    ? DamageSource.MAGIC
-                                    : DamageSource.mob((LivingEntity) this.getOwner()
+        ? DamageSource.MAGIC
+        : DamageSource.mob((LivingEntity) this.getOwner()
       );
       entity.damage(damageSource, 8.0F);
       playerEntity.addStatusEffect(new StatusEffectInstance(

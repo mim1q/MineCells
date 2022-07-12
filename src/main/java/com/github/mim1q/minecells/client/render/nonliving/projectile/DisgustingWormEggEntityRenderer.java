@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 
 public class DisgustingWormEggEntityRenderer extends AbstractGrenadeEntityRenderer<DisgustingWormEggEntity> {
 
-  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/grenades/disgusting_worm_egg.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/grenades/disgusting_worm_egg.png");
   private static final DisgustingWormEggEntityModel MODEL = new DisgustingWormEggEntityModel(DisgustingWormEggEntityModel.getTexturedModelData().createModel());
 
   public DisgustingWormEggEntityRenderer(EntityRendererFactory.Context ctx) {

@@ -23,9 +23,9 @@ import net.minecraft.util.math.Vec3d;
 
 public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, ProtectorEntityModel> {
 
-  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/protector/protector.png");
-  private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/protector/protector_glow.png");
-  private static final Identifier CONNECTION_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/misc/electric_arch.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/protector/protector.png");
+  private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/protector/protector_glow.png");
+  private static final Identifier CONNECTION_TEXTURE = MineCells.createId("textures/misc/electric_arch.png");
   private static final RenderLayer CONNECTION_LAYER = RenderLayer.getEntityCutout(CONNECTION_TEXTURE);
 
   public ProtectorEntityRenderer(EntityRendererFactory.Context ctx) {

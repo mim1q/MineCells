@@ -12,9 +12,9 @@ import net.minecraft.util.Identifier;
 
 public class ShockerEntityRenderer extends MobEntityRenderer<ShockerEntity, ShockerEntityModel> {
 
-  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker.png");
-  private static final Identifier GLOW_TEXTURE_NORMAL = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker_glow.png");
-  private static final Identifier GLOW_TEXTURE_ANGRY = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker_glow_angry.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/shocker/shocker.png");
+  private static final Identifier GLOW_TEXTURE_NORMAL = MineCells.createId("textures/entity/shocker/shocker_glow.png");
+  private static final Identifier GLOW_TEXTURE_ANGRY = MineCells.createId("textures/entity/shocker/shocker_glow_angry.png");
 
   public ShockerEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new ShockerEntityModel(ctx.getPart(RendererRegistry.SHOCKER_LAYER)), 0.5F);

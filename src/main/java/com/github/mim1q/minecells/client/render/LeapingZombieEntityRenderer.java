@@ -12,8 +12,8 @@ import net.minecraft.util.Identifier;
 
 public class LeapingZombieEntityRenderer extends MobEntityRenderer<LeapingZombieEntity, LeapingZombieEntityModel> {
 
-  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/leaping_zombie/leaping_zombie.png");
-  private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/leaping_zombie/leaping_zombie_glow.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/leaping_zombie/leaping_zombie.png");
+  private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/leaping_zombie/leaping_zombie_glow.png");
 
   public LeapingZombieEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new LeapingZombieEntityModel(ctx.getPart(RendererRegistry.LEAPING_ZOMBIE_LAYER)), 0.35F);

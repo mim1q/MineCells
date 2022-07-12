@@ -58,22 +58,22 @@ public class ScorpionEntity extends MineCellsEntity {
 
     this.goalSelector.add(1, new MeleeAttackGoal(this, 1.2D, true));
     this.goalSelector.add(0, new TimedShootGoal.Builder<>(this)
-                               .cooldownSetter((cooldown) -> this.shootCooldown = cooldown)
-                               .cooldownGetter(() -> this.shootCooldown)
-                               .stateSetter(this::handleShootState)
-                               .projectileCreator((pos, targetPos) -> {
-                                 ScorpionSpitEntity entity = new ScorpionSpitEntity(EntityRegistry.SCORPION_SPIT, this.world);
-                                 pos = pos.add(0.0D, 0.25D, 0.0D);
-                                 entity.setPosition(pos);
-                                 entity.setVelocity(targetPos.subtract(pos).normalize().multiply(0.8D));
-                                 return entity;
-                               })
-                               .chargeSound(SoundRegistry.SCORPION_CHARGE)
-                               .actionTick(20)
-                               .length(20)
-                               .defaultCooldown(40)
-                               .chance(0.1F)
-                               .build()
+      .cooldownSetter((cooldown) -> this.shootCooldown = cooldown)
+      .cooldownGetter(() -> this.shootCooldown)
+      .stateSetter(this::handleShootState)
+      .projectileCreator((pos, targetPos) -> {
+        ScorpionSpitEntity entity = new ScorpionSpitEntity(EntityRegistry.SCORPION_SPIT, this.world);
+        pos = pos.add(0.0D, 0.25D, 0.0D);
+        entity.setPosition(pos);
+        entity.setVelocity(targetPos.subtract(pos).normalize().multiply(0.8D));
+        return entity;
+      })
+      .chargeSound(SoundRegistry.SCORPION_CHARGE)
+      .actionTick(20)
+      .length(20)
+      .defaultCooldown(40)
+      .chance(0.1F)
+      .build()
     );
   }
 
@@ -130,11 +130,11 @@ public class ScorpionEntity extends MineCellsEntity {
 
   public static DefaultAttributeContainer.Builder createScorpionAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
-             .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D);
   }
 
   @Override

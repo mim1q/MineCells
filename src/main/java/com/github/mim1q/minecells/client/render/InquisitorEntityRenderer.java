@@ -20,8 +20,8 @@ import net.minecraft.util.math.Vec3f;
 
 public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity, InquisitorEntityModel> {
 
-  public static final Identifier ORB_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/particle/magic_orb.png");
-  public static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/inquisitor.png");
+  public static final Identifier ORB_TEXTURE = MineCells.createId("textures/particle/magic_orb.png");
+  public static final Identifier TEXTURE = MineCells.createId("textures/entity/inquisitor.png");
   public static final RenderLayer ORB_LAYER = RenderLayer.getEntityCutout(ORB_TEXTURE);
 
   public InquisitorEntityRenderer(EntityRendererFactory.Context ctx) {

@@ -31,8 +31,8 @@ public class ShootGoal<E extends MineCellsEntity & IShootEntity> extends Goal {
       return false;
 
     return this.entity.getShootCooldown() == 0
-             && this.entity.canSee(target)
-             && this.entity.getRandom().nextFloat() < this.chance;
+      && this.entity.canSee(target)
+      && this.entity.getRandom().nextFloat() < this.chance;
   }
 
   @Override

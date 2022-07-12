@@ -66,11 +66,11 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
 
   public static DefaultAttributeContainer.Builder createUndeadArcherAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-             .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
   }
 
   @Override

@@ -12,8 +12,8 @@ import net.minecraft.util.Identifier;
 
 public class RancidRatEntityRenderer extends MobEntityRenderer<RancidRatEntity, RancidRatEntityModel> {
 
-  private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/rancid_rat/rancid_rat.png");
-  private static final Identifier GLOW_TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/rancid_rat/rancid_rat_glow.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/rancid_rat/rancid_rat.png");
+  private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/rancid_rat/rancid_rat_glow.png");
 
   public RancidRatEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new RancidRatEntityModel(context.getPart(RendererRegistry.RANCID_RAT_LAYER)), 0.35f);

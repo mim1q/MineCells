@@ -13,7 +13,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.HashSet;
@@ -27,7 +26,7 @@ public final class EntityRegistry {
 
   public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "leaping_zombie"),
+    MineCells.createId("leaping_zombie"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, LeapingZombieEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
       .build()
@@ -35,7 +34,7 @@ public final class EntityRegistry {
 
   public static final EntityType<ShockerEntity> SHOCKER = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "shocker"),
+    MineCells.createId("shocker"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShockerEntity::new)
       .dimensions(EntityDimensions.fixed(0.9F, 3.0F))
       .build()
@@ -43,7 +42,7 @@ public final class EntityRegistry {
 
   public static final EntityType<GrenadierEntity> GRENADIER = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "grenadier"),
+    MineCells.createId("grenadier"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GrenadierEntity::new)
       .dimensions(EntityDimensions.fixed(0.8F, 1.9F))
       .build()
@@ -51,7 +50,7 @@ public final class EntityRegistry {
 
   public static final EntityType<DisgustingWormEntity> DISGUSTING_WORM = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "disgusting_worm"),
+    MineCells.createId("disgusting_worm"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DisgustingWormEntity::new)
       .dimensions(EntityDimensions.fixed(0.9F, 0.6F))
       .build()
@@ -59,7 +58,7 @@ public final class EntityRegistry {
 
   public static final EntityType<InquisitorEntity> INQUISITOR = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "inquisitor"),
+    MineCells.createId("inquisitor"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, InquisitorEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
       .build()
@@ -67,7 +66,7 @@ public final class EntityRegistry {
 
   public static final EntityType<KamikazeEntity> KAMIKAZE = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "kamikaze"),
+    MineCells.createId("kamikaze"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, KamikazeEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
       .build()
@@ -75,7 +74,7 @@ public final class EntityRegistry {
 
   public static final EntityType<ProtectorEntity> PROTECTOR = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "protector"),
+    MineCells.createId("protector"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ProtectorEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
       .build()
@@ -83,7 +82,7 @@ public final class EntityRegistry {
 
   public static final EntityType<UndeadArcherEntity> UNDEAD_ARCHER = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "undead_archer"),
+    MineCells.createId("undead_archer"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, UndeadArcherEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
       .build()
@@ -91,7 +90,7 @@ public final class EntityRegistry {
 
   public static final EntityType<ShieldbearerEntity> SHIELDBEARER = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "shieldbearer"),
+    MineCells.createId("shieldbearer"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShieldbearerEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
       .build()
@@ -99,7 +98,7 @@ public final class EntityRegistry {
 
   public static final EntityType<MutatedBatEntity> MUTATED_BAT = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "mutated_bat"),
+    MineCells.createId("mutated_bat"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MutatedBatEntity::new)
       .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
       .build()
@@ -107,7 +106,7 @@ public final class EntityRegistry {
 
   public static final EntityType<SewersTentacleEntity> SEWERS_TENTACLE = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "sewers_tentacle"),
+    MineCells.createId("sewers_tentacle"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SewersTentacleEntity::new)
       .dimensions(EntityDimensions.changing(0.75F, 2.25F))
       .build()
@@ -115,7 +114,7 @@ public final class EntityRegistry {
 
   public static final EntityType<RancidRatEntity> RANCID_RAT = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "rancid_rat"),
+    MineCells.createId("rancid_rat"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, RancidRatEntity::new)
       .dimensions(EntityDimensions.fixed(0.5F, 0.75F))
       .build()
@@ -123,7 +122,7 @@ public final class EntityRegistry {
 
   public static final EntityType<RunnerEntity> RUNNER = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "runner"),
+    MineCells.createId("runner"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, RunnerEntity::new)
       .dimensions(EntityDimensions.fixed(0.8F, 2.1F))
       .build()
@@ -147,7 +146,7 @@ public final class EntityRegistry {
 
   public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "grenade"),
+    MineCells.createId("grenade"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, GrenadeEntity::new)
       .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
       .build()
@@ -155,7 +154,7 @@ public final class EntityRegistry {
 
   public static final EntityType<BigGrenadeEntity> BIG_GRENADE = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "big_grenade"),
+    MineCells.createId("big_grenade"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, BigGrenadeEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
       .build()
@@ -163,7 +162,7 @@ public final class EntityRegistry {
 
   public static final EntityType<DisgustingWormEggEntity> DISGUSTING_WORM_EGG = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "disgusting_worm_egg"),
+    MineCells.createId("disgusting_worm_egg"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, DisgustingWormEggEntity::new)
       .dimensions(EntityDimensions.fixed(0.375F, 0.375F))
       .build()
@@ -171,7 +170,7 @@ public final class EntityRegistry {
 
   public static final EntityType<MagicOrbEntity> MAGIC_ORB = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "magic_orb"),
+    MineCells.createId("magic_orb"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicOrbEntity::new)
       .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
       .build()
@@ -187,7 +186,7 @@ public final class EntityRegistry {
 
   public static final EntityType<ElevatorEntity> ELEVATOR = Registry.register(
     Registry.ENTITY_TYPE,
-    new Identifier(MineCells.MOD_ID, "elevator"),
+    MineCells.createId("elevator"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, ElevatorEntity::new)
       .dimensions(EntityDimensions.fixed(2.0F, 0.5F))
       .build()

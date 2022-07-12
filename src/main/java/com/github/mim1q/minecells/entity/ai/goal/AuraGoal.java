@@ -30,10 +30,10 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
   public boolean canStart() {
     PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 1.0D);
     return this.entity.getAuraCooldown() == 0
-             && closestPlayer != null
-             && this.entity.canSee(closestPlayer)
-             && !(closestPlayer.isCreative() || closestPlayer.isSpectator())
-             && this.entity.getRandom().nextFloat() < this.chance;
+      && closestPlayer != null
+      && this.entity.canSee(closestPlayer)
+      && !(closestPlayer.isCreative() || closestPlayer.isSpectator())
+      && this.entity.getRandom().nextFloat() < this.chance;
   }
 
   @Override

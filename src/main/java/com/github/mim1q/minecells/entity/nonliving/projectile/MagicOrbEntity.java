@@ -58,8 +58,8 @@ public class MagicOrbEntity extends ProjectileEntity {
 
     if (entity instanceof PlayerEntity) {
       DamageSource damageSource = this.getOwner() == null
-                                    ? DamageSource.MAGIC
-                                    : DamageSource.mob((LivingEntity) this.getOwner());
+        ? DamageSource.MAGIC
+        : DamageSource.mob((LivingEntity) this.getOwner());
       entity.damage(damageSource, 5.0F);
       this.kill();
     }

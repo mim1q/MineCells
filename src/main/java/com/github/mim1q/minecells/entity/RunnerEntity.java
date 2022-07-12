@@ -53,24 +53,24 @@ public class RunnerEntity extends MineCellsEntity {
 
     this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.2F, false));
     this.goalSelector.add(0, new RunnerTimedAttackGoal.Builder(this)
-                               .cooldownSetter((cooldown) -> this.attackCooldown = cooldown)
-                               .cooldownGetter(() -> this.attackCooldown)
-                               .stateSetter(this::switchAttackState)
-                               .chargeSound(SoundRegistry.GRENADIER_CHARGE)
-                               .releaseSound(SoundRegistry.SWIPE)
-                               .defaultCooldown(40)
-                               .actionTick(12)
-                               .length(25)
-                               .build()
+      .cooldownSetter((cooldown) -> this.attackCooldown = cooldown)
+      .cooldownGetter(() -> this.attackCooldown)
+      .stateSetter(this::switchAttackState)
+      .chargeSound(SoundRegistry.GRENADIER_CHARGE)
+      .releaseSound(SoundRegistry.SWIPE)
+      .defaultCooldown(40)
+      .actionTick(12)
+      .length(25)
+      .build()
     );
     this.goalSelector.add(0, new TimedTeleportGoal.Builder(this)
-                               .cooldownSetter((cooldown) -> this.teleportCooldown = cooldown)
-                               .cooldownGetter(() -> this.teleportCooldown)
-                               .stateSetter(this::switchTeleportState)
-                               .defaultCooldown(40)
-                               .actionTick(20)
-                               .length(30)
-                               .build()
+      .cooldownSetter((cooldown) -> this.teleportCooldown = cooldown)
+      .cooldownGetter(() -> this.teleportCooldown)
+      .stateSetter(this::switchTeleportState)
+      .defaultCooldown(40)
+      .actionTick(20)
+      .length(30)
+      .build()
     );
   }
 
@@ -97,10 +97,10 @@ public class RunnerEntity extends MineCellsEntity {
 
   public static DefaultAttributeContainer.Builder createRunnerAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
   }
 
   public void switchAttackState(TimedActionGoal.State state, boolean value) {
@@ -143,8 +143,8 @@ public class RunnerEntity extends MineCellsEntity {
       this.target = this.entity.getTarget();
 
       return this.target != null && this.target.isAlive() && this.target.isAttackable()
-               && this.entity.distanceTo(this.target) < 1.5D
-               && super.canStart();
+        && this.entity.distanceTo(this.target) < 1.5D
+        && super.canStart();
     }
 
     @Override

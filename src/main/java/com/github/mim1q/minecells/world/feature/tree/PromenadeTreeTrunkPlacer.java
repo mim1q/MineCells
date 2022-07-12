@@ -61,8 +61,8 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer {
     BlockState state = block.getDefaultState();
     if (block instanceof PillarBlock) {
       Direction.Axis axis = (direction == Direction.SOUTH || direction == Direction.NORTH)
-                              ? Direction.Axis.Z
-                              : Direction.Axis.X;
+        ? Direction.Axis.Z
+        : Direction.Axis.X;
       state = state.with(PillarBlock.AXIS, axis);
     }
     if (this.canReplace(world, position)) {

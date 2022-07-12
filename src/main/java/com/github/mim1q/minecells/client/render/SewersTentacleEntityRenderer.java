@@ -12,9 +12,9 @@ import net.minecraft.util.Identifier;
 
 public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentacleEntity, SewersTentacleEntityModel> {
 
-  private static final Identifier TEXTURE_BLUE = new Identifier(MineCells.MOD_ID, "textures/entity/sewers_tentacle/blue.png");
-  private static final Identifier TEXTURE_RED = new Identifier(MineCells.MOD_ID, "textures/entity/sewers_tentacle/red.png");
-  private static final Identifier TEXTURE_PURPLE = new Identifier(MineCells.MOD_ID, "textures/entity/sewers_tentacle/purple.png");
+  private static final Identifier TEXTURE_BLUE = MineCells.createId("textures/entity/sewers_tentacle/blue.png");
+  private static final Identifier TEXTURE_RED = MineCells.createId("textures/entity/sewers_tentacle/red.png");
+  private static final Identifier TEXTURE_PURPLE = MineCells.createId("textures/entity/sewers_tentacle/purple.png");
 
   public SewersTentacleEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new SewersTentacleEntityModel(context.getPart(RendererRegistry.SEWERS_TENTACLE_LAYER)), 0.0F);

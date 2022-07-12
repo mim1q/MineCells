@@ -49,10 +49,10 @@ public class RancidRatEntity extends MineCellsEntity implements ILeapEntity {
 
   public static DefaultAttributeContainer.Builder createRancidRatAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
   }
 
   @Override

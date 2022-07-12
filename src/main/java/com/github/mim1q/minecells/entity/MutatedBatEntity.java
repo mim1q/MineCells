@@ -132,11 +132,11 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
   public static DefaultAttributeContainer.Builder createMutatedBatAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 4.0D)
-             .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
-             .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.3D)
-             .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 4.0D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
+      .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.3D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
   }
 
   @Override

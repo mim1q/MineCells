@@ -46,10 +46,10 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
     this.target = this.entity.getTarget();
 
     return this.target != null
-             && this.entity.getDashCooldown() == 0
-             && this.entity.canSee(this.target)
-             && this.entity.getPos().distanceTo(this.target.getPos()) < 10.0F
-             && this.entity.getRandom().nextFloat() < this.chance;
+      && this.entity.getDashCooldown() == 0
+      && this.entity.canSee(this.target)
+      && this.entity.getPos().distanceTo(this.target.getPos()) < 10.0F
+      && this.entity.getRandom().nextFloat() < this.chance;
   }
 
   @Override
@@ -104,10 +104,10 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
 
   protected Vec3d getVelocity() {
     return this.target.getPos()
-             .add(0.0D, this.target.getStandingEyeHeight(), 0.0D)
-             .subtract(this.entity.getPos())
-             .normalize()
-             .multiply(this.speed);
+      .add(0.0D, this.target.getStandingEyeHeight(), 0.0D)
+      .subtract(this.entity.getPos())
+      .normalize()
+      .multiply(this.speed);
   }
 
   protected void moveToTarget() {

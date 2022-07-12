@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 
 public class MutatedBatEntityRenderer extends MobEntityRenderer<MutatedBatEntity, MutatedBatEntityModel> {
 
-  public static Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/mutated_bat.png");
+  public static Identifier TEXTURE = MineCells.createId("textures/entity/mutated_bat.png");
 
   public MutatedBatEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new MutatedBatEntityModel(context.getPart(RendererRegistry.MUTATED_BAT_LAYER)), 0.3F);

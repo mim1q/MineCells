@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3f;
 
 public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
 
-  public static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/particle/magic_orb.png");
+  public static final Identifier TEXTURE = MineCells.createId("textures/particle/magic_orb.png");
   public static final RenderLayer LAYER = RenderLayer.getEntityCutout(TEXTURE);
 
   public MagicOrbEntityRenderer(EntityRendererFactory.Context ctx) {

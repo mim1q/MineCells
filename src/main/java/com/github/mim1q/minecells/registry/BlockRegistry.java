@@ -11,7 +11,6 @@ import net.minecraft.block.Material;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class BlockRegistry {
@@ -26,12 +25,12 @@ public class BlockRegistry {
 
   public static void register() {
     Registry.register(Registry.BLOCK, MineCells.createId("hardstone"), HARDSTONE);
-    Registry.register(Registry.BLOCK, new Identifier(MineCells.MOD_ID, "elevator_assembler"), ELEVATOR_ASSEMBLER);
-    Registry.register(Registry.BLOCK, new Identifier(MineCells.MOD_ID, "big_chain"), BIG_CHAIN);
+    Registry.register(Registry.BLOCK, MineCells.createId("elevator_assembler"), ELEVATOR_ASSEMBLER);
+    Registry.register(Registry.BLOCK, MineCells.createId("big_chain"), BIG_CHAIN);
 
     Registry.register(Registry.ITEM, MineCells.createId("hardstone"), HARDSTONE_ITEM);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
-    Registry.register(Registry.ITEM, new Identifier(MineCells.MOD_ID, "big_chain"), BIG_CHAIN_BLOCK_ITEM);
+    Registry.register(Registry.ITEM, MineCells.createId("elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
+    Registry.register(Registry.ITEM, MineCells.createId("big_chain"), BIG_CHAIN_BLOCK_ITEM);
   }
 
   public static void registerClient() {

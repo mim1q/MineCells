@@ -13,30 +13,29 @@ import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.util.Identifier;
 
 public class RendererRegistry {
-  public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "leaping_zombie"), "main");
-  public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "shocker"), "main");
-  public static final EntityModelLayer GRENADIER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenadier"), "main");
-  public static final EntityModelLayer DISGUSTING_WORM_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm"), "main");
-  public static final EntityModelLayer INQUISITOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "inquisitor"), "main");
-  public static final EntityModelLayer KAMIKAZE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "kamikaze"), "main");
-  public static final EntityModelLayer PROTECTOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "protector"), "main");
-  public static final EntityModelLayer UNDEAD_ARCHER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "undead_archer"), "main");
-  public static final EntityModelLayer SHIELDBEARER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "shieldbearer"), "main");
-  public static final EntityModelLayer MUTATED_BAT_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "mutated_bat"), "main");
-  public static final EntityModelLayer SEWERS_TENTACLE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "sewers_tentacle"), "main");
-  public static final EntityModelLayer RANCID_RAT_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "rancid_rat"), "main");
-  public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "runner"), "main");
+  public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
+  public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(MineCells.createId("shocker"), "main");
+  public static final EntityModelLayer GRENADIER_LAYER = new EntityModelLayer(MineCells.createId("grenadier"), "main");
+  public static final EntityModelLayer DISGUSTING_WORM_LAYER = new EntityModelLayer(MineCells.createId("disgusting_worm"), "main");
+  public static final EntityModelLayer INQUISITOR_LAYER = new EntityModelLayer(MineCells.createId("inquisitor"), "main");
+  public static final EntityModelLayer KAMIKAZE_LAYER = new EntityModelLayer(MineCells.createId("kamikaze"), "main");
+  public static final EntityModelLayer PROTECTOR_LAYER = new EntityModelLayer(MineCells.createId("protector"), "main");
+  public static final EntityModelLayer UNDEAD_ARCHER_LAYER = new EntityModelLayer(MineCells.createId("undead_archer"), "main");
+  public static final EntityModelLayer SHIELDBEARER_LAYER = new EntityModelLayer(MineCells.createId("shieldbearer"), "main");
+  public static final EntityModelLayer MUTATED_BAT_LAYER = new EntityModelLayer(MineCells.createId("mutated_bat"), "main");
+  public static final EntityModelLayer SEWERS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("sewers_tentacle"), "main");
+  public static final EntityModelLayer RANCID_RAT_LAYER = new EntityModelLayer(MineCells.createId("rancid_rat"), "main");
+  public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(MineCells.createId("runner"), "main");
   public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_MAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "main");
 
-  public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "grenade"), "main");
-  public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "big_grenade"), "main");
-  public static final EntityModelLayer DISGUSTING_WORM_EGG_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "disgusting_worm_egg"), "main");
+  public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(MineCells.createId("grenade"), "main");
+  public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(MineCells.createId("big_grenade"), "main");
+  public static final EntityModelLayer DISGUSTING_WORM_EGG_LAYER = new EntityModelLayer(MineCells.createId("disgusting_worm_egg"), "main");
 
-  public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(new Identifier(MineCells.MOD_ID, "elevator_render"), "main");
+  public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(MineCells.createId("elevator_render"), "main");
 
   public static void register() {
     EntityModelLayerRegistry.registerModelLayer(LEAPING_ZOMBIE_LAYER, LeapingZombieEntityModel::getTexturedModelData);

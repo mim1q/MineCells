@@ -68,7 +68,7 @@ public class MineCellsEntity extends HostileEntity {
       return false;
     }
     return this.random.nextFloat() <= 0.5F
-             && this.world.getBlockState(this.getBlockPos().down()).isSolidBlock(this.world, this.getBlockPos());
+      && this.world.getBlockState(this.getBlockPos().down()).isSolidBlock(this.world, this.getBlockPos());
   }
 
   @Override

@@ -22,8 +22,8 @@ public class TimedTeleportGoal extends TimedActionGoal<HostileEntity> {
     this.target = this.entity.getTarget();
 
     return this.target != null && this.target.isAlive() && this.target.isAttackable()
-             && (this.entity.distanceTo(this.target) > 10.0D || !this.entity.canSee(this.target))
-             && super.canStart();
+      && (this.entity.distanceTo(this.target) > 10.0D || !this.entity.canSee(this.target))
+      && super.canStart();
   }
 
   @Override

@@ -156,10 +156,10 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
   public static DefaultAttributeContainer.Builder createShockerAttributes() {
     return createLivingAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
-             .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
-             .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
-             .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
-             .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
+      .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
+      .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
   }
 }

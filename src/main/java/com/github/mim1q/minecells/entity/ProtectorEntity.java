@@ -140,8 +140,8 @@ public class ProtectorEntity extends MineCellsEntity {
 
   public static DefaultAttributeContainer.Builder createProtectorAttributes() {
     return createHostileAttributes()
-             .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0F)
-             .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F)
-             .add(EntityAttributes.GENERIC_ARMOR, 5.0F);
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0F)
+      .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F)
+      .add(EntityAttributes.GENERIC_ARMOR, 5.0F);
   }
 }

@@ -39,10 +39,10 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
       return false;
 
     return this.entity.getLeapCooldown() == 0
-             && this.entity.canSee(target)
-             && this.entity.getY() >= this.entity.getTarget().getY()
-             && this.entity.getRandom().nextFloat() < this.chance
-             && this.entity.distanceTo(target) <= this.entity.getLeapRange();
+      && this.entity.canSee(target)
+      && this.entity.getY() >= this.entity.getTarget().getY()
+      && this.entity.getRandom().nextFloat() < this.chance
+      && this.entity.distanceTo(target) <= this.entity.getLeapRange();
   }
 
   @Override

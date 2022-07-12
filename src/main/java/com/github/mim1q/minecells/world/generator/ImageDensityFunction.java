@@ -19,13 +19,13 @@ public class ImageDensityFunction implements DensityFunction {
   private final DensityImageMap densityMap;
 
   public static final MapCodec<ImageDensityFunction> MAP_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance
-                                                                                                             .group(
-                                                                                                               Codec.STRING.fieldOf("filename").forGetter(ImageDensityFunction::filename),
-                                                                                                               Codec.DOUBLE.fieldOf("scale").forGetter(ImageDensityFunction::scale),
-                                                                                                               Codec.DOUBLE.fieldOf("from").forGetter(ImageDensityFunction::from),
-                                                                                                               Codec.DOUBLE.fieldOf("to").forGetter(ImageDensityFunction::to)
-                                                                                                             )
-                                                                                                             .apply(instance, ImageDensityFunction::new)
+    .group(
+      Codec.STRING.fieldOf("filename").forGetter(ImageDensityFunction::filename),
+      Codec.DOUBLE.fieldOf("scale").forGetter(ImageDensityFunction::scale),
+      Codec.DOUBLE.fieldOf("from").forGetter(ImageDensityFunction::from),
+      Codec.DOUBLE.fieldOf("to").forGetter(ImageDensityFunction::to)
+    )
+    .apply(instance, ImageDensityFunction::new)
   );
 
   public static final CodecHolder<ImageDensityFunction> CODEC = CodecHolder.of(MAP_CODEC);

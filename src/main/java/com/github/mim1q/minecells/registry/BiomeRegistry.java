@@ -31,31 +31,31 @@ public class BiomeRegistry {
 
   private static Biome createPromenade() {
     SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
-                                            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.LEAPING_ZOMBIE, 150, 1, 1))
-                                            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.GRENADIER, 75, 1, 1))
-                                            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.MUTATED_BAT, 100, 1, 1))
-                                            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 100, 1, 1))
-                                            .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.PROTECTOR, 50, 1, 1));
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.LEAPING_ZOMBIE, 150, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.GRENADIER, 75, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.MUTATED_BAT, 100, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 100, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.PROTECTOR, 50, 1, 1));
 
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
-                                                      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
     DefaultBiomeFeatures.addJungleGrass(generationSettings);
     DefaultBiomeFeatures.addGiantTaigaGrass(generationSettings);
 
     return new Biome.Builder()
-             .precipitation(Biome.Precipitation.RAIN)
-             .downfall(0.5F)
-             .temperature(0.8F)
-             .effects(new BiomeEffects.Builder()
-                        .waterColor(0x61D8FF)
-                        .waterFogColor(0x61D8FF)
-                        .fogColor(0x4F9FFF)
-                        .skyColor(0x61D8FF)
-                        .grassColor(0x3FC558)
-                        .build())
-             .spawnSettings(spawnSettings.build())
-             .generationSettings(generationSettings.build())
-             .build();
+      .precipitation(Biome.Precipitation.RAIN)
+      .downfall(0.5F)
+      .temperature(0.8F)
+      .effects(new BiomeEffects.Builder()
+        .waterColor(0x61D8FF)
+        .waterFogColor(0x61D8FF)
+        .fogColor(0x4F9FFF)
+        .skyColor(0x61D8FF)
+        .grassColor(0x3FC558)
+        .build())
+      .spawnSettings(spawnSettings.build())
+      .generationSettings(generationSettings.build())
+      .build();
   }
 
   private static Biome createPutridWaters() {
@@ -64,18 +64,18 @@ public class BiomeRegistry {
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
 
     return new Biome.Builder()
-             .precipitation(Biome.Precipitation.RAIN)
-             .downfall(0.5F)
-             .temperature(0.8F)
-             .effects(new BiomeEffects.Builder()
-                        .waterColor(0x60B6FF)
-                        .waterFogColor(0x61D8FF)
-                        .fogColor(0x4F9FFF)
-                        .skyColor(0x61D8FF)
-                        .grassColor(0x4AB96D)
-                        .build())
-             .spawnSettings(spawnSettings.build())
-             .generationSettings(generationSettings.build())
-             .build();
+      .precipitation(Biome.Precipitation.RAIN)
+      .downfall(0.5F)
+      .temperature(0.8F)
+      .effects(new BiomeEffects.Builder()
+        .waterColor(0x60B6FF)
+        .waterFogColor(0x61D8FF)
+        .fogColor(0x4F9FFF)
+        .skyColor(0x61D8FF)
+        .grassColor(0x4AB96D)
+        .build())
+      .spawnSettings(spawnSettings.build())
+      .generationSettings(generationSettings.build())
+      .build();
   }
 }

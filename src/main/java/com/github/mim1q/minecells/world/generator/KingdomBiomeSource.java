@@ -20,7 +20,7 @@ import java.util.Optional;
 public class KingdomBiomeSource extends BiomeSource {
 
   public static final Codec<KingdomBiomeSource> CODEC = RegistryOps.createRegistryCodec(Registry.BIOME_KEY)
-                                                          .xmap(KingdomBiomeSource::new, KingdomBiomeSource::getBiomeRegistry).codec();
+    .xmap(KingdomBiomeSource::new, KingdomBiomeSource::getBiomeRegistry).codec();
 
   private final Registry<Biome> biomeRegistry;
   private final BiomeImageMap biomeMap;
