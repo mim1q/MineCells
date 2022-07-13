@@ -1,7 +1,7 @@
-package com.github.mim1q.minecells.client.render;
+package com.github.mim1q.minecells.client.render.conjunctivius;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.client.render.model.ConjunctiviusEntityModel;
+import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -14,6 +14,7 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
 
   public ConjunctiviusEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new ConjunctiviusEntityModel(context.getPart(RendererRegistry.CONJUNCTIVIUS_MAIN_LAYER)), 1.5F);
+    this.addFeature(new ConjunctiviusEyeFeatureRenderer(this, context.getPart(RendererRegistry.CONJUNCTIVIUS_EYE_LAYER)));
   }
 
   @Override

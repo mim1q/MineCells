@@ -140,7 +140,7 @@ public final class EntityRegistry {
     Registry.ENTITY_TYPE,
     MineCells.createId("conjunctivius"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ConjunctiviusEntity::new)
-      .dimensions(EntityDimensions.fixed(3.0F, 3.0F))
+      .dimensions(EntityDimensions.fixed(2.5F, 2.5F))
       .build()
   );
 

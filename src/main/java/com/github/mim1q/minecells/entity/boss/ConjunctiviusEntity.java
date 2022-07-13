@@ -11,6 +11,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     super(entityType, world);
   }
 
+
+
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 250.0D)
