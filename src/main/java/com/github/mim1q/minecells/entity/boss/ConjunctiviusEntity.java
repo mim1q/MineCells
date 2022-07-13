@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
 public class ConjunctiviusEntity extends MineCellsBossEntity {
@@ -18,6 +17,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 250.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 16.0D)
       .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 8.0D);
   }
 
@@ -28,13 +28,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.spikeOffset.setupTransitionTo(0.0F, 3.0F);
     } else if (this.age % 40 == 0) {
       this.spikeOffset.setupTransitionTo(5.0F, 10.0F);
-    }
-  }
-
-  @Override
-  public void onStartedTrackingBy(ServerPlayerEntity player) {
-    if (player.canSee(this)) {
-      super.onStartedTrackingBy(player);
     }
   }
 }

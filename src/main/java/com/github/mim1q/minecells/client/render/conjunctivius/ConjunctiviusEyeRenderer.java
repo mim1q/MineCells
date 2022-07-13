@@ -38,26 +38,12 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
   @Override
   public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ConjunctiviusEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
     matrices.push();
-    Entity player = MinecraftClient.getInstance().getCameraEntity();
-    if (player != null) {
-      Vec3d playerPos = player.getPos().add(0.0D, 1.5D, 0.0D);
-      Vec3d entityPos = entity.getPos().add(0.0D, 1.25D, 0.0D);
-      Vec3d diff = playerPos.subtract(entityPos);
-      float rotation = entity.getRotationClient().y;
-      Vec3d rotatedDiff = MathUtils.vectorRotateY(diff, rotation * MathHelper.RADIANS_PER_DEGREE + MathHelper.HALF_PI);
-
-      float xOffset = (float) -rotatedDiff.x;
-      float yOffset = (float) -rotatedDiff.y;
-
-      xOffset = MathHelper.clamp(xOffset * 0.1F, -0.3F, 0.3F);
-      yOffset = MathHelper.clamp(yOffset * 0.1F, -0.3F, 0.3F);
-
-      matrices.translate(0.0F + xOffset, 0.2F + yOffset, -15.75F / 16.0F);
-      RenderLayer renderLayer = RenderLayer.getEyes(this.getTexture(entity));
-      VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
-      this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-      matrices.pop();
-    }
+    matrices.translate(0.0F, 0.2F, -15.75F / 16.0F);
+    this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+    RenderLayer renderLayer = RenderLayer.getEntityShadow(this.getTexture(entity));
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
+    this.model.render(matrices, vertexConsumer, 0xFFFFFF, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    matrices.pop();
   }
 
   public Identifier getTexture(ConjunctiviusEntity entity) {
@@ -67,9 +53,11 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
   public static class ConjunctiviusEyeModel extends EntityModel<ConjunctiviusEntity> {
 
     private final ModelPart eye;
+    private final ModelPart highlight;
 
     public ConjunctiviusEyeModel(ModelPart root) {
       this.eye = root.getChild("eye");
+      this.highlight = root.getChild("highlight");
     }
 
     public static TexturedModelData getTexturedModelData() {
@@ -83,17 +71,44 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
         ModelTransform.NONE
       );
 
+      modelPartData.addChild("highlight",
+        ModelPartBuilder.create()
+          .uv(0, 11)
+          .cuboid(0.0F, 0.0F, 0.0F, 5, 4, 0, new Dilation(0.01F)),
+        ModelTransform.pivot(1.0F, -5.0F, -0.25F)
+      );
+
       return TexturedModelData.of(modelData, 32, 16);
     }
 
     @Override
     public void setAngles(ConjunctiviusEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+      Entity player = MinecraftClient.getInstance().getCameraEntity();
+      if (player != null) {
+        Vec3d playerPos = player.getPos().add(0.0D, 1.5D, 0.0D);
+        Vec3d entityPos = entity.getPos().add(0.0D, 1.25D, 0.0D);
+        Vec3d diff = playerPos.subtract(entityPos);
+        float rotation = entity.getRotationClient().y;
+        Vec3d rotatedDiff = MathUtils.vectorRotateY(diff, rotation * MathHelper.RADIANS_PER_DEGREE + MathHelper.HALF_PI);
 
+        float xOffset = (float) -rotatedDiff.x;
+        float yOffset = (float) -rotatedDiff.y;
+
+        xOffset = MathHelper.clamp(xOffset, -7.5F, 7.5F);
+        yOffset = MathHelper.clamp(yOffset, -7.5F, 7.5F);
+
+        this.eye.pivotX = xOffset;
+        this.eye.pivotY = yOffset;
+        this.highlight.pivotZ = -0.25F;
+      }
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+      matrices.push();
       this.eye.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+      this.highlight.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+      matrices.pop();
     }
   }
 }
