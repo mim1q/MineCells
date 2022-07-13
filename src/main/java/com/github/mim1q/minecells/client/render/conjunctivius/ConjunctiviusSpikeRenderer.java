@@ -38,9 +38,6 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
 
   @Override
   public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ConjunctiviusEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-    this.posRotScales.clear();
-    this.addPosRotScale(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
-
     entity.spikeOffset.update(animationProgress);
     for (MathUtils.PosRotScale posRotScale : this.posRotScales) {
       matrices.push();
