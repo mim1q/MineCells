@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.util;
 
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
@@ -53,10 +55,6 @@ public class MathUtils {
       this.scale = scale;
     }
 
-    public static PosRotScale ofDegrees(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
-      return ofDegrees(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
-    }
-
     public static PosRotScale ofRadians(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
       return ofRadians(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
     }
@@ -66,8 +64,18 @@ public class MathUtils {
       return ofRadians(pos, rot, scale);
     }
 
+    public static PosRotScale ofDegrees(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
+      return ofDegrees(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
+    }
+
     public static PosRotScale ofRadians(Vec3f pos, Vec3f rot, Vec3f scale) {
       return new PosRotScale(pos, rot, scale);
+    }
+
+    public void apply(MatrixStack matrices) {
+      matrices.translate(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
+      matrices.multiply(Quaternion.fromEulerXyz(this.getRot()));
+      matrices.scale(this.getScale().getX(), this.getScale().getY(), this.getScale().getZ());
     }
 
     public Vec3f getPos() {

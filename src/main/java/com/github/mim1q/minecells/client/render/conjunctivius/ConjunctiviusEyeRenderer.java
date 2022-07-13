@@ -19,9 +19,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class ConjunctiviusEyeFeatureRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel>  {
+public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel>  {
 
-  private final Identifier[] TEXTURES = {
+  private final static Identifier[] TEXTURES = {
     MineCells.createId("textures/entity/conjunctivius/eye_pink.png"),
     MineCells.createId("textures/entity/conjunctivius/eye_yellow.png"),
     MineCells.createId("textures/entity/conjunctivius/eye_green.png"),
@@ -30,9 +30,9 @@ public class ConjunctiviusEyeFeatureRenderer extends FeatureRenderer<Conjunctivi
 
   private final ConjunctiviusEyeModel model;
 
-  public ConjunctiviusEyeFeatureRenderer(FeatureRendererContext<ConjunctiviusEntity, ConjunctiviusEntityModel> context, ModelPart eyeRoot) {
+  public ConjunctiviusEyeRenderer(FeatureRendererContext<ConjunctiviusEntity, ConjunctiviusEntityModel> context, ModelPart eyeRoot) {
     super(context);
-    model = new ConjunctiviusEyeModel(eyeRoot);
+    this.model = new ConjunctiviusEyeModel(eyeRoot);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class ConjunctiviusEyeFeatureRenderer extends FeatureRenderer<Conjunctivi
       yOffset = MathHelper.clamp(yOffset * 0.1F, -0.3F, 0.3F);
 
       matrices.translate(0.0F + xOffset, 0.2F + yOffset, -15.75F / 16.0F);
-      RenderLayer renderLayer = this.model.getLayer(this.getTexture(entity));
+      RenderLayer renderLayer = RenderLayer.getEyes(this.getTexture(entity));
       VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
       this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.pop();

@@ -16,50 +16,40 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Quaternion;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConjunctiviusTentacleFeatureRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
+public class ConjunctiviusTentacleRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
 
   private final ConjunctiviusTentacleModel model;
   private final List<MathUtils.PosRotScale> posRotScales = new ArrayList<>();
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/sewers_tentacle/purple.png");
+  private final RenderLayer layer;
 
-  public ConjunctiviusTentacleFeatureRenderer(FeatureRendererContext<ConjunctiviusEntity, ConjunctiviusEntityModel> context, ModelPart tentacleRoot) {
+  public ConjunctiviusTentacleRenderer(FeatureRendererContext<ConjunctiviusEntity, ConjunctiviusEntityModel> context, ModelPart tentacleRoot) {
     super(context);
     this.model = new ConjunctiviusTentacleModel(tentacleRoot);
+    this.layer = this.model.getLayer(TEXTURE);
   }
 
-  public void addPosRotScale(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
-    this.posRotScales.add(MathUtils.PosRotScale.ofDegrees(px, py, pz, rx, ry, rz, sx, sy, sz));
+  public void addPosRotScale(float px, float py, float pz, float rx, float ry, float rz, float s) {
+    this.posRotScales.add(MathUtils.PosRotScale.ofDegrees(px, py, pz, rx, ry, rz, s, s, s));
   }
 
   @Override
   public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ConjunctiviusEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
     int offset = 0;
-    this.posRotScales.clear();
-    this.addPosRotScale(0.7F, 1.9F, 0.725F, 0.0F, 45.0F, 0.0F, 0.5F, 0.5F, 0.5F);
-    this.addPosRotScale(-0.7F, 1.9F, 0.725F, 0.0F, -45.0F, 0.0F, 0.5F, 0.5F, 0.5F);
-    this.addPosRotScale(1.1F, 1.5F, 0.55F, 15.0F, 60.0F, -15.0F, 0.75F, 0.75F, 0.75F);
-    this.addPosRotScale(-1.1F, 1.5F, 0.55F, 15.0F, -60.0F, 15.0F, 0.75F, 0.75F, 0.75F);
-    this.addPosRotScale(1.0F, 1.75F, 0.25F, 5.0F, 80.0F, -5.0F, 0.66F, 0.66F, 0.66F);
-    this.addPosRotScale(-1.0F, 1.75F, 0.25F, -5.0F, -80.0F, -5.0F, 0.66F, 0.66F, 0.66F);
-
     for (MathUtils.PosRotScale posRotScale : posRotScales) {
       matrices.push();
-      matrices.translate(posRotScale.getPos().getX(), posRotScale.getPos().getY(), posRotScale.getPos().getZ());
-      matrices.multiply(Quaternion.fromEulerXyz(posRotScale.getRot()));
+      posRotScale.apply(matrices);
       matrices.scale(-1.0F, -1.0F, 1.0F);
-      matrices.scale(posRotScale.getScale().getX(), posRotScale.getScale().getY(), posRotScale.getScale().getZ());
-      RenderLayer renderLayer = this.model.getLayer(TEXTURE);
-      this.model.setOffset(offset * 255);
+      this.model.setOffset(offset * 256);
       offset++;
-      this.model.setAngles(entity, limbAngle, limbDistance, (entity.age + tickDelta) * 0.75F, headYaw, headPitch);
+      this.model.setAngles(entity, limbAngle, limbDistance, animationProgress * 0.75F, headYaw, headPitch);
       boolean hurt = entity.hurtTime > 0;
-      this.model.render(matrices, vertexConsumers.getBuffer(renderLayer), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumers.getBuffer(layer), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.pop();
     }
   }

@@ -14,6 +14,8 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
   protected MineCellsBossEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
     this.bossBar = new ServerBossBar(this.getDisplayName(), BossBar.Color.RED, BossBar.Style.PROGRESS);
+    this.droppedCellAmount = 25;
+    this.droppedCellChance = 1.0F;
   }
 
   @Override
@@ -24,13 +26,16 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
     }
   }
 
+  @Override
+  public boolean cannotDespawn() {
+    return true;
+  }
+
   public void onStartedTrackingBy(ServerPlayerEntity player) {
-    super.onStartedTrackingBy(player);
     this.bossBar.addPlayer(player);
   }
 
   public void onStoppedTrackingBy(ServerPlayerEntity player) {
-    super.onStoppedTrackingBy(player);
     this.bossBar.removePlayer(player);
   }
 }

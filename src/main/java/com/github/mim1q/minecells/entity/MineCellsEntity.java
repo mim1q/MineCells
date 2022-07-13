@@ -30,6 +30,9 @@ public class MineCellsEntity extends HostileEntity {
   @Environment(EnvType.CLIENT)
   public String lastAnimation = "idle";
 
+  protected int droppedCellAmount = 1;
+  protected float droppedCellChance = 0.75F;
+
   @Override
   protected void initGoals() {
     this.goalSelector.add(10, new LookAroundGoal(this));
@@ -51,8 +54,8 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   protected void drop(DamageSource source) {
     super.drop(source);
-    for (int i = 0; i < this.getDroppedCellAmount(); i++) {
-      if (this.random.nextFloat() < this.getDroppedCellChance()) {
+    for (int i = 0; i < this.droppedCellAmount; i++) {
+      if (this.random.nextFloat() < this.droppedCellChance) {
         CellEntity.spawn(this.world, this.getPos(), 1);
       }
     }
@@ -87,14 +90,6 @@ public class MineCellsEntity extends HostileEntity {
   }
 
   protected void decrementCooldowns() {
-  }
-
-  protected float getDroppedCellChance() {
-    return 0.75F;
-  }
-
-  protected int getDroppedCellAmount() {
-    return 1;
   }
 
   @Override
