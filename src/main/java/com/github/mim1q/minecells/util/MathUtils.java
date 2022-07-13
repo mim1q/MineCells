@@ -41,4 +41,45 @@ public class MathUtils {
   public static float radians(float degrees) {
     return degrees * RADIANS_PER_DEGREE;
   }
+
+  public static class PosRotScale {
+    private final Vec3f pos;
+    private final Vec3f rot;
+    private final Vec3f scale;
+
+    private PosRotScale(Vec3f pos, Vec3f rot, Vec3f scale) {
+      this.pos = pos;
+      this.rot = rot;
+      this.scale = scale;
+    }
+
+    public static PosRotScale ofDegrees(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
+      return ofDegrees(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
+    }
+
+    public static PosRotScale ofRadians(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
+      return ofRadians(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
+    }
+
+    public static PosRotScale ofDegrees(Vec3f pos, Vec3f rot, Vec3f scale) {
+      rot.scale(RADIANS_PER_DEGREE);
+      return ofRadians(pos, rot, scale);
+    }
+
+    public static PosRotScale ofRadians(Vec3f pos, Vec3f rot, Vec3f scale) {
+      return new PosRotScale(pos, rot, scale);
+    }
+
+    public Vec3f getPos() {
+      return this.pos;
+    }
+
+    public Vec3f getRot() {
+      return this.rot;
+    }
+
+    public Vec3f getScale() {
+      return this.scale;
+    }
+  }
 }

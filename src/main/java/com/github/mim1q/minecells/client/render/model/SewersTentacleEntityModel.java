@@ -81,18 +81,22 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
 
   @Override
   public void setAngles(SewersTentacleEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    for (int i = 0; i < this.segments.length - 1; i++) {
-      this.segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + entity.getId() * 255) * 15 * RADIANS_PER_DEGREE;
-      this.segments[i].pitch -= 15.0F * RADIANS_PER_DEGREE;
-    }
-    this.segments[3].pitch += 15.0F * RADIANS_PER_DEGREE;
-    this.segments[4].pitch = 15.0F * RADIANS_PER_DEGREE;
+    wiggleTentacle(this.segments, animationProgress, entity.getId() * 255);
     float partialTicks = entity.buriedTicks;
     if (partialTicks > 0.0F && partialTicks < 20.0F) {
       partialTicks += MinecraftClient.getInstance().getTickDelta() * (entity.isBuried() ? 1.0F : -1.0F);
     }
     float buriedProgress = Math.max(partialTicks, 0.0F) / 20.0F;
     this.root.pivotY = 24.0F + buriedProgress * 40.0F;
+  }
+
+  public static void wiggleTentacle(ModelPart[] segments, float animationProgress, int offset) {
+    for (int i = 0; i < segments.length - 1; i++) {
+      segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + offset) * 10 * RADIANS_PER_DEGREE;
+      //segments[i].pitch -= 15.0F * RADIANS_PER_DEGREE;
+    }
+    //segments[3].pitch += 15.0F * RADIANS_PER_DEGREE;
+    //segments[4].pitch = 15.0F * RADIANS_PER_DEGREE;
   }
 
   @Override

@@ -15,6 +15,9 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
   public ConjunctiviusEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new ConjunctiviusEntityModel(context.getPart(RendererRegistry.CONJUNCTIVIUS_MAIN_LAYER)), 1.5F);
     this.addFeature(new ConjunctiviusEyeFeatureRenderer(this, context.getPart(RendererRegistry.CONJUNCTIVIUS_EYE_LAYER)));
+    ConjunctiviusTentacleFeatureRenderer tentacles = new ConjunctiviusTentacleFeatureRenderer(this, context.getPart(RendererRegistry.CONJUNCTIVIUS_TENTACLE_LAYER));
+    tentacles.addPosRotScale(0.0F, 2.0F, 0.75F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    this.addFeature(tentacles);
   }
 
   @Override

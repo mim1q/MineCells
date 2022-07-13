@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEntityRenderer;
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeFeatureRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusTentacleFeatureRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.ElevatorEntityModel;
@@ -34,6 +35,7 @@ public class RendererRegistry {
   public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_MAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
+  public static final EntityModelLayer CONJUNCTIVIUS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "tentacle");
 
   public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(MineCells.createId("grenade"), "main");
   public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(MineCells.createId("big_grenade"), "main");
@@ -58,6 +60,7 @@ public class RendererRegistry {
     EntityModelLayerRegistry.registerModelLayer(SCORPION_LAYER, ScorpionEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_MAIN_LAYER, ConjunctiviusEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_EYE_LAYER, ConjunctiviusEyeFeatureRenderer.ConjunctiviusEyeModel::getTexturedModelData);
+    EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_TENTACLE_LAYER, ConjunctiviusTentacleFeatureRenderer.ConjunctiviusTentacleModel::getTexturedModelData);
 
     EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
