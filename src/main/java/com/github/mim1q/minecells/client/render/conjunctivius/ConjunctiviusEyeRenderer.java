@@ -88,7 +88,7 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
         Vec3d playerPos = player.getPos().add(0.0D, 1.5D, 0.0D);
         Vec3d entityPos = entity.getPos().add(0.0D, 1.25D, 0.0D);
         Vec3d diff = playerPos.subtract(entityPos);
-        float rotation = entity.getRotationClient().y;
+        float rotation = entity.bodyYaw;
         Vec3d rotatedDiff = MathUtils.vectorRotateY(diff, rotation * MathHelper.RADIANS_PER_DEGREE + MathHelper.HALF_PI);
 
         float xOffset = (float) -rotatedDiff.x;

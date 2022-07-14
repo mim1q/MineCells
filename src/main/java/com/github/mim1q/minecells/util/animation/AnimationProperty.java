@@ -7,9 +7,9 @@ public class AnimationProperty {
   private float value;
   private float lastValue;
   private float targetValue;
-  private float lastTime;
-  private float time;
-  private float duration;
+  private float lastTime = 0.0F;
+  private float time = 0.0F;
+  private float duration = 10.0F;
   private EasingFunction easingFunction;
 
   public AnimationProperty(float value, EasingType easingType) {
@@ -39,9 +39,9 @@ public class AnimationProperty {
       return false;
     }
     this.lastValue = this.value;
-    this.targetValue = targetValue;
     this.lastTime = this.time;
     this.duration = duration;
+    this.targetValue = targetValue;
     return true;
   }
 
