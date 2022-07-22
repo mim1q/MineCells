@@ -140,7 +140,7 @@ public final class EntityRegistry {
     Registry.ENTITY_TYPE,
     MineCells.createId("conjunctivius"),
     FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ConjunctiviusEntity::new)
-      .dimensions(EntityDimensions.fixed(2.5F, 2.5F))
+      .dimensions(EntityDimensions.fixed(5.0F, 5.0F))
       .build()
   );
 
@@ -180,6 +180,14 @@ public final class EntityRegistry {
     Registry.ENTITY_TYPE,
     MineCells.createId("scorpion_spit"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, ScorpionSpitEntity::new)
+      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+      .build()
+  );
+
+  public static final EntityType<ConjunctiviusProjectileEntity> CONJUNCTIVIUS_PROJECTILE = Registry.register(
+    Registry.ENTITY_TYPE,
+    MineCells.createId("conjunctivius_projectile"),
+    FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConjunctiviusProjectileEntity:: new)
       .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
       .build()
   );

@@ -4,8 +4,10 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class ConjunctiviusEntityRenderer extends MobEntityRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
@@ -35,6 +37,14 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
     spikes.addPosRotScale(-1.05F, 0.8F,  -0.8F,  0.0F, -45.0F, -110.0F, 1.0F);
     spikes.addPosRotScale(-1.0F,  1.2F,  -0.6F,  0.0F, -35.0F, -125.0F, 1.0F);
     this.addFeature(spikes);
+  }
+
+  @Override
+  public void render(ConjunctiviusEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    matrixStack.push();
+    matrixStack.scale(2.0F, 2.0F, 2.0F);
+    super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
+    matrixStack.pop();
   }
 
   @Override

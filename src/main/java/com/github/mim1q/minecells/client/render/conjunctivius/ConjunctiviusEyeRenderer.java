@@ -47,7 +47,8 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
   }
 
   public Identifier getTexture(ConjunctiviusEntity entity) {
-    return TEXTURES[(entity.age / 3) % 4];
+    return TEXTURES[1];
+    // return TEXTURES[(entity.age / 3) % 4];
   }
 
   public static class ConjunctiviusEyeModel extends EntityModel<ConjunctiviusEntity> {
@@ -86,16 +87,18 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
       Entity player = MinecraftClient.getInstance().getCameraEntity();
       if (player != null) {
         Vec3d playerPos = player.getPos().add(0.0D, 1.5D, 0.0D);
-        Vec3d entityPos = entity.getPos().add(0.0D, 1.25D, 0.0D);
+        Vec3d entityPos = entity.getPos().add(0.0D, 2.5D, 0.0D);
         Vec3d diff = playerPos.subtract(entityPos);
         float rotation = entity.bodyYaw;
         Vec3d rotatedDiff = MathUtils.vectorRotateY(diff, rotation * MathHelper.RADIANS_PER_DEGREE + MathHelper.HALF_PI);
 
         float xOffset = (float) -rotatedDiff.x;
         float yOffset = (float) -rotatedDiff.y;
+        float distance = 1.0F - ((float) rotatedDiff.z - 2.5F) / 20.0F;
+        distance = MathHelper.clamp(distance, 0.25F, 1.0F);
 
-        xOffset = MathHelper.clamp(xOffset, -7.5F, 7.5F);
-        yOffset = MathHelper.clamp(yOffset, -7.5F, 7.5F);
+        xOffset = MathHelper.clamp(xOffset * 0.75F * distance, -7.5F, 7.5F);
+        yOffset = MathHelper.clamp(yOffset * distance, -5.0F, 5.0F);
 
         this.eye.pivotX = xOffset;
         this.eye.pivotY = yOffset;

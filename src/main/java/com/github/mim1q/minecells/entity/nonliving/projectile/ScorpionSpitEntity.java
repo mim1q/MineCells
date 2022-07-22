@@ -30,7 +30,7 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.horizontalCollision || this.verticalCollision) {
+    if (!this.world.isClient() && this.horizontalCollision || this.verticalCollision) {
       this.kill();
     }
   }
