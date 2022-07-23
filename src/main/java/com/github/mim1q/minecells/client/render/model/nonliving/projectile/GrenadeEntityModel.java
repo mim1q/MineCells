@@ -6,11 +6,11 @@ import net.minecraft.client.model.TexturedModelData;
 
 public class GrenadeEntityModel extends AbstractGrenadeEntityModel<GrenadeEntity> {
 
-    public GrenadeEntityModel(ModelPart root) {
-        super(root);
-    }
+  public GrenadeEntityModel(ModelPart root) {
+    super(root);
+  }
 
-    public static TexturedModelData getTexturedModelData() {
-        return AbstractGrenadeEntityModel.getTexturedModelData();
-    }
+  public static TexturedModelData getTexturedModelData() {
+    return AbstractGrenadeEntityModel.getTexturedModelData();
+  }
 }

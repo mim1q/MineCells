@@ -3,19 +3,23 @@ package com.github.mim1q.minecells.entity.interfaces;
 import net.minecraft.sound.SoundEvent;
 
 public interface IAuraEntity {
-    boolean isAuraCharging();
-    void setAuraCharging(boolean charging);
+  boolean isAuraCharging();
 
-    boolean isAuraReleasing();
-    void setAuraReleasing(boolean releasing);
+  void setAuraCharging(boolean charging);
 
-    int getAuraCooldown();
-    void setAuraCooldown(int ticks);
+  boolean isAuraReleasing();
 
-    int getAuraMaxCooldown();
+  void setAuraReleasing(boolean releasing);
 
-    float getAuraDamage();
+  int getAuraCooldown();
 
-    SoundEvent getAuraChargeSoundEvent();
-    SoundEvent getAuraReleaseSoundEvent();
+  void setAuraCooldown(int ticks);
+
+  int getAuraMaxCooldown();
+
+  float getAuraDamage();
+
+  SoundEvent getAuraChargeSoundEvent();
+
+  SoundEvent getAuraReleaseSoundEvent();
 }

@@ -16,12 +16,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
 
-    @Shadow protected abstract boolean addFeature(FeatureRenderer<Entity, EntityModel<Entity>> feature);
+  @Shadow
+  protected abstract boolean addFeature(FeatureRenderer<Entity, EntityModel<Entity>> feature);
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;Lnet/minecraft/client/render/entity/model/EntityModel;F)V", at = @At("TAIL"))
-    public void init(EntityRendererFactory.Context ctx, EntityModel<Entity> model, float shadowRadius, CallbackInfo ci) {
-        LivingEntityRenderer<T, M> renderer = (LivingEntityRenderer)(Object)this;
-        this.addFeature(new ProtectedGlintFeatureRenderer(renderer));
-    }
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  @Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;Lnet/minecraft/client/render/entity/model/EntityModel;F)V", at = @At("TAIL"))
+  public void init(EntityRendererFactory.Context ctx, EntityModel<Entity> model, float shadowRadius, CallbackInfo ci) {
+    LivingEntityRenderer<T, M> renderer = (LivingEntityRenderer) (Object) this;
+    this.addFeature(new ProtectedGlintFeatureRenderer(renderer));
+  }
 }

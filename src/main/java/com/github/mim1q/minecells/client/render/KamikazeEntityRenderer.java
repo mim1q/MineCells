@@ -9,14 +9,14 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
 public class KamikazeEntityRenderer extends MobEntityRenderer<KamikazeEntity, KamikazeEntityModel> {
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/kamikaze.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/kamikaze.png");
 
-    public KamikazeEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new KamikazeEntityModel(ctx.getPart(RendererRegistry.KAMIKAZE_LAYER)), 0.3F);
-    }
+  public KamikazeEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx, new KamikazeEntityModel(ctx.getPart(RendererRegistry.KAMIKAZE_LAYER)), 0.3F);
+  }
 
-    @Override
-    public Identifier getTexture(KamikazeEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(KamikazeEntity entity) {
+    return TEXTURE;
+  }
 }

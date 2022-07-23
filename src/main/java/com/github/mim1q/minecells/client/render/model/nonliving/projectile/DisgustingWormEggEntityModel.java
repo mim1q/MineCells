@@ -6,12 +6,12 @@ import net.minecraft.client.model.TexturedModelData;
 
 public class DisgustingWormEggEntityModel extends AbstractGrenadeEntityModel<DisgustingWormEggEntity> {
 
-    public DisgustingWormEggEntityModel(ModelPart root) {
-        super(root);
-    }
+  public DisgustingWormEggEntityModel(ModelPart root) {
+    super(root);
+  }
 
-    public static TexturedModelData getTexturedModelData() {
-        return AbstractGrenadeEntityModel.getTexturedModelData(6.0F);
-    }
+  public static TexturedModelData getTexturedModelData() {
+    return AbstractGrenadeEntityModel.getTexturedModelData(6.0F);
+  }
 }
 

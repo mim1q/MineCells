@@ -13,16 +13,16 @@ import net.minecraft.util.Identifier;
 
 public class GlowFeatureRenderer<E extends Entity, M extends EntityModel<E>> extends FeatureRenderer<E, M> {
 
-    protected final RenderLayer glowLayer;
+  protected final RenderLayer glowLayer;
 
-    public GlowFeatureRenderer(FeatureRendererContext<E, M> context, Identifier glowTexture) {
-        super(context);
-        this.glowLayer = RenderLayer.getEyes(glowTexture);
-    }
+  public GlowFeatureRenderer(FeatureRendererContext<E, M> context, Identifier glowTexture) {
+    super(context);
+    this.glowLayer = RenderLayer.getEyes(glowTexture);
+  }
 
-    @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, E entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(glowLayer);
-        this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-    }
+  @Override
+  public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, E entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(glowLayer);
+    this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+  }
 }

@@ -13,38 +13,38 @@ import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractGrenadeEntityRenderer <E extends GrenadeEntity> extends EntityRenderer<E> {
+public abstract class AbstractGrenadeEntityRenderer<E extends GrenadeEntity> extends EntityRenderer<E> {
 
-    private final Identifier texture;
-    @Nullable
-    private final Identifier glowTexture;
-    private final EntityModel<?> model;
+  private final Identifier texture;
+  @Nullable
+  private final Identifier glowTexture;
+  private final EntityModel<?> model;
 
-    public AbstractGrenadeEntityRenderer(EntityRendererFactory.Context ctx, Identifier textureId, @Nullable Identifier glowTextureId, EntityModel<?> model) {
-        super(ctx);
-        this.texture = textureId;
-        this.glowTexture = glowTextureId;
-        this.model = model;
+  public AbstractGrenadeEntityRenderer(EntityRendererFactory.Context ctx, Identifier textureId, @Nullable Identifier glowTextureId, EntityModel<?> model) {
+    super(ctx);
+    this.texture = textureId;
+    this.glowTexture = glowTextureId;
+    this.model = model;
+  }
+
+  @Override
+  public void render(E entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    matrices.push();
+    int overlay = OverlayTexture.DEFAULT_UV;
+    if (entity.getFuse() < 10 && entity.getFuse() / 2 % 2 == 0) {
+      overlay = OverlayTexture.packUv(OverlayTexture.getU(1.0F), 10);
     }
-
-    @Override
-    public void render(E entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        matrices.push();
-        int overlay = OverlayTexture.DEFAULT_UV;
-        if (entity.getFuse() < 10 && entity.getFuse() / 2 % 2 == 0) {
-            overlay = OverlayTexture.packUv(OverlayTexture.getU(1.0F), 10);
-        }
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(this.texture));
-        this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-        if (glowTexture != null) {
-            VertexConsumer vertexConsumerGlowing = vertexConsumers.getBuffer(RenderLayer.getEyes(this.glowTexture));
-            this.model.render(matrices, vertexConsumerGlowing, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-        }
-        matrices.pop();
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(this.texture));
+    this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    if (glowTexture != null) {
+      VertexConsumer vertexConsumerGlowing = vertexConsumers.getBuffer(RenderLayer.getEyes(this.glowTexture));
+      this.model.render(matrices, vertexConsumerGlowing, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     }
+    matrices.pop();
+  }
 
-    @Override
-    public Identifier getTexture(GrenadeEntity entity) {
-        return this.texture;
-    }
+  @Override
+  public Identifier getTexture(GrenadeEntity entity) {
+    return this.texture;
+  }
 }

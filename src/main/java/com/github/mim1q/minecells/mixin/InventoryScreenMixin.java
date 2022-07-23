@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InventoryScreen.class)
 public class InventoryScreenMixin {
 
-    @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V", at = @At("TAIL"))
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        MineCellsClient.cellAmountHud.renderInInventory(matrixStack);
-    }
+  @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V", at = @At("TAIL"))
+  public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    MineCellsClient.cellAmountHud.renderInInventory(matrixStack);
+  }
 }

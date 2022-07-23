@@ -8,10 +8,10 @@ import net.minecraft.util.Identifier;
 
 public class BigGrenadeEntityRenderer extends AbstractGrenadeEntityRenderer<BigGrenadeEntity> {
 
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/grenades/big_grenade.png");
-    private static final BigGrenadeEntityModel MODEL = new BigGrenadeEntityModel(BigGrenadeEntityModel.getTexturedModelData().createModel());
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/grenades/big_grenade.png");
+  private static final BigGrenadeEntityModel MODEL = new BigGrenadeEntityModel(BigGrenadeEntityModel.getTexturedModelData().createModel());
 
-    public BigGrenadeEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, TEXTURE, TEXTURE, MODEL);
-    }
+  public BigGrenadeEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx, TEXTURE, TEXTURE, MODEL);
+  }
 }

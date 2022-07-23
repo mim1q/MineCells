@@ -25,49 +25,49 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract  class AbstractCritWeaponItem extends ToolItem implements Vanishable {
-    protected final float attackDamage;
-    protected final float critAttackDamage;
+public abstract class AbstractCritWeaponItem extends ToolItem implements Vanishable {
+  protected final float attackDamage;
+  protected final float critAttackDamage;
 
-    protected final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+  protected final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
-    public AbstractCritWeaponItem(ToolMaterial toolMaterial, float attackDamage, float critAttackDamage, float attackSpeed, Settings settings) {
-        super(toolMaterial, settings);
-        this.attackDamage = attackDamage;
-        this.critAttackDamage = critAttackDamage;
-        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", this.attackDamage, EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION));
-        this.attributeModifiers = builder.build();
+  public AbstractCritWeaponItem(ToolMaterial toolMaterial, float attackDamage, float critAttackDamage, float attackSpeed, Settings settings) {
+    super(toolMaterial, settings);
+    this.attackDamage = attackDamage;
+    this.critAttackDamage = critAttackDamage;
+    ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+    builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", this.attackDamage, EntityAttributeModifier.Operation.ADDITION));
+    builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION));
+    this.attributeModifiers = builder.build();
+  }
+
+  public abstract boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker);
+
+  public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    if (this.canCrit(stack, target, attacker)) {
+      attacker.world.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundRegistry.CRIT, SoundCategory.PLAYERS, 0.5F, 1.0F);
+      for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) target.world, target.getPos(), 30.0D)) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeDouble(target.getX());
+        buf.writeDouble(target.getY() + 1.5D);
+        buf.writeDouble(target.getZ());
+        ServerPlayNetworking.send(player, PacketIdentifiers.CRIT, buf);
+      }
+      target.damage(this.getDamageSource(stack, attacker, target), this.attackDamage + this.critAttackDamage);
     }
+    stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+    return super.postHit(stack, target, attacker);
+  }
 
-    public abstract boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker);
+  @Override
+  public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    stack.damage(1, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+    return super.postMine(stack, world, state, pos, miner);
+  }
 
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (this.canCrit(stack, target, attacker)) {
-            attacker.world.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundRegistry.CRIT, SoundCategory.PLAYERS, 0.5F, 1.0F);
-            for(ServerPlayerEntity player : PlayerLookup.around((ServerWorld)target.world, target.getPos(), 30.0D)) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeDouble(target.getX());
-                buf.writeDouble(target.getY() + 1.5D);
-                buf.writeDouble(target.getZ());
-                ServerPlayNetworking.send(player, PacketIdentifiers.CRIT, buf);
-            }
-            target.damage(this.getDamageSource(stack, attacker, target), this.attackDamage + this.critAttackDamage);
-        }
-        stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        return super.postHit(stack, target, attacker);
-    }
+  public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
+    return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
+  }
 
-    @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        stack.damage(1, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        return super.postMine(stack, world, state, pos, miner);
-    }
-
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
-        return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
-    }
-
-    public abstract DamageSource getDamageSource(ItemStack stack, LivingEntity attacker, LivingEntity target);
+  public abstract DamageSource getDamageSource(ItemStack stack, LivingEntity attacker, LivingEntity target);
 }

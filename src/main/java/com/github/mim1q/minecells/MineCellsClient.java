@@ -16,18 +16,18 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 @Environment(EnvType.CLIENT)
 public class MineCellsClient implements ClientModInitializer {
 
-    public static final ClientConfig CLIENT_CONFIG = OmegaConfig.register(ClientConfig.class);
+  public static final ClientConfig CLIENT_CONFIG = OmegaConfig.register(ClientConfig.class);
 
-    public static CellAmountHud cellAmountHud;
+  public static CellAmountHud cellAmountHud;
 
-    @Override
-    public void onInitializeClient() {
-        CLIENT_CONFIG.save();
-        RendererRegistry.register();
-        ClientPacketHandler.register();
-        ParticleRegistry.registerClient();
-        BlockRegistry.registerClient();
-        ClientLifecycleEvents.CLIENT_STARTED.register((client) -> cellAmountHud = new CellAmountHud(client));
-        HudRenderCallback.EVENT.register((matrixStack, delta) -> cellAmountHud.render(matrixStack, delta));
-    }
+  @Override
+  public void onInitializeClient() {
+    CLIENT_CONFIG.save();
+    RendererRegistry.register();
+    ClientPacketHandler.register();
+    ParticleRegistry.registerClient();
+    BlockRegistry.registerClient();
+    ClientLifecycleEvents.CLIENT_STARTED.register((client) -> cellAmountHud = new CellAmountHud(client));
+    HudRenderCallback.EVENT.register((matrixStack, delta) -> cellAmountHud.render(matrixStack, delta));
+  }
 }

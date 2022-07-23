@@ -12,19 +12,19 @@ import net.minecraft.util.Identifier;
 
 public class ShockerEntityRenderer extends MobEntityRenderer<ShockerEntity, ShockerEntityModel> {
 
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker.png");
-    private static final Identifier GLOW_TEXTURE_NORMAL = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker_glow.png");
-    private static final Identifier GLOW_TEXTURE_ANGRY = new Identifier(MineCells.MOD_ID, "textures/entity/shocker/shocker_glow_angry.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/shocker/shocker.png");
+  private static final Identifier GLOW_TEXTURE_NORMAL = MineCells.createId("textures/entity/shocker/shocker_glow.png");
+  private static final Identifier GLOW_TEXTURE_ANGRY = MineCells.createId("textures/entity/shocker/shocker_glow_angry.png");
 
-    public ShockerEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new ShockerEntityModel(ctx.getPart(RendererRegistry.SHOCKER_LAYER)), 0.5F);
-        if (MineCellsClient.CLIENT_CONFIG.rendering.shockerGlow) {
-            this.addFeature(new ShockerGlowFeatureRenderer(this, GLOW_TEXTURE_NORMAL, GLOW_TEXTURE_ANGRY));
-        }
+  public ShockerEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx, new ShockerEntityModel(ctx.getPart(RendererRegistry.SHOCKER_LAYER)), 0.5F);
+    if (MineCellsClient.CLIENT_CONFIG.rendering.shockerGlow) {
+      this.addFeature(new ShockerGlowFeatureRenderer(this, GLOW_TEXTURE_NORMAL, GLOW_TEXTURE_ANGRY));
     }
+  }
 
-    @Override
-    public Identifier getTexture(ShockerEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(ShockerEntity entity) {
+    return TEXTURE;
+  }
 }

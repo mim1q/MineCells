@@ -8,46 +8,46 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class ClientConfig implements Config {
 
-    @Override
-    public String getName() {
-        return "minecells-client";
-    }
+  @Override
+  public String getName() {
+    return "minecells-client";
+  }
 
-    @Override
-    public String getExtension() {
-        return "json5";
-    }
+  @Override
+  public String getExtension() {
+    return "json5";
+  }
 
-    public Rendering rendering = new Rendering();
+  public Rendering rendering = new Rendering();
 
-    @Override
-    public void save() {
-        Config.super.save();
-    }
+  @Override
+  public void save() {
+    Config.super.save();
+  }
 
-    public static class Rendering {
-        @Comment(" default: false")
-        public boolean opaqueParticles = false;
+  public static class Rendering {
+    @Comment(" default: false")
+    public boolean opaqueParticles = false;
 
-        @Comment(" default: true")
-        public boolean shockerGlow = true;
+    @Comment(" default: true")
+    public boolean shockerGlow = true;
 
-        @Comment(" default: true")
-        public boolean grenadierGlow = true;
+    @Comment(" default: true")
+    public boolean grenadierGlow = true;
 
-        @Comment(" default: true")
-        public boolean leapingZombieGlow = true;
+    @Comment(" default: true")
+    public boolean leapingZombieGlow = true;
 
-        @Comment(" default: true")
-        public boolean disgustingWormGlow = true;
+    @Comment(" default: true")
+    public boolean disgustingWormGlow = true;
 
-        @Comment(" default: true")
-        public boolean protectorGlow = true;
+    @Comment(" default: true")
+    public boolean protectorGlow = true;
 
-        @Comment(" default: true")
-        public boolean rancidRatGlow = true;
+    @Comment(" default: true")
+    public boolean rancidRatGlow = true;
 
-        @Comment(" default: true")
-        public boolean scorpionGlow = true;
-    }
+    @Comment(" default: true")
+    public boolean scorpionGlow = true;
+  }
 }

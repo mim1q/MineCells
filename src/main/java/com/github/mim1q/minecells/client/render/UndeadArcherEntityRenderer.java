@@ -11,15 +11,15 @@ import net.minecraft.util.Identifier;
 
 public class UndeadArcherEntityRenderer extends MobEntityRenderer<UndeadArcherEntity, UndeadArcherEntityModel> {
 
-    private static final Identifier TEXTURE = new Identifier(MineCells.MOD_ID, "textures/entity/undead_archer.png");
+  private static final Identifier TEXTURE = MineCells.createId("textures/entity/undead_archer.png");
 
-    public UndeadArcherEntityRenderer(EntityRendererFactory.Context ctx) {
-        super(ctx, new UndeadArcherEntityModel(ctx.getPart(RendererRegistry.UNDEAD_ARCHER_LAYER)), 0.35F);
-        this.addFeature(new HeldItemFeatureRenderer<>(this, ctx.getHeldItemRenderer()));
-    }
+  public UndeadArcherEntityRenderer(EntityRendererFactory.Context ctx) {
+    super(ctx, new UndeadArcherEntityModel(ctx.getPart(RendererRegistry.UNDEAD_ARCHER_LAYER)), 0.35F);
+    this.addFeature(new HeldItemFeatureRenderer<>(this, ctx.getHeldItemRenderer()));
+  }
 
-    @Override
-    public Identifier getTexture(UndeadArcherEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(UndeadArcherEntity entity) {
+    return TEXTURE;
+  }
 }

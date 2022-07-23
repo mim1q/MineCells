@@ -5,7 +5,8 @@
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "TrunkPlacerTypeInvoker"
   ],
   "client": [
     "BipedEntityModelMixin",

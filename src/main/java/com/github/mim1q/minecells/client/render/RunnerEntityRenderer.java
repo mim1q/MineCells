@@ -10,14 +10,14 @@ import net.minecraft.util.Identifier;
 
 public class RunnerEntityRenderer extends MobEntityRenderer<RunnerEntity, RunnerEntityModel> {
 
-    public static Identifier TEXTURE = MineCells.createId("textures/entity/runner.png");
+  public static Identifier TEXTURE = MineCells.createId("textures/entity/runner.png");
 
-    public RunnerEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new RunnerEntityModel(context.getPart(RendererRegistry.RUNNER_LAYER)), 0.4f);
-    }
+  public RunnerEntityRenderer(EntityRendererFactory.Context context) {
+    super(context, new RunnerEntityModel(context.getPart(RendererRegistry.RUNNER_LAYER)), 0.4f);
+  }
 
-    @Override
-    public Identifier getTexture(RunnerEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(RunnerEntity entity) {
+    return TEXTURE;
+  }
 }

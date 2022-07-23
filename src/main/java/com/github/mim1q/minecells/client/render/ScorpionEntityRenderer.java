@@ -14,24 +14,24 @@ import net.minecraft.util.Identifier;
 
 public class ScorpionEntityRenderer extends MobEntityRenderer<ScorpionEntity, ScorpionEntityModel> {
 
-    public static final Identifier TEXTURE = MineCells.createId("textures/entity/scorpion/scorpion.png");
-    public static final Identifier TEXTURE_GLOW = MineCells.createId("textures/entity/scorpion/scorpion_glow.png");
+  public static final Identifier TEXTURE = MineCells.createId("textures/entity/scorpion/scorpion.png");
+  public static final Identifier TEXTURE_GLOW = MineCells.createId("textures/entity/scorpion/scorpion_glow.png");
 
-    public ScorpionEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new ScorpionEntityModel(context.getPart(RendererRegistry.SCORPION_LAYER)), 0.75F);
-        if (MineCellsClient.CLIENT_CONFIG.rendering.scorpionGlow) {
-            this.addFeature(new GlowFeatureRenderer<>(this, TEXTURE_GLOW));
-        }
+  public ScorpionEntityRenderer(EntityRendererFactory.Context context) {
+    super(context, new ScorpionEntityModel(context.getPart(RendererRegistry.SCORPION_LAYER)), 0.75F);
+    if (MineCellsClient.CLIENT_CONFIG.rendering.scorpionGlow) {
+      this.addFeature(new GlowFeatureRenderer<>(this, TEXTURE_GLOW));
     }
+  }
 
-    @Override
-    public Identifier getTexture(ScorpionEntity entity) {
-        return TEXTURE;
-    }
+  @Override
+  public Identifier getTexture(ScorpionEntity entity) {
+    return TEXTURE;
+  }
 
-    @Override
-    public void render(ScorpionEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        this.shadowRadius = mobEntity.isSleeping() ? 0.0F : 0.75F;
-        super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
-    }
+  @Override
+  public void render(ScorpionEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    this.shadowRadius = mobEntity.isSleeping() ? 0.0F : 0.75F;
+    super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
+  }
 }
