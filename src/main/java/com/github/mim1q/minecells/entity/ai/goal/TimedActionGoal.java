@@ -105,6 +105,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   }
 
   public enum State {
+    IDLE,
     CHARGE,
     RELEASE
   }

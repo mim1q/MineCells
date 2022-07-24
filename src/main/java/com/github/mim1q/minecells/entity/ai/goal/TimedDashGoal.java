@@ -13,6 +13,8 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   private final float speed;
   protected final float damage;
+  protected final boolean rotate;
+  protected final double margin;
 
   protected Entity target;
   protected Vec3d direction;
@@ -24,6 +26,8 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     super(builder);
     this.speed = builder.speed;
     this.damage = builder.damage;
+    this.rotate = builder.rotate;
+    this.margin = builder.margin;
     this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
   }
 
@@ -55,8 +59,10 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void charge() {
-    this.entity.getLookControl().lookAt(this.target, 20.0F, 20.0F);
-    this.yaw = this.entity.getYaw();
+    if (this.rotate) {
+      this.entity.getLookControl().lookAt(this.target, 20.0F, 20.0F);
+      this.yaw = this.entity.getYaw();
+    }
   }
 
   @Override
@@ -68,10 +74,12 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void release() {
-    this.entity.setYaw(this.yaw);
+    if (this.rotate) {
+      this.entity.setYaw(this.yaw);
+    }
     this.entity.setVelocity(this.direction.multiply(this.speed));
     this.distanceTravelled += this.speed;
-    List<Entity> entitiesInRange = this.entity.world.getOtherEntities(this.entity, this.entity.getBoundingBox());
+    List<Entity> entitiesInRange = this.entity.world.getOtherEntities(this.entity, this.entity.getBoundingBox().expand(this.margin));
     for (Entity e : entitiesInRange) {
       if (e instanceof LivingEntity) {
         e.damage(DamageSource.mob(this.entity), this.damage);
@@ -83,6 +91,8 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
     public float speed;
     public float damage;
+    public boolean rotate = true;
+    public double margin = 0.0D;
 
     public Builder(E entity) {
       super(entity);
@@ -95,6 +105,16 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
     public Builder<E> damage(float damage) {
       this.damage = damage;
+      return this;
+    }
+
+    public Builder<E> noRotation() {
+      this.rotate = false;
+      return this;
+    }
+
+    public Builder<E> margin(double margin) {
+      this.margin = margin;
       return this;
     }
 

@@ -21,9 +21,9 @@ The goal of this mod is to bring content from Dead Cells into Minecraft in a fai
 
 ![Enemies render](https://github.com/mim1q/MineCells/blob/main/project/render.png?raw=true)
 
-I recommend playing this mod with 
-[Sodium](https://modrinth.com/mod/sodium) and [Iris](https://modrinth.com/mod/iris)
-for shader support.
+I recommend playing this mod with:
+* [Sodium](https://modrinth.com/mod/sodium) + [Iris](https://modrinth.com/mod/iris) for shader support.
+* [Disable Custom Worlds Advice](https://www.curseforge.com/minecraft/mc-mods/fabric-disable-custom-worlds-advice)
 
 Some shaderpacks that work well with Mine Cells:
 * [BSL Shaders](https://www.curseforge.com/minecraft/customization/bsl-shaders)

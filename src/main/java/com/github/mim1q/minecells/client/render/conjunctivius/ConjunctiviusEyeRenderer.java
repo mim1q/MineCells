@@ -42,13 +42,25 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
     RenderLayer renderLayer = RenderLayer.getEntityShadow(this.getTexture(entity));
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
-    this.model.render(matrices, vertexConsumer, 0xFFFFFF, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertexConsumer, 0xFF, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }
 
   public Identifier getTexture(ConjunctiviusEntity entity) {
-    return TEXTURES[1];
-    // return TEXTURES[(entity.age / 3) % 4];
+    return TEXTURES[entity.getEyeState().index];
+  }
+
+  public enum EyeState {
+    PINK(0),
+    YELLOW(1),
+    GREEN(2),
+    BLUE(3);
+
+    final int index;
+
+    EyeState(int index) {
+      this.index = index;
+    }
   }
 
   public static class ConjunctiviusEyeModel extends EntityModel<ConjunctiviusEntity> {
@@ -94,7 +106,7 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
 
         float xOffset = (float) -rotatedDiff.x;
         float yOffset = (float) -rotatedDiff.y;
-        float distance = 1.0F - ((float) rotatedDiff.z - 2.5F) / 20.0F;
+        float distance = 1.0F - ((float) rotatedDiff.z - 2.5F) / 30.0F;
         distance = MathHelper.clamp(distance, 0.25F, 1.0F);
 
         xOffset = MathHelper.clamp(xOffset * 0.75F * distance, -7.5F, 7.5F);
