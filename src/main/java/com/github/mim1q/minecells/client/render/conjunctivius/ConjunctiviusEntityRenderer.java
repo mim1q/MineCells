@@ -26,17 +26,18 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
     tentacles.addPosRotScale(-1.0F,  1.75F, 0.25F, -5.0F,  -80.0F, -5.0F,  0.66F);
     this.addFeature(tentacles);
     ConjunctiviusSpikeRenderer spikes = new ConjunctiviusSpikeRenderer(this, context.getPart(RendererRegistry.CONJUNCTIVIUS_SPIKE_LAYER));
-    spikes.addPosRotScale(1.2F, -0.15F, -0.25F, 0.0F, 25.0F, 80.0F,  1.0F);
-    spikes.addPosRotScale(1.0F, -0.5F,  -0.6F,  0.0F, 15.0F, 60.0F,  1.0F);
-    spikes.addPosRotScale(1.35F, 0.4F,  -0.6F,  0.0F, 35.0F, 90.0F,  1.0F);
-    spikes.addPosRotScale(1.05F, 0.8F,  -0.8F,  0.0F, 45.0F, 110.0F, 1.0F);
-    spikes.addPosRotScale(1.0F,  1.2F,  -0.6F,  0.0F, 35.0F, 125.0F, 1.0F);
-    spikes.addPosRotScale(-1.2F, -0.15F, -0.25F, 0.0F, -25.0F, -80.0F,  1.0F);
-    spikes.addPosRotScale(-1.0F, -0.5F,  -0.6F,  0.0F, -15.0F, -60.0F,  1.0F);
-    spikes.addPosRotScale(-1.35F, 0.4F,  -0.6F,  0.0F, -35.0F, -90.0F,  1.0F);
-    spikes.addPosRotScale(-1.05F, 0.8F,  -0.8F,  0.0F, -45.0F, -110.0F, 1.0F);
-    spikes.addPosRotScale(-1.0F,  1.2F,  -0.6F,  0.0F, -35.0F, -125.0F, 1.0F);
+    spikes.addPosRotScale(1.0F, -0.5F,  -0.6F,  25.0F, 0.0F, 75.0F,  1.0F);
+    spikes.addPosRotScale(1.2F, -0.15F, -0.25F, 15.0F, 0.0F, 80.0F,  1.0F);
+    spikes.addPosRotScale(1.35F, 0.4F,  -0.6F,  35.0F, 0.0F, 90.0F,  1.0F);
+    spikes.addPosRotScale(1.05F, 0.8F,  -0.8F,  35.0F, 0.0F, 110.0F, 1.0F);
+    spikes.addPosRotScale(1.0F,  1.2F,  -0.6F,  25.0F, 0.0F, 135.0F, 1.0F);
+    spikes.addPosRotScale(-1.2F, -0.15F, -0.25F, 25.0F, 0.0F, -75.0F,  1.0F);
+    spikes.addPosRotScale(-1.0F, -0.5F,  -0.6F,  15.0F, 0.0F, -80.0F,  1.0F);
+    spikes.addPosRotScale(-1.35F, 0.4F,  -0.6F,  35.0F, 0.0F, -90.0F,  1.0F);
+    spikes.addPosRotScale(-1.05F, 0.8F,  -0.8F,  35.0F, 0.0F, -110.0F, 1.0F);
+    spikes.addPosRotScale(-1.0F,  1.2F,  -0.6F,  25.0F, 0.0F, -135.0F, 1.0F);
     this.addFeature(spikes);
+    this.addFeature(new ConjunctiviusChainRenderer(this, context.getPart(RendererRegistry.CONJUNCTIVIUS_CHAIN_LAYER)));
   }
 
   @Override

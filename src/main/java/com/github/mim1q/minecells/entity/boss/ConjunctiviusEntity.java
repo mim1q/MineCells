@@ -49,6 +49,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.moveControl = new ConjunctiviusMoveControl(this);
     this.navigation = new BirdNavigation(this, this.world);
     this.setNoGravity(true);
+    this.ignoreCameraFrustum = true;
   }
 
   @Nullable
@@ -59,8 +60,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     Direction direction = this.determineDirection(this.getBlockPos(), this.roomBox);
     this.spawnRot = direction.asRotation();
     BlockPos topAnchor = this.getBoxWall(this.getBlockPos(), Direction.UP.getVector());
-    BlockPos leftAnchor = this.getBoxWall(this.getBlockPos(), direction.rotateYClockwise().getVector());
-    BlockPos rightAnchor = this.getBoxWall(this.getBlockPos(), direction.rotateYCounterclockwise().getVector());
+    BlockPos leftAnchor = this.getBoxWall(this.getBlockPos().up(2), direction.rotateYClockwise().getVector());
+    BlockPos rightAnchor = this.getBoxWall(this.getBlockPos().up(2), direction.rotateYCounterclockwise().getVector());
     System.out.println(topAnchor + " " + leftAnchor + " " + rightAnchor);
     this.setAnchors(topAnchor, leftAnchor, rightAnchor);
     return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);

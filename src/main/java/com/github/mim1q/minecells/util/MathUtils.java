@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.util;
 
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
@@ -74,7 +73,11 @@ public class MathUtils {
 
     public void apply(MatrixStack matrices) {
       matrices.translate(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
-      matrices.multiply(Quaternion.fromEulerXyz(this.getRot()));
+
+      matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(this.getRot().getZ()));
+      matrices.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(this.getRot().getY()));
+      matrices.multiply(Vec3f.POSITIVE_X.getRadialQuaternion(this.getRot().getX()));
+
       matrices.scale(this.getScale().getX(), this.getScale().getY(), this.getScale().getZ());
     }
 
