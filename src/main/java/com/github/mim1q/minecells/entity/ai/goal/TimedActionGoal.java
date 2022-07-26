@@ -16,6 +16,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   protected final float chance;
   protected final SoundEvent chargeSound;
   protected final SoundEvent releaseSound;
+  protected final float soundVolume;
 
   private int ticks = 0;
 
@@ -30,6 +31,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     this.chance = builder.chance;
     this.chargeSound = builder.chargeSound;
     this.releaseSound = builder.releaseSound;
+    this.soundVolume = builder.soundVolume;
   }
 
   @Override
@@ -66,6 +68,10 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     this.ticks++;
   }
 
+  protected int ticks() {
+    return this.ticks;
+  }
+
   protected void runAction() {
 
   }
@@ -80,7 +86,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
   protected void playSound(SoundEvent soundEvent) {
     if (soundEvent != null) {
-      this.entity.playSound(soundEvent, 0.5F, 1.0F);
+      this.entity.playSound(soundEvent, this.soundVolume, 1.0F);
     }
   }
 
@@ -105,6 +111,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   }
 
   public enum State {
+    IDLE,
     CHARGE,
     RELEASE
   }
@@ -133,6 +140,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     public float chance = 1.0F;
     public SoundEvent chargeSound;
     public SoundEvent releaseSound;
+    public float soundVolume = 1.0F;
 
     public Builder(E entity) {
       this.entity = entity;
@@ -180,6 +188,11 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
     public B releaseSound(SoundEvent releaseSound) {
       this.releaseSound = releaseSound;
+      return (B) this;
+    }
+
+    public B soundVolume(float soundVolume) {
+      this.soundVolume = soundVolume;
       return (B) this;
     }
 

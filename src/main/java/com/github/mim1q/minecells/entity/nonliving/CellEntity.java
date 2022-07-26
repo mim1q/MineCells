@@ -55,16 +55,13 @@ public class CellEntity extends Entity {
       if (!this.bound && this.age % 20 == 1) {
         this.target = this.world.getClosestPlayer(this, 10.0D);
       }
-      if (this.age > 40 && this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
+      if (this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
         double distance = this.target.distanceTo(this);
-        double multiplier = distance == 0.0D
-          ? 1.0D
-          : 1.0D / distance;
-        this.setVelocity(this.target.getPos()
-          .add(0.0D, 0.5D, 0.0D)
-          .subtract(this.getPos())
-          .normalize()
-          .multiply(0.5D * multiplier)
+        double multiplier = distance == 0.0D ? 1.0D : 0.01D / distance;
+        this.addVelocity(
+          (this.target.getX() - this.getX()) * multiplier,
+          (this.target.getY() - this.getY()) * multiplier,
+          (this.target.getZ() - this.getZ()) * multiplier
         );
         if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
           PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
@@ -97,7 +94,6 @@ public class CellEntity extends Entity {
   protected void readCustomDataFromNbt(NbtCompound nbt) {
     if (nbt.contains("target")) {
       this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
-      this.bound = true;
     }
     this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
   }

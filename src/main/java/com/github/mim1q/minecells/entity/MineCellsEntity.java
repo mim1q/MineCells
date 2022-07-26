@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
@@ -87,6 +88,16 @@ public class MineCellsEntity extends HostileEntity {
     if (current > 0) {
       this.dataTracker.set(cooldown, current - 1);
     }
+  }
+
+  protected TimedActionGoal.State getStateFromTrackedData(TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
+    if (this.dataTracker.get(charging)) {
+      return TimedActionGoal.State.CHARGE;
+    }
+    if (this.dataTracker.get(releasing)) {
+      return TimedActionGoal.State.RELEASE;
+    }
+    return TimedActionGoal.State.IDLE;
   }
 
   protected void decrementCooldowns() {
