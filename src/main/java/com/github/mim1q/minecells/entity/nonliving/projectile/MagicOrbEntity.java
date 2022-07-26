@@ -29,7 +29,7 @@ public class MagicOrbEntity extends ProjectileEntity {
     if (this.world.isClient()) {
       this.spawnParticles();
     } else {
-      if (this.age > 200) {
+      if (this.age > 2000) {
         this.discard();
       }
 
@@ -60,9 +60,13 @@ public class MagicOrbEntity extends ProjectileEntity {
       DamageSource damageSource = this.getOwner() == null
         ? DamageSource.MAGIC
         : DamageSource.mob((LivingEntity) this.getOwner());
-      entity.damage(damageSource, 5.0F);
+      entity.damage(damageSource, this.getDamage());
       this.kill();
     }
+  }
+
+  protected float getDamage() {
+    return 5.0F;
   }
 
   @Override

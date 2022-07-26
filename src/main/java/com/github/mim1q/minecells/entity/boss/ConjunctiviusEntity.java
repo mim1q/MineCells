@@ -2,10 +2,14 @@ package com.github.mim1q.minecells.entity.boss;
 
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
+import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -20,7 +24,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -35,6 +38,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   public static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   public static final TrackedData<BlockPos> ANCHOR_TOP = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_LEFT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
@@ -43,6 +48,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private float spawnRot = 0.0F;
   private BlockBox roomBox = null;
   private int dashCooldown = 0;
+  private int auraCooldown = 0;
 
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -76,14 +82,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     int minZ = this.getBoxWall(startPos, Direction.NORTH.getVector()).getZ();
     int maxZ = this.getBoxWall(startPos, Direction.SOUTH.getVector()).getZ();
 
-    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ);
+    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ).expand(-1);
   }
 
   private BlockPos getBoxWall(BlockPos position, Vec3i offset) {
     for (int i = 0; i < 100; i++) {
       position = position.add(offset);
       if (!this.world.getBlockState(position).isAir()) {
-        return position.subtract(offset);
+        return position;
       }
     }
     return position;
@@ -113,6 +119,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     super.initDataTracker();
     this.dataTracker.startTracking(DASH_RELEASING, false);
     this.dataTracker.startTracking(DASH_CHARGING, false);
+    this.dataTracker.startTracking(AURA_RELEASING, false);
+    this.dataTracker.startTracking(AURA_CHARGING, false);
     this.dataTracker.startTracking(ANCHOR_TOP, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
@@ -126,14 +134,30 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .stateSetter(this::switchDashState)
       .chargeSound(SoundRegistry.SHIELDBEARER_CHARGE)
       .releaseSound(SoundRegistry.SHIELDBEARER_RELEASE)
+      .soundVolume(3.0F)
       .speed(1.25F)
       .damage(20.0F)
+      .defaultCooldown(100)
+      .actionTick(30)
+      .chance(0.5F)
+      .length(80)
+      .noRotation()
+      .margin(0.1D)
+      .build()
+    );
+    this.goalSelector.add(3, new TimedAuraGoal.Builder<>(this)
+      .cooldownGetter(() -> this.auraCooldown)
+      .cooldownSetter((cooldown) -> this.auraCooldown = cooldown)
+      .stateSetter(this::switchAuraState)
+      .chargeSound(SoundRegistry.SHOCKER_CHARGE)
+      .releaseSound(SoundRegistry.SHOCKER_RELEASE)
+      .soundVolume(3.0F)
+      .damage(10.0F)
+      .radius(8.0D)
       .defaultCooldown(100)
       .actionTick(40)
       .chance(0.5F)
       .length(80)
-      .noRotation()
-      .margin(1.0D)
       .build()
     );
     this.goalSelector.add(10, new ConjunctiviusReturnGoal(this));
@@ -145,11 +169,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void tick() {
     super.tick();
     if (this.world.isClient()) {
-      if (this.dataTracker.get(DASH_CHARGING) || this.dataTracker.get(DASH_RELEASING)) {
-        this.spikeOffset.setupTransitionTo(0.0F, 20.0F);
+      if (this.getDashState() != TimedActionGoal.State.IDLE || this.getAuraState() == TimedActionGoal.State.RELEASE) {
+        this.spikeOffset.setupTransitionTo(0.0F, 10.0F);
       } else {
         this.spikeOffset.setupTransitionTo(5.0F, 40.0F);
       }
+      this.spawnParticles();
     } else {
       for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().contract(0.25D))) {
         if (e instanceof LivingEntity livingEntity) {
@@ -166,9 +191,20 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
   }
 
+  protected void spawnParticles() {
+    Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
+    if (this.getAuraState() == TimedActionGoal.State.CHARGE) {
+      ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 2, 7.5D, -0.01D);
+    } else if (this.getAuraState() == TimedActionGoal.State.RELEASE) {
+      ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 50, 7.0D, 0.01D);
+      ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
+    }
+  }
+
   @Override
   protected void decrementCooldowns() {
     this.dashCooldown = Math.max(0, this.dashCooldown - 1);
+    this.auraCooldown = Math.max(0, this.auraCooldown - 1);
   }
 
   protected void switchDashState(TimedActionGoal.State state, boolean value) {
@@ -178,8 +214,19 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
   }
 
+  protected void switchAuraState(TimedActionGoal.State state, boolean value) {
+    switch (state) {
+      case CHARGE -> this.dataTracker.set(AURA_CHARGING, value);
+      case RELEASE -> this.dataTracker.set(AURA_RELEASING, value);
+    }
+  }
+
   public TimedActionGoal.State getDashState() {
     return this.getStateFromTrackedData(DASH_CHARGING, DASH_RELEASING);
+  }
+
+  public TimedActionGoal.State getAuraState() {
+    return this.getStateFromTrackedData(AURA_CHARGING, AURA_RELEASING);
   }
 
   public void setAnchors(BlockPos top, BlockPos left, BlockPos right) {
@@ -226,14 +273,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return false;
   }
 
-  //region flying
-
   public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
     return false;
   }
 
-  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
-  }
+  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) { }
 
   public void travel(Vec3d movementInput) {
     if (this.canMoveVoluntarily() || this.isLogicalSideForUpdatingMovement()) {
@@ -246,8 +290,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public boolean isClimbing() {
     return false;
   }
-  //endregion
-
 
   @Override
   public int getMaxHeadRotation() {
@@ -342,12 +384,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           this.entity.world.breakBlock(blockPos, false);
         }
       });
-    }
-
-    protected void playSound(SoundEvent soundEvent) {
-      if (soundEvent != null) {
-        this.entity.playSound(soundEvent, 5.0F, 1.0F);
-      }
     }
 
     public static class Builder extends TimedDashGoal.Builder<ConjunctiviusEntity> {

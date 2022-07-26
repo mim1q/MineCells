@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.ConjunctiviusProjectileEntityModel;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -27,11 +26,14 @@ public class ConjunctiviusProjectileEntityRenderer extends EntityRenderer<Conjun
   }
 
   @Override
-  public void render(ConjunctiviusProjectileEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-    super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
+  public void render(ConjunctiviusProjectileEntity entity, float entityYaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    super.render(entity, entityYaw, tickDelta, matrices, vertexConsumers, light);
     VertexConsumer vertices = vertexConsumers.getBuffer(LAYER);
-    this.model.setAngles(entity, 0.0F, 0.0F, entity.age + MinecraftClient.getInstance().getTickDelta(), 0.0F, 0.0F);
+
+    matrices.push();
+    this.model.setAngles(entity, 0.0F, 0.0F, entity.age + tickDelta, 0.0F, 0.0F);
     this.model.render(matrices, vertices, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    matrices.pop();
   }
 
   @Override

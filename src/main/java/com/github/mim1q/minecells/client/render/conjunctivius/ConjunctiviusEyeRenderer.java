@@ -47,10 +47,15 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
   }
 
   public Identifier getTexture(ConjunctiviusEntity entity) {
-    return TEXTURES[entity.getEyeState().index];
+    EyeState state = entity.getEyeState();
+    if (state == EyeState.SHAKING) {
+      return TEXTURES[(entity.age / 2) % TEXTURES.length];
+    }
+    return TEXTURES[state.index];
   }
 
   public enum EyeState {
+    SHAKING(-1),
     PINK(0),
     YELLOW(1),
     GREEN(2),
@@ -108,6 +113,11 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
         float yOffset = (float) -rotatedDiff.y;
         float distance = 1.0F - ((float) rotatedDiff.z - 2.5F) / 30.0F;
         distance = MathHelper.clamp(distance, 0.25F, 1.0F);
+
+        if (entity.getEyeState() == EyeState.SHAKING) {
+          xOffset += entity.getRandom().nextFloat() * 5.0F;
+          yOffset += entity.getRandom().nextFloat() * 5.0F;
+        }
 
         xOffset = MathHelper.clamp(xOffset * 0.75F * distance, -7.5F, 7.5F);
         yOffset = MathHelper.clamp(yOffset * distance, -5.0F, 5.0F);

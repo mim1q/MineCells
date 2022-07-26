@@ -75,9 +75,9 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
       modelPartData.addChild("main",
         ModelPartBuilder.create()
           .uv(0, 0)
-          .cuboid(-4.0F, -20.0F, 0.0F, 8, 12, 0, new Dilation(0.01F))
+          .cuboid(-4.0F, -12.0F, 0.0F, 8, 12, 0, new Dilation(0.01F))
           .uv(0, -8)
-          .cuboid(0.0F, -12.0F, -4.0F, 0, 12, 8, new Dilation(0.01F)),
+          .cuboid(0.0F, -20.0F, -4.0F, 0, 12, 8, new Dilation(0.01F)),
         ModelTransform.rotation(MathHelper.HALF_PI, 0.0F, 0.0F)
       );
 
