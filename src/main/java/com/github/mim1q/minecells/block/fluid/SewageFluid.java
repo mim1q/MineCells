@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.block.fluid;
 
 import com.github.mim1q.minecells.registry.BlockRegistry;
 import com.github.mim1q.minecells.registry.FluidRegistry;
+import com.github.mim1q.minecells.registry.ItemRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -23,7 +24,7 @@ public abstract class SewageFluid extends AbstractSewageFluid {
 
   @Override
   public Item getBucketItem() {
-    return null;
+    return ItemRegistry.SEWAGE_BUCKET;
   }
 
   @Override

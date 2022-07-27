@@ -38,9 +38,11 @@ public class ItemGroupRegistry {
     .icon(() -> new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER))
     .appendItems(stacks -> {
       stacks.add(BlockRegistry.HARDSTONE_ITEM.getDefaultStack());
-      stacks.add(new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER));
-      stacks.add(new ItemStack(ItemRegistry.ELEVATOR_MECHANISM));
-      stacks.add(new ItemStack(BlockRegistry.BIG_CHAIN));
+      stacks.add(BlockRegistry.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
+      stacks.add(ItemRegistry.ELEVATOR_MECHANISM.getDefaultStack());
+      stacks.add(BlockRegistry.BIG_CHAIN.asItem().getDefaultStack());
+      stacks.add(ItemRegistry.SEWAGE_BUCKET.getDefaultStack());
+      stacks.add(ItemRegistry.ANCIENT_SEWAGE_BUCKET.getDefaultStack());
     })
     .build();
 

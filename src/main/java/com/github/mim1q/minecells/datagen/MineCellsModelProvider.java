@@ -10,6 +10,7 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
+import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
 
@@ -34,7 +35,9 @@ public class MineCellsModelProvider extends FabricModelProvider {
     for (SpawnEggItem spawnEggItem : EntityRegistry.getSpawnEggs()) {
       registerSpawnEggModel(generator, spawnEggItem);
     }
-    generator.register(ItemRegistry.ELEVATOR_MECHANISM, Models.GENERATED);
+    for (Item item : ItemRegistry.getSimpleItems()) {
+      generator.register(item, Models.GENERATED);
+    }
     generator.register(ItemRegistry.ASSASSINS_DAGGER, Models.HANDHELD);
   }
 
