@@ -20,8 +20,7 @@ public class CellEntity extends Entity {
 
   protected static final TrackedData<Integer> AMOUNT = DataTracker.registerData(CellEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-  protected PlayerEntity target;
-  protected boolean bound = false;
+  protected PlayerEntity target = null;
 
   public CellEntity(EntityType<CellEntity> entityType, World world) {
     super(entityType, world);
@@ -32,9 +31,9 @@ public class CellEntity extends Entity {
     CellEntity cell = new CellEntity(EntityRegistry.CELL, world);
     cell.setPosition(position);
     cell.setVelocity(
-      (world.random.nextFloat() - 0.5F) * 0.25F,
-      world.random.nextFloat() * 0.1F,
-      (world.random.nextFloat() - 0.5F) * 0.25F
+      (world.random.nextFloat() - 0.5F),
+      world.random.nextFloat() - 0.5F,
+      (world.random.nextFloat() - 0.5F)
     );
     cell.setAmount(amount);
     world.spawnEntity(cell);
@@ -52,7 +51,7 @@ public class CellEntity extends Entity {
     this.prevY = this.getY();
     this.prevZ = this.getZ();
     if (!this.world.isClient()) {
-      if (!this.bound && this.age % 20 == 1) {
+      if (this.age % 20 == 1) {
         this.target = this.world.getClosestPlayer(this, 10.0D);
       }
       if (this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
@@ -92,17 +91,17 @@ public class CellEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-    if (nbt.contains("target")) {
-      this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
-    }
+//    if (nbt.contains("target")) {
+//      this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
+//    }
     this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-    if (this.target != null) {
-      nbt.putUuid("target", this.target.getUuid());
-    }
+//    if (this.target != null) {
+//      nbt.putUuid("target", this.target.getUuid());
+//    }
     nbt.putInt("amount", this.dataTracker.get(AMOUNT));
   }
 
