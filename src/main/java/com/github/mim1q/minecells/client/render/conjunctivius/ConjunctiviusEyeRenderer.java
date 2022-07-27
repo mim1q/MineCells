@@ -114,13 +114,16 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
         float distance = 1.0F - ((float) rotatedDiff.z - 2.5F) / 30.0F;
         distance = MathHelper.clamp(distance, 0.25F, 1.0F);
 
+        xOffset *= distance * 0.75F;
+        yOffset *= distance;
+
         if (entity.getEyeState() == EyeState.SHAKING) {
-          xOffset += entity.getRandom().nextFloat() * 5.0F;
-          yOffset += entity.getRandom().nextFloat() * 5.0F;
+          xOffset += (entity.getRandom().nextFloat() - 0.5F) * 3.0F;
+          yOffset += (entity.getRandom().nextFloat() - 0.5F) * 3.0F;
         }
 
-        xOffset = MathHelper.clamp(xOffset * 0.75F * distance, -7.5F, 7.5F);
-        yOffset = MathHelper.clamp(yOffset * distance, -5.0F, 5.0F);
+        xOffset = MathHelper.clamp(xOffset, -7.5F, 7.5F);
+        yOffset = MathHelper.clamp(yOffset, -5.0F, 5.0F);
 
         this.eye.pivotX = xOffset;
         this.eye.pivotY = yOffset;
