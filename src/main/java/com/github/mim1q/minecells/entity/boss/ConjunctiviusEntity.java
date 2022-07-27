@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.boss;
 
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
+import com.github.mim1q.minecells.entity.ai.goal.TargetRandomPlayerGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
@@ -11,8 +12,8 @@ import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -31,6 +32,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public class ConjunctiviusEntity extends MineCellsBossEntity {
 
@@ -45,6 +47,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
 
   private Vec3d spawnPos = Vec3d.ZERO;
+  private Direction direction;
   private float spawnRot = 0.0F;
   private BlockBox roomBox = null;
   private int dashCooldown = 0;
@@ -63,8 +66,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
     this.spawnPos = Vec3d.ofCenter(this.getBlockPos());
     this.roomBox = this.createBox();
-    Direction direction = this.determineDirection(this.getBlockPos(), this.roomBox);
-    this.spawnRot = direction.asRotation();
+    this.direction = this.determineDirection(this.getBlockPos(), this.roomBox);
+    this.spawnRot = this.direction.asRotation();
     BlockPos topAnchor = this.getBoxWall(this.getBlockPos(), Direction.UP.getVector());
     BlockPos leftAnchor = this.getBoxWall(this.getBlockPos().up(2), direction.rotateYClockwise().getVector());
     BlockPos rightAnchor = this.getBoxWall(this.getBlockPos().up(2), direction.rotateYCounterclockwise().getVector());
@@ -134,7 +137,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .stateSetter(this::switchDashState)
       .chargeSound(SoundRegistry.SHIELDBEARER_CHARGE)
       .releaseSound(SoundRegistry.SHIELDBEARER_RELEASE)
-      .soundVolume(3.0F)
+      .soundVolume(2.0F)
       .speed(1.25F)
       .damage(20.0F)
       .defaultCooldown(100)
@@ -142,7 +145,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .chance(0.5F)
       .length(80)
       .noRotation()
-      .margin(0.1D)
+      .margin(0.5D)
       .build()
     );
     this.goalSelector.add(3, new TimedAuraGoal.Builder<>(this)
@@ -151,7 +154,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .stateSetter(this::switchAuraState)
       .chargeSound(SoundRegistry.SHOCKER_CHARGE)
       .releaseSound(SoundRegistry.SHOCKER_RELEASE)
-      .soundVolume(3.0F)
+      .soundVolume(2.0F)
       .damage(10.0F)
       .radius(8.0D)
       .defaultCooldown(100)
@@ -162,7 +165,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     );
     this.goalSelector.add(10, new ConjunctiviusReturnGoal(this));
 
-    this.targetSelector.add(0, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+    this.targetSelector.add(0, new ConjunctiviusTargetGoal(this));
   }
 
   @Override
@@ -251,6 +254,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     if (this.getDashState() != TimedActionGoal.State.IDLE) {
       return ConjunctiviusEyeRenderer.EyeState.YELLOW;
     }
+    if (this.getAuraState() != TimedActionGoal.State.IDLE) {
+      return ConjunctiviusEyeRenderer.EyeState.SHAKING;
+    }
     return ConjunctiviusEyeRenderer.EyeState.PINK;
   }
 
@@ -334,6 +340,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.roomBox = new BlockBox(boxArray[0], boxArray[1], boxArray[2], boxArray[3], boxArray[4], boxArray[5]);
     }
     this.spawnRot = nbt.getFloat("spawnRot");
+    this.direction = Direction.fromRotation(this.spawnRot);
     if (nbt.contains("anchors") && nbt.getIntArray("anchors").length == 9) {
       int[] anchors = nbt.getIntArray("anchors");
       BlockPos anchorTop = new BlockPos(anchors[0], anchors[1], anchors[2]);
@@ -429,6 +436,19 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     @Override
     public boolean shouldRunEveryTick() {
       return true;
+    }
+  }
+
+  protected static class ConjunctiviusTargetGoal extends TargetRandomPlayerGoal<ConjunctiviusEntity> {
+
+    public ConjunctiviusTargetGoal(ConjunctiviusEntity entity) {
+      super(entity);
+    }
+
+    @Override
+    protected List<PlayerEntity> getTargetablePlayers() {
+      Box box = Box.from(this.entity.getRoomBox());
+      return this.entity.world.getPlayers(TargetPredicate.DEFAULT, this.entity, box);
     }
   }
 }
