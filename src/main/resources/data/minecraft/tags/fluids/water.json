@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:sewage",
+    "minecells:flowing_sewage",
+    "minecells:ancient_sewage",
+    "minecells:flowing_ancient_sewage"
+  ]
+}

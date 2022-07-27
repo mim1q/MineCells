@@ -26,6 +26,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerSimpleCubeAll(BlockRegistry.HARDSTONE);
     generator.registerSimpleCubeAll(BlockRegistry.ELEVATOR_ASSEMBLER);
     generator.registerStateWithModelReference(BlockRegistry.SEWAGE, Blocks.WATER);
+    generator.registerStateWithModelReference(BlockRegistry.ANCIENT_SEWAGE, Blocks.WATER);
   }
 
   @Override

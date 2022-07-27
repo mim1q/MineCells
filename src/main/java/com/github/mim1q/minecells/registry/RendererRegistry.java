@@ -110,7 +110,12 @@ public class RendererRegistry {
     FluidRenderHandlerRegistry.INSTANCE.register(FluidRegistry.STILL_SEWAGE, FluidRegistry.FLOWING_SEWAGE, new SimpleFluidRenderHandler(
       new Identifier("block/water_still"),
       new Identifier("block/water_flow"),
-      0x00FF00
+      0xA2E751
+    ));
+    FluidRenderHandlerRegistry.INSTANCE.register(FluidRegistry.STILL_ANCIENT_SEWAGE, FluidRegistry.FLOWING_ANCIENT_SEWAGE, new SimpleFluidRenderHandler(
+      new Identifier("block/water_still"),
+      new Identifier("block/water_flow"),
+      0xE0C93B
     ));
 
     BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BIG_CHAIN, RenderLayer.getCutout());
