@@ -67,7 +67,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void runAction() {
-    Vec3d diff = this.target.getCameraPosVec(1.0F).subtract(this.entity.getPos());
+    Vec3d diff = this.target.getCameraPosVec(1.0F).subtract(this.entity.getPos().add(0.0D, this.entity.getHeight() * 0.5D, 0.0D));
     this.direction = diff.normalize();
     this.targetDistance = diff.length();
   }

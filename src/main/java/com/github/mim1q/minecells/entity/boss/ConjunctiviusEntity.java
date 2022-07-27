@@ -192,6 +192,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.prevBodyYaw = this.spawnRot;
       this.setYaw(this.spawnRot);
     }
+
+    // Handle bossbar visibility
+    if (!this.world.isClient()) {
+      boolean playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size() > 0;
+      this.bossBar.setVisible(playersInArea);
+    }
   }
 
   protected void spawnParticles() {
