@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ItemRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Model;
@@ -24,6 +25,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
     generator.registerSimpleCubeAll(BlockRegistry.HARDSTONE);
     generator.registerSimpleCubeAll(BlockRegistry.ELEVATOR_ASSEMBLER);
+    generator.registerStateWithModelReference(BlockRegistry.SEWAGE, Blocks.WATER);
   }
 
   @Override

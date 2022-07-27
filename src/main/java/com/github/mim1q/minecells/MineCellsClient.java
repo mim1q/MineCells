@@ -3,7 +3,6 @@ package com.github.mim1q.minecells;
 import com.github.mim1q.minecells.client.gui.CellAmountHud;
 import com.github.mim1q.minecells.config.ClientConfig;
 import com.github.mim1q.minecells.network.ClientPacketHandler;
-import com.github.mim1q.minecells.registry.BlockRegistry;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.RendererRegistry;
 import draylar.omegaconfig.OmegaConfig;
@@ -24,9 +23,9 @@ public class MineCellsClient implements ClientModInitializer {
   public void onInitializeClient() {
     CLIENT_CONFIG.save();
     RendererRegistry.register();
+    RendererRegistry.registerBlocks();
     ClientPacketHandler.register();
     ParticleRegistry.registerClient();
-    BlockRegistry.registerClient();
     ClientLifecycleEvents.CLIENT_STARTED.register((client) -> cellAmountHud = new CellAmountHud(client));
     HudRenderCallback.EVENT.register((matrixStack, delta) -> cellAmountHud.render(matrixStack, delta));
   }

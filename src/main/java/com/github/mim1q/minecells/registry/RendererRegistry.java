@@ -13,9 +13,14 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Grena
 import com.github.mim1q.minecells.client.render.nonliving.CellEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.ElevatorEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.util.Identifier;
 
 public class RendererRegistry {
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
@@ -99,5 +104,16 @@ public class RendererRegistry {
 
     EntityRendererRegistry.register(EntityRegistry.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(EntityRegistry.CELL, CellEntityRenderer::new);
+  }
+
+  public static void registerBlocks() {
+    FluidRenderHandlerRegistry.INSTANCE.register(FluidRegistry.STILL_SEWAGE, FluidRegistry.FLOWING_SEWAGE, new SimpleFluidRenderHandler(
+      new Identifier("block/water_still"),
+      new Identifier("block/water_flow"),
+      0x00FF00
+    ));
+
+    BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BIG_CHAIN, RenderLayer.getCutout());
+    BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), FluidRegistry.STILL_SEWAGE, FluidRegistry.FLOWING_SEWAGE);
   }
 }
