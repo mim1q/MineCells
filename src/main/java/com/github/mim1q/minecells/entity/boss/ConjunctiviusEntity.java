@@ -5,8 +5,10 @@ import com.github.mim1q.minecells.entity.ai.goal.TargetRandomPlayerGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
+import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
@@ -42,6 +44,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  public static final TrackedData<Boolean> BARRAGE_ACTIVE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   public static final TrackedData<BlockPos> ANCHOR_TOP = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_LEFT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
@@ -52,6 +55,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private BlockBox roomBox = null;
   private int dashCooldown = 0;
   private int auraCooldown = 0;
+  private int barrageCooldown = 0;
+  protected boolean isMoving = false;
 
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -85,14 +90,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     int minZ = this.getBoxWall(startPos, Direction.NORTH.getVector()).getZ();
     int maxZ = this.getBoxWall(startPos, Direction.SOUTH.getVector()).getZ();
 
-    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ).expand(-1);
+    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ);
   }
 
   private BlockPos getBoxWall(BlockPos position, Vec3i offset) {
     for (int i = 0; i < 100; i++) {
       position = position.add(offset);
       if (!this.world.getBlockState(position).isAir()) {
-        return position;
+        return position.subtract(offset);
       }
     }
     return position;
@@ -124,6 +129,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.dataTracker.startTracking(DASH_CHARGING, false);
     this.dataTracker.startTracking(AURA_RELEASING, false);
     this.dataTracker.startTracking(AURA_CHARGING, false);
+    this.dataTracker.startTracking(BARRAGE_ACTIVE, false);
     this.dataTracker.startTracking(ANCHOR_TOP, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
@@ -131,7 +137,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
-    this.goalSelector.add(1, new ConjunctiviusDashGoal.Builder(this)
+    this.goalSelector.add(9, new ConjunctiviusDashGoal.Builder(this)
       .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
       .cooldownGetter(() -> this.dashCooldown)
       .stateSetter(this::switchDashState)
@@ -140,15 +146,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .soundVolume(2.0F)
       .speed(1.25F)
       .damage(20.0F)
-      .defaultCooldown(100)
+      .defaultCooldown(400)
       .actionTick(30)
-      .chance(0.5F)
-      .length(80)
+      .chance(0.15F)
+      .length(50)
       .noRotation()
       .margin(0.5D)
       .build()
     );
-    this.goalSelector.add(3, new TimedAuraGoal.Builder<>(this)
+    this.goalSelector.add(2, new ConjunctiviusAuraGoal.Builder(this)
       .cooldownGetter(() -> this.auraCooldown)
       .cooldownSetter((cooldown) -> this.auraCooldown = cooldown)
       .stateSetter(this::switchAuraState)
@@ -157,13 +163,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .soundVolume(2.0F)
       .damage(10.0F)
       .radius(8.0D)
-      .defaultCooldown(100)
+      .defaultCooldown(200)
       .actionTick(40)
-      .chance(0.5F)
+      .chance(0.15F)
       .length(80)
       .build()
     );
-    this.goalSelector.add(10, new ConjunctiviusReturnGoal(this));
+    this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
+    this.goalSelector.add(9, new ConjunctiviusBarrageGoal(this));
 
     this.targetSelector.add(0, new ConjunctiviusTargetGoal(this));
   }
@@ -179,7 +186,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       this.spawnParticles();
     } else {
-      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().contract(0.25D))) {
+      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox())) {
         if (e instanceof LivingEntity livingEntity) {
           this.tryAttack(livingEntity);
           this.knockback(livingEntity);
@@ -214,6 +221,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   protected void decrementCooldowns() {
     this.dashCooldown = Math.max(0, this.dashCooldown - 1);
     this.auraCooldown = Math.max(0, this.auraCooldown - 1);
+    this.barrageCooldown = Math.max(0, this.barrageCooldown - 1);
   }
 
   protected void switchDashState(TimedActionGoal.State state, boolean value) {
@@ -257,6 +265,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   public ConjunctiviusEyeRenderer.EyeState getEyeState() {
+    if (this.dataTracker.get(BARRAGE_ACTIVE)) {
+      return ConjunctiviusEyeRenderer.EyeState.GREEN;
+    }
     if (this.getDashState() != TimedActionGoal.State.IDLE) {
       return ConjunctiviusEyeRenderer.EyeState.YELLOW;
     }
@@ -390,9 +401,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
 
     @Override
+    public boolean canStart() {
+      return super.canStart() && !this.entity.isMoving;
+    }
+
+    @Override
     protected void release() {
       super.release();
-      BlockPos.iterateOutwards(this.entity.getBlockPos(), 3, 3, 3).forEach((blockPos) -> {
+      BlockPos.iterateOutwards(this.entity.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
         if (this.entity.getRoomBox().contains(blockPos) && this.entity.world.getBlockState(blockPos).isSolidBlock(this.entity.world, blockPos)) {
           this.entity.world.breakBlock(blockPos, false);
         }
@@ -411,19 +427,47 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
   }
 
-  protected static class ConjunctiviusReturnGoal extends Goal {
+  protected static class ConjunctiviusAuraGoal extends TimedAuraGoal<ConjunctiviusEntity> {
 
-    private final ConjunctiviusEntity entity;
+    public ConjunctiviusAuraGoal(Builder builder) {
+      super(builder);
+      // this.setControls(EnumSet.of(Control.MOVE));
+    }
 
-    public ConjunctiviusReturnGoal(ConjunctiviusEntity entity) {
+    @Override
+    public boolean canStart() {
+      return super.canStart() && !this.entity.isMoving;
+    }
+
+    public static class Builder extends TimedAuraGoal.Builder<ConjunctiviusEntity> {
+
+      public Builder(ConjunctiviusEntity entity) {
+        super(entity);
+      }
+
+      public ConjunctiviusAuraGoal build() {
+        return new ConjunctiviusAuraGoal(this);
+      }
+    }
+  }
+
+  protected static class ConjunctiviusMoveAroundGoal extends Goal {
+
+    protected final ConjunctiviusEntity entity;
+    protected double speed = 0.05D;
+    private int cooldown = 0;
+    private Vec3d targetPos;
+
+    public ConjunctiviusMoveAroundGoal(ConjunctiviusEntity entity) {
       this.entity = entity;
+      this.targetPos = this.entity.getPos();
       this.setControls(EnumSet.of(Control.MOVE));
     }
 
     @Override
     public boolean canStart() {
       return this.entity.spawnPos != null
-        && this.entity.spawnPos.distanceTo(this.entity.getPos()) > 2.0D;
+        && this.entity.roomBox != null;
     }
 
     @Override
@@ -433,15 +477,98 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
     @Override
     public void tick() {
-      this.entity.setVelocity(
-        this.entity.getVelocity().add(
-          this.entity.spawnPos.subtract(this.entity.getPos()).normalize().multiply(0.05D))
+      this.entity.isMoving = this.isMoving();
+      if (this.cooldown == 0) {
+        this.entity.setVelocity(this.entity.getVelocity().add(this.targetPos.subtract(this.entity.getPos()).normalize().multiply(this.speed)));
+        if (this.targetPos.distanceTo(this.entity.getPos()) < 2.0D || this.entity.horizontalCollision || this.entity.verticalCollision) {
+          this.targetPos = this.getRandomTargetPos();
+          this.cooldown = this.getNextCooldown();
+        }
+      } else {
+        this.cooldown--;
+      }
+    }
+
+    @Override
+    public void stop() {
+      this.cooldown = 0;
+      this.entity.isMoving = false;
+    }
+
+    public boolean isMoving() {
+      return this.cooldown == 0;
+    }
+
+    private Vec3d getRandomTargetPos() {
+      Vec3d center = this.entity.spawnPos;
+      return center.add(
+        (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D,
+        (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D,
+        (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D
       );
+    }
+
+    protected int getNextCooldown() {
+      return this.entity.getRandom().nextInt(40) + 40;
     }
 
     @Override
     public boolean shouldRunEveryTick() {
       return true;
+    }
+  }
+
+  protected static class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
+
+    private int ticks = 0;
+    private Entity target;
+
+    public ConjunctiviusBarrageGoal(ConjunctiviusEntity entity) {
+      super(entity);
+      this.speed = 0.15D;
+    }
+
+    @Override
+    public boolean canStart() {
+      this.target = entity.getTarget();
+      return super.canStart()
+        && this.entity.barrageCooldown == 0
+        && this.target != null
+        && this.entity.getRandom().nextFloat() < 1.0F;
+    }
+
+    @Override
+    public boolean shouldContinue() {
+      this.target = entity.getTarget();
+      return this.target != null && this.ticks < 120;
+    }
+
+    @Override
+    public void tick() {
+      super.tick();
+      if (this.ticks % 5 == 0) {
+        this.shoot(this.entity, this.target);
+      }
+      this.ticks++;
+    }
+
+    private void shoot(ConjunctiviusEntity entity, Entity target) {
+      if (target != null) {
+        Vec3d offset = new Vec3d(0.0D, 2.0D, 2.5D).rotateY(MathUtils.radians(entity.spawnRot));
+        Vec3d targetPos = target.getPos().add(
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D
+        );
+        ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(offset), targetPos);
+      }
+    }
+
+    @Override
+    public void stop() {
+      this.ticks = 0;
+      this.entity.barrageCooldown = 500;
+      super.stop();
     }
   }
 

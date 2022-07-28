@@ -54,8 +54,8 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
       new Vec3f(1.0F, 1.0F, 1.0F)
     );
     posRotScale.apply(matrices);
-    int count = (int)(direction.length() * 0.75D);
-    for (int i = 0; i < count + 1; i++) {
+    int count = (int)(direction.length());
+    for (int i = 0; i < count; i++) {
       this.model.render(matrices, vertices, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.translate(0.0F, 0.0F, -1.0F);
     }
