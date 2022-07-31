@@ -49,6 +49,11 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
   }
 
   @Override
+  protected float getLyingAngle(ConjunctiviusEntity entity) {
+    return 0.0F;
+  }
+
+  @Override
   public Identifier getTexture(ConjunctiviusEntity entity) {
     return TEXTURE;
   }

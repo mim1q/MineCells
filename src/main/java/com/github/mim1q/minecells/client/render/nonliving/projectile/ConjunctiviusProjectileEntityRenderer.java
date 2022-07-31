@@ -27,8 +27,9 @@ public class ConjunctiviusProjectileEntityRenderer extends EntityRenderer<Conjun
 
   @Override
   public void render(ConjunctiviusProjectileEntity entity, float entityYaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-    super.render(entity, entityYaw, tickDelta, matrices, vertexConsumers, light);
+    final RenderLayer LAYER = RenderLayer.getEntityCutout(TEXTURE);
     VertexConsumer vertices = vertexConsumers.getBuffer(LAYER);
+    //
 
     matrices.push();
     this.model.setAngles(entity, 0.0F, 0.0F, entity.age + tickDelta, 0.0F, 0.0F);

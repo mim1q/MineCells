@@ -53,8 +53,8 @@ public class MineCellsEntity extends HostileEntity {
   }
 
   @Override
-  protected void drop(DamageSource source) {
-    super.drop(source);
+  protected void dropXp() {
+    super.dropXp();
     for (int i = 0; i < this.droppedCellAmount; i++) {
       if (this.random.nextFloat() < this.droppedCellChance) {
         CellEntity.spawn(this.world, this.getPos(), 1);

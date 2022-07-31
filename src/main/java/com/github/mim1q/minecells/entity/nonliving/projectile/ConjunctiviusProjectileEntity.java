@@ -14,11 +14,11 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
 
   @Override
   public void tick() {
+    this.updateRotation();
     super.tick();
-    if (!this.world.isClient() && this.horizontalCollision || this.verticalCollision) {
+    if (!this.world.isClient() && this.world.getBlockCollisions(this, this.getBoundingBox()).iterator().hasNext()) {
       this.kill();
     }
-    this.updateRotation();
   }
 
   public void updateRotation() {
@@ -28,7 +28,7 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
     double l = this.getVelocity().horizontalLength();
     this.setYaw((float)(-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
     this.setPitch((float)(-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
-    this.updatePositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch());
+    this.updateTrackedPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch(), 0, false);
   }
 
   public static void spawn(World world, Vec3d pos, Vec3d target) {
