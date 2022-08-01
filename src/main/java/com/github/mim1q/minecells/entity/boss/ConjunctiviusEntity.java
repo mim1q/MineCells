@@ -2,16 +2,16 @@ package com.github.mim1q.minecells.entity.boss;
 
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
-import com.github.mim1q.minecells.entity.ai.goal.TargetRandomPlayerGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
-import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
+import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarrageGoal;
+import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
+import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ParticleRegistry;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import com.github.mim1q.minecells.registry.StatusEffectRegistry;
-import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
@@ -19,7 +19,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -29,18 +28,16 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,7 +54,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<BlockPos> ANCHOR_LEFT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<Integer> STAGE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.INTEGER);
-  public static final TrackedData<Boolean> EYE_SHAKING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
   private Vec3d spawnPos = Vec3d.ZERO;
   private Direction direction;
@@ -65,13 +61,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private BlockBox roomBox = null;
   private int dashCooldown = 0;
   private int auraCooldown = 0;
-  private int barrageCooldown = 0;
-  protected boolean isMoving = false;
-  private boolean betweenStages = false;
+  public int barrageCooldown = 0;
+  public boolean moving = false;
   private int stageTicks = 1;
-  private final Set<Integer> tentacleIds = new HashSet<>();
   private int lastStage = 0;
-
+  private final Set<Integer> tentacleIds = new HashSet<>();
 
   private final ConjunctiviusDashGoal dashGoal;
   private final ConjunctiviusAuraGoal auraGoal;
@@ -183,7 +177,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
     this.dataTracker.startTracking(STAGE, 0);
-    this.dataTracker.startTracking(EYE_SHAKING, false);
   }
 
   @Override
@@ -216,11 +209,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         this.spikeOffset.setupTransitionTo(5.0F, 40.0F);
       }
       this.spawnParticles();
-      int stage = this.getStage();
-      if (stage != this.lastStage) {
-
-      }
-      this.lastStage = stage;
     } else {
       for (Entity e : this.world.getOtherEntities(this, Box.from(this.getRoomBox()).expand(8.0D))) {
         if (e instanceof EnderPearlEntity) {
@@ -246,7 +234,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
       this.switchStages(this.getStage());
 
-      if (this.betweenStages) {
+      if (!this.isInFullStage()) {
         Set<Integer> aliveTentacles = this.tentacleIds
           .stream()
           .filter(id -> this.world.getEntityById(id) != null)
@@ -254,49 +242,56 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         this.tentacleIds.clear();
         this.tentacleIds.addAll(aliveTentacles);
 
-        if (this.stageTicks > 30 && aliveTentacles.isEmpty()) {
-          this.betweenStages = false;
-          this.stageTicks = 0;
+        if (this.stageTicks > 30 && aliveTentacles.isEmpty() && this.getStage() != 0) {
           this.setStage(this.getStage() + 1);
         } else {
           this.addStatusEffect(new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 20, 0));
         }
       }
-      this.dataTracker.set(EYE_SHAKING, this.stageTicks > 0 && this.stageTicks < 30);
-      this.stageTicks++;
     }
+
+    int stage = this.getStage();
+    if (stage != this.lastStage) {
+      this.stageTicks = 0;
+    }
+    this.lastStage = stage;
+    this.stageTicks++;
   }
 
   @Override
   protected void updatePostDeath() {
-    ++this.deathTime;
-    if (this.deathTime >= 60 && !this.world.isClient()) {
-      this.remove(RemovalReason.KILLED);
+    if (this.world.isClient()) {
+      int interval = this.deathTime >= 55 ? 1 : 10;
+      if (this.deathTime % interval == 0) {
+        this.world.addParticle(ParticleTypes.EXPLOSION_EMITTER, this.getX(), this.getY() + 2.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
+      }
+    } else {
+      if (this.deathTime >= 60) {
+        this.remove(RemovalReason.KILLED);
+      }
     }
+    this.deathTime++;
   }
 
   protected void switchStages(int stage) {
-    if (!this.betweenStages) {
-      if (stage == 0 && this.getTarget() != null) {
-        this.stageTicks = 0;
-        this.setStage(1);
-        this.setupGoals(1);
-        return;
-      }
-      float healthPercent = this.getHealth() / this.getMaxHealth();
-      if (stage == 1 && healthPercent <= 0.66F) {
-        this.spawnTentacles();
-        return;
-      }
-      if (stage == 2 && healthPercent <= 0.33F) {
-        this.spawnTentacles();
-      }
+    if (stage == 0 && this.getTarget() != null) {
+      this.setStage(1);
+      this.setupGoals(1);
+      return;
+    }
+    float healthPercent = this.getHealth() / this.getMaxHealth();
+    if (stage == 1 && healthPercent <= 0.66F) {
+      this.spawnTentacles();
+      this.setStage(2);
+      return;
+    }
+    if (stage == 3 && healthPercent <= 0.33F) {
+      this.spawnTentacles();
+      this.setStage(4);
     }
   }
 
   protected void spawnTentacles() {
-    this.betweenStages = true;
-    this.stageTicks = 0;
     for (int i = 0; i < 4; i++) {
       SewersTentacleEntity tentacle = new SewersTentacleEntity(EntityRegistry.SEWERS_TENTACLE, this.world);
       this.tentacleIds.add(tentacle.getId());
@@ -366,12 +361,18 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return this.dataTracker.get(STAGE);
   }
 
+  public boolean isInFullStage() {
+    int stage = this.getStage();
+    return stage == 1 || stage == 3 || stage == 5;
+  }
+
   public void setStage(int stage) {
     this.dataTracker.set(STAGE, stage);
   }
 
   public ConjunctiviusEyeRenderer.EyeState getEyeState() {
-    if (this.dataTracker.get(EYE_SHAKING) || !this.isAlive()) {
+    boolean stageBeginning = this.stageTicks > 0 && this.stageTicks < 30;
+    if (stageBeginning || !this.isAlive()) {
       return ConjunctiviusEyeRenderer.EyeState.SHAKING;
     }
     if (this.dataTracker.get(BARRAGE_ACTIVE)) {
@@ -386,8 +387,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D)
-      .add(EntityAttributes.GENERIC_MAX_HEALTH, 250.0D)
-      .add(EntityAttributes.GENERIC_ARMOR, 16.0D)
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 350.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 20.0D)
       .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 16.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
       .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0D);
@@ -395,6 +396,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public BlockBox getRoomBox() {
     return this.roomBox;
+  }
+
+  public Vec3d getSpawnPos() {
+    return this.spawnPos;
+  }
+
+  public float getSpawnRot() {
+    return this.spawnRot;
   }
 
   @Override
@@ -443,6 +452,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.getRightAnchor().getX(), this.getRightAnchor().getY(), this.getRightAnchor().getZ(),
     });
     nbt.putInt("stage", this.dataTracker.get(STAGE));
+    nbt.putInt("stageTicks", this.stageTicks);
     nbt.putIntArray("tentacleIds", this.tentacleIds.stream().toList());
   }
 
@@ -468,6 +478,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.setAnchors(anchorTop, anchorLeft, anchorRight);
     }
     this.dataTracker.set(STAGE, nbt.getInt("stage"));
+    this.stageTicks = nbt.getInt("stageTicks");
     int[] tentacleIds = nbt.getIntArray("tentacleIds");
     for (int id : tentacleIds) {
       this.tentacleIds.add(id);
@@ -512,8 +523,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     @Override
     public boolean canStart() {
       return super.canStart()
-        && !this.entity.betweenStages
-        && !this.entity.isMoving;
+        && this.entity.isInFullStage()
+        && !this.entity.moving;
     }
 
     @Override
@@ -532,6 +543,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           this.blocksDestroyed = true;
         }
       });
+    }
+
+    @Override
+    public void stop() {
+      super.stop();
+      this.blocksDestroyed = false;
+      if (this.entity.getSpawnPos() != null) {
+        this.entity.setVelocity(this.entity.getSpawnPos().subtract(this.entity.getPos()).normalize());
+      }
     }
 
     public static class Builder extends TimedDashGoal.Builder<ConjunctiviusEntity> {
@@ -555,8 +575,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     @Override
     public boolean canStart() {
       return super.canStart()
-        && !this.entity.betweenStages
-        && !this.entity.isMoving;
+        && this.entity.isInFullStage()
+        && !this.entity.moving;
     }
 
     public static class Builder extends TimedAuraGoal.Builder<ConjunctiviusEntity> {
@@ -568,164 +588,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       public ConjunctiviusAuraGoal build() {
         return new ConjunctiviusAuraGoal(this);
       }
-    }
-  }
-
-  protected static class ConjunctiviusMoveAroundGoal extends Goal {
-
-    protected final ConjunctiviusEntity entity;
-    protected double speed = 0.05D;
-    private int cooldown = 0;
-    private Vec3d targetPos;
-
-    public ConjunctiviusMoveAroundGoal(ConjunctiviusEntity entity) {
-      this.entity = entity;
-      this.targetPos = this.entity.getPos();
-      this.setControls(EnumSet.of(Control.MOVE));
-    }
-
-    @Override
-    public boolean canStart() {
-      return !this.entity.betweenStages
-        && this.entity.spawnPos != null
-        && this.entity.roomBox != null;
-    }
-
-    @Override
-    public boolean shouldContinue() {
-      return this.canStart();
-    }
-
-    @Override
-    public void start() {
-      super.start();
-      this.targetPos = this.entity.spawnPos;
-    }
-
-    @Override
-    public void tick() {
-      this.entity.isMoving = this.isMoving();
-      if (this.cooldown == 0) {
-        this.entity.setVelocity(this.entity.getVelocity().add(this.targetPos.subtract(this.entity.getPos()).normalize().multiply(this.speed)));
-        if (this.targetPos.distanceTo(this.entity.getPos()) < 2.0D || this.entity.horizontalCollision || this.entity.verticalCollision) {
-          this.targetPos = this.getRandomTargetPos();
-          this.cooldown = this.getNextCooldown();
-        }
-      } else {
-        this.cooldown--;
-      }
-    }
-
-    @Override
-    public void stop() {
-      this.cooldown = 0;
-      this.entity.isMoving = false;
-      this.targetPos = this.entity.spawnPos;
-    }
-
-    public boolean isMoving() {
-      return this.cooldown == 0;
-    }
-
-    private Vec3d getRandomTargetPos() {
-      Vec3d center = this.entity.spawnPos;
-      return center.add(
-        (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-        (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-        (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D
-      );
-    }
-
-    protected int getNextCooldown() {
-      return this.entity.getRandom().nextInt(40) + 40;
-    }
-
-    @Override
-    public boolean shouldRunEveryTick() {
-      return true;
-    }
-  }
-
-  protected static class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
-
-    private int ticks = 0;
-    private Entity target;
-
-    public ConjunctiviusBarrageGoal(ConjunctiviusEntity entity) {
-      super(entity);
-      this.speed = 0.15D;
-    }
-
-    @Override
-    public boolean canStart() {
-      this.target = entity.getTarget();
-      return super.canStart()
-        && this.entity.barrageCooldown == 0
-        && this.target != null
-        && this.entity.isMoving
-        && !this.entity.betweenStages
-        && this.entity.getRandom().nextFloat() < 1.0F;
-    }
-
-    @Override
-    public boolean shouldContinue() {
-      this.target = entity.getTarget();
-      return this.target != null && this.ticks < 260;
-    }
-
-    @Override
-    public void start() {
-      super.start();
-      this.entity.dataTracker.set(BARRAGE_ACTIVE, true);
-    }
-
-    @Override
-    public void tick() {
-      if (this.ticks > 60) {
-        super.tick();
-        if (this.ticks % 2 == 0) {
-          this.shoot(this.entity, this.target);
-        }
-      }
-      this.ticks++;
-    }
-
-    private void shoot(ConjunctiviusEntity entity, Entity target) {
-      if (target != null) {
-        Vec3d offset = new Vec3d(0.0D, 2.0D, 2.0D).rotateY(MathUtils.radians(entity.spawnRot));
-        Vec3d targetPos = target.getPos().add(
-          (entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-          (entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-          (entity.getRandom().nextDouble() - 0.5D) * 5.0D
-        );
-        ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(offset), targetPos);
-      }
-    }
-
-    @Override
-    protected int getNextCooldown() {
-      return 10;
-    }
-
-    @Override
-    public void stop() {
-      this.ticks = 0;
-      this.entity.barrageCooldown = 500;
-      this.entity.dataTracker.set(BARRAGE_ACTIVE, false);
-      super.stop();
-    }
-  }
-
-  protected static class ConjunctiviusTargetGoal extends TargetRandomPlayerGoal<ConjunctiviusEntity> {
-
-    public ConjunctiviusTargetGoal(ConjunctiviusEntity entity) {
-      super(entity);
-    }
-
-    @Override
-    protected List<PlayerEntity> getTargetablePlayers() {
-      Box box = Box.from(this.entity.getRoomBox());
-      return this.entity.world.getPlayers(TargetPredicate.DEFAULT, this.entity, box);
     }
   }
 }

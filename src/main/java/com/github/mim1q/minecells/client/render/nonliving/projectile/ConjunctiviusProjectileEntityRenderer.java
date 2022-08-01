@@ -27,7 +27,7 @@ public class ConjunctiviusProjectileEntityRenderer extends EntityRenderer<Conjun
 
   @Override
   public void render(ConjunctiviusProjectileEntity entity, float entityYaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-    final RenderLayer LAYER = RenderLayer.getEntityCutout(TEXTURE);
+    final RenderLayer LAYER = RenderLayer.getEntityTranslucentEmissive(TEXTURE);
     VertexConsumer vertices = vertexConsumers.getBuffer(LAYER);
     //
 
