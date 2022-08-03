@@ -49,7 +49,7 @@ public class MagicOrbEntity extends ProjectileEntity {
   }
 
   protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
-    return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()), this::canHit);
+    return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()).expand(0.1D), this::canHit);
   }
 
   @Override

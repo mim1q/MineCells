@@ -55,6 +55,16 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
   public static final TrackedData<Integer> STAGE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
+  // Stages:
+  // 0 - has not seen any player yet
+  // 1 - first full phase
+  // 2 - first transition phase
+  // 3 - second full phase
+  // 4 - second transition phase
+  // 5 - third full phase
+  // 6 - third transition phase
+  // 7 - fourth full phase
+
   private Vec3d spawnPos = Vec3d.ZERO;
   private Direction direction;
   private float spawnRot = 0.0F;
@@ -190,12 +200,13 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.goalSelector.add(2, this.dashGoal);
       this.goalSelector.add(9, this.auraGoal);
       this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal(this));
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F));
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.1F));
     } else {
       this.goalSelector.add(2, this.dashGoal);
       this.goalSelector.add(9, this.auraGoal);
       this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal(this));
+      //this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D));
     }
   }
 
@@ -244,8 +255,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
         if (this.stageTicks > 30 && aliveTentacles.isEmpty() && this.getStage() != 0) {
           this.setStage(this.getStage() + 1);
-        } else {
-          this.addStatusEffect(new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 20, 0));
+        } else if (this.getStage() != 0) {
+          this.addStatusEffect(new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 20, 0, false, false));
         }
       }
     }
@@ -280,14 +291,19 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       return;
     }
     float healthPercent = this.getHealth() / this.getMaxHealth();
-    if (stage == 1 && healthPercent <= 0.66F) {
+    if (stage == 1 && healthPercent <= 0.75F) {
       this.spawnTentacles();
       this.setStage(2);
       return;
     }
-    if (stage == 3 && healthPercent <= 0.33F) {
+    if (stage == 3 && healthPercent <= 0.5F) {
       this.spawnTentacles();
       this.setStage(4);
+      return;
+    }
+    if (stage == 5 && healthPercent <= 0.25F) {
+      this.spawnTentacles();
+      this.setStage(6);
     }
   }
 
@@ -363,7 +379,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public boolean isInFullStage() {
     int stage = this.getStage();
-    return stage == 1 || stage == 3 || stage == 5;
+    return stage == 1 || stage == 3 || stage == 5 || stage == 7;
   }
 
   public void setStage(int stage) {

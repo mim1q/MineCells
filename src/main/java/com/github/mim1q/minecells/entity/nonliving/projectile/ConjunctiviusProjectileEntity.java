@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -34,7 +35,7 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   public static void spawn(World world, Vec3d pos, Vec3d target) {
     ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(EntityRegistry.CONJUNCTIVIUS_PROJECTILE, world);
     projectile.setPosition(pos);
-    projectile.setVelocity(target.subtract(pos).normalize().multiply(1.0));
+    projectile.setVelocity(target.subtract(pos).normalize());
     projectile.updateRotation();
     world.spawnEntity(projectile);
   }
@@ -47,5 +48,12 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   @Override
   protected void spawnParticles() {
 
+  }
+
+  @Override
+  public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+    super.onSpawnPacket(packet);
+    this.setVelocity(packet.getVelocityX(), packet.getVelocityY(), packet.getVelocityZ());
+    this.updateRotation();
   }
 }

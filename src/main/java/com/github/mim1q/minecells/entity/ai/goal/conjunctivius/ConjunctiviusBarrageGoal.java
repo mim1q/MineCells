@@ -2,18 +2,22 @@ package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
-import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.Vec3d;
 
-public class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
+public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
 
-  private int ticks = 0;
+  protected int ticks = 0;
   private Entity target;
+  private final float chance;
+  private final int interval;
 
-  public ConjunctiviusBarrageGoal(ConjunctiviusEntity entity) {
+  public ConjunctiviusBarrageGoal(ConjunctiviusEntity entity, double speed, float chance, int interval) {
     super(entity);
-    this.speed = 0.15D;
+    this.speed = speed;
+    this.chance = chance;
+    this.interval = interval;
   }
 
   @Override
@@ -24,7 +28,7 @@ public class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
       && this.target != null
       && this.entity.moving
       && this.entity.isInFullStage()
-      && this.entity.getRandom().nextFloat() < 1.0F;
+      && this.entity.getRandom().nextFloat() < this.chance;
   }
 
   @Override
@@ -43,24 +47,14 @@ public class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
   public void tick() {
     if (this.ticks > 60) {
       super.tick();
-      if (this.ticks % 2 == 0) {
+      if (this.ticks % this.interval == 0) {
         this.shoot(this.entity, this.target);
       }
     }
     this.ticks++;
   }
 
-  private void shoot(ConjunctiviusEntity entity, Entity target) {
-    if (target != null) {
-      Vec3d offset = new Vec3d(0.0D, 2.0D, 2.0D).rotateY(MathUtils.radians(entity.getSpawnRot()));
-      Vec3d targetPos = target.getPos().add(
-        (entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-        (entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-        (entity.getRandom().nextDouble() - 0.5D) * 5.0D
-      );
-      ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(offset), targetPos);
-    }
-  }
+  protected abstract void shoot(ConjunctiviusEntity entity, Entity target);
 
   @Override
   protected int getNextCooldown() {
@@ -70,8 +64,48 @@ public class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
   @Override
   public void stop() {
     this.ticks = 0;
-    this.entity.barrageCooldown = 500;
+    this.entity.barrageCooldown = 200;
     this.entity.getDataTracker().set(ConjunctiviusEntity.BARRAGE_ACTIVE, false);
     super.stop();
+  }
+
+  public static class Targeted extends ConjunctiviusBarrageGoal {
+
+    public Targeted(ConjunctiviusEntity entity, double speed, float chance) {
+      super(entity, speed, chance, 4);
+    }
+
+    @Override
+    protected void shoot(ConjunctiviusEntity entity, Entity target) {
+      if (target != null) {
+        Vec3d targetPos = target.getPos().add(
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D + 1.5D,
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D
+        );
+        ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos);
+      }
+    }
+  }
+
+  public static class Around extends ConjunctiviusBarrageGoal {
+
+    public Around(ConjunctiviusEntity entity, double speed, float chance) {
+      super(entity, speed, chance, 1);
+    }
+
+    @Override
+    protected void shoot(ConjunctiviusEntity entity, Entity target) {
+      if (target != null) {
+        for (int i = 0; i < 3; i++) {
+          BlockBox box = this.entity.getRoomBox();
+          double x = entity.getRandom().nextBetween(box.getMinX(), box.getMaxX());
+          double z = entity.getRandom().nextBetween(box.getMinZ(), box.getMaxZ());
+          double y = entity.getRandom().nextBetween(box.getMinY(), box.getMinY() + 5);
+          Vec3d targetPos = new Vec3d(x, y, z);
+          ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos);
+        }
+      }
+    }
   }
 }
