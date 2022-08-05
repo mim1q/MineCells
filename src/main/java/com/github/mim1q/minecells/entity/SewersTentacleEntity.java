@@ -1,12 +1,12 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.accessor.EntityAccessor;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -32,11 +32,13 @@ public class SewersTentacleEntity extends MineCellsEntity {
   private static final EntityDimensions DIMENSIONS_BURIED = new EntityDimensions(0.7F, 0.1F, false);
   private static final EntityDimensions DIMENSIONS_UNBURIED = new EntityDimensions(0.7F, 2.0F, false);
 
-  public AnimationProperty belowGround = new AnimationProperty(-2.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
-  public AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty belowGround = new AnimationProperty(-2.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
   private static final TrackedData<Integer> VARIANT = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> BURIED = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
+  private int buriedTicks = 0;
 
   public SewersTentacleEntity(EntityType<SewersTentacleEntity> entityType, World world) {
     super(entityType, world);
@@ -79,8 +81,9 @@ public class SewersTentacleEntity extends MineCellsEntity {
         this.belowGround.setupTransitionTo(0.0F, 10.0F);
         this.wobble.setupTransitionTo(1.0F, 20.0F);
       }
+    } else {
+      this.buriedTicks = this.isBuried() ? this.buriedTicks + 1 : 0;
     }
-    ((EntityAccessor) this).setDimensions(this.isBuried() ? DIMENSIONS_BURIED : DIMENSIONS_UNBURIED);
   }
 
   protected void spawnMovingParticles() {
@@ -99,7 +102,10 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   @Override
   public boolean isInvulnerableTo(DamageSource damageSource) {
-    if (this.isBuried() || damageSource == DamageSource.IN_WALL) {
+    if (damageSource.isExplosive() || damageSource.isOutOfWorld() || damageSource.isSourceCreativePlayer()) {
+      return false;
+    }
+    if ((this.isBuried() && this.buriedTicks > 20) || damageSource == DamageSource.IN_WALL) {
       return true;
     }
     return super.isInvulnerableTo(damageSource);
@@ -166,26 +172,33 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
     @Override
     public void tick() {
-      System.out.println(ticks);
       if (attacking) {
-        this.mob.getNavigation().stop();
         if (ticks > 10) {
-          ((SewersTentacleEntity)this.mob).setBuried(false);
-          for (PlayerEntity player : this.mob.world.getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(0.5D, 0.0D, 0.5D))) {
-            this.attack(player, this.getSquaredMaxAttackDistance(this.mob));
+          ((SewersTentacleEntity) this.mob).setBuried(false);
+          for (PlayerEntity player : this.mob.world.getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(1.2D, 0.0D, 1.2D))) {
+            this.mob.tryAttack(player);
           }
-          if (ticks > 40) {
+          if (ticks > 80) {
             this.attacking = false;
           }
         }
         ticks++;
       } else {
-        ((SewersTentacleEntity)this.mob).setBuried(true);
-        super.tick();
-        if (this.mob.getTarget() != null && this.mob.getTarget().distanceTo(this.mob) <= 1.0D) {
-          this.attacking = true;
-          this.ticks = 0;
+        ((SewersTentacleEntity) this.mob).setBuried(true);
+        if (((SewersTentacleEntity) this.mob).buriedTicks > 20) {
+          super.tick();
+          if (this.mob.getTarget() != null && this.mob.getTarget().distanceTo(this.mob) <= 1.0D) {
+            this.attacking = true;
+            this.ticks = 0;
+          }
         }
+      }
+    }
+
+    @Override
+    protected void attack(LivingEntity target, double squaredDistance) {
+      if (this.attacking) {
+        super.attack(target, squaredDistance);
       }
     }
 

@@ -75,9 +75,9 @@
     ]
   },
   "shieldbearer.release": {
-      "sounds": [
+    "sounds": [
       "minecells:shieldbearer/release"
-      ]
+    ]
   },
   "mutated_bat.charge": {
     "sounds": [
@@ -103,6 +103,41 @@
     "sounds": [
       "minecells:scorpion/charge_0",
       "minecells:scorpion/charge_1"
+    ]
+  },
+  "conjunctivius.dash_charge": {
+    "sounds": [
+      "minecells:conjunctivius/dash_charge"
+    ]
+  },
+  "conjunctivius.dash_release": {
+    "sounds": [
+      "minecells:conjunctivius/dash_release"
+    ]
+  },
+  "conjunctivius.dying": {
+    "sounds": [
+      "minecells:conjunctivius/dying"
+    ]
+  },
+  "conjunctivius.death": {
+    "sounds": [
+      "minecells:conjunctivius/death"
+    ]
+  },
+  "conjunctivius.hit": {
+    "sounds": [
+      "minecells:conjunctivius/hit"
+    ]
+  },
+  "conjunctivius.shot": {
+    "sounds": [
+      "minecells:conjunctivius/shot"
+    ]
+  },
+  "conjunctivius.shout": {
+    "sounds": [
+      "minecells:conjunctivius/shout"
     ]
   },
   "weapon.bow.charge": {

@@ -9,181 +9,65 @@ import net.minecraft.util.registry.Registry;
 public final class SoundRegistry {
 
   // Leaping Zombie
-  public static final Identifier LEAPING_ZOMBIE_CHARGE_ID = MineCells.createId("leaping_zombie.leap_charge");
-  public static final SoundEvent LEAPING_ZOMBIE_CHARGE = new SoundEvent(LEAPING_ZOMBIE_CHARGE_ID);
-
-  public static final Identifier LEAPING_ZOMBIE_RELEASE_ID = MineCells.createId("leaping_zombie.leap_release");
-  public static final SoundEvent LEAPING_ZOMBIE_RELEASE = new SoundEvent(LEAPING_ZOMBIE_RELEASE_ID);
-
-  public static final Identifier LEAPING_ZOMBIE_DEATH_ID = MineCells.createId("leaping_zombie.death");
-  public static final SoundEvent LEAPING_ZOMBIE_DEATH = new SoundEvent(LEAPING_ZOMBIE_DEATH_ID);
-
+  public static final SoundEvent LEAPING_ZOMBIE_CHARGE = register("leaping_zombie.leap_charge");
+  public static final SoundEvent LEAPING_ZOMBIE_RELEASE = register("leaping_zombie.leap_release");
+  public static final SoundEvent LEAPING_ZOMBIE_DEATH = register("leaping_zombie.death");
   // Shocker
-  public static final Identifier SHOCKER_DEATH_ID = MineCells.createId("shocker.death");
-  public static final SoundEvent SHOCKER_DEATH = new SoundEvent(SHOCKER_DEATH_ID);
-
-  public static final Identifier SHOCKER_CHARGE_ID = MineCells.createId("shocker.charge");
-  public static final SoundEvent SHOCKER_CHARGE = new SoundEvent(SHOCKER_CHARGE_ID);
-
-  public static final Identifier SHOCKER_RELEASE_ID = MineCells.createId("shocker.release");
-  public static final SoundEvent SHOCKER_RELEASE = new SoundEvent(SHOCKER_RELEASE_ID);
-
+  public static final SoundEvent SHOCKER_DEATH = register("shocker.death");
+  public static final SoundEvent SHOCKER_CHARGE = register("shocker.charge");
+  public static final SoundEvent SHOCKER_RELEASE = register("shocker.release");
   // Grenadier
-  public static final Identifier GRENADIER_CHARGE_ID = MineCells.createId("grenadier.charge");
-  public static final SoundEvent GRENADIER_CHARGE = new SoundEvent(GRENADIER_CHARGE_ID);
-
+  public static final SoundEvent GRENADIER_CHARGE = register("grenadier.charge");
   // Disgusting Worm
-  public static final Identifier DISGUSTING_WORM_ATTACK_ID = MineCells.createId("disgusting_worm.attack");
-  public static final SoundEvent DISGUSTING_WORM_ATTACK = new SoundEvent(DISGUSTING_WORM_ATTACK_ID);
-
-  public static final Identifier DISGUSTING_WORM_DEATH_ID = MineCells.createId("disgusting_worm.death");
-  public static final SoundEvent DISGUSTING_WORM_DEATH = new SoundEvent(DISGUSTING_WORM_DEATH_ID);
-
+  public static final SoundEvent DISGUSTING_WORM_ATTACK = register("disgusting_worm.attack");
+  public static final SoundEvent DISGUSTING_WORM_DEATH = register("disgusting_worm.death");
   // Inquisitor
-  public static final Identifier INQUISITOR_CHARGE_ID = MineCells.createId("inquisitor.charge");
-  public static final SoundEvent INQUISITOR_CHARGE = new SoundEvent(INQUISITOR_CHARGE_ID);
-
-  public static final Identifier INQUISITOR_RELEASE_ID = MineCells.createId("inquisitor.release");
-  public static final SoundEvent INQUISITOR_RELEASE = new SoundEvent(INQUISITOR_RELEASE_ID);
-
+  public static final SoundEvent INQUISITOR_CHARGE = register("inquisitor.charge");
+  public static final SoundEvent INQUISITOR_RELEASE = register("inquisitor.release");
   // Kamikaze
-  public static final Identifier KAMIKAZE_WAKE_ID = MineCells.createId("kamikaze.wake");
-  public static final SoundEvent KAMIKAZE_WAKE = new SoundEvent(KAMIKAZE_WAKE_ID);
-
-  public static final Identifier KAMIKAZE_CHARGE_ID = MineCells.createId("kamikaze.charge");
-  public static final SoundEvent KAMIKAZE_CHARGE = new SoundEvent(KAMIKAZE_CHARGE_ID);
-
-  public static final Identifier KAMIKAZE_DEATH_ID = MineCells.createId("kamikaze.death");
-  public static final SoundEvent KAMIKAZE_DEATH = new SoundEvent(KAMIKAZE_DEATH_ID);
-
+  public static final SoundEvent KAMIKAZE_WAKE = register("kamikaze.wake");
+  public static final SoundEvent KAMIKAZE_CHARGE = register("kamikaze.charge");
+  public static final SoundEvent KAMIKAZE_DEATH = register("kamikaze.death");
   // Shieldbearer
-  public static final Identifier SHIELDBEARER_CHARGE_ID = MineCells.createId("shieldbearer.charge");
-  public static final SoundEvent SHIELDBEARER_CHARGE = new SoundEvent(SHIELDBEARER_CHARGE_ID);
-
-  public static final Identifier SHIELDBEARER_RELEASE_ID = MineCells.createId("shieldbearer.release");
-  public static final SoundEvent SHIELDBEARER_RELEASE = new SoundEvent(SHIELDBEARER_RELEASE_ID);
-
+  public static final SoundEvent SHIELDBEARER_CHARGE = register("shieldbearer.charge");
+  public static final SoundEvent SHIELDBEARER_RELEASE = register("shieldbearer.release");
   // Mutated Bat
-  public static final Identifier MUTATED_BAT_CHARGE_ID = MineCells.createId("mutated_bat.charge");
-  public static final SoundEvent MUTATED_BAT_CHARGE = new SoundEvent(MUTATED_BAT_CHARGE_ID);
-
-  public static final Identifier MUTATED_BAT_RELEASE_ID = MineCells.createId("mutated_bat.release");
-  public static final SoundEvent MUTATED_BAT_RELEASE = new SoundEvent(MUTATED_BAT_RELEASE_ID);
-
-  public static final Identifier MUTATED_BAT_WAKE_ID = MineCells.createId("mutated_bat.wake");
-  public static final SoundEvent MUTATED_BAT_WAKE = new SoundEvent(MUTATED_BAT_WAKE_ID);
-
+  public static final SoundEvent MUTATED_BAT_CHARGE = register("mutated_bat.charge");
+  public static final SoundEvent MUTATED_BAT_RELEASE = register("mutated_bat.release");
+  public static final SoundEvent MUTATED_BAT_WAKE = register("mutated_bat.wake");
   // Rancid Rat
-  public static final Identifier RANCID_RAT_CHARGE_ID = MineCells.createId("rancid_rat.charge");
-  public static final SoundEvent RANCID_RAT_CHARGE = new SoundEvent(RANCID_RAT_CHARGE_ID);
-
-  public static final Identifier RANCID_RAT_RELEASE_ID = MineCells.createId("rancid_rat.release");
-  public static final SoundEvent RANCID_RAT_RELEASE = new SoundEvent(RANCID_RAT_RELEASE_ID);
-
+  public static final SoundEvent RANCID_RAT_CHARGE = register("rancid_rat.charge");
+  public static final SoundEvent RANCID_RAT_RELEASE = register("rancid_rat.release");
   // Scorpion
-  public static final Identifier SCORPION_CHARGE_ID = MineCells.createId("scorpion.charge");
-  public static final SoundEvent SCORPION_CHARGE = new SoundEvent(SCORPION_CHARGE_ID);
-
+  public static final SoundEvent SCORPION_CHARGE = register("scorpion.charge");
+  // Conjunctivius
+  public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash_charge");
+  public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash_release");
+  public static final SoundEvent CONJUNCTIVIUS_DYING = register("conjunctivius.dying");
+  public static final SoundEvent CONJUNCTIVIUS_DEATH = register("conjunctivius.death");
+  public static final SoundEvent CONJUNCTIVIUS_HIT = register("conjunctivius.hit");
+  public static final SoundEvent CONJUNCTIVIUS_SHOT = register("conjunctivius.shot");
+  public static final SoundEvent CONJUNCTIVIUS_SHOUT = register("conjunctivius.shout");
   // Weapons
-  public static final Identifier BOW_CHARGE_ID = MineCells.createId("weapon.bow.charge");
-  public static final SoundEvent BOW_CHARGE = new SoundEvent(BOW_CHARGE_ID);
-
-  public static final Identifier BOW_RELEASE_ID = MineCells.createId("weapon.bow.release");
-  public static final SoundEvent BOW_RELEASE = new SoundEvent(BOW_RELEASE_ID);
-
-  public static final Identifier SWIPE_ID = MineCells.createId("weapon.swipe");
-  public static final SoundEvent SWIPE = new SoundEvent(SWIPE_ID);
-
+  public static final SoundEvent BOW_CHARGE = register("weapon.bow.charge");
+  public static final SoundEvent BOW_RELEASE = register("weapon.bow.release");
+  public static final SoundEvent SWIPE = register("weapon.swipe");
   // Other
-  public static final Identifier CRIT_ID = MineCells.createId("crit");
-  public static final SoundEvent CRIT = new SoundEvent(CRIT_ID);
+  public static final SoundEvent CRIT = register("crit");
+  public static final SoundEvent SHOCK = register("shock");
+  public static final SoundEvent EXPLOSION = register("explosion");
+  public static final SoundEvent ELEVATOR_START = register("elevator_start");
+  public static final SoundEvent ELEVATOR_STOP = register("elevator_stop");
+  public static final SoundEvent BUZZ = register("buzz");
+  public static final SoundEvent TELEPORT_CHARGE = register("teleport.charge");
+  public static final SoundEvent TELEPORT_RELEASE = register("teleport.release");
+  public static final SoundEvent RISE = register("rise");
+  public static final SoundEvent CELL_ABSORB = register("cell_absorb");
 
-  public static final Identifier SHOCK_ID = MineCells.createId("shock");
-  public static final SoundEvent SHOCK = new SoundEvent(SHOCK_ID);
-
-  public static final Identifier EXPLOSION_ID = MineCells.createId("explosion");
-  public static final SoundEvent EXPLOSION = new SoundEvent(EXPLOSION_ID);
-
-  public static final Identifier ELEVATOR_START_ID = MineCells.createId("elevator_start");
-  public static final SoundEvent ELEVATOR_START = new SoundEvent(ELEVATOR_START_ID);
-
-  public static final Identifier ELEVATOR_STOP_ID = MineCells.createId("elevator_stop");
-  public static final SoundEvent ELEVATOR_STOP = new SoundEvent(ELEVATOR_STOP_ID);
-
-  public static final Identifier BUZZ_ID = MineCells.createId("buzz");
-  public static final SoundEvent BUZZ = new SoundEvent(BUZZ_ID);
-
-  public static final Identifier TELEPORT_CHARGE_ID = MineCells.createId("teleport.charge");
-  public static final SoundEvent TELEPORT_CHARGE = new SoundEvent(TELEPORT_CHARGE_ID);
-
-  public static final Identifier TELEPORT_RELEASE_ID = MineCells.createId("teleport.release");
-  public static final SoundEvent TELEPORT_RELEASE = new SoundEvent(TELEPORT_RELEASE_ID);
-
-  public static final Identifier RISE_ID = MineCells.createId("rise");
-  public static final SoundEvent RISE = new SoundEvent(RISE_ID);
-
-  public static final Identifier CELL_ABSORB_ID = MineCells.createId("cell_absorb");
-  public static final SoundEvent CELL_ABSORB = new SoundEvent(CELL_ABSORB_ID);
-
-  public static void register() {
-
-    // Leaping Zombie
-    Registry.register(Registry.SOUND_EVENT, LEAPING_ZOMBIE_CHARGE_ID, LEAPING_ZOMBIE_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, LEAPING_ZOMBIE_RELEASE_ID, LEAPING_ZOMBIE_RELEASE);
-    Registry.register(Registry.SOUND_EVENT, LEAPING_ZOMBIE_DEATH_ID, LEAPING_ZOMBIE_DEATH);
-
-    // Shocker
-    Registry.register(Registry.SOUND_EVENT, SHOCKER_CHARGE_ID, SHOCKER_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, SHOCKER_RELEASE_ID, SHOCKER_RELEASE);
-    Registry.register(Registry.SOUND_EVENT, SHOCKER_DEATH_ID, SHOCKER_DEATH);
-
-    // Grenadier
-    Registry.register(Registry.SOUND_EVENT, GRENADIER_CHARGE_ID, GRENADIER_CHARGE);
-
-    // Disgusting Worm
-    Registry.register(Registry.SOUND_EVENT, DISGUSTING_WORM_ATTACK_ID, DISGUSTING_WORM_ATTACK);
-    Registry.register(Registry.SOUND_EVENT, DISGUSTING_WORM_DEATH_ID, DISGUSTING_WORM_DEATH);
-
-    // Inquisitor
-    Registry.register(Registry.SOUND_EVENT, INQUISITOR_CHARGE_ID, INQUISITOR_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, INQUISITOR_RELEASE_ID, INQUISITOR_RELEASE);
-
-    // Kamikaze
-    Registry.register(Registry.SOUND_EVENT, KAMIKAZE_WAKE_ID, KAMIKAZE_WAKE);
-    Registry.register(Registry.SOUND_EVENT, KAMIKAZE_CHARGE_ID, KAMIKAZE_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, KAMIKAZE_DEATH_ID, KAMIKAZE_DEATH);
-
-    // Shieldbearer
-    Registry.register(Registry.SOUND_EVENT, SHIELDBEARER_CHARGE_ID, SHIELDBEARER_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, SHIELDBEARER_RELEASE_ID, SHIELDBEARER_RELEASE);
-
-    // Mutated Bat
-    Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_CHARGE_ID, MUTATED_BAT_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_RELEASE_ID, MUTATED_BAT_RELEASE);
-    Registry.register(Registry.SOUND_EVENT, MUTATED_BAT_WAKE_ID, MUTATED_BAT_WAKE);
-
-    // Rancid Rat
-    Registry.register(Registry.SOUND_EVENT, RANCID_RAT_CHARGE_ID, RANCID_RAT_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, RANCID_RAT_RELEASE_ID, RANCID_RAT_RELEASE);
-
-    // Scorpion
-    Registry.register(Registry.SOUND_EVENT, SCORPION_CHARGE_ID, SCORPION_CHARGE);
-
-    // Weapons
-    Registry.register(Registry.SOUND_EVENT, BOW_CHARGE_ID, BOW_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, BOW_RELEASE_ID, BOW_RELEASE);
-    Registry.register(Registry.SOUND_EVENT, SWIPE_ID, SWIPE);
-
-    // Other
-    Registry.register(Registry.SOUND_EVENT, CRIT_ID, CRIT);
-    Registry.register(Registry.SOUND_EVENT, SHOCK_ID, SHOCK);
-    Registry.register(Registry.SOUND_EVENT, EXPLOSION_ID, EXPLOSION);
-    Registry.register(Registry.SOUND_EVENT, ELEVATOR_START_ID, ELEVATOR_START);
-    Registry.register(Registry.SOUND_EVENT, ELEVATOR_STOP_ID, ELEVATOR_STOP);
-    Registry.register(Registry.SOUND_EVENT, BUZZ_ID, BUZZ);
-    Registry.register(Registry.SOUND_EVENT, TELEPORT_CHARGE_ID, TELEPORT_CHARGE);
-    Registry.register(Registry.SOUND_EVENT, TELEPORT_RELEASE_ID, TELEPORT_RELEASE);
-    Registry.register(Registry.SOUND_EVENT, RISE_ID, RISE);
-    Registry.register(Registry.SOUND_EVENT, CELL_ABSORB_ID, CELL_ABSORB);
+  public static SoundEvent register(String name) {
+    Identifier id = MineCells.createId(name);
+    return Registry.register(Registry.SOUND_EVENT, id, new SoundEvent(id));
   }
+
+  public static void register() { }
 }

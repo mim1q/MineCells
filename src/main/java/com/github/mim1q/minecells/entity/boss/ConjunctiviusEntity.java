@@ -8,10 +8,7 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarrageGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.ParticleRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.registry.StatusEffectRegistry;
+import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
@@ -30,6 +27,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
@@ -91,8 +90,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
       .cooldownGetter(() -> this.dashCooldown)
       .stateSetter(this::switchDashState)
-      .chargeSound(SoundRegistry.SHIELDBEARER_CHARGE)
-      .releaseSound(SoundRegistry.SHIELDBEARER_RELEASE)
+      .chargeSound(SoundRegistry.CONJUNCTIVIUS_DASH_CHARGE)
+      .releaseSound(SoundRegistry.CONJUNCTIVIUS_DASH_RELEASE)
       .soundVolume(2.0F)
       .speed(1.25F)
       .damage(20.0F)
@@ -195,7 +194,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   protected void setupGoals(int stage) {
-    this.goalSelector.clear();
     if (stage == 1) {
       this.goalSelector.add(2, this.dashGoal);
       this.goalSelector.add(9, this.auraGoal);
@@ -206,7 +204,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.goalSelector.add(2, this.dashGoal);
       this.goalSelector.add(9, this.auraGoal);
       this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
-      //this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D));
     }
   }
 
@@ -220,6 +217,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         this.spikeOffset.setupTransitionTo(5.0F, 40.0F);
       }
       this.spawnParticles();
+
     } else {
       for (Entity e : this.world.getOtherEntities(this, Box.from(this.getRoomBox()).expand(8.0D))) {
         if (e instanceof EnderPearlEntity) {
@@ -269,6 +267,16 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.stageTicks++;
   }
 
+  private void spawnChainBreakingParticles(Vec3d offset, Vec3d target) {
+    ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, BlockRegistry.BIG_CHAIN.getDefaultState());
+    Vec3d diff = target.subtract(this.getPos().add(offset));
+    double length = diff.length();
+    for (int i = 0; i < length; i++) {
+      Vec3d pos = this.getPos().add(offset).add(diff.multiply(i / length));
+      this.world.addParticle(particle, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
+    }
+  }
+
   @Override
   protected void updatePostDeath() {
     if (this.world.isClient()) {
@@ -277,7 +285,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         this.world.addParticle(ParticleTypes.EXPLOSION_EMITTER, this.getX(), this.getY() + 2.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
       }
     } else {
-      if (this.deathTime >= 60) {
+      if (this.deathTime == 1) {
+        this.playSound(SoundRegistry.CONJUNCTIVIUS_DYING, 2.0F, 1.0F);
+      }
+      if (this.deathTime == 60) {
+        this.playSound(SoundRegistry.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
         this.remove(RemovalReason.KILLED);
       }
     }
@@ -309,10 +321,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   protected void spawnTentacles() {
     for (int i = 0; i < 4; i++) {
-      SewersTentacleEntity tentacle = new SewersTentacleEntity(EntityRegistry.SEWERS_TENTACLE, this.world);
-      this.tentacleIds.add(tentacle.getId());
-      tentacle.setPosition(this.getX(), this.getY(), this.getZ());
-      this.world.spawnEntity(tentacle);
+      SewersTentacleEntity tentacle = EntityRegistry.SEWERS_TENTACLE.create(this.world);
+      if (tentacle != null) {
+        this.tentacleIds.add(tentacle.getId());
+        tentacle.setPosition(this.getX(), this.getY(), this.getZ());
+        tentacle.wobble.update(0);
+        tentacle.belowGround.update(0);
+        this.world.spawnEntity(tentacle);
+      }
     }
   }
 
@@ -323,6 +339,24 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     } else if (this.getAuraState() == TimedActionGoal.State.RELEASE) {
       ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 50, 7.0D, 0.01D);
       ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
+    }
+
+    int stage = this.getStage();
+    if (this.isInFullStage() || stage == 0) {
+      return;
+    }
+    if (this.stageTicks == 1) {
+      Vec3d offset = switch (stage) {
+        case 2 -> new Vec3d(2.2D, -0.85D, 0.0D);
+        case 4 -> new Vec3d(-2.2D, -0.85D, 0.0D);
+        default -> new Vec3d(0.0D, 1.75D, 0.0D);
+      };
+      Vec3d target = switch (stage) {
+        case 2 -> Vec3d.ofCenter(this.getRightAnchor());
+        case 4 -> Vec3d.ofCenter(this.getLeftAnchor());
+        default -> Vec3d.ofCenter(this.getTopAnchor());
+      };
+      this.spawnChainBreakingParticles(offset, target);
     }
   }
 
@@ -382,8 +416,16 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return stage == 1 || stage == 3 || stage == 5 || stage == 7;
   }
 
+  public boolean canAttack() {
+    return this.isInFullStage() && this.stageTicks > 40;
+  }
+
   public void setStage(int stage) {
-    this.dataTracker.set(STAGE, stage);
+    if (stage != this.getStage()) {
+      this.playSound(SoundRegistry.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
+      this.setupGoals(stage);
+      this.dataTracker.set(STAGE, stage);
+    }
   }
 
   public ConjunctiviusEyeRenderer.EyeState getEyeState() {
@@ -539,13 +581,13 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     @Override
     public boolean canStart() {
       return super.canStart()
-        && this.entity.isInFullStage()
+        && this.entity.canAttack()
         && !this.entity.moving;
     }
 
     @Override
     public boolean shouldContinue() {
-      boolean hitWall = !this.blocksDestroyed && (this.entity.horizontalCollision || this.entity.verticalCollision);
+      boolean hitWall = (this.ticks() > (this.actionTick + 5) && !this.blocksDestroyed && (this.entity.horizontalCollision || this.entity.verticalCollision));
       return super.shouldContinue() && !hitWall;
     }
 
@@ -591,7 +633,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     @Override
     public boolean canStart() {
       return super.canStart()
-        && this.entity.isInFullStage()
+        && this.entity.canAttack()
         && !this.entity.moving;
     }
 

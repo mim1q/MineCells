@@ -33,9 +33,16 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     Vec3d startPos = entity.getLerpedPos(tickDelta);
 
     VertexConsumer vertices = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
-    renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getTopAnchor().up()), entity.getYaw(), new Vec3f(0.0F, -1.75F, 0.0F));
-    renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getLeftAnchor()), entity.getYaw(), new Vec3f(-2.2F, 0.85F, 0.0F));
-    renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getRightAnchor()), entity.getYaw(), new Vec3f(2.2F, 0.85F, 0.0F));
+    int stage = entity.getStage();
+    if (stage < 2) {
+      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getRightAnchor()), entity.getYaw(), new Vec3f(2.2F, 0.85F, 0.0F));
+    }
+    if (stage < 4) {
+      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getLeftAnchor()), entity.getYaw(), new Vec3f(-2.2F, 0.85F, 0.0F));
+    }
+    if (stage < 6) {
+      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getTopAnchor().up()), entity.getYaw(), new Vec3f(0.0F, -1.75F, 0.0F));
+    }
   }
 
   protected void renderChain(MatrixStack matrices, VertexConsumer vertices, int light, Vec3d startPos, Vec3d targetPos, float headYaw, Vec3f offset) {

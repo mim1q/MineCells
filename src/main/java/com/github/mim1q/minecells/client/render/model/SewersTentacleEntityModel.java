@@ -82,7 +82,7 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
     entity.wobble.update(animationProgress);
     entity.belowGround.update(animationProgress);
 
-    wiggleTentacle(this.segments, animationProgress, 15.0F * entity.wobble.getValue(), entity.getId() * 255);
+    wiggleTentacle(this.segments, animationProgress, 15.0F * entity.wobble.getValue(), entity.getId());
     this.root.pivotY = 24.0F - entity.belowGround.getValue() * 16.0F + 8.0F;
   }
 
