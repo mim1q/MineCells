@@ -1,14 +1,12 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
-import net.minecraft.client.MinecraftClient;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-
-import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
 public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity> {
 
@@ -81,22 +79,17 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
 
   @Override
   public void setAngles(SewersTentacleEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    wiggleTentacle(this.segments, animationProgress, entity.getId() * 255);
-    float partialTicks = entity.buriedTicks;
-    if (partialTicks > 0.0F && partialTicks < 20.0F) {
-      partialTicks += MinecraftClient.getInstance().getTickDelta() * (entity.isBuried() ? 1.0F : -1.0F);
-    }
-    float buriedProgress = Math.max(partialTicks, 0.0F) / 20.0F;
-    this.root.pivotY = 24.0F + buriedProgress * 40.0F;
+    entity.wobble.update(animationProgress);
+    entity.belowGround.update(animationProgress);
+
+    wiggleTentacle(this.segments, animationProgress, 15.0F * entity.wobble.getValue(), entity.getId() * 255);
+    this.root.pivotY = 24.0F - entity.belowGround.getValue() * 16.0F + 8.0F;
   }
 
-  public static void wiggleTentacle(ModelPart[] segments, float animationProgress, int offset) {
+  public static void wiggleTentacle(ModelPart[] segments, float animationProgress, float degrees, int offset) {
     for (int i = 0; i < segments.length - 1; i++) {
-      segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + offset) * 10 * RADIANS_PER_DEGREE;
-      //segments[i].pitch -= 15.0F * RADIANS_PER_DEGREE;
+      segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + offset) * MathUtils.radians(degrees);
     }
-    //segments[3].pitch += 15.0F * RADIANS_PER_DEGREE;
-    //segments[4].pitch = 15.0F * RADIANS_PER_DEGREE;
   }
 
   @Override

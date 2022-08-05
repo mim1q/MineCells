@@ -31,8 +31,6 @@ public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentac
 
   @Override
   public void render(SewersTentacleEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-    if (mobEntity.buriedTicks <= 20) {
-      super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
-    }
+    super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
   }
 }
