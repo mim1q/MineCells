@@ -33,4 +33,9 @@ public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentac
   public void render(SewersTentacleEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
     super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
   }
+
+  @Override
+  protected float getLyingAngle(SewersTentacleEntity entity) {
+    return 0.0F;
+  }
 }

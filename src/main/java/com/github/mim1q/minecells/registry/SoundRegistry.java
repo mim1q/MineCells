@@ -7,7 +7,6 @@ import net.minecraft.util.registry.Registry;
 
 
 public final class SoundRegistry {
-
   // Leaping Zombie
   public static final SoundEvent LEAPING_ZOMBIE_CHARGE = register("leaping_zombie.leap_charge");
   public static final SoundEvent LEAPING_ZOMBIE_RELEASE = register("leaping_zombie.leap_release");
@@ -40,6 +39,8 @@ public final class SoundRegistry {
   public static final SoundEvent RANCID_RAT_RELEASE = register("rancid_rat.release");
   // Scorpion
   public static final SoundEvent SCORPION_CHARGE = register("scorpion.charge");
+  // Sewers Tentacle
+  public static final SoundEvent SEWERS_TENTACLE_DEATH = register("sewers_tentacle.death");
   // Conjunctivius
   public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash_charge");
   public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash_release");
@@ -48,6 +49,7 @@ public final class SoundRegistry {
   public static final SoundEvent CONJUNCTIVIUS_HIT = register("conjunctivius.hit");
   public static final SoundEvent CONJUNCTIVIUS_SHOT = register("conjunctivius.shot");
   public static final SoundEvent CONJUNCTIVIUS_SHOUT = register("conjunctivius.shout");
+  public static final SoundEvent CONJUNCTIVIUS_MOVE = register("conjunctivius.move");
   // Weapons
   public static final SoundEvent BOW_CHARGE = register("weapon.bow.charge");
   public static final SoundEvent BOW_RELEASE = register("weapon.bow.release");
@@ -62,6 +64,7 @@ public final class SoundRegistry {
   public static final SoundEvent TELEPORT_CHARGE = register("teleport.charge");
   public static final SoundEvent TELEPORT_RELEASE = register("teleport.release");
   public static final SoundEvent RISE = register("rise");
+  public static final SoundEvent CHARGE = register("charge");
   public static final SoundEvent CELL_ABSORB = register("cell_absorb");
 
   public static SoundEvent register(String name) {

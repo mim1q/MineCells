@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
+import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -29,15 +30,17 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
     double l = this.getVelocity().horizontalLength();
     this.setYaw((float)(-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
     this.setPitch((float)(-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
-    //this.updateTrackedPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), this.getPitch(), 0, false);
   }
 
-  public static void spawn(World world, Vec3d pos, Vec3d target) {
-    ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(EntityRegistry.CONJUNCTIVIUS_PROJECTILE, world);
-    projectile.setPosition(pos);
-    projectile.setVelocity(target.subtract(pos).normalize());
-    projectile.updateRotation();
-    world.spawnEntity(projectile);
+  public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
+    ConjunctiviusProjectileEntity projectile = EntityRegistry.CONJUNCTIVIUS_PROJECTILE.create(world);
+    if (projectile != null) {
+      projectile.setPosition(pos);
+      projectile.setVelocity(target.subtract(pos).normalize());
+      projectile.updateRotation();
+      projectile.setOwner(owner);
+      world.spawnEntity(projectile);
+    }
   }
 
   @Override

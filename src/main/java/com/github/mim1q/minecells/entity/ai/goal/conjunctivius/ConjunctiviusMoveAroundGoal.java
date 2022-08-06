@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
+import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.Vec3d;
 
@@ -48,6 +49,9 @@ public class ConjunctiviusMoveAroundGoal extends Goal {
       }
     } else {
       this.cooldown--;
+      if (this.cooldown == 0 && this.entity.getStage() < 7) {
+        this.entity.playSound(SoundRegistry.CONJUNCTIVIUS_MOVE, 1.0F, 1.0F);
+      }
     }
   }
 

@@ -105,6 +105,11 @@
       "minecells:scorpion/charge_1"
     ]
   },
+  "sewers_tentacle.death": {
+    "sounds": [
+      "minecells:sewers_tentacle/death"
+    ]
+  },
   "conjunctivius.dash_charge": {
     "sounds": [
       "minecells:conjunctivius/dash_charge"
@@ -138,6 +143,11 @@
   "conjunctivius.shout": {
     "sounds": [
       "minecells:conjunctivius/shout"
+    ]
+  },
+  "conjunctivius.move": {
+    "sounds": [
+      "minecells:conjunctivius/move"
     ]
   },
   "weapon.bow.charge": {
@@ -180,6 +190,11 @@
   "rise": {
     "sounds": [
       "minecells:rise"
+    ]
+  },
+  "charge": {
+    "sounds": [
+      "minecells:charge"
     ]
   },
   "elevator_start": {
