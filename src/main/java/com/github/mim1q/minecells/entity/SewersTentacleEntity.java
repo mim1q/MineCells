@@ -45,7 +45,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
   private static final HashMultimap<EntityAttribute, EntityAttributeModifier> bossModifiers = HashMultimap.create();
 
   static {
-    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("SewersTentacleEntity.boss_armor", 10.0D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("SewersTentacleEntity.boss_armor", 2.5D, EntityAttributeModifier.Operation.ADDITION));
     bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("SewersTentacleEntity.boss_damage", 5.0D, EntityAttributeModifier.Operation.ADDITION));
     bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SewersTentacleEntity.boss_speed", 0.1D, EntityAttributeModifier.Operation.ADDITION));
   }
@@ -179,11 +179,11 @@ public class SewersTentacleEntity extends MineCellsEntity {
   public static DefaultAttributeContainer.Builder createSewersTentacleAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
-      .add(EntityAttributes.GENERIC_ARMOR, 5.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 2.5D)
       .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
       .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0D)
       .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
-      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
   }
 
@@ -244,7 +244,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
     @Override
     public void tick() {
       if (attacking) {
-        if (ticks > 5) {
+        if (ticks > 10) {
           ((SewersTentacleEntity) this.mob).setBuried(false);
           for (PlayerEntity player : this.mob.world.getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(0.75D, 0.0D, 0.75D))) {
             this.attack(player, player.squaredDistanceTo(this.mob));
@@ -264,7 +264,6 @@ public class SewersTentacleEntity extends MineCellsEntity {
             this.mob.getMoveControl().moveTo(x, this.mob.getTarget().getY(), z, 1.0D);
             if (this.mob.getTarget().distanceTo(this.mob) <= 1.0D) {
               this.mob.playSound(SoundRegistry.CHARGE, 1.0F, 1.0F);
-              this.mob.playSound(SoundRegistry.RISE, 1.0F, 1.0F);
               this.attacking = true;
               this.ticks = 0;
             }
@@ -276,7 +275,8 @@ public class SewersTentacleEntity extends MineCellsEntity {
     @Override
     protected void attack(LivingEntity target, double squaredDistance) {
       if (this.attacking) {
-        target.damage(DamageSource.mob(this.mob), 15.0F);
+        float damage = (float) this.mob.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+        target.damage(DamageSource.mob(this.mob), damage);
         Vec3d diffNorm = this.mob.getPos().subtract(target.getPos()).normalize();
         target.takeKnockback(1.0D, diffNorm.x, diffNorm.z);
       }

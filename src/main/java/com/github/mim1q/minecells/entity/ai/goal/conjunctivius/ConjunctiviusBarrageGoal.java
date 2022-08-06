@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
 import com.github.mim1q.minecells.registry.SoundRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.Vec3d;
 
 public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
@@ -68,7 +67,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
   @Override
   public void stop() {
     this.ticks = 0;
-    this.entity.barrageCooldown = 200;
+    this.entity.barrageCooldown = this.entity.stageAdjustedCooldown(200);
     this.entity.getDataTracker().set(ConjunctiviusEntity.BARRAGE_ACTIVE, false);
     super.stop();
   }
@@ -82,12 +81,14 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     @Override
     protected void shoot(ConjunctiviusEntity entity, Entity target) {
       if (target != null) {
-        Vec3d targetPos = target.getPos().add(
-          (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
-          (entity.getRandom().nextDouble() - 0.5D) * 2.0D + 1.5D,
-          (entity.getRandom().nextDouble() - 0.5D) * 2.0D
-        );
-        ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
+        for (int i = 0; i < 2; i++) {
+          Vec3d targetPos = target.getPos().add(
+            (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
+            (entity.getRandom().nextDouble() - 0.5D) * 2.0D + 2.0D,
+            (entity.getRandom().nextDouble() - 0.5D) * 2.0D
+          );
+          ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
+        }
       }
     }
   }
@@ -101,12 +102,12 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     @Override
     protected void shoot(ConjunctiviusEntity entity, Entity target) {
       if (target != null) {
-        for (int i = 0; i < 3; i++) {
-          BlockBox box = this.entity.getRoomBox();
-          double x = entity.getRandom().nextBetween(box.getMinX(), box.getMaxX());
-          double z = entity.getRandom().nextBetween(box.getMinZ(), box.getMaxZ());
-          double y = entity.getRandom().nextBetween(box.getMinY(), box.getMinY() + 5);
-          Vec3d targetPos = new Vec3d(x, y, z);
+        for (int i = 0; i < 5; i++) {
+          Vec3d targetPos = target.getPos().add(
+            (entity.getRandom().nextDouble() - 0.5D) * 10.0D,
+            (entity.getRandom().nextDouble() - 0.5D) * 10.0D + 3.0D,
+            (entity.getRandom().nextDouble() - 0.5D) * 10.0D
+          );
           ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
         }
       }

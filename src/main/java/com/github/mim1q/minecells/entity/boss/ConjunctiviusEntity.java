@@ -156,9 +156,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
+    this.goalSelector.clear();
+    this.targetSelector.clear();
+
     final ConjunctiviusAuraGoal auraGoal = ((ConjunctiviusAuraGoal.Builder) new ConjunctiviusAuraGoal.Builder(this)
       .cooldownGetter(() -> this.auraCooldown)
-      .cooldownSetter((cooldown) -> this.auraCooldown = cooldown)
+      .cooldownSetter((cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown))
       .stateSetter(this::switchAuraState)
       .chargeSound(SoundRegistry.SHOCKER_CHARGE)
       .releaseSound(SoundRegistry.SHOCKER_RELEASE)
@@ -172,7 +175,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .build();
 
     final ConjunctiviusDashGoal dashGoal = ((ConjunctiviusDashGoal.Builder) new ConjunctiviusDashGoal.Builder(this)
-      .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
+      .cooldownSetter((cooldown) -> this.dashCooldown = this.stageAdjustedCooldown(cooldown))
       .cooldownGetter(() -> this.dashCooldown)
       .stateSetter(this::switchDashState)
       .chargeSound(SoundRegistry.CONJUNCTIVIUS_DASH_CHARGE)
@@ -191,8 +194,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.goalSelector.add(2, dashGoal);
     this.goalSelector.add(9, auraGoal);
     this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
-    this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F));
-    this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.1F));
+    if (this.getStage() >= 3) {
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F));
+    }
+    if (this.getStage() >= 7) {
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.1F));
+    }
 
     this.targetSelector.add(0, new ConjunctiviusTargetGoal(this));
   }
@@ -220,7 +227,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         }
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
-        if (this.getRoomBox().contains(blockPos) && this.world.getBlockState(blockPos).isSolidBlock(this.world, blockPos)) {
+        if (this.getRoomBox().contains(blockPos)) {
           this.world.breakBlock(blockPos, false);
         }
       });
@@ -293,17 +300,17 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       return;
     }
     float healthPercent = this.getHealth() / this.getMaxHealth();
-    if (stage == 1 && healthPercent <= 0.75F) {
+    if (stage == 1 && healthPercent <= 0.8F) {
       this.spawnTentacles();
       this.setStage(2);
       return;
     }
-    if (stage == 3 && healthPercent <= 0.5F) {
+    if (stage == 3 && healthPercent <= 0.6F) {
       this.spawnTentacles();
       this.setStage(4);
       return;
     }
-    if (stage == 5 && healthPercent <= 0.25F) {
+    if (stage == 5 && healthPercent <= 0.3F) {
       this.spawnTentacles();
       this.setStage(6);
     }
@@ -385,6 +392,16 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return super.damage(source, amount);
   }
 
+  public int stageAdjustedCooldown(int cooldown) {
+    int stage = this.getStage();
+    return switch (stage) {
+      case 3 -> (cooldown * 3) / 4;
+      case 5 -> cooldown / 2;
+      case 7 -> cooldown / 3;
+      default -> cooldown;
+    };
+  }
+
   protected void switchDashState(TimedActionGoal.State state, boolean value) {
     switch (state) {
       case CHARGE -> this.dataTracker.set(DASH_CHARGING, value);
@@ -441,7 +458,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void setStage(int stage) {
     if (stage != this.getStage()) {
       this.playSound(SoundRegistry.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
+      this.barrageCooldown = 0;
+      this.auraCooldown = 0;
+      this.dashCooldown = 0;
       this.dataTracker.set(STAGE, stage);
+      this.initGoals();
     }
   }
 
@@ -462,7 +483,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D)
-      .add(EntityAttributes.GENERIC_MAX_HEALTH, 350.0D)
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 300.0D)
       .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
       .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 8.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
