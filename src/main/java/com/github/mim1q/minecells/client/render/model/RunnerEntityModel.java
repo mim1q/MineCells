@@ -23,8 +23,6 @@ public class RunnerEntityModel extends EntityModel<RunnerEntity> {
   private final ModelPart head;
 
   public RunnerEntityModel(ModelPart part) {
-    System.out.println("RunnerEntityModel");
-
     this.root = part.getChild("root");
     this.lowerTorso = this.root.getChild("lower_torso");
     this.upperTorso = this.lowerTorso.getChild("upper_torso");
