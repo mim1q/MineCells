@@ -25,7 +25,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -75,7 +74,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private int stageTicks = 1;
   private int lastStage = 0;
   private final Set<Integer> tentacleIds = new HashSet<>();
-  private int lastTentacleAmount = 0;
 
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -83,6 +81,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.navigation = new BirdNavigation(this, this.world);
     this.setNoGravity(true);
     this.ignoreCameraFrustum = true;
+    if (this.roomBox == null) {
+      this.roomBox = BlockBox.create(this.getBlockPos(), this.getBlockPos());
+    }
   }
 
   @Nullable
@@ -156,9 +157,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
-    this.goalSelector.clear();
-    this.targetSelector.clear();
-
     final ConjunctiviusAuraGoal auraGoal = ((ConjunctiviusAuraGoal.Builder) new ConjunctiviusAuraGoal.Builder(this)
       .cooldownGetter(() -> this.auraCooldown)
       .cooldownSetter((cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown))
@@ -168,9 +166,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .soundVolume(2.0F)
       .damage(10.0F)
       .radius(8.0D)
-      .defaultCooldown(200)
+      .defaultCooldown(300)
       .actionTick(40)
-      .chance(0.15F)
+      .chance(0.025F)
       .length(80))
       .build();
 
@@ -185,7 +183,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .damage(20.0F)
       .defaultCooldown(400)
       .actionTick(30)
-      .chance(0.15F)
+      .chance(0.1F)
       .length(50)
       .noRotation()
       .margin(0.5D))
@@ -194,14 +192,18 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.goalSelector.add(2, dashGoal);
     this.goalSelector.add(9, auraGoal);
     this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
-    if (this.getStage() >= 3) {
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F));
-    }
-    if (this.getStage() >= 7) {
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.1F));
-    }
 
     this.targetSelector.add(0, new ConjunctiviusTargetGoal(this));
+  }
+
+  public void addStageGoals(int stage) {
+    if (stage == 3) {
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F));
+      return;
+    }
+    if (stage == 7) {
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.02F));
+    }
   }
 
   @Override
@@ -215,11 +217,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       this.spawnParticles();
     } else {
-      for (Entity e : this.world.getOtherEntities(this, Box.from(this.getRoomBox()).expand(8.0D))) {
-        if (e instanceof EnderPearlEntity) {
-          e.kill();
-        }
-      }
       for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox())) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
           this.tryAttack(livingEntity);
@@ -228,7 +225,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
         if (this.getRoomBox().contains(blockPos)) {
-          this.world.breakBlock(blockPos, false);
+          this.world.breakBlock(blockPos, true);
         }
       });
 
@@ -252,18 +249,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           .collect(Collectors.toSet());
         this.tentacleIds.clear();
         this.tentacleIds.addAll(aliveTentacles);
-        int tentacleAmount = this.tentacleIds.size();
-
-        if (tentacleAmount != 0 && tentacleAmount < this.lastTentacleAmount) {
-          this.playSound(SoundRegistry.CONJUNCTIVIUS_SHOUT, 1.0F, 1.0F);
-        }
 
         if (this.stageTicks > 30 && aliveTentacles.isEmpty() && this.getStage() != 0) {
           this.setStage(this.getStage() + 1);
         } else if (this.getStage() != 0) {
           this.addStatusEffect(new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 20, 0, false, false));
         }
-        this.lastTentacleAmount = tentacleAmount;
       }
     }
 
@@ -305,7 +296,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.setStage(2);
       return;
     }
-    if (stage == 3 && healthPercent <= 0.6F) {
+    if (stage == 3 && healthPercent <= 0.55F) {
       this.spawnTentacles();
       this.setStage(4);
       return;
@@ -330,9 +321,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   private Vec3d getTentaclePos() {
-    if (this.roomBox == null) {
-      return this.getPos();
-    }
     int x = this.random.nextBetween(this.roomBox.getMinX(), this.roomBox.getMaxX());
     int y = this.roomBox.getMinY();
     int z = this.random.nextBetween(this.roomBox.getMinZ(), this.roomBox.getMaxZ());
@@ -386,8 +374,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public boolean damage(DamageSource source, float amount) {
+    if (this.getTarget() == null) {
+      return false;
+    }
     if (source.isProjectile()) {
-      return super.damage(source, amount * 0.3F);
+      return super.damage(source, amount * 0.2F);
     }
     return super.damage(source, amount);
   }
@@ -395,9 +386,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public int stageAdjustedCooldown(int cooldown) {
     int stage = this.getStage();
     return switch (stage) {
-      case 3 -> (cooldown * 3) / 4;
-      case 5 -> cooldown / 2;
-      case 7 -> cooldown / 3;
+      case 3 -> cooldown / 2;
+      case 5 -> cooldown / 3;
+      case 7 -> cooldown / 4;
       default -> cooldown;
     };
   }
@@ -458,11 +449,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void setStage(int stage) {
     if (stage != this.getStage()) {
       this.playSound(SoundRegistry.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
-      this.barrageCooldown = 0;
-      this.auraCooldown = 0;
-      this.dashCooldown = 0;
       this.dataTracker.set(STAGE, stage);
-      this.initGoals();
+      this.addStageGoals(stage);
     }
   }
 
@@ -483,8 +471,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D)
-      .add(EntityAttributes.GENERIC_MAX_HEALTH, 300.0D)
-      .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 15.0D)
       .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 8.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
       .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0D);
@@ -573,7 +561,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       BlockPos anchorRight = new BlockPos(anchors[6], anchors[7], anchors[8]);
       this.setAnchors(anchorTop, anchorLeft, anchorRight);
     }
-    this.dataTracker.set(STAGE, nbt.getInt("stage"));
+    this.setStage(nbt.getInt("stage"));
+    if (this.getStage() > 3) {
+      this.addStageGoals(3);
+    }
     this.stageTicks = nbt.getInt("stageTicks");
     int[] tentacleIds = nbt.getIntArray("tentacleIds");
     for (int id : tentacleIds) {
@@ -627,7 +618,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       boolean hitWall = (this.ticks() > (this.actionTick + 5) && (this.entity.horizontalCollision || this.entity.verticalCollision));
       return super.shouldContinue() && !hitWall;
     }
-
 
     @Override
     public void stop() {

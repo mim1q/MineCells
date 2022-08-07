@@ -31,9 +31,9 @@ public class CellEntity extends Entity {
     CellEntity cell = new CellEntity(EntityRegistry.CELL, world);
     cell.setPosition(position);
     cell.setVelocity(
-      (world.random.nextFloat() - 0.5F),
       world.random.nextFloat() - 0.5F,
-      (world.random.nextFloat() - 0.5F)
+      world.random.nextFloat() - 0.5F,
+      world.random.nextFloat() - 0.5F
     );
     cell.setAmount(amount);
     world.spawnEntity(cell);
@@ -56,13 +56,13 @@ public class CellEntity extends Entity {
       }
       if (this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
         double distance = this.target.distanceTo(this);
-        double multiplier = distance == 0.0D ? 1.0D : 0.01D / distance;
+        double multiplier = distance == 0.0D ? 1.0D : 0.025D / distance;
         this.addVelocity(
           (this.target.getX() - this.getX()) * multiplier,
           (this.target.getY() - this.getY()) * multiplier,
           (this.target.getZ() - this.getZ()) * multiplier
         );
-        if (this.target.getBoundingBox().contains(this.getBoundingBox().getCenter())) {
+        if (this.target.getBoundingBox().intersects(this.getBoundingBox())) {
           PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
           target.setCells(target.getCells() + this.getAmount());
           this.playSound(SoundRegistry.CELL_ABSORB, 0.25F, 1.0F);
@@ -91,17 +91,11 @@ public class CellEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-//    if (nbt.contains("target")) {
-//      this.target = this.world.getPlayerByUuid(nbt.getUuid("target"));
-//    }
     this.dataTracker.set(AMOUNT, nbt.getInt("amount"));
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-//    if (this.target != null) {
-//      nbt.putUuid("target", this.target.getUuid());
-//    }
     nbt.putInt("amount", this.dataTracker.get(AMOUNT));
   }
 

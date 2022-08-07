@@ -45,9 +45,9 @@ public class SewersTentacleEntity extends MineCellsEntity {
   private static final HashMultimap<EntityAttribute, EntityAttributeModifier> bossModifiers = HashMultimap.create();
 
   static {
-    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("SewersTentacleEntity.boss_armor", 2.5D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("SewersTentacleEntity.boss_armor", 5.0D, EntityAttributeModifier.Operation.ADDITION));
     bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("SewersTentacleEntity.boss_damage", 5.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SewersTentacleEntity.boss_speed", 0.1D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SewersTentacleEntity.boss_speed", 0.25D, EntityAttributeModifier.Operation.ADDITION));
   }
 
   private int buriedTicks = 0;

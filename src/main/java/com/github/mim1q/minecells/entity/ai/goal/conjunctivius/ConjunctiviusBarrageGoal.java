@@ -41,6 +41,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
   public void start() {
     super.start();
     this.entity.getDataTracker().set(ConjunctiviusEntity.BARRAGE_ACTIVE, true);
+    this.entity.playSound(SoundRegistry.CHARGE, 2.0F, 1.0F);
   }
 
   @Override
