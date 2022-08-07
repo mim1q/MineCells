@@ -24,7 +24,7 @@ modrinth {
     versionType.set("${project.mod_version_type}")
     versionName.set("minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}")
     changelog.set(rootProject.file("changelogs/minecells_${project.mod_version}.md").text)
-    syncBodyFrom.set(rootProject.file("project/body.md").text)
+    syncBodyFrom.set(rootProject.file("README.md").text)
 
     dependencies.set([
         new ModDependency("P7dR8mSH", "required")

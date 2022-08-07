@@ -1,30 +1,34 @@
-[DOWNLOAD ON MODRINTH](https://modrinth.com/mod/minecells)
-
-[DOWNLOAD ON CURSEFORGE](https://www.curseforge.com/minecraft/mc-mods/minecells)
-
-
 ![Mine Cells Logo](https://github.com/mim1q/MineCells/blob/main/project/logo_big.png?raw=true)
-![Early development](https://github.com/mim1q/MineCells/blob/main/project/early.png)
+![Early development](https://github.com/mim1q/MineCells/blob/main/project/early.png?raw=true)
 
 <center>
-    <a href="https://modrinth.com/mod/fabric-api" target="_blank"><img src="https://github.com/mim1q/MineCells/blob/main/project/fabricapi.png" alt="Requires Fabric API" /></a>
-    <a href="https://store.steampowered.com/app/588650/Dead_Cells/" target="_blank"><img src="https://github.com/mim1q/MineCells/blob/main/project/deadcells.png" alt="Buy Dead Cells" /></a>
-    <a href="https://ko-fi.com/mim1q" target="_blank"><img src="https://github.com/mim1q/MineCells/blob/main/project/kofi.png?raw=true" alt="Support me on Ko-fi" /></a>
+
+[![Requires Fabric API](https://github.com/mim1q/MineCells/blob/main/project/fabricapi.png?raw=true)
+](https://modrinth.com/mod/fabric-api)
+[![Buy Dead Cells](https://github.com/mim1q/MineCells/blob/main/project/deadcells.png?raw=true)
+](https://store.steampowered.com/app/588650/Dead_Cells/)
+[![Support me on Ko-fi](https://github.com/mim1q/MineCells/blob/main/project/kofi.png?raw=true)
+](https://ko-fi.com/mim1q)
 </center>
-<br/>
 
 The goal of this mod is to bring content from Dead Cells into Minecraft in a faithful, yet fitting way.
 
 * ~~Explore a vast dimension along with its many biomes and dungeons~~
 * Fight unique mobs ~~and bosses~~
-* Discover new weapons ~~and artifacts~~
-* If you like this mod, be sure to support Dead Cells developers and try their game out! ❤️
+* Discover new weapons and equipment
+* Make use of new mechanics and features
+* If you like this mod, be sure to support Dead Cells developers and try their game out! ❤
 
-<center>
-    <img src="https://github.com/mim1q/MineCells/blob/main/project/render.png" alt="Enemies render"/>
-</center>
+![Enemies render](https://github.com/mim1q/MineCells/blob/main/project/render.png?raw=true)
 
- 
+I recommend playing this mod with:
+* [Sodium](https://modrinth.com/mod/sodium) + [Iris](https://modrinth.com/mod/iris) for shader support.
+* [Disable Custom Worlds Advice](https://www.curseforge.com/minecraft/mc-mods/fabric-disable-custom-worlds-advice)
+
+Some shaderpacks that work well with Mine Cells:
+* ★★★★★ [BSL Shaders](https://www.curseforge.com/minecraft/customization/bsl-shaders)
+* ★★★★ [Complementary Shaders](https://www.curseforge.com/minecraft/customization/complementary-shaders) (with and without Compatibility Mode)
+* ★★★★ [Sora Shaders](https://www.curseforge.com/minecraft/customization/sora-shaders)
 
 You can use this mod in your modpacks, just be sure to credit me as the author.
 Do not redistribute this mod by itself on other sites.
@@ -34,3 +38,10 @@ Do not redistribute this mod by itself on other sites.
 *Dead Cells* content and materials are the intellectual property of their respective owners.
 
 I am not in affiliated with the developers in any way. This is just a passion project I made to connect two of my favorite games.
+
+## Links
+
+* [Download on Modrinth](https://modrinth.com/mod/minecells)
+* [Download on CurseForge](https://www.curseforge.com/minecraft/mc-mods/minecells)
+* [View on GitHub](https://github.com/mim1q/MineCells)
+* [Support me on Ko-fi](https://ko-fi.com/mim1q)
