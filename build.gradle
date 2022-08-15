@@ -5,6 +5,7 @@ plugins {
     id "maven-publish"
     id "com.modrinth.minotaur" version "2.+"
     id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "co.uzzu.dotenv.gradle" version "2.0.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -18,40 +19,47 @@ loom {
     accessWidenerPath = file("src/main/resources/minecells.accesswidener")
 }
 
-modrinth {
-    projectId.set("9Qdvz1OV")
-    uploadFile.set(remapJar)
-    versionType.set("${project.mod_version_type}")
-    versionName.set("minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}")
-    changelog.set(rootProject.file("changelogs/minecells_${project.mod_version}.md").text)
-    syncBodyFrom.set(rootProject.file("README.md").text)
+if (env.MODRINTH_TOKEN.isPresent()) {
+    println("Modrinth token present")
+    modrinth {
+        token.set(env.MODRINTH_TOKEN.value)
+        projectId.set("9Qdvz1OV")
+        uploadFile.set(remapJar)
+        versionType.set("${project.mod_version_type}")
+        versionName.set("minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}")
+        changelog.set(rootProject.file("changelogs/minecells_${project.mod_version}.md").text)
+        syncBodyFrom.set(rootProject.file("README.md").text)
 
-    dependencies.set([
-        new ModDependency("P7dR8mSH", "required")
-    ])
+        dependencies.set([
+                new ModDependency("P7dR8mSH", "required")
+        ])
+    }
 }
 
-curseforge {
-    apiKey = System.getenv("CURSEGRADLE_TOKEN")
-    project {
-        id = "618790"
-        changelog = rootProject.file("changelogs/minecells_${project.mod_version}.md").text
-        changelogType = "markdown"
-        releaseType = "${project.mod_version_type}"
-        addGameVersion "Fabric"
-        addGameVersion "1.19"
-        relations {
-            requiredLibrary "fabric-api"
-        }
-        afterEvaluate {
-            mainArtifact(remapJar) {
-                displayName = "minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}"
+if (env.CURSEGRADLE_TOKEN.isPresent()) {
+    println("Cursegradle token present")
+    curseforge {
+        apiKey = env.CURSEGRADLE_TOKEN.value
+        project {
+            id = "618790"
+            changelog = rootProject.file("changelogs/minecells_${project.mod_version}.md").text
+            changelogType = "markdown"
+            releaseType = "${project.mod_version_type}"
+            addGameVersion "Fabric"
+            addGameVersion "1.19"
+            relations {
+                requiredLibrary "fabric-api"
             }
-            uploadTask.dependsOn(remapJar)
+            afterEvaluate {
+                mainArtifact(remapJar) {
+                    displayName = "minecells-${project.minecraft_version}-${project.mod_version_type}-${project.mod_version}"
+                }
+                uploadTask.dependsOn(remapJar)
+            }
         }
-    }
-    options {
-        forgeGradleIntegration = false
+        options {
+            forgeGradleIntegration = false
+        }
     }
 }
 

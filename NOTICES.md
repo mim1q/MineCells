@@ -1,0 +1,1 @@
+- this project uses [dotenv-gradle](https://github.com/uzzu/dotenv-gradle), which is licensed under the [Apache 2.0 License](https://github.com/uzzu/dotenv-gradle/blob/main/LICENSE.txt)
