@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -41,5 +42,10 @@ public class BlockRegistry {
     Registry.register(Registry.ITEM, MineCells.createId("hardstone"), HARDSTONE_ITEM);
     Registry.register(Registry.ITEM, MineCells.createId("elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
     Registry.register(Registry.ITEM, MineCells.createId("big_chain"), BIG_CHAIN_BLOCK_ITEM);
+  }
+
+  public static Block registerBlock(Block block, String id) {
+    Registry.register(Registry.BLOCK, MineCells.createId(id), block);
+    return block;
   }
 }
