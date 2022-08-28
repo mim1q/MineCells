@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.*;
+import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -16,6 +18,7 @@ import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
@@ -49,6 +52,8 @@ public class RendererRegistry {
   public static final EntityModelLayer CONJUNCTIVIUS_PROJECTILE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius_projectile"), "main");
 
   public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(MineCells.createId("elevator_render"), "main");
+
+  public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
 
   public static void register() {
     EntityModelLayerRegistry.registerModelLayer(LEAPING_ZOMBIE_LAYER, LeapingZombieEntityModel::getTexturedModelData);
@@ -120,5 +125,9 @@ public class RendererRegistry {
 
     BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BIG_CHAIN, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), FluidRegistry.STILL_SEWAGE, FluidRegistry.FLOWING_SEWAGE);
+
+    EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityModel::getTexturedModelData);
+
+    BlockEntityRendererRegistry.register(BlockEntityRegistry.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
   }
 }
