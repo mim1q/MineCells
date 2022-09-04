@@ -20,7 +20,10 @@ public class BlockEntityRegistry {
   public static final BlockEntityType<KingdomPortalCoreBlockEntity> KINGDOM_PORTAL_CORE_BLOCK_ENTITY = Registry.register(
     Registry.BLOCK_ENTITY_TYPE,
     MineCells.createId("kingdom_portal_core"),
-    FabricBlockEntityTypeBuilder.create(KingdomPortalCoreBlockEntity::new).build()
+    FabricBlockEntityTypeBuilder
+      .create(KingdomPortalCoreBlockEntity::new)
+      .addBlock(KINGDOM_PORTAL_CORE)
+      .build()
   );
 
   public static final Block KINGDOM_PORTAL_FILLER = BlockRegistry.registerBlock(

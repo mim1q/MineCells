@@ -1,10 +1,7 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.registry.BlockEntityRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -20,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
-public class KingdomPortalCoreBlock extends Block implements BlockEntityProvider {
+public class KingdomPortalCoreBlock extends BlockWithEntity {
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);
   }
@@ -49,6 +46,11 @@ public class KingdomPortalCoreBlock extends Block implements BlockEntityProvider
   @Override
   public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
     return new KingdomPortalCoreBlockEntity(pos, state);
+  }
+
+  @Override
+  public BlockRenderType getRenderType(BlockState state) {
+    return BlockRenderType.INVISIBLE;
   }
 
   public static class Filler extends FillerBlock {

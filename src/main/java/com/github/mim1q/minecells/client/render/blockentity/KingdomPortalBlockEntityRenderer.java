@@ -27,6 +27,7 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
   @Override
   public void render(KingdomPortalCoreBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     matrices.push();
+    matrices.scale(1.0F, -1.0F, -1.0F); //
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
     this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     VertexConsumer vertexConsumerGlow = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE_GLOW));
@@ -48,11 +49,17 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
       ModelPartData root = modelData.getRoot();
 
       root.addChild("main",
-        ModelPartBuilder.create(),
+        ModelPartBuilder.create()
+          .uv(0, 20)
+          .cuboid(-14.0F, -10.0F, -5.0F, 28, 10, 10)
+          .uv(40, 40)
+          .cuboid(12.0F, -14.0F, -5.0F, 11, 11, 10)
+          .uv(40, 40)
+          .cuboid(18.0F, -20.0F, -5.0F, 11, 11, 10),
         ModelTransform.pivot(0.0F, 24.0F, 0.0F)
       );
 
-      return TexturedModelData.of(modelData, 256, 256);
+      return TexturedModelData.of(modelData, 128, 128);
     }
 
     @Override
