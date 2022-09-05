@@ -3,8 +3,10 @@ package com.github.mim1q.minecells.client.render.blockentity;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -16,7 +18,6 @@ import net.minecraft.util.Identifier;
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/kingdom_portal.png");
-  private static final Identifier TEXTURE_GLOW = MineCells.createId("textures/blockentity/kingdom_portal_glow.png");
 
   private final KingdomPortalBlockEntityModel model;
   public KingdomPortalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
@@ -27,11 +28,12 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
   @Override
   public void render(KingdomPortalCoreBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     matrices.push();
-    matrices.scale(1.0F, -1.0F, -1.0F); //
+    matrices.scale(-1.0F, -1.0F, 1.0F);
+    matrices.translate(0.0D, -1.0D, 0.5D);
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
-    this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-    VertexConsumer vertexConsumerGlow = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE_GLOW));
-    this.model.render(matrices, vertexConsumerGlow, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertexConsumer, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
+    this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }
 
@@ -50,13 +52,34 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
 
       root.addChild("main",
         ModelPartBuilder.create()
-          .uv(0, 20)
-          .cuboid(-14.0F, -10.0F, -5.0F, 28, 10, 10)
-          .uv(40, 40)
-          .cuboid(12.0F, -14.0F, -5.0F, 11, 11, 10)
-          .uv(40, 40)
-          .cuboid(18.0F, -20.0F, -5.0F, 11, 11, 10),
-        ModelTransform.pivot(0.0F, 24.0F, 0.0F)
+          // Main portal
+          .uv(0, 0)
+          .cuboid(-20.0F, -20.0F, 0.0F, 40.0F, 40.0F, 0.0F, new Dilation(0.001F))
+          // Bottom hieroglyph
+          .uv(0, 48)
+          .cuboid(-6.0F, 24.0F, -5.0F, 12.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-6.0F, 24.0F, 5.0F, 12.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          // Top hieroglyph
+          .uv(0, 64)
+          .cuboid(-2.5F, -30.5F, -5.0F, 5.0F, 7.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-2.5F, -30.5F, 5.0F, 5.0F, 7.0F, 0.0F, new Dilation(0.01F))
+          // Top right hieroglyph
+          .uv(0, 80)
+          .cuboid(22.0F, -20.5F, -5.0F, 3.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(22.0F, -20.5F, 5.0F, 3.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          // Top left hieroglyph
+          .uv(0, 96)
+          .cuboid(-26.5F, -20.5F, -5.0F, 5.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-26.5F, -20.5F, 5.0F, 5.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          // Left hieroglyph
+          .uv(16, 64)
+          .cuboid(-30.0F, -1.0F, -5.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-30.0F, -1.0F, 5.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.01F))
+          // Right hieroglyph
+          .uv(16, 80)
+          .cuboid(26.0F, -1.0F, -5.0F, 4.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(26.0F, -1.0F, 5.0F, 4.0F, 6.0F, 0.0F, new Dilation(0.01F)),
+        ModelTransform.pivot(0.0F, 0.0F, 0.0F)
       );
 
       return TexturedModelData.of(modelData, 128, 128);
@@ -65,7 +88,7 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
       matrices.push();
-      this.main.render(matrices, vertices, light, overlay);
+      this.main.render(matrices, vertices, light, overlay, red, green, blue, alpha);
       matrices.pop();
     }
   }
