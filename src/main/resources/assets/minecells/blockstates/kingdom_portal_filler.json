@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "part=bottom,facing=north": {
+      "model": "minecells:block/kingdom_portal_filler/bottom"
+    },
+    "part=bottom,facing=west": {
+      "model": "minecells:block/kingdom_portal_filler/bottom",
+      "y": 270
+    },
+    "part=bottom,facing=south": {
+      "model": "minecells:block/kingdom_portal_filler/bottom",
+      "y": 180
+    },
+    "part=bottom,facing=east": {
+      "model": "minecells:block/kingdom_portal_filler/bottom",
+      "y": 90
+    },
+    "part=top,facing=north": {
+      "model": "minecells:block/kingdom_portal_filler/top"
+    },
+    "part=top,facing=west": {
+      "model": "minecells:block/kingdom_portal_filler/top",
+      "y": 270
+    },
+    "part=top,facing=south": {
+      "model": "minecells:block/kingdom_portal_filler/top",
+      "y": 180
+    },
+    "part=top,facing=east": {
+      "model": "minecells:block/kingdom_portal_filler/top",
+      "y": 90
+    },
+    "part=side_lower,facing=north": {
+      "model": "minecells:block/kingdom_portal_filler/side_lower"
+    },
+    "part=side_lower,facing=west": {
+      "model": "minecells:block/kingdom_portal_filler/side_lower",
+      "y": 270
+    },
+    "part=side_lower,facing=south": {
+      "model": "minecells:block/kingdom_portal_filler/side_lower",
+      "y": 180
+    },
+    "part=side_lower,facing=east": {
+      "model": "minecells:block/kingdom_portal_filler/side_lower",
+      "y": 90
+    },
+    "part=side_upper,facing=north": {
+      "model": "minecells:block/kingdom_portal_filler/side_upper"
+    },
+    "part=side_upper,facing=west": {
+      "model": "minecells:block/kingdom_portal_filler/side_upper",
+      "y": 270
+    },
+    "part=side_upper,facing=south": {
+      "model": "minecells:block/kingdom_portal_filler/side_upper",
+      "y": 180
+    },
+    "part=side_upper,facing=east": {
+      "model": "minecells:block/kingdom_portal_filler/side_upper",
+      "y": 90
+    },
+    "part=corner_lower,facing=north": {
+      "model": "minecells:block/kingdom_portal_filler/corner_lower"
+    },
+    "part=corner_lower,facing=west": {
+      "model": "minecells:block/kingdom_portal_filler/corner_lower",
+      "y": 270
+    },
+    "part=corner_lower,facing=south": {
+      "model": "minecells:block/kingdom_portal_filler/corner_lower",
+      "y": 180
+    },
+    "part=corner_lower,facing=east": {
+      "model": "minecells:block/kingdom_portal_filler/corner_lower",
+      "y": 90
+    },
+    "part=corner_upper,facing=north": {
+      "model": "minecells:block/kingdom_portal_filler/corner_upper"
+    },
+    "part=corner_upper,facing=west": {
+      "model": "minecells:block/kingdom_portal_filler/corner_upper",
+      "y": 270
+    },
+    "part=corner_upper,facing=south": {
+      "model": "minecells:block/kingdom_portal_filler/corner_upper",
+      "y": 180
+    },
+    "part=corner_upper,facing=east": {
+      "model": "minecells:block/kingdom_portal_filler/corner_upper",
+      "y": 90
+    }
+  }
+}

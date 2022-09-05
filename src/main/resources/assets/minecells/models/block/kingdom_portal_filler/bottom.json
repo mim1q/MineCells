@@ -1,0 +1,44 @@
+{
+  "textures": {
+    "particle": "minecraft:block/cobblestone",
+    "0": "minecraft:block/cobblestone"
+  },
+  "elements": [
+    {
+      "from": [3, 0, 0],
+      "to": [13, 10, 11],
+      "faces": {
+        "north": {"uv": [3, 6, 13, 16], "texture": "#0"},
+        "east": {"uv": [5, 6, 16, 16], "texture": "#0"},
+        "south": {"uv": [32, 22, 42, 32], "texture": "#0"},
+        "west": {"uv": [0, 6, 11, 16], "texture": "#0"},
+        "up": {"uv": [3, 0, 13, 11], "texture": "#0"},
+        "down": {"uv": [3, 5, 13, 16], "texture": "#0"}
+      }
+    },
+    {
+      "from": [3, 0, 11],
+      "to": [13, 3, 13],
+      "faces": {
+        "north": {"uv": [2, 4, 12, 7], "texture": "#0"},
+        "east": {"uv": [3, 13, 5, 16], "texture": "#0"},
+        "south": {"uv": [3, 13, 13, 16], "texture": "#0"},
+        "west": {"uv": [11, 13, 13, 16], "texture": "#0"},
+        "up": {"uv": [12, 4, 2, 2], "texture": "#0"},
+        "down": {"uv": [3, 3, 13, 5], "texture": "#0"}
+      }
+    },
+    {
+      "from": [3, 3, 11],
+      "to": [13, 14, 16],
+      "faces": {
+        "north": {"uv": [3, 2, 13, 13], "texture": "#0"},
+        "east": {"uv": [0, 2, 5, 13], "texture": "#0"},
+        "south": {"uv": [3, 2, 13, 13], "texture": "#0"},
+        "west": {"uv": [11, 2, 16, 13], "texture": "#0"},
+        "up": {"uv": [3, 11, 13, 16], "texture": "#0"},
+        "down": {"uv": [3, 0, 13, 5], "texture": "#0"}
+      }
+    }
+  ]
+}
