@@ -3,10 +3,9 @@ package com.github.mim1q.minecells.client.render.blockentity;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.RendererRegistry;
-import com.github.mim1q.minecells.util.RenderUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -14,10 +13,12 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/kingdom_portal.png");
+  private static final Identifier TEXTURE_GLOW = MineCells.createId("textures/blockentity/kingdom_portal_glow.png");
 
   private final KingdomPortalBlockEntityModel model;
   public KingdomPortalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
@@ -34,6 +35,8 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     this.model.render(matrices, vertexConsumer, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
     this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE_GLOW));
+    this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 0.55F);
     matrices.pop();
   }
 
@@ -54,31 +57,31 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
         ModelPartBuilder.create()
           // Main portal
           .uv(0, 0)
-          .cuboid(-20.0F, -20.0F, 0.0F, 40.0F, 40.0F, 0.0F, new Dilation(0.001F))
+          .cuboid(-21.0F, -21.0F, 0.0F, 42.0F, 42.0F, 0.0F, new Dilation(0.001F))
           // Bottom hieroglyph
           .uv(0, 48)
-          .cuboid(-6.0F, 24.0F, -5.0F, 12.0F, 6.0F, 0.0F, new Dilation(0.01F))
-          .cuboid(-6.0F, 24.0F, 5.0F, 12.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-7.0F, 23.0F, -5.0F, 14.0F, 8.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-7.0F, 23.0F, 5.0F, 14.0F, 8.0F, 0.0F, new Dilation(0.01F))
           // Top hieroglyph
           .uv(0, 64)
-          .cuboid(-2.5F, -30.5F, -5.0F, 5.0F, 7.0F, 0.0F, new Dilation(0.01F))
-          .cuboid(-2.5F, -30.5F, 5.0F, 5.0F, 7.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-3.5F, -31.5F, -5.0F, 7.0F, 9.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-3.5F, -31.5F, 5.0F, 7.0F, 9.0F, 0.0F, new Dilation(0.01F))
           // Top right hieroglyph
           .uv(0, 80)
-          .cuboid(22.0F, -20.5F, -5.0F, 3.0F, 6.0F, 0.0F, new Dilation(0.01F))
-          .cuboid(22.0F, -20.5F, 5.0F, 3.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(21.0F, -21.5F, -5.0F, 5.0F, 8.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(21.0F, -21.5F, 5.0F, 5.0F, 8.0F, 0.0F, new Dilation(0.01F))
           // Top left hieroglyph
           .uv(0, 96)
-          .cuboid(-26.5F, -20.5F, -5.0F, 5.0F, 6.0F, 0.0F, new Dilation(0.01F))
-          .cuboid(-26.5F, -20.5F, 5.0F, 5.0F, 6.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-27.5F, -21.5F, -5.0F, 7.0F, 8.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-27.5F, -21.5F, 5.0F, 7.0F, 8.0F, 0.0F, new Dilation(0.01F))
           // Left hieroglyph
           .uv(16, 64)
-          .cuboid(-30.0F, -1.0F, -5.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.01F))
-          .cuboid(-30.0F, -1.0F, 5.0F, 4.0F, 5.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-31.0F, -2.0F, -5.0F, 6.0F, 8.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(-31.0F, -2.0F, 5.0F, 6.0F, 8.0F, 0.0F, new Dilation(0.01F))
           // Right hieroglyph
           .uv(16, 80)
-          .cuboid(26.0F, -1.0F, -5.0F, 4.0F, 6.0F, 0.0F, new Dilation(0.01F))
-          .cuboid(26.0F, -1.0F, 5.0F, 4.0F, 6.0F, 0.0F, new Dilation(0.01F)),
+          .cuboid(25.0F, -2.0F, -5.0F, 6.0F, 8.0F, 0.0F, new Dilation(0.01F))
+          .cuboid(25.0F, -2.0F, 5.0F, 6.0F, 8.0F, 0.0F, new Dilation(0.01F)),
         ModelTransform.pivot(0.0F, 0.0F, 0.0F)
       );
 
