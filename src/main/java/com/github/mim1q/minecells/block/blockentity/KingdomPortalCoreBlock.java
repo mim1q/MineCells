@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.registry.BlockEntityRegistry;
 import com.github.mim1q.minecells.util.ModelUtils;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +11,6 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -23,10 +21,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.function.Function;
-
 public class KingdomPortalCoreBlock extends BlockWithEntity {
+
+  public static final DirectionProperty DIRECTION = HorizontalFacingBlock.FACING;
+
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);
   }
@@ -73,9 +71,14 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     return VoxelShapes.empty();
   }
 
+  @Override
+  protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    builder.add(DIRECTION);
+  }
+
   public static class Filler extends FillerBlock {
-    private static final EnumProperty<Part> PART = EnumProperty.of("part", Part.class);
-    private static final DirectionProperty DIRECTION = HorizontalFacingBlock.FACING;
+    public static final EnumProperty<Part> PART = EnumProperty.of("part", Part.class);
+    public static final DirectionProperty DIRECTION = HorizontalFacingBlock.FACING;
 
     private static final VoxelShape BOTTOM_SHAPE = VoxelShapes.union(
       Block.createCuboidShape(3, 0, 0, 13, 10, 13),
@@ -126,6 +129,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
         case SIDE_UPPER -> SIDE_UPPER_SHAPE;
         case CORNER_LOWER -> CORNER_LOWER_SHAPE;
         case CORNER_UPPER -> CORNER_UPPER_SHAPE;
+        case MIDDLE -> VoxelShapes.empty();
       };
 
       return ModelUtils.rotateShape(Direction.NORTH, state.get(DIRECTION), shape);
@@ -137,7 +141,8 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
       CORNER_LOWER("corner_lower"),
       CORNER_UPPER("corner_upper"),
       SIDE_LOWER("side_lower"),
-      SIDE_UPPER("side_upper");
+      SIDE_UPPER("side_upper"),
+      MIDDLE("middle");
 
       private final String name;
 

@@ -2,8 +2,8 @@ package com.github.mim1q.minecells.client.render.blockentity;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
+import com.github.mim1q.minecells.registry.BlockEntityRegistry;
 import com.github.mim1q.minecells.registry.RendererRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -13,7 +13,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
 
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
 
@@ -28,9 +28,16 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
 
   @Override
   public void render(KingdomPortalCoreBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    if (entity.getWorld() == null
+      || entity.getWorld().getBlockState(entity.getPos()).getBlock() != BlockEntityRegistry.KINGDOM_PORTAL_CORE) {
+      return;
+    }
+
     matrices.push();
     matrices.scale(-1.0F, -1.0F, 1.0F);
-    matrices.translate(0.0D, -1.0D, 0.5D);
+    float rot = entity.getDirection().asRotation();
+    matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(rot));
+    matrices.translate(0.0D, -1.0D, -0.5D);
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
     this.model.render(matrices, vertexConsumer, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));

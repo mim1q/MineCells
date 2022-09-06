@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.datagen;
 
+import com.github.mim1q.minecells.registry.BlockEntityRegistry;
 import com.github.mim1q.minecells.registry.BlockRegistry;
 import com.github.mim1q.minecells.registry.EntityRegistry;
 import com.github.mim1q.minecells.registry.ItemRegistry;
@@ -26,6 +27,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
     generator.registerSimpleCubeAll(BlockRegistry.HARDSTONE);
     generator.registerSimpleCubeAll(BlockRegistry.ELEVATOR_ASSEMBLER);
+    generator.registerStateWithModelReference(BlockEntityRegistry.KINGDOM_PORTAL_CORE, Blocks.AIR);
     generator.registerStateWithModelReference(BlockRegistry.CONJUNCTIVIUS_BOX, Blocks.SPAWNER);
     generator.registerStateWithModelReference(BlockRegistry.SEWAGE, Blocks.WATER);
     generator.registerStateWithModelReference(BlockRegistry.ANCIENT_SEWAGE, Blocks.WATER);

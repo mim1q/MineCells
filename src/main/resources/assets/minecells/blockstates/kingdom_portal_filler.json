@@ -89,6 +89,9 @@
     "part=corner_upper,facing=east": {
       "model": "minecells:block/kingdom_portal_filler/corner_upper",
       "y": 90
+    },
+    "part=middle": {
+      "model": "minecraft:block/air"
     }
   }
 }
