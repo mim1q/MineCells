@@ -13,7 +13,9 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vec3i;
 
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
 
@@ -34,10 +36,29 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     }
 
     matrices.push();
+    Direction dir = entity.getDirection();
+    float rot = 180.0F - dir.asRotation();
+    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rot));
     matrices.scale(-1.0F, -1.0F, 1.0F);
-    float rot = entity.getDirection().asRotation();
-    matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(rot));
-    matrices.translate(0.0D, -1.0D, -0.5D);
+
+    float offsetX = 0.0F;
+    float offsetZ = 0.0F;
+
+    if (dir == Direction.NORTH) {
+      offsetX = 0.0F;
+      offsetZ = 0.5F;
+    } else if (dir == Direction.SOUTH) {
+      offsetX = 1.0F;
+      offsetZ = -0.5F;
+    } else if (dir == Direction.EAST) {
+      offsetX = 0.0F;
+      offsetZ = -0.5F;
+    } else if (dir == Direction.WEST) {
+      offsetX = 1.0F;
+      offsetZ = 0.5F;
+    }
+
+    matrices.translate(offsetX, -1.0F, offsetZ);
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
     this.model.render(matrices, vertexConsumer, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
