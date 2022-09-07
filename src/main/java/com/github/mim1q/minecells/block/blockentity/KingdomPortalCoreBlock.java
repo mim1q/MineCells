@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.registry.BlockEntityRegistry;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -74,6 +76,17 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     builder.add(DIRECTION);
+  }
+
+  @Nullable
+  @Override
+  public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+    return checkType(type, BlockEntityRegistry.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalCoreBlockEntity::tick);
+  }
+
+  @Override
+  protected void spawnBreakParticles(World world, PlayerEntity player, BlockPos pos, BlockState state) {
+
   }
 
   public static class Filler extends FillerBlock {

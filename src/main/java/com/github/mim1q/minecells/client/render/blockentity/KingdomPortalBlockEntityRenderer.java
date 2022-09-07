@@ -38,32 +38,18 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     matrices.push();
     Direction dir = entity.getDirection();
     float rot = 180.0F - dir.asRotation();
+
+    Vec3f offset = new Vec3f(entity.getOffset());
+
+    matrices.translate(offset.getX(), offset.getY(), offset.getZ());
     matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rot));
     matrices.scale(-1.0F, -1.0F, 1.0F);
 
-    float offsetX = 0.0F;
-    float offsetZ = 0.0F;
-
-    if (dir == Direction.NORTH) {
-      offsetX = 0.0F;
-      offsetZ = 0.5F;
-    } else if (dir == Direction.SOUTH) {
-      offsetX = 1.0F;
-      offsetZ = -0.5F;
-    } else if (dir == Direction.EAST) {
-      offsetX = 0.0F;
-      offsetZ = -0.5F;
-    } else if (dir == Direction.WEST) {
-      offsetX = 1.0F;
-      offsetZ = 0.5F;
-    }
-
-    matrices.translate(offsetX, -1.0F, offsetZ);
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
     this.model.render(matrices, vertexConsumer, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
     this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-    VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE_GLOW));
+    VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE_GLOW));
     this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 0.55F);
     matrices.pop();
   }
