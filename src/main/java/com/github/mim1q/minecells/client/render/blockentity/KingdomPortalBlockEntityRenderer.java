@@ -15,10 +15,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.Vec3i;
 
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
-
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/kingdom_portal.png");
   private static final Identifier TEXTURE_GLOW = MineCells.createId("textures/blockentity/kingdom_portal_glow.png");
 
@@ -52,6 +50,11 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE_GLOW));
     this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 0.55F);
     matrices.pop();
+  }
+
+  @Override
+  public int getRenderDistance() {
+    return 256;
   }
 
   public static class KingdomPortalBlockEntityModel extends Model {

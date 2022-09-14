@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "minecells:portal",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 48,
+    "separation": 16,
+    "salt": 227500
+  }
+}

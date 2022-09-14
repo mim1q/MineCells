@@ -1,27 +1,21 @@
 package com.github.mim1q.minecells.block.blockentity;
 
-import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.dimenion.KingdomDimensionUtils;
 import com.github.mim1q.minecells.registry.BlockEntityRegistry;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.fabricmc.fabric.impl.dimension.FabricDimensionInternals;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.*;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
+import java.util.Objects;
 
 public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
@@ -75,10 +69,6 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     return Box.of(pos, size.x * 2.5D, 2.5D, size.z * 1.8D).expand(0.25D);
   }
 
-
-  // TODO: clean this mess up
-  // Move dimension transport to a separate util class
-
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
     blockEntity.update(state);
     if (world.isClient()) {
@@ -93,20 +83,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
        .multiply(1.25D);
       ParticleUtils.addParticle((ClientWorld) world, PARTICLE, position.add(vector), Vec3d.ZERO);
     } else {
-      List<PlayerEntity> list = world.getPlayers(TargetPredicate.DEFAULT, null, blockEntity.getBox());
+      List<PlayerEntity> list = world.getEntitiesByClass(PlayerEntity.class, blockEntity.getBox(), Objects::nonNull);
       ServerWorld serverWorld = (ServerWorld) world;
-      MinecraftServer server = serverWorld.getServer();
-      list.forEach(player -> {
-        ServerWorld kingdom = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, MineCells.createId("kingdom")));
-        assert kingdom != null;
-        System.out.println(kingdom.getTopY(Heightmap.Type.MOTION_BLOCKING, 1, 1));
-        FabricDimensionInternals.changeDimension(player, kingdom, new TeleportTarget(
-          new Vec3d(0.5D, 75.0D, 0.5D),
-          Vec3d.ZERO,
-          0.0F,
-          0.0F
-          ));
-      });
+      for (PlayerEntity player : list) {
+        KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld);
+      }
     }
   }
 

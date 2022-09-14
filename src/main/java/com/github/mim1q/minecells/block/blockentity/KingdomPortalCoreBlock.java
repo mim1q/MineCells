@@ -11,6 +11,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
@@ -76,6 +77,12 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     builder.add(DIRECTION);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(DIRECTION, rotation.rotate(state.get(DIRECTION)));
   }
 
   @Nullable
@@ -146,6 +153,12 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
       };
 
       return ModelUtils.rotateShape(Direction.NORTH, state.get(DIRECTION), shape);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+      return state.with(DIRECTION, rotation.rotate(state.get(DIRECTION)));
     }
 
     public enum Part implements StringIdentifiable {
