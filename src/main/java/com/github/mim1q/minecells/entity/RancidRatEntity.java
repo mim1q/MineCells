@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.LeapGoal;
 import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -102,11 +102,11 @@ public class RancidRatEntity extends MineCellsEntity implements ILeapEntity {
 
   @Override
   public SoundEvent getLeapChargeSoundEvent() {
-    return SoundRegistry.RANCID_RAT_CHARGE;
+    return MineCellsSounds.RANCID_RAT_CHARGE;
   }
 
   @Override
   public SoundEvent getLeapReleaseSoundEvent() {
-    return SoundRegistry.LEAPING_ZOMBIE_RELEASE;
+    return MineCellsSounds.LEAPING_ZOMBIE_RELEASE;
   }
 }

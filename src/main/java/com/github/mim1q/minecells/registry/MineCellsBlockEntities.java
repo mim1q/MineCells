@@ -10,9 +10,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
 
-public class BlockEntityRegistry {
+public class MineCellsBlockEntities {
 
-  public static final Block KINGDOM_PORTAL_CORE = BlockRegistry.registerBlock(
+  public static final Block KINGDOM_PORTAL_CORE = MineCellsBlocks.registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
     "kingdom_portal_core"
   );
@@ -26,10 +26,10 @@ public class BlockEntityRegistry {
       .build()
   );
 
-  public static final Block KINGDOM_PORTAL_FILLER = BlockRegistry.registerBlock(
+  public static final Block KINGDOM_PORTAL_FILLER = MineCellsBlocks.registerBlock(
     new KingdomPortalCoreBlock.Filler(FabricBlockSettings.copyOf(Blocks.STONE)),
     "kingdom_portal_filler"
   );
 
-  public static void register() {}
+  public static void init() {}
 }

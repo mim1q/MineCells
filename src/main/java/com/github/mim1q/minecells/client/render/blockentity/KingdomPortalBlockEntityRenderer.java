@@ -2,8 +2,8 @@ package com.github.mim1q.minecells.client.render.blockentity;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
-import com.github.mim1q.minecells.registry.BlockEntityRegistry;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -23,13 +23,13 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
   private final KingdomPortalBlockEntityModel model;
   public KingdomPortalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
     EntityModelLoader loader = ctx.getLayerRenderDispatcher();
-    this.model = new KingdomPortalBlockEntityModel(loader.getModelPart(RendererRegistry.KINGDOM_PORTAL_LAYER));
+    this.model = new KingdomPortalBlockEntityModel(loader.getModelPart(MineCellsRenderers.KINGDOM_PORTAL_LAYER));
   }
 
   @Override
   public void render(KingdomPortalCoreBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     if (entity.getWorld() == null
-      || entity.getWorld().getBlockState(entity.getPos()).getBlock() != BlockEntityRegistry.KINGDOM_PORTAL_CORE) {
+      || entity.getWorld().getBlockState(entity.getPos()).getBlock() != MineCellsBlockEntities.KINGDOM_PORTAL_CORE) {
       return;
     }
 

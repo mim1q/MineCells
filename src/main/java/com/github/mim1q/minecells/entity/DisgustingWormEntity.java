@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.DisgustingWormEggEntity;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -44,7 +44,7 @@ public class DisgustingWormEntity extends MineCellsEntity {
       if (this.soundCountdown > 0) {
         this.soundCountdown--;
       } else {
-        this.world.playSound(null, getX(), getY(), getZ(), SoundRegistry.DISGUSTING_WORM_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F);
+        this.world.playSound(null, getX(), getY(), getZ(), MineCellsSounds.DISGUSTING_WORM_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F);
         this.soundCountdown = 60 + this.random.nextInt(100);
       }
     }
@@ -55,7 +55,7 @@ public class DisgustingWormEntity extends MineCellsEntity {
     for (int i = 0; i < 6; i++) {
       Vec3d velocity = new Vec3d(this.random.nextDouble() - 0.5D, 0.7D + this.random.nextDouble() * 0.5D, this.random.nextDouble() - 0.5D).multiply(0.3D);
 
-      DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(EntityRegistry.DISGUSTING_WORM_EGG, this.world);
+      DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(MineCellsEntities.DISGUSTING_WORM_EGG, this.world);
       grenade.setPosition(this.getPos());
       grenade.shoot(velocity);
       grenade.setFuse(15 + i * 5 + this.random.nextInt(5));
@@ -66,7 +66,7 @@ public class DisgustingWormEntity extends MineCellsEntity {
 
   @Override
   protected SoundEvent getDeathSound() {
-    return SoundRegistry.DISGUSTING_WORM_DEATH;
+    return MineCellsSounds.DISGUSTING_WORM_DEATH;
   }
 
   public static DefaultAttributeContainer.Builder createDisgustingWormAttributes() {

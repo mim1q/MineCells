@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.client.render;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.SewersTentacleEntityModel;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -17,7 +17,7 @@ public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentac
   private static final Identifier TEXTURE_PURPLE = MineCells.createId("textures/entity/sewers_tentacle/purple.png");
 
   public SewersTentacleEntityRenderer(EntityRendererFactory.Context context) {
-    super(context, new SewersTentacleEntityModel(context.getPart(RendererRegistry.SEWERS_TENTACLE_LAYER)), 0.0F);
+    super(context, new SewersTentacleEntityModel(context.getPart(MineCellsRenderers.SEWERS_TENTACLE_LAYER)), 0.0F);
   }
 
   @Override

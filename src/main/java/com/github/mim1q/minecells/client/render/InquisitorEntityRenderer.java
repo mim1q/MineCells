@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.client.render;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.InquisitorEntityModel;
 import com.github.mim1q.minecells.entity.InquisitorEntity;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.render.RenderLayer;
@@ -25,7 +25,7 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
   public static final RenderLayer ORB_LAYER = RenderLayer.getEntityCutout(ORB_TEXTURE);
 
   public InquisitorEntityRenderer(EntityRendererFactory.Context ctx) {
-    super(ctx, new InquisitorEntityModel(ctx.getPart(RendererRegistry.INQUISITOR_LAYER)), 0.35F);
+    super(ctx, new InquisitorEntityModel(ctx.getPart(MineCellsRenderers.INQUISITOR_LAYER)), 0.35F);
   }
 
   @Override

@@ -19,18 +19,18 @@ public class MineCells implements ModInitializer {
   @Override
   public void onInitialize() {
     COMMON_CONFIG.save();
-    EntityRegistry.register();
-    SoundRegistry.register();
-    BlockRegistry.register();
-    BlockEntityRegistry.register();
-    FluidRegistry.register();
-    ItemRegistry.register();
-    ItemGroupRegistry.register();
-    StatusEffectRegistry.register();
-    ParticleRegistry.register();
-    BiomeRegistry.register();
-    MineCellsPlacerTypes.register();
-    PointOfInterestRegistry.register();
+    MineCellsEntities.init();
+    MineCellsSounds.init();
+    MineCellsBlocks.init();
+    MineCellsBlockEntities.init();
+    MineCellsFluids.init();
+    MineCellsItems.init();
+    MineCellsItemGroups.init();
+    MineCellsStatusEffects.init();
+    MineCellsParticles.init();
+    MineCellsBiomes.init();
+    MineCellsPlacerTypes.init();
+    MineCellsPointOfInterestTypes.init();
   }
 
   public static Identifier createId(String path) {

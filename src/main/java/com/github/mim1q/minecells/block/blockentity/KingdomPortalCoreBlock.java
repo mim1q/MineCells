@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.block.blockentity;
 
-import com.github.mim1q.minecells.registry.BlockEntityRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -48,7 +48,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   @Override
   public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-    FillerBlock.destroyNeighbors(world, pos, BlockEntityRegistry.KINGDOM_PORTAL_FILLER, this);
+    FillerBlock.destroyNeighbors(world, pos, MineCellsBlockEntities.KINGDOM_PORTAL_FILLER, this);
     super.onBroken(world, pos, state);
   }
 
@@ -88,7 +88,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   @Nullable
   @Override
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-    return checkType(type, BlockEntityRegistry.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalCoreBlockEntity::tick);
+    return checkType(type, MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalCoreBlockEntity::tick);
   }
 
   @Override
@@ -131,7 +131,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     );
 
     public Filler(Settings settings) {
-      super(settings, BlockEntityRegistry.KINGDOM_PORTAL_CORE, false);
+      super(settings, MineCellsBlockEntities.KINGDOM_PORTAL_CORE, false);
     }
 
     @Override

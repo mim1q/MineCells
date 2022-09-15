@@ -7,12 +7,12 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.util.registry.Registry;
 
 
-public class StatusEffectRegistry {
+public class MineCellsStatusEffects {
 
   public static final StatusEffect ELECTRIFIED = new ElectrifiedStatusEffect();
   public static final StatusEffect PROTECTED = new ProtectedStatusEffect();
 
-  public static void register() {
+  public static void init() {
     Registry.register(Registry.STATUS_EFFECT, MineCells.createId("electrified"), ELECTRIFIED);
     Registry.register(Registry.STATUS_EFFECT, MineCells.createId("protected"), PROTECTED);
   }

@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.client.render.nonliving.projectile;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.ConjunctiviusProjectileEntityModel;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -22,7 +22,7 @@ public class ConjunctiviusProjectileEntityRenderer extends EntityRenderer<Conjun
 
   public ConjunctiviusProjectileEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx);
-    this.model = new ConjunctiviusProjectileEntityModel(ctx.getPart(RendererRegistry.CONJUNCTIVIUS_PROJECTILE_LAYER));
+    this.model = new ConjunctiviusProjectileEntityModel(ctx.getPart(MineCellsRenderers.CONJUNCTIVIUS_PROJECTILE_LAYER));
   }
 
   @Override

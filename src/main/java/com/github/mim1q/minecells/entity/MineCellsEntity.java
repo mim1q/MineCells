@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -105,6 +105,6 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   protected SoundEvent getDeathSound() {
-    return SoundRegistry.LEAPING_ZOMBIE_DEATH;
+    return MineCellsSounds.LEAPING_ZOMBIE_DEATH;
   }
 }

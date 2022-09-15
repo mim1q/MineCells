@@ -161,8 +161,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .cooldownGetter(() -> this.auraCooldown)
       .cooldownSetter((cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown))
       .stateSetter(this::switchAuraState)
-      .chargeSound(SoundRegistry.SHOCKER_CHARGE)
-      .releaseSound(SoundRegistry.SHOCKER_RELEASE)
+      .chargeSound(MineCellsSounds.SHOCKER_CHARGE)
+      .releaseSound(MineCellsSounds.SHOCKER_RELEASE)
       .soundVolume(2.0F)
       .damage(10.0F)
       .radius(8.0D)
@@ -176,8 +176,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .cooldownSetter((cooldown) -> this.dashCooldown = this.stageAdjustedCooldown(cooldown))
       .cooldownGetter(() -> this.dashCooldown)
       .stateSetter(this::switchDashState)
-      .chargeSound(SoundRegistry.CONJUNCTIVIUS_DASH_CHARGE)
-      .releaseSound(SoundRegistry.CONJUNCTIVIUS_DASH_RELEASE)
+      .chargeSound(MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE)
+      .releaseSound(MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE)
       .soundVolume(2.0F)
       .speed(1.25F)
       .damage(20.0F)
@@ -253,7 +253,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         if (this.stageTicks > 30 && aliveTentacles.isEmpty() && this.getStage() != 0) {
           this.setStage(this.getStage() + 1);
         } else if (this.getStage() != 0) {
-          this.addStatusEffect(new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 20, 0, false, false));
+          this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.PROTECTED, 20, 0, false, false));
         }
       }
     }
@@ -275,10 +275,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
     } else {
       if (this.deathTime == 1) {
-        this.playSound(SoundRegistry.CONJUNCTIVIUS_DYING, 2.0F, 1.0F);
+        this.playSound(MineCellsSounds.CONJUNCTIVIUS_DYING, 2.0F, 1.0F);
       }
       if (this.deathTime == 60) {
-        this.playSound(SoundRegistry.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
+        this.playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
         this.remove(RemovalReason.KILLED);
       }
     }
@@ -310,7 +310,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   protected void spawnTentacles() {
     int playerAmount = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size();
     for (int i = 0; i < 2 + 2 * playerAmount; i++) {
-      SewersTentacleEntity tentacle = EntityRegistry.SEWERS_TENTACLE.create(this.world);
+      SewersTentacleEntity tentacle = MineCellsEntities.SEWERS_TENTACLE.create(this.world);
       if (tentacle != null) {
         tentacle.setPosition(this.getTentaclePos());
         tentacle.setSpawnedByBoss(true);
@@ -330,10 +330,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   protected void spawnParticles() {
     Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
     if (this.getAuraState() == TimedActionGoal.State.CHARGE) {
-      ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 2, 7.5D, -0.01D);
+      ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 2, 7.5D, -0.01D);
     } else if (this.getAuraState() == TimedActionGoal.State.RELEASE) {
-      ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 50, 7.0D, 0.01D);
-      ParticleUtils.addAura((ClientWorld) this.world, pos, ParticleRegistry.AURA, 10, 1.0D, 0.5D);
+      ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 50, 7.0D, 0.01D);
+      ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
     }
 
     int stage = this.getStage();
@@ -356,7 +356,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   private void spawnChainBreakingParticles(Vec3d offset, Vec3d target) {
-    ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, BlockRegistry.BIG_CHAIN.getDefaultState());
+    ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, MineCellsBlocks.BIG_CHAIN.getDefaultState());
     Vec3d diff = target.subtract(this.getPos().add(offset));
     double length = diff.length();
     for (int i = 0; i < length; i++) {
@@ -448,7 +448,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public void setStage(int stage) {
     if (stage != this.getStage()) {
-      this.playSound(SoundRegistry.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
+      this.playSound(MineCellsSounds.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
       this.dataTracker.set(STAGE, stage);
       this.addStageGoals(stage);
     }

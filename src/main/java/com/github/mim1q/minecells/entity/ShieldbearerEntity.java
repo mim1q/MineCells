@@ -3,8 +3,8 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.GroundDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
-import com.github.mim1q.minecells.registry.ParticleRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityData;
@@ -58,7 +58,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
     super.tick();
     if (this.isDashCharging() && this.world.isClient()) {
       for (int i = 0; i < 5; i++) {
-        ParticleUtils.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
       }
     }
     this.decrementCooldown(DASH_COOLDOWN);
@@ -143,12 +143,12 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
   @Override
   public SoundEvent getDashChargeSoundEvent() {
-    return SoundRegistry.SHIELDBEARER_CHARGE;
+    return MineCellsSounds.SHIELDBEARER_CHARGE;
   }
 
   @Override
   public SoundEvent getDashReleaseSoundEvent() {
-    return SoundRegistry.SHIELDBEARER_RELEASE;
+    return MineCellsSounds.SHIELDBEARER_RELEASE;
   }
 
   @Override

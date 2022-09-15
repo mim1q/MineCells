@@ -25,7 +25,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
-public class RendererRegistry {
+public class MineCellsRenderers {
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
   public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(MineCells.createId("shocker"), "main");
   public static final EntityModelLayer GRENADIER_LAYER = new EntityModelLayer(MineCells.createId("grenadier"), "main");
@@ -55,7 +55,7 @@ public class RendererRegistry {
 
   public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
 
-  public static void register() {
+  public static void init() {
     EntityModelLayerRegistry.registerModelLayer(LEAPING_ZOMBIE_LAYER, LeapingZombieEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(SHOCKER_LAYER, ShockerEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(GRENADIER_LAYER, GrenadierEntityModel::getTexturedModelData);
@@ -84,50 +84,50 @@ public class RendererRegistry {
 
     EntityModelLayerRegistry.registerModelLayer(ELEVATOR_LAYER, ElevatorEntityModel::getTexturedModelData);
 
-    EntityRendererRegistry.register(EntityRegistry.LEAPING_ZOMBIE, LeapingZombieEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.SHOCKER, ShockerEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.GRENADIER, GrenadierEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM, DisgustingWormEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.INQUISITOR, InquisitorEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.KAMIKAZE, KamikazeEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.PROTECTOR, ProtectorEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.UNDEAD_ARCHER, UndeadArcherEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.SHIELDBEARER, ShieldbearerEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.MUTATED_BAT, MutatedBatEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.SEWERS_TENTACLE, SewersTentacleEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.RANCID_RAT, RancidRatEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.RUNNER, RunnerEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.SCORPION, ScorpionEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.CONJUNCTIVIUS, ConjunctiviusEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.LEAPING_ZOMBIE, LeapingZombieEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SHOCKER, ShockerEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.GRENADIER, GrenadierEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.DISGUSTING_WORM, DisgustingWormEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.INQUISITOR, InquisitorEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.KAMIKAZE, KamikazeEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.PROTECTOR, ProtectorEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.UNDEAD_ARCHER, UndeadArcherEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SHIELDBEARER, ShieldbearerEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.MUTATED_BAT, MutatedBatEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SEWERS_TENTACLE, SewersTentacleEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.RANCID_RAT, RancidRatEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.RUNNER, RunnerEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SCORPION, ScorpionEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS, ConjunctiviusEntityRenderer::new);
 
-    EntityRendererRegistry.register(EntityRegistry.GRENADE, GrenadeEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.BIG_GRENADE, BigGrenadeEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.DISGUSTING_WORM_EGG, DisgustingWormEggEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.MAGIC_ORB, MagicOrbEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.SCORPION_SPIT, ScorpionSpitEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.CONJUNCTIVIUS_PROJECTILE, ConjunctiviusProjectileEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.GRENADE, GrenadeEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.BIG_GRENADE, BigGrenadeEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.DISGUSTING_WORM_EGG, DisgustingWormEggEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.MAGIC_ORB, MagicOrbEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SCORPION_SPIT, ScorpionSpitEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, ConjunctiviusProjectileEntityRenderer::new);
 
-    EntityRendererRegistry.register(EntityRegistry.ELEVATOR, ElevatorEntityRenderer::new);
-    EntityRendererRegistry.register(EntityRegistry.CELL, CellEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
   }
 
-  public static void registerBlocks() {
-    FluidRenderHandlerRegistry.INSTANCE.register(FluidRegistry.STILL_SEWAGE, FluidRegistry.FLOWING_SEWAGE, new SimpleFluidRenderHandler(
+  public static void initBlocks() {
+    FluidRenderHandlerRegistry.INSTANCE.register(MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE, new SimpleFluidRenderHandler(
       new Identifier("block/water_still"),
       new Identifier("block/water_flow"),
       0xA2E751
     ));
-    FluidRenderHandlerRegistry.INSTANCE.register(FluidRegistry.STILL_ANCIENT_SEWAGE, FluidRegistry.FLOWING_ANCIENT_SEWAGE, new SimpleFluidRenderHandler(
+    FluidRenderHandlerRegistry.INSTANCE.register(MineCellsFluids.STILL_ANCIENT_SEWAGE, MineCellsFluids.FLOWING_ANCIENT_SEWAGE, new SimpleFluidRenderHandler(
       new Identifier("block/water_still"),
       new Identifier("block/water_flow"),
       0xE0C93B
     ));
 
-    BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BIG_CHAIN, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), FluidRegistry.STILL_SEWAGE, FluidRegistry.FLOWING_SEWAGE);
+    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.BIG_CHAIN, RenderLayer.getCutout());
+    BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityModel::getTexturedModelData);
 
-    BlockEntityRendererRegistry.register(BlockEntityRegistry.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
   }
 }

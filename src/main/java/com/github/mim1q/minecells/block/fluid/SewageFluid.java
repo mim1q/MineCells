@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.block.fluid;
 
-import com.github.mim1q.minecells.registry.BlockRegistry;
-import com.github.mim1q.minecells.registry.FluidRegistry;
-import com.github.mim1q.minecells.registry.ItemRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsFluids;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -14,22 +14,22 @@ public abstract class SewageFluid extends AbstractSewageFluid {
 
   @Override
   public Fluid getFlowing() {
-    return FluidRegistry.FLOWING_SEWAGE;
+    return MineCellsFluids.FLOWING_SEWAGE;
   }
 
   @Override
   public Fluid getStill() {
-    return FluidRegistry.STILL_SEWAGE;
+    return MineCellsFluids.STILL_SEWAGE;
   }
 
   @Override
   public Item getBucketItem() {
-    return ItemRegistry.SEWAGE_BUCKET;
+    return MineCellsItems.SEWAGE_BUCKET;
   }
 
   @Override
   protected BlockState toBlockState(FluidState state) {
-    return BlockRegistry.SEWAGE.getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
+    return MineCellsBlocks.SEWAGE.getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
   }
 
   public static class Flowing extends SewageFluid {

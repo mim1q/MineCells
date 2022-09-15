@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 
@@ -47,8 +47,8 @@ public class TimedTeleportGoal extends TimedActionGoal<HostileEntity> {
 
     public Builder(HostileEntity entity) {
       super(entity);
-      this.chargeSound = SoundRegistry.TELEPORT_CHARGE;
-      this.releaseSound = SoundRegistry.TELEPORT_RELEASE;
+      this.chargeSound = MineCellsSounds.TELEPORT_CHARGE;
+      this.releaseSound = MineCellsSounds.TELEPORT_RELEASE;
     }
 
     public Builder standStill() {

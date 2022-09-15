@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.google.common.collect.HashMultimap;
@@ -214,7 +214,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   @Override
   protected SoundEvent getDeathSound() {
-    return SoundRegistry.SEWERS_TENTACLE_DEATH;
+    return MineCellsSounds.SEWERS_TENTACLE_DEATH;
   }
 
   @Override
@@ -263,7 +263,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
             double z = this.mob.getTarget().getZ() + (this.mob.getRandom().nextDouble() - 0.5D) * 3.0D;
             this.mob.getMoveControl().moveTo(x, this.mob.getTarget().getY(), z, 1.0D);
             if (this.mob.getTarget().distanceTo(this.mob) <= 1.0D) {
-              this.mob.playSound(SoundRegistry.CHARGE, 1.0F, 1.0F);
+              this.mob.playSound(MineCellsSounds.CHARGE, 1.0F, 1.0F);
               this.attacking = true;
               this.ticks = 0;
             }

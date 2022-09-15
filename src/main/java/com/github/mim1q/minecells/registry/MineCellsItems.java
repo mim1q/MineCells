@@ -11,19 +11,19 @@ import net.minecraft.util.registry.Registry;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ItemRegistry {
+public class MineCellsItems {
 
   private static final Set<Item> simpleItems = new HashSet<>();
 
-  public static final Item ELEVATOR_MECHANISM = new Item(new FabricItemSettings().group(ItemGroupRegistry.MINECELLS_BLOCKS_AND_ITEMS));
-  public static final BucketItem SEWAGE_BUCKET = new BucketItem(FluidRegistry.STILL_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
-  public static final BucketItem ANCIENT_SEWAGE_BUCKET = new BucketItem(FluidRegistry.STILL_ANCIENT_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
+  public static final Item ELEVATOR_MECHANISM = new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
+  public static final BucketItem SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
+  public static final BucketItem ANCIENT_SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
 
   public static final AssassinsDaggerItem ASSASSINS_DAGGER = new AssassinsDaggerItem(new FabricItemSettings()
-    .group(ItemGroupRegistry.MINECELLS_WEAPONS)
+    .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     .maxDamage(1200));
 
-  public static void register() {
+  public static void init() {
     registerSimpleItem("elevator_mechanism", ELEVATOR_MECHANISM);
     registerSimpleItem("sewage_bucket", SEWAGE_BUCKET);
     registerSimpleItem("ancient_sewage_bucket", ANCIENT_SEWAGE_BUCKET);

@@ -11,6 +11,6 @@ public class MineCellsPlacerTypes {
     PromenadeTreeTrunkPlacer.CODEC
   );
 
-  public static void register() {
+  public static void init() {
   }
 }

@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
@@ -28,7 +28,7 @@ public class CellEntity extends Entity {
   }
 
   public static void spawn(World world, Vec3d position, int amount) {
-    CellEntity cell = new CellEntity(EntityRegistry.CELL, world);
+    CellEntity cell = new CellEntity(MineCellsEntities.CELL, world);
     cell.setPosition(position);
     cell.setVelocity(
       world.random.nextFloat() - 0.5F,
@@ -65,7 +65,7 @@ public class CellEntity extends Entity {
         if (this.target.getBoundingBox().intersects(this.getBoundingBox())) {
           PlayerEntityAccessor target = (PlayerEntityAccessor) this.target;
           target.setCells(target.getCells() + this.getAmount());
-          this.playSound(SoundRegistry.CELL_ABSORB, 0.25F, 1.0F);
+          this.playSound(MineCellsSounds.CELL_ABSORB, 0.25F, 1.0F);
           this.discard();
         }
       }

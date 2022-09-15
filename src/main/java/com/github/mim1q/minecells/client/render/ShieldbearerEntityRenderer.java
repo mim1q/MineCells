@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.client.render;
 
 import com.github.mim1q.minecells.client.render.model.ShieldbearerEntityModel;
 import com.github.mim1q.minecells.entity.ShieldbearerEntity;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -15,7 +15,7 @@ public class ShieldbearerEntityRenderer extends MobEntityRenderer<ShieldbearerEn
   public static final Identifier TEXTURE = new Identifier("minecells:textures/entity/shieldbearer.png");
 
   public ShieldbearerEntityRenderer(EntityRendererFactory.Context ctx) {
-    super(ctx, new ShieldbearerEntityModel(ctx.getPart(RendererRegistry.SHIELDBEARER_LAYER)), 0.35f);
+    super(ctx, new ShieldbearerEntityModel(ctx.getPart(MineCellsRenderers.SHIELDBEARER_LAYER)), 0.35f);
     this.addFeature(new HeldItemFeatureRenderer<>(this, ctx.getHeldItemRenderer()));
   }
 

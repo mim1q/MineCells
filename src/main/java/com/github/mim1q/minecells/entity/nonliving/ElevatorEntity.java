@@ -4,10 +4,10 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
-import com.github.mim1q.minecells.registry.BlockRegistry;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.ItemRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -75,7 +75,7 @@ public class ElevatorEntity extends Entity {
   }
 
   public static void spawn(World world, int x, int z, int minY, int maxY, boolean isRotated, boolean isGoingUp) {
-    ElevatorEntity elevator = new ElevatorEntity(EntityRegistry.ELEVATOR, world);
+    ElevatorEntity elevator = new ElevatorEntity(MineCellsEntities.ELEVATOR, world);
     elevator.setPosition(x + 0.5D, isGoingUp ? maxY : minY, z + 0.5D);
     elevator.setMaxY(maxY);
     elevator.setMinY(minY);
@@ -112,7 +112,7 @@ public class ElevatorEntity extends Entity {
         this.stoppedTicks = 0;
       } else {
         if (this.stoppedTicks == 1) {
-          this.playSound(SoundRegistry.ELEVATOR_STOP, 0.5F, 1.0F);
+          this.playSound(MineCellsSounds.ELEVATOR_STOP, 0.5F, 1.0F);
         }
         this.stoppedTicks++;
       }
@@ -208,7 +208,7 @@ public class ElevatorEntity extends Entity {
       ItemStack[] items = {
         new ItemStack(Blocks.CHAIN, this.random.nextInt(3) + 2),
         new ItemStack(Blocks.OAK_SLAB, 1),
-        new ItemStack(ItemRegistry.ELEVATOR_MECHANISM, this.random.nextInt(3))
+        new ItemStack(MineCellsItems.ELEVATOR_MECHANISM, this.random.nextInt(3))
       };
 
       for (ItemStack itemStack : items) {
@@ -384,7 +384,7 @@ public class ElevatorEntity extends Entity {
         this.setGoingUp(isGoingUp);
         if (!this.isMoving() && this.stoppedTicks > 5) {
           this.setVelocityModifier(0.0F);
-          this.playSound(SoundRegistry.ELEVATOR_START, 0.5F, 1.0F);
+          this.playSound(MineCellsSounds.ELEVATOR_START, 0.5F, 1.0F);
         }
         this.setMoving(true);
       }
@@ -405,7 +405,7 @@ public class ElevatorEntity extends Entity {
   @Nullable
   @Override
   public ItemStack getPickBlockStack() {
-    return new ItemStack(BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK_ITEM);
+    return new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER_BLOCK_ITEM);
   }
 
   @Override

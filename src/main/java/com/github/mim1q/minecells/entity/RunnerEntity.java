@@ -3,8 +3,8 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedTeleportGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
-import com.github.mim1q.minecells.registry.ParticleRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.client.world.ClientWorld;
@@ -56,8 +56,8 @@ public class RunnerEntity extends MineCellsEntity {
       .cooldownSetter((cooldown) -> this.attackCooldown = cooldown)
       .cooldownGetter(() -> this.attackCooldown)
       .stateSetter(this::switchAttackState)
-      .chargeSound(SoundRegistry.GRENADIER_CHARGE)
-      .releaseSound(SoundRegistry.SWIPE)
+      .chargeSound(MineCellsSounds.GRENADIER_CHARGE)
+      .releaseSound(MineCellsSounds.SWIPE)
       .defaultCooldown(40)
       .actionTick(12)
       .length(25)
@@ -81,7 +81,7 @@ public class RunnerEntity extends MineCellsEntity {
       for (int i = 0; i < 5; i++) {
         ParticleUtils.addParticle(
           (ClientWorld) this.world,
-          ParticleRegistry.CHARGE,
+          MineCellsParticles.CHARGE,
           this.getPos().add(0.0D, this.getHeight() * 0.5F, 0.0D),
           Vec3d.ZERO
         );

@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.misc;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class MineCellsExplosion {
   public static void explode(ServerWorld world, LivingEntity causingEntity, Vec3d position, float power) {
-    world.playSound(null, new BlockPos(position), SoundRegistry.EXPLOSION, SoundCategory.HOSTILE, 0.5F, 1.0F);
+    world.playSound(null, new BlockPos(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 0.5F, 1.0F);
     damageEntities(world, causingEntity, position, power);
 
     PacketByteBuf buf = PacketByteBufs.create();

@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.mixin;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.registry.BlockRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -55,8 +55,8 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   protected boolean checkIfInSewageAndUpdate() {
     List<BlockState> states = this.world.getStatesInBoxIfLoaded(this.getBoundingBox()).toList();
     for (BlockState state : states) {
-      boolean isAncientSewage = state.getBlock() == BlockRegistry.ANCIENT_SEWAGE;
-      if (state.getBlock() == BlockRegistry.SEWAGE || isAncientSewage) {
+      boolean isAncientSewage = state.getBlock() == MineCellsBlocks.ANCIENT_SEWAGE;
+      if (state.getBlock() == MineCellsBlocks.SEWAGE || isAncientSewage) {
         if (this.ticksInSewage % (isAncientSewage ? 10 : 20) == 0) {
           ((LivingEntity)(Object)this).addStatusEffect(new StatusEffectInstance(
             StatusEffects.POISON,

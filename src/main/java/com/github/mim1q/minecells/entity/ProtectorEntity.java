@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.registry.ParticleRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.registry.StatusEffectRegistry;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -61,18 +61,18 @@ public class ProtectorEntity extends MineCellsEntity {
 
       if (!this.world.isClient()) {
         if (this.stateTicks == 1 || this.stateTicks % 20 == 0) {
-          this.playSound(SoundRegistry.BUZZ, 0.25F, 1.0F);
+          this.playSound(MineCellsSounds.BUZZ, 0.25F, 1.0F);
         }
         if (this.stateTicks > 50) {
           this.setActive(false);
           this.stateTicks = 0;
         }
         for (Entity e : entities) {
-          StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.PROTECTED, 5, 0, false, false);
+          StatusEffectInstance effect = new StatusEffectInstance(MineCellsStatusEffects.PROTECTED, 5, 0, false, false);
           ((LivingEntity) e).addStatusEffect(effect);
         }
       } else if (!this.trackedEntities.isEmpty()) {
-        ParticleUtils.addParticle((ClientWorld) this.world, ParticleRegistry.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
       }
     }
     if (!this.world.isClient) {

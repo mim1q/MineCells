@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
-import com.github.mim1q.minecells.registry.EntityRegistry;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
@@ -33,7 +33,7 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   }
 
   public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
-    ConjunctiviusProjectileEntity projectile = EntityRegistry.CONJUNCTIVIUS_PROJECTILE.create(world);
+    ConjunctiviusProjectileEntity projectile = MineCellsEntities.CONJUNCTIVIUS_PROJECTILE.create(world);
     if (projectile != null) {
       projectile.setPosition(pos);
       projectile.setVelocity(target.subtract(pos).normalize());

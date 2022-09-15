@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -111,12 +111,12 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
 
   @Override
   public SoundEvent getShootChargeSoundEvent() {
-    return SoundRegistry.BOW_CHARGE;
+    return MineCellsSounds.BOW_CHARGE;
   }
 
   @Override
   public SoundEvent getShootReleaseSoundEvent() {
-    return SoundRegistry.BOW_RELEASE;
+    return MineCellsSounds.BOW_RELEASE;
   }
 
   @Override

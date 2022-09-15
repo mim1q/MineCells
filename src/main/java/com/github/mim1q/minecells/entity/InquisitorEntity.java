@@ -3,8 +3,8 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.MagicOrbEntity;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -96,12 +96,12 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
   @Override
   public SoundEvent getShootChargeSoundEvent() {
-    return SoundRegistry.INQUISITOR_CHARGE;
+    return MineCellsSounds.INQUISITOR_CHARGE;
   }
 
   @Override
   public SoundEvent getShootReleaseSoundEvent() {
-    return SoundRegistry.INQUISITOR_RELEASE;
+    return MineCellsSounds.INQUISITOR_RELEASE;
   }
 
 
@@ -153,7 +153,7 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
       Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(1.25D);
 
-      MagicOrbEntity orb = new MagicOrbEntity(EntityRegistry.MAGIC_ORB, this.entity.world);
+      MagicOrbEntity orb = new MagicOrbEntity(MineCellsEntities.MAGIC_ORB, this.entity.world);
       orb.setPosition(entityPos);
       orb.setVelocity(vel);
       orb.setOwner(this.entity);

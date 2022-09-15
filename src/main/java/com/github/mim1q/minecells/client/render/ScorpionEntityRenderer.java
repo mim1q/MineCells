@@ -5,7 +5,7 @@ import com.github.mim1q.minecells.MineCellsClient;
 import com.github.mim1q.minecells.client.render.feature.GlowFeatureRenderer;
 import com.github.mim1q.minecells.client.render.model.ScorpionEntityModel;
 import com.github.mim1q.minecells.entity.ScorpionEntity;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -18,7 +18,7 @@ public class ScorpionEntityRenderer extends MobEntityRenderer<ScorpionEntity, Sc
   public static final Identifier TEXTURE_GLOW = MineCells.createId("textures/entity/scorpion/scorpion_glow.png");
 
   public ScorpionEntityRenderer(EntityRendererFactory.Context context) {
-    super(context, new ScorpionEntityModel(context.getPart(RendererRegistry.SCORPION_LAYER)), 0.75F);
+    super(context, new ScorpionEntityModel(context.getPart(MineCellsRenderers.SCORPION_LAYER)), 0.75F);
     if (MineCellsClient.CLIENT_CONFIG.rendering.scorpionGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, TEXTURE_GLOW));
     }

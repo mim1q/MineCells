@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.effect;
 
-import com.github.mim1q.minecells.registry.SoundRegistry;
-import com.github.mim1q.minecells.registry.StatusEffectRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -27,7 +27,7 @@ public class ElectrifiedStatusEffect extends StatusEffect {
   public void applyUpdateEffect(LivingEntity entity, int amplifier) {
     if ((amplifier == 1 && entity.isInsideWaterOrBubbleColumn()) || amplifier >= 2 && entity.age % 5 == 0) {
       List<Entity> entities = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(3.0D), e -> e instanceof LivingEntity);
-      StatusEffectInstance effect = new StatusEffectInstance(StatusEffectRegistry.ELECTRIFIED, 20, amplifier - 1, false, false, true);
+      StatusEffectInstance effect = new StatusEffectInstance(MineCellsStatusEffects.ELECTRIFIED, 20, amplifier - 1, false, false, true);
       for (Entity e : entities) {
         if (e instanceof LivingEntity && (e.distanceTo(entity) <= 3.0D)) {
           ((LivingEntity) e).addStatusEffect(effect);
@@ -43,6 +43,6 @@ public class ElectrifiedStatusEffect extends StatusEffect {
       damage *= 1.25F;
     }
     entity.damage(DamageSource.MAGIC, damage);
-    entity.world.playSound(null, entity.getBlockPos(), SoundRegistry.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
+    entity.world.playSound(null, entity.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
   }
 }

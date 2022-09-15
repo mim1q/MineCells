@@ -5,7 +5,7 @@ import com.github.mim1q.minecells.MineCellsClient;
 import com.github.mim1q.minecells.client.render.feature.GlowFeatureRenderer;
 import com.github.mim1q.minecells.client.render.model.ProtectorEntityModel;
 import com.github.mim1q.minecells.entity.ProtectorEntity;
-import com.github.mim1q.minecells.registry.RendererRegistry;
+import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import com.github.mim1q.minecells.util.RenderUtils;
 import com.github.mim1q.minecells.util.RenderUtils.VertexCoordinates;
 import net.minecraft.client.render.RenderLayer;
@@ -29,7 +29,7 @@ public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, 
   private static final RenderLayer CONNECTION_LAYER = RenderLayer.getEntityCutout(CONNECTION_TEXTURE);
 
   public ProtectorEntityRenderer(EntityRendererFactory.Context ctx) {
-    super(ctx, new ProtectorEntityModel(ctx.getPart(RendererRegistry.PROTECTOR_LAYER)), 0.35F);
+    super(ctx, new ProtectorEntityModel(ctx.getPart(MineCellsRenderers.PROTECTOR_LAYER)), 0.35F);
     if (MineCellsClient.CLIENT_CONFIG.rendering.protectorGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }

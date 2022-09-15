@@ -1,9 +1,9 @@
 package com.github.mim1q.minecells.datagen;
 
-import com.github.mim1q.minecells.registry.BlockEntityRegistry;
-import com.github.mim1q.minecells.registry.BlockRegistry;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.ItemRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Blocks;
@@ -25,23 +25,23 @@ public class MineCellsModelProvider extends FabricModelProvider {
 
   @Override
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
-    generator.registerSimpleCubeAll(BlockRegistry.HARDSTONE);
-    generator.registerSimpleCubeAll(BlockRegistry.ELEVATOR_ASSEMBLER);
-    generator.registerStateWithModelReference(BlockEntityRegistry.KINGDOM_PORTAL_CORE, Blocks.AIR);
-    generator.registerStateWithModelReference(BlockRegistry.CONJUNCTIVIUS_BOX, Blocks.SPAWNER);
-    generator.registerStateWithModelReference(BlockRegistry.SEWAGE, Blocks.WATER);
-    generator.registerStateWithModelReference(BlockRegistry.ANCIENT_SEWAGE, Blocks.WATER);
+    generator.registerSimpleCubeAll(MineCellsBlocks.HARDSTONE);
+    generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
+    generator.registerStateWithModelReference(MineCellsBlockEntities.KINGDOM_PORTAL_CORE, Blocks.AIR);
+    generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.SPAWNER);
+    generator.registerStateWithModelReference(MineCellsBlocks.SEWAGE, Blocks.WATER);
+    generator.registerStateWithModelReference(MineCellsBlocks.ANCIENT_SEWAGE, Blocks.WATER);
   }
 
   @Override
   public void generateItemModels(ItemModelGenerator generator) {
-    for (SpawnEggItem spawnEggItem : EntityRegistry.getSpawnEggs()) {
+    for (SpawnEggItem spawnEggItem : MineCellsEntities.getSpawnEggs()) {
       registerSpawnEggModel(generator, spawnEggItem);
     }
-    for (Item item : ItemRegistry.getSimpleItems()) {
+    for (Item item : MineCellsItems.getSimpleItems()) {
       generator.register(item, Models.GENERATED);
     }
-    generator.register(ItemRegistry.ASSASSINS_DAGGER, Models.HANDHELD);
+    generator.register(MineCellsItems.ASSASSINS_DAGGER, Models.HANDHELD);
   }
 
   public static void registerSpawnEggModel(ItemModelGenerator generator, SpawnEggItem item) {

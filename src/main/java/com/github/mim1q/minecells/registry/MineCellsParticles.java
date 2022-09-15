@@ -12,21 +12,21 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.registry.Registry;
 
-public class ParticleRegistry {
+public class MineCellsParticles {
 
   public static final DefaultParticleType AURA = FabricParticleTypes.simple();
   public static final DefaultParticleType EXPLOSION = FabricParticleTypes.simple();
   public static final DefaultParticleType PROTECTOR = FabricParticleTypes.simple();
   public static final DefaultParticleType CHARGE = FabricParticleTypes.simple();
 
-  public static void register() {
+  public static void init() {
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("explosion"), EXPLOSION);
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("protector"), PROTECTOR);
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("charge"), CHARGE);
   }
 
-  public static void registerClient() {
+  public static void initClient() {
     ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
       registry.register(MineCells.createId("particle/aura"));
       registry.register(MineCells.createId("particle/explosion"));

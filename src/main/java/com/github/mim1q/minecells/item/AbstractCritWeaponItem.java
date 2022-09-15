@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.item;
 
 import com.github.mim1q.minecells.network.PacketIdentifiers;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -45,7 +45,7 @@ public abstract class AbstractCritWeaponItem extends ToolItem implements Vanisha
 
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
     if (this.canCrit(stack, target, attacker)) {
-      attacker.world.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), SoundRegistry.CRIT, SoundCategory.PLAYERS, 0.5F, 1.0F);
+      attacker.world.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 0.5F, 1.0F);
       for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) target.world, target.getPos(), 30.0D)) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeDouble(target.getX());

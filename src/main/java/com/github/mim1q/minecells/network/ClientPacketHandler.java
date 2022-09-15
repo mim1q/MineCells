@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.network;
 
-import com.github.mim1q.minecells.registry.ParticleRegistry;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.api.EnvType;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d;
 @Environment(EnvType.CLIENT)
 public class ClientPacketHandler {
 
-  public static void register() {
+  public static void init() {
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CRIT, ClientPacketHandler::handleCrit);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.EXPLOSION, ClientPacketHandler::handleExplosion);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CONNECT, ClientPacketHandler::handleConnect);
@@ -41,7 +41,7 @@ public class ClientPacketHandler {
     double radius = buf.readDouble();
     client.execute(() -> {
       if (client.player != null && client.world != null) {
-        ParticleUtils.addParticle(client.world, ParticleRegistry.EXPLOSION, pos, new Vec3d(radius, 0.0D, 0.0D));
+        ParticleUtils.addParticle(client.world, MineCellsParticles.EXPLOSION, pos, new Vec3d(radius, 0.0D, 0.0D));
         ParticleUtils.addAura(client.world, pos, ParticleTypes.CRIT, 20, 0.0D, radius);
       }
     });

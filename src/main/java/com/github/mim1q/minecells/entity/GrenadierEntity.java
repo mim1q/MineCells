@@ -4,8 +4,8 @@ import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
-import com.github.mim1q.minecells.registry.EntityRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -104,7 +104,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
   @Override
   public SoundEvent getShootChargeSoundEvent() {
-    return SoundRegistry.GRENADIER_CHARGE;
+    return MineCellsSounds.GRENADIER_CHARGE;
   }
 
   @Override
@@ -114,7 +114,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
   @Override
   protected SoundEvent getDeathSound() {
-    return SoundRegistry.LEAPING_ZOMBIE_DEATH;
+    return MineCellsSounds.LEAPING_ZOMBIE_DEATH;
   }
 
   @Override
@@ -152,7 +152,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
       Vec3d delta = targetPos.subtract(entityPos).multiply(0.035D).add(0.0D, 0.5D, 0.0D);
 
-      GrenadeEntity grenade = new GrenadeEntity(EntityRegistry.GRENADE, this.entity.world);
+      GrenadeEntity grenade = new GrenadeEntity(MineCellsEntities.GRENADE, this.entity.world);
       grenade.setPosition(entityPos.add(0.0D, 1.5D, 0.0D));
       grenade.shoot(delta);
 

@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
@@ -41,7 +41,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
   public void start() {
     super.start();
     this.entity.getDataTracker().set(ConjunctiviusEntity.BARRAGE_ACTIVE, true);
-    this.entity.playSound(SoundRegistry.CHARGE, 2.0F, 1.0F);
+    this.entity.playSound(MineCellsSounds.CHARGE, 2.0F, 1.0F);
   }
 
   @Override
@@ -49,7 +49,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     if (this.ticks > 60) {
       super.tick();
       if (this.ticks % 6 == 0) {
-        this.entity.playSound(SoundRegistry.CONJUNCTIVIUS_SHOT, 2.0F, 1.0F + this.entity.getRandom().nextFloat() * 0.1F);
+        this.entity.playSound(MineCellsSounds.CONJUNCTIVIUS_SHOT, 2.0F, 1.0F + this.entity.getRandom().nextFloat() * 0.1F);
       }
       if (this.ticks % this.interval == 0) {
         this.shoot(this.entity, this.target);

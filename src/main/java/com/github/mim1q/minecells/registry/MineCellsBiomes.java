@@ -14,11 +14,11 @@ import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 
-public class BiomeRegistry {
+public class MineCellsBiomes {
   public static final RegistryKey<Biome> PROMENADE_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("promenade"));
   public static final RegistryKey<Biome> PUTRID_WATERS_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("putrid_waters"));
 
-  public static void register() {
+  public static void init() {
     Registry.register(BuiltinRegistries.BIOME, PROMENADE_KEY.getValue(), createPromenade());
     Registry.register(BuiltinRegistries.BIOME, PUTRID_WATERS_KEY.getValue(), createPutridWaters());
 
@@ -31,11 +31,11 @@ public class BiomeRegistry {
 
   private static Biome createPromenade() {
     SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.LEAPING_ZOMBIE, 150, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.GRENADIER, 75, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.MUTATED_BAT, 100, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.RUNNER, 100, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityRegistry.PROTECTOR, 50, 1, 1));
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 150, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.MUTATED_BAT, 100, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.RUNNER, 100, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.PROTECTOR, 50, 1, 1));
 
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);

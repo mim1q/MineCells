@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.LeapGoal;
 import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -104,12 +104,12 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
 
   @Override
   public SoundEvent getLeapChargeSoundEvent() {
-    return SoundRegistry.LEAPING_ZOMBIE_CHARGE;
+    return MineCellsSounds.LEAPING_ZOMBIE_CHARGE;
   }
 
   @Override
   public SoundEvent getLeapReleaseSoundEvent() {
-    return SoundRegistry.LEAPING_ZOMBIE_RELEASE;
+    return MineCellsSounds.LEAPING_ZOMBIE_RELEASE;
   }
 
   @Override

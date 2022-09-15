@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.registry.BlockRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChainBlock;
@@ -74,7 +74,7 @@ public class ElevatorAssemblerBlock extends Block {
 
   @Override
   public Item asItem() {
-    return BlockRegistry.ELEVATOR_ASSEMBLER_BLOCK_ITEM;
+    return MineCellsBlocks.ELEVATOR_ASSEMBLER_BLOCK_ITEM;
   }
 
 

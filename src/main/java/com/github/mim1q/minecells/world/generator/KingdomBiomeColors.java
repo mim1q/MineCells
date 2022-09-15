@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.world.generator;
 
-import com.github.mim1q.minecells.registry.BiomeRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBiomes;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
@@ -16,9 +16,9 @@ public class KingdomBiomeColors {
   public static RegistryEntry<Biome> biomeOf(Color color, Registry<Biome> biomeRegistry) {
     RegistryKey<Biome> key;
     if (colorCode(color) == PROMENADE) {
-      key = BiomeRegistry.PROMENADE_KEY;
+      key = MineCellsBiomes.PROMENADE_KEY;
     } else {
-      key = BiomeRegistry.PUTRID_WATERS_KEY;
+      key = MineCellsBiomes.PUTRID_WATERS_KEY;
     }
     Optional<RegistryEntry<Biome>> entry = biomeRegistry.getEntry(key);
     return entry.orElse(null);

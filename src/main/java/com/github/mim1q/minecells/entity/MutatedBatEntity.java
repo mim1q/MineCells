@@ -2,8 +2,8 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.DashGoal;
 import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
-import com.github.mim1q.minecells.registry.ParticleRegistry;
-import com.github.mim1q.minecells.registry.SoundRegistry;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -64,7 +64,7 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
     super.tick();
     if (this.isDashCharging() && this.world.isClient()) {
       for (int i = 0; i < 5; i++) {
-        ParticleUtils.addParticle((ClientWorld) this.world, ParticleRegistry.CHARGE, this.getPos().add(0.0D, 0.2D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.CHARGE, this.getPos().add(0.0D, 0.2D, 0.0D), Vec3d.ZERO);
       }
     }
     this.decrementCooldown(DASH_COOLDOWN);
@@ -122,12 +122,12 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
   @Override
   public SoundEvent getDashChargeSoundEvent() {
-    return SoundRegistry.MUTATED_BAT_CHARGE;
+    return MineCellsSounds.MUTATED_BAT_CHARGE;
   }
 
   @Override
   public SoundEvent getDashReleaseSoundEvent() {
-    return SoundRegistry.MUTATED_BAT_RELEASE;
+    return MineCellsSounds.MUTATED_BAT_RELEASE;
   }
 
   public static DefaultAttributeContainer.Builder createMutatedBatAttributes() {

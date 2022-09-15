@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.dimenion.KingdomDimensionUtils;
-import com.github.mim1q.minecells.registry.BlockEntityRegistry;
+import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +13,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.*;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
 
   public KingdomPortalCoreBlockEntity(BlockPos pos, BlockState state) {
-    super(BlockEntityRegistry.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, pos, state);
+    super(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, pos, state);
   }
 
   private Vec3d calculateOffset() {
