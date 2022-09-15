@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   public static final DirectionProperty DIRECTION = HorizontalFacingBlock.FACING;
+  public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);
@@ -39,11 +41,9 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     if (blockEntity == null) {
       return ActionResult.FAIL;
     }
-    if (world.isClient()) {
-      return ActionResult.SUCCESS;
-    }
-    System.out.println("onUse");
-    return super.onUse(state, world, pos, player, hand, hit);
+    System.out.println(pos);
+    world.setBlockState(pos, state.with(LIT, !state.get(LIT)));
+    return ActionResult.SUCCESS;
   }
 
   @Override
@@ -60,7 +60,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   @Override
   public BlockRenderType getRenderType(BlockState state) {
-    return BlockRenderType.INVISIBLE;
+    return BlockRenderType.MODEL;
   }
 
   @Override
@@ -71,12 +71,13 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   @Override
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return VoxelShapes.empty();
+    return VoxelShapes.fullCube();
   }
 
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     builder.add(DIRECTION);
+    builder.add(LIT);
   }
 
   @Override
@@ -131,7 +132,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     );
 
     public Filler(Settings settings) {
-      super(settings, MineCellsBlockEntities.KINGDOM_PORTAL_CORE, false);
+      super(settings, MineCellsBlockEntities.KINGDOM_PORTAL_CORE, true);
     }
 
     @Override

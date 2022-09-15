@@ -13,7 +13,9 @@ import net.minecraft.util.registry.Registry;
 public class MineCellsBlockEntities {
 
   public static final Block KINGDOM_PORTAL_CORE = MineCellsBlocks.registerBlock(
-    new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
+    new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
+      state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)
+    ),
     "kingdom_portal_core"
   );
 
@@ -27,7 +29,7 @@ public class MineCellsBlockEntities {
   );
 
   public static final Block KINGDOM_PORTAL_FILLER = MineCellsBlocks.registerBlock(
-    new KingdomPortalCoreBlock.Filler(FabricBlockSettings.copyOf(Blocks.STONE)),
+    new KingdomPortalCoreBlock.Filler(FabricBlockSettings.copyOf(Blocks.OBSIDIAN)),
     "kingdom_portal_filler"
   );
 

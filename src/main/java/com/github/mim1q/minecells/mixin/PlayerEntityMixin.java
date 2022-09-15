@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccessor {
 
   private static final TrackedData<Integer> CELL_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+  private int kingdomPortalCooldown = 0;
 
   protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -38,14 +39,36 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     this.dataTracker.set(CELL_AMOUNT, amount);
   }
 
+  //tick
+  @Inject(method = "tick", at = @At("TAIL"))
+  public void tick(CallbackInfo ci) {
+    if (kingdomPortalCooldown > 0) {
+      kingdomPortalCooldown--;
+    }
+  }
+
   @Inject(method = "writeCustomDataToNbt(Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
   protected void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     nbt.putInt("cells", this.getCells());
+    nbt.putInt("kingdomPortalCooldown", kingdomPortalCooldown);
   }
 
   @Inject(method = "readCustomDataFromNbt(Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
   protected void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
     this.setCells(nbt.getInt("cells"));
+    kingdomPortalCooldown = nbt.getInt("kingdomPortalCooldown");
+  }
+
+  public void setKingdomPortalCooldown(int cooldown) {
+    kingdomPortalCooldown = cooldown;
+  }
+
+  public int getKingdomPortalCooldown() {
+    return kingdomPortalCooldown;
+  }
+
+  public boolean canUseKingdomPortal() {
+    return kingdomPortalCooldown == 0;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlock;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
@@ -28,8 +29,13 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
 
   @Override
   public void render(KingdomPortalCoreBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-    if (entity.getWorld() == null
-      || entity.getWorld().getBlockState(entity.getPos()).getBlock() != MineCellsBlockEntities.KINGDOM_PORTAL_CORE) {
+    if (entity.getWorld() == null) {
+      return;
+    }
+    if (entity.getWorld().getBlockState(entity.getPos()).getBlock() != MineCellsBlockEntities.KINGDOM_PORTAL_CORE) {
+      return;
+    }
+    if (!entity.getWorld().getBlockState(entity.getPos()).get(KingdomPortalCoreBlock.LIT)) {
       return;
     }
 
