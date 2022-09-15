@@ -27,6 +27,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
   public KingdomPortalCoreBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, pos, state);
@@ -74,6 +75,9 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
     blockEntity.update(state);
     if (!world.isClient()) {
+      if (!state.get(KingdomPortalCoreBlock.LIT)) {
+        return;
+      }
       List<PlayerEntity> list = world.getEntitiesByClass(PlayerEntity.class, blockEntity.getBox(), Objects::nonNull);
       ServerWorld serverWorld = (ServerWorld) world;
       for (PlayerEntity player : list) {
@@ -84,7 +88,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       ClientWorld clientWorld = (ClientWorld) world;
       blockEntity.litProgress.update(world.getTime());
       if (state.get(KingdomPortalCoreBlock.LIT)) {
-        blockEntity.litProgress.setupTransitionTo(1.0F, 20);
+        blockEntity.litProgress.setupTransitionTo(1.0F, 30);
       } else {
         blockEntity.litProgress.setupTransitionTo(0.0F, 1);
       }
@@ -120,7 +124,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void spawnParticleCircle(ClientWorld world, Vec3d center, double radius, double circleFraction) {
-    double angle = Math.PI * 2.0D * circleFraction;
+    double angle = Math.PI * 2.0D * circleFraction * 1.25D;
     double xz = -Math.cos(angle) * radius;
     double y = -Math.sin(angle) * radius;
     Vec3d width = getWidthVector();

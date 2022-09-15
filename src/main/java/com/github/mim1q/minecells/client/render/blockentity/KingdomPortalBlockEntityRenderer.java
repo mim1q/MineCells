@@ -20,6 +20,7 @@ import net.minecraft.util.math.Vec3f;
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/kingdom_portal.png");
   private static final Identifier TEXTURE_GLOW = MineCells.createId("textures/blockentity/kingdom_portal_glow.png");
+  private static final Identifier TEXTURE_UNLIT = MineCells.createId("textures/blockentity/kingdom_portal_unlit.png");
 
   private final KingdomPortalBlockEntityModel model;
   public KingdomPortalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
@@ -35,12 +36,6 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     if (entity.getWorld().getBlockState(entity.getPos()).getBlock() != MineCellsBlockEntities.KINGDOM_PORTAL_CORE) {
       return;
     }
-    if (!entity.getWorld().getBlockState(entity.getPos()).get(KingdomPortalCoreBlock.LIT)) {
-      return;
-    }
-    if (entity.litProgress.getValue() < 1.0F) {
-      return;
-    }
 
     matrices.push();
     Direction dir = entity.getDirection();
@@ -52,12 +47,21 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rot));
     matrices.scale(-1.0F, -1.0F, 1.0F);
 
-    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
-    this.model.render(matrices, vertexConsumer, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(model.getLayer(TEXTURE_UNLIT));
+    this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+
+    entity.portalOpacity.update(entity.getWorld().getTime() + tickDelta);
+    float alpha = entity.portalOpacity.getValue();
+    if (entity.litProgress.getValue() >= 0.9F) {
+      entity.portalOpacity.setupTransitionTo(1.0F, 5.0F);
+    } else {
+      entity.portalOpacity.setupTransitionTo(0.0F, 5.0F);
+    }
+
     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
-    this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha);
     VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE_GLOW));
-    this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, 0.55F);
+    this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha * 0.75F);
     matrices.pop();
   }
 

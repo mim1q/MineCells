@@ -73,7 +73,7 @@ public class KingdomDimensionUtils {
 
     var poi = pois.findFirst();
     if (poi.isPresent()) {
-      var poiPos = poi.get().getPos().add(2, 1, 2);
+      var poiPos = poi.get().getPos().add(1, 1, 1);
       poiPos = poiPos.withY(getTopY(world, poiPos));
       return poiPos;
     }
@@ -100,7 +100,7 @@ public class KingdomDimensionUtils {
   public static int getTopY(ServerWorld world, BlockPos startingPos) {
     int i = world.getTopY();
     while (i > 0) {
-      if (!world.getBlockState(startingPos.withY(i)).isAir()) {
+      if (world.getBlockState(startingPos.withY(i)).isOpaqueFullCube(world, startingPos.withY(i))) {
         return i;
       }
       i--;
