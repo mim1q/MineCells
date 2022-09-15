@@ -2,8 +2,11 @@ package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.dimenion.KingdomDimensionUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.util.ParticleUtils;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -22,6 +25,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Direction direction = Direction.NORTH;
   private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
+
+  public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
   public KingdomPortalCoreBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, pos, state);
@@ -75,9 +80,52 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
         player.setVelocity(player.getVelocity().multiply(0.0D, 1.0D, 0.0D));
         KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld, blockEntity);
       }
+    } else {
+      ClientWorld clientWorld = (ClientWorld) world;
+      blockEntity.litProgress.update(world.getTime());
+      if (state.get(KingdomPortalCoreBlock.LIT)) {
+        blockEntity.litProgress.setupTransitionTo(1.0F, 20);
+      } else {
+        blockEntity.litProgress.setupTransitionTo(0.0F, 1);
+      }
+      float progress = blockEntity.litProgress.getProgress();
+      float value = blockEntity.litProgress.getValue();
+      if (progress < 1.0F) {
+        blockEntity.spawnParticleCircle(
+          clientWorld,
+          Vec3d.of(blockEntity.getPos()).add(blockEntity.getOffset()),
+          1.25F,
+          progress
+        );
+      }
+      if (value >= 0.9F && value < 1.0F) {
+        ParticleUtils.addAura(
+          clientWorld,
+          Vec3d.of(blockEntity.getPos()).add(blockEntity.getOffset()),
+          PARTICLE,
+          10,
+          1.0F,
+          1.0F
+        );
+        ParticleUtils.addAura(
+          clientWorld,
+          Vec3d.of(blockEntity.getPos()).add(blockEntity.getOffset()),
+          PARTICLE,
+          10,
+          1.75,
+          1.0F
+        );
+      }
     }
   }
 
+  public void spawnParticleCircle(ClientWorld world, Vec3d center, double radius, double circleFraction) {
+    double angle = Math.PI * 2.0D * circleFraction;
+    double xz = -Math.cos(angle) * radius;
+    double y = -Math.sin(angle) * radius;
+    Vec3d width = getWidthVector();
+    ParticleUtils.addParticle(world, PARTICLE, center.add(xz * width.x, y, xz * width.z), Vec3d.ZERO);
+  }
   public Direction getDirection() {
     return direction;
   }

@@ -7,6 +7,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
@@ -18,8 +19,7 @@ import java.util.Set;
 public abstract class FillerBlock extends Block {
 
   private final Block targetBlock;
-  protected final int MAX_DEPTH = 7;
-  private final Set<BlockPos> checkedBlocks = new HashSet<>();
+  protected static final int MAX_DEPTH = 7;
   private final boolean usable;
 
   public FillerBlock(Settings settings, Block targetBlock, boolean usable) {
@@ -36,9 +36,12 @@ public abstract class FillerBlock extends Block {
     if (world.isClient()) {
       return ActionResult.SUCCESS;
     }
-    this.checkedBlocks.clear();
-    this.useNeighborsIfApplicable(state, world, pos, player, hand, hit, 0);
-    return ActionResult.SUCCESS;
+    BlockPos targetPos = this.findTarget(world, pos,0);
+    if (targetPos == null) {
+      return ActionResult.FAIL;
+    }
+    BlockState targetState = world.getBlockState(targetPos);
+    return targetBlock.onUse(targetState, world, targetPos, player, hand, hit);
   }
 
   @Override
@@ -49,21 +52,26 @@ public abstract class FillerBlock extends Block {
     destroyNeighbors(world, pos, this, this.targetBlock);
   }
 
-  private void useNeighborsIfApplicable(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, int depth) {
-    if (depth >= this.MAX_DEPTH || this.checkedBlocks.contains(pos)) {
-      return;
+  private BlockPos findTarget(World world, BlockPos pos, int depth) {
+    if (depth >= MAX_DEPTH) {
+      return null;
     }
-    this.checkedBlocks.add(pos);
-    Block block = world.getBlockState(pos).getBlock();
-    if (block == this.targetBlock) {
-      this.targetBlock.onUse(state, world, pos, player, hand, hit);
-      return;
-    }
-    if (block == this) {
-      for (BlockPos neighbor : getNeighbors(pos)) {
-        this.useNeighborsIfApplicable(state, world, neighbor, player, hand, hit, depth + 1);
+    BlockPos.Mutable mutable = new BlockPos.Mutable();
+    Direction[] dirs = Direction.values();
+
+    for (Direction direction : dirs) {
+      mutable.set(pos, direction);
+      BlockState neighborState = world.getBlockState(mutable);
+      if (neighborState.getBlock() == this.targetBlock) {
+        return mutable;
+      }
+      BlockPos newTargetPos = findTarget(world, mutable, depth + 1);
+      if (newTargetPos != null) {
+        return newTargetPos;
       }
     }
+
+    return null;
   }
 
   public static void destroyNeighbors(WorldAccess world, BlockPos pos, Block filler, Block target) {

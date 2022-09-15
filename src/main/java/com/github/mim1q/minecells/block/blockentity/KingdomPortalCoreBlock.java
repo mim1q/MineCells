@@ -32,6 +32,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);
+    this.setDefaultState(this.stateManager.getDefaultState().with(DIRECTION, Direction.NORTH).with(LIT, false));
   }
 
   @SuppressWarnings("deprecation")
@@ -41,7 +42,6 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     if (blockEntity == null) {
       return ActionResult.FAIL;
     }
-    System.out.println(pos);
     world.setBlockState(pos, state.with(LIT, !state.get(LIT)));
     return ActionResult.SUCCESS;
   }
@@ -60,7 +60,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   @Override
   public BlockRenderType getRenderType(BlockState state) {
-    return BlockRenderType.MODEL;
+    return BlockRenderType.INVISIBLE;
   }
 
   @Override
@@ -71,7 +71,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   @Override
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return VoxelShapes.fullCube();
+    return VoxelShapes.empty();
   }
 
   @Override

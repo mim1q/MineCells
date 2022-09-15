@@ -38,6 +38,9 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     if (!entity.getWorld().getBlockState(entity.getPos()).get(KingdomPortalCoreBlock.LIT)) {
       return;
     }
+    if (entity.litProgress.getValue() < 1.0F) {
+      return;
+    }
 
     matrices.push();
     Direction dir = entity.getDirection();
