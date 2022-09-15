@@ -30,6 +30,7 @@ public class MineCells implements ModInitializer {
     ParticleRegistry.register();
     BiomeRegistry.register();
     MineCellsPlacerTypes.register();
+    PointOfInterestRegistry.register();
   }
 
   public static Identifier createId(String path) {

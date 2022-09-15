@@ -2,17 +2,18 @@ package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.dimenion.KingdomDimensionUtils;
 import com.github.mim1q.minecells.registry.BlockEntityRegistry;
-import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.*;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Direction direction = Direction.NORTH;
   private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
+
+  private TeleportTarget teleportTarget = null;
 
 
   public KingdomPortalCoreBlockEntity(BlockPos pos, BlockState state) {
@@ -71,22 +74,21 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
     blockEntity.update(state);
-    if (world.isClient()) {
-      Vec3d position = Vec3d.of(pos).add(blockEntity.getOffset());
-      float time = (world.getTime() * 0.1F);
-      time %= MathHelper.PI * 2.0F;
-      double y = MathHelper.sin(time);
-      double xz = MathHelper.cos(time);
-      Vec3d vector = blockEntity.getWidthVector()
-       .multiply(xz)
-       .add(0.0D, y, 0.0D)
-       .multiply(1.25D);
-      ParticleUtils.addParticle((ClientWorld) world, PARTICLE, position.add(vector), Vec3d.ZERO);
-    } else {
+    if (!world.isClient()) {
       List<PlayerEntity> list = world.getEntitiesByClass(PlayerEntity.class, blockEntity.getBox(), Objects::nonNull);
       ServerWorld serverWorld = (ServerWorld) world;
       for (PlayerEntity player : list) {
-        KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld);
+        if (blockEntity.teleportTarget == null && !KingdomDimensionUtils.isKingdom(world)) {
+          ServerWorld kingdom = KingdomDimensionUtils.getKingdom(serverWorld);
+          blockEntity.teleportTarget = KingdomDimensionUtils.findTeleportTarget(pos, kingdom);
+          System.out.println(blockEntity.teleportTarget);
+          if (blockEntity.teleportTarget != null) {
+            KingdomDimensionUtils.spawnPortal(kingdom, new BlockPos(blockEntity.teleportTarget.position));
+            KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld, blockEntity);
+          }
+        } else {
+          KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld, blockEntity);
+        }
       }
     }
   }
@@ -105,5 +107,40 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
   public Box getBox() {
     return box;
+  }
+
+  public TeleportTarget getTeleportTarget() {
+    return teleportTarget;
+  }
+
+  @Override
+  public void readNbt(NbtCompound nbt) {
+    super.readNbt(nbt);
+    if (!nbt.getBoolean("hasTarget")) {
+      return;
+    }
+    teleportTarget = new TeleportTarget(
+      new Vec3d(
+        nbt.getDouble("targetX"),
+        nbt.getDouble("targetY"),
+        nbt.getDouble("targetZ")
+      ),
+      Vec3d.ZERO,
+      0.0F,
+      0.0F
+    );
+  }
+
+  @Override
+  protected void writeNbt(NbtCompound nbt) {
+    super.writeNbt(nbt);
+    nbt.putBoolean("hasTarget", teleportTarget != null);
+    System.out.println(teleportTarget);
+    if (teleportTarget == null) {
+      return;
+    }
+    nbt.putDouble("targetX", teleportTarget.position.x);
+    nbt.putDouble("targetY", teleportTarget.position.y);
+    nbt.putDouble("targetZ", teleportTarget.position.z);
   }
 }

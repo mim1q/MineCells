@@ -3,12 +3,11 @@
   "biomes": [
     "minecraft:taiga",
     "minecraft:forest",
-    "minecraft:birch_forest",
-    "minecells:promenade"
+    "minecraft:birch_forest"
   ],
   "step": "surface_structures",
   "spawn_overrides": {},
-  "terrain_adaptation": "none",
+  "terrain_adaptation": "beard_thin",
   "start_pool": "minecells:portal",
   "size": 1,
   "start_height": {
