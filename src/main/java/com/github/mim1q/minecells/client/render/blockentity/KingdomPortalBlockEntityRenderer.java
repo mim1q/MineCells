@@ -57,11 +57,12 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     } else {
       entity.portalOpacity.setupTransitionTo(0.0F, 5.0F);
     }
-
-    VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
-    this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha);
-    VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE_GLOW));
-    this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha * 0.75F);
+    if (alpha > 0.0F) {
+      VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
+      this.model.render(matrices, vertexConsumer2, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha);
+      VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE_GLOW));
+      this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha * 0.75F);
+    }
     matrices.pop();
   }
 
