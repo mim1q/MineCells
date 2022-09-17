@@ -1,12 +1,11 @@
-package com.github.mim1q.minecells.dimenion;
+package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsPointOfInterestTypes;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StructurePlacementData;
@@ -15,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterestStorage;
@@ -29,9 +27,10 @@ public class KingdomDimensionUtils {
   public static final Identifier PORTAL_STRUCTURE = MineCells.createId("plains_portal");
 
   public static void teleportPlayer(ServerPlayerEntity player, ServerWorld currentWorld, KingdomPortalCoreBlockEntity portal) {
-    if (((PlayerEntityAccessor) player).canUseKingdomPortal()) {
-      ((PlayerEntityAccessor) player).setKingdomPortalCooldown(100);
-    } else {
+    boolean canUsePortal = ((PlayerEntityAccessor) player).canUseKingdomPortal();
+    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(10);
+
+    if (!canUsePortal) {
       return;
     }
     ServerWorld newWorld = getOppositeWorld(currentWorld);
@@ -39,26 +38,34 @@ public class KingdomDimensionUtils {
       return;
     }
     BlockPos portalPos = portal.getPos();
-    BlockPos newPortalPos = findOrPlacePortal(newWorld, portalPos);
+    BlockPos boundPos = portal.getBoundPos();
+    BlockPos newPortalPos = findOrPlacePortal(newWorld, boundPos == null ? portalPos : boundPos);
     if (newPortalPos != null) {
-      FabricDimensions.teleport(player, newWorld, createTeleportTarget(newPortalPos));
+      FabricDimensions.teleport(player, newWorld, createTeleportTarget(newPortalPos.up()));
     }
   }
 
   public static BlockPos findOrPlacePortal(ServerWorld world, BlockPos pos) {
     BlockPos newPos = findExistingPortal(world, pos, 32);
     if (newPos == null) {
-      pos = findSuitableBiomePosition(world, pos);
-      if (pos == null) {
+      final BlockPos biomePos = findSuitableBiomePosition(world, pos);
+      if (biomePos == null) {
         return null;
       }
-      newPos = findExistingPortal(world, pos, 32);
+      newPos = findExistingPortal(world, biomePos, 32);
     }
     if (newPos == null) {
       placePortal(world, pos.withY(getTopY(world, pos)));
       newPos = findExistingPortal(world, pos, 64);
     }
-    return newPos == null ? null : newPos.up(1);
+    if (newPos == null) {
+      return null;
+    }
+    BlockEntity entity = world.getBlockEntity(newPos.up(2));
+    if (entity instanceof KingdomPortalCoreBlockEntity portalEntity) {
+      portalEntity.setBoundPos(pos);
+    }
+    return newPos.up(1);
   }
 
   @Nullable
@@ -73,7 +80,7 @@ public class KingdomDimensionUtils {
 
     var poi = pois.findFirst();
     if (poi.isPresent()) {
-      var poiPos = poi.get().getPos().add(1, 1, 1);
+      BlockPos poiPos = poi.get().getPos();
       poiPos = poiPos.withY(getTopY(world, poiPos));
       return poiPos;
     }

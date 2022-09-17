@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.block.blockentity;
 
-import com.github.mim1q.minecells.dimenion.KingdomDimensionUtils;
+import com.github.mim1q.minecells.dimension.KingdomDimensionUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,6 +26,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Direction direction = Direction.NORTH;
   private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
+
+  private BlockPos boundPos = null;
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
@@ -73,7 +76,9 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
-    blockEntity.update(state);
+    if (world.getTime() % 20 == 1) {
+      blockEntity.update(state);
+    }
     if (!world.isClient()) {
       if (!state.get(KingdomPortalCoreBlock.LIT)) {
         return;
@@ -113,6 +118,32 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
           1.0D
         );
       }
+    }
+  }
+
+  public void setBoundPos(BlockPos pos) {
+    boundPos = pos;
+    markDirty();
+  }
+
+  public BlockPos getBoundPos() {
+    return boundPos;
+  }
+
+  @Override
+  public void readNbt(NbtCompound nbt) {
+    super.readNbt(nbt);
+    int[] boundPosArray = nbt.getIntArray("boundPos");
+    if (boundPosArray.length == 3) {
+      boundPos = new BlockPos(boundPosArray[0], boundPosArray[1], boundPosArray[2]);
+    }
+  }
+
+  @Override
+  protected void writeNbt(NbtCompound nbt) {
+    super.writeNbt(nbt);
+    if (boundPos != null) {
+      nbt.putIntArray("boundPos", new int[]{boundPos.getX(), boundPos.getY(), boundPos.getZ()});
     }
   }
 
