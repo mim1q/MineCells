@@ -12,8 +12,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public abstract class FillerBlock extends Block {
@@ -32,9 +30,6 @@ public abstract class FillerBlock extends Block {
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     if (!this.usable) {
       return ActionResult.PASS;
-    }
-    if (world.isClient()) {
-      return ActionResult.SUCCESS;
     }
     BlockPos targetPos = this.findTarget(world, pos,0);
     if (targetPos == null) {

@@ -69,7 +69,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   public Box calculateBox() {
     Vec3d pos = Vec3d.of(this.getPos()).add(offset);
     Vec3d size = widthVector;
-    return Box.of(pos, size.x * 2.5D, 2.5D, size.z * 1.8D).expand(0.25D);
+    return Box.of(pos, size.x * 1.8D, 2.5D, size.z * 1.8D).expand(0.25D);
   }
 
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
@@ -81,7 +81,6 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       List<PlayerEntity> list = world.getEntitiesByClass(PlayerEntity.class, blockEntity.getBox(), Objects::nonNull);
       ServerWorld serverWorld = (ServerWorld) world;
       for (PlayerEntity player : list) {
-        player.setVelocity(player.getVelocity().multiply(0.0D, 1.0D, 0.0D));
         KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld, blockEntity);
       }
     } else {
@@ -97,30 +96,35 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       if (progress < 1.0F) {
         blockEntity.spawnParticleCircle(
           clientWorld,
-          Vec3d.of(blockEntity.getPos()).add(blockEntity.getOffset()),
+          Vec3d.of(pos).add(blockEntity.getOffset()),
           1.25F,
           progress
         );
       }
       if (value >= 0.9F && value < 1.0F) {
-        ParticleUtils.addAura(
+        spawnParticleSphere(
           clientWorld,
-          Vec3d.of(blockEntity.getPos()).add(blockEntity.getOffset()),
-          PARTICLE,
-          10,
-          1.0F,
-          1.0F
+          Vec3d.of(pos).add(blockEntity.getOffset()),
+          1.75D
         );
-        ParticleUtils.addAura(
+        spawnParticleSphere(
           clientWorld,
-          Vec3d.of(blockEntity.getPos()).add(blockEntity.getOffset()),
-          PARTICLE,
-          10,
-          1.75,
-          1.0F
+          Vec3d.of(pos).add(blockEntity.getOffset()),
+          1.0D
         );
       }
     }
+  }
+
+  private static void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {
+    ParticleUtils.addAura(
+      world,
+      pos,
+      PARTICLE,
+      10,
+      radius,
+      1.0F
+    );
   }
 
   public void spawnParticleCircle(ClientWorld world, Vec3d center, double radius, double circleFraction) {

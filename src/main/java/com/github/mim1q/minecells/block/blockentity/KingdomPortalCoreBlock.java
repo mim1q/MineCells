@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -42,8 +43,15 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     if (blockEntity == null) {
       return ActionResult.FAIL;
     }
-    world.setBlockState(pos, state.with(LIT, !state.get(LIT)));
-    return ActionResult.SUCCESS;
+    if (state.get(LIT)) {
+      return ActionResult.FAIL;
+    }
+    if (player.getStackInHand(hand).getItem() == MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE) {
+      player.getStackInHand(hand).decrement(1);
+      world.setBlockState(pos, state.with(LIT, true));
+      return ActionResult.CONSUME;
+    }
+    return ActionResult.FAIL;
   }
 
   @Override
