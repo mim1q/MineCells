@@ -29,6 +29,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -378,7 +379,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       return false;
     }
     if (source.isProjectile()) {
-      return super.damage(source, amount * 0.2F);
+      return super.damage(source, amount * 0.33F);
     }
     return super.damage(source, amount);
   }
@@ -472,10 +473,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D)
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0D)
-      .add(EntityAttributes.GENERIC_ARMOR, 15.0D)
-      .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 8.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
+      .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 6.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
-      .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 4.0D);
+      .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 5.0D);
   }
 
   public BlockBox getRoomBox() {
@@ -484,10 +485,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public Vec3d getSpawnPos() {
     return this.spawnPos;
-  }
-
-  public float getSpawnRot() {
-    return this.spawnRot;
   }
 
   @Override
@@ -570,6 +567,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     for (int id : tentacleIds) {
       this.tentacleIds.add(id);
     }
+  }
+
+  @Override
+  protected SoundEvent getHurtSound(DamageSource source) {
+    return MineCellsSounds.CONJUNCTIVIUS_HIT;
   }
 
   protected static class ConjunctiviusMoveControl extends MoveControl {
