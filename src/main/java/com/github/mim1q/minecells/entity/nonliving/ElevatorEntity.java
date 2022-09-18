@@ -394,6 +394,11 @@ public class ElevatorEntity extends Entity {
   }
 
   @Override
+  public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
+    return interact(player, hand);
+  }
+
+  @Override
   public ActionResult interact(PlayerEntity player, Hand hand) {
     boolean result = startMoving(!this.isGoingUp(), false);
     if (result && !this.world.isClient()) {
@@ -440,7 +445,12 @@ public class ElevatorEntity extends Entity {
   }
 
   @Override
-  public boolean collides() {
+  public boolean collidesWith(Entity other) {
+    return true;
+  }
+
+  @Override
+  public boolean canHit() {
     return true;
   }
 

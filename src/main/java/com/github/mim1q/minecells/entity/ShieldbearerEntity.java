@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -88,8 +89,8 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
   }
 
   @Override
-  public boolean collides() {
-    return super.collides() && !this.isDashReleasing();
+  public boolean collidesWith(Entity other) {
+    return super.collidesWith(other) && !this.isDashReleasing();
   }
 
   public static DefaultAttributeContainer.Builder createShieldbearerAttributes() {
