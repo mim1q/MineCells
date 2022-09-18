@@ -26,7 +26,7 @@
 
   "item.minecells.elevator_mechanism": "Elevator Mechanism",
   "item.minecells.interdimensional_rune": "Interdimensional Rune (Uncharged)",
-  "item.minecells.charged_interdimensional_rune": "Interdimensional Rune (Charged)",
+  "item.minecells.charged_interdimensional_rune": "Interdimensional Rune",
   "item.minecells.interdimensional_rune.tooltip": "Right click to transfer cell",
   "item.minecells.interdimensional_rune.tooltip2": "Cells: %s/%s",
 
