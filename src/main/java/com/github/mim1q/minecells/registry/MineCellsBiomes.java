@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacedFeatures;
-import com.github.mim1q.minecells.world.generator.KingdomBiomeSource;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -21,12 +20,6 @@ public class MineCellsBiomes {
   public static void init() {
     Registry.register(BuiltinRegistries.BIOME, PROMENADE_KEY.getValue(), createPromenade());
     Registry.register(BuiltinRegistries.BIOME, PUTRID_WATERS_KEY.getValue(), createPutridWaters());
-
-    Registry.register(
-      Registry.BIOME_SOURCE,
-      MineCells.createId("kingdom_biome_source"),
-      KingdomBiomeSource.CODEC
-    );
   }
 
   private static Biome createPromenade() {
