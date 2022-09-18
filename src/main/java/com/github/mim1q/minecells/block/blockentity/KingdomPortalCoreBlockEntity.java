@@ -38,24 +38,17 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
   private Vec3d calculateOffset() {
     Direction dir = getDirection();
-    float offsetX = 0.0F;
-    float offsetZ = 0.0F;
 
     if (dir == Direction.NORTH) {
-      offsetX = 0.0F;
-      offsetZ = 0.5F;
-    } else if (dir == Direction.SOUTH) {
-      offsetX = 1.0F;
-      offsetZ = 0.5F;
-    } else if (dir == Direction.EAST) {
-      offsetX = 0.5F;
-      offsetZ = 0.0F;
-    } else if (dir == Direction.WEST) {
-      offsetX = 0.5F;
-      offsetZ = 1.0F;
+      return new Vec3d(0.0F, 1.0F, 0.5F);
     }
-
-    return new Vec3d(offsetX, 1.0F, offsetZ);
+    if (dir == Direction.SOUTH) {
+      return new Vec3d(1.0F, 1.0F, 0.5F);
+    }
+    if (dir == Direction.EAST) {
+      return new Vec3d(0.5F, 1.0F, 0.0F);
+    }
+    return new Vec3d(0.5F, 1.0F, 1.0F);
   }
 
   public void update(BlockState state) {
