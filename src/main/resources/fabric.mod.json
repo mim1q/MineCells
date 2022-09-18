@@ -27,8 +27,8 @@
   ],
   "accessWidener": "minecells.accesswidener",
   "depends": {
-    "fabricloader": ">=0.14.8",
-    "fabric": "*",
-    "minecraft": "1.19"
+    "fabricloader": ">=0.14.9",
+    "fabric": ">=0.58.0",
+    "minecraft": "1.19.2"
   }
 }
