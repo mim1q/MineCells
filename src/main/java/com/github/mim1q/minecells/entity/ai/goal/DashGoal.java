@@ -60,7 +60,7 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
     this.alreadyAttacked.clear();
 
     if (!this.entity.world.isClient() && this.entity.getDashChargeSoundEvent() != null) {
-      this.entity.playSound(this.entity.getDashChargeSoundEvent(), 0.5F, 1.0F);
+      this.entity.playSound(this.entity.getDashChargeSoundEvent(), 1.0F, 1.0F);
     }
   }
 
@@ -86,7 +86,7 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
       this.entity.setDashCharging(false);
       this.entity.setDashReleasing(true);
       if (this.entity.getDashReleaseSoundEvent() != null) {
-        this.entity.playSound(this.entity.getDashReleaseSoundEvent(), 0.5F, 1.0F);
+        this.entity.playSound(this.entity.getDashReleaseSoundEvent(), 1.0F, 1.0F);
       }
     }
     if (this.entity.isDashReleasing()) {

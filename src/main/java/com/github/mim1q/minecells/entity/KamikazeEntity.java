@@ -73,7 +73,7 @@ public class KamikazeEntity extends MineCellsEntity {
     int fuse = this.getFuse();
     if (fuse == 0 && this.isAlive()) {
       this.explode(4.0F);
-      this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.KAMIKAZE_DEATH, SoundCategory.HOSTILE, 0.5F, 1.0F);
+      this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.KAMIKAZE_DEATH, SoundCategory.HOSTILE, 1.0F, 1.0F);
       this.discard();
     }
     this.setFuse(fuse - 1);
@@ -183,7 +183,7 @@ public class KamikazeEntity extends MineCellsEntity {
     @Override
     public void start() {
       this.entity.setSleeping(false);
-      this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_WAKE, SoundCategory.HOSTILE, 0.5F, 1.0F);
+      this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_WAKE, SoundCategory.HOSTILE, 1.0F, 1.0F);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class KamikazeEntity extends MineCellsEntity {
         this.entity.getLookControl().lookAt(target);
         if (this.entity.distanceTo(target) <= this.distance && this.entity.getFuse() < 0) {
           this.entity.setFuse(30);
-          this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_CHARGE, SoundCategory.HOSTILE, 0.5F, 1.0F);
+          this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_CHARGE, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
       }
     }

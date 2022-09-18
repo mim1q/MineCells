@@ -43,6 +43,6 @@ public class ElectrifiedStatusEffect extends StatusEffect {
       damage *= 1.25F;
     }
     entity.damage(DamageSource.MAGIC, damage);
-    entity.world.playSound(null, entity.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
+    entity.world.playSound(null, entity.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.NEUTRAL, 1.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
   }
 }

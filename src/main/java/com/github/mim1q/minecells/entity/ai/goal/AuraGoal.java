@@ -40,7 +40,7 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
   public void start() {
     this.ticks = 0;
     this.entity.setAuraCharging(true);
-    this.entity.playSound(this.entity.getAuraChargeSoundEvent(), 0.5f, 1.0f);
+    this.entity.playSound(this.entity.getAuraChargeSoundEvent(), 1.0F, 1.0f);
   }
 
   @Override
@@ -60,7 +60,7 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
     if (this.ticks == this.actionTick) {
       this.entity.setAuraCharging(false);
       this.entity.setAuraReleasing(true);
-      this.entity.playSound(this.entity.getAuraReleaseSoundEvent(), 0.5f, 1.0f);
+      this.entity.playSound(this.entity.getAuraReleaseSoundEvent(), 1.0F, 1.0f);
     } else if (this.ticks >= this.actionTick && this.ticks % 2 == 0) {
       this.damage();
     }

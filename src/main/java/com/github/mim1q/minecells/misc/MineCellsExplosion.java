@@ -24,7 +24,7 @@ import java.util.List;
 
 public class MineCellsExplosion {
   public static void explode(ServerWorld world, LivingEntity causingEntity, Vec3d position, float power) {
-    world.playSound(null, new BlockPos(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 0.5F, 1.0F);
+    world.playSound(null, new BlockPos(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 1.0F, 1.0F);
     damageEntities(world, causingEntity, position, power);
 
     PacketByteBuf buf = PacketByteBufs.create();

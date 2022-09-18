@@ -112,7 +112,7 @@ public class ElevatorEntity extends Entity {
         this.stoppedTicks = 0;
       } else {
         if (this.stoppedTicks == 1) {
-          this.playSound(MineCellsSounds.ELEVATOR_STOP, 0.5F, 1.0F);
+          this.playSound(MineCellsSounds.ELEVATOR_STOP, 1.0F, 1.0F);
         }
         this.stoppedTicks++;
       }
@@ -384,7 +384,7 @@ public class ElevatorEntity extends Entity {
         this.setGoingUp(isGoingUp);
         if (!this.isMoving() && this.stoppedTicks > 5) {
           this.setVelocityModifier(0.0F);
-          this.playSound(MineCellsSounds.ELEVATOR_START, 0.5F, 1.0F);
+          this.playSound(MineCellsSounds.ELEVATOR_START, 1.0F, 1.0F);
         }
         this.setMoving(true);
       }

@@ -82,7 +82,7 @@ public class ScorpionEntity extends MineCellsEntity {
     super.tick();
     if (this.isSleeping() && this.world.getClosestPlayer(this, 5.0F) != null) {
       this.dataTracker.set(SLEEPING, false);
-      this.playSound(MineCellsSounds.RISE, 0.5F, 1.0F);
+      this.playSound(MineCellsSounds.RISE, 1.0F, 1.0F);
       this.initGoalsLate();
     }
     if (this.world.isClient() && this.buriedProgress.getProgress() > 0.0F && this.buriedProgress.getProgress() < 1.0F) {

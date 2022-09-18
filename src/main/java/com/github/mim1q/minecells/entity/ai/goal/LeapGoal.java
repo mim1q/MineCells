@@ -53,7 +53,7 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
     this.alreadyAttacked.clear();
 
     if (!this.entity.world.isClient() && this.entity.getLeapChargeSoundEvent() != null) {
-      this.entity.playSound(this.entity.getLeapChargeSoundEvent(), 0.5F, 1.0F);
+      this.entity.playSound(this.entity.getLeapChargeSoundEvent(), 1.0F, 1.0F);
     }
   }
 
@@ -97,7 +97,7 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
     }
     this.entity.setVelocity(vel);
     if (!this.entity.world.isClient() && this.entity.getLeapReleaseSoundEvent() != null) {
-      this.entity.playSound(this.entity.getLeapReleaseSoundEvent(), 0.5f, 1.0F);
+      this.entity.playSound(this.entity.getLeapReleaseSoundEvent(), 1.0F, 1.0F);
     }
   }
 
