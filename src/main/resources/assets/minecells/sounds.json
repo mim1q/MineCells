@@ -207,6 +207,16 @@
       "minecells:elevator_stop"
     ]
   },
+  "portal.activate": {
+    "sounds": [
+      "minecells:portal/activate"
+    ]
+  },
+  "portal.use": {
+    "sounds": [
+      "minecells:portal/use"
+    ]
+  },
   "teleport.charge": {
     "sounds": [
       "minecells:teleport/charge"

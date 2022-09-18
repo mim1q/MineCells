@@ -2,12 +2,14 @@ package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -49,6 +51,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     if (player.getStackInHand(hand).getItem() == MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE) {
       player.getStackInHand(hand).decrement(1);
       world.setBlockState(pos, state.with(LIT, true));
+      world.playSound(null, pos, MineCellsSounds.PORTAL_ACTIVATE, SoundCategory.BLOCKS, 1.0F, 1.0F);
       return ActionResult.CONSUME;
     }
     return ActionResult.FAIL;

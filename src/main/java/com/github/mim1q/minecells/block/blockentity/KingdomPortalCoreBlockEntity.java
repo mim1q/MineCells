@@ -92,7 +92,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       ClientWorld clientWorld = (ClientWorld) world;
       blockEntity.litProgress.update(world.getTime());
       if (state.get(KingdomPortalCoreBlock.LIT)) {
-        blockEntity.litProgress.setupTransitionTo(1.0F, 30);
+        blockEntity.litProgress.setupTransitionTo(1.0F, 25);
       } else {
         blockEntity.litProgress.setupTransitionTo(0.0F, 1);
       }
