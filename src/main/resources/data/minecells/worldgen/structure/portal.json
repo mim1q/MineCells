@@ -1,9 +1,11 @@
 {
   "type": "minecraft:jigsaw",
   "biomes": [
-    "minecraft:taiga",
     "minecraft:forest",
-    "minecraft:birch_forest"
+    "minecraft:dark_forest",
+    "minecraft:birch_forest",
+    "minecraft:taiga",
+    "minecraft:plains"
   ],
   "step": "surface_structures",
   "spawn_overrides": {},

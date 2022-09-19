@@ -1,14 +1,14 @@
 {
   "structures": [
     {
-      "structure": "minecells:portal",
+      "structure": "minecells:overworld_dungeon",
       "weight": 1
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
-    "spacing": 32,
-    "separation": 12,
-    "salt": 227500456
+    "spacing": 16,
+    "separation": 8,
+    "salt": 227500123
   }
 }

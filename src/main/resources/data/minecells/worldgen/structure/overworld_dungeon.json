@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": [
+    "minecraft:forest",
+    "minecraft:dark_forest",
+    "minecraft:birch_forest",
+    "minecraft:taiga",
+    "minecraft:plains"
+  ],
+  "step": "surface_structures",
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "full",
+      "spawns": [
+        {
+          "type": "minecells:leaping_zombie",
+          "weight": 50,
+          "minCount": 1,
+          "maxCount": 3
+        },
+        {
+          "type": "minecells:undead_archer",
+          "weight": 25,
+          "minCount": 1,
+          "maxCount": 2
+        },
+        {
+          "type": "minecells:grenadier",
+          "weight": 13,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "type": "minecells:shieldbearer",
+          "weight": 12,
+          "minCount": 1,
+          "maxCount": 2
+        }
+      ]
+    }
+  },
+  "terrain_adaptation": "beard_thin",
+  "start_pool": "minecells:overworld_dungeon",
+  "size": 4,
+  "start_height": {
+    "absolute": 0
+  },
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "max_distance_from_center": 31,
+  "use_expansion_hack": true
+}
