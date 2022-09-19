@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsPointOfInterestTypes;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -19,12 +20,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterestStorage;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
+// Everything here works for now, somehow
+// TODO: Clean this mess up
 
 public class KingdomDimensionUtils {
   public static final RegistryKey<World> KINGDOM = RegistryKey.of(Registry.WORLD_KEY, MineCells.createId("kingdom"));
   public static final RegistryKey<World> OVERWORLD = RegistryKey.of(Registry.WORLD_KEY, new Identifier("minecraft", "overworld"));
-  public static final Identifier PORTAL_STRUCTURE = MineCells.createId("plains_portal");
+  public static final Identifier PORTAL_STRUCTURE = MineCells.createId("lit_portal");
 
   public static void teleportPlayer(ServerPlayerEntity player, ServerWorld currentWorld, KingdomPortalCoreBlockEntity portal) {
     boolean canUsePortal = ((PlayerEntityAccessor) player).canUseKingdomPortal();
@@ -47,16 +49,17 @@ public class KingdomDimensionUtils {
 
   public static BlockPos findOrPlacePortal(ServerWorld world, BlockPos pos) {
     BlockPos newPos = findExistingPortal(world, pos, 32);
+    BlockPos biomePos = null;
     if (newPos == null) {
-      final BlockPos biomePos = findSuitableBiomePosition(world, pos);
+      biomePos = findSuitableBiomePosition(world, pos);
       if (biomePos == null) {
         return null;
       }
       newPos = findExistingPortal(world, biomePos, 32);
     }
     if (newPos == null) {
-      placePortal(world, pos.withY(getTopY(world, pos)));
-      newPos = findExistingPortal(world, pos, 64);
+      placePortal(world, biomePos.withY(getTopY(world, biomePos)));
+      newPos = findExistingPortal(world, biomePos, 64);
     }
     if (newPos == null) {
       return null;
@@ -89,25 +92,25 @@ public class KingdomDimensionUtils {
 
   @Nullable
   public static BlockPos findSuitableBiomePosition(ServerWorld world, BlockPos position) {
-    var suitableBiomes = new Identifier[]{
-      new Identifier("minecraft:plains"),
-      new Identifier("minecraft:forest"),
-      new Identifier("minecells:promenade"),
-    };
-
-    return world.locateBiome(
-      biome -> Arrays.asList(suitableBiomes).contains(biome.getKey().get().getValue()),
-      position,
-      1000,
-      32,
-      32
-    ).getFirst();
+    if (isKingdom(world)) {
+      var pos =  world.locateBiome(
+        biome -> biome.getKey().get().getValue().equals(MineCells.createId("promenade")),
+        position,
+        1000,
+        32,
+        32
+      );
+      return pos == null ? null : pos.getFirst();
+    }
+    return position;
   }
 
   public static int getTopY(ServerWorld world, BlockPos startingPos) {
     int i = world.getTopY();
     while (i > 0) {
-      if (world.getBlockState(startingPos.withY(i)).isOpaqueFullCube(world, startingPos.withY(i))) {
+      BlockPos pos = startingPos.withY(i);
+      BlockState state = world.getBlockState(pos);
+      if (state.isFullCube(world, pos) || state.getMaterial().isLiquid()) {
         return i;
       }
       i--;
