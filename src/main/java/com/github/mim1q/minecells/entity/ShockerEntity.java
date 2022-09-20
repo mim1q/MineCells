@@ -73,6 +73,10 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
   public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
     this.setNoGravity(true);
     this.setPosition(this.getPos().add(0.0d, 1.5d, 0.0d));
+    float yaw = this.random.nextFloat() * 360.0F;
+    this.setYaw(yaw);
+    this.setHeadYaw(yaw);
+    this.setBodyYaw(yaw);
     return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
   }
 

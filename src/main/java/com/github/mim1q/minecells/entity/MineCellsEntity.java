@@ -68,7 +68,7 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-    if (spawnReason == SpawnReason.NATURAL && world.getClosestPlayer(this, 64.0) != null) {
+    if (spawnReason == SpawnReason.NATURAL && world.getClosestPlayer(this, 32.0) != null) {
       return false;
     }
     return this.random.nextFloat() <= 0.5F
