@@ -37,11 +37,10 @@ public class MineCellsBlockEntities {
 
   public static final Block PRISON_BOX = MineCellsBlocks.registerBlock(
     new MonsterBoxBlock(
-      new MonsterBoxBlock.Entry(MineCellsEntities.LEAPING_ZOMBIE, 1.0F, 2),
-      new MonsterBoxBlock.Entry(MineCellsEntities.LEAPING_ZOMBIE, 0.5F, 1),
-      new MonsterBoxBlock.Entry(MineCellsEntities.UNDEAD_ARCHER, 0.75F, 2),
-      new MonsterBoxBlock.Entry(MineCellsEntities.GRENADIER, 0.5F, 1),
-      new MonsterBoxBlock.Entry(MineCellsEntities.SHIELDBEARER, 0.5F, 1)
+      new MonsterBoxBlock.Entry(MineCellsEntities.LEAPING_ZOMBIE, 4),
+      new MonsterBoxBlock.Entry(MineCellsEntities.UNDEAD_ARCHER, 2),
+      new MonsterBoxBlock.Entry(MineCellsEntities.GRENADIER, 1),
+      new MonsterBoxBlock.Entry(MineCellsEntities.SHIELDBEARER, 1)
     ),
     "prison_box"
   );
