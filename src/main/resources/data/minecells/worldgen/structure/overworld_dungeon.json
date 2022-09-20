@@ -5,7 +5,8 @@
     "minecraft:dark_forest",
     "minecraft:birch_forest",
     "minecraft:taiga",
-    "minecraft:plains"
+    "minecraft:plains",
+    "minecells:promenade"
   ],
   "step": "surface_structures",
   "spawn_overrides": {
@@ -39,7 +40,7 @@
       ]
     }
   },
-  "terrain_adaptation": "beard_box",
+  "terrain_adaptation": "none",
   "start_pool": "minecells:overworld_dungeon",
   "size": 4,
   "start_height": {

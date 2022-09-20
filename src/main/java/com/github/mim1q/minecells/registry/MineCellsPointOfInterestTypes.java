@@ -9,7 +9,7 @@ public class MineCellsPointOfInterestTypes {
     MineCells.createId("kingdom_portal"),
     1,
     1,
-    MineCellsBlockEntities.KINGDOM_PORTAL_CORE
+    MineCellsBlocks.KINGDOM_PORTAL_CORE
   );
 
   public static void init() { }

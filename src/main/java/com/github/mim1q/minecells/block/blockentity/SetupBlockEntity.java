@@ -15,10 +15,8 @@ public class SetupBlockEntity extends BlockEntity {
 
   public static void tick(World world, BlockPos pos, BlockState state, SetupBlockEntity blockEntity) {
     if (blockEntity.done || world == null || world.isClient()) return;
-    System.out.println(blockEntity.done);
-    if (state.getBlock() instanceof SetupBlock setupBlock) {
-      setupBlock.setup(world, pos, state);
-      blockEntity.done = true;
+    if (world.getTime() % 20 == 0 && state.getBlock() instanceof SetupBlock setupBlock) {
+      blockEntity.done = setupBlock.setup(world, pos, state);
     }
   }
 }

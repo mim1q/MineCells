@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
@@ -16,8 +17,8 @@ public class MonsterBoxBlock extends SetupBlock {
 
   private final List<Entry> entries = new ArrayList<>();
 
-  public MonsterBoxBlock(Entry...entries) {
-    super();
+  public MonsterBoxBlock(Entry ...entries) {
+    super(Settings.of(Material.STONE));
     this.entries.addAll(List.of(entries));
   }
 
@@ -26,7 +27,7 @@ public class MonsterBoxBlock extends SetupBlock {
   }
 
   @Override
-  public void setup(World world, BlockPos pos, BlockState state) {
+  public boolean setup(World world, BlockPos pos, BlockState state) {
     world.removeBlock(pos, false);
     EntityType<?> entityType = chooseRandomEntry(world.getRandom()).entityType;
     HostileEntity e = (HostileEntity) entityType.create(world);
@@ -35,7 +36,9 @@ public class MonsterBoxBlock extends SetupBlock {
       e.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
       e.initialize((ServerWorldAccess) world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);
       world.spawnEntity(e);
+      return true;
     }
+    return false;
   }
 
   protected Entry chooseRandomEntry(Random random) {

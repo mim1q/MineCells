@@ -1,14 +1,14 @@
 {
   "structures": [
     {
-      "structure": "minecells:portal",
+      "structure": "minecells:conjunctivius_dungeon",
       "weight": 1
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
     "spacing": 32,
-    "separation": 12,
-    "salt": 2043237655
+    "separation": 16,
+    "salt": 609970816
   }
 }

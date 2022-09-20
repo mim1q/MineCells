@@ -1,11 +1,10 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.blockentity.SetupBlock;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChainBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ActionResult;
@@ -14,19 +13,20 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ElevatorAssemblerBlock extends Block {
-  public ElevatorAssemblerBlock(Settings settings) {
-    super(settings);
+public class ElevatorAssemblerBlock extends SetupBlock {
+  public ElevatorAssemblerBlock() {
+    super(Settings.of(Material.WOOD));
   }
 
   @Override
   @SuppressWarnings("deprecation")
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    boolean result = this.assemble(world, pos);
+    boolean result = this.setup(world, pos, state);
     return result ? ActionResult.SUCCESS : ActionResult.FAIL;
   }
 
-  public boolean assemble(World world, BlockPos pos) {
+  @Override
+  public boolean setup(World world, BlockPos pos, BlockState state) {
     int maxHeight = MineCells.COMMON_CONFIG.elevator.maxAssemblyHeight;
     int minHeight = MineCells.COMMON_CONFIG.elevator.minAssemblyHeight;
     // Search for another elevator assembler
@@ -69,13 +69,16 @@ public class ElevatorAssemblerBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-    this.assemble(world, pos);
+    this.setup(world, pos, state);
+  }
+
+  @Override
+  public BlockRenderType getRenderType(BlockState state) {
+    return BlockRenderType.MODEL;
   }
 
   @Override
   public Item asItem() {
     return MineCellsBlocks.ELEVATOR_ASSEMBLER_BLOCK_ITEM;
   }
-
-
 }

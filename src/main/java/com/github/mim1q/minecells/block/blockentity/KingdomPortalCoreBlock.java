@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ModelUtils;
@@ -59,7 +60,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   @Override
   public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-    FillerBlock.destroyNeighbors(world, pos, MineCellsBlockEntities.KINGDOM_PORTAL_FILLER, this);
+    FillerBlock.destroyNeighbors(world, pos, MineCellsBlocks.KINGDOM_PORTAL_FILLER, this);
     super.onBroken(world, pos, state);
   }
 
@@ -143,7 +144,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     );
 
     public Filler(Settings settings) {
-      super(settings, MineCellsBlockEntities.KINGDOM_PORTAL_CORE, true);
+      super(settings, MineCellsBlocks.KINGDOM_PORTAL_CORE, true);
     }
 
     @Override

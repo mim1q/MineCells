@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.block.blockentity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -14,8 +13,8 @@ import org.jetbrains.annotations.Nullable;
 public abstract class SetupBlock extends BlockWithEntity {
 
 
-  protected SetupBlock() {
-    super(Settings.of(Material.STONE));
+  protected SetupBlock(Settings settings) {
+    super(settings);
   }
 
   @Nullable
@@ -24,7 +23,7 @@ public abstract class SetupBlock extends BlockWithEntity {
     return new SetupBlockEntity(pos, state);
   }
 
-  public abstract void setup(World world, BlockPos pos, BlockState state);
+  public abstract boolean setup(World world, BlockPos pos, BlockState state);
 
   @Nullable
   @Override
