@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.BigChainBlock;
 import com.github.mim1q.minecells.block.ElevatorAssemblerBlock;
-import com.github.mim1q.minecells.block.MonsterBoxBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -19,8 +18,6 @@ public class MineCellsBlocks {
   public static final BigChainBlock BIG_CHAIN = new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN));
   public static final Block HARDSTONE = new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK));
 
-  public static final MonsterBoxBlock CONJUNCTIVIUS_BOX = new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS);
-
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
 
@@ -32,8 +29,6 @@ public class MineCellsBlocks {
     Registry.register(Registry.BLOCK, MineCells.createId("elevator_assembler"), ELEVATOR_ASSEMBLER);
     Registry.register(Registry.BLOCK, MineCells.createId("big_chain"), BIG_CHAIN);
     Registry.register(Registry.BLOCK, MineCells.createId("hardstone"), HARDSTONE);
-
-    Registry.register(Registry.BLOCK, MineCells.createId("conjunctivius_box"), CONJUNCTIVIUS_BOX);
 
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registry.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
