@@ -40,7 +40,7 @@
       ]
     }
   },
-  "terrain_adaptation": "none",
+  "terrain_adaptation": "beard_box",
   "start_pool": "minecells:overworld_dungeon",
   "size": 4,
   "start_height": {

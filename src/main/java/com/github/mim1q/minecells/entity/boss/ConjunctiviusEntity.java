@@ -226,7 +226,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
         if (this.getRoomBox().contains(blockPos)) {
-          this.world.breakBlock(blockPos, true);
+          this.world.breakBlock(blockPos, false);
         }
       });
 
@@ -238,8 +238,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.setYaw(this.spawnRot);
 
       // Handle bossbar visibility
+      boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
       boolean playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size() > 0;
-      this.bossBar.setVisible(playersInArea);
+      if (closestPlayerNearby && playersInArea) {
+        System.out.println("amogus");
+      }
+      this.bossBar.setVisible(closestPlayerNearby && playersInArea);
 
       this.switchStages(this.getStage());
 
