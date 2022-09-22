@@ -18,14 +18,16 @@ public class CommonConfig implements Config {
   }
 
   public Elevator elevator = new Elevator();
+  public Entities entities = new Entities();
 
   @Override
   public void save() {
-    this.elevator.maxAssemblyHeight = MathHelper.clamp(elevator.maxAssemblyHeight, 64, 320);
-    this.elevator.minAssemblyHeight = MathHelper.clamp(elevator.minAssemblyHeight, 1, 10);
-    this.elevator.speed = MathHelper.clamp(elevator.speed, 0.1F, 10.0F);
-    this.elevator.acceleration = MathHelper.clamp(elevator.acceleration, 0.001F, 0.1F);
-    this.elevator.damage = MathHelper.clamp(elevator.damage, 0.0F, 20.0F);
+    elevator.maxAssemblyHeight = MathHelper.clamp(elevator.maxAssemblyHeight, 64, 320);
+    elevator.minAssemblyHeight = MathHelper.clamp(elevator.minAssemblyHeight, 1, 10);
+    elevator.speed = MathHelper.clamp(elevator.speed, 0.1F, 10.0F);
+    elevator.acceleration = MathHelper.clamp(elevator.acceleration, 0.001F, 0.1F);
+    elevator.damage = MathHelper.clamp(elevator.damage, 0.0F, 20.0F);
+    entities.baseCellDropChance = MathHelper.clamp(entities.baseCellDropChance, 0.0F, 1.0F);
     Config.super.save();
   }
 
@@ -45,5 +47,10 @@ public class CommonConfig implements Config {
     @Syncing
     @Comment(" default: 10.0, min: 0.0, max: 20.0")
     public float damage = 10.0F;
+  }
+
+  public static class Entities {
+    @Comment(" default: 0.75, min: 0.0, max: 1.0")
+    public float baseCellDropChance = 0.75F;
   }
 }

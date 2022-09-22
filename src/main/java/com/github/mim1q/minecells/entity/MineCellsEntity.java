@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
@@ -32,7 +33,7 @@ public class MineCellsEntity extends HostileEntity {
   public String lastAnimation = "idle";
 
   protected int droppedCellAmount = 1;
-  protected float droppedCellChance = 0.75F;
+  protected float droppedCellChance = MineCells.COMMON_CONFIG.entities.baseCellDropChance;
 
   @Override
   protected void initGoals() {
