@@ -78,22 +78,19 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
   @Override
   public void setAngles(KamikazeEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
     if (entity.isSleeping()) {
-      this.root.pitch = -MathHelper.PI;
-      this.bulb.pitch = -MathHelper.PI;
-
       this.lowerLeftWing.yaw = 45.0F * RADIANS_PER_DEGREE;
       this.upperLeftWing.pitch = 120.0F * RADIANS_PER_DEGREE;
 
-      entity.animationTimestamp = animationProgress;
     } else {
       this.lowerLeftWing.yaw = MathHelper.sin(animationProgress * 0.8F) * RADIANS_PER_DEGREE * 45.0F;
       this.upperLeftWing.pitch = -MathHelper.sin(animationProgress * 0.8F + 1.5F) * RADIANS_PER_DEGREE * 45.0F;
       this.upperLeftWing.pitch += 45.0F * RADIANS_PER_DEGREE;
 
-      float animationTime = animationProgress - entity.animationTimestamp;
-      this.root.pitch = MathHelper.clampedLerp(-MathHelper.PI, 0.0F, animationTime / 10.0F);
-      this.bulb.pitch = this.root.pitch;
     }
+
+    entity.rotation.update(animationProgress);
+    this.root.pitch = entity.rotation.getValue() * RADIANS_PER_DEGREE;
+    this.bulb.pitch = this.root.pitch;
 
     this.lowerRightWing.yaw = -this.lowerLeftWing.yaw;
     this.upperRightWing.pitch = this.upperLeftWing.pitch;

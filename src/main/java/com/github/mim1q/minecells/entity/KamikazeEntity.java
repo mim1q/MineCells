@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -34,6 +35,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 
 public class KamikazeEntity extends MineCellsEntity {
+
+  public AnimationProperty rotation = new AnimationProperty(180.0F);
 
   private static final TrackedData<Integer> FUSE = DataTracker.registerData(KamikazeEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> SLEEPING = DataTracker.registerData(KamikazeEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -70,6 +73,22 @@ public class KamikazeEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
+    if (this.world.isClient()) {
+      clientTick();
+    } else {
+      serverTick();
+    }
+  }
+
+  protected void clientTick() {
+    if (this.isSleeping()) {
+      this.rotation.setupTransitionTo(180.0F, 0.1F);
+    } else {
+      this.rotation.setupTransitionTo(0.0F, 20.0F);
+    }
+  }
+
+  protected void serverTick() {
     int fuse = this.getFuse();
     if (fuse == 0 && this.isAlive()) {
       this.explode(4.0F);
