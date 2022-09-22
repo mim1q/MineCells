@@ -36,7 +36,7 @@ dependencies {
 }
 
 @Suppress("UnstableApiUsage")
-  tasks {
+tasks {
   withType<ProcessResources> {
     inputs.property("version", ModData.version)
     filesMatching("fabric.mod.json") {
@@ -46,6 +46,34 @@ dependencies {
   withType<JavaCompile> {
     configureEach {
       options.release.set(17)
+    }
+  }
+  withType<Assemble> {
+    dependsOn("runDatagen")
+  }
+}
+
+// Data generation
+
+val dataOutput = file("src/main/generated")
+
+loom {
+  runs {
+    create("datagen")  {
+      server()
+      name("Data Generation")
+      vmArg("-Dfabric-api.datagen")
+      vmArg("-Dfabric-api.datagen.output-dir=${dataOutput}")
+
+      runDir("build/datagen")
+    }
+  }
+}
+
+sourceSets {
+  main {
+    resources {
+      srcDirs("src/main/generated")
     }
   }
 }
