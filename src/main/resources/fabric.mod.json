@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "id": "minecells",
   "version": "${version}",
-  "name": "Minecells",
+  "name": "Mine Cells",
   "description": "This mod brings content from Dead Cells into Minecraft.",
   "authors": [
     "Mim1q"
   ],
   "contact": {},
-  "license": "MIT",
+  "license": "APACHE 2.0",
   "icon": "assets/minecells/icon.png",
   "environment": "*",
   "entrypoints": {
