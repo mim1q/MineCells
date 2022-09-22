@@ -3,8 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.LeapGoal;
 import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -20,9 +19,7 @@ import net.minecraft.world.World;
 
 public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity {
 
-  // Animation Data
-  @Environment(EnvType.CLIENT)
-  public float additionalRotation = 0.0F;
+  public AnimationProperty additionalRotation = new AnimationProperty(0.0F);
 
   private static final TrackedData<Integer> LEAP_COOLDOWN = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> LEAP_CHARGING = DataTracker.registerData(LeapingZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -45,7 +42,21 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
   @Override
   public void tick() {
     super.tick();
-    this.decrementCooldown(LEAP_COOLDOWN);
+    if (this.world.isClient()) {
+      clientTick();
+    } else {
+      this.decrementCooldown(LEAP_COOLDOWN);
+    }
+  }
+
+  protected void clientTick() {
+    if (this.isLeapCharging()) {
+      this.additionalRotation.setupTransitionTo(90.0F, 15);
+    } else if (this.isLeapReleasing()) {
+      this.additionalRotation.setupTransitionTo(0.0F, 15);
+    } else {
+      this.additionalRotation.setupTransitionTo(0.0F, 5);
+    }
   }
 
   @Override

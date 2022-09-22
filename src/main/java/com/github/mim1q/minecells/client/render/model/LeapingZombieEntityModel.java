@@ -140,36 +140,14 @@ public class LeapingZombieEntityModel extends EntityModel<LeapingZombieEntity> {
     this.neck.pitch = -20.0F * RADIANS_PER_DEGREE;
 
     // Jumping animation
+    entity.additionalRotation.update(animationProgress);
+    float rot = entity.additionalRotation.getValue() * RADIANS_PER_DEGREE;
+    this.leftArm.pitch -= rot * 2.5F;
+    this.rightArm.pitch -= rot  * 2.5F;
+    this.upperTorso.pitch -= rot * 0.75F;
+    this.lowerTorso.pitch -= rot * 0.5F;
+    this.neck.pitch += rot * 0.5F;
 
-    String animationState = "idle";
-    if (entity.isLeapCharging()) {
-      animationState = "leap";
-    }
-
-    if (!animationState.equals(entity.lastAnimation)) {
-      entity.animationTimestamp = animationProgress;
-    }
-    float timestamp = entity.animationTimestamp;
-
-    float targetAdditionalRotation = 0.0F;
-    float startAdditionalRotation = -MathHelper.PI * 1.5F;
-    if (animationState.equals("leap")) {
-      startAdditionalRotation = 0.0F;
-      targetAdditionalRotation = -MathHelper.PI * 1.5F;
-    }
-
-    float animationTime = animationProgress - timestamp;
-    entity.additionalRotation = MathHelper.clampedLerp(
-      startAdditionalRotation,
-      targetAdditionalRotation,
-      animationTime / 10.0F);
-
-    this.leftArm.pitch += entity.additionalRotation;
-    this.rightArm.pitch += entity.additionalRotation;
-    this.lowerTorso.pitch += entity.additionalRotation * 0.2F;
-    this.upperTorso.pitch += entity.additionalRotation * 0.2F;
-
-    entity.lastAnimation = animationState;
   }
 
   @Override
