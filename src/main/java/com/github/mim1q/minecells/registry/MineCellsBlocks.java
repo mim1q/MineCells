@@ -2,9 +2,9 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.BigChainBlock;
-import com.github.mim1q.minecells.block.ElevatorAssemblerBlock;
-import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlock;
-import com.github.mim1q.minecells.block.blockentity.MonsterBoxBlock;
+import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
+import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
+import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;

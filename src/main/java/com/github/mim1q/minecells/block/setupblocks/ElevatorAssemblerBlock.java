@@ -1,7 +1,6 @@
-package com.github.mim1q.minecells.block;
+package com.github.mim1q.minecells.block.setupblocks;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.blockentity.SetupBlock;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.*;

@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block.blockentity;
 
+import com.github.mim1q.minecells.block.setupblocks.SetupBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

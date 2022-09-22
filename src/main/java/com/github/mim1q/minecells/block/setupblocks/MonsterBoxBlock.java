@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.block.blockentity;
+package com.github.mim1q.minecells.block.setupblocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;

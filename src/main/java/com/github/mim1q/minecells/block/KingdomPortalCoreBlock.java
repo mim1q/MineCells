@@ -1,5 +1,6 @@
-package com.github.mim1q.minecells.block.blockentity;
+package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
