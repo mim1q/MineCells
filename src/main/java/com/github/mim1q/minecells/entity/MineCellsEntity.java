@@ -33,7 +33,7 @@ public class MineCellsEntity extends HostileEntity {
   public String lastAnimation = "idle";
 
   protected int droppedCellAmount = 1;
-  protected float droppedCellChance = MineCells.COMMON_CONFIG.entities.baseCellDropChance;
+  protected float droppedCellChance = 0.75F;
 
   @Override
   protected void initGoals() {
@@ -56,8 +56,9 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   protected void dropXp() {
     super.dropXp();
+    float chance = this.droppedCellChance * MineCells.COMMON_CONFIG.entities.cellDropChanceModifier;
     for (int i = 0; i < this.droppedCellAmount; i++) {
-      if (this.random.nextFloat() < this.droppedCellChance) {
+      if (this.random.nextFloat() < chance) {
         CellEntity.spawn(this.world, this.getPos(), 1);
       }
     }
