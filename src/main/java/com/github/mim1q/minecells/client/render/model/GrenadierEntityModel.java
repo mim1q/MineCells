@@ -177,38 +177,13 @@ public class GrenadierEntityModel extends EntityModel<GrenadierEntity> {
     }
 
     // Throwing animation
+    entity.additionalRotation.update(animationProgress);
+    float rot = entity.additionalRotation.getValue() * RADIANS_PER_DEGREE;
 
-    String animationState = "idle";
-    if (entity.isShootCharging()) {
-      animationState = "shoot";
-    }
-
-    if (!animationState.equals(entity.lastAnimation)) {
-      entity.animationTimestamp = animationProgress;
-    }
-    float timestamp = entity.animationTimestamp;
-
-    float targetAdditionalRotation = 0.0F;
-    float startAdditionalRotation = -MathHelper.PI * 1.25F;
-    if (animationState.equals("shoot")) {
-      startAdditionalRotation = 0.0F;
-      targetAdditionalRotation = -MathHelper.PI * 1.25F;
-    }
-
-    float animationTime = animationProgress - timestamp;
-    entity.additionalRotation = MathHelper.clampedLerp(
-      startAdditionalRotation,
-      targetAdditionalRotation,
-      animationTime * 0.15F
-    );
-
-    this.leftArm.pitch += entity.additionalRotation;
-    this.rightArm.pitch += entity.additionalRotation;
-    this.lowerTorso.pitch += entity.additionalRotation * 0.1F;
-    this.upperTorso.pitch += entity.additionalRotation * 0.1F;
-
-    entity.lastAnimation = animationState;
-
+    leftArm.pitch -= rot;
+    rightArm.pitch -= rot;
+    upperTorso.pitch -= rot * 0.1F;
+    lowerTorso.pitch -= rot * 0.1F;
   }
 
   @Override

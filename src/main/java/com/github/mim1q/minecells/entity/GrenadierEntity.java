@@ -6,8 +6,7 @@ import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -28,9 +27,7 @@ import net.minecraft.world.World;
 
 public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
-  // Animation data
-  @Environment(EnvType.CLIENT)
-  public float additionalRotation = 0.0F;
+  public final AnimationProperty additionalRotation = new AnimationProperty(0.0F);
 
   private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -64,6 +61,24 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
   @Override
   public void tick() {
     super.tick();
+    if (world.isClient()) {
+      clientTick();
+    } else {
+      serverTick();
+    }
+  }
+
+  protected void clientTick() {
+    if (isShootCharging()) {
+      additionalRotation.setupTransitionTo(240.0F, 15);
+    } else if (isShootReleasing()) {
+      additionalRotation.setupTransitionTo(-30.0F, 10);
+    } else {
+      additionalRotation.setupTransitionTo(0.0F, 20);
+    }
+  }
+
+  protected void serverTick() {
     this.decrementCooldown(SHOOT_COOLDOWN);
   }
 
