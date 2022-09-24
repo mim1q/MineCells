@@ -29,8 +29,13 @@ public class MineCellsBlocks {
     "chain_pile_block"
   );
   public static final Block CHAIN_PILE = registerBlockWithItem(
-    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F)),
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F), GroundDecoration.Shape.PILE),
     "chain_pile"
+  );
+
+  public static final Block SMALL_CRATE = registerBlockWithItem(
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS), GroundDecoration.Shape.BLOCK_12),
+    "small_crate"
   );
 
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(

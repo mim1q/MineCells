@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "minecells:block/small_crate/small_crate_0"
+      },
+      {
+        "model": "minecells:block/small_crate/small_crate_1"
+      },
+      {
+        "model": "minecells:block/small_crate/small_crate_2"
+      }
+    ]
+  }
+}
