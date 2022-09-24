@@ -124,6 +124,7 @@ public class MineCellsRenderers {
     ));
 
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.BIG_CHAIN, RenderLayer.getCutout());
+    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.CHAIN_PILE, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityModel::getTexturedModelData);

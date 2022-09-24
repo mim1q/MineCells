@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "minecells:block/chain_pile"
+      },
+      {
+        "model": "minecells:block/chain_pile",
+        "y": 90
+      },
+      {
+        "model": "minecells:block/chain_pile",
+        "y": 180
+      },
+      {
+        "model": "minecells:block/chain_pile",
+        "y": 270
+      }
+    ]
+  }
+}

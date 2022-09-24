@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.BigChainBlock;
+import com.github.mim1q.minecells.block.GroundDecoration;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
@@ -17,6 +18,14 @@ public class MineCellsBlocks {
   public static final Block ELEVATOR_ASSEMBLER = registerBlock(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block BIG_CHAIN = new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN));
   public static final Block HARDSTONE = new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK));
+  public static final Block CHAIN_PILE_BLOCK = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F)),
+    "chain_pile_block"
+  );
+  public static final Block CHAIN_PILE = registerBlockWithItem(
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F)),
+    "chain_pile"
+  );
 
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
@@ -70,6 +79,12 @@ public class MineCellsBlocks {
 
   public static Block registerBlock(Block block, String id) {
     Registry.register(Registry.BLOCK, MineCells.createId(id), block);
+    return block;
+  }
+
+  public static Block registerBlockWithItem(Block block, String id) {
+    registerBlock(block, id);
+    Registry.register(Registry.ITEM, MineCells.createId(id), new BlockItem(block, new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)));
     return block;
   }
 }

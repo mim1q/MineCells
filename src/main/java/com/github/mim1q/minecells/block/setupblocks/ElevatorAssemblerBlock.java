@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class ElevatorAssemblerBlock extends SetupBlock {
   public ElevatorAssemblerBlock() {
-    super(Settings.of(Material.WOOD));
+    super(Settings.of(Material.WOOD).hardness(0.5F));
   }
 
   @Override

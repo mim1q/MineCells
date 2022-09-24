@@ -26,6 +26,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
     generator.registerSimpleCubeAll(MineCellsBlocks.HARDSTONE);
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
+    generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);
     generator.registerStateWithModelReference(MineCellsBlocks.PRISON_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.SHOCKER_BOX, Blocks.AIR);
