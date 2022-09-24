@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -18,6 +19,11 @@ public class MineCellsBlocks {
   public static final Block ELEVATOR_ASSEMBLER = registerBlock(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block BIG_CHAIN = new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN));
   public static final Block HARDSTONE = new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK));
+
+  public static final Block CRATE = registerBlockWithItem(
+    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "crate"
+  );
   public static final Block CHAIN_PILE_BLOCK = registerBlockWithItem(
     new Block(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F)),
     "chain_pile_block"
