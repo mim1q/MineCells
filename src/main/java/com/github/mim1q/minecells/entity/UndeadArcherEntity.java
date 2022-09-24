@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -26,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity {
 
+  public final AnimationProperty handsUpProgess = new AnimationProperty(0.0F);
+  public final AnimationProperty pullProgress = new AnimationProperty(0.0F);
   private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(UndeadArcherEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> SHOOT_RELEASING = DataTracker.registerData(UndeadArcherEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(UndeadArcherEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -61,6 +64,23 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
   @Override
   public void tick() {
     super.tick();
+    if (world.isClient()) {
+      clientTick();
+    }
+  }
+
+  private void clientTick() {
+    if (isShootCharging()) {
+      handsUpProgess.setupTransitionTo(1.0F, 10);
+      pullProgress.setupTransitionTo(1.0F, 20);
+    } else {
+      handsUpProgess.setupTransitionTo(0.0F, 5);
+      pullProgress.setupTransitionTo(0.0F, 5);
+    }
+  }
+
+  @Override
+  protected void decrementCooldowns() {
     this.decrementCooldown(SHOOT_COOLDOWN);
   }
 

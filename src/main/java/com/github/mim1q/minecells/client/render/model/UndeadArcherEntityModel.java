@@ -8,7 +8,6 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
-import net.minecraft.util.math.MathHelper;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -123,39 +122,26 @@ public class UndeadArcherEntityModel extends EntityModel<UndeadArcherEntity> imp
     this.rightArm.yaw = 0.0F;
     this.leftArm.pivotZ = -1.0F;
 
-    String animation = "idle";
-    if (entity.isShootCharging()) {
-      animation = "charge";
-    } else if (entity.isShootReleasing()) {
-      animation = "release";
-    }
-
-    if (!animation.equals(entity.lastAnimation)) {
-      entity.animationTimestamp = animationProgress;
-    }
-
-    float animationTime = animationProgress - entity.animationTimestamp;
+    // Shooting animation
 
     float rightArmPitch = -90.0F * RADIANS_PER_DEGREE;
     float rightArmYaw = -15.0F * RADIANS_PER_DEGREE;
     float leftArmPitch = -90.0F * RADIANS_PER_DEGREE;
     float leftArmYaw = 30.0F * RADIANS_PER_DEGREE;
 
-    float delta = 0;
+    entity.handsUpProgess.update(animationProgress);
+    float delta = entity.handsUpProgess.getValue();
+    entity.pullProgress.update(animationProgress);
+    float deltaPull = entity.pullProgress.getValue();
 
-    if (entity.isShootCharging()) {
-      delta = animationTime / 5.0F;
-      this.leftArm.pivotZ = MathHelper.clampedLerp(this.leftArm.pivotZ, 2.0F, (animationTime - 5) / 15.0F);
-    } else if (entity.isShootReleasing()) {
-      delta = 1 - animationTime / 5.0F;
-    }
+    leftArm.pivotZ = 2.0F - delta * 4.0F;
+    leftArm.pivotX = 4.0F + delta;
+    leftArm.yaw = (15.0F * delta + 15.0F * deltaPull) * RADIANS_PER_DEGREE;
 
-    this.rightArm.pitch = MathHelper.clampedLerp(this.rightArm.pitch, rightArmPitch, delta);
-    this.rightArm.yaw += MathHelper.clampedLerp(this.rightArm.yaw, rightArmYaw, delta);
-    this.leftArm.pitch = MathHelper.clampedLerp(this.leftArm.pitch, leftArmPitch, delta);
-    this.leftArm.yaw += MathHelper.clampedLerp(this.leftArm.yaw, leftArmYaw, delta);
-
-    entity.lastAnimation = animation;
+    this.rightArm.pitch = rightArmPitch * delta;
+    this.leftArm.pitch = leftArmPitch * delta;
+    this.leftArm.yaw += leftArmYaw * delta;
+    this.rightArm.yaw += rightArmYaw * delta;
   }
 
   @Override
