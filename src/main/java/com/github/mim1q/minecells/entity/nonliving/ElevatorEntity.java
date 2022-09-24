@@ -70,6 +70,7 @@ public class ElevatorEntity extends Entity {
   public ElevatorEntity(EntityType<ElevatorEntity> type, World world) {
     super(type, world);
     this.intersectionChecked = true;
+    this.ignoreCameraFrustum = true;
     this.noClip = true;
     this.serverY = this.getY();
   }
