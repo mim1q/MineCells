@@ -5,7 +5,10 @@
       "x": 90,
       "y": 90
     },
-    "axis=y": {
+    "hanging=true,axis=y": {
+      "model": "minecells:block/big_chain_hanging"
+    },
+    "hanging=false,axis=y": {
       "model": "minecells:block/big_chain"
     },
     "axis=z": {
