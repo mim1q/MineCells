@@ -10,19 +10,19 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS_EGGS = FabricItemGroupBuilder.create(MineCells.createId("eggs"))
     .icon(() -> new ItemStack(MineCellsEntities.LEAPING_ZOMBIE_SPAWN_EGG))
     .appendItems(stacks -> {
-      stacks.add(new ItemStack(MineCellsEntities.LEAPING_ZOMBIE_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.SHOCKER_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.GRENADIER_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.DISGUSTING_WORM_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.INQUISITOR_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.KAMIKAZE_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.PROTECTOR_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.UNDEAD_ARCHER_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.SHIELDBEARER_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.MUTATED_BAT_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.SEWERS_TENTACLE_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.RANCID_RAT_SPAWN_EGG));
-      stacks.add(new ItemStack(MineCellsEntities.RUNNER_SPAWN_EGG));
+      stacks.add(MineCellsEntities.LEAPING_ZOMBIE_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.SHOCKER_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.GRENADIER_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.DISGUSTING_WORM_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.INQUISITOR_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.KAMIKAZE_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.PROTECTOR_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.UNDEAD_ARCHER_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.SHIELDBEARER_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.MUTATED_BAT_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.SEWERS_TENTACLE_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.RANCID_RAT_SPAWN_EGG.getDefaultStack());
+      stacks.add(MineCellsEntities.RUNNER_SPAWN_EGG.getDefaultStack());
       stacks.add(MineCellsEntities.SCORPION_SPAWN_EGG.getDefaultStack());
     })
     .build();
