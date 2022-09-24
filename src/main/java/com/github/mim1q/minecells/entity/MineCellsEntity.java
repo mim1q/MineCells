@@ -5,8 +5,6 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -25,12 +23,6 @@ public class MineCellsEntity extends HostileEntity {
   protected MineCellsEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
   }
-
-  @Environment(EnvType.CLIENT)
-  public float animationTimestamp = Float.NEGATIVE_INFINITY;
-
-  @Environment(EnvType.CLIENT)
-  public String lastAnimation = "idle";
 
   protected int droppedCellAmount = 1;
   protected float droppedCellChance = 0.75F;

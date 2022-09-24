@@ -5,8 +5,7 @@ import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.MagicOrbEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -25,10 +24,7 @@ import java.util.EnumSet;
 public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
   // Animation data
-  @Environment(EnvType.CLIENT)
-  public float offset = 0.0F;
-  @Environment(EnvType.CLIENT)
-  public float targetOffset = 0.0F;
+  public final AnimationProperty armUpProgress = new AnimationProperty(0.0F);
 
   private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(InquisitorEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -56,6 +52,17 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
   @Override
   public void tick() {
     super.tick();
+    if (this.world.isClient()) {
+      if (this.isShootCharging() || this.isShootReleasing()) {
+        this.armUpProgress.setupTransitionTo(1.0F, 10.0F);
+      } else {
+        this.armUpProgress.setupTransitionTo(0.0F, 20.0F);
+      }
+    }
+  }
+
+  @Override
+  protected void decrementCooldowns() {
     this.decrementCooldown(SHOOT_COOLDOWN);
   }
 

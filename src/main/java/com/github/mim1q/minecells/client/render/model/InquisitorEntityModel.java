@@ -8,6 +8,8 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
+import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
+
 public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
 
   private final ModelPart root;
@@ -122,43 +124,21 @@ public class InquisitorEntityModel extends EntityModel<InquisitorEntity> {
     AnimationUtils.rotateHead(headYaw, headPitch, this.head);
     AnimationUtils.bipedWalk(limbAngle * 2.0F, limbDistance, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.upperTorso, this.waist);
 
-    this.rightArm.roll = 30.0F * MathHelper.RADIANS_PER_DEGREE;
-    this.leftArm.roll = -30.0F * MathHelper.RADIANS_PER_DEGREE;
-    this.leftArm.pitch += -30.0F * MathHelper.RADIANS_PER_DEGREE;
-    this.rightArm.pitch += -30.0F * MathHelper.RADIANS_PER_DEGREE;
+    this.rightArm.roll = 30.0F * RADIANS_PER_DEGREE;
+    this.leftArm.roll = -30.0F * RADIANS_PER_DEGREE;
+    this.leftArm.pitch += -30.0F * RADIANS_PER_DEGREE;
+    this.rightArm.pitch += -30.0F * RADIANS_PER_DEGREE;
 
     this.belt.pitch = -Math.abs(MathHelper.sin(limbAngle) * limbDistance) * 1.5F;
 
     // Shooting animation
 
-    String animationState = "idle";
-    if (entity.isShootCharging() || entity.isShootReleasing()) {
-      animationState = "shoot";
-    }
+    entity.armUpProgress.update(animationProgress);
+    float rot = entity.armUpProgress.getValue() * 45.0F * RADIANS_PER_DEGREE;
+    this.leftArm.yaw = -rot;
+    this.rightArm.yaw = rot;
+    this.upperTorso.pitch = -rot * 0.2F;
 
-    if (!animationState.equals(entity.lastAnimation)) {
-      entity.animationTimestamp = animationProgress;
-    }
-    float timestamp = entity.animationTimestamp;
-
-    float targetAdditionalRotation = 0.0F;
-    float startAdditionalRotation = -MathHelper.PI * 0.2F;
-    if (animationState.equals("shoot")) {
-      startAdditionalRotation = 0.0F;
-      targetAdditionalRotation = -MathHelper.PI * 0.2F;
-    }
-
-    float animationTime = animationProgress - timestamp;
-    float additionalRotation = MathHelper.clampedLerp(
-      startAdditionalRotation,
-      targetAdditionalRotation,
-      animationTime / 10.0F);
-
-    this.leftArm.yaw = additionalRotation;
-    this.rightArm.yaw = -additionalRotation;
-    this.upperTorso.pitch = additionalRotation * 0.2F;
-
-    entity.lastAnimation = animationState;
   }
 
   @Override

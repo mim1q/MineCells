@@ -33,12 +33,11 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
     super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
 
     if (entity.isAlive()) {
-      entity.targetOffset = (entity.isShootCharging() || entity.isShootReleasing()) ? 0.3F : 0.0F;
-      entity.offset = MathHelper.lerp(0.01F, entity.offset, entity.targetOffset);
+      float offset = entity.armUpProgress.getValue() * 0.3F;
       VertexConsumer vertexConsumer = bufferIn.getBuffer(ORB_LAYER);
       renderOrb(stack, vertexConsumer, entity.headYaw, entity.age, new Vec3f(-0.25F, 2.25F, 0.0F));
-      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, 0.4F + entity.offset));
-      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + entity.offset, -0.4F - entity.offset));
+      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + offset, 0.4F + offset));
+      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + offset, -0.4F - offset));
     }
   }
 
