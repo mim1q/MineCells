@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.datagen;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -22,6 +23,14 @@ public class MineCellsModelProvider extends FabricModelProvider {
   @Override
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
     generator.registerSimpleCubeAll(MineCellsBlocks.HARDSTONE);
+    generator.registerAxisRotated(MineCellsBlocks.PUTRID_LOG, TexturedModel.CUBE_COLUMN);
+    generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_LOG, TexturedModel.CUBE_COLUMN);
+    generator.registerAxisRotated(MineCellsBlocks.PUTRID_WOOD, TexturedModel.CUBE_ALL);
+    generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_WOOD, TexturedModel.CUBE_ALL);
+    generator.registerSimpleCubeAll(MineCellsBlocks.PUTRID_PLANKS);
+    generator.registerParentedItemModel(MineCellsBlocks.PUTRID_SLAB, MineCells.createId("block/putrid_slab/putrid_slab"));
+    generator.registerParentedItemModel(MineCellsBlocks.PUTRID_STAIRS, MineCells.createId("block/putrid_stairs/putrid_stairs"));
+
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);
     generator.registerAxisRotated(MineCellsBlocks.CRATE, TexturedModel.CUBE_COLUMN);

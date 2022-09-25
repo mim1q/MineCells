@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "minecells:block/putrid_planks",
+    "top": "minecells:block/putrid_planks",
+    "side": "minecells:block/putrid_planks"
+  }
+}

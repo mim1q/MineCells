@@ -37,11 +37,20 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS_BLOCKS_AND_ITEMS = FabricItemGroupBuilder.create(MineCells.createId("blocks_and_items"))
     .icon(() -> new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER))
     .appendItems(stacks -> {
+      stacks.add(MineCellsBlocks.PUTRID_LOG.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.PUTRID_WOOD.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.STRIPPED_PUTRID_LOG.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.STRIPPED_PUTRID_WOOD.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.PUTRID_PLANKS.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.PUTRID_STAIRS.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.PUTRID_SLAB.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.HARDSTONE_ITEM.getDefaultStack());
       stacks.add(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
-      stacks.add(MineCellsBlocks.BIG_CHAIN.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.CRATE.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE_BLOCK.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.BIG_CHAIN.asItem().getDefaultStack());
       stacks.add(MineCellsItems.SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE.getDefaultStack());

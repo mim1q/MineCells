@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "minecells:block/putrid_slab/putrid_slab"
+    },
+    "type=double": {
+      "model": "minecells:block/putrid_planks"
+    },
+    "type=top": {
+      "model": "minecells:block/putrid_slab/putrid_slab_top"
+    }
+  }
+}

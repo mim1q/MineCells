@@ -7,10 +7,9 @@ import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.block.PillarBlock;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.minecraft.block.*;
+import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -19,6 +18,41 @@ public class MineCellsBlocks {
   public static final Block ELEVATOR_ASSEMBLER = registerBlock(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block BIG_CHAIN = new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN));
   public static final Block HARDSTONE = new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK));
+
+  public static final Block PUTRID_LOG = registerBlockWithItem(
+    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
+    "putrid_log"
+  );
+
+  public static final Block STRIPPED_PUTRID_LOG = registerBlockWithItem(
+    new PillarBlock(FabricBlockSettings.copyOf(Blocks.STRIPPED_OAK_LOG)),
+    "stripped_putrid_log"
+  );
+
+  public static final Block PUTRID_WOOD = registerBlockWithItem(
+    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)),
+    "putrid_wood"
+  );
+
+  public static final Block STRIPPED_PUTRID_WOOD = registerBlockWithItem(
+    new PillarBlock(FabricBlockSettings.copyOf(Blocks.STRIPPED_OAK_WOOD)),
+    "stripped_putrid_wood"
+  );
+
+  public static final Block PUTRID_PLANKS = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "putrid_planks"
+  );
+
+  public static final Block PUTRID_STAIRS = registerBlockWithItem(
+    new StairsBlock(PUTRID_PLANKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.OAK_STAIRS)),
+    "putrid_stairs"
+  );
+
+  public static final Block PUTRID_SLAB = registerBlockWithItem(
+    new SlabBlock(FabricBlockSettings.copyOf(Blocks.OAK_SLAB)),
+    "putrid_slab"
+  );
 
   public static final Block CRATE = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
@@ -86,6 +120,8 @@ public class MineCellsBlocks {
     Registry.register(Registry.ITEM, MineCells.createId("hardstone"), HARDSTONE_ITEM);
     Registry.register(Registry.ITEM, MineCells.createId("elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
     Registry.register(Registry.ITEM, MineCells.createId("big_chain"), BIG_CHAIN_BLOCK_ITEM);
+
+    StrippableBlockRegistry.register(PUTRID_LOG, STRIPPED_PUTRID_LOG);
   }
 
   public static Block registerBlock(Block block, String id) {
