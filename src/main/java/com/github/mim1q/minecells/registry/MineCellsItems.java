@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.AssassinsDaggerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -20,6 +21,9 @@ public class MineCellsItems {
 
   public static final Item INTERDIMENSIONAL_RUNE = new InterdimensionalRuneItem(new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1).maxDamage(20));
   public static final Item CHARGED_INTERDIMENSIONAL_RUNE = new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1));
+
+  public static final Item CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
+  public static final Item BROKEN_CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
   public static final BucketItem SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
   public static final BucketItem ANCIENT_SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
 
@@ -28,18 +32,21 @@ public class MineCellsItems {
     .maxDamage(1200));
 
   public static void init() {
-    registerSimpleItem("elevator_mechanism", ELEVATOR_MECHANISM);
-    registerSimpleItem("sewage_bucket", SEWAGE_BUCKET);
-    registerSimpleItem("ancient_sewage_bucket", ANCIENT_SEWAGE_BUCKET);
-    registerSimpleItem("interdimensional_rune", INTERDIMENSIONAL_RUNE);
-    registerSimpleItem("charged_interdimensional_rune", CHARGED_INTERDIMENSIONAL_RUNE);
+    registerSimpleItem(ELEVATOR_MECHANISM, "elevator_mechanism");
+    registerSimpleItem(SEWAGE_BUCKET, "sewage_bucket");
+    registerSimpleItem(ANCIENT_SEWAGE_BUCKET, "ancient_sewage_bucket");
+    registerSimpleItem(INTERDIMENSIONAL_RUNE, "interdimensional_rune");
+    registerSimpleItem(CHARGED_INTERDIMENSIONAL_RUNE, "charged_interdimensional_rune");
+    registerSimpleItem(CAGE, "cage");
+    registerSimpleItem(BROKEN_CAGE, "broken_cage");
 
     Registry.register(Registry.ITEM, MineCells.createId("assassins_dagger"), ASSASSINS_DAGGER);
   }
 
-  public static void registerSimpleItem(String name, Item item) {
+  public static Item registerSimpleItem(Item item, String name) {
     Registry.register(Registry.ITEM, MineCells.createId(name), item);
     simpleItems.add(item);
+    return item;
   }
 
   public static Set<Item> getSimpleItems() {

@@ -1,14 +1,21 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 
 public class CageBlock extends Block {
 
@@ -17,6 +24,7 @@ public class CageBlock extends Block {
 
   public CageBlock() {
     super(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(1.0F));
+    setDefaultState(getDefaultState().with(BROKEN, false).with(FLIPPED, false));
   }
 
   @Override
@@ -36,6 +44,37 @@ public class CageBlock extends Block {
     if (newState.getBlock() instanceof CageBlock && newState.get(FLIPPED) != state.get(FLIPPED)) {
       world.breakBlock(newPos, false);
     }
+  }
+
+  @Override
+  public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+    if (itemStack.getItem() == MineCellsItems.CAGE) {
+      BlockPos newPos = state.get(FLIPPED) ? pos.down() : pos.up();
+      world.setBlockState(newPos, state.with(FLIPPED, !state.get(FLIPPED)));
+    }
+  }
+
+  @Nullable
+  @Override
+  public BlockState getPlacementState(ItemPlacementContext ctx) {
+    if (ctx.getPlayer() == null) {
+      return getDefaultState();
+    }
+    ItemStack stack = ctx.getPlayer().getStackInHand(ctx.getHand());
+    boolean flipped = ctx.getSide() == Direction.DOWN;
+    boolean broken = stack.getItem() == MineCellsItems.BROKEN_CAGE;
+    BlockPos newPos = flipped ? ctx.getBlockPos().down() : ctx.getBlockPos().up();
+    BlockState secondState = ctx.getWorld().getBlockState(newPos);
+    BlockState newState = getDefaultState().with(FLIPPED, flipped).with(BROKEN, broken);
+    if (broken || secondState.isAir()) {
+      return newState;
+    }
+    return null;
+  }
+
+  @Override
+  public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+    return state.get(BROKEN) ? MineCellsItems.BROKEN_CAGE.getDefaultStack() : MineCellsItems.CAGE.getDefaultStack();
   }
 
   @Override
