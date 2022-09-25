@@ -41,13 +41,15 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
     if (world != null && entity.getCachedState().get(BiomeBannerBlock.WAVING)) {
       float amplitude = (entity.getWorld().getLightLevel(LightType.SKY, entity.getPos()) - world.getAmbientDarkness()) * 0.067F;
       float time = world.getTime() + tickDelta;
-      this.model.wave(
+      model.wave(
         (time * 0.1F) % (2.0F * MathHelper.PI),
         entity.getPos().getX() - entity.getPos().getZ(),
         amplitude
       );
+    } else {
+      model.resetAngles();
     }
-    this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }
 
@@ -125,7 +127,13 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
 
     public void wave(float animationProgress, float offset, float amplitude) {
       for (int i = 0; i < this.segments.length; i++) {
-        this.segments[i].pitch = MathHelper.cos(animationProgress - (float) i + offset) * 0.05F * amplitude * i;
+        this.segments[i].pitch = MathHelper.sin(animationProgress - (float) i + offset) * 0.05F * amplitude * i;
+      }
+    }
+
+    public void resetAngles() {
+      for (ModelPart part : segments) {
+        part.pitch = 0.0F;
       }
     }
 
