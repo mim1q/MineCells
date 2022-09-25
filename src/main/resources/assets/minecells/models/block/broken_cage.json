@@ -1,0 +1,7 @@
+{
+  "parent": "minecells:block/cage",
+  "textures": {
+    "particle": "minecells:block/broken_cage_bars",
+    "0": "minecells:block/broken_cage_bars"
+  }
+}

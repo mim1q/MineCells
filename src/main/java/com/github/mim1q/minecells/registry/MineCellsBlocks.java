@@ -2,14 +2,14 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.BigChainBlock;
+import com.github.mim1q.minecells.block.CageBlock;
 import com.github.mim1q.minecells.block.GroundDecoration;
-import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
+import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
-import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -71,6 +71,8 @@ public class MineCellsBlocks {
     new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS), GroundDecoration.Shape.BLOCK_12),
     "small_crate"
   );
+
+  public static final Block CAGE = registerBlock(new CageBlock(), "cage");
 
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(

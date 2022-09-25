@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "flipped=false,broken=false": {
+      "model": "minecells:block/cage"
+    },
+    "flipped=true,broken=false": {
+      "model": "minecells:block/cage",
+      "x": 180
+    },
+    "flipped=false,broken=true": {
+      "model": "minecells:block/broken_cage"
+    },
+    "flipped=true,broken=true": {
+      "model": "minecells:block/broken_cage",
+      "x": 180
+    }
+  }
+}

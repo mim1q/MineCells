@@ -32,9 +32,10 @@ public class BigChainBlock extends ChainBlock {
   protected BlockState getHangingState(BlockState state, WorldAccess world, BlockPos pos) {
     BlockState stateBelow = world.getBlockState(pos.down());
     boolean chainBelow = stateBelow.getBlock() instanceof BigChainBlock && stateBelow.get(AXIS) == Direction.Axis.Y;
+    boolean cageBelow = stateBelow.getBlock() instanceof CageBlock && stateBelow.get(CageBlock.FLIPPED);
     boolean vertical = state.get(AXIS) == Direction.Axis.Y;
     boolean solidBelow = stateBelow.isSideSolidFullSquare(world, pos.down(), Direction.UP);
-    boolean hanging = vertical && !(chainBelow || solidBelow);
+    boolean hanging = vertical && !(chainBelow || solidBelow || cageBelow);
     return state.with(HANGING, hanging);
   }
 
