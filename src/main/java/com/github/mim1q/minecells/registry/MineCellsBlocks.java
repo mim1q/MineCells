@@ -71,7 +71,7 @@ public class MineCellsBlocks {
 
   public static final Block CAGE = registerBlock(new CageBlock(), "cage");
 
-  public static final Block BIOME_BANNER = registerBlockWithItem(
+  public static final Block BIOME_BANNER = registerBlock(
     new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)),
     "biome_banner"
   );

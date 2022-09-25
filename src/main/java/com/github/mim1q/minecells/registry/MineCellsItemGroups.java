@@ -46,13 +46,14 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsBlocks.PUTRID_SLAB.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack());
-      stacks.add(MineCellsBlocks.HARDSTONE_ITEM.getDefaultStack());
       stacks.add(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.HARDSTONE_ITEM.getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE_BLOCK.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.BIG_CHAIN.asItem().getDefaultStack());
       stacks.add(MineCellsItems.CAGE.getDefaultStack());
       stacks.add(MineCellsItems.BROKEN_CAGE.getDefaultStack());
+      stacks.add(MineCellsItems.BIOME_BANNER.getDefaultStack());
       stacks.add(MineCellsItems.SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE.getDefaultStack());

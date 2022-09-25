@@ -4,10 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.AssassinsDaggerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.AliasedBlockItem;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.registry.Registry;
 
 import java.util.HashSet;
@@ -24,6 +21,7 @@ public class MineCellsItems {
 
   public static final Item CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
   public static final Item BROKEN_CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
+  public static final Item BIOME_BANNER = new AliasedBlockItem(MineCellsBlocks.BIOME_BANNER, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
   public static final BucketItem SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
   public static final BucketItem ANCIENT_SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
 
@@ -39,6 +37,7 @@ public class MineCellsItems {
     registerSimpleItem(CHARGED_INTERDIMENSIONAL_RUNE, "charged_interdimensional_rune");
     registerSimpleItem(CAGE, "cage");
     registerSimpleItem(BROKEN_CAGE, "broken_cage");
+    registerSimpleItem(BIOME_BANNER, "biome_banner");
 
     Registry.register(Registry.ITEM, MineCells.createId("assassins_dagger"), ASSASSINS_DAGGER);
   }

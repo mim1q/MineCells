@@ -37,11 +37,14 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
     matrices.translate(0.0F, 0.0F, -0.4375F);
     matrices.scale(1.0F, -1.0F, -1.0F);
     World world = entity.getWorld();
+    float x = entity.getPos().getX();
+    float z = entity.getPos().getZ();
+    float offset = 0.5F * (x + z) * (x + z + 1) + z;
     if (world != null && entity.getCachedState().get(BiomeBannerBlock.WAVING)) {
       float time = world.getTime() + tickDelta;
       model.wave(
         (time * 0.1F) % (2.0F * MathHelper.PI),
-        entity.getPos().getX() - entity.getPos().getZ()
+        offset % 100
       );
     } else {
       model.resetAngles();
