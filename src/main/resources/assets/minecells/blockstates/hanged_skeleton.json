@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "minecells:block/hanged_skeleton"
+    },
+    "facing=east": {
+      "model": "minecells:block/hanged_skeleton",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "minecells:block/hanged_skeleton",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "minecells:block/hanged_skeleton",
+      "y": 270
+    }
+  }
+}
