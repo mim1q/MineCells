@@ -16,7 +16,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<BiomeBannerBlockEntity> {
@@ -39,12 +38,10 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
     matrices.scale(1.0F, -1.0F, -1.0F);
     World world = entity.getWorld();
     if (world != null && entity.getCachedState().get(BiomeBannerBlock.WAVING)) {
-      float amplitude = (entity.getWorld().getLightLevel(LightType.SKY, entity.getPos()) - world.getAmbientDarkness()) * 0.067F;
       float time = world.getTime() + tickDelta;
       model.wave(
         (time * 0.1F) % (2.0F * MathHelper.PI),
-        entity.getPos().getX() - entity.getPos().getZ(),
-        amplitude
+        entity.getPos().getX() - entity.getPos().getZ()
       );
     } else {
       model.resetAngles();
@@ -125,9 +122,9 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
       return TexturedModelData.of(modelData, 64, 64);
     }
 
-    public void wave(float animationProgress, float offset, float amplitude) {
+    public void wave(float animationProgress, float offset) {
       for (int i = 0; i < this.segments.length; i++) {
-        this.segments[i].pitch = MathHelper.sin(animationProgress - (float) i + offset) * 0.05F * amplitude * i;
+        this.segments[i].pitch = MathHelper.sin(animationProgress - (float) i + offset) * 0.05F * i;
       }
     }
 
