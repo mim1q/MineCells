@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -27,6 +28,15 @@ public class MineCellsBlockEntities {
         MineCellsBlocks.PRISON_BOX,
         MineCellsBlocks.CONJUNCTIVIUS_BOX,
         MineCellsBlocks.SHOCKER_BOX)
+      .build()
+  );
+
+  public static final BlockEntityType<BiomeBannerBlockEntity> BIOME_BANNER_BLOCK_ENTITY = Registry.register(
+    Registry.BLOCK_ENTITY_TYPE,
+    MineCells.createId("biome_banner"),
+    FabricBlockEntityTypeBuilder
+      .create(BiomeBannerBlockEntity::new)
+      .addBlock(MineCellsBlocks.BIOME_BANNER)
       .build()
   );
 

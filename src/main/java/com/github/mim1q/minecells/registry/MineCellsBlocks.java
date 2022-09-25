@@ -1,10 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.BigChainBlock;
-import com.github.mim1q.minecells.block.CageBlock;
-import com.github.mim1q.minecells.block.GroundDecoration;
-import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
+import com.github.mim1q.minecells.block.*;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -73,6 +70,11 @@ public class MineCellsBlocks {
   );
 
   public static final Block CAGE = registerBlock(new CageBlock(), "cage");
+
+  public static final Block BIOME_BANNER = registerBlockWithItem(
+    new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)),
+    "biome_banner"
+  );
 
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
