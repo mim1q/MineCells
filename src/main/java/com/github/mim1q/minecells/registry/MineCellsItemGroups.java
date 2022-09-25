@@ -44,10 +44,10 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsBlocks.PUTRID_PLANKS.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.PUTRID_STAIRS.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.PUTRID_SLAB.asItem().getDefaultStack());
-      stacks.add(MineCellsBlocks.HARDSTONE_ITEM.getDefaultStack());
-      stacks.add(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.HARDSTONE_ITEM.getDefaultStack());
+      stacks.add(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE_BLOCK.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.BIG_CHAIN.asItem().getDefaultStack());

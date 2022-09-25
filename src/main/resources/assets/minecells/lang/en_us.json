@@ -18,11 +18,23 @@
 
   "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
+  "block.minecells.putrid_log": "Putrid Log",
+  "block.minecells.putrid_wood": "Putrid Wood",
+  "block.minecells.stripped_putrid_log": "Stripped Putrid Log",
+  "block.minecells.stripped_putrid_wood": "Stripped Putrid Wood",
+  "block.minecells.putrid_planks": "Putrid Planks",
+  "block.minecells.putrid_stairs": "Putrid Stairs",
+  "block.minecells.putrid_slab": "Putrid Slab",
+  "block.minecells.crate": "Crate",
+  "block.minecells.small_crate": "Small Crate",
   "block.minecells.hardstone": "Hardstone",
   "block.minecells.elevator_assembler": "Elevator Assembler",
   "block.minecells.chain_pile": "Chain Pile",
   "block.minecells.chain_pile_block": "Chain Pile Block",
   "block.minecells.big_chain": "Big Chain",
+  "block.minecells.cage": "Cage",
+  "item.minecells.cage": "Cage",
+  "item.minecells.broken_cage": "Broken Cage",
   "item.minecells.sewage_bucket": "Sewage Bucket",
   "item.minecells.ancient_sewage_bucket": "Ancient Sewage Bucket",
 
