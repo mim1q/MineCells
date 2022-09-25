@@ -9,6 +9,9 @@
       },
       {
         "model": "minecells:block/small_crate/small_crate_2"
+      },
+      {
+        "model": "minecells:block/small_crate/small_crate_3"
       }
     ]
   }
