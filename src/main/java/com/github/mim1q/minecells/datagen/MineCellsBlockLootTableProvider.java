@@ -56,10 +56,10 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
       MineCellsBlocks.CHAIN_PILE_BLOCK.getLootTableId(),
       LootTable.builder()
         .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(
-          ItemEntry.builder(Items.CHAIN).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1, 3)))
+          ItemEntry.builder(Items.CHAIN).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1, 2)))
         ))
         .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(
-          ItemEntry.builder(MineCellsBlocks.BIG_CHAIN).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1, 3)))
+          ItemEntry.builder(MineCellsBlocks.BIG_CHAIN).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1, 2)))
         ))
     );
 
