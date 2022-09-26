@@ -1,10 +1,8 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.util.ModelUtils;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
@@ -23,8 +21,8 @@ public class SkeletonDecorationBlock extends Block {
 
   public static final VoxelShape SHAPE = VoxelShapes.cuboid(0.125D, 0.25D, 0.375D, 0.875D, 1.0D, 0.625D);
 
-  public SkeletonDecorationBlock() {
-    super(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK));
+  public SkeletonDecorationBlock(Settings settings) {
+    super(settings);
   }
 
   @Override

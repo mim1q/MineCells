@@ -47,7 +47,7 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsBlocks.CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
-      stacks.add(MineCellsBlocks.HARDSTONE_ITEM.getDefaultStack());
+      stacks.add(MineCellsBlocks.HARDSTONE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE_BLOCK.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CHAIN_PILE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.BIG_CHAIN.asItem().getDefaultStack());

@@ -7,5 +7,6 @@ public class MineCellsDatagen implements DataGeneratorEntrypoint {
   @Override
   public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
     fabricDataGenerator.addProvider(new MineCellsModelProvider(fabricDataGenerator));
+    fabricDataGenerator.addProvider(new MineCellsBlockLootTableProvider(fabricDataGenerator));
   }
 }

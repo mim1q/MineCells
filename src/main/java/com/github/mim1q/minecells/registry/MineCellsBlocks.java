@@ -12,9 +12,20 @@ import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
 public class MineCellsBlocks {
-  public static final Block ELEVATOR_ASSEMBLER = registerBlock(new ElevatorAssemblerBlock(), "elevator_assembler");
-  public static final Block BIG_CHAIN = new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN));
-  public static final Block HARDSTONE = new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK));
+  public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(
+    new ElevatorAssemblerBlock(),
+    "elevator_assembler"
+  );
+
+  public static final Block BIG_CHAIN = registerBlockWithItem(
+    new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)),
+    "big_chain"
+  );
+
+  public static final Block HARDSTONE = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)),
+    "hardstone"
+  );
 
   public static final Block PUTRID_LOG = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
@@ -56,11 +67,11 @@ public class MineCellsBlocks {
     "crate"
   );
   public static final Block CHAIN_PILE_BLOCK = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F)),
+    new Block(FabricBlockSettings.copyOf(Blocks.CHAIN)),
     "chain_pile_block"
   );
   public static final Block CHAIN_PILE = registerBlockWithItem(
-    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(0.5F), GroundDecoration.Shape.PILE),
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN), GroundDecoration.Shape.PILE),
     "chain_pile"
   );
 
@@ -69,10 +80,13 @@ public class MineCellsBlocks {
     "small_crate"
   );
 
-  public static final Block CAGE = registerBlock(new CageBlock(), "cage");
+  public static final Block CAGE = registerBlock(
+    new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)),
+    "cage"
+  );
 
   public static final Block HANGED_SKELETON = registerBlock(
-    new SkeletonDecorationBlock(),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK)),
     "hanged_skeleton"
   );
 
@@ -88,7 +102,7 @@ public class MineCellsBlocks {
     "kingdom_portal_core"
   );
   public static final Block KINGDOM_PORTAL_FILLER = registerBlock(
-    new KingdomPortalCoreBlock.Filler(FabricBlockSettings.copyOf(Blocks.OBSIDIAN)),
+    new KingdomPortalCoreBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)),
     "kingdom_portal_filler"
   );
 
@@ -115,20 +129,9 @@ public class MineCellsBlocks {
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
 
-  public static final BlockItem HARDSTONE_ITEM = new BlockItem(HARDSTONE, new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
-  public static final BlockItem ELEVATOR_ASSEMBLER_BLOCK_ITEM = new BlockItem(ELEVATOR_ASSEMBLER, new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
-  public static final BlockItem BIG_CHAIN_BLOCK_ITEM = new BlockItem(BIG_CHAIN, new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
-
   public static void init() {
-    Registry.register(Registry.BLOCK, MineCells.createId("big_chain"), BIG_CHAIN);
-    Registry.register(Registry.BLOCK, MineCells.createId("hardstone"), HARDSTONE);
-
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registry.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
-
-    Registry.register(Registry.ITEM, MineCells.createId("hardstone"), HARDSTONE_ITEM);
-    Registry.register(Registry.ITEM, MineCells.createId("elevator_assembler"), ELEVATOR_ASSEMBLER_BLOCK_ITEM);
-    Registry.register(Registry.ITEM, MineCells.createId("big_chain"), BIG_CHAIN_BLOCK_ITEM);
 
     StrippableBlockRegistry.register(PUTRID_LOG, STRIPPED_PUTRID_LOG);
   }

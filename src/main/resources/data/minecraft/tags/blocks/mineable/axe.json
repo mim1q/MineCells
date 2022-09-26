@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:putrid_log",
+    "minecells:putrid_wood",
+    "minecells:stripped_putrid_log",
+    "minecells:stripped_putrid_wood",
+    "minecells:putrid_planks",
+    "minecells:putrid_stairs",
+    "minecells:putrid_slab",
+    "minecells:elevator_assembler",
+    "minecells:crate",
+    "minecells:small_crate",
+    "minecells:biome_banner"
+  ]
+}

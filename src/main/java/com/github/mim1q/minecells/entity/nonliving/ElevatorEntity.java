@@ -411,7 +411,7 @@ public class ElevatorEntity extends Entity {
   @Nullable
   @Override
   public ItemStack getPickBlockStack() {
-    return new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER_BLOCK_ITEM);
+    return new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem());
   }
 
   @Override

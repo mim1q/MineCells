@@ -2,10 +2,8 @@ package com.github.mim1q.minecells.block.setupblocks;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -74,10 +72,5 @@ public class ElevatorAssemblerBlock extends SetupBlock {
   @Override
   public BlockRenderType getRenderType(BlockState state) {
     return BlockRenderType.MODEL;
-  }
-
-  @Override
-  public Item asItem() {
-    return MineCellsBlocks.ELEVATOR_ASSEMBLER_BLOCK_ITEM;
   }
 }

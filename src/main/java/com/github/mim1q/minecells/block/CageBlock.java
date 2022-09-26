@@ -1,10 +1,8 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.registry.MineCellsItems;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -22,8 +20,8 @@ public class CageBlock extends Block {
   public static final BooleanProperty BROKEN = BooleanProperty.of("broken");
   public static final BooleanProperty FLIPPED = BooleanProperty.of("flipped");
 
-  public CageBlock() {
-    super(FabricBlockSettings.copyOf(Blocks.CHAIN).hardness(1.0F));
+  public CageBlock(Settings settings) {
+    super(settings);
     setDefaultState(getDefaultState().with(BROKEN, false).with(FLIPPED, false));
   }
 
