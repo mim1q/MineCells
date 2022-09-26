@@ -47,6 +47,9 @@ public class BiomeBannerBlock extends BlockWithEntity {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
+    if (ctx.getSide() == Direction.UP || ctx.getSide() == Direction.DOWN) {
+      return Blocks.AIR.getDefaultState();
+    }
     return getDefaultState().with(FACING, ctx.getSide());
   }
 
