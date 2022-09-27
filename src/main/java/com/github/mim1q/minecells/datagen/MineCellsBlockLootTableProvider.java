@@ -68,7 +68,7 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
       MineCellsBlocks.CHAIN_PILE.getLootTableId(),
       LootTable.builder()
         .pool(simplePool(silkTouchEntry(MineCellsBlocks.CHAIN_PILE), 1))
-        .pool(simplePool(noSilkTouchEntry(MineCellsBlocks.BIG_CHAIN), 2, 3))
+        .pool(simplePool(noSilkTouchEntry(MineCellsBlocks.BIG_CHAIN), 1))
     );
 
     biConsumer.accept(

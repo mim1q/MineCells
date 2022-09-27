@@ -19,8 +19,8 @@ public class MineCellsItems {
   public static final Item INTERDIMENSIONAL_RUNE = new InterdimensionalRuneItem(new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1).maxDamage(20));
   public static final Item CHARGED_INTERDIMENSIONAL_RUNE = new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1));
 
-  public static final Item CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
   public static final Item BROKEN_CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
+  public static final Item CAGE = new AliasedBlockItem(MineCellsBlocks.CAGE, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
   public static final Item BIOME_BANNER = new AliasedBlockItem(MineCellsBlocks.BIOME_BANNER, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS));
   public static final BucketItem SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
   public static final BucketItem ANCIENT_SEWAGE_BUCKET = new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
@@ -35,8 +35,8 @@ public class MineCellsItems {
     registerSimpleItem(ANCIENT_SEWAGE_BUCKET, "ancient_sewage_bucket");
     registerSimpleItem(INTERDIMENSIONAL_RUNE, "interdimensional_rune");
     registerSimpleItem(CHARGED_INTERDIMENSIONAL_RUNE, "charged_interdimensional_rune");
-    registerSimpleItem(CAGE, "cage");
     registerSimpleItem(BROKEN_CAGE, "broken_cage");
+    registerSimpleItem(CAGE, "cage");
     registerSimpleItem(BIOME_BANNER, "biome_banner");
 
     Registry.register(Registry.ITEM, MineCells.createId("assassins_dagger"), ASSASSINS_DAGGER);
