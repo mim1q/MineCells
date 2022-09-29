@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.datagen;
 
-import com.github.mim1q.minecells.block.CageBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -14,7 +13,6 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.condition.MatchToolLootCondition;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
@@ -23,7 +21,6 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.StatePredicate;
 import net.minecraft.predicate.item.EnchantmentPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.util.Identifier;
@@ -47,6 +44,8 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.HARDSTONE);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.BIG_CHAIN);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.ELEVATOR_ASSEMBLER);
+    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.CAGE);
+    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.BROKEN_CAGE);
     generateBlock(biConsumer, MineCellsBlocks.BIOME_BANNER, MineCellsItems.BIOME_BANNER);
 
     biConsumer.accept(
@@ -69,19 +68,6 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
       LootTable.builder()
         .pool(simplePool(silkTouchEntry(MineCellsBlocks.CHAIN_PILE), 1))
         .pool(simplePool(noSilkTouchEntry(MineCellsBlocks.BIG_CHAIN), 1))
-    );
-
-    biConsumer.accept(
-      MineCellsBlocks.CAGE.getLootTableId(),
-      LootTable.builder().pool(
-        LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(
-          ItemEntry.builder(MineCellsItems.BROKEN_CAGE)
-            .conditionally(new BlockStatePropertyLootCondition.Builder(MineCellsBlocks.CAGE)
-            .properties(StatePredicate.Builder.create().exactMatch(CageBlock.BROKEN, true)))
-            .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1)))
-            .alternatively(ItemEntry.builder(MineCellsItems.CAGE))
-        )
-      )
     );
   }
 

@@ -84,7 +84,7 @@ public class MineCellsRecipeProvider extends FabricRecipeProvider {
       .criterion("has_item", RecipeProvider.conditionsFromItem(MineCellsItems.ELEVATOR_MECHANISM))
       .offerTo(exporter);
 
-    ShapedRecipeJsonBuilder.create(MineCellsItems.CAGE, 1)
+    ShapedRecipeJsonBuilder.create(MineCellsBlocks.CAGE, 1)
       .pattern("TTT")
       .pattern("###")
       .pattern("TTT")

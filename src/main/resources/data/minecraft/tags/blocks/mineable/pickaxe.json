@@ -5,6 +5,7 @@
     "minecells:chain_pile",
     "minecells:chain_pile_block",
     "minecells:cage",
+    "minecells:broken_cage",
     "minecells:hanged_skeleton"
   ]
 }

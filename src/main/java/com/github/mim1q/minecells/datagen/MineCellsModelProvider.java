@@ -51,6 +51,8 @@ public class MineCellsModelProvider extends FabricModelProvider {
     for (Item item : MineCellsItems.getSimpleItems()) {
       generator.register(item, Models.GENERATED);
     }
+    generator.register(MineCellsBlocks.CAGE.asItem(), Models.GENERATED);
+    generator.register(MineCellsBlocks.BROKEN_CAGE.asItem(), Models.GENERATED);
     generator.register(MineCellsItems.ASSASSINS_DAGGER, Models.HANDHELD);
   }
 

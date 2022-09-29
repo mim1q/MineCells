@@ -80,9 +80,19 @@ public class MineCellsBlocks {
     "small_crate"
   );
 
-  public static final Block CAGE = registerBlock(
-    new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)),
+//  public static final Block CAGE = registerBlock(
+//    new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)),
+//    "cage"
+//  );
+
+  public static final Block CAGE = registerBlockWithItem(
+    new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false),
     "cage"
+  );
+
+  public static final Block BROKEN_CAGE = registerBlockWithItem(
+    new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), true),
+    "broken_cage"
   );
 
   public static final Block HANGED_SKELETON = registerBlock(
@@ -143,7 +153,11 @@ public class MineCellsBlocks {
 
   public static Block registerBlockWithItem(Block block, String id) {
     registerBlock(block, id);
-    Registry.register(Registry.ITEM, MineCells.createId(id), new BlockItem(block, new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)));
+    Registry.register(
+      Registry.ITEM,
+      MineCells.createId(id), 
+      new BlockItem(block, new Item.Settings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS))
+    );
     return block;
   }
 }
