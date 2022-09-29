@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,8 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -17,6 +20,23 @@ import org.jetbrains.annotations.Nullable;
 public class CageBlock extends Block {
   public static final BooleanProperty FLIPPED = BooleanProperty.of("flipped");
   private final boolean broken;
+
+  private static final VoxelShape SIDES_SHAPE = VoxelShapes.union(
+    Block.createCuboidShape(1, 0, 1, 15, 16, 2),
+    Block.createCuboidShape(1, 0, 14, 15, 16, 15),
+    Block.createCuboidShape(1, 0, 2, 2, 16, 14),
+    Block.createCuboidShape(14, 0, 2, 15, 16, 14)
+  );
+
+  private static final VoxelShape BOTTOM_SHAPE = VoxelShapes.union(
+    Block.createCuboidShape(0, 0, 0, 16, 2, 16),
+    SIDES_SHAPE
+  );
+
+  private static final VoxelShape TOP_SHAPE = VoxelShapes.union(
+    Block.createCuboidShape(0, 14, 0, 16, 16, 16),
+    SIDES_SHAPE
+  );
 
   public CageBlock(Settings settings, boolean broken) {
     super(settings);
@@ -65,6 +85,12 @@ public class CageBlock extends Block {
       return newState;
     }
     return null;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return state.get(FLIPPED) ? TOP_SHAPE : BOTTOM_SHAPE;
   }
 
   @Override
