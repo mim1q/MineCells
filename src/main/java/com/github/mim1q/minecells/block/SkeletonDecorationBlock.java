@@ -19,8 +19,8 @@ public class SkeletonDecorationBlock extends Block {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
   public static final VoxelShape SHAPE = VoxelShapes.union(
-    VoxelShapes.cuboid(0.125D, 0.25D, 0.4375D, 0.875D, 1.0D, 0.5625D),
-    VoxelShapes.cuboid(0.25D, 0.25D, 0.375D, 0.75D, 1.0D, 0.625D)
+    VoxelShapes.cuboid(0.125D, 0.3125D, 0.3125D, 0.875D, 1.0625D, 0.4375D),
+    VoxelShapes.cuboid(0.25D, 0.3125D, 0.25D, 0.75D, 1.0625D, 0.5D)
   );
 
   public SkeletonDecorationBlock(Settings settings) {
@@ -46,10 +46,12 @@ public class SkeletonDecorationBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-    if (neighborPos == pos.up()) {
+    if (neighborPos.equals(pos.up())) {
+      System.out.println("getStateForNeighborUpdate");
       if (neighborState.getBlock() == Blocks.CHAIN && neighborState.get(ChainBlock.AXIS) == Direction.Axis.Y) {
         return state;
       }
+      System.out.println("no chain");
       return Blocks.AIR.getDefaultState();
     }
     return state;
