@@ -1,0 +1,12 @@
+{
+  "type": "minecells:big_dungeon",
+  "biomes": [
+    "minecells:promenade"
+  ],
+  "start_pool": "minecells:prison/spawn",
+  "size": 30,
+  "max_distance_from_center": 128,
+  "step": "strongholds",
+  "y": 120,
+  "spawn_overrides": {}
+}
