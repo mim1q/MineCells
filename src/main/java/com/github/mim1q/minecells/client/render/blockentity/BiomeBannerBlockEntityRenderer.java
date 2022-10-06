@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.BiomeBannerBlock;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
@@ -19,8 +18,6 @@ import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
 public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<BiomeBannerBlockEntity> {
-
-  public static final Identifier TEXTURE = MineCells.createId("textures/blockentity/banner/promenade_of_the_condemned.png");
 
   private final BiomeBannerBlockEntityModel model;
   public BiomeBannerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
@@ -49,7 +46,8 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
     } else {
       model.resetAngles();
     }
-    model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    Identifier texture = entity.getCachedState().get(BiomeBannerBlock.PATTERN).getTexture();
+    model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(texture)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }
 

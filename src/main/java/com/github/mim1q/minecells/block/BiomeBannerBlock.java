@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
@@ -9,10 +10,9 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,11 +26,16 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   public static final BooleanProperty WAVING = BooleanProperty.of("waving");
+  public static EnumProperty<BannerPattern> PATTERN = EnumProperty.of("pattern", BannerPattern.class);
   public static final VoxelShape SHAPE = VoxelShapes.cuboid(0.0D, 0.0D, 0.875D, 1.0D, 1.0D, 1.0D);
 
   public BiomeBannerBlock(Settings settings) {
     super(settings);
-    this.setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(WAVING, true));
+    this.setDefaultState(getDefaultState()
+      .with(FACING, Direction.NORTH)
+      .with(WAVING, true)
+      .with(PATTERN, BannerPattern.KING_CREST)
+    );
   }
 
   @Nullable
@@ -41,7 +46,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-    builder.add(FACING, WAVING);
+    builder.add(FACING, WAVING, PATTERN);
   }
 
   @Nullable
@@ -80,5 +85,27 @@ public class BiomeBannerBlock extends BlockWithEntity {
   @Override
   public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
     return true;
+  }
+
+  public enum BannerPattern implements StringIdentifiable {
+    PROMENADE("promenade_of_the_condemned"),
+    KING_CREST("king_crest");
+
+    private final String name;
+    private final Identifier texture;
+
+    BannerPattern(String name) {
+      this.name = name;
+      this.texture = MineCells.createId("textures/blockentity/banner/" + name + ".png");
+    }
+
+    @Override
+    public String asString() {
+      return this.name;
+    }
+
+    public Identifier getTexture() {
+      return this.texture;
+    }
   }
 }
