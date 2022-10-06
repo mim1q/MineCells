@@ -1,13 +1,19 @@
 package com.github.mim1q.minecells.structure;
 
+import com.github.mim1q.minecells.structure.generator.BigDungeonPoolBasedGenerator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.structure.StructurePiecesList;
 import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.StructurePoolBasedGenerator;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.StructureAccessor;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
 
@@ -22,7 +28,7 @@ public class BigDungeonStructure extends Structure {
         Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter((structure) -> structure.startJigsawName),
         Codec.intRange(0, 100).fieldOf("size").forGetter((structure) -> structure.size),
         Codec.intRange(-64, 320).fieldOf("y").forGetter((structure) -> structure.y),
-        Codec.intRange(1, 1024).fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
+        Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
       )
       .apply(instance, BigDungeonStructure::new)).codec();
 
@@ -50,7 +56,7 @@ public class BigDungeonStructure extends Structure {
 
   private static boolean extraSpawnConditions(Structure.Context context) {
     ChunkPos chunkPos = context.chunkPos();
-    return chunkPos.x % 64 == 0 && chunkPos.z % 64 == 0;
+    return chunkPos.x % 15 == 0 && chunkPos.z % 15 == 0;
   }
 
   @Override
@@ -60,9 +66,9 @@ public class BigDungeonStructure extends Structure {
     }
 
     ChunkPos chunkPos = context.chunkPos();
-    BlockPos pos = new BlockPos(chunkPos.getStartX(), this.y, chunkPos.getStartZ());
+    BlockPos pos = chunkPos.getStartPos().withY(this.y);
 
-    return StructurePoolBasedGenerator.generate(
+    return BigDungeonPoolBasedGenerator.generate(
       context,
       this.startPool,
       this.startJigsawName,
@@ -72,6 +78,11 @@ public class BigDungeonStructure extends Structure {
       Optional.empty(),
       this.maxDistanceFromCenter
     );
+  }
+
+  @Override
+  public void postPlace(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox box, ChunkPos chunkPos, StructurePiecesList pieces) {
+    super.postPlace(world, structureAccessor, chunkGenerator, random, box, chunkPos, pieces);
   }
 
   @Override

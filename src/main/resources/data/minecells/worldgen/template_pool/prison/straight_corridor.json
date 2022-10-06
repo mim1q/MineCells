@@ -1,6 +1,6 @@
 {
   "name": "minecells:prison/straight_corridor",
-  "fallback": "minecells:prison/wall",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
