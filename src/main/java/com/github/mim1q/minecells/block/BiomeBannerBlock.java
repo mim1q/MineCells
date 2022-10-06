@@ -16,6 +16,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -55,7 +56,14 @@ public class BiomeBannerBlock extends BlockWithEntity {
     if (ctx.getSide() == Direction.UP || ctx.getSide() == Direction.DOWN) {
       return Blocks.AIR.getDefaultState();
     }
-    return getDefaultState().with(FACING, ctx.getSide());
+    Vec3i offset = ctx.getSide().getOpposite().getVector();
+    BlockState state0 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down());
+    BlockState state1 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down(2));
+    BlockState resultState = getDefaultState().with(FACING, ctx.getSide());
+    if (state0.isAir() && state1.isAir()) {
+      return resultState.with(WAVING, true);
+    }
+    return resultState.with(WAVING, false);
   }
 
   @Override
