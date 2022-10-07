@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.BiomeBannerBlock;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -53,7 +54,8 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsBlocks.BIG_CHAIN.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CAGE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.BROKEN_CAGE.asItem().getDefaultStack());
-      stacks.add(MineCellsItems.BIOME_BANNER.getDefaultStack());
+      stacks.add(MineCellsItems.BIOME_BANNER.getOf(BiomeBannerBlock.BannerPattern.KING_CREST));
+      stacks.add(MineCellsItems.BIOME_BANNER.getOf(BiomeBannerBlock.BannerPattern.PROMENADE));
       stacks.add(MineCellsItems.SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE.getDefaultStack());
