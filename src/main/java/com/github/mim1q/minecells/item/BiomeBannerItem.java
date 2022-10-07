@@ -16,7 +16,7 @@ import java.util.List;
 
 public class BiomeBannerItem extends BlockItem {
 
-  private static final String PATTERN_LANG_PREFIX = "item.minecells.biome_banner.pattern.";
+  private static final String PATTERN_LANG_PREFIX = "item.minecells.biome_banner.";
 
   public BiomeBannerItem(Settings settings) {
     super(MineCellsBlocks.BIOME_BANNER, settings);
