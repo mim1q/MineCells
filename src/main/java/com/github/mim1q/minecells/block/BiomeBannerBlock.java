@@ -2,11 +2,13 @@ package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -22,6 +24,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
 
 public class BiomeBannerBlock extends BlockWithEntity {
 
@@ -64,6 +68,11 @@ public class BiomeBannerBlock extends BlockWithEntity {
       return resultState.with(WAVING, true);
     }
     return resultState.with(WAVING, false);
+  }
+
+  @Override
+  public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+    return MineCellsItems.BIOME_BANNER.getOf(state.get(PATTERN));
   }
 
   @Override
@@ -110,6 +119,13 @@ public class BiomeBannerBlock extends BlockWithEntity {
     @Override
     public String asString() {
       return this.name;
+    }
+
+    public static BannerPattern fromString(String name) {
+      return Arrays.stream(BannerPattern.values())
+        .filter(pattern -> pattern.name.equals(name))
+        .findFirst()
+        .orElse(BannerPattern.KING_CREST);
     }
 
     public Identifier getTexture() {

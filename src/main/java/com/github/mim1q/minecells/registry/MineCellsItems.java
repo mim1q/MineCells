@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.AssassinsDaggerItem;
+import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -32,9 +33,8 @@ public class MineCellsItems {
     "charged_interdimensional_rune"
   );
 
-  public static final Item BIOME_BANNER = registerSimpleItem(
-    new AliasedBlockItem(MineCellsBlocks.BIOME_BANNER, new FabricItemSettings()
-      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
+  public static final BiomeBannerItem BIOME_BANNER = registerSimpleItem(
+    new BiomeBannerItem(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
     "biome_banner"
   );
 
@@ -66,7 +66,7 @@ public class MineCellsItems {
     Registry.register(Registry.ITEM, MineCells.createId("assassins_dagger"), ASSASSINS_DAGGER);
   }
 
-  public static Item registerSimpleItem(Item item, String name) {
+  public static <E extends Item> E registerSimpleItem(E item, String name) {
     Registry.register(Registry.ITEM, MineCells.createId(name), item);
     simpleItems.add(item);
     return item;
