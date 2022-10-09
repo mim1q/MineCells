@@ -1,5 +1,5 @@
 {
-  "name": "minecells:prison/straight_corridor",
+  "name": "minecells:prison/corridor",
   "fallback": "minecells:prison/wall",
   "elements": [
     {
@@ -21,7 +21,7 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "minecells:prison/corridor_x",

@@ -7,6 +7,6 @@
   "size": 30,
   "max_distance_from_center": 128,
   "step": "strongholds",
-  "y": 120,
+  "y": 30,
   "spawn_overrides": {}
 }

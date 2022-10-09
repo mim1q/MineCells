@@ -6,7 +6,7 @@
       "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/portal_spawn",
+        "location": "minecells:prison/junction",
         "projection": "rigid",
         "processors": "minecraft:empty"
       }
