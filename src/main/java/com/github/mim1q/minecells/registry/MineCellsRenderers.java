@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -20,13 +19,13 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
-
-import static com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer.*;
 
 public class MineCellsRenderers {
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
@@ -132,12 +131,20 @@ public class MineCellsRenderers {
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.CAGE, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.BROKEN_CAGE, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.HANGED_SKELETON, RenderLayer.getCutout());
+    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.WILTED_LEAVES, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
-    EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityModel::getTexturedModelData);
-    EntityModelLayerRegistry.registerModelLayer(BIOME_BANNER_LAYER, BiomeBannerBlockEntityModel::getTexturedModelData);
+    EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel::getTexturedModelData);
+    EntityModelLayerRegistry.registerModelLayer(BIOME_BANNER_LAYER, BiomeBannerBlockEntityRenderer.BiomeBannerBlockEntityModel::getTexturedModelData);
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
+
+    ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+      if (world != null && pos != null) {
+        return BiomeColors.getFoliageColor(world, pos);
+      }
+      return 0x00FF00;
+    }, MineCellsBlocks.WILTED_LEAVES);
   }
 }

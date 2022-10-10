@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.datagen;
 
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.util.DropUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
@@ -13,12 +14,14 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.MatchToolLootCondition;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LeafEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.LootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.EnchantmentPredicate;
@@ -41,6 +44,7 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.PUTRID_PLANKS);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.PUTRID_STAIRS);
     biConsumer.accept(MineCellsBlocks.PUTRID_SLAB.getLootTableId(), BlockLootTableGenerator.slabDrops(MineCellsBlocks.PUTRID_SLAB));
+    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_LEAVES);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.HARDSTONE);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.BIG_CHAIN);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.ELEVATOR_ASSEMBLER);
@@ -75,7 +79,11 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
     biConsumer.accept(block.getLootTableId(), FabricBlockLootTableProvider.drops(block));
   }
 
-  public static void generateBlock(BiConsumer<Identifier, LootTable.Builder> biConsumer, Block block, ItemConvertible drop) {
+  public static void generateBlock(
+    BiConsumer<Identifier, LootTable.Builder> biConsumer,
+    Block block,
+    ItemConvertible drop
+  ) {
     biConsumer.accept(block.getLootTableId(), FabricBlockLootTableProvider.drops(drop));
   }
 
@@ -92,6 +100,24 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
       entryBuilder.apply(
         SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))
       )
+    );
+  }
+
+  public static LeafEntry.Builder<?> conditionalEntry(
+    ItemConvertible drop,
+    LootCondition.Builder condition,
+    LootNumberProvider count
+  ) {
+    return ItemEntry.builder(drop).conditionally(condition).apply(SetCountLootFunction.builder(count));
+  }
+
+  public static void generateShearsOrSilkTouchDrop(
+    BiConsumer<Identifier, LootTable.Builder> biConsumer,
+    Block block,
+    ItemConvertible drop
+  ) {
+    biConsumer.accept(block.getLootTableId(), LootTable.builder()
+      .pool(simplePool(conditionalEntry(drop, DropUtils.SHEARS_OR_SILK_TOUCH, ConstantLootNumberProvider.create(1)), 1))
     );
   }
 

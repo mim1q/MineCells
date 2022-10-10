@@ -62,6 +62,11 @@ public class MineCellsBlocks {
     "putrid_slab"
   );
 
+  public static final Block WILTED_LEAVES = registerBlockWithItem(
+    new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
+    "wilted_leaves"
+  );
+
   public static final Block CRATE = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
     "crate"
@@ -79,11 +84,6 @@ public class MineCellsBlocks {
     new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS), GroundDecoration.Shape.BLOCK_12),
     "small_crate"
   );
-
-//  public static final Block CAGE = registerBlock(
-//    new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)),
-//    "cage"
-//  );
 
   public static final Block CAGE = registerBlockWithItem(
     new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false),
