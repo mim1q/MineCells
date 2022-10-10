@@ -146,5 +146,7 @@ public class MineCellsRenderers {
       }
       return 0x00FF00;
     }, MineCellsBlocks.WILTED_LEAVES);
+
+    ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80, MineCellsBlocks.WILTED_LEAVES);
   }
 }
