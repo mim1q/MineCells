@@ -67,6 +67,11 @@ public class MineCellsBlocks {
     "wilted_leaves"
   );
 
+  public static final Block HANGING_WILTED_LEAVES = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
+    "hanging_wilted_leaves"
+  );
+
   public static final Block CRATE = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
     "crate"

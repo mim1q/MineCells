@@ -132,6 +132,7 @@ public class MineCellsRenderers {
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.BROKEN_CAGE, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.HANGED_SKELETON, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.WILTED_LEAVES, RenderLayer.getCutout());
+    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.HANGING_WILTED_LEAVES, RenderLayer.getCutout());
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel::getTexturedModelData);
