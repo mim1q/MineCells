@@ -135,6 +135,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.HANGED_SKELETON,
       MineCellsBlocks.WILTED_LEAVES,
       MineCellsBlocks.HANGING_WILTED_LEAVES,
+      MineCellsBlocks.WALL_WILTED_LEAVES,
       MineCellsBlocks.ORANGE_WILTED_LEAVES,
       MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES
     );
@@ -153,12 +154,12 @@ public class MineCellsRenderers {
         }
         return BiomeColors.getFoliageColor(world, pos);
       },
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES
     );
 
     ColorProviderRegistry.ITEM.register(
       (stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES
     );
   }
 }

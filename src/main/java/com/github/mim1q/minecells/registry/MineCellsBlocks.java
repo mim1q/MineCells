@@ -72,6 +72,11 @@ public class MineCellsBlocks {
     "hanging_wilted_leaves"
   );
 
+  public static final Block WALL_WILTED_LEAVES = registerBlockWithItem(
+    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
+    "wall_wilted_leaves"
+  );
+
   public static final Block ORANGE_WILTED_LEAVES = registerBlockWithItem(
     new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
     "orange_wilted_leaves"

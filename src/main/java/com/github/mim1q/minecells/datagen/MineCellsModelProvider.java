@@ -51,6 +51,10 @@ public class MineCellsModelProvider extends FabricModelProvider {
       MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
       ModelIds.getBlockModelId(MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES)
     );
+    generator.registerParentedItemModel(
+      MineCellsBlocks.WALL_WILTED_LEAVES,
+      ModelIds.getBlockModelId(MineCellsBlocks.WALL_WILTED_LEAVES)
+    );
 
     // Decoration
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);

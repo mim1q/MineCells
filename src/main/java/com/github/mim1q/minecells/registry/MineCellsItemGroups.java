@@ -47,6 +47,7 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsBlocks.PUTRID_SLAB.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.WILTED_LEAVES.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.HANGING_WILTED_LEAVES.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.WALL_WILTED_LEAVES.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.ORANGE_WILTED_LEAVES.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CRATE.asItem().getDefaultStack());
