@@ -141,13 +141,21 @@ public class MineCellsRenderers {
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
 
-    ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-      if (world != null && pos != null) {
-        return BiomeColors.getFoliageColor(world, pos);
-      }
-      return 0x00FF00;
-    }, MineCellsBlocks.WILTED_LEAVES);
+    ColorProviderRegistry.BLOCK.register(
+      (state, world, pos, tintIndex) -> {
+        if (world != null && pos != null) {
+          return BiomeColors.getFoliageColor(world, pos);
+        }
+        return 0x00FF00;
+      },
+      MineCellsBlocks.WILTED_LEAVES,
+      MineCellsBlocks.HANGING_WILTED_LEAVES
+    );
 
-    ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80, MineCellsBlocks.WILTED_LEAVES);
+    ColorProviderRegistry.ITEM.register(
+      (stack, tintIndex) -> 0x80CC80,
+      MineCellsBlocks.WILTED_LEAVES,
+      MineCellsBlocks.HANGING_WILTED_LEAVES
+    );
   }
 }
