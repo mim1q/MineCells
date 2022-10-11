@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.datagen;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -22,27 +21,52 @@ public class MineCellsModelProvider extends FabricModelProvider {
 
   @Override
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
+    // Stone
     generator.registerSimpleCubeAll(MineCellsBlocks.HARDSTONE);
+
+    // Wood
     generator.registerAxisRotated(MineCellsBlocks.PUTRID_LOG, TexturedModel.CUBE_COLUMN);
     generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_LOG, TexturedModel.CUBE_COLUMN);
     generator.registerAxisRotated(MineCellsBlocks.PUTRID_WOOD, TexturedModel.CUBE_ALL);
     generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_WOOD, TexturedModel.CUBE_ALL);
     generator.registerSimpleCubeAll(MineCellsBlocks.PUTRID_PLANKS);
-    generator.registerParentedItemModel(MineCellsBlocks.PUTRID_SLAB, MineCells.createId("block/putrid_slab/putrid_slab"));
-    generator.registerParentedItemModel(MineCellsBlocks.PUTRID_STAIRS, MineCells.createId("block/putrid_stairs/putrid_stairs"));
-    generator.registerSingleton(MineCellsBlocks.WILTED_LEAVES, TexturedModel.LEAVES);
-    generator.registerParentedItemModel(MineCellsBlocks.HANGING_WILTED_LEAVES, MineCells.createId("block/hanging_wilted_leaves"));
+    generator.registerParentedItemModel(
+      MineCellsBlocks.PUTRID_SLAB,
+      ModelIds.getBlockModelId(MineCellsBlocks.PUTRID_SLAB)
 
-    generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
+    );
+    generator.registerParentedItemModel(
+      MineCellsBlocks.PUTRID_STAIRS,
+      ModelIds.getBlockModelId(MineCellsBlocks.PUTRID_STAIRS)
+    );
+
+    // Plants / Leaves
+    generator.registerSingleton(MineCellsBlocks.WILTED_LEAVES, TexturedModel.LEAVES);
+    generator.registerParentedItemModel(
+      MineCellsBlocks.HANGING_WILTED_LEAVES,
+      ModelIds.getBlockModelId(MineCellsBlocks.HANGING_WILTED_LEAVES)
+    );
+    generator.registerSingleton(MineCellsBlocks.ORANGE_WILTED_LEAVES, TexturedModel.LEAVES);
+    generator.registerParentedItemModel(
+      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
+      ModelIds.getBlockModelId(MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES)
+    );
+
+    // Decoration
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);
     generator.registerAxisRotated(MineCellsBlocks.CRATE, TexturedModel.CUBE_COLUMN);
     generator.registerStateWithModelReference(MineCellsBlocks.BIOME_BANNER, Blocks.WHITE_WOOL);
+
+    // Fluids
+    generator.registerStateWithModelReference(MineCellsBlocks.SEWAGE, Blocks.WATER);
+    generator.registerStateWithModelReference(MineCellsBlocks.ANCIENT_SEWAGE, Blocks.WATER);
+
+    // Other
+    generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
     generator.registerStateWithModelReference(MineCellsBlocks.PRISON_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.SHOCKER_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.KINGDOM_PORTAL_CORE, Blocks.AIR);
-    generator.registerStateWithModelReference(MineCellsBlocks.SEWAGE, Blocks.WATER);
-    generator.registerStateWithModelReference(MineCellsBlocks.ANCIENT_SEWAGE, Blocks.WATER);
   }
 
   @Override
