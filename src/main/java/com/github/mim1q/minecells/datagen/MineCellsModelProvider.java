@@ -31,6 +31,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerParentedItemModel(MineCellsBlocks.PUTRID_SLAB, MineCells.createId("block/putrid_slab/putrid_slab"));
     generator.registerParentedItemModel(MineCellsBlocks.PUTRID_STAIRS, MineCells.createId("block/putrid_stairs/putrid_stairs"));
     generator.registerSingleton(MineCellsBlocks.WILTED_LEAVES, TexturedModel.LEAVES);
+    generator.registerParentedItemModel(MineCellsBlocks.HANGING_WILTED_LEAVES, MineCells.createId("block/hanging_wilted_leaves"));
 
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);

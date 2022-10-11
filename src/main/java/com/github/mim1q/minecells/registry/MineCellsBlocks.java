@@ -68,7 +68,7 @@ public class MineCellsBlocks {
   );
 
   public static final Block HANGING_WILTED_LEAVES = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
+    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS).offsetType(Block.OffsetType.XZ)),
     "hanging_wilted_leaves"
   );
 
