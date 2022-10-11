@@ -66,19 +66,25 @@ public class BigDungeonPoolBasedGenerator extends StructurePoolBasedGenerator {
       BlockPos blockPos2 = pos.subtract(vec3i);
       PoolStructurePiece poolStructurePiece = new PoolStructurePiece(structureTemplateManager, structurePoolElement, blockPos2, structurePoolElement.getGroundLevelDelta(), blockRotation, structurePoolElement.getBoundingBox(structureTemplateManager, blockPos2, blockRotation));
       BlockBox blockBox = poolStructurePiece.getBoundingBox();
-      int i = (blockBox.getMaxX() + blockBox.getMinX()) / 2;
-      int j = (blockBox.getMaxZ() + blockBox.getMinZ()) / 2;
-      int k;
-      k = projectStartToHeightmap.map(type -> pos.getY() + chunkGenerator.getHeightOnGround(i, j, type, heightLimitView, context.noiseConfig())).orElseGet(blockPos2::getY);
+      int x = (blockBox.getMaxX() + blockBox.getMinX()) / 2;
+      int z = (blockBox.getMaxZ() + blockBox.getMinZ()) / 2;
+      int y = projectStartToHeightmap.map(type -> pos.getY() + chunkGenerator.getHeightOnGround(x, z, type, heightLimitView, context.noiseConfig())).orElseGet(blockPos2::getY);
 
       int l = blockBox.getMinY() + poolStructurePiece.getGroundLevelDelta();
-      poolStructurePiece.translate(0, k - l, 0);
-      int m = k + vec3i.getY();
-      return Optional.of(new Structure.StructurePosition(new BlockPos(i, m, j), (collector) -> {
+      poolStructurePiece.translate(0, y - l, 0);
+      int m = y + vec3i.getY();
+      return Optional.of(new Structure.StructurePosition(new BlockPos(x, m, z), (collector) -> {
         List<PoolStructurePiece> list = Lists.newArrayList();
         list.add(poolStructurePiece);
         if (size > 0) {
-          Box box = new Box(i - maxDistanceFromCenter, m - maxDistanceFromCenter, j - maxDistanceFromCenter, i + maxDistanceFromCenter + 1, m + maxDistanceFromCenter + 1, j + maxDistanceFromCenter + 1);
+          Box box = new Box(
+            x - maxDistanceFromCenter,
+            m - maxDistanceFromCenter,
+            z - maxDistanceFromCenter,
+            x + maxDistanceFromCenter + 1,
+            m + maxDistanceFromCenter + 1,
+            z + maxDistanceFromCenter + 1
+          );
           VoxelShape voxelShape = VoxelShapes.combineAndSimplify(VoxelShapes.cuboid(box), VoxelShapes.cuboid(Box.from(blockBox)), BooleanBiFunction.ONLY_FIRST);
           generate(context.noiseConfig(), size, useExpansionHack, chunkGenerator, structureTemplateManager, heightLimitView, chunkRandom, registry, poolStructurePiece, list, voxelShape);
           Objects.requireNonNull(collector);

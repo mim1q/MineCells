@@ -56,7 +56,13 @@ public class BigDungeonStructure extends Structure {
 
   private static boolean extraSpawnConditions(Structure.Context context) {
     ChunkPos chunkPos = context.chunkPos();
-    return chunkPos.x % 15 == 0 && chunkPos.z % 15 == 0;
+    boolean inGrid = chunkPos.x % 7 == 0 && chunkPos.z % 7 == 0;
+    if (!inGrid) {
+      return false;
+    }
+    ChunkPos closestCenter = new ChunkPos(chunkPos.x / 255 * 255, chunkPos.z / 255 * 255);
+    int distanceFromCenter = Math.max(Math.abs(chunkPos.x - closestCenter.x), Math.abs(chunkPos.z - closestCenter.z));
+    return distanceFromCenter <= 24;
   }
 
   @Override
