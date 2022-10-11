@@ -45,6 +45,10 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsBlocks.PUTRID_PLANKS.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.PUTRID_STAIRS.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.PUTRID_SLAB.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.WILTED_LEAVES.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.HANGING_WILTED_LEAVES.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.ORANGE_WILTED_LEAVES.asItem().getDefaultStack());
+      stacks.add(MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack());
       stacks.add(MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack());
@@ -63,8 +67,5 @@ public class MineCellsItemGroups {
     })
     .build();
 
-  //endregion
-
-  public static void init() {
-  }
+  public static void init() { }
 }
