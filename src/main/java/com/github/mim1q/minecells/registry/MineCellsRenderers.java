@@ -126,13 +126,18 @@ public class MineCellsRenderers {
       0xE0C93B
     ));
 
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.BIG_CHAIN, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.CHAIN_PILE, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.CAGE, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.BROKEN_CAGE, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.HANGED_SKELETON, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.WILTED_LEAVES, RenderLayer.getCutout());
-    BlockRenderLayerMap.INSTANCE.putBlock(MineCellsBlocks.HANGING_WILTED_LEAVES, RenderLayer.getCutout());
+    BlockRenderLayerMap.INSTANCE.putBlocks(
+      RenderLayer.getCutout(),
+      MineCellsBlocks.BIG_CHAIN,
+      MineCellsBlocks.CHAIN_PILE,
+      MineCellsBlocks.CAGE,
+      MineCellsBlocks.BROKEN_CAGE,
+      MineCellsBlocks.HANGED_SKELETON,
+      MineCellsBlocks.WILTED_LEAVES,
+      MineCellsBlocks.HANGING_WILTED_LEAVES,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES,
+      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES
+    );
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel::getTexturedModelData);
@@ -143,19 +148,17 @@ public class MineCellsRenderers {
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> {
-        if (world != null && pos != null) {
-          return BiomeColors.getFoliageColor(world, pos);
+        if (world == null || pos == null) {
+          return 0x80CC80;
         }
-        return 0x00FF00;
+        return BiomeColors.getFoliageColor(world, pos);
       },
-      MineCellsBlocks.WILTED_LEAVES,
-      MineCellsBlocks.HANGING_WILTED_LEAVES
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES
     );
 
     ColorProviderRegistry.ITEM.register(
       (stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES,
-      MineCellsBlocks.HANGING_WILTED_LEAVES
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES
     );
   }
 }

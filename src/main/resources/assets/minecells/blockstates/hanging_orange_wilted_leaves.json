@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "minecells:block/hanging_orange_wilted_leaves"
+    },
+    "facing=south": {
+      "model": "minecells:block/hanging_orange_wilted_leaves",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "minecells:block/hanging_orange_wilted_leaves",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "minecells:block/hanging_orange_wilted_leaves",
+      "y": 270
+    }
+  }
+}

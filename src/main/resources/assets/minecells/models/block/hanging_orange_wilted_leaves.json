@@ -1,0 +1,7 @@
+{
+  "parent": "minecells:block/hanging_wilted_leaves",
+  "textures": {
+    "0": "minecells:block/hanging_orange_wilted_leaves",
+    "particle": "minecells:block/orange_wilted_leaves"
+  }
+}

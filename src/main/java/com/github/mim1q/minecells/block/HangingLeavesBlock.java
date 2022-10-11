@@ -14,7 +14,7 @@ public class HangingLeavesBlock extends HorizontalFacingBlock {
   public static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 6.0D, 2.0D, 14.0D, 16.0D, 14.0D);
 
   public HangingLeavesBlock(Settings settings) {
-    super(settings);
+    super(settings.offsetType(Block.OffsetType.XZ));
   }
 
   @Override
