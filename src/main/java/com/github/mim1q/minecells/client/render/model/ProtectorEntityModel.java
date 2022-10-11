@@ -84,7 +84,11 @@ public class ProtectorEntityModel extends EntityModel<ProtectorEntity> {
 
   @Override
   public void setAngles(ProtectorEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-
+    float angle = animationProgress * 10.0F;
+    float x = (float) Math.sin(angle * RADIANS_PER_DEGREE);
+    float y = (float) Math.cos(angle * RADIANS_PER_DEGREE);
+    this.root.pitch = limbDistance * x * 0.3F;
+    this.root.roll = limbDistance * y * 0.3F;
   }
 
   @Override
