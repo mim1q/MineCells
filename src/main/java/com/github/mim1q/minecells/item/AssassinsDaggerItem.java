@@ -17,7 +17,7 @@ import java.util.List;
 
 public class AssassinsDaggerItem extends AbstractCritWeaponItem {
   public AssassinsDaggerItem(Settings settings) {
-    super(ToolMaterials.IRON, 4.5F, 2.5F, -2.5F, settings);
+    super(ToolMaterials.IRON, 5.0F, 3.0F, -2.0F, settings);
   }
 
   @Override
