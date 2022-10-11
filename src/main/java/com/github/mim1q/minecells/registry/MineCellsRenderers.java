@@ -137,7 +137,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.HANGING_WILTED_LEAVES,
       MineCellsBlocks.WALL_WILTED_LEAVES,
       MineCellsBlocks.ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES
+      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
+      MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES
     );
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 

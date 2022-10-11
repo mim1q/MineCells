@@ -20,7 +20,14 @@ public class WallLeavesBlock extends Block {
   public static final VoxelShape SHAPE_BOTTOM = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
 
   public WallLeavesBlock(Settings settings) {
-    super(settings.offsetType(AbstractBlock.OffsetType.XYZ));
+    super(settings.offsetType(blockState -> {
+        Direction dir = blockState.get(DIRECTION);
+        if (dir == Direction.DOWN) {
+          return OffsetType.XZ;
+        }
+        return OffsetType.XYZ;
+      })
+    );
   }
 
   @Override
@@ -54,5 +61,10 @@ public class WallLeavesBlock extends Block {
       return Blocks.AIR.getDefaultState();
     }
     return state;
+  }
+
+  @Override
+  public float getMaxHorizontalModelOffset() {
+    return 0.125F;
   }
 }

@@ -46,8 +46,10 @@ public class MineCellsBlockLootTableProvider extends SimpleFabricLootTableProvid
     biConsumer.accept(MineCellsBlocks.PUTRID_SLAB.getLootTableId(), BlockLootTableGenerator.slabDrops(MineCellsBlocks.PUTRID_SLAB));
     generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_LEAVES);
     generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES);
+    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.WALL_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES);
     generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.ORANGE_WILTED_LEAVES, MineCellsBlocks.ORANGE_WILTED_LEAVES);
     generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES, MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES);
+    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES, MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.HARDSTONE);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.BIG_CHAIN);
     generateSelfDroppingBlock(biConsumer, MineCellsBlocks.ELEVATOR_ASSEMBLER);
