@@ -54,10 +54,14 @@ public class ElevatorAssemblerBlock extends SetupBlock {
 
     boolean rotated = north instanceof ChainBlock && south instanceof ChainBlock;
 
-    if (ElevatorEntity.validateShaft(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, false)) {
-      ElevatorEntity.spawn(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, goingUp);
-      world.breakBlock(pos, false);
-      world.breakBlock(new BlockPos(pos.getX(), second, pos.getZ()), false);
+    if (ElevatorEntity.validateShaft(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated)) {
+      if (!world.isClient()) {
+        ElevatorEntity.spawn(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, goingUp);
+        world.removeBlockEntity(pos);
+        world.breakBlock(pos, false);
+        world.removeBlockEntity(new BlockPos(pos.getX(), second, pos.getZ()));
+        world.breakBlock(new BlockPos(pos.getX(), second, pos.getZ()), false);
+      }
       return true;
     }
     return false;

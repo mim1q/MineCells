@@ -41,7 +41,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ElevatorEntity extends Entity {
 
@@ -330,12 +329,8 @@ public class ElevatorEntity extends Entity {
     return false;
   }
 
-  public static boolean validateShaft(World world, int x, int z, int minY, int maxY, boolean rotated, boolean placed) {
-    Box box = new Box(x - 2.0D, minY - 1.0D, z - 2.0D, x + 3.0D, maxY + 1.0D, x + 3.0D);
-    List<ElevatorEntity> elevators = world.getEntitiesByClass(ElevatorEntity.class, box, Objects::nonNull);
-    if (elevators.size() > (placed ? 1 : 0)) {
-      return false;
-    }
+  public static boolean validateShaft(World world, int x, int z, int minY, int maxY, boolean rotated) {
+    // Box box = new Box(x - 2.0D, minY - 1.0D, z - 2.0D, x + 3.0D, maxY + 1.0D, x + 3.0D);
 
     final Vec3i[] offsets = {
       new Vec3i(-1, 0, -1),
@@ -369,7 +364,7 @@ public class ElevatorEntity extends Entity {
           if (!(state.getBlock() == Blocks.CHAIN) || state.get(ChainBlock.AXIS) != Direction.Axis.Y) {
             return false;
           }
-        } else if (!state.getCollisionShape(world, pos).isEmpty()) {
+        } else if (!state.isAir()) {
           return false;
         }
       }
@@ -380,7 +375,7 @@ public class ElevatorEntity extends Entity {
 
   public boolean startMoving(boolean isGoingUp, boolean fromRedstone) {
     if ((!this.isMoving() || fromRedstone)
-      && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated(), true)) {
+      && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated())) {
       if (!this.world.isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
         this.setGoingUp(isGoingUp);
         if (!this.isMoving() && this.stoppedTicks > 5) {
