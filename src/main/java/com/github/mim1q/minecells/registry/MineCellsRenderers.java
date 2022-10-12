@@ -15,6 +15,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Grena
 import com.github.mim1q.minecells.client.render.nonliving.CellEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.ElevatorEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -22,6 +23,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -112,6 +114,11 @@ public class MineCellsRenderers {
 
     EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
+
+    DimensionEffectsAccessor.getIdentifierMap().put(
+      MineCells.createId("foggy"),
+      new FoggyDimensionEffects()
+    );
   }
 
   public static void initBlocks() {

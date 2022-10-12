@@ -1,0 +1,25 @@
+{
+  "type": "minecells:prison",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "minecells:prison",
+      "lakes": false,
+      "features": false,
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:stone",
+          "height": 366
+        },
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        }
+      ]
+    }
+  }
+}

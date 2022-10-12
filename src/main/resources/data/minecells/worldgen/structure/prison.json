@@ -1,8 +1,7 @@
 {
   "type": "minecells:big_dungeon",
   "biomes": [
-    "minecells:promenade",
-    "minecells:putrid_waters"
+    "minecells:prison"
   ],
   "start_pool": "minecells:prison/spawn",
   "size": 30,

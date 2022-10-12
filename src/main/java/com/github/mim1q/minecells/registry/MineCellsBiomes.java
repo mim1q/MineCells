@@ -16,10 +16,36 @@ import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 public class MineCellsBiomes {
   public static final RegistryKey<Biome> PROMENADE_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("promenade"));
   public static final RegistryKey<Biome> PUTRID_WATERS_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("putrid_waters"));
+  public static final RegistryKey<Biome> PRISON_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("prison"));
 
   public static void init() {
     Registry.register(BuiltinRegistries.BIOME, PROMENADE_KEY.getValue(), createPromenade());
     Registry.register(BuiltinRegistries.BIOME, PUTRID_WATERS_KEY.getValue(), createPutridWaters());
+    Registry.register(BuiltinRegistries.BIOME, PRISON_KEY.getValue(), createPrison());
+  }
+
+  private static Biome createPrison() {
+    SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 100, 1, 3))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.UNDEAD_ARCHER, 100, 1, 3))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.SHIELDBEARER, 75, 1, 2));
+
+    GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
+
+    return new Biome.Builder()
+      .precipitation(Biome.Precipitation.NONE)
+      .downfall(0.5F)
+      .temperature(0.5F)
+      .effects(new BiomeEffects.Builder()
+        .waterColor(0x3f76e4)
+        .waterFogColor(0x050533)
+        .fogColor(0xc0d8ff)
+        .skyColor(0x80a0ff)
+        .build())
+      .spawnSettings(spawnSettings.build())
+      .generationSettings(generationSettings.build())
+      .build();
   }
 
   private static Biome createPromenade() {
