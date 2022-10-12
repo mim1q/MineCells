@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.StructureWorldAccess;
@@ -56,13 +57,19 @@ public class BigDungeonStructure extends Structure {
 
   private static boolean extraSpawnConditions(Structure.Context context) {
     ChunkPos chunkPos = context.chunkPos();
-    boolean inGrid = chunkPos.x % 7 == 0 && chunkPos.z % 7 == 0;
+
+    boolean inGrid = MathHelper.abs(chunkPos.x) % 8 == 0 && MathHelper.abs(chunkPos.z) % 8 == 0;
+
     if (!inGrid) {
       return false;
     }
-    ChunkPos closestCenter = new ChunkPos(chunkPos.x / 255 * 255, chunkPos.z / 255 * 255);
-    int distanceFromCenter = Math.max(Math.abs(chunkPos.x - closestCenter.x), Math.abs(chunkPos.z - closestCenter.z));
-    return distanceFromCenter <= 24;
+    int x = chunkPos.getCenterX();
+    int z = chunkPos.getCenterZ();
+    int nearestX = Math.round(x / 4096.0F) * 4096;
+    int nearestZ = Math.round(z / 4096.0F) * 4096;
+    int distance = Math.max(Math.abs(nearestX - x), Math.abs(nearestZ - z));
+
+    return distance <= 1024;
   }
 
   @Override

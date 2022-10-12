@@ -5,7 +5,7 @@
   ],
   "start_pool": "minecells:prison/spawn",
   "size": 30,
-  "max_distance_from_center": 56,
+  "max_distance_from_center": 64,
   "step": "strongholds",
   "y": 30,
   "spawn_overrides": {}
