@@ -1,12 +1,12 @@
 {
   "name": "minecells:prison/straight_corridor",
-  "fallback": "minecells:prison/wall",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/corridor",
+        "location": "minecells:prison/corridor_straight",
         "projection": "rigid",
         "processors": "minecraft:empty"
       }
@@ -21,10 +21,10 @@
       }
     },
     {
-      "weight": 2,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/corridor_x",
+        "location": "minecells:prison/corridor_straight_x",
         "projection": "rigid",
         "processors": "minecraft:empty"
       }
