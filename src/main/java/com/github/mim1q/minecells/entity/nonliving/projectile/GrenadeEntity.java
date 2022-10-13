@@ -17,8 +17,9 @@ import net.minecraft.world.World;
 public class GrenadeEntity extends ProjectileEntity {
   private Vec3d shootVector;
   private boolean shouldResetVelocity = false;
-
   private static final TrackedData<Integer> FUSE = DataTracker.registerData(GrenadeEntity.class, TrackedDataHandlerRegistry.INTEGER);
+  protected float damage = 10.0F;
+  protected float radius = 6.0F;
 
   public GrenadeEntity(EntityType<? extends GrenadeEntity> type, World world) {
     super(type, world);
@@ -56,7 +57,7 @@ public class GrenadeEntity extends ProjectileEntity {
     }
     if (!this.world.isClient) {
       if (fuse <= 0) {
-        this.explode(3.0F);
+        this.explode();
         this.discard();
       }
       this.addVelocity(0.0D, -0.04D, 0.0D);
@@ -64,9 +65,14 @@ public class GrenadeEntity extends ProjectileEntity {
     this.move(MovementType.SELF, this.getVelocity());
   }
 
-  public void explode(float power) {
-    MineCellsExplosion.explode((ServerWorld) this.world, (LivingEntity) this.getOwner(), this.getPos(), power);
-    //this.world.createExplosion(this, new GrenadeDamageSource(), null, this.getX(), this.getY(), this.getZ(), power, false, Explosion.DestructionType.NONE);
+  public void explode() {
+    MineCellsExplosion.explode(
+      (ServerWorld) this.world,
+      (LivingEntity) this.getOwner(),
+      this.getPos(),
+      this.damage,
+      this.radius
+    );
   }
 
   public int getFuse() {

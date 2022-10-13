@@ -16,8 +16,8 @@ public class BigGrenadeEntity extends GrenadeEntity {
   }
 
   @Override
-  public void explode(float power) {
-    super.explode(3.0F);
+  public void explode() {
+    super.explode();
     for (int i = 0; i < 3; i++) {
       Vec3d velocity = new Vec3d(this.random.nextDouble() - 0.5D, this.random.nextDouble(), this.random.nextDouble() - 0.5D).multiply(0.7D);
 

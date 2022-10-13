@@ -91,16 +91,16 @@ public class KamikazeEntity extends MineCellsEntity {
   protected void serverTick() {
     int fuse = this.getFuse();
     if (fuse == 0 && this.isAlive()) {
-      this.explode(4.0F);
+      this.explode();
       this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.KAMIKAZE_DEATH, SoundCategory.HOSTILE, 1.0F, 1.0F);
       this.discard();
     }
     this.setFuse(fuse - 1);
   }
 
-  public void explode(float power) {
+  public void explode() {
     if (!this.world.isClient()) {
-      MineCellsExplosion.explode((ServerWorld) this.world, this, this.getPos(), power);
+      MineCellsExplosion.explode((ServerWorld) this.world, this, this.getPos(), 20.0F, 6.0F);
     }
   }
 

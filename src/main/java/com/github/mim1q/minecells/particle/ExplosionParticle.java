@@ -10,14 +10,14 @@ import net.minecraft.util.math.MathHelper;
 
 public class ExplosionParticle extends SpriteBillboardParticle {
 
-  float targetRadius;
-  float currentRadius;
+  private final float targetRadius;
+  private float currentRadius;
 
-  protected ExplosionParticle(ClientWorld clientWorld, double x, double y, double z, float r) {
+  protected ExplosionParticle(ClientWorld clientWorld, double x, double y, double z) {
     super(clientWorld, x, y, z, 0.0D, 0.0D, 0.0D);
     this.setVelocity(0.0D, 0.0D, 0.0D);
     this.setMaxAge(5);
-    this.targetRadius = r;
+    this.targetRadius = 2.0F;
     this.currentRadius = 0.0F;
   }
 
@@ -51,7 +51,7 @@ public class ExplosionParticle extends SpriteBillboardParticle {
     }
 
     public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-      ExplosionParticle explosionParticle = new ExplosionParticle(clientWorld, d, e, f, (float) g);
+      ExplosionParticle explosionParticle = new ExplosionParticle(clientWorld, d, e, f);
       explosionParticle.setSprite(this.spriteProvider);
       return explosionParticle;
     }
