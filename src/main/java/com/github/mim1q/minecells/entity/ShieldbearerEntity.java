@@ -80,7 +80,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
     if (pos != null) {
       Vec3d diff = pos.subtract(this.getPos());
       float angle = (float) MathHelper.atan2(diff.z, diff.x) * MathHelper.DEGREES_PER_RADIAN + 90.0F;
-      if (MathHelper.angleBetween(this.bodyYaw, angle) > 120.0F) {
+      if (MathHelper.angleBetween(this.bodyYaw, angle) > 110.0F) {
         this.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 1.0F, 1.0F);
         return true;
       }
