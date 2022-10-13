@@ -24,12 +24,13 @@ public class GroundDecoration extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return shape.getShape();
+    return this.shape.getShape();
   }
 
   public enum Shape {
     PILE(VoxelShapes.cuboid(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D)),
-    BLOCK_12(VoxelShapes.cuboid(0.125D, 0.0D, 0.125D, 0.875D, 0.75D, 0.875D));
+    BLOCK_12(VoxelShapes.cuboid(0.125D, 0.0D, 0.125D, 0.875D, 0.75D, 0.875D)),
+    BARREL(Block.createCuboidShape(1.5D, 0.0D, 1.5D, 14.5D, 18.0D, 14.5D));
     private final VoxelShape shape;
 
     Shape(VoxelShape shape) {

@@ -64,6 +64,10 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);
     generator.registerAxisRotated(MineCellsBlocks.CRATE, TexturedModel.CUBE_COLUMN);
     generator.registerStateWithModelReference(MineCellsBlocks.BIOME_BANNER, Blocks.WHITE_WOOL);
+    generator.registerParentedItemModel(
+      MineCellsBlocks.BRITTLE_BARREL,
+      ModelIds.getBlockModelId(MineCellsBlocks.BRITTLE_BARREL)
+    );
 
     // Fluids
     generator.registerStateWithModelReference(MineCellsBlocks.SEWAGE, Blocks.WATER);

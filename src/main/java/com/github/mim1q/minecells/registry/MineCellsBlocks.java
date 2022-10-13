@@ -110,6 +110,11 @@ public class MineCellsBlocks {
     "small_crate"
   );
 
+  public static final Block BRITTLE_BARREL = registerBlockWithItem(
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS), GroundDecoration.Shape.BARREL),
+    "brittle_barrel"
+  );
+
   public static final Block CAGE = registerBlockWithItem(
     new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false),
     "cage"
