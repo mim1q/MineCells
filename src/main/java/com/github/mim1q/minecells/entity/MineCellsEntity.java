@@ -5,6 +5,8 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -14,6 +16,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
@@ -62,7 +65,9 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-    return this.world.getBlockState(this.getBlockPos().down()).isSolidBlock(this.world, this.getBlockPos());
+    BlockState blockBelow = world.getBlockState(this.getBlockPos().down());
+    return blockBelow.isSideSolidFullSquare(world, this.getBlockPos().down(), Direction.UP)
+      && blockBelow.getBlock() != Blocks.BEDROCK;
   }
 
   @Override
