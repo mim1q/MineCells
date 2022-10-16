@@ -13,9 +13,23 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 public class MineCellsFeatureConfigs {
   public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 10, 5);
-  public static final JigsawFeatureConfig PRISON_CEILING_DECORATION_CONFIG = new JigsawFeatureConfig(
-    MineCells.createId("prison/corridor_decoration"),
-    MineCells.createId("decoration")
+
+  public static final JigsawFeatureConfig CEILING_CAGES_CONFIG = new JigsawFeatureConfig(
+    MineCells.createId("ceiling_decoration/cages"),
+    MineCells.createId("decoration"),
+    true
+  );
+
+  public static final JigsawFeatureConfig CEILING_CHAINS_CONFIG = new JigsawFeatureConfig(
+    MineCells.createId("ceiling_decoration/chains"),
+    MineCells.createId("decoration"),
+    true
+  );
+
+  public static final JigsawFeatureConfig CEILING_BIG_CHAINS_CONFIG = new JigsawFeatureConfig(
+    MineCells.createId("ceiling_decoration/big_chains"),
+    MineCells.createId("decoration"),
+    true
   );
 
   private static TreeFeatureConfig simpleTree(Block trunk, Block leaves, int height, int heightRandom) {

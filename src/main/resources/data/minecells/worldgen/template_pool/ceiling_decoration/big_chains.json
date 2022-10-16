@@ -1,22 +1,13 @@
 {
-  "name": "minecells:prison/straight_corridor",
+  "name": "minecells:ceiling_decoration/big_chains",
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
+      "weight": 2,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/corridor_straight",
         "projection": "rigid",
-        "processors": "minecraft:empty"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/corridor_cells",
-        "projection": "rigid",
+        "location": "minecells:ceiling_decoration/big_chain",
         "processors": "minecraft:empty"
       }
     },
@@ -24,8 +15,17 @@
       "weight": 2,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/corridor_straight_x",
         "projection": "rigid",
+        "location": "minecells:ceiling_decoration/big_chain1",
+        "processors": "minecraft:empty"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "minecells:ceiling_decoration/big_chain2",
         "processors": "minecraft:empty"
       }
     }

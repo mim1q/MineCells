@@ -26,30 +26,38 @@ public class JigsawFeature extends Feature<JigsawFeature.JigsawFeatureConfig> {
     if (entry == null) {
       return false;
     }
-    try {
-      entry.value().getRandomElement(context.getRandom()).generate(
-        context.getWorld().toServerWorld().getStructureTemplateManager(),
-        context.getWorld(),
-        context.getWorld().toServerWorld().getStructureAccessor(),
-        context.getGenerator(),
-        context.getOrigin(),
-        context.getOrigin(),
-        BlockRotation.random(context.getRandom()),
-        BlockBox.create(context.getOrigin().add(-5, -5, -5), context.getOrigin().add(5, 5, 5)),
-        context.getRandom(),
-        false
-      );
-    } catch (Exception e) {
-      e.printStackTrace();
-      return false;
-    }
+    var templateManager = context.getWorld().toServerWorld().getStructureTemplateManager();
+    var element = entry.value().getRandomElement(context.getRandom());
+    var start = element.getStart(templateManager, BlockRotation.NONE);
+    var pos = context.getConfig().ceiling
+      ? context.getOrigin().add(0, -start.getY(), 0)
+      : context.getOrigin();
+
+    element.generate(
+      templateManager,
+      context.getWorld(),
+      context.getWorld().toServerWorld().getStructureAccessor(),
+      context.getGenerator(),
+      pos,
+      context.getOrigin(),
+      BlockRotation.random(context.getRandom()),
+      BlockBox.create(context.getOrigin().add(-5, -5, -5), context.getOrigin().add(5, 5, 5)),
+      context.getRandom(),
+      false
+    );
+
     return true;
   }
 
-  public record JigsawFeatureConfig(Identifier templatePool, Identifier start) implements FeatureConfig {
+  public record JigsawFeatureConfig(
+    Identifier templatePool,
+    Identifier start,
+    boolean ceiling
+  ) implements FeatureConfig {
       public static final Codec<JigsawFeatureConfig> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
         Identifier.CODEC.fieldOf("template_pool").forGetter((config) -> config.templatePool),
-        Identifier.CODEC.fieldOf("start").forGetter((config) -> config.start)
+        Identifier.CODEC.fieldOf("start").forGetter((config) -> config.start),
+        Codec.BOOL.fieldOf("ceiling").forGetter((config) -> config.ceiling)
       ).apply(instance, JigsawFeatureConfig::new));
   }
 }
