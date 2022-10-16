@@ -11,10 +11,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
-import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.PlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
+import net.minecraft.world.gen.placementmodifier.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +26,22 @@ public class MineCellsPlacedFeatures {
     BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
   );
 
+  public static final RegistryEntry<PlacedFeature> PRISON_CEILING_DECORATION = createPlacedFeature(
+    MineCells.createId("prison_ceiling_decoration"),
+    MineCellsConfiguredFeatures.PRISON_CEILING_DECORATION,
+    CountPlacementModifier.of(188),
+    SquarePlacementModifier.of(),
+    PlacedFeatures.BOTTOM_TO_120_RANGE,
+    EnvironmentScanPlacementModifier.of(
+      Direction.UP,
+      BlockPredicate.hasSturdyFace(Direction.DOWN),
+      BlockPredicate.IS_AIR,
+      16
+    )
+  );
+
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
     List<PlacementModifier> list = new ArrayList<>(List.of(placementModifiers));
-    list.add(BiomePlacementModifier.of());
     return createPlacedFeature(id, feature, list);
   }
 

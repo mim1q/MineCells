@@ -31,7 +31,8 @@ public class MineCellsBiomes {
       .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.UNDEAD_ARCHER, 75, 1, 3))
       .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1));
 
-    GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
+    GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
+      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.PRISON_CEILING_DECORATION);
 
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.NONE)

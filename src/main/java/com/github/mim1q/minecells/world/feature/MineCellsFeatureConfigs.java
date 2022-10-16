@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.world.feature;
 
+import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.world.feature.JigsawFeature.JigsawFeatureConfig;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeTreeTrunkPlacer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -11,6 +13,10 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 public class MineCellsFeatureConfigs {
   public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 10, 5);
+  public static final JigsawFeatureConfig PRISON_CEILING_DECORATION_CONFIG = new JigsawFeatureConfig(
+    MineCells.createId("prison/corridor_decoration"),
+    MineCells.createId("decoration")
+  );
 
   private static TreeFeatureConfig simpleTree(Block trunk, Block leaves, int height, int heightRandom) {
     return new TreeFeatureConfig.Builder(
