@@ -32,7 +32,7 @@ public class MineCellsBiomes {
       .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1));
 
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
-      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.PUTRID_LEAVES_PATCH)
+      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.WILTED_LEAVES)
       .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.CEILING_CAGES)
       .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.CEILING_CHAINS)
       .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.CEILING_BIG_CHAINS);

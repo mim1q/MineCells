@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.feature.JigsawFeature.JigsawFeatureConfig;
+import com.github.mim1q.minecells.world.feature.WallPlantsFeature.WallPlantsFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.RegistryEntry;
@@ -37,11 +38,11 @@ public class MineCellsConfiguredFeatures {
     )
   );
 
-  public static final RegistryEntry<ConfiguredFeature<VegetationPatchFeatureConfig, ?>> PUTRID_LEAVES_PATCH = createConfiguredFeature(
-    MineCells.createId("putrid_leaves_patch"),
+  public static final RegistryEntry<ConfiguredFeature<WallPlantsFeatureConfig, ?>> WILTED_LEAVES = createConfiguredFeature(
+    MineCells.createId("wilted_leaves"),
     new ConfiguredFeature<>(
-      Feature.VEGETATION_PATCH,
-      MineCellsFeatureConfigs.PUTRID_LEAVES_PATCH_CONFIG
+      MineCellsFeatures.WALL_PLANTS_FEATURE,
+      MineCellsFeatureConfigs.WILTED_LEAVES_CONFIG
     )
   );
 

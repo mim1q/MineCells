@@ -44,9 +44,9 @@ public class MineCellsPlacedFeatures {
     64
   );
 
-  public static final RegistryEntry<PlacedFeature> PUTRID_LEAVES_PATCH = createPlacedFeature(
-    MineCells.createId("putrid_leaves_patch"),
-    MineCellsConfiguredFeatures.PUTRID_LEAVES_PATCH,
+  public static final RegistryEntry<PlacedFeature> WILTED_LEAVES = createPlacedFeature(
+    MineCells.createId("wilted_leaves"),
+    MineCellsConfiguredFeatures.WILTED_LEAVES,
     CountPlacementModifier.of(32),
     SquarePlacementModifier.of(),
     PlacedFeatures.BOTTOM_TO_TOP_RANGE
