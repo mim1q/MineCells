@@ -44,6 +44,14 @@ public class MineCellsPlacedFeatures {
     64
   );
 
+  public static final RegistryEntry<PlacedFeature> PUTRID_LEAVES_PATCH = createPlacedFeature(
+    MineCells.createId("putrid_leaves_patch"),
+    MineCellsConfiguredFeatures.PUTRID_LEAVES_PATCH,
+    CountPlacementModifier.of(32),
+    SquarePlacementModifier.of(),
+    PlacedFeatures.BOTTOM_TO_TOP_RANGE
+  );
+
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createCeilingFeature(
     String name,
     RegistryEntry<ConfiguredFeature<FC, ?>> feature,

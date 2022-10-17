@@ -5,10 +5,7 @@ import com.github.mim1q.minecells.world.feature.JigsawFeature.JigsawFeatureConfi
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.feature.*;
 
 public class MineCellsConfiguredFeatures {
   public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> PROMENADE_TREE = createConfiguredFeature(
@@ -37,6 +34,14 @@ public class MineCellsConfiguredFeatures {
     new ConfiguredFeature<>(
       MineCellsFeatures.JIGSAW_FEATURE,
       MineCellsFeatureConfigs.CEILING_BIG_CHAINS_CONFIG
+    )
+  );
+
+  public static final RegistryEntry<ConfiguredFeature<VegetationPatchFeatureConfig, ?>> PUTRID_LEAVES_PATCH = createConfiguredFeature(
+    MineCells.createId("putrid_leaves_patch"),
+    new ConfiguredFeature<>(
+      Feature.VEGETATION_PATCH,
+      MineCellsFeatureConfigs.PUTRID_LEAVES_PATCH_CONFIG
     )
   );
 
