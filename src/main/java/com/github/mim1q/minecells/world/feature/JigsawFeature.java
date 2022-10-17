@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
@@ -18,7 +17,6 @@ public class JigsawFeature extends Feature<JigsawFeature.JigsawFeatureConfig> {
   }
 
   public boolean generate(FeatureContext<JigsawFeatureConfig> context) {
-    context.getWorld().setBlockState(context.getOrigin().withY(20), Blocks.AIR.getDefaultState(), 2);
     var templatePool = context.getConfig().templatePool;
     var registry = context.getWorld().getRegistryManager().get(Registry.STRUCTURE_POOL_KEY);
     var key = RegistryKey.of(Registry.STRUCTURE_POOL_KEY, templatePool);
