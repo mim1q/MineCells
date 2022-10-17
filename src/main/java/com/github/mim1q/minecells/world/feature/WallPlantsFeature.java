@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.block.WallLeavesBlock;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.random.Random;
@@ -17,6 +18,7 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class WallPlantsFeature extends Feature<WallPlantsFeature.WallPlantsFeatureConfig> {
 
@@ -42,14 +44,33 @@ public class WallPlantsFeature extends Feature<WallPlantsFeature.WallPlantsFeatu
         continue;
       }
       BlockState state = world.getBlockState(newPos);
-      if (state.isFullCube(world, newPos) && state.isSideSolidFullSquare(world, newPos, direction.getOpposite())) {
+      if (state.isIn(BlockTags.MOSS_REPLACEABLE) && state.isSideSolidFullSquare(world, newPos, direction.getOpposite())) {
         return direction.getOpposite();
       }
     }
     return null;
   }
 
-  public boolean generateAtPosition(WorldAccess world, BlockPos pos, BlockStateProvider stateProvider, Random rng) {
+  public static void placePlant(WorldAccess world, BlockPos pos, BlockStateProvider provider, Random rng, Direction dir) {
+    var state = provider.getBlockState(rng, pos).with(WallLeavesBlock.DIRECTION, dir);
+    world.setBlockState(pos, state, 2);
+  }
+
+  public static void placeLeaf(WorldAccess world, BlockPos pos, BlockStateProvider provider, Random rng, Direction dir) {
+    var offsetPos = pos.add(dir.getOpposite().getVector());
+    var state = provider.getBlockState(rng, offsetPos);
+    world.setBlockState(offsetPos, state, 2);
+  }
+
+  public static boolean generateAtPosition(
+    WorldAccess world,
+    BlockPos pos,
+    BlockStateProvider plantStateProvider,
+    BlockStateProvider leafStateProvider,
+    Random rng,
+    boolean spawnPlant,
+    boolean spawnLeaf
+  ) {
     if (!world.getBlockState(pos).isAir()) {
       return false;
     }
@@ -58,34 +79,56 @@ public class WallPlantsFeature extends Feature<WallPlantsFeature.WallPlantsFeatu
       return false;
     }
 
-    var state = stateProvider.getBlockState(rng, pos).with(WallLeavesBlock.DIRECTION, direction);
-    world.setBlockState(pos, state, 2);
+    if (spawnPlant) {
+      placePlant(world, pos, plantStateProvider, rng, direction);
+    }
+    if (spawnLeaf && leafStateProvider != null) {
+      placeLeaf(world, pos, leafStateProvider, rng, direction);
+    }
+
     return true;
   }
 
   @Override
   public boolean generate(FeatureContext<WallPlantsFeatureConfig> context) {
     var origin = context.getOrigin();
-    var radius = context.getConfig().radius.get(context.getRandom());
+    var rng = context.getRandom();
+    var radius = context.getConfig().radius.get(rng);
     var positions = getPositions(origin, radius);
     boolean generated = false;
     for (BlockPos pos : positions) {
       if (!pos.isWithinDistance(origin, radius)) {
         continue;
       }
-      boolean blockPlaced = generateAtPosition(context.getWorld(), pos, context.getConfig().plant, context.getRandom());
+      boolean placePlant = rng.nextFloat() <= context.getConfig().chance;
+      boolean placeLeaf = placePlant && rng.nextFloat() <= context.getConfig().chance;
+      boolean blockPlaced = generateAtPosition(
+        context.getWorld(),
+        pos,
+        context.getConfig().plantStateProvider,
+        context.getConfig().leafStateProvider.orElse(null),
+        rng,
+        placePlant,
+        placeLeaf
+      );
       generated = generated || blockPlaced;
     }
     return generated;
   }
 
   public record WallPlantsFeatureConfig(
-    BlockStateProvider plant,
-    IntProvider radius
-  ) implements FeatureConfig {
+    BlockStateProvider plantStateProvider,
+    Optional<BlockStateProvider> leafStateProvider,
+    IntProvider radius,
+    float chance,
+    float leafChance
+    ) implements FeatureConfig {
     public static final Codec<WallPlantsFeatureConfig> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-      BlockStateProvider.TYPE_CODEC.fieldOf("plant").forGetter((config) -> config.plant),
-      IntProvider.POSITIVE_CODEC.fieldOf("radius").forGetter((config) -> config.radius)
+      BlockStateProvider.TYPE_CODEC.fieldOf("plant_state_provider").forGetter((config) -> config.plantStateProvider),
+      BlockStateProvider.TYPE_CODEC.optionalFieldOf("leaf_state_provider").forGetter((config) -> config.leafStateProvider),
+      IntProvider.POSITIVE_CODEC.fieldOf("radius").forGetter((config) -> config.radius),
+      Codec.FLOAT.fieldOf("chance").forGetter((config) -> config.chance),
+      Codec.FLOAT.fieldOf("leafChance").forGetter((config) -> config.leafChance)
     ).apply(instance, WallPlantsFeatureConfig::new));
   }
 }

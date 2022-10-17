@@ -7,12 +7,15 @@ import com.github.mim1q.minecells.world.feature.WallPlantsFeature.WallPlantsFeat
 import com.github.mim1q.minecells.world.feature.tree.PromenadeTreeTrunkPlacer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+
+import java.util.Optional;
 
 public class MineCellsFeatureConfigs {
   public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 10, 5);
@@ -37,7 +40,12 @@ public class MineCellsFeatureConfigs {
 
   public static final WallPlantsFeatureConfig WILTED_LEAVES_CONFIG = new WallPlantsFeatureConfig(
     BlockStateProvider.of(MineCellsBlocks.WALL_WILTED_LEAVES.getDefaultState()),
-    UniformIntProvider.create(2, 4)
+    Optional.of(
+      BlockStateProvider.of(MineCellsBlocks.WILTED_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true))
+    ),
+    UniformIntProvider.create(2, 4),
+    0.66f,
+    0.1f
   );
 
   private static TreeFeatureConfig simpleTree(Block trunk, Block leaves, int height, int heightRandom) {
