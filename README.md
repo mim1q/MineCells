@@ -1,47 +1,64 @@
-![Mine Cells Logo](https://github.com/mim1q/MineCells/blob/main/project/logo_big.png?raw=true)
-![Early development](https://github.com/mim1q/MineCells/blob/main/project/early.png?raw=true)
+![Mine Cells by Mim1q](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/header.jpg)
 
 <center>
 
-[![Requires Fabric API](https://github.com/mim1q/MineCells/blob/main/project/fabricapi.png?raw=true)
-](https://modrinth.com/mod/fabric-api)
-[![Buy Dead Cells](https://github.com/mim1q/MineCells/blob/main/project/deadcells.png?raw=true)
-](https://store.steampowered.com/app/588650/Dead_Cells/)
-[![Support me on Ko-fi](https://github.com/mim1q/MineCells/blob/main/project/kofi.png?raw=true)
-](https://ko-fi.com/mim1q)
+[![Requires Fabric API](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/fabric-api.png)](https://modrinth.com/mod/fabric-api)
+[![Support me on Ko-Fi](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/ko-fi.png)](https://ko-fi.com/mim1q)
+[![Join my Discord](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/discord.png)](#)
+[![Buy Dead Cells](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/dead-cells.png)](https://store.steampowered.com/app/588650/Dead_Cells/)
+
 </center>
 
-The goal of this mod is to bring content from Dead Cells into Minecraft in a faithful, yet fitting way.
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
 
-* ~~Explore a vast dimension along with its many biomes and dungeons~~
-* Fight unique mobs ~~and bosses~~
-* Discover new weapons and equipment
-* Make use of new mechanics and features
-* If you like this mod, be sure to support Dead Cells developers and try their game out! ❤
+![Overview](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/overview.png)
 
-![Enemies render](https://github.com/mim1q/MineCells/blob/main/project/render.png?raw=true)
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
 
-I recommend playing this mod with:
-* [Sodium](https://modrinth.com/mod/sodium) + [Iris](https://modrinth.com/mod/iris) for shader support.
-* [Disable Custom Worlds Advice](https://www.curseforge.com/minecraft/mc-mods/fabric-disable-custom-worlds-advice)
+## Starting out
 
-Some shaderpacks that work well with Mine Cells:
-* ★★★★★ [BSL Shaders](https://www.curseforge.com/minecraft/customization/bsl-shaders)
-* ★★★★ [Complementary Shaders](https://www.curseforge.com/minecraft/customization/complementary-shaders) (with and without Compatibility Mode)
-* ★★★★ [Sora Shaders](https://www.curseforge.com/minecraft/customization/sora-shaders)
+### To start your adventure with Mine Cells, find a portal structure.
 
-You can use this mod in your modpacks, just be sure to credit me as the author.
-Do not redistribute this mod by itself on other sites.
+![Mine Cells Portal](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/portal.jpg)
 
-## Disclaimer
+~~The portal will activate for you automatically if you've already acquired diamonds in the world.~~  
+(To be implemented soon)
 
-*Dead Cells* content and materials are the intellectual property of their respective owners.
+For now, you have to find a dungeon structure with Mine Cells mobs spawning. There, you will find a chest with an empty rune.  
+You can fill it up by right clicking with it in your main hand. It will consume the cells you have collected from killing mobs.  
+After fully charging the rune, use it on a portal frame to activate the portal.
 
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+
+## Mobs
+Mine Cells features **new monsters** which attempt to faithfully recreate the look and feel of the original game.
+
+Keep in mind - some of these are **not yet available in survival mode**. You can summon all of them using creative spawn eggs.
+
+![Mine Cells Mobs](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/mobs.jpg)
+
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+
+![Questions and Answers](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/qna.png)
+
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+
+### Q: Can I use this mod in my modpack?
+**A**: Yes, but please include a link to this mod page and credit me as the author. Asking for permission beforehand is also appreciated!
+
+### Q: Can I present this mod in my showcase video?
+**A**: Yes! But you should ask me about it before creating the video, as there may be some interesting updates right around the corner.
+
+### Q: Forge / backport?
+**A**: A Forge version of this mod is not planned. Backporting to older versions of Minecraft is also not planned, for now.
+
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+
+![Disclaimer](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/disclaimer.png)
+
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+
+### Dead Cells content and materials are the intellectual property of their respective owners.
 I am not in affiliated with the developers in any way. This is just a passion project I made to connect two of my favorite games.
 
-## Links
-
-* [Download on Modrinth](https://modrinth.com/mod/minecells)
-* [Download on CurseForge](https://www.curseforge.com/minecraft/mc-mods/minecells)
-* [View on GitHub](https://github.com/mim1q/MineCells)
-* [Support me on Ko-fi](https://ko-fi.com/mim1q)
+![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
