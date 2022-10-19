@@ -33,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   public static final DirectionProperty DIRECTION = HorizontalFacingBlock.FACING;
-  public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
+  public static final BooleanProperty LIT = BooleanProperty.of("lit");
 
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);

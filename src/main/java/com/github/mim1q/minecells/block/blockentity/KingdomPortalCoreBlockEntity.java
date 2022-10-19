@@ -10,12 +10,17 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,6 +80,15 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     }
     if (!world.isClient()) {
       if (!state.get(KingdomPortalCoreBlock.LIT)) {
+        List<ServerPlayerEntity> list = world.getEntitiesByClass(ServerPlayerEntity.class, blockEntity.getBox().expand(7.5D), Objects::nonNull);
+        for (ServerPlayerEntity player : list) {
+          if (player.getAdvancementTracker().getProgress(
+            player.getServer().getAdvancementLoader().get(new Identifier("minecraft:story/mine_diamond"))
+          ).isDone()) {
+            world.setBlockState(pos, state.with(KingdomPortalCoreBlock.LIT, true));
+            return;
+          }
+        }
         return;
       }
       List<PlayerEntity> list = world.getEntitiesByClass(PlayerEntity.class, blockEntity.getBox(), Objects::nonNull);
@@ -139,6 +153,17 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (boundPos != null) {
       nbt.putIntArray("boundPos", new int[]{boundPos.getX(), boundPos.getY(), boundPos.getZ()});
     }
+  }
+
+  @Override
+  public NbtCompound toInitialChunkDataNbt() {
+    return createNbt();
+  }
+
+  @Nullable
+  @Override
+  public Packet<ClientPlayPacketListener> toUpdatePacket() {
+    return BlockEntityUpdateS2CPacket.create(this);
   }
 
   private static void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {
