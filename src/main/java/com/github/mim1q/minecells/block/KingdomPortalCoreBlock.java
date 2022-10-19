@@ -3,24 +3,18 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import com.github.mim1q.minecells.registry.MineCellsItems;
-import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -38,25 +32,6 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);
     this.setDefaultState(this.stateManager.getDefaultState().with(DIRECTION, Direction.NORTH).with(LIT, false));
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    BlockEntity blockEntity = world.getBlockEntity(pos);
-    if (blockEntity == null) {
-      return ActionResult.FAIL;
-    }
-    if (state.get(LIT)) {
-      return ActionResult.FAIL;
-    }
-    if (player.getStackInHand(hand).getItem() == MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE) {
-      player.getStackInHand(hand).decrement(1);
-      world.setBlockState(pos, state.with(LIT, true));
-      world.playSound(null, pos, MineCellsSounds.PORTAL_ACTIVATE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-      return ActionResult.CONSUME;
-    }
-    return ActionResult.FAIL;
   }
 
   @Override
@@ -145,7 +120,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
     );
 
     public Filler(Settings settings) {
-      super(settings, MineCellsBlocks.KINGDOM_PORTAL_CORE, true);
+      super(settings, MineCellsBlocks.KINGDOM_PORTAL_CORE, false);
     }
 
     @Override
