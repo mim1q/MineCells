@@ -65,7 +65,6 @@ public class MineCellsItemGroups {
       stacks.add(MineCellsItems.BIOME_BANNER.getOf(BiomeBannerBlock.BannerPattern.PROMENADE));
       stacks.add(MineCellsItems.SEWAGE_BUCKET.getDefaultStack());
       stacks.add(MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack());
-      stacks.add(MineCellsItems.CHARGED_INTERDIMENSIONAL_RUNE.getDefaultStack());
       stacks.add(MineCellsItems.ELEVATOR_MECHANISM.getDefaultStack());
     })
     .build();

@@ -51,6 +51,7 @@ public class CommonConfig implements Config {
 
   public static class Entities {
     @Comment(" default: 1.0, min: 0.0, max: 10.0")
-    public float cellDropChanceModifier = 1.0F;
+    public float cellDropChanceModifier = 0.0F;
+    // Disable cells dropping for now, as they don't have any use yet
   }
 }
