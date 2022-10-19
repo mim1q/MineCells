@@ -4,6 +4,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vec3i;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -41,6 +42,27 @@ public class MathUtils {
 
   public static float radians(float degrees) {
     return degrees * RADIANS_PER_DEGREE;
+  }
+
+  // Thank you, GolamMazid Sajib!
+  // https://stackoverflow.com/a/61231766
+  public static Vec3i getSpiralPosition(int i) {
+    int k = (int) Math.ceil((Math.sqrt(i) - 1) / 2);
+    int t = 2 * k + 1;
+    int m = t * t;
+    t -= 1;
+    if (i >= m - t) {
+      return new Vec3i(k - (m - i), 0, -k);
+    }
+    m -= t;
+    if (i >= m - t) {
+      return new Vec3i(-k, 0, -k + (m - i));
+    }
+    m -= t;
+    if (i >= m - t) {
+      return new Vec3i(-k + (m - i), 0, k);
+    }
+    return new Vec3i(k, 0, k - (m - i - t));
   }
 
   public static class PosRotScale {
