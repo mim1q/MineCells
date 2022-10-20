@@ -65,6 +65,33 @@ public class MathUtils {
     return new Vec3i(k, 0, k - (m - i - t));
   }
 
+  // Thank you, MBo!
+  // https://stackoverflow.com/a/9971465/20281585
+  public static int getSpiralIndex(int x, int z) {
+    if (z * z >= x * x) {
+      int p = 4 * z * z - z - x;
+      if (z < x) {
+        return p - 2 * (z - x);
+      }
+      return p;
+    }
+    int p = 4 * x * x - z - x;
+    if (z < x) {
+      return p + 2 * (z - x);
+    }
+    return p;
+  }
+
+  public static Vec3i getClosestMultiplePosition(Vec3i pos, int multiple) {
+    int x = pos.getX();
+    int z = pos.getZ();
+
+    x = x + multiple / 2 - x % multiple;
+    z = z + multiple / 2 - z % multiple;
+
+    return new Vec3i(x, 0, z);
+  }
+
   public static class PosRotScale {
     private final Vec3f pos;
     private final Vec3f rot;
