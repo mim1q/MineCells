@@ -1,18 +1,16 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
-import com.github.mim1q.minecells.dimension.KingdomDimensionUtils;
+import com.github.mim1q.minecells.dimension.MineCellsPortal;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,7 +18,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +30,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
 
-  private BlockPos boundPos = null;
+  private int id = 5;
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
@@ -65,7 +62,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public Vec3d calculateWidthVector() {
-    return Vec3d.of(getDirection().rotateYClockwise().getVector());
+    return Vec3d.of(getDirection().rotateYCounterclockwise().getVector());
   }
 
   public Box calculateBox() {
@@ -75,106 +72,86 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
-    if (world.getTime() % 20 == 1) {
-      blockEntity.update(state);
+    blockEntity.tick(world, pos, state);
+  }
+
+  public void tick(World world, BlockPos pos, BlockState state) {
+    this.update(this.getCachedState());
+    if (world.isClient()) {
+      tickClient();
+    } else {
+      tickServer();
     }
-    if (!world.isClient()) {
-      if (!state.get(KingdomPortalCoreBlock.LIT)) {
-        List<ServerPlayerEntity> list = world.getEntitiesByClass(ServerPlayerEntity.class, blockEntity.getBox().expand(7.5D), Objects::nonNull);
-        for (ServerPlayerEntity player : list) {
-          if (player.getAdvancementTracker().getProgress(
-            player.getServer().getAdvancementLoader().get(new Identifier("minecraft:story/mine_diamond"))
-          ).isDone()) {
-            world.setBlockState(pos, state.with(KingdomPortalCoreBlock.LIT, true));
-            return;
-          }
-        }
+  }
+
+  protected void tickClient() {
+    this.litProgress.update(this.world.getTime());
+    if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
+      this.litProgress.setupTransitionTo(1.0F, 25.0F);
+    } else {
+      this.litProgress.setupTransitionTo(0.0F, 0.1F);
+    }
+  }
+
+  protected void tickServer() {
+    if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
+      teleportPlayer();
+    } else {
+      activatePortal();
+    }
+  }
+
+  private void activatePortal() {
+    Vec3d offset = this.getWidthVector();
+    Box box = this.getBox().expand(offset.getX() * 15.0D, 0.0D, offset.getZ() * 15.0D);
+
+    List<ServerPlayerEntity> players = Objects.requireNonNull(this.getWorld())
+      .getNonSpectatingEntities(ServerPlayerEntity.class, box);
+
+    World world = Objects.requireNonNull(this.getWorld());
+    var advancementLoader = Objects.requireNonNull(world.getServer()).getAdvancementLoader();
+
+    for (ServerPlayerEntity player : players) {
+      if (player.getAdvancementTracker().getProgress(
+        advancementLoader.get(new Identifier("minecraft:story/mine_diamond"))
+      ).isDone()) {
+        world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
         return;
       }
-      List<PlayerEntity> list = world.getEntitiesByClass(PlayerEntity.class, blockEntity.getBox(), Objects::nonNull);
-      ServerWorld serverWorld = (ServerWorld) world;
-      for (PlayerEntity player : list) {
-        KingdomDimensionUtils.teleportPlayer((ServerPlayerEntity) player, serverWorld, blockEntity);
-      }
-    } else {
-      ClientWorld clientWorld = (ClientWorld) world;
-      blockEntity.litProgress.update(world.getTime());
-      if (state.get(KingdomPortalCoreBlock.LIT)) {
-        blockEntity.litProgress.setupTransitionTo(1.0F, 25);
-      } else {
-        blockEntity.litProgress.setupTransitionTo(0.0F, 1);
-      }
-      float progress = blockEntity.litProgress.getProgress();
-      float value = blockEntity.litProgress.getValue();
-      if (progress < 1.0F) {
-        blockEntity.spawnParticleCircle(
-          clientWorld,
-          Vec3d.of(pos).add(blockEntity.getOffset()),
-          1.25F,
-          progress
-        );
-      }
-      if (value >= 0.9F && value < 1.0F) {
-        spawnParticleSphere(
-          clientWorld,
-          Vec3d.of(pos).add(blockEntity.getOffset()),
-          1.75D
-        );
-        spawnParticleSphere(
-          clientWorld,
-          Vec3d.of(pos).add(blockEntity.getOffset()),
-          1.0D
-        );
-      }
     }
   }
 
-  public void setBoundPos(BlockPos pos) {
-    boundPos = pos;
-    markDirty();
-  }
-
-  public BlockPos getBoundPos() {
-    return boundPos;
+  private void teleportPlayer() {
+    PlayerEntity player = this.getWorld().getClosestPlayer(
+      TargetPredicate.createNonAttackable(),
+      this.getPos().getX(),
+      this.getPos().getY(),
+      this.getPos().getZ()
+    );
+    if (player == null) {
+      return;
+    }
+    if (this.box.contains(player.getPos())) {
+      MineCellsPortal.teleportPlayerFromOverworld(
+        (ServerPlayerEntity) player,
+        (ServerWorld) this.world,
+        this
+      );
+    }
   }
 
   @Override
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
-    int[] boundPosArray = nbt.getIntArray("boundPos");
-    if (boundPosArray.length == 3) {
-      boundPos = new BlockPos(boundPosArray[0], boundPosArray[1], boundPosArray[2]);
-    }
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
     super.writeNbt(nbt);
-    if (boundPos != null) {
-      nbt.putIntArray("boundPos", new int[]{boundPos.getX(), boundPos.getY(), boundPos.getZ()});
-    }
-  }
-
-  @Override
-  public NbtCompound toInitialChunkDataNbt() {
-    return createNbt();
-  }
-
-  @Nullable
-  @Override
-  public Packet<ClientPlayPacketListener> toUpdatePacket() {
-    return BlockEntityUpdateS2CPacket.create(this);
   }
 
   private static void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {
-    ParticleUtils.addAura(
-      world,
-      pos,
-      PARTICLE,
-      10,
-      radius,
-      1.0F
-    );
+    ParticleUtils.addAura(world, pos, PARTICLE, 10, radius, 1.0F);
   }
 
   public void spawnParticleCircle(ClientWorld world, Vec3d center, double radius, double circleFraction) {
@@ -184,6 +161,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     Vec3d width = getWidthVector();
     ParticleUtils.addParticle(world, PARTICLE, center.add(xz * width.x, y, xz * width.z), Vec3d.ZERO);
   }
+
   public Direction getDirection() {
     return direction;
   }
@@ -198,5 +176,9 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
   public Box getBox() {
     return box;
+  }
+
+  public int getId() {
+    return id;
   }
 }
