@@ -102,11 +102,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   private void activatePortal() {
-    Vec3d offset = this.getWidthVector();
-    Box box = this.getBox().expand(offset.getX() * 15.0D, 0.0D, offset.getZ() * 15.0D);
+    Vec3d offset = Vec3d.of(this.direction.getVector());
+    Box newBox = this.getBox().expand(offset.getX() * 8.0D, 0.0D, offset.getZ() * 8.0D);
 
     List<ServerPlayerEntity> players = Objects.requireNonNull(this.getWorld())
-      .getNonSpectatingEntities(ServerPlayerEntity.class, box);
+      .getNonSpectatingEntities(ServerPlayerEntity.class, newBox);
 
     World world = Objects.requireNonNull(this.getWorld());
     var advancementLoader = Objects.requireNonNull(world.getServer()).getAdvancementLoader();
