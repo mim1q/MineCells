@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
+import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.dimension.MineCellsPortal;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -169,11 +170,19 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       return;
     }
     if (this.box.contains(player.getPos())) {
-      MineCellsPortal.teleportPlayerFromOverworld(
-        (ServerPlayerEntity) player,
-        (ServerWorld) this.world,
-        this
-      );
+      if (MineCellsDimensions.isDimension(this.world, MineCellsDimensions.OVERWORLD)) {
+        MineCellsPortal.teleportPlayerFromOverworld(
+          (ServerPlayerEntity) player,
+          (ServerWorld) this.world,
+          this
+        );
+      } else {
+        MineCellsPortal.teleportPlayerToOverworld(
+          (ServerPlayerEntity) player,
+          (ServerWorld) this.world,
+          this
+        );
+      }
     }
   }
 
@@ -221,7 +230,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     return box;
   }
 
-  public int getPortalId() {
+  public Integer getPortalId() {
     return portalId;
   }
 }

@@ -87,8 +87,8 @@ public class MathUtils {
     int x = pos.getX();
     int z = pos.getZ();
 
-    x = x + multiple / 2 - x % multiple;
-    z = z + multiple / 2 - z % multiple;
+    x = Math.round(x / (float) multiple) * multiple;
+    z = Math.round(z / (float) multiple) * multiple;
 
     return new Vec3i(x, 0, z);
   }
