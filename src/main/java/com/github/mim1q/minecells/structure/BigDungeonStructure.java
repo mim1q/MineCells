@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.structure;
 
 import com.github.mim1q.minecells.structure.generator.BigDungeonPoolBasedGenerator;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.structure.StructurePiecesList;
@@ -25,7 +26,8 @@ public class BigDungeonStructure extends Structure {
     instance
       .group(
         BigDungeonStructure.configCodecBuilder(instance),
-        StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter((structure) -> structure.startPool),
+        StructurePool.REGISTRY_CODEC.fieldOf("primary_start_pool").forGetter((structure) -> structure.primaryStartPool),
+        StructurePool.REGISTRY_CODEC.fieldOf("secondary_start_pool").forGetter((structure) -> structure.secondaryStartPool),
         Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter((structure) -> structure.startJigsawName),
         Codec.intRange(0, 100).fieldOf("size").forGetter((structure) -> structure.size),
         Codec.intRange(-64, 320).fieldOf("y").forGetter((structure) -> structure.y),
@@ -33,7 +35,8 @@ public class BigDungeonStructure extends Structure {
       )
       .apply(instance, BigDungeonStructure::new)).codec();
 
-  private final RegistryEntry<StructurePool> startPool;
+  private final RegistryEntry<StructurePool> primaryStartPool;
+  private final RegistryEntry<StructurePool> secondaryStartPool;
   private final Optional<Identifier> startJigsawName;
   private final int size;
   private final int y;
@@ -41,14 +44,16 @@ public class BigDungeonStructure extends Structure {
 
   protected BigDungeonStructure(
     Config config,
-    RegistryEntry<StructurePool> startPool,
+    RegistryEntry<StructurePool> primaryStartPool,
+    RegistryEntry<StructurePool> secondaryStartPool,
     Optional<Identifier> startJigsawName,
     int size,
     int y,
     int maxDistanceFromCenter
   ) {
     super(config);
-    this.startPool = startPool;
+    this.primaryStartPool = primaryStartPool;
+    this.secondaryStartPool = secondaryStartPool;
     this.startJigsawName = startJigsawName;
     this.size = size;
     this.y = y;
@@ -80,10 +85,11 @@ public class BigDungeonStructure extends Structure {
 
     ChunkPos chunkPos = context.chunkPos();
     BlockPos pos = chunkPos.getStartPos().withY(this.y);
+    boolean primary = pos.isWithinDistance(MathUtils.getClosestMultiplePosition(pos, 4096), 32);
 
     return BigDungeonPoolBasedGenerator.generate(
       context,
-      this.startPool,
+      primary ? this.primaryStartPool : this.secondaryStartPool,
       this.startJigsawName,
       this.size,
       pos,

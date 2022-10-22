@@ -3,7 +3,8 @@
   "biomes": [
     "minecells:prison"
   ],
-  "start_pool": "minecells:prison/spawn",
+  "primary_start_pool": "minecells:prison/spawn",
+  "secondary_start_pool": "minecells:prison/spawn_secondary",
   "size": 30,
   "max_distance_from_center": 64,
   "step": "strongholds",
