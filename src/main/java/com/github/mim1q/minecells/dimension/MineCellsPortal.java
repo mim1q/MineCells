@@ -22,7 +22,7 @@ public class MineCellsPortal {
     if (prisonDimension == null) {
       return;
     }
-    int id = portal.getId();
+    int id = portal.getPortalId();
     BlockPos searchPos = new BlockPos(MathUtils.getSpiralPosition(id).multiply(4096)).withY(32);
     BlockPos portalPos = searchNearestPortalPos(prisonDimension, searchPos);
     if (portalPos == null) {

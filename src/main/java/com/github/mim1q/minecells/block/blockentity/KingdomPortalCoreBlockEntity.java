@@ -30,7 +30,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
 
-  private int id = 5;
+  private int portalId = 5;
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
@@ -76,7 +76,9 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void tick(World world, BlockPos pos, BlockState state) {
-    this.update(this.getCachedState());
+    if (Objects.requireNonNull(this.world).getTime() % 20L == 0L) {
+      this.update(state);
+    }
     if (world.isClient()) {
       tickClient();
     } else {
@@ -85,11 +87,30 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   protected void tickClient() {
-    this.litProgress.update(this.world.getTime());
+    this.litProgress.update(Objects.requireNonNull(this.world).getTime());
     if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
       this.litProgress.setupTransitionTo(1.0F, 25.0F);
     } else {
       this.litProgress.setupTransitionTo(0.0F, 0.1F);
+    }
+    this.spawnParticles(this.litProgress.getProgress());
+  }
+
+  protected void spawnParticles(float progress) {
+    if (progress > 0.0F && progress < 0.85F) {
+      this.spawnParticleCircle(
+        (ClientWorld) this.world,
+        Vec3d.of(this.getPos()).add(this.getOffset()),
+        1.25D,
+        progress
+      );
+    }
+    if (progress > 0.8F && progress < 1.0F) {
+      this.spawnParticleSphere(
+        (ClientWorld) this.world,
+        Vec3d.of(this.getPos()).add(this.getOffset()),
+        1.5D
+      );
     }
   }
 
@@ -122,7 +143,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   private void teleportPlayer() {
-    PlayerEntity player = this.getWorld().getClosestPlayer(
+    PlayerEntity player = Objects.requireNonNull(this.getWorld()).getClosestPlayer(
       TargetPredicate.createNonAttackable(),
       this.getPos().getX(),
       this.getPos().getY(),
@@ -143,14 +164,16 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   @Override
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
+    this.portalId = nbt.getInt("portalId");
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
     super.writeNbt(nbt);
+    nbt.putInt("portalId", this.portalId);
   }
 
-  private static void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {
+  private void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {
     ParticleUtils.addAura(world, pos, PARTICLE, 10, radius, 1.0F);
   }
 
@@ -178,7 +201,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     return box;
   }
 
-  public int getId() {
-    return id;
+  public int getPortalId() {
+    return portalId;
   }
 }
