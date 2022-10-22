@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.dimension;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsPointOfInterestTypes;
@@ -9,8 +10,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.poi.PointOfInterestStorage;
 
@@ -32,8 +31,8 @@ public class MineCellsPortal {
     if (portalPos == null) {
       return;
     }
-    Vec3d teleportPos = offsetPortalPos(prisonDimension, portalPos, portal);
-    player.teleport(prisonDimension, teleportPos.x, teleportPos.y, teleportPos.z, player.getYaw(), player.getPitch());
+    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
+    player.teleport(prisonDimension, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
   }
 
   public static void teleportPlayerToOverworld(
@@ -49,14 +48,13 @@ public class MineCellsPortal {
     int x = closest4096Multiple.getX() / 4096;
     int z = closest4096Multiple.getZ() / 4096;
     int portalId = MathUtils.getSpiralIndex(x, z);
-    System.out.println("closest4096Multiple: " + closest4096Multiple + " portalId: " + portalId);
     var portalPos = Objects.requireNonNull(overworld.getPersistentStateManager().get(
       OverworldPortals::new,
       "minecells:overworld_portals"
     )).getPortalPos(portalId);
 
-    Vec3d teleportPos = offsetPortalPos(overworld, portalPos, portal);
-    player.teleport(overworld, teleportPos.x, teleportPos.y, teleportPos.z, player.getYaw(), player.getPitch());
+    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
+    player.teleport(overworld, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
   }
 
   private static BlockPos searchNearestPortalPos(ServerWorld prisonDimension, BlockPos searchPos) {
@@ -75,13 +73,5 @@ public class MineCellsPortal {
       return null;
     }
     return portalPos.get();
-  }
-
-  private static Vec3d offsetPortalPos(ServerWorld world, BlockPos portalPos, KingdomPortalCoreBlockEntity portal) {
-    Direction dir = portal.getDirection();
-    portal.update(portal.getCachedState());
-    return Vec3d.of(portalPos)
-      .add(portal.getOffset())
-      .add(Vec3d.of(dir.getVector()));
   }
 }

@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block.blockentity;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
 import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.dimension.MineCellsPortal;
@@ -27,10 +28,10 @@ import java.util.Objects;
 public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
   private static final ParticleEffect PARTICLE = new DustParticleEffect(new Vec3f(1.0F, 0.5F, 0.0F), 1.0F);
-  private Vec3d offset = Vec3d.ZERO;
-  private Direction direction = Direction.NORTH;
-  private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
-  private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
+  private Vec3d offset = null;
+  private Direction direction = null;
+  private Vec3d widthVector = null;
+  private Box box = null;
 
   private Integer portalId = null;
 
@@ -57,10 +58,18 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void update(BlockState state) {
-    direction = state.get(KingdomPortalCoreBlock.DIRECTION);
-    offset = calculateOffset();
-    widthVector = calculateWidthVector();
-    box = calculateBox();
+    if (direction == null) {
+      direction = state.get(KingdomPortalCoreBlock.DIRECTION);
+    }
+    if (offset == null) {
+      offset = calculateOffset();
+    }
+    if (widthVector == null) {
+      widthVector = calculateWidthVector();
+    }
+    if (box == null) {
+      box = calculateBox();
+    }
   }
 
   public Vec3d calculateWidthVector() {
@@ -78,9 +87,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void tick(World world, BlockPos pos, BlockState state) {
-    if (world.getTime() % 20L == 0L) {
-      this.update(state);
-    }
+    this.update(state);
     if (world.isClient()) {
       tickClient();
     } else {
@@ -170,18 +177,24 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       return;
     }
     if (this.box.contains(player.getPos())) {
-      if (MineCellsDimensions.isDimension(this.world, MineCellsDimensions.OVERWORLD)) {
-        MineCellsPortal.teleportPlayerFromOverworld(
-          (ServerPlayerEntity) player,
-          (ServerWorld) this.world,
-          this
-        );
+      if (((PlayerEntityAccessor) player).canUseKingdomPortal()) {
+
+        if (MineCellsDimensions.isDimension(this.world, MineCellsDimensions.OVERWORLD)) {
+          MineCellsPortal.teleportPlayerFromOverworld(
+            (ServerPlayerEntity) player,
+            (ServerWorld) this.world,
+            this
+          );
+        } else {
+          MineCellsPortal.teleportPlayerToOverworld(
+            (ServerPlayerEntity) player,
+            (ServerWorld) this.world,
+            this
+          );
+        }
+
       } else {
-        MineCellsPortal.teleportPlayerToOverworld(
-          (ServerPlayerEntity) player,
-          (ServerWorld) this.world,
-          this
-        );
+        ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
       }
     }
   }
@@ -192,6 +205,10 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (nbt.contains("portalId")) {
       this.portalId = nbt.getInt("portalId");
     }
+    if (nbt.contains("direction")) {
+      this.direction = Direction.byId(nbt.getInt("direction"));
+    }
+    this.update(this.getCachedState());
   }
 
   @Override
@@ -199,6 +216,9 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     super.writeNbt(nbt);
     if (this.portalId != null) {
       nbt.putInt("portalId", this.portalId);
+    }
+    if (this.direction != null) {
+      nbt.putInt("direction", this.direction.getId());
     }
   }
 
