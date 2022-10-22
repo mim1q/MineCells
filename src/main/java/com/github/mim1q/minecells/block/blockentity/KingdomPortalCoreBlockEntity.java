@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.dimension.MineCellsPortal;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import com.github.mim1q.minecells.world.state.OverworldPortals;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -30,7 +31,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Vec3d widthVector = new Vec3d(1.0D, 0.0D, 0.0D);
   private Box box = Box.of(Vec3d.of(this.pos), 1.0D, 1.0D, 1.0D);
 
-  private int portalId = 5;
+  private Integer portalId = null;
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
@@ -76,7 +77,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void tick(World world, BlockPos pos, BlockState state) {
-    if (Objects.requireNonNull(this.world).getTime() % 20L == 0L) {
+    if (world.getTime() % 20L == 0L) {
       this.update(state);
     }
     if (world.isClient()) {
@@ -118,27 +119,42 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
       teleportPlayer();
     } else {
-      activatePortal();
+      activatePortal((ServerWorld) Objects.requireNonNull(this.world));
     }
   }
 
-  private void activatePortal() {
+  private void activatePortal(ServerWorld world) {
     Vec3d offset = Vec3d.of(this.direction.getVector());
     Box newBox = this.getBox().expand(offset.getX() * 8.0D, 0.0D, offset.getZ() * 8.0D);
 
-    List<ServerPlayerEntity> players = Objects.requireNonNull(this.getWorld())
+    List<ServerPlayerEntity> players = world
       .getNonSpectatingEntities(ServerPlayerEntity.class, newBox);
 
-    World world = Objects.requireNonNull(this.getWorld());
-    var advancementLoader = Objects.requireNonNull(world.getServer()).getAdvancementLoader();
+    var advancementLoader = world.getServer().getAdvancementLoader();
 
+    boolean canActivate = false;
     for (ServerPlayerEntity player : players) {
       if (player.getAdvancementTracker().getProgress(
         advancementLoader.get(new Identifier("minecraft:story/mine_diamond"))
       ).isDone()) {
-        world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
+        canActivate = true;
+        break;
+      }
+    }
+    if (!canActivate) {
+      return;
+    }
+    if (this.portalId == null) {
+      var state = world.getPersistentStateManager().get(
+        OverworldPortals::new,
+        "minecells:overworld_portals"
+      );
+      if (state == null) {
+        world.getPersistentStateManager().set("minecells:overworld_portals", new OverworldPortals());
         return;
       }
+      world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
+      this.portalId = state.addPortal(this.pos);
     }
   }
 
@@ -164,13 +180,17 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   @Override
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
-    this.portalId = nbt.getInt("portalId");
+    if (nbt.contains("portalId")) {
+      this.portalId = nbt.getInt("portalId");
+    }
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
     super.writeNbt(nbt);
-    nbt.putInt("portalId", this.portalId);
+    if (this.portalId != null) {
+      nbt.putInt("portalId", this.portalId);
+    }
   }
 
   private void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {

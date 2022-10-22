@@ -47,6 +47,7 @@ public class MathUtils {
   // Thank you, GolamMazid Sajib!
   // https://stackoverflow.com/a/61231766
   public static Vec3i getSpiralPosition(int i) {
+    i += 1;
     int k = (int) Math.ceil((Math.sqrt(i) - 1) / 2);
     int t = 2 * k + 1;
     int m = t * t;

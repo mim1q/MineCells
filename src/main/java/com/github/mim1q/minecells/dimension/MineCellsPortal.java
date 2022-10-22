@@ -28,7 +28,7 @@ public class MineCellsPortal {
     if (portalPos == null) {
       return;
     }
-    Vec3d teleportPos = offsetPortalPos(portalPos, portal);
+    Vec3d teleportPos = offsetPortalPos(prisonDimension, portalPos, portal);
     player.teleport(prisonDimension, teleportPos.x, teleportPos.y, teleportPos.z, player.getYaw(), player.getPitch());
   }
 
@@ -50,8 +50,9 @@ public class MineCellsPortal {
     return portalPos.get();
   }
 
-  private static Vec3d offsetPortalPos(BlockPos portalPos, KingdomPortalCoreBlockEntity portal) {
+  private static Vec3d offsetPortalPos(ServerWorld world, BlockPos portalPos, KingdomPortalCoreBlockEntity portal) {
     Direction dir = portal.getDirection();
+    portal.update(world.getBlockState(portalPos));
     return Vec3d.of(portalPos)
       .add(portal.getOffset())
       .add(Vec3d.of(dir.getVector()));
