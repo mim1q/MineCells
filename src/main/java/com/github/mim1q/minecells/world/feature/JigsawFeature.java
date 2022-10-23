@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.feature.Feature;
@@ -27,9 +28,7 @@ public class JigsawFeature extends Feature<JigsawFeature.JigsawFeatureConfig> {
     var templateManager = context.getWorld().toServerWorld().getStructureTemplateManager();
     var element = entry.value().getRandomElement(context.getRandom());
     var start = element.getStart(templateManager, BlockRotation.NONE);
-    var pos = context.getConfig().ceiling
-      ? context.getOrigin().add(0, -start.getY(), 0)
-      : context.getOrigin();
+    var pos = context.getOrigin().add(this.getOffset(start));
 
     element.generate(
       templateManager,
@@ -47,15 +46,17 @@ public class JigsawFeature extends Feature<JigsawFeature.JigsawFeatureConfig> {
     return true;
   }
 
+  public Vec3i getOffset(Vec3i start) {
+    return Vec3i.ZERO;
+  }
+
   public record JigsawFeatureConfig(
     Identifier templatePool,
-    Identifier start,
-    boolean ceiling
+    Identifier start
   ) implements FeatureConfig {
       public static final Codec<JigsawFeatureConfig> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
         Identifier.CODEC.fieldOf("template_pool").forGetter((config) -> config.templatePool),
-        Identifier.CODEC.fieldOf("start").forGetter((config) -> config.start),
-        Codec.BOOL.fieldOf("ceiling").forGetter((config) -> config.ceiling)
+        Identifier.CODEC.fieldOf("start").forGetter((config) -> config.start)
       ).apply(instance, JigsawFeatureConfig::new));
   }
 }

@@ -22,20 +22,17 @@ public class MineCellsFeatureConfigs {
 
   public static final JigsawFeatureConfig CEILING_CAGES_CONFIG = new JigsawFeatureConfig(
     MineCells.createId("ceiling_decoration/cages"),
-    MineCells.createId("decoration"),
-    true
+    MineCells.createId("decoration")
   );
 
   public static final JigsawFeatureConfig CEILING_CHAINS_CONFIG = new JigsawFeatureConfig(
     MineCells.createId("ceiling_decoration/chains"),
-    MineCells.createId("decoration"),
-    true
+    MineCells.createId("decoration")
   );
 
   public static final JigsawFeatureConfig CEILING_BIG_CHAINS_CONFIG = new JigsawFeatureConfig(
     MineCells.createId("ceiling_decoration/big_chains"),
-    MineCells.createId("decoration"),
-    true
+    MineCells.createId("decoration")
   );
 
   public static final WallPlantsFeatureConfig WILTED_LEAVES_CONFIG = new WallPlantsFeatureConfig(

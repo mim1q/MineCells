@@ -17,7 +17,7 @@ public class MineCellsConfiguredFeatures {
   public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> CEILING_CAGES = createConfiguredFeature(
     MineCells.createId("ceiling_cages"),
     new ConfiguredFeature<>(
-      MineCellsFeatures.JIGSAW_FEATURE,
+      MineCellsFeatures.CEILING_JIGSAW_FEATURE,
       MineCellsFeatureConfigs.CEILING_CAGES_CONFIG
     )
   );
@@ -25,7 +25,7 @@ public class MineCellsConfiguredFeatures {
   public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> CEILING_CHAINS = createConfiguredFeature(
     MineCells.createId("ceiling_chains"),
     new ConfiguredFeature<>(
-      MineCellsFeatures.JIGSAW_FEATURE,
+      MineCellsFeatures.CEILING_JIGSAW_FEATURE,
       MineCellsFeatureConfigs.CEILING_CHAINS_CONFIG
     )
   );
@@ -33,7 +33,7 @@ public class MineCellsConfiguredFeatures {
   public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> CEILING_BIG_CHAINS = createConfiguredFeature(
     MineCells.createId("ceiling_big_chains"),
     new ConfiguredFeature<>(
-      MineCellsFeatures.JIGSAW_FEATURE,
+      MineCellsFeatures.CEILING_JIGSAW_FEATURE,
       MineCellsFeatureConfigs.CEILING_BIG_CHAINS_CONFIG
     )
   );
