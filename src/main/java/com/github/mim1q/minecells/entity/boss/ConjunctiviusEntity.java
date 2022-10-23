@@ -180,7 +180,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .chargeSound(MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE)
       .releaseSound(MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE)
       .soundVolume(2.0F)
-      .speed(0.75F)
+      .speed(0.67F)
       .damage(20.0F)
       .defaultCooldown(400)
       .actionTick(30)

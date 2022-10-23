@@ -364,7 +364,7 @@ public class ElevatorEntity extends Entity {
           if (!(state.getBlock() == Blocks.CHAIN) || state.get(ChainBlock.AXIS) != Direction.Axis.Y) {
             return false;
           }
-        } else if (!state.isAir()) {
+        } else if (state.isSolidBlock(world, offsetPos)) {
           return false;
         }
       }

@@ -31,7 +31,7 @@ public class MonsterBoxBlock extends SetupBlock {
   @Override
   public boolean setup(World world, BlockPos pos, BlockState state) {
     world.removeBlock(pos, false);
-    if (world.getRandom().nextFloat() <= chance) {
+    if (world.getRandom().nextFloat() > chance) {
       return true;
     }
     EntityType<?> entityType = chooseRandomEntry(world.getRandom()).entityType;
