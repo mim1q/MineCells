@@ -33,7 +33,6 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   protected void initGoals() {
     this.goalSelector.add(10, new LookAroundGoal(this));
-    this.goalSelector.add(9, new WanderAroundFarGoal(this, 1.0D));
     this.goalSelector.add(8, new WanderAroundGoal(this, 1.0D));
 
     this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
