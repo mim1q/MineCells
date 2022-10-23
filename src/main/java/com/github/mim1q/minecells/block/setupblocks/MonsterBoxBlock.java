@@ -16,19 +16,24 @@ import java.util.List;
 public class MonsterBoxBlock extends SetupBlock {
 
   private final List<Entry> entries = new ArrayList<>();
+  private final float chance;
 
-  public MonsterBoxBlock(Entry ...entries) {
+  public MonsterBoxBlock(float chance, Entry ...entries) {
     super(Settings.of(Material.STONE));
     this.entries.addAll(List.of(entries));
+    this.chance = chance;
   }
 
   public MonsterBoxBlock(EntityType<?> entityType) {
-    this(new Entry(entityType, 1));
+    this(1.0F, new Entry(entityType, 1));
   }
 
   @Override
   public boolean setup(World world, BlockPos pos, BlockState state) {
     world.removeBlock(pos, false);
+    if (world.getRandom().nextFloat() <= chance) {
+      return true;
+    }
     EntityType<?> entityType = chooseRandomEntry(world.getRandom()).entityType;
     HostileEntity e = (HostileEntity) entityType.create(world);
     if (e != null) {

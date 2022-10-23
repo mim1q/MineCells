@@ -148,6 +148,7 @@ public class MineCellsBlocks {
 
   public static final Block PRISON_BOX = registerBlock(
     new MonsterBoxBlock(
+      0.5f,
       new MonsterBoxBlock.Entry(MineCellsEntities.LEAPING_ZOMBIE, 4),
       new MonsterBoxBlock.Entry(MineCellsEntities.UNDEAD_ARCHER, 2),
       new MonsterBoxBlock.Entry(MineCellsEntities.GRENADIER, 1),
