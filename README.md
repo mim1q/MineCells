@@ -19,12 +19,7 @@
 
 ![Mine Cells Portal](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/portal.jpg)
 
-~~The portal will activate for you automatically if you've already acquired diamonds in the world.~~  
-(To be implemented soon)
-
-For now, you have to find a dungeon structure with Mine Cells mobs spawning. There, you will find a chest with an empty rune.  
-You can fill it up by right clicking with it in your main hand. It will consume the cells you have collected from killing mobs.  
-After fully charging the rune, use it on a portal frame to activate the portal.
+The portal will activate for you automatically if you've already acquired diamonds in the world.
 
 ![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
 
@@ -32,7 +27,7 @@ After fully charging the rune, use it on a portal frame to activate the portal.
 
 Mine Cells features **new monsters** which attempt to faithfully recreate the look and feel of the original game.
 
-Keep in mind - some of these are **not yet available in survival mode**. You can summon all of them using creative spawn eggs.
+Keep in mind - most of these are **not yet available in survival mode**. You can summon all of them using creative spawn eggs.
 
 ![Mine Cells Mobs](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/mobs.jpg)
 
@@ -45,6 +40,15 @@ Mine Cells adds many **new blocks**, some of which are craftable. Others are onl
 
 ![Mine Cells Blocks](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/blocks.jpg)
 
+## Bosses
+
+Mine Cells introduces one new boss - **The Conjunctivius**. You can find her lair in the Prison structure / dimension.
+
+![Conjunctivius](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/conjunctivius.jpg)
+
+She drops some Emeralds, Diamonds, Gold Ingots and a lot of XP.  
+Conjunctivius' drop will change to something more useful in the future. The location of her lair will also be changed.
+
 ![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
 
 ![Questions and Answers](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/qna.png)
@@ -55,12 +59,26 @@ Mine Cells adds many **new blocks**, some of which are craftable. Others are onl
 ### Q: Can I present this mod in my showcase video?
 **A**: Yes! But you should ask me about it before creating the video, as there may be some interesting updates right around the corner.
 
+### Q: Will you add X feature?
+**A**: If it's in the original Dead Cells game, it will probably get added at some point, in one way or 
+another. Feel free to [join my Discord](https://discord.gg/6TjQbSjbuB) and tell me which features you'd 
+like to see the most!
+
+### Q: Is this mod compatible with X mod?
+**A**: If you want me to test whether a mod is compatible with Mine Cells, let me know on [Discord](https://discord.gg/6TjQbSjbuB). 
+I'll check it out and update this page with the results.  
+I have plans to implement compatibility with Better Combat in the future.
+
 ### Q: Forge / backport?
 **A**: A Forge version of this mod is not planned. Backporting to older versions of Minecraft is also not planned, for now.
 
 ![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
 
 ![Disclaimer](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/disclaimer.png)
+
+### Mine Cells is in not yet in a finished state.
+It is playable in survival mode - and I hope it's fun to play! But do expect many features to be unbalanced,
+missing or outright broken. 
 
 ### Dead Cells content and materials are the intellectual property of their respective owners.
 I am not in affiliated with the developers in any way. This is just a passion project I made to connect two of my favorite games.
