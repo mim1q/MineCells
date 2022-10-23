@@ -180,7 +180,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .chargeSound(MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE)
       .releaseSound(MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE)
       .soundVolume(2.0F)
-      .speed(1.25F)
+      .speed(0.75F)
       .damage(20.0F)
       .defaultCooldown(400)
       .actionTick(30)
@@ -240,9 +240,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       // Handle bossbar visibility
       boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
       boolean playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size() > 0;
-      if (closestPlayerNearby && playersInArea) {
-        System.out.println("amogus");
-      }
       this.bossBar.setVisible(closestPlayerNearby && playersInArea);
 
       this.switchStages(this.getStage());
