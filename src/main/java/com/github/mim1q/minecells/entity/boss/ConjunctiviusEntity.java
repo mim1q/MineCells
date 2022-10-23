@@ -85,6 +85,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     if (this.roomBox == null) {
       this.roomBox = BlockBox.create(this.getBlockPos(), this.getBlockPos());
     }
+    this.experiencePoints = 5000;
   }
 
   @Nullable
