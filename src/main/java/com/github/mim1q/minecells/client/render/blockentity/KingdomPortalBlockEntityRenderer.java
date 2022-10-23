@@ -38,6 +38,9 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
 
     matrices.push();
     Direction dir = entity.getDirection();
+    if (dir == null) {
+      dir = Direction.NORTH;
+    }
     float rot = 180.0F - dir.asRotation();
 
     Vec3f offset = new Vec3f(entity.getOffset());
