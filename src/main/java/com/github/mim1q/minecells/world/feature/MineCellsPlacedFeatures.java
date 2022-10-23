@@ -65,7 +65,10 @@ public class MineCellsPlacedFeatures {
       PlacedFeatures.BOTTOM_TO_TOP_RANGE,
       EnvironmentScanPlacementModifier.of(
         Direction.UP,
-        BlockPredicate.hasSturdyFace(Direction.DOWN),
+        BlockPredicate.allOf(
+          BlockPredicate.hasSturdyFace(Direction.DOWN),
+          BlockPredicate.matchingBlockTag(BlockTags.MOSS_REPLACEABLE)
+        ),
         BlockPredicate.IS_AIR,
         16
       )
