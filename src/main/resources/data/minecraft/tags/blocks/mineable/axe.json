@@ -11,6 +11,7 @@
     "minecells:elevator_assembler",
     "minecells:crate",
     "minecells:small_crate",
+    "minecells:brittle_barrel",
     "minecells:biome_banner"
   ]
 }

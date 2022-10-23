@@ -93,7 +93,7 @@ public class MineCellsBlocks {
   );
 
   public static final Block CRATE = registerBlockWithItem(
-    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)),
     "crate"
   );
   public static final Block CHAIN_PILE_BLOCK = registerBlockWithItem(
@@ -106,12 +106,12 @@ public class MineCellsBlocks {
   );
 
   public static final Block SMALL_CRATE = registerBlockWithItem(
-    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS), GroundDecoration.Shape.BLOCK_12),
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BLOCK_12),
     "small_crate"
   );
 
   public static final Block BRITTLE_BARREL = registerBlockWithItem(
-    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS), GroundDecoration.Shape.BARREL),
+    new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BARREL),
     "brittle_barrel"
   );
 
