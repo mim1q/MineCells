@@ -79,7 +79,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   public Box calculateBox() {
     Vec3d pos = Vec3d.of(this.getPos()).add(offset);
     Vec3d size = widthVector;
-    return Box.of(pos, size.x * 1.5D, 1.5D, size.z * 1.5D).expand(0.5D);
+    return Box.of(pos, size.x * 1.5D, 1.5D, size.z * 1.5D).expand(0.2D);
   }
 
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
