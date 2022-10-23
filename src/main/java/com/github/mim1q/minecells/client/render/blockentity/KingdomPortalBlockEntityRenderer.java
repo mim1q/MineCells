@@ -35,12 +35,12 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     if (entity.getWorld().getBlockState(entity.getPos()).getBlock() != MineCellsBlocks.KINGDOM_PORTAL_CORE) {
       return;
     }
-
-    matrices.push();
     Direction dir = entity.getDirection();
     if (dir == null) {
-      dir = Direction.NORTH;
+      return;
     }
+
+    matrices.push();
     float rot = 180.0F - dir.asRotation();
 
     Vec3f offset = new Vec3f(entity.getOffset());

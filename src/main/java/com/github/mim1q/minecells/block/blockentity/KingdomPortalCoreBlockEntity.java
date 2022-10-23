@@ -79,7 +79,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   public Box calculateBox() {
     Vec3d pos = Vec3d.of(this.getPos()).add(offset);
     Vec3d size = widthVector;
-    return Box.of(pos, size.x * 1.8D, 2.5D, size.z * 1.8D).expand(0.25D);
+    return Box.of(pos, size.x * 1.5D, 1.5D, size.z * 1.5D).expand(0.5D);
   }
 
   public static void tick(World world, BlockPos pos, BlockState state, KingdomPortalCoreBlockEntity blockEntity) {
@@ -153,14 +153,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       return;
     }
     if (this.portalId == null) {
-      var state = world.getPersistentStateManager().get(
+      var state = world.getPersistentStateManager().getOrCreate(
+        OverworldPortals::new,
         OverworldPortals::new,
         "minecells:overworld_portals"
       );
-      if (state == null) {
-        world.getPersistentStateManager().set("minecells:overworld_portals", new OverworldPortals());
-        return;
-      }
       world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
       this.portalId = state.addPortal(this.pos);
     }
@@ -176,9 +173,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (player == null) {
       return;
     }
-    if (this.box.contains(player.getPos())) {
+    if (this.box.intersects(player.getBoundingBox())) {
       if (((PlayerEntityAccessor) player).canUseKingdomPortal()) {
-
         if (MineCellsDimensions.isDimension(this.world, MineCellsDimensions.OVERWORLD)) {
           MineCellsPortal.teleportPlayerFromOverworld(
             (ServerPlayerEntity) player,

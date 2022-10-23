@@ -2,11 +2,9 @@ package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsPointOfInterestTypes;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.world.state.OverworldPortals;
-import net.minecraft.block.BlockState;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -26,13 +24,10 @@ public class MineCellsPortal {
       return;
     }
     int id = portal.getPortalId();
-    BlockPos searchPos = new BlockPos(MathUtils.getSpiralPosition(id).multiply(4096)).withY(32);
-    BlockPos portalPos = searchNearestPortalPos(prisonDimension, searchPos);
-    if (portalPos == null) {
-      return;
-    }
-    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
+    BlockPos portalPos = new BlockPos(MathUtils.getSpiralPosition(id).multiply(4096)).withY(33).add(8, 0, 8);
+    prisonDimension.getChunk(portalPos);
     player.teleport(prisonDimension, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
+    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
   }
 
   public static void teleportPlayerToOverworld(
@@ -53,12 +48,11 @@ public class MineCellsPortal {
       "minecells:overworld_portals"
     )).getPortalPos(portalId);
 
-    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
     player.teleport(overworld, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
+    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
   }
 
   private static BlockPos searchNearestPortalPos(ServerWorld prisonDimension, BlockPos searchPos) {
-    prisonDimension.getChunk(searchPos);
     var portalPos = prisonDimension.getPointOfInterestStorage().getNearestPosition(
       type -> type.value() == MineCellsPointOfInterestTypes.KINGDOM_PORTAL,
       searchPos,
@@ -66,10 +60,6 @@ public class MineCellsPortal {
       PointOfInterestStorage.OccupationStatus.ANY
     );
     if (portalPos.isEmpty()) {
-      return null;
-    }
-    BlockState state = prisonDimension.getBlockState(portalPos.get());
-    if (!state.isOf(MineCellsBlocks.KINGDOM_PORTAL_CORE)) {
       return null;
     }
     return portalPos.get();
