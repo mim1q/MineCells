@@ -74,6 +74,10 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerStateWithModelReference(MineCellsBlocks.ANCIENT_SEWAGE, Blocks.WATER);
 
     // Other
+    generator.registerParentedItemModel(
+      MineCellsBlocks.SPIKES,
+      ModelIds.getBlockModelId(MineCellsBlocks.SPIKES)
+    );
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
     generator.registerStateWithModelReference(MineCellsBlocks.PRISON_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.AIR);
