@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -12,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class SpikesBlock extends Block {
@@ -40,7 +43,18 @@ public class SpikesBlock extends Block {
 
   @Override
   @SuppressWarnings("deprecation")
-  public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+  public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    entity.damage(DamageSource.CACTUS, 4);
+  }
+
+  @Override
+  public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+    return true;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     Direction dir = state.get(FACING);
     return switch (dir) {
       case DOWN -> SHAPE_TOP;
