@@ -1,0 +1,7 @@
+{
+  "parent": "minecells:block/spikes",
+  "textures": {
+    "particle": "minecells:block/spikes_bloody",
+    "spikes": "minecells:block/spikes_bloody"
+  }
+}

@@ -125,6 +125,11 @@ public class MineCellsBlocks {
     "broken_cage"
   );
 
+  public static final Block SPIKES = registerBlockWithItem(
+    new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)),
+    "spikes"
+  );
+
   public static final Block HANGED_SKELETON = registerBlock(
     new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK)),
     "hanged_skeleton"

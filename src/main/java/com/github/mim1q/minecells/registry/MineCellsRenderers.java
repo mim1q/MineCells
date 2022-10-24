@@ -139,6 +139,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.CHAIN_PILE,
       MineCellsBlocks.CAGE,
       MineCellsBlocks.BROKEN_CAGE,
+      MineCellsBlocks.SPIKES,
       MineCellsBlocks.HANGED_SKELETON,
       MineCellsBlocks.WILTED_LEAVES,
       MineCellsBlocks.HANGING_WILTED_LEAVES,

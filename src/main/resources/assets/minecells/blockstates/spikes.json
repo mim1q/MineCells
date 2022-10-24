@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "bloody=false,facing=up": {
+      "model": "minecells:block/spikes"
+    },
+    "bloody=false,facing=down": {
+      "model": "minecells:block/spikes",
+      "x": 180
+    },
+    "bloody=false,facing=north": {
+      "model": "minecells:block/spikes",
+      "x": 90,
+      "y": 180
+    },
+    "bloody=false,facing=south": {
+      "model": "minecells:block/spikes",
+      "x": 90
+    },
+    "bloody=false,facing=west": {
+      "model": "minecells:block/spikes",
+      "x": 90,
+      "y": 90
+    },
+    "bloody=false,facing=east": {
+      "model": "minecells:block/spikes",
+      "x": 90,
+      "y": 270
+    },
+    "bloody=true,facing=up": {
+      "model": "minecells:block/spikes_bloody"
+    },
+    "bloody=true,facing=down": {
+      "model": "minecells:block/spikes_bloody",
+      "x": 180
+    },
+    "bloody=true,facing=north": {
+      "model": "minecells:block/spikes_bloody",
+      "x": 90,
+      "y": 180
+    },
+    "bloody=true,facing=south": {
+      "model": "minecells:block/spikes_bloody",
+      "x": 90
+    },
+    "bloody=true,facing=west": {
+      "model": "minecells:block/spikes_bloody",
+      "x": 90,
+      "y": 90
+    },
+    "bloody=true,facing=east": {
+      "model": "minecells:block/spikes_bloody",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
