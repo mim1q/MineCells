@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public class SpikesBlock extends Block {
   private static final VoxelShape SHAPE_BOTTOM = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
   private static final VoxelShape SHAPE_TOP = Block.createCuboidShape(0, 14, 0, 16, 16, 16);
-  private static final VoxelShape SHAPE_NORTH = Block.createCuboidShape(0, 0, 0, 16, 16, 2);
+  private static final VoxelShape SHAPE_NORTH = Block.createCuboidShape(0, 0, 14, 16, 16, 16);
 
   public static final DirectionProperty FACING = DirectionProperty.of("facing");
   public static final BooleanProperty BLOODY = BooleanProperty.of("bloody");
@@ -45,6 +45,9 @@ public class SpikesBlock extends Block {
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     entity.damage(DamageSource.CACTUS, 4);
+    if (world.getRandom().nextFloat() < 0.01) {
+      world.setBlockState(pos, state.with(BLOODY, true));
+    }
   }
 
   @Override
