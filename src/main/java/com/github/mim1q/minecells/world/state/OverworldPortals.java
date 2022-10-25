@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.state;
 
 import com.github.mim1q.minecells.MineCells;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
 
@@ -22,6 +23,15 @@ public class OverworldPortals extends PersistentState {
     for (int i = 0; i < portalsCount; i++) {
       portals.add(BlockPos.fromLong(nbt.getLong("portal" + i)));
     }
+  }
+
+  public static OverworldPortals get(ServerWorld world) {
+    var overworld = world.getServer().getOverworld();
+    return overworld.getPersistentStateManager().getOrCreate(
+      OverworldPortals::new,
+      OverworldPortals::new,
+      "overworld_portals"
+    );
   }
 
   public BlockPos getPortalPos(int portalId) {

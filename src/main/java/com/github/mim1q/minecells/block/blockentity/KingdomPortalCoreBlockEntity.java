@@ -153,11 +153,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       return;
     }
     if (this.portalId == null) {
-      var state = world.getPersistentStateManager().getOrCreate(
-        OverworldPortals::new,
-        OverworldPortals::new,
-        "minecells:overworld_portals"
-      );
+      var state = OverworldPortals.get(world);
       world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
       this.portalId = state.addPortal(this.pos);
     }

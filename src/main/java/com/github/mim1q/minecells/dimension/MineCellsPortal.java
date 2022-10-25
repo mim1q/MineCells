@@ -11,8 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.poi.PointOfInterestStorage;
 
-import java.util.Objects;
-
 public class MineCellsPortal {
   public static void teleportPlayerFromOverworld(
     ServerPlayerEntity player,
@@ -35,18 +33,12 @@ public class MineCellsPortal {
     ServerWorld currentWorld,
     KingdomPortalCoreBlockEntity portal
   ) {
-    ServerWorld overworld = (ServerWorld) MineCellsDimensions.getWorld(currentWorld, MineCellsDimensions.OVERWORLD);
-    if (overworld == null) {
-      return;
-    }
+    ServerWorld overworld = currentWorld.getServer().getOverworld();
     Vec3i closest4096Multiple = MathUtils.getClosestMultiplePosition(portal.getPos(), 4096);
     int x = closest4096Multiple.getX() / 4096;
     int z = closest4096Multiple.getZ() / 4096;
     int portalId = MathUtils.getSpiralIndex(x, z);
-    var portalPos = Objects.requireNonNull(overworld.getPersistentStateManager().get(
-      OverworldPortals::new,
-      "minecells:overworld_portals"
-    )).getPortalPos(portalId);
+    var portalPos = OverworldPortals.get(currentWorld).getPortalPos(portalId);
 
     player.teleport(overworld, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
     ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
