@@ -47,11 +47,9 @@ public class SkeletonDecorationBlock extends Block {
   @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
     if (neighborPos.equals(pos.up())) {
-      System.out.println("getStateForNeighborUpdate");
       if (neighborState.getBlock() == Blocks.CHAIN && neighborState.get(ChainBlock.AXIS) == Direction.Axis.Y) {
         return state;
       }
-      System.out.println("no chain");
       return Blocks.AIR.getDefaultState();
     }
     return state;
