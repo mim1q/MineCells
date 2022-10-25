@@ -39,8 +39,11 @@ public class MineCellsPortal {
     int z = closest4096Multiple.getZ() / 4096;
     int portalId = MathUtils.getSpiralIndex(x, z);
     var portalPos = OverworldPortals.get(currentWorld).getPortalPos(portalId);
-
-    player.teleport(overworld, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
+    if (portalPos == null) {
+      player.teleport(overworld, overworld.getSpawnPos().getX(), overworld.getSpawnPos().getY(), overworld.getSpawnPos().getZ(), player.getYaw(), player.getPitch());
+    } else {
+      player.teleport(overworld, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
+    }
     ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
   }
 

@@ -23,7 +23,6 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Objects;
 
 public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
@@ -89,14 +88,14 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   public void tick(World world, BlockPos pos, BlockState state) {
     this.update(state);
     if (world.isClient()) {
-      tickClient();
+      tickClient((ClientWorld) world);
     } else {
-      tickServer();
+      tickServer((ServerWorld) world);
     }
   }
 
-  protected void tickClient() {
-    this.litProgress.update(Objects.requireNonNull(this.world).getTime());
+  protected void tickClient(ClientWorld world) {
+    this.litProgress.update(world.getTime());
     if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
       this.litProgress.setupTransitionTo(1.0F, 25.0F);
     } else {
@@ -117,21 +116,20 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (progress > 0.8F && progress < 1.0F) {
       this.spawnParticleSphere(
         (ClientWorld) this.world,
-        Vec3d.of(this.getPos()).add(this.getOffset()),
-        1.5D
+        Vec3d.of(this.getPos()).add(this.getOffset())
       );
     }
   }
 
-  protected void tickServer() {
+  protected void tickServer(ServerWorld world) {
     if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
-      teleportPlayer();
+      tryTeleportPlayer(world);
     } else {
-      activatePortal((ServerWorld) Objects.requireNonNull(this.world));
+      tryActivatePortal(world);
     }
   }
 
-  private void activatePortal(ServerWorld world) {
+  private void tryActivatePortal(ServerWorld world) {
     Vec3d offset = Vec3d.of(this.direction.getVector());
     Box newBox = this.getBox().expand(offset.getX() * 8.0D, 0.0D, offset.getZ() * 8.0D);
 
@@ -159,8 +157,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     }
   }
 
-  private void teleportPlayer() {
-    PlayerEntity player = Objects.requireNonNull(this.getWorld()).getClosestPlayer(
+  private void tryTeleportPlayer(ServerWorld world) {
+    PlayerEntity player = world.getClosestPlayer(
       TargetPredicate.createNonAttackable(),
       this.getPos().getX(),
       this.getPos().getY(),
@@ -171,16 +169,16 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     }
     if (this.box.intersects(player.getBoundingBox())) {
       if (((PlayerEntityAccessor) player).canUseKingdomPortal()) {
-        if (MineCellsDimensions.isDimension(this.world, MineCellsDimensions.OVERWORLD)) {
+        if (MineCellsDimensions.isDimension(world, MineCellsDimensions.OVERWORLD)) {
           MineCellsPortal.teleportPlayerFromOverworld(
             (ServerPlayerEntity) player,
-            (ServerWorld) this.world,
+            world,
             this
           );
         } else {
           MineCellsPortal.teleportPlayerToOverworld(
             (ServerPlayerEntity) player,
-            (ServerWorld) this.world,
+            world,
             this
           );
         }
@@ -214,8 +212,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     }
   }
 
-  private void spawnParticleSphere(ClientWorld world, Vec3d pos, double radius) {
-    ParticleUtils.addAura(world, pos, PARTICLE, 10, radius, 1.0F);
+  private void spawnParticleSphere(ClientWorld world, Vec3d pos) {
+    ParticleUtils.addAura(world, pos, PARTICLE, 10, 1.5, 1.0F);
   }
 
   public void spawnParticleCircle(ClientWorld world, Vec3d center, double radius, double circleFraction) {

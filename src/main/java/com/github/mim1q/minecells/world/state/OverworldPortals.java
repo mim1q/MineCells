@@ -35,6 +35,12 @@ public class OverworldPortals extends PersistentState {
   }
 
   public BlockPos getPortalPos(int portalId) {
+    if (portalsCount == 0) {
+      return null;
+    }
+    if (portalId >= portalsCount) {
+      return portals.get(portalsCount - 1);
+    }
     return portals.get(portalId);
   }
 
