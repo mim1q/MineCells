@@ -1,7 +1,9 @@
 package com.github.mim1q.minecells.accessor;
 
-public interface LivingEntityAccessor {
-  boolean isProtected();
+import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 
-  void setProtected(boolean isProtected);
+public interface LivingEntityAccessor {
+  boolean getMineCellsFlag(MineCellsEffectFlags flag);
+
+  void setMineCellsFlag(MineCellsEffectFlags flag, boolean value);
 }

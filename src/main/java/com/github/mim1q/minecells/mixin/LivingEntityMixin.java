@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
+import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.BlockState;
@@ -30,7 +31,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
 
-  private static final TrackedData<Boolean> IS_PROTECTED = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
   public LivingEntityMixin(EntityType<?> type, World world) {
     super(type, world);
@@ -38,7 +39,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @Inject(method = "initDataTracker()V", at = @At("TAIL"))
   public void initDataTracker(CallbackInfo ci) {
-    this.dataTracker.startTracking(IS_PROTECTED, false);
+    this.dataTracker.startTracking(MINECELLS_FLAGS, 0);
   }
 
   @Inject(method = "tick()V", at = @At("HEAD"))
@@ -85,13 +86,17 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     return entity instanceof ElevatorEntity || super.canStartRiding(entity);
   }
 
-  @Override
-  public boolean isProtected() {
-    return this.dataTracker.get(IS_PROTECTED);
+  public boolean getMineCellsFlag(MineCellsEffectFlags flag) {
+    return (this.dataTracker.get(MINECELLS_FLAGS) & flag.getOffset()) != 0;
   }
 
-  @Override
-  public void setProtected(boolean isProtected) {
-    this.dataTracker.set(IS_PROTECTED, isProtected);
+  public void setMineCellsFlag(MineCellsEffectFlags flag, boolean value) {
+    int flags = this.dataTracker.get(MINECELLS_FLAGS);
+    if (value) {
+      flags |= flag.getOffset();
+    } else {
+      flags &= ~flag.getOffset();
+    }
+    this.dataTracker.set(MINECELLS_FLAGS, flags);
   }
 }
