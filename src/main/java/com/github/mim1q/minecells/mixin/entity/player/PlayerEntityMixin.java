@@ -78,7 +78,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   }
 
   public boolean shouldCancelSwing() {
-    return this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD) && this.getAttackCooldownProgress(0.5F) < 1.0F;
+    float cooldown = this.getAttackCooldownProgress(0.5F);
+    return this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD) && cooldown < 1 && cooldown > 0;
   }
 
   public void setKingdomPortalCooldown(int cooldown) {

@@ -3,7 +3,8 @@ package com.github.mim1q.minecells.effect;
 public enum MineCellsEffectFlags {
   PROTECTED(0),
   BLEEDING(1),
-  AWAKENED(2);
+  AWAKENED(2),
+  CURSED(3);
 
   private final int offset;
 
