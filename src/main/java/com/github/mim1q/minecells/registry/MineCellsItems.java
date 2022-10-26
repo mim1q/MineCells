@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.AssassinsDaggerItem;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
+import com.github.mim1q.minecells.item.weapon.BloodSwordItem;
+import com.github.mim1q.minecells.item.weapon.CursedSwordItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
 import net.minecraft.util.registry.Registry;
@@ -56,20 +58,38 @@ public class MineCellsItems {
     "ancient_sewage_bucket"
   );
 
-  public static final Item ASSASSINS_DAGGER = new AssassinsDaggerItem(new FabricItemSettings()
+  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(6, 3, -2.0F,
+    new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
-  );
+  ), "assassins_dagger");
+
+  public static final Item BLOOD_SWORD = register(new BloodSwordItem(5, -3.0F,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(1200)
+      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+  ), "blood_sword");
+
+  public static final Item CURSED_SWORD = register(new CursedSwordItem(22, -3.5F,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(250)
+      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+  ), "cursed_sword");
 
   public static void init() {
-    Registry.register(Registry.ITEM, MineCells.createId("assassins_dagger"), ASSASSINS_DAGGER);
+  }
+
+  public static <E extends Item> E register(E item, String name) {
+    Registry.register(Registry.ITEM, MineCells.createId(name), item);
+    return item;
   }
 
   public static <E extends Item> E registerSimpleItem(E item, String name) {
-    Registry.register(Registry.ITEM, MineCells.createId(name), item);
     simpleItems.add(item);
-    return item;
+    return register(item, name);
   }
 
   public static Set<Item> getSimpleItems() {

@@ -16,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class AssassinsDaggerItem extends AbstractCritWeaponItem {
-  public AssassinsDaggerItem(Settings settings) {
-    super(ToolMaterials.IRON, 5.0F, 3.0F, -2.0F, settings);
+  public AssassinsDaggerItem(int attackDamage, int critAttackDamage, float attackSpeed, Settings settings) {
+    super(ToolMaterials.IRON, attackDamage, critAttackDamage, attackSpeed, settings);
   }
 
   @Override

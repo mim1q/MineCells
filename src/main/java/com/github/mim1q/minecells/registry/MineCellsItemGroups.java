@@ -27,15 +27,15 @@ public class MineCellsItemGroups {
       MineCellsEntities.RANCID_RAT_SPAWN_EGG.getDefaultStack(),
       MineCellsEntities.RUNNER_SPAWN_EGG.getDefaultStack(),
       MineCellsEntities.SCORPION_SPAWN_EGG.getDefaultStack()
-    )))
-    .build();
+    ))).build();
 
   public static final ItemGroup MINECELLS_WEAPONS = FabricItemGroupBuilder.create(MineCells.createId("weapons"))
     .icon(() -> new ItemStack(MineCellsItems.ASSASSINS_DAGGER))
-    .appendItems(stacks -> stacks.add(
-      new ItemStack(MineCellsItems.ASSASSINS_DAGGER)
-    ))
-    .build();
+    .appendItems(stacks -> stacks.addAll(List.of(
+      new ItemStack(MineCellsItems.ASSASSINS_DAGGER),
+      new ItemStack(MineCellsItems.BLOOD_SWORD),
+      new ItemStack(MineCellsItems.CURSED_SWORD)
+    ))).build();
 
   public static final ItemGroup MINECELLS_BLOCKS_AND_ITEMS = FabricItemGroupBuilder.create(MineCells.createId("blocks_and_items"))
     .icon(() -> new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER))
@@ -69,8 +69,7 @@ public class MineCellsItemGroups {
       MineCellsItems.SEWAGE_BUCKET.getDefaultStack(),
       MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack(),
       MineCellsItems.ELEVATOR_MECHANISM.getDefaultStack()
-    )))
-    .build();
+    ))).build();
 
   public static void init() { }
 }

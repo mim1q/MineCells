@@ -41,6 +41,8 @@ public abstract class AbstractCritWeaponItem extends ToolItem implements Vanisha
     this.attributeModifiers = builder.build();
   }
 
+
+
   public abstract boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker);
 
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
