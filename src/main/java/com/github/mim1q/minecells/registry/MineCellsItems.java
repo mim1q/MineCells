@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.item.AssassinsDaggerItem;
+import com.github.mim1q.minecells.item.weapon.AssassinsDaggerItem;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;

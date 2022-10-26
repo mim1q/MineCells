@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.item;
+package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
