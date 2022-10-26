@@ -72,7 +72,7 @@ public class MineCellsItems {
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
   ), "blood_sword");
 
-  public static final Item CURSED_SWORD = register(new CursedSwordItem(22, -3.5F,
+  public static final Item CURSED_SWORD = register(new CursedSwordItem(19, -3.5F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(250)

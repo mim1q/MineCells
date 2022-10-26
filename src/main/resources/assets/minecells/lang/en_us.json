@@ -59,6 +59,10 @@
 
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
+  "item.minecells.blood_sword": "Blood Sword",
+  "item.minecells.cursed_sword": "Cursed Sword",
+  "item.minecells.cursed_sword.tooltip1": "Wielding this weapon brings",
+  "item.minecells.cursed_sword.tooltip2": "a deathly curse upon you.",
 
   "entity.minecells.shocker": "Shocker",
   "entity.minecells.leaping_zombie": "Leaping Zombie",
@@ -78,8 +82,10 @@
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
+  "effect.minecells.cursed": "Cursed",
 
-  "death.attack.minecells_aura": "%s got too close to %s",
+  "death.attack.minecells_aura": "%s didn't respect %s's boundaries",
   "death.attack.minecells_backstab": "%s was backstabbed by %s",
-  "death.attack.minecells_elevator": "%s turned into a pancake"
+  "death.attack.minecells_elevator": "%s turned into a pancake",
+  "death.attack.minecells_cursed": "%s succumbed to a curse"
 }
