@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.mixin.TrunkPlacerTypeInvoker;
+import com.github.mim1q.minecells.mixin.world.TrunkPlacerTypeInvoker;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeTreeTrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 

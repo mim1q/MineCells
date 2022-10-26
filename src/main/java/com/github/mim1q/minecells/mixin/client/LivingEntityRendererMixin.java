@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.mixin;
+package com.github.mim1q.minecells.mixin.client;
 
 import com.github.mim1q.minecells.client.render.feature.ProtectedGlintFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;

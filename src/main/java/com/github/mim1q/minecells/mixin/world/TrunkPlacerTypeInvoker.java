@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.mixin;
+package com.github.mim1q.minecells.mixin.world;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.world.gen.trunk.TrunkPlacer;

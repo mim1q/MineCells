@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.mixin;
+package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.EntityAccessor;
 import net.minecraft.entity.Entity;

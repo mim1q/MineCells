@@ -3,16 +3,16 @@
   "minVersion": "0.8",
   "package": "com.github.mim1q.minecells.mixin",
   "mixins": [
-    "EntityMixin",
-    "LivingEntityMixin",
-    "PlayerEntityMixin",
-    "ServerPlayerAndClientPlayerMixin",
-    "TrunkPlacerTypeInvoker"
+    "entity.EntityMixin",
+    "entity.LivingEntityMixin",
+    "entity.player.PlayerEntityMixin",
+    "entity.player.ServerPlayerAndClientPlayerMixin",
+    "world.TrunkPlacerTypeInvoker"
   ],
   "client": [
-    "BipedEntityModelMixin",
-    "InventoryScreenMixin",
-    "LivingEntityRendererMixin"
+    "client.BipedEntityModelMixin",
+    "client.InventoryScreenMixin",
+    "client.LivingEntityRendererMixin"
   ],
   "server": [],
   "injectors": {

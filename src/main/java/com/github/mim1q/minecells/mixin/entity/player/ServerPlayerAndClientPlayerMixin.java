@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.mixin;
+package com.github.mim1q.minecells.mixin.entity.player;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.mojang.authlib.GameProfile;

@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.mixin;
+package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
