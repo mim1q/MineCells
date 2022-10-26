@@ -6,6 +6,7 @@
     "EntityMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
+    "ServerPlayerAndClientPlayerMixin",
     "TrunkPlacerTypeInvoker"
   ],
   "client": [

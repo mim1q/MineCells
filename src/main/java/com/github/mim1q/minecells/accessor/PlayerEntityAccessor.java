@@ -5,6 +5,6 @@ public interface PlayerEntityAccessor {
   void setCells(int amount);
   void setKingdomPortalCooldown(int cooldown);
   int getKingdomPortalCooldown();
-
   boolean canUseKingdomPortal();
+  boolean shouldCancelSwing();
 }

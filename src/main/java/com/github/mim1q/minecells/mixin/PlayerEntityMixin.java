@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.mixin;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
+import com.github.mim1q.minecells.registry.MineCellsItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -12,12 +14,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccessor {
+
+  @Shadow public abstract float getAttackCooldownProgress(float baseTime);
 
   private static final TrackedData<Integer> CELL_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private int kingdomPortalCooldown = 0;
@@ -39,11 +44,24 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     this.dataTracker.set(CELL_AMOUNT, amount);
   }
 
-  //tick
   @Inject(method = "tick", at = @At("TAIL"))
   public void tick(CallbackInfo ci) {
     if (kingdomPortalCooldown > 0) {
       kingdomPortalCooldown--;
+    }
+  }
+
+  @Inject(method = "resetLastAttackedTicks", at = @At("HEAD"), cancellable = true)
+  public void resetLastAttackedTicks(CallbackInfo ci) {
+    if (this.shouldCancelSwing()) {
+      ci.cancel();
+    }
+  }
+
+  @Inject(method = "attack(Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
+  public void attack(Entity target, CallbackInfo ci) {
+    if (this.shouldCancelSwing()) {
+      ci.cancel();
     }
   }
 
@@ -57,6 +75,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   protected void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
     this.setCells(nbt.getInt("cells"));
     kingdomPortalCooldown = nbt.getInt("kingdomPortalCooldown");
+  }
+
+  public boolean shouldCancelSwing() {
+    return this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD) && this.getAttackCooldownProgress(0.5F) < 1.0F;
   }
 
   public void setKingdomPortalCooldown(int cooldown) {
