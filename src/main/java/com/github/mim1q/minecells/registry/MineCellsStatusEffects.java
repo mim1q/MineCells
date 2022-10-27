@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.effect.CursedStatusEffect;
 import com.github.mim1q.minecells.effect.ElectrifiedStatusEffect;
 import com.github.mim1q.minecells.effect.ProtectedStatusEffect;
@@ -13,6 +14,7 @@ public class MineCellsStatusEffects {
   public static final StatusEffect CURSED = register(new CursedStatusEffect(), "cursed");
   public static final StatusEffect ELECTRIFIED = register(new ElectrifiedStatusEffect(), "electrified");
   public static final StatusEffect PROTECTED = register(new ProtectedStatusEffect(), "protected");
+  public static final StatusEffect BLEEDING = register(new BleedingStatusEffect(), "bleeding");
 
   public static void init() { }
 
