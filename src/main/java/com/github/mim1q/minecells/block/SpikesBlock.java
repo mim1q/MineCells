@@ -9,6 +9,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -49,6 +50,8 @@ public class SpikesBlock extends Block {
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (entity instanceof LivingEntity livingEntity) {
       livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 201, 1, false, false, true));
+      livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false, true));
+      livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 1, false, false, true));
       if (livingEntity.age % 10 == 0) {
         livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0f);
       }
