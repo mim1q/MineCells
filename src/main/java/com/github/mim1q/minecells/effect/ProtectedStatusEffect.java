@@ -6,7 +6,7 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class ProtectedStatusEffect extends MineCellsStatusEffect {
   public ProtectedStatusEffect() {
-    super(StatusEffectCategory.BENEFICIAL, 0x99BBFF, false, MineCellsEffectFlags.PROTECTED);
+    super(StatusEffectCategory.BENEFICIAL, 0x99BBFF, false, MineCellsEffectFlags.PROTECTED, false);
   }
 
   @Override

@@ -10,11 +10,13 @@ public class MineCellsStatusEffect extends StatusEffect {
 
   private final boolean shouldApplyUpdateEffect;
   private final MineCellsEffectFlags flag;
+  private final boolean curable;
 
-  public MineCellsStatusEffect(StatusEffectCategory statusEffectCategory, int color, boolean applyUpdateEffect, MineCellsEffectFlags flag) {
+  public MineCellsStatusEffect(StatusEffectCategory statusEffectCategory, int color, boolean applyUpdateEffect, MineCellsEffectFlags flag, boolean curable) {
     super(statusEffectCategory, color);
     this.shouldApplyUpdateEffect = applyUpdateEffect;
     this.flag = flag;
+    this.curable = curable;
   }
 
   @Override
@@ -36,5 +38,9 @@ public class MineCellsStatusEffect extends StatusEffect {
       ((LivingEntityAccessor) entity).setMineCellsFlag(flag, true);
     }
     super.onApplied(entity, attributes, amplifier);
+  }
+
+  public boolean isCurable() {
+    return curable;
   }
 }

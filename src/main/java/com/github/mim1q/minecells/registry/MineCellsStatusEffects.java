@@ -10,7 +10,7 @@ import net.minecraft.util.registry.Registry;
 public class MineCellsStatusEffects {
 
   public static final StatusEffect CURSED = register(
-    new MineCellsStatusEffect(StatusEffectCategory.HARMFUL, 0x000000, false, MineCellsEffectFlags.CURSED),
+    new MineCellsStatusEffect(StatusEffectCategory.HARMFUL, 0x000000, false, MineCellsEffectFlags.CURSED, false),
     "cursed"
   );
   public static final StatusEffect ELECTRIFIED = register(new ElectrifiedStatusEffect(), "electrified");

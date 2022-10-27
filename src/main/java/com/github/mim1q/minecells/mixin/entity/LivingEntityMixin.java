@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
+import com.github.mim1q.minecells.effect.MineCellsStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
@@ -90,21 +91,16 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     }
   }
 
-  @Inject(method = "clearStatusEffects()Z", at = @At("HEAD"), cancellable = true)
-  public void clearStatusEffects(CallbackInfoReturnable<Boolean> cir) {
-    if (!this.world.isClient && this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
-      Iterator<StatusEffectInstance> iterator = this.getActiveStatusEffects().values().iterator();
-      boolean bl;
-      for(bl = false; iterator.hasNext(); bl = true) {
-        StatusEffectInstance statusEffectInstance = iterator.next();
-        if (statusEffectInstance.getEffectType() == MineCellsStatusEffects.CURSED) {
-          continue;
-        }
-        ((LivingEntityInvoker) this).invokeOnStatusEffectRemoved(statusEffectInstance);
-        iterator.remove();
+  @Override
+  public void clearCurableStatusEffects() {
+    Iterator<StatusEffectInstance> iterator = this.getActiveStatusEffects().values().iterator();
+    while(iterator.hasNext()) {
+      StatusEffectInstance statusEffectInstance = iterator.next();
+      if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && !effect.isCurable()) {
+        continue;
       }
-      cir.setReturnValue(bl);
-      cir.cancel();
+      ((LivingEntityInvoker) this).invokeOnStatusEffectRemoved(statusEffectInstance);
+      iterator.remove();
     }
   }
 

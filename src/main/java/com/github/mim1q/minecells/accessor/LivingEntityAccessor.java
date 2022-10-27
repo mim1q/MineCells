@@ -6,4 +6,6 @@ public interface LivingEntityAccessor {
   boolean getMineCellsFlag(MineCellsEffectFlags flag);
 
   void setMineCellsFlag(MineCellsEffectFlags flag, boolean value);
+
+  void clearCurableStatusEffects();
 }

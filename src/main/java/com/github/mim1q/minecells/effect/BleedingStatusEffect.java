@@ -6,7 +6,7 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class BleedingStatusEffect extends MineCellsStatusEffect {
   public BleedingStatusEffect() {
-    super(StatusEffectCategory.HARMFUL, 0xFF0000, true, MineCellsEffectFlags.BLEEDING);
+    super(StatusEffectCategory.HARMFUL, 0xFF0000, true, MineCellsEffectFlags.BLEEDING, false);
   }
 
   @Override
