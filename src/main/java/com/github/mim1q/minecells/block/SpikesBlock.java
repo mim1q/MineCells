@@ -1,11 +1,14 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -44,9 +47,14 @@ public class SpikesBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-    entity.damage(DamageSource.CACTUS, 4);
-    if (world.getRandom().nextFloat() < 0.01) {
-      world.setBlockState(pos, state.with(BLOODY, true));
+    if (entity instanceof LivingEntity livingEntity) {
+      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 201, 1, false, false, true));
+      if (livingEntity.age % 10 == 0) {
+        livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0f);
+      }
+      if (world.getRandom().nextFloat() < 0.01) {
+        world.setBlockState(pos, state.with(BLOODY, true));
+      }
     }
   }
 

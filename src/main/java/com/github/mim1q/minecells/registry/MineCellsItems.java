@@ -58,7 +58,7 @@ public class MineCellsItems {
     "ancient_sewage_bucket"
   );
 
-  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(6, 3, -2.0F,
+  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(4, 3, -2.0F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)

@@ -29,7 +29,7 @@ public class BloodSwordItem extends SwordItem {
     if (attacker instanceof ServerPlayerEntity player) {
       if (!player.getItemCooldownManager().isCoolingDown(this)) {
         player.getItemCooldownManager().set(this, 200);
-        target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 20 * 20, 0));
+        target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 20 * 20, 0, false, false, true));
       }
       return true;
     }
