@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.util.Identifier;
@@ -28,7 +29,7 @@ public class MineCellsEntityLootTableProvider extends MineCellsLootTableHelper {
     biConsumer.accept(
       MineCellsEntities.GRENADIER.getLootTableId(),
       LootTable.builder()
-        .pool(simplePool(ItemEntry.builder(Items.TNT), 1, 2))
+        .pool(simplePool(ItemEntry.builder(Items.TNT), 1).conditionally(RandomChanceLootCondition.builder(0.2f)))
         .pool(simplePool(ItemEntry.builder(Items.GUNPOWDER), 1, 3))
     );
 
