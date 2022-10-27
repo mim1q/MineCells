@@ -12,7 +12,7 @@ public class MineCellsDamageSource extends DamageSource {
   public static final DamageSource ELEVATOR = new MineCellsDamageSource("minecells_elevator").setBypassesArmor();
   public static final DamageSource CURSED = new MineCellsDamageSource("minecells_cursed").setOutOfWorld();
 
-  public static final DamageSource BLEEDING = new MineCellsDamageSource("minecells_bleeding").setBypassesProtection();
+  public static final DamageSource BLEEDING = new MineCellsDamageSource("minecells_bleeding").setBypassesArmor().setBypassesProtection();
 
   public static DamageSource backstab(Entity attacker) {
     return new EntityDamageSource("minecells_backstab", attacker);
