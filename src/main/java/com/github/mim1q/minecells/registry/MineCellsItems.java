@@ -65,7 +65,7 @@ public class MineCellsItems {
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
   ), "assassins_dagger");
 
-  public static final Item BLOOD_SWORD = register(new BloodSwordItem(5, -3.0F,
+  public static final Item BLOOD_SWORD = register(new BloodSwordItem(2, -2.4F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
