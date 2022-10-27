@@ -83,9 +83,11 @@
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
   "effect.minecells.cursed": "Cursed",
+  "effect.minecells.bleeding": "Bleeding",
 
   "death.attack.minecells_aura": "%s didn't respect %s's boundaries",
   "death.attack.minecells_backstab": "%s was backstabbed by %s",
   "death.attack.minecells_elevator": "%s turned into a pancake",
-  "death.attack.minecells_cursed": "%s succumbed to a curse"
+  "death.attack.minecells_cursed": "%s succumbed to a curse",
+  "death.attack.minecells_bleeding": "%s bled to death"
 }
