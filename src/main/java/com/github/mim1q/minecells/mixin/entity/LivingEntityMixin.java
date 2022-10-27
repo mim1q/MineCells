@@ -22,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +29,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
@@ -45,12 +46,11 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @Shadow public abstract boolean damage(DamageSource source, float amount);
 
-
-  @Shadow @Nullable private DamageSource lastDamageSource;
-
   @Shadow public abstract void kill();
 
   @Shadow public abstract void setHealth(float health);
+
+  @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
 
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -86,6 +86,24 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
       this.setHealth(0.5f);
       this.damage(MineCellsDamageSource.CURSED, 10.0f);
       cir.setReturnValue(true);
+      cir.cancel();
+    }
+  }
+
+  @Inject(method = "clearStatusEffects()Z", at = @At("HEAD"), cancellable = true)
+  public void clearStatusEffects(CallbackInfoReturnable<Boolean> cir) {
+    if (!this.world.isClient && this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
+      Iterator<StatusEffectInstance> iterator = this.getActiveStatusEffects().values().iterator();
+      boolean bl;
+      for(bl = false; iterator.hasNext(); bl = true) {
+        StatusEffectInstance statusEffectInstance = iterator.next();
+        if (statusEffectInstance.getEffectType() == MineCellsStatusEffects.CURSED) {
+          continue;
+        }
+        ((LivingEntityInvoker) this).invokeOnStatusEffectRemoved(statusEffectInstance);
+        iterator.remove();
+      }
+      cir.setReturnValue(bl);
       cir.cancel();
     }
   }

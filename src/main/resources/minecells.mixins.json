@@ -4,6 +4,7 @@
   "package": "com.github.mim1q.minecells.mixin",
   "mixins": [
     "entity.EntityMixin",
+    "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
     "entity.player.ServerPlayerAndClientPlayerMixin",
