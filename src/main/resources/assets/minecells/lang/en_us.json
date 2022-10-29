@@ -61,7 +61,7 @@
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
   "item.minecells.blood_sword": "Blood Sword",
   "item.minecells.blood_sword.tooltip1": "Applies %s to enemies",
-  "item.minecells.blood_sword.tooltip2": "[10s cooldown]",
+  "item.minecells.blood_sword.tooltip2": "[30s cooldown]",
   "item.minecells.cursed_sword": "Cursed Sword",
   "item.minecells.cursed_sword.tooltip1": "Wielding this weapon brings",
   "item.minecells.cursed_sword.tooltip2": "a deathly curse upon you.",

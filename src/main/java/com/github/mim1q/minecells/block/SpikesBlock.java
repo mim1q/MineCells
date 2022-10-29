@@ -49,7 +49,7 @@ public class SpikesBlock extends Block {
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (entity instanceof LivingEntity livingEntity) {
-      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 201, 1, false, false, true));
+      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 45 * 20 + 1, 1, false, false, true));
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false, true));
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 1, false, false, true));
       if (livingEntity.age % 10 == 0) {
