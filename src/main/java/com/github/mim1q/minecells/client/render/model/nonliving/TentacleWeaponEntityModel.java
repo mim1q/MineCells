@@ -11,7 +11,6 @@ import net.minecraft.client.util.math.MatrixStack;
 public class TentacleWeaponEntityModel extends EntityModel<TentacleWeaponEntity> {
 
   private final ModelPart main;
-  private float length = 0.0F;
 
   public TentacleWeaponEntityModel(ModelPart root) {
     this.main = root;
@@ -36,7 +35,6 @@ public class TentacleWeaponEntityModel extends EntityModel<TentacleWeaponEntity>
     float tickDelta = MinecraftClient.getInstance().getTickDelta();
     this.main.yaw = MathUtils.radians(entity.getYaw(tickDelta));
     this.main.pitch = MathUtils.radians(-entity.getPitch(tickDelta));
-    this.length = entity.getLength(tickDelta);
   }
 
   @Override

@@ -2,8 +2,12 @@ package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
@@ -19,6 +23,10 @@ public class TentacleWeaponEntity extends Entity {
   private int interpolationSteps;
   private Vec3d targetPos;
   private PlayerEntity owner;
+  private Vec3d ownerVelocity = null;
+
+  private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private final AnimationProperty length = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
   public TentacleWeaponEntity(EntityType<TentacleWeaponEntity> type, World world) {
     super(type, world);
@@ -44,18 +52,16 @@ public class TentacleWeaponEntity extends Entity {
   @Override
   public void tick() {
     super.tick();
+    if (this.isRetracting()) {
+      this.length.setupTransitionTo(0.0F, 10.0F);
+    } else {
+      this.length.setupTransitionTo(1.0F, 20.0F);
+    }
+
     if (world.isClient) {
       this.tickClient();
     } else {
-      if (this.owner == null || !this.hasVehicle()) {
-        this.discard();
-        return;
-      }
       this.tickServer();
-    }
-
-    if (this.age > 200) {
-      this.discard();
     }
   }
 
@@ -69,13 +75,29 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   public void tickServer() {
-    this.setPosition(owner.getPos().add(0.0D, 1.5D, 0.0D));
+    if (this.owner == null || !this.hasVehicle()) {
+      this.discard();
+      return;
+    }
+    if (this.isRetracting()) {
+      if (this.ownerVelocity != null) {
+        this.pullOwner();
+      }
+      if (this.getLength(0.0f) <= 0.1F) {
+        this.discard();
+        return;
+      }
+    }
+    if (this.age > 10) {
+      this.setRetracting(true);
+    }
+
     if (this.targetPos != null) {
       this.rotateTowards(this.targetPos);
       Vec3d pos = this.getEndPos(this.getLength(0.0F));
       if (!world.getBlockState(new BlockPos(pos)).getCollisionShape(world, new BlockPos(pos)).isEmpty()) {
-        this.owner.teleport(pos.x, pos.y, pos.z);
-        this.discard();
+        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D).add(0.0D, 0.05D, 0.0D);
+        this.setRetracting(true);
       }
     }
   }
@@ -93,6 +115,11 @@ public class TentacleWeaponEntity extends Entity {
     this.prevYaw = this.getYaw();
   }
 
+  private void pullOwner() {
+    this.owner.setVelocity(this.ownerVelocity);
+    this.owner.velocityModified = true;
+  }
+
   @Override
   public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
     this.serverYaw = yaw;
@@ -104,9 +131,10 @@ public class TentacleWeaponEntity extends Entity {
     if (this.targetPos == null) {
       return 0.0F;
     }
-    float progress = MathHelper.clamp((this.age + tickDelta) / 10.0F, 0.0F, 1.0F);
-    float lengthPercent = MathUtils.easeInOutQuad(0.0F, 1.0F, MathHelper.clamp(progress, 0.0F, 1.0F));
-    return (float) (this.targetPos.subtract(this.getPos()).length() * lengthPercent);
+    this.length.update(this.age + tickDelta);
+    float progress = this.length.getValue();
+    float length = MathUtils.easeInOutQuad(0.0F, 1.0F, MathHelper.clamp(progress, 0.0F, 1.0F));
+    return (float) (this.targetPos.subtract(this.getPos()).length() * length);
   }
 
   public Vec3d getEndPos(float length) {
@@ -115,7 +143,16 @@ public class TentacleWeaponEntity extends Entity {
 
   @Override
   protected void initDataTracker() {
+    RETRACTING.getId();
+    this.dataTracker.startTracking(RETRACTING, false);
+  }
 
+  public boolean isRetracting() {
+    return this.dataTracker.get(RETRACTING);
+  }
+
+  public void setRetracting(boolean retracting) {
+    this.dataTracker.set(RETRACTING, retracting);
   }
 
   @Override
