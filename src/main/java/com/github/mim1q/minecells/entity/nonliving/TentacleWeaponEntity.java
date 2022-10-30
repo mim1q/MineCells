@@ -49,7 +49,7 @@ public class TentacleWeaponEntity extends Entity {
     entity.setYaw(owner.getYaw());
     entity.prevYaw = owner.getYaw();
     entity.startRiding(owner, true);
-    entity.targetPos = entity.getPos().add(entity.getRotationVector().multiply(12.0D));
+    entity.targetPos = entity.getPos().add(entity.getRotationVector().multiply(16.0D));
     return entity;
   }
 
@@ -144,6 +144,7 @@ public class TentacleWeaponEntity extends Entity {
   private void pullOwner() {
     this.owner.setVelocity(this.ownerVelocity);
     this.owner.velocityModified = true;
+    this.owner.fallDistance = 0.0F;
   }
 
   @Override
@@ -202,6 +203,6 @@ public class TentacleWeaponEntity extends Entity {
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
     Vec3d spawnPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
-    this.targetPos = spawnPos.add(this.getRotationVector().multiply(12.0D));
+    this.targetPos = spawnPos.add(this.getRotationVector().multiply(16.0D));
   }
 }
