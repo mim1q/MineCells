@@ -43,5 +43,13 @@
       "translation": [0, 0, -1],
       "scale": [2, 2, 1]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "blocking": 1
+      },
+      "model": "minecells:item/hattoris_katana_blocking"
+    }
+  ]
 }

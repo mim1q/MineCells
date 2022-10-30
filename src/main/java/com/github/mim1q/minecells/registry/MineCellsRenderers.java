@@ -27,6 +27,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
@@ -160,6 +161,12 @@ public class MineCellsRenderers {
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
+
+    ModelPredicateProviderRegistry.register(
+      MineCellsItems.HATTORIS_KATANA,
+      new Identifier("blocking"),
+      (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
+    );
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> {
