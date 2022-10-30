@@ -97,6 +97,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.register(MineCellsBlocks.BROKEN_CAGE.asItem(), Models.GENERATED);
     generator.register(MineCellsItems.ASSASSINS_DAGGER, Models.HANDHELD);
     generator.register(MineCellsItems.CURSED_SWORD, Models.HANDHELD);
+    generator.register(MineCellsItems.TENTACLE, Models.HANDHELD);
   }
 
   public static void registerSpawnEggModel(ItemModelGenerator generator, SpawnEggItem item) {

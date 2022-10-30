@@ -8,12 +8,14 @@ import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.ElevatorEntityModel;
+import com.github.mim1q.minecells.client.render.model.nonliving.TentacleWeaponEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.BigGrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.ConjunctiviusProjectileEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.CellEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.ElevatorEntityRenderer;
+import com.github.mim1q.minecells.client.render.nonliving.TentacleWeaponEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -55,7 +57,8 @@ public class MineCellsRenderers {
   public static final EntityModelLayer DISGUSTING_WORM_EGG_LAYER = new EntityModelLayer(MineCells.createId("disgusting_worm_egg"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_PROJECTILE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius_projectile"), "main");
 
-  public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(MineCells.createId("elevator_render"), "main");
+  public static final EntityModelLayer ELEVATOR_LAYER = new EntityModelLayer(MineCells.createId("elevator"), "main");
+  public static final EntityModelLayer TENTACLE_WEAPON_LAYER = new EntityModelLayer(MineCells.createId("tentacle_weapon"), "main");
 
   public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
   public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
@@ -88,6 +91,7 @@ public class MineCellsRenderers {
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_PROJECTILE_LAYER, ConjunctiviusProjectileEntityModel::getTexturedModelData);
 
     EntityModelLayerRegistry.registerModelLayer(ELEVATOR_LAYER, ElevatorEntityModel::getTexturedModelData);
+    EntityModelLayerRegistry.registerModelLayer(TENTACLE_WEAPON_LAYER, TentacleWeaponEntityModel::getTexturedModelData);
 
     EntityRendererRegistry.register(MineCellsEntities.LEAPING_ZOMBIE, LeapingZombieEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.SHOCKER, ShockerEntityRenderer::new);
@@ -114,6 +118,7 @@ public class MineCellsRenderers {
 
     EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
 
     DimensionEffectsAccessor.getIdentifierMap().put(
       MineCells.createId("foggy"),

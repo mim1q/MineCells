@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.entity.*;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
+import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -205,6 +206,14 @@ public final class MineCellsEntities {
     MineCells.createId("cell"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, CellEntity::new)
       .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+      .build()
+  );
+
+  public static final EntityType<TentacleWeaponEntity> TENTACLE_WEAPON = Registry.register(
+    Registry.ENTITY_TYPE,
+    MineCells.createId("tentacle_weapon"),
+    FabricEntityTypeBuilder.create(SpawnGroup.MISC, TentacleWeaponEntity::new)
+      .dimensions(EntityDimensions.fixed(0.1F, 0.1F))
       .build()
   );
 

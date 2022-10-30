@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
 import com.github.mim1q.minecells.item.weapon.BloodSwordItem;
 import com.github.mim1q.minecells.item.weapon.CursedSwordItem;
+import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
 import net.minecraft.util.registry.Registry;
@@ -63,21 +64,31 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(1200)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
-  ), "assassins_dagger");
+    ), "assassins_dagger"
+  );
 
   public static final Item BLOOD_SWORD = register(new BloodSwordItem(2, -2.4F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
-  ), "blood_sword");
+    ), "blood_sword"
+  );
 
   public static final Item CURSED_SWORD = register(new CursedSwordItem(19, -3.5F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(250)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
-  ), "cursed_sword");
+    ), "cursed_sword"
+  );
+
+  public static final Item TENTACLE = register(
+    new TentacleItem(new FabricItemSettings()
+      .maxCount(1)
+      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+    ), "tentacle"
+  );
 
   public static void init() {
   }

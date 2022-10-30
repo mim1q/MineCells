@@ -32,9 +32,10 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS_WEAPONS = FabricItemGroupBuilder.create(MineCells.createId("weapons"))
     .icon(() -> new ItemStack(MineCellsItems.ASSASSINS_DAGGER))
     .appendItems(stacks -> stacks.addAll(List.of(
-      new ItemStack(MineCellsItems.ASSASSINS_DAGGER),
-      new ItemStack(MineCellsItems.BLOOD_SWORD),
-      new ItemStack(MineCellsItems.CURSED_SWORD)
+      MineCellsItems.ASSASSINS_DAGGER.getDefaultStack(),
+      MineCellsItems.BLOOD_SWORD.getDefaultStack(),
+      MineCellsItems.CURSED_SWORD.getDefaultStack(),
+      MineCellsItems.TENTACLE.getDefaultStack()
     ))).build();
 
   public static final ItemGroup MINECELLS_BLOCKS_AND_ITEMS = FabricItemGroupBuilder.create(MineCells.createId("blocks_and_items"))
