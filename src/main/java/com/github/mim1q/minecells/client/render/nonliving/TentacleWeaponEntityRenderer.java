@@ -10,6 +10,8 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.Vec3f;
 
 public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponEntity> {
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/tentacle_weapon.png");
@@ -22,25 +24,23 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
 
   @Override
   public void render(TentacleWeaponEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-    if (entity.age < 2) {
-      return;
-    }
     matrices.push();
     matrices.scale(-1.0F, -1.0F, 1.0F);
-    this.model.setAngles(entity, 0, 0, 0, 0, 0);
-    this.model.render(
-      matrices,
-      vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity))),
-      light,
-      OverlayTexture.DEFAULT_UV,
-      1,
-      1,
-      1,
-      1
-    );
+    float xRot = entity.getPitch(tickDelta);
+    float yRot = entity.getYaw(tickDelta);
+    matrices.multiply(new Quaternion(Vec3f.POSITIVE_Y, yRot, true));
+    matrices.multiply(new Quaternion(Vec3f.POSITIVE_X, -xRot, true));
+    renderTentacle(matrices, vertexConsumers, light, entity.getLength(tickDelta));
     matrices.pop();
 
     super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
+  }
+
+  public void renderTentacle(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float length) {
+    matrices.push();
+    matrices.scale(1.0F, 1.0F, length);
+    this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    matrices.pop();
   }
 
   @Override

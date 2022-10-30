@@ -14,7 +14,7 @@ public class TentacleWeaponEntityModel extends EntityModel<TentacleWeaponEntity>
   private float length = 0.0F;
 
   public TentacleWeaponEntityModel(ModelPart root) {
-    this.main = root.getChild("main");
+    this.main = root;
   }
 
   public static TexturedModelData getTexturedModelData() {
@@ -25,7 +25,7 @@ public class TentacleWeaponEntityModel extends EntityModel<TentacleWeaponEntity>
       ModelPartBuilder.create()
         .uv(0, 0)
         .cuboid(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 16.0F),
-      ModelTransform.pivot(0.0F, 0.0F, 0.0F)
+      ModelTransform.NONE
     );
 
     return TexturedModelData.of(modelData, 64, 64);

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -71,6 +72,11 @@ public class TentacleWeaponEntity extends Entity {
     this.setPosition(owner.getPos().add(0.0D, 1.5D, 0.0D));
     if (this.targetPos != null) {
       this.rotateTowards(this.targetPos);
+      Vec3d pos = this.getEndPos(this.getLength(0.0F));
+      if (!world.getBlockState(new BlockPos(pos)).getCollisionShape(world, new BlockPos(pos)).isEmpty()) {
+        this.owner.teleport(pos.x, pos.y, pos.z);
+        this.discard();
+      }
     }
   }
 
@@ -95,10 +101,12 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   public float getLength(float tickDelta) {
-    if (this.age > 20.0F) {
-      return 10.0F;
+    if (this.targetPos == null) {
+      return 0.0F;
     }
-    return MathUtils.easeInOutQuad(0.0F, 10.0F, (this.age + tickDelta) / 20.0F);
+    float progress = MathHelper.clamp((this.age + tickDelta) / 10.0F, 0.0F, 1.0F);
+    float lengthPercent = MathUtils.easeInOutQuad(0.0F, 1.0F, MathHelper.clamp(progress, 0.0F, 1.0F));
+    return (float) (this.targetPos.subtract(this.getPos()).length() * lengthPercent);
   }
 
   public Vec3d getEndPos(float length) {
@@ -112,16 +120,25 @@ public class TentacleWeaponEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-
+    this.targetPos = new Vec3d(nbt.getDouble("TargetX"), nbt.getDouble("TargetY"), nbt.getDouble("TargetZ"));
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-
+    nbt.putDouble("TargetX", this.targetPos.x);
+    nbt.putDouble("TargetY", this.targetPos.y);
+    nbt.putDouble("TargetZ", this.targetPos.z);
   }
 
   @Override
   public Packet<?> createSpawnPacket() {
     return new EntitySpawnS2CPacket(this);
+  }
+
+  @Override
+  public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+    super.onSpawnPacket(packet);
+    Vec3d spawnPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
+    this.targetPos = spawnPos.add(this.getRotationVector().multiply(10.0D));
   }
 }
