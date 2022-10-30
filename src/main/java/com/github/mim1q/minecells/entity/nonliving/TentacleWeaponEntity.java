@@ -23,9 +23,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class TentacleWeaponEntity extends Entity {
-  private float serverYaw;
-  private float serverPitch;
-  private int interpolationSteps;
+  private Vec3d startingPos;
   private Vec3d targetPos;
   private PlayerEntity owner;
   private Vec3d ownerVelocity = null;
@@ -51,7 +49,8 @@ public class TentacleWeaponEntity extends Entity {
     entity.setYaw(owner.getYaw());
     entity.prevYaw = owner.getYaw();
     entity.startRiding(owner, true);
-    entity.targetPos = entity.getPos().add(entity.getRotationVector().multiply(16.0D));
+    entity.targetPos = entity.getPos().add(entity.getRotationVector().multiply(10.0D));
+    entity.startingPos = entity.getPos();
     return entity;
   }
 
@@ -61,7 +60,11 @@ public class TentacleWeaponEntity extends Entity {
     if (this.isRetracting()) {
       this.length.setupTransitionTo(0.0F, 10.0F);
     } else {
-      this.length.setupTransitionTo(1.0F, 20.0F);
+      this.length.setupTransitionTo(1.0F, 10.0F);
+    }
+
+    if (this.getVehicle() != null) {
+      this.targetPos = this.targetPos.add(this.getVehicle().getVelocity().multiply(0.25D));
     }
 
     if (world.isClient) {
@@ -71,14 +74,7 @@ public class TentacleWeaponEntity extends Entity {
     }
   }
 
-  public void tickClient() {
-    if (this.interpolationSteps > 0) {
-      float g = MathHelper.wrapDegrees(this.serverYaw - this.getYaw());
-      this.setYaw(this.getYaw() + g / this.interpolationSteps);
-      this.setPitch(this.getPitch() + (this.serverPitch - this.getPitch()) / this.interpolationSteps);
-      --this.interpolationSteps;
-    }
-  }
+  public void tickClient() { }
 
   public void tickServer() {
     if (this.owner == null || !this.hasVehicle()) {
@@ -98,8 +94,7 @@ public class TentacleWeaponEntity extends Entity {
       this.setRetracting(true);
     }
 
-    if (this.targetPos != null) {
-      this.rotateTowards(this.targetPos);
+    if (this.targetPos != null && this.startingPos != null) {
       HitResult collision = this.getCollision();
       if (collision.getType() != HitResult.Type.MISS) {
         Vec3d pos = this.getEndPos(this.getLength(0.0F));
@@ -127,19 +122,12 @@ public class TentacleWeaponEntity extends Entity {
     if (entity.isPresent()) {
       return new EntityHitResult(entity.get());
     }
-    return this.world.raycast(new RaycastContext(pos, pos.add(this.getRotationVector().multiply(0.5D)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
-  }
-
-  private void rotateTowards(Vec3d target) {
-    Vec3d pos = this.getPos();
-    double d = target.x - pos.x;
-    double e = target.y - pos.y;
-    double f = target.z - pos.z;
-    double g = Math.sqrt(d * d + f * f);
-    this.setPitch(MathHelper.wrapDegrees((float)(-(MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN))));
-    this.setYaw(MathHelper.wrapDegrees((float)(MathHelper.atan2(f, d) * MathHelper.DEGREES_PER_RADIAN) - 90.0F));
-    this.prevPitch = this.getPitch();
-    this.prevYaw = this.getYaw();
+    if (this.world.getBlockState(this.getBlockPos()).isSolidBlock(this.world, this.getBlockPos())) {
+      return new BlockHitResult(pos, null, this.getBlockPos(), false);
+    }
+    Vec3d minPos = this.getEndPos(this.getLength(0.0F));
+    Vec3d maxPos = this.getEndPos(this.getLength(1.0F));
+    return this.world.raycast(new RaycastContext(minPos, maxPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
   }
 
   private void pullOwner() {
@@ -148,28 +136,21 @@ public class TentacleWeaponEntity extends Entity {
     this.owner.fallDistance = 0.0F;
   }
 
-  @Override
-  public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
-    this.serverYaw = yaw;
-    this.serverPitch = pitch;
-    this.interpolationSteps = interpolationSteps;
-  }
-
   public float getLength(float tickDelta) {
     if (this.targetPos == null) {
       return 0.0F;
     }
     this.length.update(this.age + tickDelta);
     float progress = this.length.getValue();
-    float length = MathHelper.clamp(progress, 0.0F, 1.0F);
-    return (float) (this.targetPos.subtract(this.getPos()).length() * length);
+    return MathHelper.clamp(progress, 0.0F, 1.0F);
   }
 
   public Vec3d getEndPos(float length) {
-    if (length < 0.75F) {
-      return null;
-    }
-    return this.getPos().add(this.getRotationVector().multiply(length));
+    return this.targetPos.subtract(this.startingPos).multiply(length).add(this.startingPos);
+  }
+
+  public Vec3d getStartingPos() {
+    return this.startingPos;
   }
 
   @Override
@@ -207,6 +188,7 @@ public class TentacleWeaponEntity extends Entity {
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
     Vec3d spawnPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
-    this.targetPos = spawnPos.add(this.getRotationVector().multiply(16.0D));
+    this.targetPos = spawnPos.add(this.getRotationVector().multiply(10.0D));
+    this.startingPos = spawnPos;
   }
 }

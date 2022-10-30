@@ -29,11 +29,13 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     }
     matrices.push();
     matrices.scale(-1.0F, -1.0F, 1.0F);
-    float xRot = entity.getPitch(tickDelta);
-    float yRot = entity.getYaw(tickDelta);
-    matrices.multiply(new Quaternion(Vec3f.POSITIVE_Y, yRot, true));
-    matrices.multiply(new Quaternion(Vec3f.POSITIVE_X, -xRot, true));
-    renderTentacle(matrices, vertexConsumers, light, entity.getLength(tickDelta));
+    float length = entity.getLength(tickDelta);
+    Vec3f normalized = new Vec3f(entity.getEndPos(Math.max(1.0F, length)).subtract(entity.getCameraPosVec(tickDelta)).normalize());
+    float xRot = (float) Math.asin(-normalized.getY());
+    float yRot = (float) Math.atan2(normalized.getX(), normalized.getZ());
+    matrices.multiply(new Quaternion(Vec3f.POSITIVE_Y, -yRot, false));
+    matrices.multiply(new Quaternion(Vec3f.POSITIVE_X, -xRot, false));
+    renderTentacle(matrices, vertexConsumers, light, length);
     matrices.pop();
 
     super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
@@ -41,7 +43,7 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
 
   public void renderTentacle(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float length) {
     matrices.push();
-    matrices.scale(1.0F, 1.0F, length);
+    matrices.scale(1.0F, 1.0F, length * 10.0F);
     this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }
