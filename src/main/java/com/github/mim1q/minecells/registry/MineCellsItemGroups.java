@@ -35,6 +35,7 @@ public class MineCellsItemGroups {
       MineCellsItems.ASSASSINS_DAGGER.getDefaultStack(),
       MineCellsItems.BLOOD_SWORD.getDefaultStack(),
       MineCellsItems.CURSED_SWORD.getDefaultStack(),
+      MineCellsItems.HATTORIS_KATANA.getDefaultStack(),
       MineCellsItems.TENTACLE.getDefaultStack()
     ))).build();
 

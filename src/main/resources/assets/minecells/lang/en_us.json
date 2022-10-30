@@ -70,6 +70,8 @@
   "item.minecells.tentacle": "Conjunctivius's Tentacle",
   "item.minecells.tentacle.tooltip1": "Right-click to swing",
   "item.minecells.tentacle.tooltip2": "[2s cooldown]",
+  "item.minecells.hattoris_katana": "Hattori's Katana",
+  "item.minecells.hattoris_katana.tooltip1": "Hold right-click to charge",
 
   "entity.minecells.shocker": "Shocker",
   "entity.minecells.leaping_zombie": "Leaping Zombie",

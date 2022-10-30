@@ -2,12 +2,9 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
-import com.github.mim1q.minecells.item.weapon.AssassinsDaggerItem;
+import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
-import com.github.mim1q.minecells.item.weapon.BloodSwordItem;
-import com.github.mim1q.minecells.item.weapon.CursedSwordItem;
-import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
 import net.minecraft.util.Rarity;
@@ -94,6 +91,15 @@ public class MineCellsItems {
       .rarity(Rarity.EPIC)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "tentacle"
+  );
+
+  public static final Item HATTORIS_KATANA = register(
+    new HattorisKatanaItem(1, -2.0F, new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(800)
+      .rarity(Rarity.RARE)
+      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+    ), "hattoris_katana"
   );
 
   public static final Item HEALTH_FLASK = registerSimpleItem(
