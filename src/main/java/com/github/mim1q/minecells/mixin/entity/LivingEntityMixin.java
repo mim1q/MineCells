@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -84,6 +85,8 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
       return;
     }
     if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
+      System.out.println("ded");
+      world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
       this.setHealth(0.5f);
       this.damage(MineCellsDamageSource.CURSED, 10.0f);
       cir.setReturnValue(true);

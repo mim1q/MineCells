@@ -241,5 +241,10 @@
     "sounds": [
       "minecells:cell_absorb"
     ]
+  },
+  "curse_death": {
+    "sounds": [
+      "minecells:curse_death"
+    ]
   }
 }
