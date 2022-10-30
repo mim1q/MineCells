@@ -9,6 +9,7 @@ import com.github.mim1q.minecells.item.weapon.CursedSwordItem;
 import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
 import java.util.HashSet;
@@ -64,6 +65,7 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(1200)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .rarity(Rarity.UNCOMMON)
     ), "assassins_dagger"
   );
 
@@ -72,6 +74,7 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(1200)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .rarity(Rarity.UNCOMMON)
     ), "blood_sword"
   );
 
@@ -87,6 +90,7 @@ public class MineCellsItems {
     new TentacleItem(5, 0, -3.0F, new FabricItemSettings()
       .maxCount(1)
       .maxDamage(500)
+      .rarity(Rarity.EPIC)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "tentacle"
   );
