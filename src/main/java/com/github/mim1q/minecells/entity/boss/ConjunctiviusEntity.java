@@ -181,7 +181,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .chargeSound(MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE)
       .releaseSound(MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE)
       .soundVolume(2.0F)
-      .speed(0.67F)
+      .speed(1.0F)
       .damage(20.0F)
       .defaultCooldown(400)
       .actionTick(30)
@@ -315,6 +315,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     for (int i = 0; i < 2 + 2 * playerAmount; i++) {
       SewersTentacleEntity tentacle = MineCellsEntities.SEWERS_TENTACLE.create(this.world);
       if (tentacle != null) {
+        tentacle.setVariant(this.getStage() == 1 ? 0 : this.getStage() == 3 ? 1 : 2);
         tentacle.setPosition(this.getTentaclePos());
         tentacle.setSpawnedByBoss(true);
         this.tentacleIds.add(tentacle.getId());
