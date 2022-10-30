@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.datagen;
 
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
@@ -45,6 +46,8 @@ public class MineCellsEntityLootTableProvider extends MineCellsLootTableHelper {
         .pool(simplePool(ItemEntry.builder(Items.DIAMOND), 8, 16))
         .pool(simplePool(ItemEntry.builder(Items.EMERALD), 8, 16))
         .pool(simplePool(ItemEntry.builder(Items.GOLD_INGOT), 8, 16))
+        .pool(simplePool(ItemEntry.builder(MineCellsItems.CURSED_SWORD), 1))
+        .pool(simplePool(ItemEntry.builder(MineCellsItems.TENTACLE), 1))
     );
   }
 }
