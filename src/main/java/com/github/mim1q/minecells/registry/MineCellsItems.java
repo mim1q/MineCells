@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.weapon.AssassinsDaggerItem;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
@@ -93,6 +94,13 @@ public class MineCellsItems {
       .rarity(Rarity.EPIC)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "tentacle"
+  );
+
+  public static final Item HEALTH_FLASK = registerSimpleItem(
+    new HealthFlaskItem(new FabricItemSettings()
+      .maxCount(1)
+      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
+    ), "health_flask"
   );
 
   public static void init() {

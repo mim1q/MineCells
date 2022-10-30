@@ -69,7 +69,8 @@ public class MineCellsItemGroups {
       MineCellsItems.BIOME_BANNER.getOf(BiomeBannerBlock.BannerPattern.PROMENADE),
       MineCellsItems.SEWAGE_BUCKET.getDefaultStack(),
       MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack(),
-      MineCellsItems.ELEVATOR_MECHANISM.getDefaultStack()
+      MineCellsItems.ELEVATOR_MECHANISM.getDefaultStack(),
+      MineCellsItems.HEALTH_FLASK.getDefaultStack()
     ))).build();
 
   public static void init() { }
