@@ -167,6 +167,16 @@
       "minecells:weapon/swipe/swipe_2"
     ]
   },
+  "weapon.tentacle.charge": {
+    "sounds": [
+      "minecells:weapon/tentacle/charge"
+    ]
+  },
+  "weapon.tentacle.release": {
+    "sounds": [
+      "minecells:weapon/tentacle/release"
+    ]
+  },
   "buzz": {
     "sounds": [
       "minecells:buzz"

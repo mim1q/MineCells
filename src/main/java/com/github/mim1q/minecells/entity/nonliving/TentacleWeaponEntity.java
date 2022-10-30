@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -101,14 +102,10 @@ public class TentacleWeaponEntity extends Entity {
       Vec3d pos = this.getEndPos(this.getLength(0.0F));
       HitResult collision = this.getCollision();
       if (collision.getType() != HitResult.Type.MISS) {
+        this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         this.setRetracting(true);
-        if (this.getLength(0.0F) < 0.5F) {
-          discard();
-          return;
-        }
         this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D).add(0.0D, 0.075D, 0.0D);
         if (collision.getType() == HitResult.Type.ENTITY) {
-          System.out.println("hit entity");
           Entity entity = ((EntityHitResult) collision).getEntity();
           entity.damage(DamageSource.player(this.owner), 1.0F);
         }

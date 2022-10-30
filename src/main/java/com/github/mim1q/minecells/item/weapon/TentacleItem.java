@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -29,6 +30,7 @@ public class TentacleItem extends AbstractCritWeaponItem {
   @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
     ItemStack stack = user.getStackInHand(hand);
+    world.playSound(user.getX(), user.getY(), user.getZ(), MineCellsSounds.TENTACLE_CHARGE, user.getSoundCategory(), 1.0F, 1.0F, false);
     if (!world.isClient) {
       Entity entity = TentacleWeaponEntity.create(world, user);
       if (entity != null) {
