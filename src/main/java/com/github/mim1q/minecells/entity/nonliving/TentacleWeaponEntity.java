@@ -110,7 +110,7 @@ public class TentacleWeaponEntity extends Entity {
         if (collision.getType() == HitResult.Type.ENTITY) {
           System.out.println("hit entity");
           Entity entity = ((EntityHitResult) collision).getEntity();
-          entity.damage(DamageSource.player(this.owner), 3.0F);
+          entity.damage(DamageSource.player(this.owner), 1.0F);
         }
       }
     }

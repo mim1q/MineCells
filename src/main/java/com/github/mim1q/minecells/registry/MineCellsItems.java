@@ -84,8 +84,9 @@ public class MineCellsItems {
   );
 
   public static final Item TENTACLE = register(
-    new TentacleItem(new FabricItemSettings()
+    new TentacleItem(5, 0, -3.0F, new FabricItemSettings()
       .maxCount(1)
+      .maxDamage(500)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "tentacle"
   );
