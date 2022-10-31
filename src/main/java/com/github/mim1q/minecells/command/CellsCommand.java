@@ -15,34 +15,34 @@ import net.minecraft.text.Text;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class CellCommand {
+public class CellsCommand {
   @SuppressWarnings("unused")
   public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
     dispatcher.register(literal("cells").requires(source -> source.hasPermissionLevel(2))
       .then(literal("set")
         .then(argument("player", EntityArgumentType.player())
           .then(argument("amount", IntegerArgumentType.integer(0))
-            .executes(CellCommand::setCells)
+            .executes(CellsCommand::setCells)
           )
         )
       )
       .then(literal("give")
         .then(argument("player", EntityArgumentType.player())
           .then(argument("amount", IntegerArgumentType.integer(0))
-            .executes(CellCommand::giveCells)
+            .executes(CellsCommand::giveCells)
           )
         )
       )
       .then(literal("take")
         .then(argument("player", EntityArgumentType.player())
           .then(argument("amount", IntegerArgumentType.integer(0))
-            .executes(CellCommand::takeCells)
+            .executes(CellsCommand::takeCells)
           )
         )
       )
       .then(literal("get")
         .then(argument("player", EntityArgumentType.player())
-          .executes(CellCommand::getCells)
+          .executes(CellsCommand::getCells)
         )
       )
     );
