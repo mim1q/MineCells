@@ -62,6 +62,8 @@ public class HattorisKatanaItem extends SwordItem {
       this.damageEntities(world, player, start, hitPos);
       if (world.isClient()) {
         spawnTrailParticles(world, start, hitPos);
+      } else {
+        stack.damage(1, player, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
       }
       player.teleport(hitPos.x, hitPos.y, hitPos.z);
       user.playSound(MineCellsSounds.KATANA_RELEASE, 2.0F, 1.0F);

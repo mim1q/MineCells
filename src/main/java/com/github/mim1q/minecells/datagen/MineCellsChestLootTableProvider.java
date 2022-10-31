@@ -48,6 +48,11 @@ public class MineCellsChestLootTableProvider extends MineCellsLootTableHelper {
           RandomChanceLootCondition.builder(0.1f),
           ConstantLootNumberProvider.create(1)
         ), 1))
+        .pool(simplePool(conditionalEntry(
+          MineCellsItems.HEALTH_FLASK,
+          RandomChanceLootCondition.builder(0.2f),
+          ConstantLootNumberProvider.create(1)
+        ), 1))
     );
   }
 }
