@@ -98,7 +98,7 @@ public class GrenadeEntity extends ProjectileEntity {
   public static class GrenadeDamageSource extends DamageSource {
 
     protected GrenadeDamageSource() {
-      super("minecellsGrenade");
+      super("minecells.grenade");
       this.setExplosive();
     }
   }

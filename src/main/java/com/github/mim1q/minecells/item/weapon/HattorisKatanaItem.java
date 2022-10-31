@@ -1,10 +1,10 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -120,7 +120,7 @@ public class HattorisKatanaItem extends SwordItem {
     for (Vec3d pos : increments) {
       world.getOtherEntities(user, Box.of(pos, 1.5D, 1.5D, 1.5D)).forEach(entity -> {
         if (entity instanceof LivingEntity && !entities.contains(entity)) {
-          entity.damage(DamageSource.player(user), 10.0F);
+          entity.damage(MineCellsDamageSource.katana(user), 10.0F);
           Vec3d direction = pos.subtract(entity.getPos()).normalize();
           ((LivingEntity) entity).takeKnockback(0.5F, direction.getX(), direction.getZ());
           entities.add((LivingEntity) entity);
