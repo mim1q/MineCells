@@ -78,8 +78,8 @@ public class HattorisKatanaItem extends SwordItem {
       float speed = (float) (increment.distanceTo(hitPos) / 200.0F);
       ParticleUtils.addAura((ClientWorld) world, increment, ParticleTypes.CAMPFIRE_COSY_SMOKE, 3, 0.5D, speed);
     }
-    ParticleUtils.addParticle((ClientWorld) world, ParticleTypes.FLASH, start, Vec3d.ZERO);
-    ParticleUtils.addParticle((ClientWorld) world, ParticleTypes.FLASH, hitPos, Vec3d.ZERO);
+    ParticleUtils.addParticle((ClientWorld) world, ParticleTypes.FLASH, start.add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+    ParticleUtils.addParticle((ClientWorld) world, ParticleTypes.FLASH, hitPos.add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
   }
 
   private Vec3d getHitPos(PlayerEntity player, Vec3d start, Vec3d direction, double distance) {
