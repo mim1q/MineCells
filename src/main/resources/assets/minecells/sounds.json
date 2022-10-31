@@ -177,6 +177,16 @@
       "minecells:weapon/tentacle/release"
     ]
   },
+  "weapon.katana.charge": {
+    "sounds": [
+      "minecells:weapon/katana/charge"
+    ]
+  },
+  "weapon.katana.release": {
+    "sounds": [
+      "minecells:weapon/katana/release"
+    ]
+  },
   "buzz": {
     "sounds": [
       "minecells:buzz"

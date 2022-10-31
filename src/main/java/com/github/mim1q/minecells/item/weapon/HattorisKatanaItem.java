@@ -1,12 +1,11 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
@@ -39,8 +38,6 @@ public class HattorisKatanaItem extends SwordItem {
   public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
     if (world.isClient()) {
       ParticleUtils.addAura((ClientWorld) world, user.getPos().add(0.0D, 1.0D, 0.0D), ParticleTypes.END_ROD, 1, 3.0D, -0.2D);
-    } else {
-      user.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1, 2));
     }
   }
 
@@ -67,6 +64,7 @@ public class HattorisKatanaItem extends SwordItem {
         spawnTrailParticles(world, start, hitPos);
       }
       player.teleport(hitPos.x, hitPos.y, hitPos.z);
+      user.playSound(MineCellsSounds.KATANA_RELEASE, 2.0F, 1.0F);
     }
     return super.finishUsing(stack, world, user);
   }
@@ -141,6 +139,7 @@ public class HattorisKatanaItem extends SwordItem {
 
   @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    user.playSound(MineCellsSounds.KATANA_CHARGE, 1.0F, 1.0F);
     return ItemUsage.consumeHeldItem(world, user, hand);
   }
 

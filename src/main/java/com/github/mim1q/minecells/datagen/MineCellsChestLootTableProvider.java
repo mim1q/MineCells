@@ -43,6 +43,11 @@ public class MineCellsChestLootTableProvider extends MineCellsLootTableHelper {
           RandomChanceLootCondition.builder(0.1f),
           ConstantLootNumberProvider.create(1)
         ), 1))
+        .pool(simplePool(conditionalEntry(
+          MineCellsItems.HATTORIS_KATANA,
+          RandomChanceLootCondition.builder(0.1f),
+          ConstantLootNumberProvider.create(1)
+        ), 1))
     );
   }
 }

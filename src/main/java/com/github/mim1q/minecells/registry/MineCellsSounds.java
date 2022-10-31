@@ -57,6 +57,10 @@ public final class MineCellsSounds {
 
   public static final SoundEvent TENTACLE_CHARGE = register("weapon.tentacle.charge");
   public static final SoundEvent TENTACLE_RELEASE = register("weapon.tentacle.release");
+
+  public static final SoundEvent KATANA_CHARGE = register("weapon.katana.charge");
+  public static final SoundEvent KATANA_RELEASE = register("weapon.katana.release");
+
   //Blocks
   public static final SoundEvent PORTAL_ACTIVATE = register("portal.activate");
   public static final SoundEvent PORTAL_USE = register("portal.use");
