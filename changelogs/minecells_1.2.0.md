@@ -17,7 +17,7 @@
 ## Weapons
 
 - **Blood Sword** - applies bleeding on hit (30s cooldown)
-- **Cursed Sword** - deals massive damage, but also brings a death curse upon the user
+- **Cursed Sword** - deals massive damage, but also brings a death curse upon the wielder
 - **Hattori's Katana** - little damage, fast, has a special charge ability when holding right click (30s cooldown)  
   [Video](https://www.youtube.com/watch?v=tpVfUu-TrCY)
 - **Conjunctivius's Tentacle** - Lets the user swing the tentacle and use it like a grappling hook  
