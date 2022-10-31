@@ -33,6 +33,7 @@ public class MineCells implements ModInitializer {
     MineCellsStructures.init();
     MineCellsPlacerTypes.init();
     MineCellsPointOfInterestTypes.init();
+    MineCellsCommands.init();
   }
 
   public static Identifier createId(String path) {
