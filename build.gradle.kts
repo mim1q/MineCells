@@ -117,6 +117,7 @@ if (secrets.isCurseforgeReady()) {
       id = secrets.curseforgeId
       releaseType = ModData.versionType
       ModData.mcVersions.forEach(::addGameVersion)
+      addGameVersion("fabric")
       changelog = newChangelog
       changelogType = "markdown"
       relations(closureOf<CurseRelation> {
