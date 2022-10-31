@@ -17,6 +17,11 @@ public class MineCellsBlocks {
     "elevator_assembler"
   );
 
+  public static final Block CELL_FORGE = registerBlockWithItem(
+    new CellForgeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)),
+    "cell_forge"
+  );
+
   public static final Block BIG_CHAIN = registerBlockWithItem(
     new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)),
     "big_chain"
