@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;
@@ -91,6 +92,7 @@ public class TentacleWeaponEntity extends Entity {
       return;
     }
     if (this.age > 10) {
+      this.owner.getItemCooldownManager().set(MineCellsItems.TENTACLE, 10);
       this.setRetracting(true);
     }
 
