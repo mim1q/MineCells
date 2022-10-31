@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.LootCondition;
+import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.context.LootContextType;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LeafEntry;
@@ -17,6 +18,10 @@ public abstract class MineCellsLootTableHelper extends SimpleFabricLootTableProv
 
   public MineCellsLootTableHelper(FabricDataGenerator dataGenerator, LootContextType lootContextType) {
     super(dataGenerator, lootContextType);
+  }
+
+  public static LootPool.Builder simplePool(LeafEntry.Builder<?> entry) {
+    return LootPool.builder().with(entry);
   }
 
   public static LootPool.Builder simplePool(LeafEntry.Builder<?> entryBuilder, int count) {
@@ -41,5 +46,13 @@ public abstract class MineCellsLootTableHelper extends SimpleFabricLootTableProv
     LootNumberProvider count
   ) {
     return ItemEntry.builder(drop).conditionally(condition).apply(SetCountLootFunction.builder(count));
+  }
+
+  public static LeafEntry.Builder<?> randomChanceEntry(
+    ItemConvertible drop,
+    float chance,
+    LootNumberProvider count
+  ) {
+    return ItemEntry.builder(drop).conditionally(RandomChanceLootCondition.builder(chance)).apply(SetCountLootFunction.builder(count));
   }
 }

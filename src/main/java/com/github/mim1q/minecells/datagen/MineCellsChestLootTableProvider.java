@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -33,26 +32,10 @@ public class MineCellsChestLootTableProvider extends MineCellsLootTableHelper {
         .pool(simplePool(ItemEntry.builder(MineCellsBlocks.BIG_CHAIN), 0, 4))
         .pool(simplePool(ItemEntry.builder(Blocks.CHAIN), 2, 8))
         .pool(simplePool(ItemEntry.builder(MineCellsItems.ELEVATOR_MECHANISM), 0, 1))
-        .pool(simplePool(conditionalEntry(
-          MineCellsItems.ASSASSINS_DAGGER,
-          RandomChanceLootCondition.builder(0.1f),
-          ConstantLootNumberProvider.create(1)
-        ), 1))
-        .pool(simplePool(conditionalEntry(
-          MineCellsItems.BLOOD_SWORD,
-          RandomChanceLootCondition.builder(0.1f),
-          ConstantLootNumberProvider.create(1)
-        ), 1))
-        .pool(simplePool(conditionalEntry(
-          MineCellsItems.HATTORIS_KATANA,
-          RandomChanceLootCondition.builder(0.1f),
-          ConstantLootNumberProvider.create(1)
-        ), 1))
-        .pool(simplePool(conditionalEntry(
-          MineCellsItems.HEALTH_FLASK,
-          RandomChanceLootCondition.builder(0.2f),
-          ConstantLootNumberProvider.create(1)
-        ), 1))
+        .pool(simplePool(randomChanceEntry(MineCellsItems.ASSASSINS_DAGGER, 0.1f, ConstantLootNumberProvider.create(1))))
+        .pool(simplePool(randomChanceEntry(MineCellsItems.BLOOD_SWORD, 0.1f, ConstantLootNumberProvider.create(1))))
+        .pool(simplePool(randomChanceEntry(MineCellsItems.HATTORIS_KATANA, 0.1f, ConstantLootNumberProvider.create(1))))
+        .pool(simplePool(randomChanceEntry(MineCellsItems.HEALTH_FLASK, 0.2f, ConstantLootNumberProvider.create(1))))
     );
   }
 }
