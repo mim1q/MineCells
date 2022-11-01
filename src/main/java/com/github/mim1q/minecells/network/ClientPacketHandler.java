@@ -25,6 +25,7 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.EXPLOSION, ClientPacketHandler::handleExplosion);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CONNECT, ClientPacketHandler::handleConnect);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.ELEVATOR_DESTROYED, ClientPacketHandler::handleElevatorDestroyed);
+    ClientPlayNetworking.registerGlobalReceiver(SyncCellForgeRecipeS2CPacket.ID, SyncCellForgeRecipeS2CPacket::apply);
   }
 
   private static void handleCrit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {

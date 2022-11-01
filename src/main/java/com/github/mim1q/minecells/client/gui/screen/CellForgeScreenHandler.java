@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.gui.screen;
 
 import com.github.mim1q.minecells.block.inventory.CellForgeBlueprintInventory;
 import com.github.mim1q.minecells.block.inventory.CellForgeInventory;
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsScreenHandlerTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,6 +14,7 @@ public class CellForgeScreenHandler extends ScreenHandler {
   private final CellForgeInventory inventory;
   private final CellForgeBlueprintInventory blueprintInventory;
   private final PlayerEntity player;
+  private CellForgeRecipe selectedRecipe = null;
 
   public CellForgeScreenHandler(int id, PlayerInventory playerInventory, PlayerEntity player) {
     super(MineCellsScreenHandlerTypes.CELL_FORGE, id);
@@ -53,5 +55,18 @@ public class CellForgeScreenHandler extends ScreenHandler {
   @Override
   public boolean canUse(PlayerEntity player) {
     return true;
+  }
+
+  @Override
+  public void updateToClient() {
+    super.updateToClient();
+  }
+
+  public CellForgeRecipe getSelectedRecipe() {
+    return selectedRecipe;
+  }
+
+  public void setSelectedRecipe(CellForgeRecipe selectedRecipe) {
+    this.selectedRecipe = selectedRecipe;
   }
 }
