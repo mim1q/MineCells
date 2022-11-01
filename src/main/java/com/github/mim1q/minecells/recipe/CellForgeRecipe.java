@@ -45,7 +45,9 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
   @Override
   public boolean matches(CellForgeInventory inventory, World world) {
     for (int i = 0; i < ingredients.size(); i++) {
-      if (!ingredients.get(i).isItemEqualIgnoreDamage(inventory.getStack(i))) {
+      ItemStack ingredient = ingredients.get(i);
+      ItemStack stack = inventory.getStack(i);
+      if (!(ingredient.isItemEqualIgnoreDamage(stack) && ingredient.getCount() == stack.getCount())) {
         return false;
       }
     }
