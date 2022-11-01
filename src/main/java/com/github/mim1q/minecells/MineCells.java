@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.CommonConfig;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
@@ -36,6 +37,7 @@ public class MineCells implements ModInitializer {
     MineCellsCommands.init();
     MineCellsRecipeTypes.init();
     MineCellsScreenHandlerTypes.init();
+    ServerPacketHandler.init();
   }
 
   public static Identifier createId(String path) {

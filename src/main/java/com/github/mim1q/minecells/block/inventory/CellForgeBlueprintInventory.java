@@ -84,4 +84,8 @@ public class CellForgeBlueprintInventory implements Inventory {
   public void clear() {
 
   }
+
+  public CellForgeRecipe getSelectedRecipe() {
+    return selectedRecipe;
+  }
 }

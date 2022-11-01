@@ -32,7 +32,7 @@ public class CellForgeBlock extends Block {
   @SuppressWarnings("deprecation")
   public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
     return new SimpleNamedScreenHandlerFactory(
-      (i, inventory, player) -> new CellForgeScreenHandler(i, inventory),
+      (i, inventory, player) -> new CellForgeScreenHandler(i, inventory, pos),
       Text.of("Cell forge")
     );
   }
