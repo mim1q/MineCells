@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.recipe;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.inventory.CellForgeInventory;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import com.mojang.serialization.Codec;
@@ -25,8 +24,7 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     Identifier.CODEC.optionalFieldOf("blueprint").forGetter(CellForgeRecipe::getBlueprint)
   ).apply(instance, CellForgeRecipe::new));
 
-  public static final Identifier ID = MineCells.createId("cell_forge_recipe");
-
+  private Identifier id = null;
   private final List<ItemStack> ingredients;
   private final int cells;
   private final ItemStack output;
@@ -37,6 +35,11 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     this.cells = cells;
     this.output = output;
     this.requiredBlueprint = requiredBlueprint;
+  }
+
+  public CellForgeRecipe withId(Identifier id) {
+    this.id = id;
+    return this;
   }
 
   @Override
@@ -73,7 +76,7 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
 
   @Override
   public Identifier getId() {
-    return ID;
+    return this.id;
   }
 
   @Override

@@ -11,12 +11,13 @@ public class CellForgeRecipeSerializer implements RecipeSerializer<CellForgeReci
 
   @Override
   public CellForgeRecipe read(Identifier id, JsonObject json) {
-    return CellForgeRecipe.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(false, System.out::println).getFirst();
+    return CellForgeRecipe.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(false, System.out::println).getFirst().withId(id);
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public CellForgeRecipe read(Identifier id, PacketByteBuf buf) {
-    return null;
+    return buf.decode(CellForgeRecipe.CODEC).withId(id);
   }
 
   @Override

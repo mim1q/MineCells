@@ -9,6 +9,6 @@ public class MineCellsRecipeTypes {
   public static final RecipeType<CellForgeRecipe> CELL_FORGE_RECIPE_TYPE = RecipeType.register("minecells:cell_forge_recipe");
 
   public static void init() {
-    Registry.register(Registry.RECIPE_SERIALIZER, CellForgeRecipe.ID, CellForgeRecipeSerializer.INSTANCE);
+    Registry.register(Registry.RECIPE_SERIALIZER, "minecells:cell_forge_recipe", CellForgeRecipeSerializer.INSTANCE);
   }
 }
