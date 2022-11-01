@@ -13,6 +13,8 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
   private static final Identifier BACKGROUND_TEXTURE = MineCells.createId("textures/gui/container/cell_forge.png");
   public CellForgeScreen(CellForgeScreenHandler handler, PlayerInventory inventory, Text title) {
     super(handler, inventory, title);
+    this.backgroundWidth = 196;
+    this.backgroundHeight = 200;
   }
 
   @Override
@@ -22,6 +24,10 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
     this.drawTexture(matrices, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
+  }
+
+  @Override
+  protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
   }
 
   @Override

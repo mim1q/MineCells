@@ -1,13 +1,24 @@
 package com.github.mim1q.minecells.block.inventory;
 
+import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.collection.DefaultedList;
 
-public class CellForgeInventory implements Inventory {
+public class CellForgeBlueprintInventory implements Inventory {
+  private final DefaultedList<ItemStack> stacks = DefaultedList.ofSize(size(), Items.STONE.getDefaultStack());
+
+  public CellForgeBlueprintInventory(PlayerEntity player) {
+    if (!player.getWorld().isClient()) {
+      System.out.println(player.getServer().getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE));
+    }
+  }
+
   @Override
   public int size() {
-    return 6;
+    return 3 * 9;
   }
 
   @Override
@@ -17,17 +28,17 @@ public class CellForgeInventory implements Inventory {
 
   @Override
   public ItemStack getStack(int slot) {
-    return ItemStack.EMPTY;
+    return stacks.get(slot);
   }
 
   @Override
   public ItemStack removeStack(int slot, int amount) {
-    return null;
+    return ItemStack.EMPTY;
   }
 
   @Override
   public ItemStack removeStack(int slot) {
-    return null;
+    return ItemStack.EMPTY;
   }
 
   @Override
@@ -42,7 +53,7 @@ public class CellForgeInventory implements Inventory {
 
   @Override
   public boolean canPlayerUse(PlayerEntity player) {
-    return true;
+    return false;
   }
 
   @Override
