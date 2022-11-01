@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.gui.screen;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.client.gui.screen.button.ForgeButtonWidget;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -18,11 +20,13 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
   public static final Identifier BACKGROUND_TEXTURE = MineCells.createId("textures/gui/container/cell_forge.png");
 
   private ForgeButtonWidget forgeButton;
+  private final PlayerEntity player;
 
   public CellForgeScreen(CellForgeScreenHandler handler, PlayerInventory inventory, Text title) {
     super(handler, inventory, title);
     this.backgroundWidth = 195;
     this.backgroundHeight = 201;
+    this.player = inventory.player;
   }
 
   @Override
@@ -63,7 +67,9 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
   }
 
   protected void drawInput(CellForgeRecipe recipe, MatrixStack matrices, int x, int y) {
-    DrawableHelper.drawCenteredText(matrices, this.textRenderer, String.valueOf(recipe.getCells()), x - 34, y - 10, 0xFFFFFF);
+    int cells = recipe.getCells();
+    int color = ((PlayerEntityAccessor) this.player).getCells() >= cells ? 0xFF4ABD46 : 0xFFE82828;
+    DrawableHelper.drawCenteredText(matrices, this.textRenderer, String.valueOf(cells), x - 34, y - 10, color);
     for (int i = 0; i < recipe.getInput().size(); i++) {
       ItemStack stack = recipe.getInput().get(i);
       this.itemRenderer.renderInGui(stack, x + i * 18, y);
