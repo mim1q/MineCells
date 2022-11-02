@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.gui.screen;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.MineCellsClient;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.client.gui.screen.button.ForgeButtonWidget;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
@@ -87,11 +88,9 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
       ItemStack stack = recipe.getInput().get(i);
       this.itemRenderer.renderInGui(stack, x + i * 18, y);
       this.itemRenderer.renderGuiItemOverlay(this.textRenderer, stack, x + i * 18, y);
-
-      matrices.push();
-      matrices.translate(0.0D, 0.0D, 256.0D);
-      this.fillGradient(matrices, x + i * 18, y, x + i * 18 + 16, y + 16, 0x808B8B8B, 0x808B8B8B);
-      matrices.pop();
+      RenderSystem.disableDepthTest();
+      DrawableHelper.fill(matrices, x + i * 18, y, x + i * 18 + 16, y + 16, 0x80C6C6C6);
+      RenderSystem.enableDepthTest();
     }
   }
 
@@ -100,6 +99,7 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
     this.forgeButton.active = this.getScreenHandler().canForge();
     super.render(matrices, mouseX, mouseY, delta);
     this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+    MineCellsClient.cellAmountHud.renderInInventory(matrices);
   }
 
   private final class ForgeButtonTooltipSupplier implements ButtonWidget.TooltipSupplier {
