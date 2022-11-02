@@ -18,6 +18,7 @@ public class CellForgeBlueprintInventory implements Inventory {
   private final List<CellForgeRecipe> recipes = new ArrayList<>();
   private CellForgeRecipe selectedRecipe = null;
   private final PlayerEntity player;
+  private int selectedRecipeIndex = -1;
 
   public CellForgeBlueprintInventory(PlayerEntity player) {
     this.player = player;
@@ -52,10 +53,11 @@ public class CellForgeBlueprintInventory implements Inventory {
       return ItemStack.EMPTY;
     }
     this.selectedRecipe = recipes.get(slot);
+    this.selectedRecipeIndex = slot;
     ServerPlayNetworking.send(
       (ServerPlayerEntity) this.player,
       SyncCellForgeRecipeS2CPacket.ID,
-      new SyncCellForgeRecipeS2CPacket(selectedRecipe)
+      new SyncCellForgeRecipeS2CPacket(selectedRecipe, slot)
     );
     return ItemStack.EMPTY;
   }
@@ -87,5 +89,14 @@ public class CellForgeBlueprintInventory implements Inventory {
 
   public CellForgeRecipe getSelectedRecipe() {
     return selectedRecipe;
+  }
+
+  public int getSelectedRecipeIndex() {
+    return selectedRecipeIndex;
+  }
+
+  public void setSelectedRecipe(CellForgeRecipe selectedRecipe, int slot) {
+    this.selectedRecipe = selectedRecipe;
+    this.selectedRecipeIndex = slot;
   }
 }

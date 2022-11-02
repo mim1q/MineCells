@@ -17,12 +17,15 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CellForgeScreenHandler extends ScreenHandler {
   private final CellForgeInventory inventory;
   private final CellForgeBlueprintInventory blueprintInventory;
   private final PlayerEntity player;
   private final BlockPos pos;
-  private CellForgeRecipe selectedRecipe = null;
+  public List<Slot> blueprintSlots = new ArrayList<>();
 
   public CellForgeScreenHandler(int id, PlayerInventory playerInventory, PlayerEntity player, BlockPos pos) {
     super(MineCellsScreenHandlerTypes.CELL_FORGE, id);
@@ -52,6 +55,14 @@ public class CellForgeScreenHandler extends ScreenHandler {
     }
   }
 
+  @Override
+  protected Slot addSlot(Slot slot) {
+    if (slot.inventory == blueprintInventory) {
+      blueprintSlots.add(slot);
+    }
+    return super.addSlot(slot);
+  }
+
   public CellForgeScreenHandler(int i, PlayerInventory playerInventory, BlockPos pos) {
     this(i, playerInventory, playerInventory.player, pos);
   }
@@ -76,12 +87,15 @@ public class CellForgeScreenHandler extends ScreenHandler {
   }
 
   public CellForgeRecipe getSelectedRecipe() {
-    CellForgeRecipe recipe = this.blueprintInventory.getSelectedRecipe();
-    return recipe == null ? this.selectedRecipe : recipe;
+    return this.blueprintInventory.getSelectedRecipe();
   }
 
-  public void setSelectedRecipe(CellForgeRecipe selectedRecipe) {
-    this.selectedRecipe = selectedRecipe;
+  public int getSelectedRecipeSlotIndex() {
+    return this.blueprintInventory.getSelectedRecipeIndex();
+  }
+
+  public void setSelectedRecipe(CellForgeRecipe selectedRecipe, int slot) {
+    this.blueprintInventory.setSelectedRecipe(selectedRecipe, slot);
   }
 
   public BlockPos getPos() {

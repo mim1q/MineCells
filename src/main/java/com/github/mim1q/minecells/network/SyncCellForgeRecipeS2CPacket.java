@@ -18,13 +18,15 @@ import java.util.Optional;
 public class SyncCellForgeRecipeS2CPacket extends PacketByteBuf {
   public static final Identifier ID = MineCells.createId("sync_cell_forge");
 
-  public SyncCellForgeRecipeS2CPacket(CellForgeRecipe recipe) {
+  public SyncCellForgeRecipeS2CPacket(CellForgeRecipe recipe, int slot) {
     super(Unpooled.buffer());
     writeIdentifier(recipe.getId());
+    writeInt(slot);
   }
 
   public static void apply(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
     Identifier recipeId = buf.readIdentifier();
+    int slot = buf.readInt();
     client.execute(() -> {
       Optional<? extends Recipe<?>> recipe = handler.getRecipeManager().get(recipeId);
       ClientPlayerEntity player = client.player;
@@ -32,8 +34,8 @@ public class SyncCellForgeRecipeS2CPacket extends PacketByteBuf {
         return;
       }
       ScreenHandler screenHandler = player.currentScreenHandler;
-      if (screenHandler instanceof CellForgeScreenHandler) {
-        ((CellForgeScreenHandler) screenHandler).setSelectedRecipe((CellForgeRecipe) recipe.get());
+      if (screenHandler instanceof CellForgeScreenHandler forgeScreenHandler) {
+        forgeScreenHandler.setSelectedRecipe((CellForgeRecipe) recipe.get(), slot);
       }
     });
   }

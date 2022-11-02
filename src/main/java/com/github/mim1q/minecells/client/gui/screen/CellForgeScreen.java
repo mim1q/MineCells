@@ -13,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -54,16 +55,28 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
     this.drawTexture(matrices, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
+    CellForgeRecipe recipe = this.getScreenHandler().getSelectedRecipe();
+    if (recipe != null) {
+      drawInput(recipe, matrices, this.x + 54, this.y + 87);
+      for (Slot slot : this.handler.blueprintSlots) {
+        if (this.handler.getSelectedRecipeSlotIndex() == slot.id) {
+          this.drawSlotSelection(matrices, this.x + slot.x, this.y + slot.y);
+        }
+      }
+    }
   }
 
   @Override
   protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-    CellForgeRecipe recipe = this.getScreenHandler().getSelectedRecipe();
-    if (recipe != null) {
-      drawInput(recipe, matrices, 54, 87);
-    }
     this.textRenderer.draw(matrices, this.title, 8.0F, 7.0F, 0xFF373737);
     this.textRenderer.draw(matrices, this.playerInventoryTitle, 8.0F, 108.0F, 0xFF373737);
+  }
+
+  private void drawSlotSelection(MatrixStack matrices, int x, int y) {
+    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
+    this.drawTexture(matrices, x - 2, y - 2, 225, 0, 20, 20);
   }
 
   protected void drawInput(CellForgeRecipe recipe, MatrixStack matrices, int x, int y) {
@@ -77,7 +90,7 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
 
       matrices.push();
       matrices.translate(0.0D, 0.0D, 256.0D);
-      this.fillGradient(matrices, x + i * 18, y, x + i * 18 + 16, y + 16, 0xA08B8B8B, 0xA08B8B8B);
+      this.fillGradient(matrices, x + i * 18, y, x + i * 18 + 16, y + 16, 0x808B8B8B, 0x808B8B8B);
       matrices.pop();
     }
   }
