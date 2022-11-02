@@ -11,7 +11,7 @@ import java.util.List;
 public class MineCellsItemGroups {
 
   public static final ItemGroup MINECELLS_EGGS = FabricItemGroupBuilder.create(MineCells.createId("eggs"))
-    .icon(() -> new ItemStack(MineCellsEntities.LEAPING_ZOMBIE_SPAWN_EGG))
+    .icon(() -> new ItemStack(MineCellsEntities.SHOCKER_SPAWN_EGG))
     .appendItems(stacks -> stacks.addAll(List.of(
       MineCellsEntities.LEAPING_ZOMBIE_SPAWN_EGG.getDefaultStack(),
       MineCellsEntities.SHOCKER_SPAWN_EGG.getDefaultStack(),
@@ -30,7 +30,7 @@ public class MineCellsItemGroups {
     ))).build();
 
   public static final ItemGroup MINECELLS_WEAPONS = FabricItemGroupBuilder.create(MineCells.createId("weapons"))
-    .icon(() -> new ItemStack(MineCellsItems.ASSASSINS_DAGGER))
+    .icon(() -> new ItemStack(MineCellsItems.BLOOD_SWORD))
     .appendItems(stacks -> stacks.addAll(List.of(
       MineCellsItems.ASSASSINS_DAGGER.getDefaultStack(),
       MineCellsItems.BLOOD_SWORD.getDefaultStack(),
