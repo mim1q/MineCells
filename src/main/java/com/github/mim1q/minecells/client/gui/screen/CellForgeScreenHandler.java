@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.block.inventory.CellForgeBlueprintInventory;
 import com.github.mim1q.minecells.block.inventory.CellForgeInventory;
 import com.github.mim1q.minecells.client.gui.screen.button.ForgeButtonWidget;
 import com.github.mim1q.minecells.client.gui.screen.slot.LockedSlot;
+import com.github.mim1q.minecells.mixin.client.SlotAccessor;
 import com.github.mim1q.minecells.network.RequestForgeC2SPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsScreenHandlerTypes;
@@ -26,6 +27,7 @@ public class CellForgeScreenHandler extends ScreenHandler {
   private final PlayerEntity player;
   private final BlockPos pos;
   public List<Slot> blueprintSlots = new ArrayList<>();
+  private int offset = 0;
 
   public CellForgeScreenHandler(int id, PlayerInventory playerInventory, PlayerEntity player, BlockPos pos) {
     super(MineCellsScreenHandlerTypes.CELL_FORGE, id);
@@ -34,7 +36,7 @@ public class CellForgeScreenHandler extends ScreenHandler {
     this.player = player;
     this.pos = pos;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < blueprintInventory.getRows(); i++) {
       for (int j = 0; j < 9; j++) {
         this.addSlot(new LockedSlot(blueprintInventory, j + i * 9, 9 + j * 18, 18 + i * 18));
       }
@@ -53,6 +55,8 @@ public class CellForgeScreenHandler extends ScreenHandler {
     for (int i = 0; i < 9; i++) {
       this.addSlot(new Slot(playerInventory, i, 18 + i * 18, 177));
     }
+
+    updateBlueprintSlots();
   }
 
   @Override
@@ -130,5 +134,36 @@ public class CellForgeScreenHandler extends ScreenHandler {
   public void close(PlayerEntity player) {
     super.close(player);
     this.inventory.onClose(player);
+  }
+
+  public boolean canScrollUp() {
+    return offset > 0;
+  }
+
+  public boolean canScrollDown() {
+    return offset < blueprintInventory.getRows() - 3;
+  }
+
+  public void scrollUp() {
+    if (canScrollUp()) {
+      offset--;
+      updateBlueprintSlots();
+    }
+  }
+
+  public void scrollDown() {
+    if (canScrollDown()) {
+      offset++;
+      updateBlueprintSlots();
+    }
+  }
+
+  public void updateBlueprintSlots() {
+    for (int i = 0; i < blueprintSlots.size(); i++) {
+      Slot slot = blueprintSlots.get(i);
+      int y = i / 9;
+      ((SlotAccessor) slot).setY(y * 18 + 18 - offset * 18);
+      ((LockedSlot) slot).enabled = y >= offset && y < offset + 3;
+    }
   }
 }

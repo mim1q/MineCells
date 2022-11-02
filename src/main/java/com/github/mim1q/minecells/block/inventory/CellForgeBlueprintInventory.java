@@ -9,21 +9,27 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CellForgeBlueprintInventory implements Inventory {
-  private final DefaultedList<ItemStack> stacks = DefaultedList.ofSize(size(), ItemStack.EMPTY);
+  private final DefaultedList<ItemStack> stacks;
   private final List<CellForgeRecipe> recipes = new ArrayList<>();
   private CellForgeRecipe selectedRecipe = null;
   private final PlayerEntity player;
   private int selectedRecipeIndex = -1;
 
   public CellForgeBlueprintInventory(PlayerEntity player) {
+    var recipes = player.getWorld().getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE);
+    var size = Math.max(27, MathHelper.ceil(recipes.size() / 9.0F) * 9);
+    this.stacks = DefaultedList.ofSize(size, ItemStack.EMPTY);
     this.player = player;
+
     if (!player.getWorld().isClient()) {
-      this.recipes.addAll(player.getWorld().getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE));
+      // recipes.sort(Comparator.comparing(Recipe::getId));
+      this.recipes.addAll(recipes);
       int i = 0;
       for (CellForgeRecipe recipe : recipes) {
         stacks.set(i, recipe.getOutput());
@@ -98,5 +104,9 @@ public class CellForgeBlueprintInventory implements Inventory {
   public void setSelectedRecipe(CellForgeRecipe selectedRecipe, int slot) {
     this.selectedRecipe = selectedRecipe;
     this.selectedRecipeIndex = slot;
+  }
+
+  public int getRows() {
+    return MathHelper.ceil(stacks.size() / 9.0);
   }
 }

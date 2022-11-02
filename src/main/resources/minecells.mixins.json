@@ -14,7 +14,8 @@
   "client": [
     "client.BipedEntityModelMixin",
     "client.InventoryScreenMixin",
-    "client.LivingEntityRendererMixin"
+    "client.LivingEntityRendererMixin",
+    "client.SlotAccessor"
   ],
   "server": [],
   "injectors": {

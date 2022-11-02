@@ -5,7 +5,6 @@ import com.github.mim1q.minecells.MineCellsClient;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.client.gui.screen.button.ForgeButtonWidget;
 import com.github.mim1q.minecells.client.gui.screen.button.ForgeScrollButtonWidget;
-import com.github.mim1q.minecells.client.gui.screen.slot.BlueprintSlot;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawableHelper;
@@ -16,6 +15,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -82,9 +82,12 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
     CellForgeRecipe recipe = this.getScreenHandler().getSelectedRecipe();
     if (recipe != null) {
       drawInput(recipe, matrices, this.x + 54, this.y + 87);
-      for (BlueprintSlot slot : this.handler.blueprintSlots) {
+      for (Slot slot : this.handler.blueprintSlots) {
         if (this.handler.getSelectedRecipeSlotIndex() == slot.getIndex()) {
-          this.drawSlotSelection(matrices, this.x + slot.x, this.y + slot.y);
+          if (slot.isEnabled()) {
+            this.drawSlotSelection(matrices, this.x + slot.x, this.y + slot.y);
+          }
+          break;
         }
       }
     }
