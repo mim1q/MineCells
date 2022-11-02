@@ -21,20 +21,23 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     Codec.list(ItemStack.CODEC).fieldOf("input").forGetter(CellForgeRecipe::getInput),
     Codec.INT.fieldOf("cells").forGetter(CellForgeRecipe::getCells),
     ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::getOutput),
-    Identifier.CODEC.optionalFieldOf("blueprint").forGetter(CellForgeRecipe::getBlueprint)
+    Identifier.CODEC.optionalFieldOf("blueprint").forGetter(CellForgeRecipe::getRequiredAdvancement),
+    Codec.INT.optionalFieldOf("priority").forGetter(CellForgeRecipe::getPriority)
   ).apply(instance, CellForgeRecipe::new));
 
   private Identifier id = null;
   private final List<ItemStack> ingredients;
   private final int cells;
   private final ItemStack output;
-  private final Optional<Identifier> requiredBlueprint;
+  private final Optional<Identifier> requiredAdvancement;
+  private final int priority;
 
-  public CellForgeRecipe(List<ItemStack> ingredients, int cells, ItemStack output, Optional<Identifier> requiredBlueprint) {
+  public CellForgeRecipe(List<ItemStack> ingredients, int cells, ItemStack output, Optional<Identifier> requiredAdvancement, Optional<Integer> priority) {
     this.ingredients = ingredients;
     this.cells = cells;
     this.output = output;
-    this.requiredBlueprint = requiredBlueprint;
+    this.requiredAdvancement = requiredAdvancement;
+    this.priority = priority.orElse(0);
   }
 
   public CellForgeRecipe withId(Identifier id) {
@@ -78,8 +81,16 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     return this.output;
   }
 
-  public Optional<Identifier> getBlueprint() {
-    return requiredBlueprint;
+  public Optional<Identifier> getRequiredAdvancement() {
+    return requiredAdvancement;
+  }
+
+  public Optional<Integer> getPriority() {
+    return Optional.of(priority);
+  }
+
+  public int getPriorityInt() {
+    return priority;
   }
 
   @Override

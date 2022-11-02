@@ -12,6 +12,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class CellForgeBlueprintInventory implements Inventory {
@@ -22,13 +23,15 @@ public class CellForgeBlueprintInventory implements Inventory {
   private int selectedRecipeIndex = -1;
 
   public CellForgeBlueprintInventory(PlayerEntity player) {
-    var recipes = player.getWorld().getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE);
+    var recipes = new ArrayList<>(player.getWorld().getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE));
     var size = Math.max(27, MathHelper.ceil(recipes.size() / 9.0F) * 9);
     this.stacks = DefaultedList.ofSize(size, ItemStack.EMPTY);
     this.player = player;
 
     if (!player.getWorld().isClient()) {
-      // recipes.sort(Comparator.comparing(Recipe::getId));
+      Comparator<CellForgeRecipe> comparator = Comparator.comparingInt(CellForgeRecipe::getPriorityInt).reversed();
+      Comparator<CellForgeRecipe> comparator2 = comparator.thenComparing(recipe -> recipe.getId().toString());
+      recipes.sort(comparator2);
       this.recipes.addAll(recipes);
       int i = 0;
       for (CellForgeRecipe recipe : recipes) {

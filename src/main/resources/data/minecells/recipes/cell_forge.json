@@ -1,0 +1,19 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "input": [
+    {
+      "id": "minecraft:crafting_table",
+      "Count": 1
+    },
+    {
+      "id": "minecraft:diamond",
+      "Count": 8
+    }
+  ],
+  "cells": 100,
+  "output": {
+    "id": "minecells:cell_forge",
+    "Count": 1
+  }
+}
