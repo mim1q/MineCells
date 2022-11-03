@@ -109,7 +109,9 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
   protected void drawInput(CellForgeRecipe recipe, MatrixStack matrices, int x, int y) {
     int cells = recipe.getCells();
     int color = ((PlayerEntityAccessor) this.player).getCells() >= cells ? 0xFF4ABD46 : 0xFFE82828;
-    DrawableHelper.drawCenteredText(matrices, this.textRenderer, String.valueOf(cells), x - 34, y - 10, color);
+    String cellsString = String.valueOf(cells);
+    int width = this.textRenderer.getWidth(cellsString);
+    this.textRenderer.draw(matrices, cellsString, x - 34 - width / 2.0F, y - 10, color);
     for (int i = 0; i < recipe.getInput().size(); i++) {
       ItemStack stack = recipe.getInput().get(i);
       this.itemRenderer.renderInGui(stack, x + i * 18, y);
