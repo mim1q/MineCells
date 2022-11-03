@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "minecells:block/cell_forge"
+    },
+    "facing=east": {
+      "model": "minecells:block/cell_forge",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "minecells:block/cell_forge",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "minecells:block/cell_forge",
+      "y": 270
     }
   }
 }
