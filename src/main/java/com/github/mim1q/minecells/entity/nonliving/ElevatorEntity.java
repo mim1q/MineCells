@@ -207,7 +207,7 @@ public class ElevatorEntity extends Entity {
     if (!this.world.isClient()) {
       ItemStack[] items = {
         new ItemStack(Blocks.CHAIN, this.random.nextInt(3) + 2),
-        new ItemStack(Blocks.OAK_SLAB, 1),
+        new ItemStack(MineCellsBlocks.PUTRID_PLANKS, 1),
         new ItemStack(MineCellsItems.ELEVATOR_MECHANISM, this.random.nextInt(3))
       };
 
