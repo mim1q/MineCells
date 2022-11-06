@@ -21,6 +21,7 @@ import net.minecraft.util.Identifier;
 
 public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
   public static final Identifier BACKGROUND_TEXTURE = MineCells.createId("textures/gui/container/cell_forge.png");
+  public static final String FORGE_BUTTON_KEY = "gui.minecells.cell_forge.forge";
 
   private ForgeButtonWidget forgeButton;
   private ForgeScrollButtonWidget scrollUpButton;
@@ -135,7 +136,7 @@ public class CellForgeScreen extends HandledScreen<CellForgeScreenHandler> {
   private final class ForgeButtonTooltipSupplier implements ButtonWidget.TooltipSupplier {
     @Override
     public void onTooltip(ButtonWidget button, MatrixStack matrices, int mouseX, int mouseY) {
-      renderTooltip(matrices, Text.of("Forge"), mouseX, mouseY);
+      renderTooltip(matrices, Text.translatable(FORGE_BUTTON_KEY), mouseX, mouseY);
     }
   }
 }

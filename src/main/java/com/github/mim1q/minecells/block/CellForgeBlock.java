@@ -23,6 +23,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class CellForgeBlock extends Block {
+
+  public static final String CELL_FORGE_TITLE_KEY = "gui.minecells.cell_forge.title";
   private static final VoxelShape SHAPE = VoxelShapes.union(
     Block.createCuboidShape(0, 0, 0, 16, 2, 16),
     Block.createCuboidShape(0, 14, 0, 16, 16, 16),
@@ -65,7 +67,7 @@ public class CellForgeBlock extends Block {
   public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
     return new SimpleNamedScreenHandlerFactory(
       (i, inventory, player) -> new CellForgeScreenHandler(i, inventory, pos),
-      Text.of("Cell forge")
+      Text.translatable(CELL_FORGE_TITLE_KEY)
     );
   }
 

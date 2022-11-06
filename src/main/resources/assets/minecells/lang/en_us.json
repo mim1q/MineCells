@@ -36,6 +36,7 @@
   "block.minecells.brittle_barrel": "Brittle Barrel",
   "block.minecells.hardstone": "Hardstone",
   "block.minecells.elevator_assembler": "Elevator Assembler",
+  "block.minecells.cell_forge": "Cell Forge",
   "block.minecells.chain_pile": "Chain Pile",
   "block.minecells.chain_pile_block": "Chain Pile Block",
   "block.minecells.big_chain": "Big Chain",
@@ -101,5 +102,8 @@
   "death.attack.minecells.elevator": "%s turned into a pancake",
   "death.attack.minecells.cursed": "%s succumbed to a curse",
   "death.attack.minecells.bleeding": "%s bled to death",
-  "death.attack.minecells.katana": "%s was sliced by %s"
+  "death.attack.minecells.katana": "%s was sliced by %s",
+
+  "gui.minecells.cell_forge.title": "Cell Forge",
+  "gui.minecells.cell_forge.forge": "Forge"
 }

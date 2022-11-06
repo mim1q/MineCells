@@ -59,6 +59,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack(),
       MineCellsBlocks.BRITTLE_BARREL.asItem().getDefaultStack(),
       MineCellsBlocks.ELEVATOR_ASSEMBLER.asItem().getDefaultStack(),
+      MineCellsBlocks.CELL_FORGE.asItem().getDefaultStack(),
       MineCellsBlocks.HARDSTONE.asItem().getDefaultStack(),
       MineCellsBlocks.CHAIN_PILE_BLOCK.asItem().getDefaultStack(),
       MineCellsBlocks.CHAIN_PILE.asItem().getDefaultStack(),
