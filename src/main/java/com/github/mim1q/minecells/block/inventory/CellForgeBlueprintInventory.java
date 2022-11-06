@@ -1,13 +1,17 @@
 package com.github.mim1q.minecells.block.inventory;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.SyncCellForgeRecipeS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 
@@ -32,13 +36,29 @@ public class CellForgeBlueprintInventory implements Inventory {
       Comparator<CellForgeRecipe> comparator = Comparator.comparingInt(CellForgeRecipe::getPriorityInt).reversed();
       Comparator<CellForgeRecipe> comparator2 = comparator.thenComparing(recipe -> recipe.getId().toString());
       recipes.sort(comparator2);
-      this.recipes.addAll(recipes);
       int i = 0;
       for (CellForgeRecipe recipe : recipes) {
-        stacks.set(i, recipe.getOutput());
-        i++;
+        if (canAddRecipe((ServerPlayerEntity) player, recipe)) {
+          stacks.set(i, recipe.getOutput());
+          this.recipes.add(recipe);
+          i++;
+        }
       }
     }
+  }
+
+  private static boolean canAddRecipe(ServerPlayerEntity player, CellForgeRecipe recipe) {
+    if (recipe.getRequiredAdvancement().isPresent()) {
+      Identifier advancementId = recipe.getRequiredAdvancement().get();
+      MinecraftServer server = player.getServer();
+      if (server == null) {
+        MineCells.LOGGER.warn("Failed to check advancement for recipe " + recipe.getId());
+        return false;
+      }
+      Advancement advancement = server.getAdvancementLoader().get(advancementId);
+      return advancement != null && player.getAdvancementTracker().getProgress(advancement).isDone();
+    }
+    return true;
   }
 
   @Override

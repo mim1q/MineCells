@@ -21,7 +21,7 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     Codec.list(ItemStack.CODEC).fieldOf("input").forGetter(CellForgeRecipe::getInput),
     Codec.INT.fieldOf("cells").forGetter(CellForgeRecipe::getCells),
     ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::getOutput),
-    Identifier.CODEC.optionalFieldOf("blueprint").forGetter(CellForgeRecipe::getRequiredAdvancement),
+    Identifier.CODEC.optionalFieldOf("advancement").forGetter(CellForgeRecipe::getRequiredAdvancement),
     Codec.INT.optionalFieldOf("priority").forGetter(CellForgeRecipe::getPriority)
   ).apply(instance, CellForgeRecipe::new));
 
