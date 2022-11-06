@@ -1,9 +1,11 @@
 package com.github.mim1q.minecells.mixin.entity;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.effect.MineCellsStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -22,6 +24,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,7 +41,9 @@ import java.util.Map;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
 
-  int ticksInSewage = 0;
+  protected int ticksInSewage = 0;
+  protected int droppedCellAmount = 1;
+  protected float droppedCellChance = 0.75F;
 
   @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
 
@@ -53,6 +58,8 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Shadow public abstract void setHealth(float health);
 
   @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
+
+  @Shadow public abstract Identifier getLootTable();
 
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -161,5 +168,37 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Inject(method = "writeCustomDataToNbt(Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
   public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     nbt.putInt("MineCellsFlags", this.dataTracker.get(MINECELLS_FLAGS));
+  }
+
+  @Inject(method = "dropXp()V", at = @At("HEAD"))
+  public void dropXp(CallbackInfo ci) {
+    if (!canDropCells()) {
+      return;
+    }
+    float chance = this.droppedCellChance * MineCells.COMMON_CONFIG.entities.cellDropChanceModifier;
+    for (int i = 0; i < this.droppedCellAmount; i++) {
+      if (this.random.nextFloat() < chance) {
+        CellEntity.spawn(this.world, this.getPos(), 1);
+      }
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  protected boolean canDropCells() {
+    if (MineCells.COMMON_CONFIG.entities.allMobsDropCells || this.getLootTable().getNamespace().equals("minecells")) {
+      return true;
+    }
+    var key = this.getType().getRegistryEntry().getKey();
+    if (key.isEmpty()) {
+      return false;
+    }
+    String id = key.get().getValue().toString();
+    return MineCells.COMMON_CONFIG.entities.cellDropWhitelist.contains(id);
+  }
+
+  @Override
+  public void setCellAmountAndChance(int amount, float chance) {
+    this.droppedCellAmount = amount;
+    this.droppedCellChance = chance;
   }
 }

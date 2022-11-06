@@ -1,15 +1,17 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
-import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
@@ -26,9 +28,6 @@ public class MineCellsEntity extends HostileEntity {
   protected MineCellsEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
   }
-
-  protected int droppedCellAmount = 1;
-  protected float droppedCellChance = 0.75F;
 
   @Override
   protected void initGoals() {
@@ -47,15 +46,8 @@ public class MineCellsEntity extends HostileEntity {
     }
   }
 
-  @Override
-  protected void dropXp() {
-    super.dropXp();
-    float chance = this.droppedCellChance * MineCells.COMMON_CONFIG.entities.cellDropChanceModifier;
-    for (int i = 0; i < this.droppedCellAmount; i++) {
-      if (this.random.nextFloat() < chance) {
-        CellEntity.spawn(this.world, this.getPos(), 1);
-      }
-    }
+  protected void setCellAmountAndChance(int amount, float chance) {
+    ((LivingEntityAccessor) this).setCellAmountAndChance(amount, chance);
   }
 
   public float getPathfindingFavor(BlockPos pos, WorldView world) {
