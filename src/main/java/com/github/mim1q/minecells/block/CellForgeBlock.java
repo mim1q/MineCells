@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.client.gui.screen.CellForgeScreenHandler;
-import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -17,7 +16,6 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -28,10 +26,7 @@ public class CellForgeBlock extends Block {
   private static final VoxelShape SHAPE = VoxelShapes.union(
     Block.createCuboidShape(0, 0, 0, 16, 2, 16),
     Block.createCuboidShape(0, 14, 0, 16, 16, 16),
-    Block.createCuboidShape(2, 2, 2, 14, 14, 14),
-    Block.createCuboidShape(1, 2, 12, 15, 14, 14),
-    Block.createCuboidShape(1, 16, 9, 6, 21, 14),
-    Block.createCuboidShape(9, 16, 8, 14, 21, 12)
+    Block.createCuboidShape(2, 2, 2, 14, 14, 14)
   );
 
   public CellForgeBlock(Settings settings) {
@@ -77,6 +72,6 @@ public class CellForgeBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return ModelUtils.rotateShape(Direction.NORTH, state.get(Properties.HORIZONTAL_FACING), SHAPE);
+    return SHAPE;
   }
 }
