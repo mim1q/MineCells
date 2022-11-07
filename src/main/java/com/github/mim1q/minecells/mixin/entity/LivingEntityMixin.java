@@ -113,6 +113,16 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     }
   }
 
+  @Override
+  public boolean hasIncurableStatusEffects() {
+    for (StatusEffectInstance statusEffectInstance : this.getActiveStatusEffects().values()) {
+      if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && !effect.isCurable()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private boolean checkIfInSewageAndUpdate() {
     List<BlockState> states = this.world.getStatesInBoxIfLoaded(this.getBoundingBox()).toList();
     for (BlockState state : states) {

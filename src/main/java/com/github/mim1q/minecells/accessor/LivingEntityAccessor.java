@@ -4,9 +4,8 @@ import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 
 public interface LivingEntityAccessor {
   boolean getMineCellsFlag(MineCellsEffectFlags flag);
-
   void setMineCellsFlag(MineCellsEffectFlags flag, boolean value);
   void setCellAmountAndChance(int amount, float chance);
-
   void clearCurableStatusEffects();
+  boolean hasIncurableStatusEffects();
 }
