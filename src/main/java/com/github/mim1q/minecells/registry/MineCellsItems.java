@@ -104,7 +104,7 @@ public class MineCellsItems {
 
   public static final Item HEALTH_FLASK = registerSimpleItem(
     new HealthFlaskItem(new FabricItemSettings()
-      .maxCount(1)
+      .maxCount(16)
       .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
     ), "health_flask"
   );
