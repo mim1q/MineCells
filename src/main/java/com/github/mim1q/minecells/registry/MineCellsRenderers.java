@@ -159,6 +159,11 @@ public class MineCellsRenderers {
       MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES,
       MineCellsBlocks.CELL_FORGE
     );
+    BlockRenderLayerMap.INSTANCE.putBlocks(
+      RenderLayer.getTranslucent(),
+      MineCellsBlocks.ALCHEMY_EQUIPMENT
+    );
+
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel::getTexturedModelData);

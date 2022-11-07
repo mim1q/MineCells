@@ -1,0 +1,47 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "minecells:block/orange_alchemy_bottles",
+		"1": "minecells:block/orange_alchemy_spill",
+		"particle": "minecells:block/orange_alchemy_bottles"
+	},
+	"elements": [
+		{
+			"from": [0, 0.1, 0],
+			"to": [16, 0.1, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 0], "texture": "#missing"},
+				"east": {"uv": [0, 0, 16, 0], "texture": "#missing"},
+				"south": {"uv": [0, 0, 16, 0], "texture": "#missing"},
+				"west": {"uv": [0, 0, 16, 0], "texture": "#missing"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [3, 0.25, 9],
+			"to": [9, 2.25, 11],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [6, 1.25, 10]},
+			"faces": {
+				"north": {"uv": [12, 8, 14, 14], "rotation": 270, "texture": "#0"},
+				"east": {"uv": [10, 6, 12, 8], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [12, 8, 14, 14], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [12, 12, 14, 14], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [12, 8, 14, 14], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [12, 8, 14, 14], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 0.25, 3],
+			"to": [13, 2.25, 5],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 1.25, 6]},
+			"faces": {
+				"north": {"uv": [14, 8, 16, 14], "rotation": 90, "texture": "#0"},
+				"east": {"uv": [14, 12, 16, 14], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [14, 8, 16, 14], "rotation": 270, "texture": "#0"},
+				"west": {"uv": [14, 6, 16, 8], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [14, 8, 16, 14], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [14, 8, 16, 14], "rotation": 270, "texture": "#0"}
+			}
+		}
+	]
+}

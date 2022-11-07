@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "variant=0,facing=north": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_0"
+    },
+    "variant=0,facing=south": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_0",
+      "y": 180
+    },
+    "variant=0,facing=west": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_0",
+      "y": 90
+    },
+    "variant=0,facing=east": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_0",
+      "y": 270
+    },
+    "variant=1,facing=north": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_1"
+    },
+    "variant=1,facing=south": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_1",
+      "y": 180
+    },
+    "variant=1,facing=west": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_1",
+      "y": 90
+    },
+    "variant=1,facing=east": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_1",
+      "y": 270
+    },
+    "variant=2,facing=north": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_2"
+    },
+    "variant=2,facing=south": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_2",
+      "y": 180
+    },
+    "variant=2,facing=west": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_2",
+      "y": 90
+    },
+    "variant=2,facing=east": {
+      "model": "minecells:block/alchemy_bottles/alchemy_bottles_2",
+      "y": 270
+    }
+  }
+}
