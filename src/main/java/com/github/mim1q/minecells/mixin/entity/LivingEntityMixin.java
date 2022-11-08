@@ -206,8 +206,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     return MineCells.COMMON_CONFIG.entities.cellDropWhitelist.contains(id);
   }
 
-  @Override
-  public void setCellAmountAndChance(int amount, float chance) {
+  public void mixinSetCellAmountAndChance(int amount, float chance) {
     this.droppedCellAmount = amount;
     this.droppedCellChance = chance;
   }
