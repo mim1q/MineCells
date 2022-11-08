@@ -157,12 +157,14 @@ public class MineCellsRenderers {
       MineCellsBlocks.ORANGE_WILTED_LEAVES,
       MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
       MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES,
-      MineCellsBlocks.CELL_FORGE
+      MineCellsBlocks.CELL_FORGE,
+      MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
+      MineCellsBlocks.ALCHEMY_EQUIPMENT_2
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
-      MineCellsBlocks.ALCHEMY_EQUIPMENT
-    );
+      MineCellsBlocks.ALCHEMY_EQUIPMENT_1
+      );
 
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 

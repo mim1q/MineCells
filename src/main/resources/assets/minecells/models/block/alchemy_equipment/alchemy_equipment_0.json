@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "minecells:block/orange_alchemy_bottles"
+		"1": "minecells:block/orange_alchemy_bottles",
+		"particle": "minecells:block/orange_alchemy_bottles"
 	},
 	"elements": [
 		{
@@ -82,5 +83,33 @@
 				"down": {"uv": [10, 0, 13, 3], "texture": "#1"}
 			}
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 5, 1],
+			"scale": [0.66, 0.66, 0.66]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 5, 1],
+			"scale": [0.66, 0.66, 0.66]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 15, 0],
+			"translation": [2.5, 6, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -160, 0],
+			"translation": [3, 6, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"ground": {
+			"translation": [0, 2.5, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"gui": {
+			"rotation": [25, 0, 0],
+			"translation": [0.25, 3.5, 0]
+		}
+	}
 }

@@ -145,9 +145,19 @@ public class MineCellsBlocks {
     "biome_banner"
   );
 
-  public static final Block ALCHEMY_EQUIPMENT = registerBlockWithItem(
-    new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque().noCollision()),
-    "alchemy_equipment"
+  public static final Block ALCHEMY_EQUIPMENT_0 = registerBlockWithItem(
+    new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offsetType(AbstractBlock.OffsetType.XZ)),
+    "alchemy_equipment_0"
+  );
+
+  public static final Block ALCHEMY_EQUIPMENT_1 = registerBlockWithItem(
+    new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS)),
+    "alchemy_equipment_1"
+  );
+
+  public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(
+    new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offsetType(AbstractBlock.OffsetType.XZ)),
+    "alchemy_equipment_2"
   );
 
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(

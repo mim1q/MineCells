@@ -72,7 +72,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   @Override
   public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-    return MineCellsItems.BIOME_BANNER.getOf(state.get(PATTERN));
+    return MineCellsItems.BIOME_BANNER.of(state.get(PATTERN));
   }
 
   @Override

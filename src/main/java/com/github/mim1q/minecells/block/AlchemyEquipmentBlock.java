@@ -2,21 +2,23 @@ package com.github.mim1q.minecells.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import org.jetbrains.annotations.Nullable;
 
 public class AlchemyEquipmentBlock extends Block {
+  private static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 8, 16);
 
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-  public static final EnumProperty<AlchemyEquipmentType> TYPE = EnumProperty.of("variant", AlchemyEquipmentType.class);
 
   public AlchemyEquipmentBlock(Settings settings) {
-    super(settings);
+    super(settings.nonOpaque().noCollision());
   }
 
   @Override
@@ -25,25 +27,20 @@ public class AlchemyEquipmentBlock extends Block {
   }
 
   @Override
-  protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-    super.appendProperties(builder);
-    builder.add(FACING, TYPE);
+  @SuppressWarnings("deprecation")
+  public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return SHAPE;
   }
 
-  public enum AlchemyEquipmentType implements StringIdentifiable {
-    VARIANT_0("0"),
-    VARIANT_1("1"),
-    VARIANT_2("2");
+  @Override
+  protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    super.appendProperties(builder);
+    builder.add(FACING);
+  }
 
-    private final String name;
-
-    AlchemyEquipmentType(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String asString() {
-      return name;
-    }
+  @Nullable
+  @Override
+  public BlockState getPlacementState(ItemPlacementContext ctx) {
+    return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
   }
 }

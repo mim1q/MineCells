@@ -39,7 +39,7 @@ public class BiomeBannerItem extends BlockItem {
     return state.with(BiomeBannerBlock.PATTERN, pattern);
   }
 
-  public ItemStack getOf(BiomeBannerBlock.BannerPattern pattern) {
+  public ItemStack of(BiomeBannerBlock.BannerPattern pattern) {
     ItemStack stack = this.getDefaultStack();
     stack.getOrCreateNbt().putString("pattern", pattern.asString());
     return stack;
