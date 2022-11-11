@@ -6,6 +6,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
+import java.util.Set;
+
 public class MineCellsDimensions {
   public static final RegistryKey<World> OVERWORLD = RegistryKey.of(Registry.WORLD_KEY, new Identifier("minecraft", "overworld"));
   public static final RegistryKey<World> PRISON = RegistryKey.of(Registry.WORLD_KEY, new Identifier("minecells", "prison"));
@@ -20,5 +22,11 @@ public class MineCellsDimensions {
 
   public static boolean isDimension(World world, RegistryKey<World> key) {
     return world.getRegistryKey().equals(key);
+  }
+
+  public static boolean isMineCellsDimension(World world) {
+    return Set.of(
+      PRISON
+    ).contains(world.getRegistryKey());
   }
 }
