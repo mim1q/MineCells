@@ -16,6 +16,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -77,7 +78,42 @@ public class CellForgeScreenHandler extends ScreenHandler {
 
   @Override
   public ItemStack transferSlot(PlayerEntity player, int index) {
+    Slot slot = this.getSlot(index);
+    ItemStack slotStack = slot.getStack();
+    if (slot.inventory == this.inventory) {
+      player.getInventory().offerOrDrop(slotStack);
+      return slotStack;
+    } else if (slot.inventory == player.getInventory()) {
+      var transfer = getTransferableSlotAndCount(slotStack);
+      if (transfer == null) {
+        return ItemStack.EMPTY;
+      }
+      Slot transferSlot = transfer.getLeft();
+      ItemStack transferredStack = slotStack.split(transfer.getRight());
+      transferredStack.setCount(transferredStack.getCount() + transferSlot.getStack().getCount());
+      transferSlot.setStack(transferredStack);
+    }
     return ItemStack.EMPTY;
+  }
+
+  protected Pair<Slot, Integer> getTransferableSlotAndCount(ItemStack stack) {
+    CellForgeRecipe recipe = this.getSelectedRecipe();
+    if (recipe == null) {
+      return null;
+    }
+    List<ItemStack> input = recipe.getInput();
+    for (int i = 0; i < input.size(); i++) {
+      ItemStack recipeStack = input.get(i);
+      ItemStack inventoryStack = this.inventory.getStack(i);
+
+      if (recipeStack.getItem() == stack.getItem()) {
+        if (inventoryStack.isEmpty() || inventoryStack.getCount() < recipeStack.getCount()) {
+          int idx = this.getSlotIndex(this.inventory, i).orElse(-1);
+          return idx == -1 ? null : new Pair<>(this.getSlot(idx), recipeStack.getCount() - inventoryStack.getCount());
+        }
+      }
+    }
+    return null;
   }
 
   @Override
