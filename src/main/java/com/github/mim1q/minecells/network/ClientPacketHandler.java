@@ -10,10 +10,12 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -25,9 +27,8 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.EXPLOSION, ClientPacketHandler::handleExplosion);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CONNECT, ClientPacketHandler::handleConnect);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.ELEVATOR_DESTROYED, ClientPacketHandler::handleElevatorDestroyed);
-    ClientPlayNetworking.registerGlobalReceiver(SyncCellForgeRecipeS2CPacket.ID, SyncCellForgeRecipeS2CPacket::apply);
+    ClientPlayNetworking.registerGlobalReceiver(SyncCellForgeRecipeS2CPacket.ID, ClientPacketHandler::handleSyncCellForge);
   }
-
   private static void handleCrit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
     Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     client.execute(() -> {
@@ -72,5 +73,10 @@ public class ClientPacketHandler {
         ParticleUtils.addInBox(client.world, particle, box, 25, new Vec3d(0.1D, 0.1D, 0.1D));
       }
     });
+  }
+
+  private static void handleSyncCellForge(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    SyncCellForgeRecipeS2CPacket.apply(client, handler, buf, responseSender);
+    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
   }
 }

@@ -9,13 +9,13 @@
     "entity.player.PlayerEntityMixin",
     "entity.player.ServerPlayerAndClientPlayerMixin",
     "item.MilkBucketItemMixin",
-    "world.TrunkPlacerTypeInvoker"
+    "world.TrunkPlacerTypeInvoker",
+    "client.SlotAccessor"
   ],
   "client": [
     "client.BipedEntityModelMixin",
     "client.InventoryScreenMixin",
-    "client.LivingEntityRendererMixin",
-    "client.SlotAccessor"
+    "client.LivingEntityRendererMixin"
   ],
   "server": [],
   "injectors": {
