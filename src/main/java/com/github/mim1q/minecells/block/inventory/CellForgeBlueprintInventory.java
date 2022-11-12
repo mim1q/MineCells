@@ -7,11 +7,15 @@ import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.Advancement;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
@@ -81,6 +85,11 @@ public class CellForgeBlueprintInventory implements Inventory {
 
   @Override
   public ItemStack removeStack(int slot, int amount) {
+    if (this.player.getWorld().isClient()) {
+      SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
+      soundManager.play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+      return ItemStack.EMPTY;
+    }
     if (getStack(slot).isEmpty() || recipes.size() <= slot) {
       return ItemStack.EMPTY;
     }
