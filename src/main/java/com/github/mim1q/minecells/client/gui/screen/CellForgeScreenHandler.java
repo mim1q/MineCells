@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CellForgeScreenHandler extends ScreenHandler {
-  private final CellForgeInventory inventory;
+  private final CellForgeInventory craftingInventory;
   private final CellForgeBlueprintInventory blueprintInventory;
   private final PlayerEntity player;
   private final BlockPos pos;
@@ -32,8 +32,8 @@ public class CellForgeScreenHandler extends ScreenHandler {
 
   public CellForgeScreenHandler(int id, PlayerInventory playerInventory, PlayerEntity player, BlockPos pos) {
     super(MineCellsScreenHandlerTypes.CELL_FORGE, id);
-    this.blueprintInventory = new CellForgeBlueprintInventory(player);
-    this.inventory = new CellForgeInventory();
+    this.blueprintInventory = new CellForgeBlueprintInventory(player, this);
+    this.craftingInventory = new CellForgeInventory();
     this.player = player;
     this.pos = pos;
 
@@ -44,7 +44,7 @@ public class CellForgeScreenHandler extends ScreenHandler {
     }
 
     for (int i = 0; i < 6; i++) {
-      this.addSlot(new Slot(inventory, i, 54 + i * 18, 87));
+      this.addSlot(new Slot(craftingInventory, i, 54 + i * 18, 87));
     }
 
     for (int i = 0; i < 3; i++) {
@@ -80,7 +80,7 @@ public class CellForgeScreenHandler extends ScreenHandler {
   public ItemStack transferSlot(PlayerEntity player, int index) {
     Slot slot = this.getSlot(index);
     ItemStack slotStack = slot.getStack();
-    if (slot.inventory == this.inventory) {
+    if (slot.inventory == this.craftingInventory) {
       player.getInventory().offerOrDrop(slotStack);
       return slotStack;
     } else if (slot.inventory == player.getInventory()) {
@@ -104,11 +104,11 @@ public class CellForgeScreenHandler extends ScreenHandler {
     List<ItemStack> input = recipe.getInput();
     for (int i = 0; i < input.size(); i++) {
       ItemStack recipeStack = input.get(i);
-      ItemStack inventoryStack = this.inventory.getStack(i);
+      ItemStack inventoryStack = this.craftingInventory.getStack(i);
 
       if (recipeStack.getItem() == stack.getItem()) {
         if (inventoryStack.isEmpty() || inventoryStack.getCount() < recipeStack.getCount()) {
-          int idx = this.getSlotIndex(this.inventory, i).orElse(-1);
+          int idx = this.getSlotIndex(this.craftingInventory, i).orElse(-1);
           return idx == -1 ? null : new Pair<>(this.getSlot(idx), recipeStack.getCount() - inventoryStack.getCount());
         }
       }
@@ -147,7 +147,7 @@ public class CellForgeScreenHandler extends ScreenHandler {
     if (recipe == null) return false;
     int cells = recipe.getCells();
     if (((PlayerEntityAccessor) player).getCells() < cells) return false;
-    return recipe.matches(inventory, player.world);
+    return recipe.matches(craftingInventory, player.world);
   }
 
   public static void onForgeButtonClicked(ButtonWidget buttonWidget) {
@@ -162,14 +162,14 @@ public class CellForgeScreenHandler extends ScreenHandler {
     if (recipe == null) return;
     int cells = recipe.getCells();
     ((PlayerEntityAccessor) player).setCells(((PlayerEntityAccessor) player).getCells() - cells);
-    ItemStack stack = recipe.craft(inventory);
+    ItemStack stack = recipe.craft(craftingInventory);
     player.dropItem(stack, false);
   }
 
   @Override
   public void close(PlayerEntity player) {
     super.close(player);
-    this.inventory.onClose(player);
+    this.craftingInventory.onClose(player);
   }
 
   public boolean canScrollUp() {
@@ -201,5 +201,13 @@ public class CellForgeScreenHandler extends ScreenHandler {
       ((SlotAccessor) slot).setY(y * 18 + 18 - offset * 18);
       ((LockedSlot) slot).enabled = y >= offset && y < offset + 3;
     }
+  }
+
+  public void clearCraftingInventory() {
+    for (int i = 0; i < 6; i++) {
+      ItemStack stack = this.craftingInventory.getStack(i);
+      this.player.getInventory().offerOrDrop(stack);
+    }
+    this.craftingInventory.clear();
   }
 }

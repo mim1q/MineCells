@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block.inventory;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.client.gui.screen.CellForgeScreenHandler;
 import com.github.mim1q.minecells.network.SyncCellForgeRecipeS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
@@ -21,16 +22,18 @@ import java.util.List;
 
 public class CellForgeBlueprintInventory implements Inventory {
   private final DefaultedList<ItemStack> stacks;
+  private final CellForgeScreenHandler handler;
   private final List<CellForgeRecipe> recipes = new ArrayList<>();
   private CellForgeRecipe selectedRecipe = null;
   private final PlayerEntity player;
   private int selectedRecipeIndex = -1;
 
-  public CellForgeBlueprintInventory(PlayerEntity player) {
+  public CellForgeBlueprintInventory(PlayerEntity player, CellForgeScreenHandler handler) {
     var recipes = new ArrayList<>(player.getWorld().getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE));
     var size = Math.max(27, MathHelper.ceil(recipes.size() / 9.0F) * 9);
     this.stacks = DefaultedList.ofSize(size, ItemStack.EMPTY);
     this.player = player;
+    this.handler = handler;
 
     if (!player.getWorld().isClient()) {
       Comparator<CellForgeRecipe> comparator = Comparator.comparingInt(CellForgeRecipe::getPriorityInt).reversed();
@@ -81,13 +84,17 @@ public class CellForgeBlueprintInventory implements Inventory {
     if (getStack(slot).isEmpty() || recipes.size() <= slot) {
       return ItemStack.EMPTY;
     }
+    int lastIndex = this.selectedRecipeIndex;
     this.selectedRecipe = recipes.get(slot);
     this.selectedRecipeIndex = slot;
-    ServerPlayNetworking.send(
-      (ServerPlayerEntity) this.player,
-      SyncCellForgeRecipeS2CPacket.ID,
-      new SyncCellForgeRecipeS2CPacket(selectedRecipe, slot)
-    );
+    if (lastIndex != this.selectedRecipeIndex) {
+      this.handler.clearCraftingInventory();
+      ServerPlayNetworking.send(
+        (ServerPlayerEntity) this.player,
+        SyncCellForgeRecipeS2CPacket.ID,
+        new SyncCellForgeRecipeS2CPacket(selectedRecipe, slot)
+      );
+    }
     return ItemStack.EMPTY;
   }
 
