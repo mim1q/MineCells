@@ -1,12 +1,6 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": [
-    "minecraft:forest",
-    "minecraft:dark_forest",
-    "minecraft:birch_forest",
-    "minecraft:taiga",
-    "minecraft:plains"
-  ],
+  "biomes": "#minecells:valid_portal_biomes",
   "step": "surface_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "beard_thin",
