@@ -81,14 +81,18 @@ public class MineCellsItemGroups {
       MineCellsItems.HEALTH_FLASK.getDefaultStack()
     ))).build();
 
-  public static final ItemGroup MINECELLS_DEVELOPMENT = FabricItemGroupBuilder.create(MineCells.createId("development"))
-    .icon(() -> new ItemStack(Blocks.BARRIER))
-    .appendItems(stacks -> stacks.addAll(List.of(
-      SpawnerRuneItem.withData("Prison", EntryList.PRISON, 60 * 20, 3, 5),
-      SpawnerRuneItem.withData("Promenade of The Condemnded", EntryList.PROMENADE_OF_THE_CONDEMNED, 60 * 20, 3, 5),
-      SpawnerRuneItem.withData("Protector", EntryList.PROTECTOR, 120 * 20, 1, 1),
-      SpawnerRuneItem.withData("Shocker", EntryList.SHOCKER, 120 * 20, 1, 1)
-    ))).build();
+  public static ItemGroup MINECELLS_DEVELOPMENT = null;
 
-  public static void init() { }
+  public static void init() {
+    if (MineCells.COMMON_CONFIG.items.enableDevelopmentTab) {
+      MINECELLS_DEVELOPMENT = FabricItemGroupBuilder.create(MineCells.createId("development"))
+        .icon(() -> new ItemStack(Blocks.BARRIER))
+        .appendItems(stacks -> stacks.addAll(List.of(
+          SpawnerRuneItem.withData("Prison", EntryList.PRISON, 60 * 20, 3, 5),
+          SpawnerRuneItem.withData("Promenade of The Condemnded", EntryList.PROMENADE_OF_THE_CONDEMNED, 60 * 20, 3, 5),
+          SpawnerRuneItem.withData("Protector", EntryList.PROTECTOR, 120 * 20, 1, 1),
+          SpawnerRuneItem.withData("Shocker", EntryList.SHOCKER, 120 * 20, 1, 1)
+        ))).build();
+    }
+  }
 }

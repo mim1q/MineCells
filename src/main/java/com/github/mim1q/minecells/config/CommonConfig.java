@@ -21,6 +21,7 @@ public class CommonConfig implements Config {
 
   public Elevator elevator = new Elevator();
   public Entities entities = new Entities();
+  public Items items = new Items();
 
   @Override
   public void save() {
@@ -67,5 +68,10 @@ public class CommonConfig implements Config {
 
     @Comment(" Which mobs outside of Mine Cells should drop cells (default: empty)")
     public List<String> cellDropWhitelist = List.of();
+  }
+
+  public static class Items {
+    @Comment(" default: false")
+    public boolean enableDevelopmentTab = false;
   }
 }
