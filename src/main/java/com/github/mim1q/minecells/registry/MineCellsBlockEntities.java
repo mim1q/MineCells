@@ -4,7 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
-import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;

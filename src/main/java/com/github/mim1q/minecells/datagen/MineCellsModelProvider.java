@@ -80,6 +80,10 @@ public class MineCellsModelProvider extends FabricModelProvider {
     );
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
     generator.registerSimpleCubeAll(MineCellsBlocks.SPAWNER_RUNE);
+    generator.registerParentedItemModel(
+      MineCellsItems.SPAWNER_RUNE,
+      ModelIds.getBlockModelId(MineCellsBlocks.SPAWNER_RUNE)
+    );
     generator.registerStateWithModelReference(MineCellsBlocks.PRISON_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.SHOCKER_BOX, Blocks.AIR);

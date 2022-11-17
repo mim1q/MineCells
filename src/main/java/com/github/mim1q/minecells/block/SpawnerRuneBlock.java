@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.block;
 
-import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;

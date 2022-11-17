@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
+import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
@@ -107,6 +108,13 @@ public class MineCellsItems {
       .maxCount(16)
       .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
     ), "health_flask"
+  );
+
+  public static final SpawnerRuneItem SPAWNER_RUNE = register(
+    new SpawnerRuneItem(new FabricItemSettings()
+      .maxCount(1)
+      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
+    ), "spawner_rune"
   );
 
   public static void init() {

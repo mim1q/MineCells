@@ -192,7 +192,7 @@ public class MineCellsBlocks {
     "shocker_box"
   );
 
-  public static final Block SPAWNER_RUNE = registerBlockWithItem(
+  public static final Block SPAWNER_RUNE = registerBlock(
     new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)),
     "spawner_rune"
   );

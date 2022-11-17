@@ -2,7 +2,10 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.BiomeBannerBlock;
+import com.github.mim1q.minecells.block.blockentity.spawnerrune.EntryList;
+import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
@@ -76,6 +79,15 @@ public class MineCellsItemGroups {
       MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack(),
       MineCellsItems.ELEVATOR_MECHANISM.getDefaultStack(),
       MineCellsItems.HEALTH_FLASK.getDefaultStack()
+    ))).build();
+
+  public static final ItemGroup MINECELLS_DEVELOPMENT = FabricItemGroupBuilder.create(MineCells.createId("development"))
+    .icon(() -> new ItemStack(Blocks.BARRIER))
+    .appendItems(stacks -> stacks.addAll(List.of(
+      SpawnerRuneItem.withEntryList(EntryList.PRISON),
+      SpawnerRuneItem.withEntryList(EntryList.PROMENADE_OF_THE_CONDEMNED),
+      SpawnerRuneItem.withEntryList(EntryList.PROTECTOR),
+      SpawnerRuneItem.withEntryList(EntryList.SHOCKER)
     ))).build();
 
   public static void init() { }
