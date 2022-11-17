@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
@@ -37,6 +38,15 @@ public class MineCellsBlockEntities {
     FabricBlockEntityTypeBuilder
       .create(BiomeBannerBlockEntity::new)
       .addBlock(MineCellsBlocks.BIOME_BANNER)
+      .build()
+  );
+
+  public static final BlockEntityType<SpawnerRuneBlockEntity> SPAWNER_RUNE_BLOCK_ENTITY = Registry.register(
+    Registry.BLOCK_ENTITY_TYPE,
+    MineCells.createId("spawner_rune"),
+    FabricBlockEntityTypeBuilder
+      .create(SpawnerRuneBlockEntity::new)
+      .addBlock(MineCellsBlocks.SPAWNER_RUNE)
       .build()
   );
 

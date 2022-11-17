@@ -37,4 +37,9 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
   public void onStoppedTrackingBy(ServerPlayerEntity player) {
     this.bossBar.removePlayer(player);
   }
+
+  @Override
+  protected boolean isDisallowedInPeaceful() {
+    return false;
+  }
 }

@@ -192,6 +192,11 @@ public class MineCellsBlocks {
     "shocker_box"
   );
 
+  public static final Block SPAWNER_RUNE = registerBlockWithItem(
+    new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)),
+    "spawner_rune"
+  );
+
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
 

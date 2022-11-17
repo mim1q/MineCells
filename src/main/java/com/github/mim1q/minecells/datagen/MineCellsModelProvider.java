@@ -79,6 +79,7 @@ public class MineCellsModelProvider extends FabricModelProvider {
       ModelIds.getBlockModelId(MineCellsBlocks.SPIKES)
     );
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
+    generator.registerSimpleCubeAll(MineCellsBlocks.SPAWNER_RUNE);
     generator.registerStateWithModelReference(MineCellsBlocks.PRISON_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.SHOCKER_BOX, Blocks.AIR);
