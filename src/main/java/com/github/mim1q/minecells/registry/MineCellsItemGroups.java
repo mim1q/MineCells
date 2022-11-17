@@ -84,10 +84,10 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS_DEVELOPMENT = FabricItemGroupBuilder.create(MineCells.createId("development"))
     .icon(() -> new ItemStack(Blocks.BARRIER))
     .appendItems(stacks -> stacks.addAll(List.of(
-      SpawnerRuneItem.withEntryList(EntryList.PRISON),
-      SpawnerRuneItem.withEntryList(EntryList.PROMENADE_OF_THE_CONDEMNED),
-      SpawnerRuneItem.withEntryList(EntryList.PROTECTOR),
-      SpawnerRuneItem.withEntryList(EntryList.SHOCKER)
+      SpawnerRuneItem.withData("Prison", EntryList.PRISON, 60 * 20, 3, 5),
+      SpawnerRuneItem.withData("Promenade of The Condemnded", EntryList.PROMENADE_OF_THE_CONDEMNED, 60 * 20, 3, 5),
+      SpawnerRuneItem.withData("Protector", EntryList.PROTECTOR, 120 * 20, 1, 1),
+      SpawnerRuneItem.withData("Shocker", EntryList.SHOCKER, 120 * 20, 1, 1)
     ))).build();
 
   public static void init() { }

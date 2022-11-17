@@ -1,12 +1,11 @@
 package com.github.mim1q.minecells.item;
 
 import com.github.mim1q.minecells.block.blockentity.spawnerrune.EntryList;
+import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneData;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -19,23 +18,28 @@ public class SpawnerRuneItem extends BlockItem {
     super(MineCellsBlocks.SPAWNER_RUNE, settings);
   }
 
-  public static ItemStack withEntryList(EntryList entryList) {
+  public static ItemStack withData(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls) {
     ItemStack stack = new ItemStack(MineCellsBlocks.SPAWNER_RUNE);
-    stack.getOrCreateNbt().put("entryList", entryList.toNbt());
-    stack.getOrCreateSubNbt("BlockEntityTag").put("entryList", entryList.toNbt());
+    SpawnerRuneData data = new SpawnerRuneData(name, entryList, maxCooldown, minRolls, maxRolls);
+    data.writeNbt(stack.getOrCreateNbt());
+    data.writeNbt(stack.getOrCreateSubNbt("BlockEntityTag"));
     return stack;
   }
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     super.appendTooltip(stack, world, tooltip, context);
-    NbtList entryList = stack.getOrCreateNbt().getList("entryList", 10);
-    if (entryList == null) {
-      return;
+    SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateNbt());
+    tooltip.add(Text.literal("Preset: " + data.name).formatted(Formatting.BLUE));
+    tooltip.add(Text.literal("Cooldown: " + data.maxCooldown / 20.0F + "s").formatted(Formatting.DARK_GRAY));
+    if (data.minRolls == data.maxRolls) {
+      tooltip.add(Text.literal("Rolls: " + data.minRolls).formatted(Formatting.DARK_GRAY));
+    } else {
+      tooltip.add(Text.literal("Rolls: " + data.minRolls + "-" + data.maxRolls).formatted(Formatting.DARK_GRAY));
     }
-    for (int i = 0; i < entryList.size(); i++) {
-      NbtCompound entry = entryList.getCompound(i);
-      tooltip.add(Text.literal("[" + entry.getInt("weight") + "] " + entry.getString("entityId")).formatted(Formatting.DARK_GRAY));
+    tooltip.add(Text.literal("Entities:").formatted(Formatting.DARK_GRAY));
+    for (EntryList.Entry entry : data.entryList.entries) {
+      tooltip.add(Text.literal("  [" + entry.weight + "] ").append(Text.translatable(entry.entityType.getTranslationKey())).formatted(Formatting.DARK_GRAY));
     }
   }
 }

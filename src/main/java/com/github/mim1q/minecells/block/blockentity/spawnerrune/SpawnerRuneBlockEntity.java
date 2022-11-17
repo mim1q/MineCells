@@ -8,7 +8,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 public class SpawnerRuneBlockEntity extends BlockEntity {
-  private EntryList entryList = new EntryList();
+  private SpawnerRuneData data = new SpawnerRuneData("", new EntryList(), 0, 0, 0);
 
   public SpawnerRuneBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.SPAWNER_RUNE_BLOCK_ENTITY, pos, state);
@@ -17,18 +17,18 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
   @Override
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
-    this.entryList = EntryList.fromNbt(nbt.getList("entryList", 10));
+    data = SpawnerRuneData.fromNbt(nbt);
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
     super.writeNbt(nbt);
-    nbt.put("entryList", entryList.toNbt());
+    data.writeNbt(nbt);
   }
 
   @Override
   public void setStackNbt(ItemStack stack) {
     super.setStackNbt(stack);
-    stack.getOrCreateNbt().put("entryList", entryList.toNbt());
+    data.writeNbt(stack.getOrCreateNbt());
   }
 }

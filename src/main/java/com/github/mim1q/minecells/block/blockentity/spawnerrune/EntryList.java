@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EntryList {
   public static final EntryList PRISON = new EntryList()
@@ -56,6 +57,29 @@ public class EntryList {
       entries.add(Entry.fromNbt(nbt.getCompound(i)));
     }
     return new EntryList(entries);
+  }
+
+  public List<EntityType<?>> selectEntityTypes(int count, Random random) {
+    List<EntityType<?>> entityTypes = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      entityTypes.add(selectEntityType(random));
+    }
+    return entityTypes;
+  }
+
+  private EntityType<?> selectEntityType(Random random) {
+    int totalWeight = 0;
+    for (Entry entry : entries) {
+      totalWeight += entry.weight;
+    }
+    int randomWeight = random.nextInt(totalWeight);
+    for (Entry entry : entries) {
+      randomWeight -= entry.weight;
+      if (randomWeight < 0) {
+        return entry.entityType;
+      }
+    }
+    return null;
   }
 
   public static class Entry {
