@@ -18,9 +18,9 @@ public class SpawnerRuneItem extends BlockItem {
     super(MineCellsBlocks.SPAWNER_RUNE, settings);
   }
 
-  public static ItemStack withData(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls) {
+  public static ItemStack withData(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls, float spawnRadius, float playerRange) {
     ItemStack stack = new ItemStack(MineCellsBlocks.SPAWNER_RUNE);
-    SpawnerRuneData data = new SpawnerRuneData(name, entryList, maxCooldown, minRolls, maxRolls);
+    SpawnerRuneData data = new SpawnerRuneData(name, entryList, maxCooldown, minRolls, maxRolls, spawnRadius, playerRange);
     data.writeNbt(stack.getOrCreateNbt());
     data.writeNbt(stack.getOrCreateSubNbt("BlockEntityTag"));
     return stack;

@@ -8,13 +8,17 @@ public class SpawnerRuneData {
   public final int maxCooldown;
   public final int minRolls;
   public final int maxRolls;
+  public final float spawnRadius;
+  public final float playerRange;
 
-  public SpawnerRuneData(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls) {
+  public SpawnerRuneData(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls, float spawnRadius, float playerRange) {
     this.name = name;
     this.entryList = entryList;
     this.maxCooldown = maxCooldown;
     this.minRolls = minRolls;
     this.maxRolls = maxRolls;
+    this.spawnRadius = spawnRadius;
+    this.playerRange = playerRange;
   }
 
   public static SpawnerRuneData fromNbt(NbtCompound nbt) {
@@ -23,7 +27,9 @@ public class SpawnerRuneData {
       EntryList.fromNbt(nbt.getList("entryList", 10)),
       nbt.getInt("maxCooldown"),
       nbt.getInt("minRolls"),
-      nbt.getInt("maxRolls")
+      nbt.getInt("maxRolls"),
+      nbt.getFloat("spawnRadius"),
+      nbt.getFloat("playerRange")
     );
   }
 
@@ -33,5 +39,7 @@ public class SpawnerRuneData {
     nbt.putInt("maxCooldown", maxCooldown);
     nbt.putInt("minRolls", minRolls);
     nbt.putInt("maxRolls", maxRolls);
+    nbt.putFloat("spawnRadius", spawnRadius);
+    nbt.putFloat("playerRange", playerRange);
   }
 }
