@@ -225,11 +225,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           this.knockback(livingEntity);
         }
       }
-      BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
-        if (this.getRoomBox().contains(blockPos)) {
-          this.world.breakBlock(blockPos, false);
-        }
-      });
 
       if (!this.world.getBlockState(this.getBlockPos().down(2)).isAir()) {
         this.move(MovementType.SELF, new Vec3d(0.0D, 0.1D, 0.0D));
