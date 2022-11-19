@@ -30,7 +30,6 @@ public class SpawnerRuneItem extends BlockItem {
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     super.appendTooltip(stack, world, tooltip, context);
     SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateNbt());
-    tooltip.add(Text.literal("Preset: " + data.name).formatted(Formatting.BLUE));
     tooltip.add(Text.literal("Cooldown: " + data.maxCooldown / 20.0F + "s").formatted(Formatting.DARK_GRAY));
     if (data.minRolls == data.maxRolls) {
       tooltip.add(Text.literal("Rolls: " + data.minRolls).formatted(Formatting.DARK_GRAY));
@@ -41,5 +40,10 @@ public class SpawnerRuneItem extends BlockItem {
     for (EntryList.Entry entry : data.entryList.entries) {
       tooltip.add(Text.literal("  [" + entry.weight + "] ").append(Text.translatable(entry.entityType.getTranslationKey())).formatted(Formatting.DARK_GRAY));
     }
+  }
+
+  @Override
+  public Text getName(ItemStack stack) {
+    return Text.literal("Spawner Rune").formatted(Formatting.GOLD).append(Text.literal(" (" + SpawnerRuneData.fromNbt(stack.getOrCreateNbt()).name + ")").formatted(Formatting.GRAY));
   }
 }

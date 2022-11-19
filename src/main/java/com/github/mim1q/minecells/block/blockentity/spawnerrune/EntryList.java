@@ -4,10 +4,10 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.util.math.random.Random;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class EntryList {
   public static final EntryList PRISON = new EntryList()

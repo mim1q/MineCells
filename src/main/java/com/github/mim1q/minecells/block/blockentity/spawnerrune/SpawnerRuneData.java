@@ -27,12 +27,11 @@ public class SpawnerRuneData {
     );
   }
 
-  public NbtCompound writeNbt(NbtCompound nbt) {
+  public void writeNbt(NbtCompound nbt) {
     nbt.putString("name", name);
     nbt.put("entryList", entryList.toNbt());
     nbt.putInt("maxCooldown", maxCooldown);
     nbt.putInt("minRolls", minRolls);
     nbt.putInt("maxRolls", maxRolls);
-    return nbt;
   }
 }
