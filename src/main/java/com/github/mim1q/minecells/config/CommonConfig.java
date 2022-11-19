@@ -30,7 +30,7 @@ public class CommonConfig implements Config {
     elevator.speed = MathHelper.clamp(elevator.speed, 0.1F, 10.0F);
     elevator.acceleration = MathHelper.clamp(elevator.acceleration, 0.001F, 0.1F);
     elevator.damage = MathHelper.clamp(elevator.damage, 0.0F, 20.0F);
-    entities.cellDropChanceModifier = MathHelper.clamp(entities.cellDropChanceModifier, 0.0F, 10.0F);
+    entities.cellDropChanceModifier = MathHelper.clamp(entities.cellDropChanceModifier, 0.1F, 10.0F);
     if (entities.cellDropChanceModifier == 0.0F) {
       entities.cellDropChanceModifier = 1.0F;
     }
@@ -60,7 +60,10 @@ public class CommonConfig implements Config {
   }
 
   public static class Entities {
-    @Comment(" default: 1.0, min: 0.0, max: 10.0")
+    @Comment(" default: true")
+    public boolean enableCellDrop = true;
+
+    @Comment(" default: 1.0, min: 0.1, max: 10.0")
     public float cellDropChanceModifier = 1.0F;
 
     @Comment(" default: false")

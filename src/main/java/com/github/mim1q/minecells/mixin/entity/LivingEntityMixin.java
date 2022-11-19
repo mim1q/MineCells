@@ -195,6 +195,9 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @SuppressWarnings("deprecation")
   protected boolean canDropCells() {
+    if (!MineCells.COMMON_CONFIG.entities.enableCellDrop) {
+      return false;
+    }
     if (MineCells.COMMON_CONFIG.entities.allMobsDropCells || this.getLootTable().getNamespace().equals("minecells")) {
       return true;
     }
