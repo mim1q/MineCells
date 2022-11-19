@@ -1,18 +1,13 @@
 package com.github.mim1q.minecells;
 
-import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.config.CommonConfig;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
-import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,20 +39,20 @@ public class MineCells implements ModInitializer {
     MineCellsScreenHandlerTypes.init();
     ServerPacketHandler.init();
 
-    ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-      if (MineCellsDimensions.isMineCellsDimension(oldPlayer.getWorld())) {
-        ((PlayerEntityAccessor) newPlayer).setKingdomPortalCooldown(20);
-        Vec3d pos = Vec3d.of(MathUtils.getClosestMultiplePosition(oldPlayer.getBlockPos(), 4096));
-        newPlayer.teleport(
-          oldPlayer.getWorld(),
-          pos.x + 8,
-          pos.y + 32,
-          pos.z + 8,
-          oldPlayer.getYaw(),
-          oldPlayer.getPitch()
-        );
-      }
-    });
+//    ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+//      if (MineCellsDimensions.isMineCellsDimension(oldPlayer.getWorld())) {
+//        ((PlayerEntityAccessor) newPlayer).setKingdomPortalCooldown(20);
+//        Vec3d pos = Vec3d.of(MathUtils.getClosestMultiplePosition(oldPlayer.getBlockPos(), 4096));
+//        newPlayer.teleport(
+//          oldPlayer.getWorld(),
+//          pos.x + 8,
+//          pos.y + 32,
+//          pos.z + 8,
+//          oldPlayer.getYaw(),
+//          oldPlayer.getPitch()
+//        );
+//      }
+//    });
   }
 
   public static Identifier createId(String path) {
