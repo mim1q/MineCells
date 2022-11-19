@@ -31,6 +31,8 @@ public class SpawnerRuneItem extends BlockItem {
     super.appendTooltip(stack, world, tooltip, context);
     SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateNbt());
     tooltip.add(Text.literal("Cooldown: " + data.maxCooldown / 20.0F + "s").formatted(Formatting.DARK_GRAY));
+    tooltip.add(Text.literal("Spawn radius: " + data.spawnRadius).formatted(Formatting.DARK_GRAY));
+    tooltip.add(Text.literal("Player range: " + data.playerRange).formatted(Formatting.DARK_GRAY));
     if (data.minRolls == data.maxRolls) {
       tooltip.add(Text.literal("Rolls: " + data.minRolls).formatted(Formatting.DARK_GRAY));
     } else {
