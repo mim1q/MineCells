@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -46,6 +47,11 @@ public class SpawnerRuneItem extends BlockItem {
 
   @Override
   public Text getName(ItemStack stack) {
-    return Text.literal("Spawner Rune").formatted(Formatting.GOLD).append(Text.literal(" (" + SpawnerRuneData.fromNbt(stack.getOrCreateNbt()).name + ")").formatted(Formatting.GRAY));
+    MutableText text = Text.literal("Spawner Rune").formatted(Formatting.GOLD);
+    SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateNbt());
+    if (data.name != null && !data.name.isEmpty()) {
+      text = text.append(Text.literal(" (" + data.name + ")").formatted(Formatting.GRAY));
+    }
+    return text;
   }
 }
