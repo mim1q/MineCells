@@ -32,56 +32,50 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
 
     if (entity.canCooldown) {
       entity.cooldown = Math.max(0, entity.cooldown - 1);
+      entity.markDirty();
     }
 
     if (world.getTime() % 10 == 0) {
-      entity.canCooldown = !entity.areEntitiesNearby();
       if (entity.cooldown == 0) {
         if (world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), entity.data.playerRange, false) != null) {
           entity.cooldown = entity.data.maxCooldown;
           spawnEntities(world, pos, entity);
         }
       }
+      entity.canCooldown = !areEntitiesNearby(world, pos);
     }
-
-    entity.markDirty();
   }
 
-  private boolean areEntitiesNearby() {
-    if (cooldown <= 0 || world == null) {
+  private static boolean areEntitiesNearby(World world, BlockPos pos) {
+    if (world == null) {
       return true;
     }
-    EntryList list = data.entryList;
-    for (int i = 0; i < list.entries.size(); i++) {
-      EntityType<?> type = list.entries.get(i).entityType;
-      float range = (data.spawnRadius + 1.0F) * 2.0F;
-      List<? extends Entity> entities = world.getEntitiesByType(type, Box.of(Vec3d.ofCenter(pos), range, range, range), Entity::isAlive);
-      if (entities.size() > 0) {
-        return true;
-      }
-    }
-    return false;
+    List<MineCellsEntity> entities = world.getEntitiesByClass(
+      MineCellsEntity.class,
+      Box.of(Vec3d.ofCenter(pos), 32, 32, 32),
+      entity -> entity.spawnRunePos != null && entity.spawnRunePos.equals(pos)
+    );
+    return entities.size() > 0;
   }
 
   private static void spawnEntities(World world, BlockPos pos, SpawnerRuneBlockEntity entity) {
     int rolls = entity.data.minRolls + world.random.nextInt(entity.data.maxRolls - entity.data.minRolls + 1);
     List<EntityType<?>> entityTypes = entity.data.entryList.selectEntityTypes(rolls, world.random);
     for (EntityType<?> entityType : entityTypes) {
-      int id = spawnEntity(world, entityType, findPos(world, pos, entity.data.spawnRadius));
+      spawnEntity(world, entityType, findPos(world, pos, entity.data.spawnRadius), pos);
     }
   }
 
-  private static int spawnEntity(World world, EntityType<?> type, BlockPos pos) {
+  private static void spawnEntity(World world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
     Entity spawnedEntity = type.create(world);
     if (spawnedEntity != null) {
       spawnedEntity.refreshPositionAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
         mcEntity.initialize((ServerWorldAccess) world, world.getLocalDifficulty(pos), SpawnReason.SPAWNER, null, null);
+        mcEntity.spawnRunePos = runePos;
       }
       world.spawnEntity(spawnedEntity);
-      return spawnedEntity.getId();
     }
-    return -1;
   }
 
   private static BlockPos findPos(World world, BlockPos pos, float radius) {

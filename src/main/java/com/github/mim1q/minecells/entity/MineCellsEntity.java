@@ -16,6 +16,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -24,6 +25,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class MineCellsEntity extends HostileEntity {
+  public BlockPos spawnRunePos = null;
 
   protected MineCellsEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -92,5 +94,23 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   protected SoundEvent getDeathSound() {
     return MineCellsSounds.LEAPING_ZOMBIE_DEATH;
+  }
+
+  @Override
+  public void writeCustomDataToNbt(NbtCompound nbt) {
+    super.writeCustomDataToNbt(nbt);
+    if (spawnRunePos != null) {
+      nbt.putInt("spawnRuneX", spawnRunePos.getX());
+      nbt.putInt("spawnRuneY", spawnRunePos.getY());
+      nbt.putInt("spawnRuneZ", spawnRunePos.getZ());
+    }
+  }
+
+  @Override
+  public void readCustomDataFromNbt(NbtCompound nbt) {
+    super.readCustomDataFromNbt(nbt);
+    if (nbt.contains("spawnRuneX")) {
+      spawnRunePos = new BlockPos(nbt.getInt("spawnRuneX"), nbt.getInt("spawnRuneY"), nbt.getInt("spawnRuneZ"));
+    }
   }
 }
