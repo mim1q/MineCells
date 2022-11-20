@@ -4,6 +4,8 @@
 
 - Added a tag for blocks that The Conjunctivius shouldn't destroy
 - Added a name for Portal Frame
+- Updated recipes to use any type of wood
+
 
 ## Balancing
 

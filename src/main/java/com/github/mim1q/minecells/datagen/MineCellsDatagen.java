@@ -11,5 +11,7 @@ public class MineCellsDatagen implements DataGeneratorEntrypoint {
     fabricDataGenerator.addProvider(MineCellsEntityLootTableProvider::new);
     fabricDataGenerator.addProvider(MineCellsChestLootTableProvider::new);
     fabricDataGenerator.addProvider(MineCellsRecipeProvider::new);
+    fabricDataGenerator.addProvider(MineCellsBlockTagProvider::new);
+    fabricDataGenerator.addProvider(MineCellsItemTagProvider::new);
   }
 }

@@ -11,6 +11,7 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.tag.ItemTags;
 
 import java.util.function.Consumer;
 
@@ -69,9 +70,9 @@ public class MineCellsRecipeProvider extends FabricRecipeProvider {
       .pattern(" C ")
       .input('#', Items.CHAIN)
       .input('R', Items.REDSTONE)
-      .input('W', MineCellsBlocks.PUTRID_LOG)
+      .input('W', ItemTags.LOGS)
       .input('C', Items.COMPARATOR)
-      .criterion("has_item", RecipeProvider.conditionsFromItem(MineCellsBlocks.PUTRID_LOG))
+      .criterion("has_item", RecipeProvider.conditionsFromItem(Items.COMPARATOR))
       .offerTo(exporter);
 
     ShapedRecipeJsonBuilder.create(MineCellsBlocks.ELEVATOR_ASSEMBLER, 2)
@@ -80,7 +81,7 @@ public class MineCellsRecipeProvider extends FabricRecipeProvider {
       .pattern("# #")
       .input('#', Items.CHAIN)
       .input('M', MineCellsItems.ELEVATOR_MECHANISM)
-      .input('P', MineCellsBlocks.PUTRID_PLANKS)
+      .input('P', ItemTags.PLANKS)
       .criterion("has_item", RecipeProvider.conditionsFromItem(MineCellsItems.ELEVATOR_MECHANISM))
       .offerTo(exporter);
 
