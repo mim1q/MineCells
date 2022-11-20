@@ -24,6 +24,12 @@ public class MineCellsItems {
     "elevator_mechanism"
   );
 
+  // AOF 6 uses this as an icon for the mod
+  public static final Item CHARGED_INTERDIMENSIONAL_RUNE = registerSimpleItem(
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
+    "charged_interdimensional_rune"
+  );
+
   public static final BiomeBannerItem BIOME_BANNER = registerSimpleItem(
     new BiomeBannerItem(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
     "biome_banner"

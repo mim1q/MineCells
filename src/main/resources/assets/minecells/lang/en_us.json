@@ -55,10 +55,7 @@
   "item.minecells.ancient_sewage_bucket": "Ancient Sewage Bucket",
 
   "item.minecells.elevator_mechanism": "Elevator Mechanism",
-  "item.minecells.interdimensional_rune": "Interdimensional Rune (Uncharged)",
-  "item.minecells.charged_interdimensional_rune": "Interdimensional Rune",
-  "item.minecells.interdimensional_rune.tooltip": "Right click to transfer cell",
-  "item.minecells.interdimensional_rune.tooltip2": "Cells: %s/%s",
+  "item.minecells.charged_interdimensional_rune": "Unobtainable Rune",
   "item.minecells.health_flask": "Health Flask",
   "item.minecells.health_flask.tooltip": "Restores 2 hearts. Removes Bleeding and Poison.",
 
