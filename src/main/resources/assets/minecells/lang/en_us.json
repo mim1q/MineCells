@@ -67,7 +67,7 @@
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
   "item.minecells.blood_sword": "Blood Sword",
   "item.minecells.blood_sword.tooltip1": "Applies %s to enemies",
-  "item.minecells.blood_sword.tooltip2": "[30s cooldown]",
+  "item.minecells.blood_sword.tooltip2": "[20s cooldown]",
   "item.minecells.cursed_sword": "Cursed Sword",
   "item.minecells.cursed_sword.tooltip1": "Wielding this weapon brings",
   "item.minecells.cursed_sword.tooltip2": "a deathly curse upon you.",
@@ -76,7 +76,7 @@
   "item.minecells.tentacle.tooltip2": "[2s cooldown]",
   "item.minecells.hattoris_katana": "Hattori's Katana",
   "item.minecells.hattoris_katana.tooltip1": "Hold right-click to charge",
-  "item.minecells.hattoris_katana.tooltip2": "[30s cooldown]",
+  "item.minecells.hattoris_katana.tooltip2": "[15s cooldown]",
 
   "entity.minecells.shocker": "Shocker",
   "entity.minecells.leaping_zombie": "Leaping Zombie",

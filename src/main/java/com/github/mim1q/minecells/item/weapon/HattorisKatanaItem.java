@@ -53,7 +53,7 @@ public class HattorisKatanaItem extends SwordItem {
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     if (user.isPlayer()) {
       PlayerEntity player = (PlayerEntity) user;
-      player.getItemCooldownManager().set(this, 20 * 30);
+      player.getItemCooldownManager().set(this, 20 * 15);
 
       Vec3d start = player.getPos().add(0.0D, 0.25D, 0.0D);
       Vec3d direction = player.getRotationVec(0.0F).multiply(1.0D, 0.0D, 1.0D).normalize();
@@ -136,7 +136,7 @@ public class HattorisKatanaItem extends SwordItem {
 
   @Override
   public int getMaxUseTime(ItemStack stack) {
-    return 40;
+    return 30;
   }
 
   @Override

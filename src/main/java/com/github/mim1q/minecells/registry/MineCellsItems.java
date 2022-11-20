@@ -59,7 +59,7 @@ public class MineCellsItems {
     "ancient_sewage_bucket"
   );
 
-  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(4, 3, -2.0F,
+  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(6, 5, -2.0F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
@@ -68,7 +68,7 @@ public class MineCellsItems {
     ), "assassins_dagger"
   );
 
-  public static final Item BLOOD_SWORD = register(new BloodSwordItem(2, -2.4F,
+  public static final Item BLOOD_SWORD = register(new BloodSwordItem(4, -2.4F,
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
@@ -77,27 +77,27 @@ public class MineCellsItems {
     ), "blood_sword"
   );
 
-  public static final Item CURSED_SWORD = register(new CursedSwordItem(19, -3.5F,
+  public static final Item CURSED_SWORD = register(new CursedSwordItem(22, -3.0F,
     new FabricItemSettings()
       .maxCount(1)
-      .maxDamage(250)
+      .maxDamage(600)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "cursed_sword"
   );
 
   public static final Item TENTACLE = register(
-    new TentacleItem(5, 0, -3.0F, new FabricItemSettings()
+    new TentacleItem(9, 0, -3.0F, new FabricItemSettings()
       .maxCount(1)
-      .maxDamage(500)
+      .maxDamage(800)
       .rarity(Rarity.EPIC)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "tentacle"
   );
 
   public static final Item HATTORIS_KATANA = register(
-    new HattorisKatanaItem(1, -2.0F, new FabricItemSettings()
+    new HattorisKatanaItem(5, -2.2F, new FabricItemSettings()
       .maxCount(1)
-      .maxDamage(800)
+      .maxDamage(1200)
       .rarity(Rarity.RARE)
       .group(MineCellsItemGroups.MINECELLS_WEAPONS)
     ), "hattoris_katana"
