@@ -3,13 +3,11 @@
 ## Fixes
 
 - Added a tag for blocks that The Conjunctivius shouldn't destroy
+- Blocks destroyed by Conjunctivius will now drop
 - Added a name for Portal Frame
 - Updated recipes to use any type of wood
 
-
 ## Balancing
-
-### Weapons
 
 - **Cursed Sword**:
   - dmg: 22 -> 25
@@ -30,3 +28,13 @@
 - **Conjunctivius's Tentacle**: 
   - dmg: 6 -> 10
   - durability: 500 -> 800
+
+## Technical changes
+
+- new gamerule: `minecells.mobsDropCells`
+- removed old, unused code
+
+## New Block - The Spawn Rune _(unfinished)_
+
+- Alternative to a Mob Spawner
+- More info when it's fully implemented
