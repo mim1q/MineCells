@@ -1,13 +1,14 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.weapon.*;
-import com.github.mim1q.minecells.item.BiomeBannerItem;
-import com.github.mim1q.minecells.item.InterdimensionalRuneItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.*;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
@@ -21,19 +22,6 @@ public class MineCellsItems {
   public static final Item ELEVATOR_MECHANISM = registerSimpleItem(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
     "elevator_mechanism"
-  );
-
-  public static final Item INTERDIMENSIONAL_RUNE = registerSimpleItem(
-    new InterdimensionalRuneItem(new FabricItemSettings()
-      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
-      .maxCount(1)
-    ),
-    "interdimensional_rune"
-  );
-
-  public static final Item CHARGED_INTERDIMENSIONAL_RUNE = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
-    "charged_interdimensional_rune"
   );
 
   public static final BiomeBannerItem BIOME_BANNER = registerSimpleItem(
