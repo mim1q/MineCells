@@ -3,6 +3,7 @@
 ## Fixes
 
 - Added a tag for blocks that The Conjunctivius shouldn't destroy
+- Added a name for Portal Frame
 
 ## Balancing
 
