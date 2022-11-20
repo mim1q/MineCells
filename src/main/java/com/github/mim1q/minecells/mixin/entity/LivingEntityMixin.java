@@ -7,10 +7,7 @@ import com.github.mim1q.minecells.effect.MineCellsStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import com.github.mim1q.minecells.registry.MineCellsItems;
-import com.github.mim1q.minecells.registry.MineCellsSounds;
-import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.registry.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -195,7 +192,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @SuppressWarnings("deprecation")
   protected boolean canDropCells() {
-    if (!MineCells.COMMON_CONFIG.entities.enableCellDrop) {
+    if (!this.world.getGameRules().getBoolean(MineCellsGameRules.MOBS_DROP_CELLS)) {
       return false;
     }
     if (MineCells.COMMON_CONFIG.entities.allMobsDropCells || this.getLootTable().getNamespace().equals("minecells")) {

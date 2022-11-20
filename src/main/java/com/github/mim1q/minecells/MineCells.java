@@ -35,6 +35,7 @@ public class MineCells implements ModInitializer {
     MineCellsPlacerTypes.init();
     MineCellsPointOfInterestTypes.init();
     MineCellsCommands.init();
+    MineCellsGameRules.init();
     MineCellsRecipeTypes.init();
     MineCellsScreenHandlerTypes.init();
     ServerPacketHandler.init();

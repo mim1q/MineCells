@@ -60,9 +60,6 @@ public class CommonConfig implements Config {
   }
 
   public static class Entities {
-    @Comment(" default: true")
-    public boolean enableCellDrop = true;
-
     @Comment(" default: 1.0, min: 0.1, max: 10.0")
     public float cellDropChanceModifier = 1.0F;
 
