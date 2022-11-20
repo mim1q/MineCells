@@ -14,6 +14,7 @@
 - **Cursed Sword**:
   - dmg: 22 -> 25
   - speed: 0.5 -> 1.0
+  - durability: 250 -> 600
 - **Assassin's Dagger**: 
   - dmg: 5 -> 7
   - crit: 3 -> 5
@@ -25,5 +26,7 @@
   - speed: 2.0 -> 1.8
   - ability cooldown: 30s -> 15s
   - ability charge time: 2s -> 1.5s
+  - durability: 800 -> 1200
 - **Conjunctivius's Tentacle**: 
   - dmg: 6 -> 10
+  - durability: 500 -> 800
