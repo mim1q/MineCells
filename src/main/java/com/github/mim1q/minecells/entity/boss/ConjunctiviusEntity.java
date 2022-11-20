@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.boss;
 
+import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
@@ -226,7 +227,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         }
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
-        if (this.getRoomBox().contains(blockPos)) {
+        if (!this.world.getBlockState(blockPos).isIn(MineCellsBlockTags.CONJUNCTIVIUS_UNBREAKABLE) && this.getRoomBox().contains(blockPos)) {
           this.world.breakBlock(blockPos, false);
         }
       });

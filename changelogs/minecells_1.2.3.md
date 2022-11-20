@@ -1,5 +1,9 @@
 # Mine Cells - Dead Cells Mod 1.2.3
 
+## Fixes
+
+- Added a tag for blocks that The Conjunctivius shouldn't destroy
+
 ## Balancing
 
 ### Weapons
