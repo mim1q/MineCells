@@ -228,7 +228,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
         if (!this.world.getBlockState(blockPos).isIn(MineCellsBlockTags.CONJUNCTIVIUS_UNBREAKABLE) && this.getRoomBox().contains(blockPos)) {
-          this.world.breakBlock(blockPos, false);
+          this.world.breakBlock(blockPos, true);
         }
       });
 
