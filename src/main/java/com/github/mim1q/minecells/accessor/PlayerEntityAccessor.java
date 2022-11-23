@@ -6,5 +6,4 @@ public interface PlayerEntityAccessor {
   void setKingdomPortalCooldown(int cooldown);
   int getKingdomPortalCooldown();
   boolean canUseKingdomPortal();
-  boolean shouldCancelSwing();
 }

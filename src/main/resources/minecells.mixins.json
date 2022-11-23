@@ -7,7 +7,6 @@
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
-    "entity.player.ServerPlayerAndClientPlayerMixin",
     "item.MilkBucketItemMixin",
     "world.TrunkPlacerTypeInvoker",
     "client.SlotAccessor"
