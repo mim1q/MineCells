@@ -6,7 +6,7 @@ import com.github.mim1q.minecells.block.inventory.CellForgeInventory;
 import com.github.mim1q.minecells.client.gui.screen.button.ForgeButtonWidget;
 import com.github.mim1q.minecells.client.gui.screen.slot.LockedSlot;
 import com.github.mim1q.minecells.mixin.client.SlotAccessor;
-import com.github.mim1q.minecells.network.RequestForgeC2SPacket;
+import com.github.mim1q.minecells.network.c2s.RequestForgeC2SPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsScreenHandlerTypes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

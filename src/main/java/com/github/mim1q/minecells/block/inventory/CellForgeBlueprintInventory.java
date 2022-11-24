@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.block.inventory;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.gui.screen.CellForgeScreenHandler;
-import com.github.mim1q.minecells.network.SyncCellForgeRecipeS2CPacket;
+import com.github.mim1q.minecells.network.s2c.SyncCellForgeRecipeS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

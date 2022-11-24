@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.network;
 
+import com.github.mim1q.minecells.network.s2c.SyncCellForgeRecipeS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;

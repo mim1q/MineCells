@@ -1,4 +1,4 @@
-package com.github.mim1q.minecells.network;
+package com.github.mim1q.minecells.network.c2s;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.gui.screen.CellForgeScreenHandler;
