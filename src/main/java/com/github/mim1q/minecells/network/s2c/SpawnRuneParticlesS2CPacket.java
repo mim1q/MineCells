@@ -37,7 +37,7 @@ public class SpawnRuneParticlesS2CPacket extends PacketByteBuf {
     Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
     client.execute(() -> {
       ClientWorld world = handler.getWorld();
-      ParticleUtils.addInBox(world, ParticleTypes.CAMPFIRE_COSY_SMOKE, box, 10, new Vec3d(0.01D, 0.01D, 0.01D));
+      ParticleUtils.addInBox(world, ParticleTypes.CLOUD, box, 10, new Vec3d(0.01D, 0.01D, 0.01D));
     });
   }
 }
