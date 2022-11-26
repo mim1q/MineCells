@@ -203,17 +203,6 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity> {
 
     this.shouldRender = !entity.isSleeping();
 
-    // Update animation properties
-    if (!entity.isSleeping()) {
-      entity.buriedProgress.setupTransitionTo(0.0F, 20);
-    }
-
-    if (entity.getDataTracker().get(ScorpionEntity.SHOOT_CHARGING)) {
-      entity.swingProgress.setupTransitionTo(1.0F, 15);
-    } else {
-      entity.swingProgress.setupTransitionTo(0.0F, 10);
-    }
-
     entity.buriedProgress.update(animationProgress);
     entity.swingProgress.update(animationProgress);
 

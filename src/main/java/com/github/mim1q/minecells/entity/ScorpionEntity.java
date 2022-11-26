@@ -89,8 +89,19 @@ public class ScorpionEntity extends MineCellsEntity {
       this.playSound(MineCellsSounds.RISE, 1.0F, 1.0F);
       this.initGoalsLate();
     }
-    if (this.world.isClient() && this.buriedProgress.getProgress() > 0.0F && this.buriedProgress.getProgress() < 1.0F) {
-      this.spawnUnburyingParticles();
+    if (this.world.isClient()) {
+      if (this.isSleeping()) {
+        this.buriedProgress.setupTransitionTo(0.0F, 20);
+      }
+
+      if (this.getDataTracker().get(ScorpionEntity.SHOOT_CHARGING)) {
+        this.swingProgress.setupTransitionTo(1.0F, 15);
+      } else {
+        this.swingProgress.setupTransitionTo(0.0F, 10);
+      }
+      if (this.buriedProgress.getProgress() > 0.0F && this.buriedProgress.getProgress() < 1.0F) {
+        this.spawnUnburyingParticles();
+      }
     }
 
     this.shootCooldown = Math.max(0, --this.shootCooldown);
