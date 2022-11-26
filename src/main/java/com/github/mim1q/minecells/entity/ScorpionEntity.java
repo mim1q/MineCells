@@ -90,7 +90,7 @@ public class ScorpionEntity extends MineCellsEntity {
       this.initGoalsLate();
     }
     if (this.world.isClient()) {
-      if (this.isSleeping()) {
+      if (!this.isSleeping()) {
         this.buriedProgress.setupTransitionTo(0.0F, 20);
       }
 
@@ -99,7 +99,7 @@ public class ScorpionEntity extends MineCellsEntity {
       } else {
         this.swingProgress.setupTransitionTo(0.0F, 10);
       }
-      if (this.buriedProgress.getProgress() > 0.0F && this.buriedProgress.getProgress() < 1.0F) {
+      if (this.isSleeping() || this.buriedProgress.getProgress() > 0.0F && this.buriedProgress.getProgress() < 1.0F) {
         this.spawnUnburyingParticles();
       }
     }
@@ -127,7 +127,7 @@ public class ScorpionEntity extends MineCellsEntity {
         (ClientWorld) this.world,
         particle,
         Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),
-        10,
+        5,
         new Vec3d(-0.01D, -0.01D, -0.01D)
       );
     }
