@@ -1,7 +1,10 @@
 package com.github.mim1q.minecells.block.blockentity.spawnerrune;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -9,6 +12,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -73,6 +78,9 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
         mcEntity.initialize((ServerWorldAccess) world, world.getLocalDifficulty(pos), SpawnReason.SPAWNER, null, null);
         mcEntity.spawnRunePos = runePos;
+        for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, runePos)) {
+          ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(mcEntity.getBoundingBox().expand(0.5D)));
+        }
       }
       world.spawnEntity(spawnedEntity);
     }
