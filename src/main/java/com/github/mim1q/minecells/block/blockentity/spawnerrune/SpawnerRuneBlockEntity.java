@@ -18,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -67,18 +66,16 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
     int rolls = entity.data.minRolls + world.random.nextInt(entity.data.maxRolls - entity.data.minRolls + 1);
     List<EntityType<?>> entityTypes = entity.data.entryList.selectEntityTypes(rolls, world.random);
     for (EntityType<?> entityType : entityTypes) {
-      spawnEntity(world, entityType, findPos(world, pos, entity.data.spawnRadius), pos);
+      spawnEntity((ServerWorld) world, entityType, findPos(world, pos, entity.data.spawnRadius), pos);
     }
   }
 
-  private static void spawnEntity(World world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
-    Entity spawnedEntity = type.create(world);
+  private static void spawnEntity(ServerWorld world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
+    Entity spawnedEntity = type.create(world, null, null, null, pos, SpawnReason.SPAWNER, false, false);
     if (spawnedEntity != null) {
-      spawnedEntity.refreshPositionAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0, 0);
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
-        mcEntity.initialize((ServerWorldAccess) world, world.getLocalDifficulty(pos), SpawnReason.SPAWNER, null, null);
         mcEntity.spawnRunePos = runePos;
-        for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, runePos)) {
+        for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
           ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(mcEntity.getBoundingBox().expand(0.5D)));
         }
       }
