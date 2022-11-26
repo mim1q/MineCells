@@ -100,17 +100,15 @@ public class MineCellsEntity extends HostileEntity {
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
     if (spawnRunePos != null) {
-      nbt.putInt("spawnRuneX", spawnRunePos.getX());
-      nbt.putInt("spawnRuneY", spawnRunePos.getY());
-      nbt.putInt("spawnRuneZ", spawnRunePos.getZ());
+      nbt.putLong("spawnRunePos", spawnRunePos.asLong());
     }
   }
 
   @Override
   public void readCustomDataFromNbt(NbtCompound nbt) {
     super.readCustomDataFromNbt(nbt);
-    if (nbt.contains("spawnRuneX")) {
-      spawnRunePos = new BlockPos(nbt.getInt("spawnRuneX"), nbt.getInt("spawnRuneY"), nbt.getInt("spawnRuneZ"));
+    if (nbt.contains("spawnRunePos")) {
+      spawnRunePos = BlockPos.fromLong(nbt.getLong("spawnRunePos"));
     }
   }
 }
