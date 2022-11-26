@@ -12,6 +12,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -20,6 +21,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -32,7 +34,7 @@ import net.minecraft.world.World;
 public class ScorpionEntity extends MineCellsEntity {
 
   public AnimationProperty buriedProgress = new AnimationProperty(1.0F, AnimationProperty.EasingType.LINEAR);
-  public AnimationProperty swingProgress = new AnimationProperty(1.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public AnimationProperty swingProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   protected int shootCooldown = 0;
 
   public static final TrackedData<Boolean> SLEEPING = DataTracker.registerData(ScorpionEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -51,9 +53,11 @@ public class ScorpionEntity extends MineCellsEntity {
 
   @Override
   protected void initGoals() {
+    this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
   }
 
   protected void initGoalsLate() {
+    this.goalSelector.clear();
     super.initGoals();
 
     this.goalSelector.add(1, new MeleeAttackGoal(this, 1.2D, true));
@@ -80,7 +84,7 @@ public class ScorpionEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.isSleeping() && this.world.getClosestPlayer(this, 5.0F) != null) {
+    if (this.isSleeping() && this.getTarget() != null) {
       this.dataTracker.set(SLEEPING, false);
       this.playSound(MineCellsSounds.RISE, 1.0F, 1.0F);
       this.initGoalsLate();

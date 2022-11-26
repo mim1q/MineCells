@@ -209,15 +209,15 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity> {
     }
 
     if (entity.getDataTracker().get(ScorpionEntity.SHOOT_CHARGING)) {
-      entity.swingProgress.setupTransitionTo(1.0F, 20);
+      entity.swingProgress.setupTransitionTo(1.0F, 15);
     } else {
-      entity.swingProgress.setupTransitionTo(0.0F, 5);
+      entity.swingProgress.setupTransitionTo(0.0F, 10);
     }
 
     entity.buriedProgress.update(animationProgress);
     entity.swingProgress.update(animationProgress);
 
-    this.root.pivotY = 24.0F + entity.buriedProgress.getValue() * 24.0F;
+    this.root.pivotY = 24.0F + entity.buriedProgress.getValue() * 32.0F;
 
     // Walking animation
     this.tail[0].pitch = MathUtils.radians(55.0F);
@@ -232,9 +232,8 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity> {
       float deltaRoll = MathHelper.sin(limbAngle * 0.25F) * limbDistance;
       this.tail[i].roll = deltaRoll * MathUtils.radians(5.0F);
       this.tail[i].yaw = deltaRoll * MathUtils.radians(5.0F);
-
-      this.tail[i].pitch = MathUtils.easeInOutQuad(this.tail[i].pitch, MathUtils.radians(60.0F), entity.buriedProgress.getValue());
     }
+
     float deltaPivotY = MathHelper.sin(limbAngle * 0.5F) * limbDistance * 3.0F;
     float deltaPivotZ = -MathHelper.cos(limbAngle * 0.5F) * limbDistance * 2.0F;
     this.leftHindLeg.pivotY = -9.0F - Math.max(0.0F, deltaPivotY);
@@ -252,10 +251,12 @@ public class ScorpionEntityModel extends EntityModel<ScorpionEntity> {
     this.body.pitch = MathUtils.lerp(0.0F, MathUtils.radians(-30.0F), swingProgress);
     this.head.pitch -= MathUtils.lerp(0.0F, MathUtils.radians(-30.0F + shake * 5.0F), swingProgress);
 
-    for (ModelPart part : this.tail) {
+    for (int i = 0; i < 5; i++) {
+      ModelPart part = this.tail[i];
+      float target = i == 0 ? MathUtils.radians(30.0F) : MathUtils.radians(5.0F);
       part.pitch = MathUtils.lerp(
         part.pitch,
-        MathUtils.radians(15.0F),
+        target,
         swingProgress
       );
     }
