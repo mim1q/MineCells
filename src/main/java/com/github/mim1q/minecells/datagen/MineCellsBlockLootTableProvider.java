@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.server.BlockLootTableGenerator;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -43,21 +42,12 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
       MineCellsBlocks.STRIPPED_PUTRID_LOG,
       MineCellsBlocks.PUTRID_WOOD,
       MineCellsBlocks.STRIPPED_PUTRID_WOOD,
-      MineCellsBlocks.PUTRID_PLANKS,
-      MineCellsBlocks.PUTRID_STAIRS,
-      // Stone
-      MineCellsBlocks.PRISON_BRICKS,
-      MineCellsBlocks.PRISON_BRICK_STAIRS,
-      MineCellsBlocks.HARDSTONE,
       // Other
       MineCellsBlocks.BIG_CHAIN,
       MineCellsBlocks.ELEVATOR_ASSEMBLER,
       MineCellsBlocks.CAGE,
       MineCellsBlocks.BROKEN_CAGE
     );
-    // Slabs
-    biConsumer.accept(MineCellsBlocks.PUTRID_SLAB.getLootTableId(), BlockLootTableGenerator.slabDrops(MineCellsBlocks.PUTRID_SLAB));
-    biConsumer.accept(MineCellsBlocks.PRISON_BRICK_SLAB.getLootTableId(), BlockLootTableGenerator.slabDrops(MineCellsBlocks.PRISON_BRICK_SLAB));
 
     generateBlocksDroppingSelfWithSilkTouchOrShears(biConsumer,
       // Plants

@@ -10,8 +10,8 @@ class CommonBlockSet(Preset):
             [],
             [
                 common_presets.SimpleBlock(block_name),
-                common_presets.Stairs(base_name),
-                common_presets.Slab(base_name),
+                common_presets.Stairs(base_name, block_name),
+                common_presets.Slab(base_name, block_name),
             ]
         )
 
