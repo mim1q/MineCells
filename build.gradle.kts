@@ -55,6 +55,14 @@ tasks {
 
 // Data generation
 
+tasks.register<Exec>("runPythonDatagen") {
+  workingDir = projectDir
+  val scriptFile = workingDir.resolve("pyDatagen/main.py")
+  val outputPath = workingDir.resolve("src/main/pyGenerated")
+
+  commandLine("python", scriptFile.absolutePath, outputPath.absolutePath)
+}
+
 val dataOutput = file("src/main/generated")
 
 loom {
@@ -73,7 +81,7 @@ loom {
 sourceSets {
   main {
     resources {
-      srcDirs("src/main/generated")
+      srcDirs("src/main/generated", "src/main/pyGenerated")
     }
   }
 }
