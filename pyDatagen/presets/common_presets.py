@@ -3,62 +3,62 @@ from template import Template, TemplateType
 
 
 class SimpleDrop(Preset):
-    def __init__(self, block_name: str):
+    def __init__(self, block: str):
         super().__init__([
-            Template(TemplateType.BLOCK_LOOT_TABLE, "simple_drop", block_name, {"item": block_name}),
+            Template(TemplateType.BLOCK_LOOT_TABLE, "simple_drop", block, {"item": block}),
         ])
 
 
 class ItemBlockModel(Preset):
-    def __init__(self, block_name: str):
+    def __init__(self, block: str):
         super().__init__([
-            Template(TemplateType.ITEM_MODEL, "block_model", block_name, {"block": block_name}),
+            Template(TemplateType.ITEM_MODEL, "block_model", block, {"block": block}),
         ])
 
 
 class SimpleBlock(Preset):
-    def __init__(self, block_name: str):
+    def __init__(self, block: str):
         super().__init__([
-            Template(TemplateType.BLOCKSTATE, "single_state", block_name, {"block": block_name}),
-            Template(TemplateType.BLOCK_MODEL, "cube_all", block_name, {"texture": block_name}),
-            Template(TemplateType.BLOCK_LOOT_TABLE, "simple_drop", block_name, {"item": block_name}),
-            Template(TemplateType.ITEM_MODEL, "block_model", block_name, {"block": block_name}),
+            Template(TemplateType.BLOCKSTATE, "single_state", block, {"block": block}),
+            Template(TemplateType.BLOCK_MODEL, "cube_all", block, {"texture": block}),
+            Template(TemplateType.BLOCK_LOOT_TABLE, "simple_drop", block, {"item": block}),
+            Template(TemplateType.ITEM_MODEL, "block_model", block, {"block": block}),
         ])
 
 
 class Stairs(Preset):
-    def __init__(self, base_name: str, texture_name: str = None):
-        if texture_name is None:
-            texture_name = base_name
+    def __init__(self, base: str, block: str = None):
+        if block is None:
+            block = base
         super().__init__(
             [
-                Template(TemplateType.BLOCK_MODEL, "stairs", base_name + "_stairs", {"texture": texture_name}),
-                Template(TemplateType.BLOCK_MODEL, "stairs_inner", base_name + "_stairs_inner", {"texture": texture_name}),
-                Template(TemplateType.BLOCK_MODEL, "stairs_outer", base_name + "_stairs_outer", {"texture": texture_name}),
-                Template(TemplateType.BLOCKSTATE, "stairs", base_name + "_stairs", {"block": base_name}),
-                Template(TemplateType.RECIPE, "stairs", base_name + "_stairs", {"input": base_name, "output": base_name + "_stairs"}),
-                Template(TemplateType.RECIPE, "stairs_flipped", base_name + "_stairs_flipped", {"input": base_name, "output": base_name + "_stairs"}),
+                Template(TemplateType.BLOCK_MODEL, "stairs", base + "_stairs", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "stairs_inner", base + "_stairs_inner", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "stairs_outer", base + "_stairs_outer", {"texture": block}),
+                Template(TemplateType.BLOCKSTATE, "stairs", base + "_stairs", {"block": base}),
+                Template(TemplateType.RECIPE, "stairs", base + "_stairs", {"input": block, "output": base + "_stairs"}),
+                Template(TemplateType.RECIPE, "stairs_flipped", base + "_stairs_flipped", {"input": block, "output": base + "_stairs"}),
             ],
             [
-                SimpleDrop(base_name + "_stairs"),
-                ItemBlockModel(base_name + "_stairs"),
+                SimpleDrop(base + "_stairs"),
+                ItemBlockModel(base + "_stairs"),
             ]
         )
 
 
 class Slab(Preset):
-    def __init__(self, base_name: str, texture_name: str = None):
-        if texture_name is None:
-            texture_name = base_name
+    def __init__(self, base: str, block: str = None):
+        if block is None:
+            block = base
         super().__init__(
             [
-                Template(TemplateType.BLOCK_MODEL, "slab", base_name + "_slab", {"texture": texture_name}),
-                Template(TemplateType.BLOCK_MODEL, "slab_top", base_name + "_slab_top", {"texture": texture_name}),
-                Template(TemplateType.BLOCKSTATE, "slab", base_name + "_slab", {"block": texture_name, "base_name": base_name}),
-                Template(TemplateType.RECIPE, "slab", base_name + "_slab", {"input": base_name, "output": base_name + "_slab"}),
+                Template(TemplateType.BLOCK_MODEL, "slab", base + "_slab", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "slab_top", base + "_slab_top", {"texture": block}),
+                Template(TemplateType.BLOCKSTATE, "slab", base + "_slab", {"block": block, "base": base}),
+                Template(TemplateType.RECIPE, "slab", base + "_slab", {"input": block, "output": base + "_slab"}),
             ],
             [
-                SimpleDrop(base_name + "_slab"),
-                ItemBlockModel(base_name + "_slab"),
+                SimpleDrop(base + "_slab"),
+                ItemBlockModel(base + "_slab"),
             ]
         )
