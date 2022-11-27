@@ -46,9 +46,17 @@ public class MineCellsItemGroups {
     .icon(() -> new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER))
     .appendItems(stacks -> stacks.addAll(List.of(
       MineCellsBlocks.PRISON_STONE.asItem().getDefaultStack(),
+      MineCellsBlocks.PRISON_STONE_SLAB.asItem().getDefaultStack(),
+      MineCellsBlocks.PRISON_STONE_STAIRS.asItem().getDefaultStack(),
+      MineCellsBlocks.PRISON_COBBLESTONE.asItem().getDefaultStack(),
+      MineCellsBlocks.PRISON_COBBLESTONE_SLAB.asItem().getDefaultStack(),
+      MineCellsBlocks.PRISON_COBBLESTONE_STAIRS.asItem().getDefaultStack(),
       MineCellsBlocks.PRISON_BRICKS.asItem().getDefaultStack(),
       MineCellsBlocks.PRISON_BRICK_SLAB.asItem().getDefaultStack(),
       MineCellsBlocks.PRISON_BRICK_STAIRS.asItem().getDefaultStack(),
+      MineCellsBlocks.SMALL_PRISON_BRICKS.asItem().getDefaultStack(),
+      MineCellsBlocks.SMALL_PRISON_BRICK_SLAB.asItem().getDefaultStack(),
+      MineCellsBlocks.SMALL_PRISON_BRICK_STAIRS.asItem().getDefaultStack(),
       MineCellsBlocks.PUTRID_LOG.asItem().getDefaultStack(),
       MineCellsBlocks.PUTRID_WOOD.asItem().getDefaultStack(),
       MineCellsBlocks.STRIPPED_PUTRID_LOG.asItem().getDefaultStack(),
