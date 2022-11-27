@@ -9,7 +9,6 @@ import net.minecraft.data.server.RecipeProvider;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.tag.ItemTags;
 
@@ -53,8 +52,6 @@ public class MineCellsRecipeProvider extends FabricRecipeProvider {
       .criterion("has_item", RecipeProvider.conditionsFromItem(MineCellsBlocks.STRIPPED_PUTRID_LOG))
       .offerTo(exporter);
 
-    generateStairsAndSlab(exporter, MineCellsBlocks.PUTRID_PLANKS, MineCellsBlocks.PUTRID_STAIRS, MineCellsBlocks.PUTRID_SLAB);
-
     ShapedRecipeJsonBuilder.create(MineCellsBlocks.BIG_CHAIN, 2)
       .pattern("#")
       .pattern(".")
@@ -92,35 +89,6 @@ public class MineCellsRecipeProvider extends FabricRecipeProvider {
       .input('T', Items.IRON_TRAPDOOR)
       .input('#', Items.IRON_BARS)
       .criterion("has_item", RecipeProvider.conditionsFromItem(Items.IRON_BARS))
-      .offerTo(exporter);
-  }
-
-  public void generateStairsAndSlab(
-    Consumer<RecipeJsonProvider> exporter,
-    ItemConvertible base,
-    ItemConvertible stairs,
-    ItemConvertible slab
-  ) {
-    ShapedRecipeJsonBuilder.create(stairs, 4)
-      .pattern("#  ")
-      .pattern("## ")
-      .pattern("###")
-      .input('#', base)
-      .criterion("has_item", RecipeProvider.conditionsFromItem(base))
-      .offerTo(exporter);
-
-    ShapedRecipeJsonBuilder.create(stairs, 4)
-      .pattern("  #")
-      .pattern(" ##")
-      .pattern("###")
-      .input('#', base)
-      .criterion("has_item", RecipeProvider.conditionsFromItem(base))
-      .offerTo(exporter, getItemPath(stairs) + "_flipped");
-
-    ShapedRecipeJsonBuilder.create(slab, 6)
-      .pattern("###")
-      .input('#', base)
-      .criterion("has_item", RecipeProvider.conditionsFromItem(base))
       .offerTo(exporter);
   }
 }

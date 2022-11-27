@@ -6,12 +6,10 @@
     }
   },
   "pattern": [
-    "#  ",
-    "## ",
     "###"
   ],
   "result": {
-    "count": 4,
-    "item": "{{id}}:{{output}}_stairs"
+    "count": 6,
+    "item": "{{id}}:{{output}}"
   }
 }

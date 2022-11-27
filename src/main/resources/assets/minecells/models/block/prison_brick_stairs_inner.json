@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "minecells:block/prison_bricks",
-    "top": "minecells:block/prison_bricks",
-    "side": "minecells:block/prison_bricks"
-  }
-}

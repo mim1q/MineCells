@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "#": {
-      "item": "{{id}}:{{block}}"
+      "item": "{{id}}:{{input}}"
     }
   },
   "pattern": [
@@ -12,6 +12,6 @@
   ],
   "result": {
     "count": 4,
-    "item": "{{id}}:{{block}}_stairs"
+    "item": "{{id}}:{{output}}_stairs"
   }
 }

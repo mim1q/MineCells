@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "{{id}}:block/{{block}}"
+    }
+  }
+}
