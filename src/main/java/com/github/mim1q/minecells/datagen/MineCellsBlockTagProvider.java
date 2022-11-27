@@ -15,11 +15,48 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
   @Override
   protected void generateTags() {
     getOrCreateTagBuilder(BlockTags.LOGS)
-      .add(MineCellsBlocks.PUTRID_LOG)
-      .add(MineCellsBlocks.STRIPPED_PUTRID_LOG)
-      .add(MineCellsBlocks.PUTRID_WOOD)
-      .add(MineCellsBlocks.STRIPPED_PUTRID_WOOD);
+      .add(
+        MineCellsBlocks.PUTRID_LOG,
+        MineCellsBlocks.STRIPPED_PUTRID_LOG,
+        MineCellsBlocks.PUTRID_WOOD,
+        MineCellsBlocks.STRIPPED_PUTRID_WOOD
+      );
     getOrCreateTagBuilder(BlockTags.PLANKS)
-      .add(MineCellsBlocks.PUTRID_PLANKS);
+      .add(
+        MineCellsBlocks.PUTRID_PLANKS
+      );
+
+    getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+      .add(
+        // Stone
+        MineCellsBlocks.PRISON_BRICKS,
+        MineCellsBlocks.PRISON_BRICK_SLAB,
+        MineCellsBlocks.PRISON_BRICK_STAIRS,
+        // Other
+        MineCellsBlocks.BIG_CHAIN,
+        MineCellsBlocks.CHAIN_PILE,
+        MineCellsBlocks.CHAIN_PILE_BLOCK,
+        MineCellsBlocks.HANGED_SKELETON,
+        MineCellsBlocks.CAGE,
+        MineCellsBlocks.BROKEN_CAGE
+      );
+
+    getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+      .add(
+        // Wood
+        MineCellsBlocks.PUTRID_LOG,
+        MineCellsBlocks.PUTRID_WOOD,
+        MineCellsBlocks.STRIPPED_PUTRID_LOG,
+        MineCellsBlocks.STRIPPED_PUTRID_WOOD,
+        MineCellsBlocks.PUTRID_PLANKS,
+        MineCellsBlocks.PUTRID_STAIRS,
+        MineCellsBlocks.PUTRID_SLAB,
+        // Other
+        MineCellsBlocks.ELEVATOR_ASSEMBLER,
+        MineCellsBlocks.CRATE,
+        MineCellsBlocks.SMALL_CRATE,
+        MineCellsBlocks.BRITTLE_BARREL,
+        MineCellsBlocks.BIOME_BANNER
+      );
   }
 }

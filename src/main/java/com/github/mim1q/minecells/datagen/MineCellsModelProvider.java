@@ -30,14 +30,22 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerAxisRotated(MineCellsBlocks.PUTRID_WOOD, TexturedModel.CUBE_ALL);
     generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_WOOD, TexturedModel.CUBE_ALL);
     generator.registerSimpleCubeAll(MineCellsBlocks.PUTRID_PLANKS);
+    generator.registerSimpleCubeAll(MineCellsBlocks.PRISON_BRICKS);
     generator.registerParentedItemModel(
       MineCellsBlocks.PUTRID_SLAB,
       ModelIds.getBlockModelId(MineCellsBlocks.PUTRID_SLAB)
-
     );
     generator.registerParentedItemModel(
       MineCellsBlocks.PUTRID_STAIRS,
       ModelIds.getBlockModelId(MineCellsBlocks.PUTRID_STAIRS)
+    );
+    generator.registerParentedItemModel(
+      MineCellsBlocks.PRISON_BRICK_SLAB,
+      ModelIds.getBlockModelId(MineCellsBlocks.PRISON_BRICK_SLAB)
+    );
+    generator.registerParentedItemModel(
+      MineCellsBlocks.PRISON_BRICK_STAIRS,
+      ModelIds.getBlockModelId(MineCellsBlocks.PRISON_BRICK_STAIRS)
     );
 
     // Plants / Leaves

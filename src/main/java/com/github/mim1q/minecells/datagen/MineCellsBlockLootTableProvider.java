@@ -37,24 +37,38 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
 
   @Override
   public void accept(BiConsumer<Identifier, LootTable.Builder> biConsumer) {
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.PUTRID_LOG);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.STRIPPED_PUTRID_LOG);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.PUTRID_WOOD);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.STRIPPED_PUTRID_WOOD);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.PUTRID_PLANKS);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.PUTRID_STAIRS);
+    generateSelfDroppingBlocks(biConsumer,
+      // Wood
+      MineCellsBlocks.PUTRID_LOG,
+      MineCellsBlocks.STRIPPED_PUTRID_LOG,
+      MineCellsBlocks.PUTRID_WOOD,
+      MineCellsBlocks.STRIPPED_PUTRID_WOOD,
+      MineCellsBlocks.PUTRID_PLANKS,
+      MineCellsBlocks.PUTRID_STAIRS,
+      // Stone
+      MineCellsBlocks.PRISON_BRICKS,
+      MineCellsBlocks.PRISON_BRICK_STAIRS,
+      MineCellsBlocks.HARDSTONE,
+      // Other
+      MineCellsBlocks.BIG_CHAIN,
+      MineCellsBlocks.ELEVATOR_ASSEMBLER,
+      MineCellsBlocks.CAGE,
+      MineCellsBlocks.BROKEN_CAGE
+    );
+    // Slabs
     biConsumer.accept(MineCellsBlocks.PUTRID_SLAB.getLootTableId(), BlockLootTableGenerator.slabDrops(MineCellsBlocks.PUTRID_SLAB));
-    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_LEAVES);
-    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES);
-    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.WALL_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES);
-    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.ORANGE_WILTED_LEAVES, MineCellsBlocks.ORANGE_WILTED_LEAVES);
-    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES, MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES);
-    generateShearsOrSilkTouchDrop(biConsumer, MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES, MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.HARDSTONE);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.BIG_CHAIN);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.ELEVATOR_ASSEMBLER);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.CAGE);
-    generateSelfDroppingBlock(biConsumer, MineCellsBlocks.BROKEN_CAGE);
+    biConsumer.accept(MineCellsBlocks.PRISON_BRICK_SLAB.getLootTableId(), BlockLootTableGenerator.slabDrops(MineCellsBlocks.PRISON_BRICK_SLAB));
+
+    generateBlocksDroppingSelfWithSilkTouchOrShears(biConsumer,
+      // Plants
+      MineCellsBlocks.WILTED_LEAVES,
+      MineCellsBlocks.HANGING_WILTED_LEAVES,
+      MineCellsBlocks.WALL_WILTED_LEAVES,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES,
+      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
+      MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES
+    );
+
     generateBlock(biConsumer, MineCellsBlocks.BIOME_BANNER, MineCellsItems.BIOME_BANNER);
 
     biConsumer.accept(
@@ -113,6 +127,12 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
     biConsumer.accept(block.getLootTableId(), FabricBlockLootTableProvider.drops(block));
   }
 
+  public static void generateSelfDroppingBlocks(BiConsumer<Identifier, LootTable.Builder> biConsumer, Block... blocks) {
+    for (Block block : blocks) {
+      generateSelfDroppingBlock(biConsumer, block);
+    }
+  }
+
   public static void generateBlock(
     BiConsumer<Identifier, LootTable.Builder> biConsumer,
     Block block,
@@ -129,6 +149,15 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
     biConsumer.accept(block.getLootTableId(), LootTable.builder()
       .pool(simplePool(conditionalEntry(drop, DropUtils.SHEARS_OR_SILK_TOUCH, ConstantLootNumberProvider.create(1)), 1))
     );
+  }
+
+  public static void generateBlocksDroppingSelfWithSilkTouchOrShears(
+    BiConsumer<Identifier, LootTable.Builder> biConsumer,
+    Block... blocks
+  ) {
+    for (Block block : blocks) {
+      generateShearsOrSilkTouchDrop(biConsumer, block, block);
+    }
   }
 
   public static LeafEntry.Builder<?> silkTouchEntry(ItemConvertible item, boolean silkTouch) {
