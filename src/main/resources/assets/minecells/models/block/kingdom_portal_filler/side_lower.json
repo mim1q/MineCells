@@ -1,7 +1,7 @@
 {
   "textures": {
-    "0": "minecells:block/small_prison_bricks",
-    "particle": "minecells:block/small_prison_bricks"
+    "0": "minecells:block/prison_cobblestone",
+    "particle": "minecells:block/prison_cobblestone"
   },
   "elements": [
     {
