@@ -14,6 +14,18 @@ class TemplateType(Enum):
         return self.value
 
 
+class Template:
+    def __init__(self, template_type: TemplateType, template_name: str, output_name: str, variables: {}):
+        self.template_type = template_type
+        self.template_name = template_name
+        self.output_name = output_name
+        self.variables = variables
+
+    def apply(self, output_path: str, mod_id: str):
+        self.variables["mod_id"] = mod_id
+        apply_template(self.template_type, self.template_name, output_path, mod_id, self.output_name, self.variables)
+
+
 def load_template_file_contents(name: str) -> str:
     template_path = os.path.join(os.path.dirname(__file__), "templates", name)
     with open(template_path, "r") as template_file:
@@ -28,8 +40,8 @@ def get_template(template_type: TemplateType, name: str) -> str:
 
 def apply_variables(template: str, variables: dict) -> str:
     for key, value in variables.items():
-        template = template.replace("/*{" + key + "}*/", value)
-    return re.sub(r"/\*.*\*/", "", template)
+        template = template.replace("{{" + key + "}}", value)
+    return re.sub(r"//.*\n?", "", re.sub(r"/\*.*\*/\n*", "", template))
 
 
 def get_save_path(output_path: str, template_type: TemplateType, mod_id: str, name: str) -> str:
