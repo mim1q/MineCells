@@ -32,6 +32,21 @@ public class MineCellsBlocks {
     "hardstone"
   );
 
+  public static final Block PRISON_BRICKS = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.STONE_BRICKS)),
+    "prison_bricks"
+  );
+
+  public static final Block PRISON_BRICK_SLAB = registerBlockWithItem(
+    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
+    "prison_brick_slab"
+  );
+
+  public static final Block PRISON_BRICK_STAIRS = registerBlockWithItem(
+    new StairsBlock(PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
+    "prison_brick_stairs"
+  );
+
   public static final Block PUTRID_LOG = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
     "putrid_log"
