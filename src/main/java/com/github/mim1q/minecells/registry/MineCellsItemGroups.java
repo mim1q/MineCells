@@ -45,6 +45,7 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS_BLOCKS_AND_ITEMS = FabricItemGroupBuilder.create(MineCells.createId("blocks_and_items"))
     .icon(() -> new ItemStack(MineCellsBlocks.ELEVATOR_ASSEMBLER))
     .appendItems(stacks -> stacks.addAll(List.of(
+      MineCellsBlocks.PRISON_STONE.asItem().getDefaultStack(),
       MineCellsBlocks.PRISON_BRICKS.asItem().getDefaultStack(),
       MineCellsBlocks.PRISON_BRICK_SLAB.asItem().getDefaultStack(),
       MineCellsBlocks.PRISON_BRICK_STAIRS.asItem().getDefaultStack(),
