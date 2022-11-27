@@ -30,12 +30,12 @@ class Stairs(Preset):
     def __init__(self, block_name: str):
         super().__init__(
             [
-                Template(TemplateType.BLOCK_MODEL, "stairs", block_name + "_stairs",  {"block_name": block_name}),
-                Template(TemplateType.BLOCK_MODEL, "stairs_inner", block_name + "_stairs_inner",  {"block_name": block_name}),
-                Template(TemplateType.BLOCK_MODEL, "stairs_outer", block_name + "_stairs_outer",  {"block_name": block_name}),
-                Template(TemplateType.BLOCKSTATE, "stairs", block_name + "_stairs", {"block_name": block_name}),
-                Template(TemplateType.RECIPE, "stairs", block_name + "_stairs", {"block_name": block_name}),
-                Template(TemplateType.RECIPE, "stairs_flipped", block_name + "_stairs_flipped", {"block_name": block_name}),
+                Template(TemplateType.BLOCK_MODEL, "stairs", block_name + "_stairs",  {"texture": block_name}),
+                Template(TemplateType.BLOCK_MODEL, "stairs_inner", block_name + "_stairs_inner",  {"texture": block_name}),
+                Template(TemplateType.BLOCK_MODEL, "stairs_outer", block_name + "_stairs_outer",  {"texture": block_name}),
+                Template(TemplateType.BLOCKSTATE, "stairs", block_name + "_stairs", {"block": block_name}),
+                Template(TemplateType.RECIPE, "stairs", block_name + "_stairs", {"block": block_name}),
+                Template(TemplateType.RECIPE, "stairs_flipped", block_name + "_stairs_flipped", {"block": block_name}),
             ],
             [
                 SimpleDrop(block_name + "_stairs"),

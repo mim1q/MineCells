@@ -22,7 +22,7 @@ class Template:
         self.variables = variables
 
     def apply(self, output_path: str, mod_id: str):
-        self.variables["mod_id"] = mod_id
+        self.variables["id"] = mod_id
         apply_template(self.template_type, self.template_name, output_path, mod_id, self.output_name, self.variables)
 
 

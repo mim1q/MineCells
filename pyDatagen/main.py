@@ -5,8 +5,8 @@ from preset_generator import PresetGenerator
 
 
 def generate_data(output_path: str):
-    generator = PresetGenerator("modid", output_path)
-    generator.generate_preset(presets.Stairs("test"))
+    generator = PresetGenerator("minecells", output_path)
+    generator.generate_preset(presets.Stairs("small_prison_bricks"))
 
 
 def main():

@@ -67,6 +67,17 @@ public class MineCellsBlocks {
     "small_prison_bricks"
   );
 
+  public static final Block SMALL_PRISON_BRICKS_SLAB = registerBlockWithItem(
+    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
+    "small_prison_bricks_slab"
+  );
+
+  public static final Block SMALL_PRISON_BRICKS_STAIRS = registerBlockWithItem(
+    new StairsBlock(SMALL_PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
+    "small_prison_bricks_stairs"
+  );
+
+
 //  public static final Block SMALL_PRISON_BRICK_SLAB = registerBlockWithItem(
 //    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
 //    "small_prison_brick_slab"

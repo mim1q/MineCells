@@ -25,7 +25,6 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerSimpleCubeAll(MineCellsBlocks.HARDSTONE);
     generator.registerSimpleCubeAll(MineCellsBlocks.PRISON_STONE);
     generator.registerSimpleCubeAll(MineCellsBlocks.PRISON_BRICKS);
-    generator.registerSimpleCubeAll(MineCellsBlocks.SMALL_PRISON_BRICKS);
     generator.registerParentedItemModel(
       MineCellsBlocks.PRISON_BRICK_SLAB,
       ModelIds.getBlockModelId(MineCellsBlocks.PRISON_BRICK_SLAB)
