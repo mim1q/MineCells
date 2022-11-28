@@ -7,10 +7,10 @@ from presets.preset_generator import PresetGenerator
 def generate_data(output_path: str):
     generator = PresetGenerator("minecells", output_path)
 
-    generator.generate_preset(block_set_presets.CommonBlockSet("small_prison_bricks", "small_prison_brick"))
-    generator.generate_preset(block_set_presets.CommonBlockSet("prison_bricks", "prison_brick"))
-    generator.generate_preset(block_set_presets.CommonBlockSet("prison_stone"))
-    generator.generate_preset(block_set_presets.CommonBlockSet("prison_cobblestone"))
+    generator.generate_preset(block_set_presets.StoneBlockSet("small_prison_bricks", "small_prison_brick"))
+    generator.generate_preset(block_set_presets.StoneBlockSet("prison_bricks", "prison_brick"))
+    generator.generate_preset(block_set_presets.StoneBlockSet("prison_stone"))
+    generator.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
     generator.generate_preset(block_set_presets.CommonBlockSet("putrid_planks", "putrid"))
 
 

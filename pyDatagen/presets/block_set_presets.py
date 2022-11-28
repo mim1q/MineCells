@@ -15,3 +15,15 @@ class CommonBlockSet(Preset):
             ]
         )
 
+
+class StoneBlockSet(Preset):
+    def __init__(self, block: str, base: str = None):
+        if base is None:
+            base = block
+        super().__init__(
+            [],
+            [
+                CommonBlockSet(block, base),
+                common_presets.Wall(base, block),
+            ]
+        )

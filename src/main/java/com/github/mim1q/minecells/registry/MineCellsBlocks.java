@@ -47,6 +47,11 @@ public class MineCellsBlocks {
     "prison_stone_stairs"
   );
 
+  public static final Block PRISON_STONE_WALL = registerBlockWithItem(
+    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
+    "prison_stone_wall"
+  );
+
   public static final Block PRISON_COBBLESTONE = registerBlockWithItem(
     new Block(FabricBlockSettings.copyOf(Blocks.COBBLESTONE)),
     "prison_cobblestone"
@@ -60,6 +65,11 @@ public class MineCellsBlocks {
   public static final Block PRISON_COBBLESTONE_STAIRS = registerBlockWithItem(
     new StairsBlock(PRISON_COBBLESTONE.getDefaultState(), FabricBlockSettings.copyOf(Blocks.COBBLESTONE_STAIRS)),
     "prison_cobblestone_stairs"
+  );
+
+  public static final Block PRISON_COBBLESTONE_WALL = registerBlockWithItem(
+    new WallBlock(FabricBlockSettings.copyOf(Blocks.COBBLESTONE_WALL)),
+    "prison_cobblestone_wall"
   );
 
   public static final Block PRISON_BRICKS = registerBlockWithItem(
@@ -77,6 +87,11 @@ public class MineCellsBlocks {
     "prison_brick_stairs"
   );
 
+  public static final Block PRISON_BRICK_WALL = registerBlockWithItem(
+    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
+    "prison_brick_wall"
+  );
+
   public static final Block SMALL_PRISON_BRICKS = registerBlockWithItem(
     new Block(FabricBlockSettings.copyOf(Blocks.STONE_BRICKS)),
     "small_prison_bricks"
@@ -90,6 +105,11 @@ public class MineCellsBlocks {
   public static final Block SMALL_PRISON_BRICK_STAIRS = registerBlockWithItem(
     new StairsBlock(SMALL_PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
     "small_prison_brick_stairs"
+  );
+
+  public static final Block SMALL_PRISON_BRICK_WALL = registerBlockWithItem(
+    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
+    "small_prison_brick_wall"
   );
   public static final Block PUTRID_LOG = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
