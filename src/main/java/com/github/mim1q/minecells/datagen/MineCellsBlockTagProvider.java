@@ -58,5 +58,13 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.BRITTLE_BARREL,
         MineCellsBlocks.BIOME_BANNER
       );
+
+    getOrCreateTagBuilder(BlockTags.WALLS)
+      .add(
+        MineCellsBlocks.PRISON_STONE_WALL,
+        MineCellsBlocks.PRISON_COBBLESTONE_WALL,
+        MineCellsBlocks.PRISON_BRICK_WALL,
+        MineCellsBlocks.SMALL_PRISON_BRICK_WALL
+      );
   }
 }
