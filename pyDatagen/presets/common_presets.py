@@ -19,7 +19,7 @@ class ItemBlockModel(Preset):
 class SimpleBlock(Preset):
     def __init__(self, block: str):
         super().__init__([
-            Template(TemplateType.BLOCKSTATE, "single_state", block, {"block": block}),
+            Template(TemplateType.BLOCKSTATE, "single_state", block, {"base": block}),
             Template(TemplateType.BLOCK_MODEL, "cube_all", block, {"texture": block}),
             Template(TemplateType.BLOCK_LOOT_TABLE, "simple_drop", block, {"item": block}),
             Template(TemplateType.ITEM_MODEL, "block_model", block, {"block": block}),
@@ -32,7 +32,7 @@ class Stairs(Preset):
             block = base
         super().__init__(
             [
-                Template(TemplateType.BLOCKSTATE, "stairs", base + "_stairs", {"block": base}),
+                Template(TemplateType.BLOCKSTATE, "stairs", base + "_stairs", {"base": base}),
                 Template(TemplateType.BLOCK_MODEL, "stairs", base + "_stairs", {"texture": block}),
                 Template(TemplateType.BLOCK_MODEL, "stairs_inner", base + "_stairs_inner", {"texture": block}),
                 Template(TemplateType.BLOCK_MODEL, "stairs_outer", base + "_stairs_outer", {"texture": block}),
@@ -70,7 +70,7 @@ class Wall(Preset):
             block = base
         super().__init__(
             [
-                Template(TemplateType.BLOCKSTATE, "wall", base + "_wall", {"block": base}),
+                Template(TemplateType.BLOCKSTATE, "wall", base + "_wall", {"base": base}),
                 Template(TemplateType.BLOCK_MODEL, "wall_post", base + "_wall_post", {"texture": block}),
                 Template(TemplateType.BLOCK_MODEL, "wall_side", base + "_wall_side", {"texture": block}),
                 Template(TemplateType.BLOCK_MODEL, "wall_side_tall", base + "_wall_side_tall", {"texture": block}),
@@ -79,5 +79,20 @@ class Wall(Preset):
             ],
             [
                 SimpleDrop(base + "_wall")
+            ]
+        )
+
+
+class Fence(Preset):
+    def __init__(self, base: str, block: str = None):
+        if block is None:
+            block = base
+        super().__init__(
+            [
+                Template(TemplateType.BLOCKSTATE, "fence", base + "_fence", {"base": base}),
+                Template(TemplateType.BLOCK_MODEL, "fence_post", base + "_fence_post", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "fence_side", base + "_fence_side", {"texture": block}),
+                Template(TemplateType.ITEM_MODEL, "fence", base + "_fence", {"texture": block}),
+                Template(TemplateType.RECIPE, "fence", base + "_fence", {"input": block})
             ]
         )
