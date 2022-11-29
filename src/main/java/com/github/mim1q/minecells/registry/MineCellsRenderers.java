@@ -159,7 +159,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES,
       MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
-      MineCellsBlocks.ALCHEMY_EQUIPMENT_2
+      MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
+      MineCellsBlocks.PUTRID_DOOR
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
