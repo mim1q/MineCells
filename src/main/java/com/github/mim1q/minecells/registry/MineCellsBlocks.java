@@ -146,6 +146,16 @@ public class MineCellsBlocks {
     "putrid_slab"
   );
 
+  public static final Block PUTRID_FENCE = registerBlockWithItem(
+    new FenceBlock(FabricBlockSettings.copyOf(Blocks.OAK_FENCE)),
+    "putrid_fence"
+  );
+
+  public static final Block PUTRID_FENCE_GATE = registerBlockWithItem(
+    new FenceGateBlock(FabricBlockSettings.copyOf(Blocks.OAK_FENCE_GATE)),
+    "putrid_fence_gate"
+  );
+
   public static final Block WILTED_LEAVES = registerBlockWithItem(
     new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
     "wilted_leaves"

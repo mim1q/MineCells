@@ -37,6 +37,7 @@ class WoodBlockSet(Preset):
             [],
             [
                 CommonBlockSet(block, base),
-                common_presets.Fence(base),
+                common_presets.Fence(base, block),
+                common_presets.FenceGate(base, block),
             ]
         )

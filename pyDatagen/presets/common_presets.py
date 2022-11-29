@@ -19,7 +19,7 @@ class ItemBlockModel(Preset):
 class SimpleBlock(Preset):
     def __init__(self, block: str):
         super().__init__([
-            Template(TemplateType.BLOCKSTATE, "single_state", block, {"base": block}),
+            Template(TemplateType.BLOCKSTATE, "single_state", block, {"block": block}),
             Template(TemplateType.BLOCK_MODEL, "cube_all", block, {"texture": block}),
             Template(TemplateType.BLOCK_LOOT_TABLE, "simple_drop", block, {"item": block}),
             Template(TemplateType.ITEM_MODEL, "block_model", block, {"block": block}),
@@ -93,6 +93,29 @@ class Fence(Preset):
                 Template(TemplateType.BLOCK_MODEL, "fence_post", base + "_fence_post", {"texture": block}),
                 Template(TemplateType.BLOCK_MODEL, "fence_side", base + "_fence_side", {"texture": block}),
                 Template(TemplateType.ITEM_MODEL, "fence", base + "_fence", {"texture": block}),
-                Template(TemplateType.RECIPE, "fence", base + "_fence", {"input": block})
+                Template(TemplateType.RECIPE, "fence", base + "_fence", {"input": block, "output": base + "_fence"}),
+            ],
+            [
+                SimpleDrop(base + "_fence")
+            ]
+        )
+
+
+class FenceGate(Preset):
+    def __init__(self, base: str, block: str = None):
+        if block is None:
+            block = base
+        super().__init__(
+            [
+                Template(TemplateType.BLOCKSTATE, "fence_gate", base + "_fence_gate", {"base": base}),
+                Template(TemplateType.BLOCK_MODEL, "fence_gate", base + "_fence_gate", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "fence_gate_open", base + "_fence_gate_open", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "fence_gate_wall", base + "_fence_gate_wall", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "fence_gate_wall_open", base + "_fence_gate_wall_open", {"texture": block}),
+                Template(TemplateType.RECIPE, "fence_gate", base + "_fence_gate", {"input": block, "output": base + "_fence_gate"}),
+            ],
+            [
+                SimpleDrop(base + "_fence_gate"),
+                ItemBlockModel(base + "_fence_gate"),
             ]
         )

@@ -66,5 +66,10 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.PRISON_BRICK_WALL,
         MineCellsBlocks.SMALL_PRISON_BRICK_WALL
       );
+
+    getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
+      .add(
+        MineCellsBlocks.PUTRID_FENCE
+      );
   }
 }

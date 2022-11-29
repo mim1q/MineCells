@@ -31,3 +31,6 @@ class PresetGenerator:
     def generate_preset(self, preset: Preset):
         preset.apply(self.output_path, self.mod_id)
 
+    def generate_template(self, template: Template):
+        template.apply(self.output_path, self.mod_id)
+

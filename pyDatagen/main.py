@@ -11,7 +11,7 @@ def generate_data(output_path: str):
     generator.generate_preset(block_set_presets.StoneBlockSet("prison_bricks", "prison_brick"))
     generator.generate_preset(block_set_presets.StoneBlockSet("prison_stone"))
     generator.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
-    generator.generate_preset(block_set_presets.CommonBlockSet("putrid_planks", "putrid"))
+    generator.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
 
 
 def main():
