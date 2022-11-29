@@ -1,0 +1,6 @@
+{
+  "parent": "{{parent}}",
+  "textures": {
+    "texture": "{{id}}:block/{{texture}}"
+  }
+}

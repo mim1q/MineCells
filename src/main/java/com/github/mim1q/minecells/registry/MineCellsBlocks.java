@@ -156,6 +156,16 @@ public class MineCellsBlocks {
     "putrid_fence_gate"
   );
 
+  public static final Block PUTRID_DOOR = registerBlockWithItem(
+    new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR)),
+    "putrid_door"
+  );
+
+  public static final Block PUTRID_TRAPDOOR = registerBlockWithItem(
+    new TrapdoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_TRAPDOOR)),
+    "putrid_trapdoor"
+  );
+
   public static final Block WILTED_LEAVES = registerBlockWithItem(
     new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
     "wilted_leaves"
