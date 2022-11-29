@@ -3,17 +3,14 @@
   "key": {
     "#": {
       "item": "{{id}}:{{input}}"
-    },
-    "X": {
-      "item": "minecraft:stick"
     }
   },
   "pattern": [
-    "X#X",
-    "X#X"
+    "##",
+    "##"
   ],
   "result": {
-    "count": 1,
-    "item": "{{id}}:{{output}}"
+    "count": 1 /*{{count}}*/,
+    "item": "{{id}}:{{output}}",
   }
 }

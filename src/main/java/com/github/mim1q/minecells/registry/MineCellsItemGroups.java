@@ -71,6 +71,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.PUTRID_FENCE.asItem().getDefaultStack(),
       MineCellsBlocks.PUTRID_FENCE_GATE.asItem().getDefaultStack(),
       MineCellsBlocks.PUTRID_DOOR.asItem().getDefaultStack(),
+      MineCellsBlocks.PUTRID_TRAPDOOR.asItem().getDefaultStack(),
       MineCellsBlocks.WILTED_LEAVES.asItem().getDefaultStack(),
       MineCellsBlocks.HANGING_WILTED_LEAVES.asItem().getDefaultStack(),
       MineCellsBlocks.WALL_WILTED_LEAVES.asItem().getDefaultStack(),

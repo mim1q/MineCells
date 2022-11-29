@@ -1,4 +1,4 @@
-from presets.common_presets import GeneratedItemModel, SimpleDrop, ItemBlockModel
+from presets.common_presets import GeneratedItemModel, SimpleDrop, ItemBlockModel, AlternativeItemBlockModel
 from presets.preset_generator import Preset
 from template import Template, TemplateType
 
@@ -10,26 +10,20 @@ class DoorDrop(Preset):
         ])
 
 
-class Door(Preset):
+class Fence(Preset):
     def __init__(self, base: str, block: str = None):
         if block is None:
             block = base
         super().__init__(
             [
-                Template(TemplateType.BLOCKSTATE, "door", base + "_door", {"base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_left", {"variant": "bottom_left", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_right", {"variant": "bottom_right", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_left_open", {"variant": "bottom_left_open", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_right_open", {"variant": "bottom_right_open", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_left", {"variant": "top_left", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_right", {"variant": "top_right", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_left_open", {"variant": "top_left_open", "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_right_open", {"variant": "top_right_open", "base": base}),
-                Template(TemplateType.RECIPE, "packed_2x3", base + "_door", {"input": block, "output": base + "_door"}),
+                Template(TemplateType.BLOCKSTATE, "fence", base + "_fence", {"base": base}),
+                Template(TemplateType.BLOCK_MODEL, "fence_post", base + "_fence_post", {"texture": block}),
+                Template(TemplateType.BLOCK_MODEL, "fence_side", base + "_fence_side", {"texture": block}),
+                Template(TemplateType.ITEM_MODEL, "fence", base + "_fence", {"texture": block}),
+                Template(TemplateType.RECIPE, "fence", base + "_fence", {"input": block, "output": base + "_fence"}),
             ],
             [
-                DoorDrop(base + "_door"),
-                GeneratedItemModel(base + "_door"),
+                SimpleDrop(base + "_fence")
             ]
         )
 
@@ -54,19 +48,44 @@ class FenceGate(Preset):
         )
 
 
-class Fence(Preset):
+class Door(Preset):
     def __init__(self, base: str, block: str = None):
         if block is None:
             block = base
         super().__init__(
             [
-                Template(TemplateType.BLOCKSTATE, "fence", base + "_fence", {"base": base}),
-                Template(TemplateType.BLOCK_MODEL, "fence_post", base + "_fence_post", {"texture": block}),
-                Template(TemplateType.BLOCK_MODEL, "fence_side", base + "_fence_side", {"texture": block}),
-                Template(TemplateType.ITEM_MODEL, "fence", base + "_fence", {"texture": block}),
-                Template(TemplateType.RECIPE, "fence", base + "_fence", {"input": block, "output": base + "_fence"}),
+                Template(TemplateType.BLOCKSTATE, "door", base + "_door", {"base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_left", {"variant": "bottom_left", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_right", {"variant": "bottom_right", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_left_open", {"variant": "bottom_left_open", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_bottom_right_open", {"variant": "bottom_right_open", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_left", {"variant": "top_left", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_right", {"variant": "top_right", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_left_open", {"variant": "top_left_open", "base": base}),
+                Template(TemplateType.BLOCK_MODEL, "door", base + "_door_top_right_open", {"variant": "top_right_open", "base": base}),
+                Template(TemplateType.RECIPE, "packed_2x3", base + "_door", {"input": block, "output": base + "_door", "count": 3}),
             ],
             [
-                SimpleDrop(base + "_fence")
+                DoorDrop(base + "_door"),
+                GeneratedItemModel(base + "_door"),
+            ]
+        )
+
+
+class Trapdoor(Preset):
+    def __init__(self, base: str, block: str = None):
+        if block is None:
+            block = base
+        super().__init__(
+            [
+                Template(TemplateType.BLOCKSTATE, "trapdoor", base + "_trapdoor", {"base": base}),
+                Template(TemplateType.BLOCK_MODEL, "parented", base + "_trapdoor_bottom", {"parent": "block/template_orientable_trapdoor_bottom", "texture": base + "_trapdoor"}),
+                Template(TemplateType.BLOCK_MODEL, "parented", base + "_trapdoor_top", {"parent": "block/template_orientable_trapdoor_top", "texture": base + "_trapdoor"}),
+                Template(TemplateType.BLOCK_MODEL, "parented", base + "_trapdoor_open", {"parent": "block/template_orientable_trapdoor_open", "texture": base + "_trapdoor"}),
+                Template(TemplateType.RECIPE, "packed_3x2", base + "_trapdoor", {"input": block, "output": base + "_trapdoor", "count": 2}),
+            ],
+            [
+                SimpleDrop(base + "_trapdoor"),
+                AlternativeItemBlockModel(base + "_trapdoor", base + "_trapdoor_bottom"),
             ]
         )

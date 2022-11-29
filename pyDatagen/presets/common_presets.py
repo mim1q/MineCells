@@ -16,6 +16,13 @@ class ItemBlockModel(Preset):
         ])
 
 
+class AlternativeItemBlockModel(Preset):
+    def __init__(self, item: str, block: str):
+        super().__init__([
+            Template(TemplateType.ITEM_MODEL, "block_model", item, {"block": block}),
+        ])
+
+
 class GeneratedItemModel(Preset):
     def __init__(self, block: str):
         super().__init__([
@@ -82,7 +89,7 @@ class Wall(Preset):
                 Template(TemplateType.BLOCK_MODEL, "wall_side", base + "_wall_side", {"texture": block}),
                 Template(TemplateType.BLOCK_MODEL, "wall_side_tall", base + "_wall_side_tall", {"texture": block}),
                 Template(TemplateType.ITEM_MODEL, "wall", base + "_wall", {"texture": block}),
-                Template(TemplateType.RECIPE, "packed_3x2", base + "_wall", {"input": block, "output": base + "_wall"}),
+                Template(TemplateType.RECIPE, "packed_3x2", base + "_wall", {"input": block, "output": base + "_wall", "count": 6}),
             ],
             [
                 SimpleDrop(base + "_wall")

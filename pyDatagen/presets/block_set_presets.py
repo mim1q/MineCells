@@ -1,5 +1,4 @@
-import presets.wood_presets
-from presets import common_presets
+from presets import common_presets, wood_presets
 from presets.preset_generator import Preset
 
 
@@ -38,8 +37,9 @@ class WoodBlockSet(Preset):
             [],
             [
                 CommonBlockSet(block, base),
-                presets.wood_presets.Fence(base, block),
-                presets.wood_presets.FenceGate(base, block),
-                presets.wood_presets.Door(base, block),
+                wood_presets.Fence(base, block),
+                wood_presets.FenceGate(base, block),
+                wood_presets.Door(base, block),
+                wood_presets.Trapdoor(base, block),
             ]
         )

@@ -39,7 +39,9 @@ def get_template(template_type: TemplateType, name: str) -> str:
 
 
 def apply_variables(template: str, variables: dict) -> str:
-    for key, value in variables.items():
+    for key, value in [(k, str(v)) for (k, v) in variables.items()]:
+        template = template.replace("1 /*{{" + key + "}}*/", value)
+        template = template.replace("/*{{" + key + "}}*/", value)
         template = template.replace("{{" + key + "}}", value)
     return re.sub(r"//.*\n?", "", re.sub(r"/\*.*\*/\n*", "", template))
 
