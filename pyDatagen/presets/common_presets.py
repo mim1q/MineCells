@@ -41,18 +41,21 @@ class SimpleBlock(Preset):
 
 
 class Stairs(Preset):
-    def __init__(self, base: str, block: str = None):
+    def __init__(self, base: str, block: str = None, stone = False):
         if block is None:
             block = base
+        templates = [
+            Template(TemplateType.BLOCKSTATE, "stairs", base + "_stairs", {"base": base}),
+            Template(TemplateType.BLOCK_MODEL, "stairs", base + "_stairs", {"texture": block}),
+            Template(TemplateType.BLOCK_MODEL, "stairs_inner", base + "_stairs_inner", {"texture": block}),
+            Template(TemplateType.BLOCK_MODEL, "stairs_outer", base + "_stairs_outer", {"texture": block}),
+            Template(TemplateType.RECIPE, "stairs", base + "_stairs", {"input": block, "output": base + "_stairs"}),
+            Template(TemplateType.RECIPE, "stairs_flipped", base + "_stairs_flipped", {"input": block, "output": base + "_stairs"}),
+        ]
+        if stone:
+            templates.append(Template(TemplateType.RECIPE, "stonecutting", base + "_stairs_stonecutting", {"input": block, "output": base + "_stairs", "count": 1}))
         super().__init__(
-            [
-                Template(TemplateType.BLOCKSTATE, "stairs", base + "_stairs", {"base": base}),
-                Template(TemplateType.BLOCK_MODEL, "stairs", base + "_stairs", {"texture": block}),
-                Template(TemplateType.BLOCK_MODEL, "stairs_inner", base + "_stairs_inner", {"texture": block}),
-                Template(TemplateType.BLOCK_MODEL, "stairs_outer", base + "_stairs_outer", {"texture": block}),
-                Template(TemplateType.RECIPE, "stairs", base + "_stairs", {"input": block, "output": base + "_stairs"}),
-                Template(TemplateType.RECIPE, "stairs_flipped", base + "_stairs_flipped", {"input": block, "output": base + "_stairs"}),
-            ],
+            templates,
             [
                 SimpleDrop(base + "_stairs"),
                 ItemBlockModel(base + "_stairs"),
@@ -61,16 +64,19 @@ class Stairs(Preset):
 
 
 class Slab(Preset):
-    def __init__(self, base: str, block: str = None):
+    def __init__(self, base: str, block: str = None, stone: bool = False):
         if block is None:
             block = base
+        templates = [
+            Template(TemplateType.BLOCKSTATE, "slab", base + "_slab", {"block": block, "base": base}),
+            Template(TemplateType.BLOCK_MODEL, "slab", base + "_slab", {"texture": block}),
+            Template(TemplateType.BLOCK_MODEL, "slab_top", base + "_slab_top", {"texture": block}),
+            Template(TemplateType.RECIPE, "slab", base + "_slab", {"input": block, "output": base + "_slab"}),
+        ]
+        if stone:
+            templates.append(Template(TemplateType.RECIPE, "stonecutting", base + "_slab_stonecutting", {"input": block, "output": base + "_slab", "count": 2}))
         super().__init__(
-            [
-                Template(TemplateType.BLOCKSTATE, "slab", base + "_slab", {"block": block, "base": base}),
-                Template(TemplateType.BLOCK_MODEL, "slab", base + "_slab", {"texture": block}),
-                Template(TemplateType.BLOCK_MODEL, "slab_top", base + "_slab_top", {"texture": block}),
-                Template(TemplateType.RECIPE, "slab", base + "_slab", {"input": block, "output": base + "_slab"}),
-            ],
+            templates,
             [
                 SimpleDrop(base + "_slab"),
                 ItemBlockModel(base + "_slab"),
@@ -90,6 +96,7 @@ class Wall(Preset):
                 Template(TemplateType.BLOCK_MODEL, "wall_side_tall", base + "_wall_side_tall", {"texture": block}),
                 Template(TemplateType.ITEM_MODEL, "wall", base + "_wall", {"texture": block}),
                 Template(TemplateType.RECIPE, "packed_3x2", base + "_wall", {"input": block, "output": base + "_wall", "count": 6}),
+                Template(TemplateType.RECIPE, "stonecutting", base + "_wall_stonecutting", {"input": block, "output": base + "_wall", "count": 1}),
             ],
             [
                 SimpleDrop(base + "_wall")
