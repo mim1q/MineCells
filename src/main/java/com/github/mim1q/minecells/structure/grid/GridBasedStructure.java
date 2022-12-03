@@ -20,15 +20,17 @@ public class GridBasedStructure extends Structure {
 
   @Override
   public Optional<Structure.StructurePosition> getStructurePosition(Structure.Context context) {
-    return Optional.of(new Structure.StructurePosition(context.chunkPos().getStartPos(), (collector) -> addPieces(collector, context)));
+    return Optional.of(new Structure.StructurePosition(context.chunkPos().getStartPos(), collector -> {
+      addPieces(collector, context);
+    }));
   }
 
   private static void addPieces(StructurePiecesCollector collector, Structure.Context context) {
     ChunkPos chunkPos = context.chunkPos();
     int i = chunkPos.x;
     int j = chunkPos.z;
-    int k = i / 16;
-    int l = j / 16;
+    int k = i * 16;
+    int l = j * 16;
     BlockPos blockPos = new BlockPos(k, 30, l);
     List<GridPiece> pieces = GridGenerator.generatePieces(blockPos, context);
     for (GridPiece piece : pieces) {

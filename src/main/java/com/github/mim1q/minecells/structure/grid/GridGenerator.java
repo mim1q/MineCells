@@ -29,7 +29,7 @@ public class GridGenerator {
       for (int x = 0; x < 4; x++) {
         BlockPos pos = new BlockPos(startPos.getX() + x * 32, startPos.getY(), startPos.getZ() + z * 32);
         BlockBox box = BlockBox.create(pos, pos.add(32, 32, 32));
-        list.add(new GridPiece(manager, element, pos, 0, BlockRotation.NONE, box));
+        list.add(new GridPiece(manager, element, pos, BlockRotation.NONE, box));
       }
     }
     return list;
