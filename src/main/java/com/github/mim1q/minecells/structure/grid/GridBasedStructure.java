@@ -32,7 +32,7 @@ public class GridBasedStructure extends Structure {
     int k = i * 16;
     int l = j * 16;
     BlockPos blockPos = new BlockPos(k, 30, l);
-    List<GridPiece> pieces = GridGenerator.generatePieces(blockPos, context);
+    List<GridPiece> pieces = GridGenerator.generatePieces(blockPos, context, 16);
     for (GridPiece piece : pieces) {
       collector.addPiece(piece);
     }
