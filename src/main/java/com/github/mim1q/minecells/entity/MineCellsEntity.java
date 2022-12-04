@@ -59,6 +59,9 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
     BlockState blockBelow = world.getBlockState(this.getBlockPos().down());
+    if (this.getRandom().nextFloat() > 0.1F) {
+      return false;
+    }
     return blockBelow.isSideSolidFullSquare(world, this.getBlockPos().down(), Direction.UP)
       && blockBelow.getBlock() != Blocks.BEDROCK;
   }
