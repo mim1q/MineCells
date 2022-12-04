@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.structure.grid;
 
 import com.github.mim1q.minecells.structure.MineCellsStructures;
+import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePiecesCollector;
 import net.minecraft.util.math.BlockPos;
@@ -32,7 +33,7 @@ public class GridBasedStructure extends Structure {
     int k = i * 16;
     int l = j * 16;
     BlockPos blockPos = new BlockPos(k, 30, l);
-    List<GridPiece> pieces = GridPiecesGenerator.generatePieces(blockPos, context, 16);
+    List<GridPiece> pieces = GridPiecesGenerator.generatePieces(blockPos, context, 16, new PrisonGridGenerator());
     for (GridPiece piece : pieces) {
       collector.addPiece(piece);
     }
