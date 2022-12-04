@@ -47,6 +47,7 @@ public class MineCellsBiomes {
         .fogColor(0xc0d8ff)
         .skyColor(0x80a0ff)
         .build())
+        .spawnSettings(new SpawnSettings.Builder().build())
 //      .spawnSettings(spawnSettings.build())
       .generationSettings(generationSettings.build())
       .build();
