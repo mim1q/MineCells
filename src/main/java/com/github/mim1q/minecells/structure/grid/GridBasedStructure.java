@@ -27,7 +27,7 @@ public abstract class GridBasedStructure extends Structure {
     int j = chunkPos.z;
     int k = i * 16;
     int l = j * 16;
-    BlockPos blockPos = new BlockPos(k, 30, l);
+    BlockPos blockPos = new BlockPos(k, 100, l);
     List<GridPiece> pieces = GridPiecesGenerator.generatePieces(blockPos, context, 16, this.generator);
     for (GridPiece piece : pieces) {
       collector.addPiece(piece);

@@ -1,5 +1,5 @@
 {
-  "type": "minecells:grid_based_structure",
+  "type": "minecells:prison",
   "biomes": [
     "minecells:prison"
   ],
