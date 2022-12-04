@@ -1,14 +1,14 @@
 {
   "structures": [
     {
-      "structure": "minecells:test",
+      "structure": "minecells:prison",
       "weight": 1
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
-    "spacing": 32,
-    "separation": 31,
+    "spacing": 16,
+    "separation": 15,
     "salt": 2043237655
   }
 }

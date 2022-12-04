@@ -10,13 +10,19 @@ import net.minecraft.util.math.random.Random;
 
 public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
   private static final Identifier SPAWN = MineCells.createId("prison/spawn");
-  private static final Identifier STAIRCASE_DOWN = MineCells.createId("prison/spawn");
+  private static final Identifier MAIN_CORRIDOR = MineCells.createId("prison/main_corridor");
+  private static final Identifier MAIN_CORRIDOR_END = MineCells.createId("prison/main_corridor_end");
+  private static final Identifier CORRIDOR = MineCells.createId("prison/corridor");
+  private static final Identifier CORRIDOR_END = MineCells.createId("prison/corridor_end");
+  private static final Identifier CHAIN_UPPER = MineCells.createId("prison/chain_upper");
+  private static final Identifier CHAIN_LOWER = MineCells.createId("prison/chain_lower");
+  private static final Identifier END = MineCells.createId("prison/end");
 
   @Override
   protected void addRooms(Random random) {
-    Vec3i end1 = generateFloor(Vec3i.ZERO, BlockRotation.NONE, SPAWN, STAIRCASE_DOWN, random);
-    Vec3i end2 = generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, STAIRCASE_DOWN, SPAWN, random);
-    generateFloor(end2.add(0, -1, 0), BlockRotation.NONE, SPAWN, STAIRCASE_DOWN, random);
+    Vec3i end1 = generateFloor(Vec3i.ZERO, BlockRotation.NONE, SPAWN, CHAIN_UPPER, random);
+    Vec3i end2 = generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, CHAIN_UPPER, random);
+    generateFloor(end2.add(0, -1, 0), BlockRotation.NONE, CHAIN_LOWER, END, random);
   }
 
   protected Vec3i generateFloor(Vec3i pos, BlockRotation rotation, Identifier startPool, Identifier endPool, Random random) {
@@ -30,24 +36,32 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
     boolean specialCorridorRight = random.nextBoolean();
 
     for (int i = 1; i <= 5; i++) {
-      addRoom(pos.add(unit.multiply(i)), BlockRotation.NONE.rotate(rotation), "prison/main_corridor");
-      int length1 = random.nextInt(5) + 1;
+      addRoom(pos.add(unit.multiply(i)), BlockRotation.NONE.rotate(rotation), MAIN_CORRIDOR);
+      // Left corridors
+      int length1 = random.nextInt(3) + 1;
       for (int j = 1; j <= length1; j++) {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(j)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), "prison/side_corridor");
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(j)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR);
       }
       if (i == specialCorridor && specialCorridorRight) {
         addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), endPool);
         endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1));
+      } else {
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR_END);
       }
-      int length2 = random.nextInt(5) + 1;
+      // Right corridors
+      int length2 = random.nextInt(3) + 1;
       for (int j = 1; j <= length2; j++) {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-j)), BlockRotation.CLOCKWISE_90.rotate(rotation), "prison/side_corridor");
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-j)), BlockRotation.CLOCKWISE_90.rotate(rotation), CORRIDOR);
       }
       if (i == specialCorridor && !specialCorridorRight) {
         addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1)), BlockRotation.CLOCKWISE_90.rotate(rotation), endPool);
         endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1));
+      } else {
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1)), BlockRotation.CLOCKWISE_90.rotate(rotation), CORRIDOR_END);
       }
     }
+
+    addRoom(pos.add(unit.multiply(6)), BlockRotation.NONE.rotate(rotation), MAIN_CORRIDOR_END);
 
     return endPos;
   }
