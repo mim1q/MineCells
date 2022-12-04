@@ -28,6 +28,7 @@ public class GridPiece extends StructurePiece {
   private final StructurePoolElement element;
   private final BlockRotation rotation;
   private final BlockPos pos;
+  private final BlockPos pivot;
   private final int size;
 
   public GridPiece(Structure.Context context, Identifier poolId, BlockPos pos, BlockRotation rotation, int size) {
@@ -41,6 +42,7 @@ public class GridPiece extends StructurePiece {
     this.pos = pos;
     this.rotation = rotation;
     this.size = size;
+    this.pivot = new BlockPos(size / 2, 0, size / 2);
   }
 
   public GridPiece(StructureTemplateManager manager, StructurePoolElement element, BlockPos pos, BlockRotation rotation, BlockBox boundingBox, int size) {
@@ -50,6 +52,7 @@ public class GridPiece extends StructurePiece {
     this.element = element;
     this.rotation = rotation;
     this.size = size;
+    this.pivot = new BlockPos(size / 2, 0, size / 2);
   }
 
   public GridPiece(StructureContext context, NbtCompound nbt) {
@@ -59,6 +62,7 @@ public class GridPiece extends StructurePiece {
     this.rotation = BlockRotation.valueOf(nbt.getString("Rot"));
     this.element = StructurePoolElement.CODEC.decode(NbtOps.INSTANCE, nbt.get("Element")).getOrThrow(false, MineCells.LOGGER::error).getFirst();
     this.size = nbt.getInt("Size");
+    this.pivot = new BlockPos(size / 2, 0, size / 2);
   }
 
   @Override
@@ -73,7 +77,17 @@ public class GridPiece extends StructurePiece {
 
   @Override
   public void generate(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox chunkBox, ChunkPos chunkPos, BlockPos pivot) {
-    this.element.generate(this.manager, world, structureAccessor, chunkGenerator, this.pos, this.pos, this.rotation, chunkBox, random, false);
+    BlockPos startingPos = this.getStartingPos();
+    this.element.generate(this.manager, world, structureAccessor, chunkGenerator, startingPos, startingPos, this.rotation, chunkBox, random, false);
+  }
+
+  private BlockPos getStartingPos() {
+    return switch (rotation) {
+      case CLOCKWISE_90 -> new BlockPos(pos.getX() + size - 1, pos.getY(), pos.getZ());
+      case CLOCKWISE_180 -> new BlockPos(pos.getX() + size - 1, pos.getY(), pos.getZ() + size - 1);
+      case COUNTERCLOCKWISE_90 -> new BlockPos(pos.getX(), pos.getY(), pos.getZ() + size - 1);
+      default -> pos;
+    };
   }
 
   @Override
