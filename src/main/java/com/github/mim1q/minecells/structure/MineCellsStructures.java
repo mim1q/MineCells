@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.structure;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.structure.grid.GridBasedStructure;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructures;
 import com.github.mim1q.minecells.structure.grid.GridPiece;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePieceType;
@@ -12,8 +12,12 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Locale;
 
 public class MineCellsStructures {
-
-  public static final StructureType<GridBasedStructure> GRID_BASED_STRUCTURE = registerStructure("grid_based_structure", GridBasedStructure.CODEC);
+  // Structures
+  public static final StructureType<GridBasedStructures.Prison> PRISON = registerStructure(
+    "prison",
+    GridBasedStructures.Prison.CODEC
+  );
+  // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");
 
   private static <S extends Structure> StructureType<S> registerStructure(String id, Codec<S> codec) {
