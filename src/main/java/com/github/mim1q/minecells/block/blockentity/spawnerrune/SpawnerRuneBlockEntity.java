@@ -104,7 +104,7 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
       }
       y++;
     }
-    return pos.add(0, 1, 0);
+    return pos;
   }
 
   @Override
