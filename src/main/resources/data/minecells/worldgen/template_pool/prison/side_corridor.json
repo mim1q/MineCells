@@ -1,12 +1,12 @@
 {
-  "name": "minecells:prison/main_corridor",
+  "name": "minecells:prison/side_corridor",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "minecells:prison/main_corridor",
+        "location": "minecells:prison/side_corridor",
         "projection": "rigid",
         "processors": "minecraft:empty"
       }

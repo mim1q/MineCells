@@ -1,5 +1,5 @@
 {
-  "name": "minecells:portal",
+  "name": "minecells:prison/spawn",
   "fallback": "minecraft:empty",
   "elements": [
     {
