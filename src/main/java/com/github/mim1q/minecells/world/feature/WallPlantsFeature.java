@@ -1,10 +1,10 @@
 package com.github.mim1q.minecells.world.feature;
 
+import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.block.WallLeavesBlock;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.random.Random;
@@ -44,7 +44,7 @@ public class WallPlantsFeature extends Feature<WallPlantsFeature.WallPlantsFeatu
         continue;
       }
       BlockState state = world.getBlockState(newPos);
-      if (state.isIn(BlockTags.MOSS_REPLACEABLE) && state.isSideSolidFullSquare(world, newPos, direction.getOpposite())) {
+      if (state.isIn(MineCellsBlockTags.VEGETATION_REPLACEABLE) && state.isSideSolidFullSquare(world, newPos, direction.getOpposite())) {
         return direction.getOpposite();
       }
     }

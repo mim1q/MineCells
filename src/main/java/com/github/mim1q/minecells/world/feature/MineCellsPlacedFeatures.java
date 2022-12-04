@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -67,7 +68,7 @@ public class MineCellsPlacedFeatures {
         Direction.UP,
         BlockPredicate.allOf(
           BlockPredicate.hasSturdyFace(Direction.DOWN),
-          BlockPredicate.matchingBlockTag(BlockTags.MOSS_REPLACEABLE)
+          BlockPredicate.matchingBlockTag(MineCellsBlockTags.CEILING_DECORATION_SUPPORT)
         ),
         BlockPredicate.IS_AIR,
         16
