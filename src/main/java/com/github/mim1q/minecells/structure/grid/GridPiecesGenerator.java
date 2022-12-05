@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.structure.grid;
 
-import com.github.mim1q.minecells.MineCells;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +15,7 @@ public class GridPiecesGenerator {
     List<RoomData> roomDataList = generator.generate(context);
     List<GridPiece> pieces = new ArrayList<>();
     for (RoomData data : roomDataList) {
-      pieces.add(new GridPiece(context, data.poolId(), startPos.add(data.pos().multiply(size)), data.rotation(), size));
+      pieces.add(new GridPiece(context, data.poolId(), startPos.add(data.pos().multiply(size)).add(data.offset()), data.rotation(), size));
     }
     return pieces;
   }
@@ -24,7 +23,8 @@ public class GridPiecesGenerator {
   public record RoomData(
     Vec3i pos,
     BlockRotation rotation,
-    Identifier poolId
+    Identifier poolId,
+    Vec3i offset
   ) { }
 
   public static abstract class RoomGridGenerator {
@@ -34,11 +34,12 @@ public class GridPiecesGenerator {
       addRooms(context.random());
       return rooms;
     }
-    protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
-      rooms.add(new RoomData(pos, rotation, poolId));
+    protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+      rooms.add(new RoomData(pos, rotation, poolId, offset));
     }
-    protected final void addRoom(Vec3i pos, BlockRotation rotation, String poolId) {
-      addRoom(pos, rotation, MineCells.createId(poolId));
+
+    protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
+      addRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
   }
 }
