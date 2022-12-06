@@ -31,6 +31,7 @@ public class GridPiecesGenerator {
     private final List<RoomData> rooms = new ArrayList<>();
     protected abstract void addRooms(Random random);
     public final List<RoomData> generate(Structure.Context context) {
+      rooms.clear();
       addRooms(context.random());
       return rooms;
     }
