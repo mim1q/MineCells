@@ -1,34 +1,36 @@
 package com.github.mim1q.minecells.structure.grid;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtOps;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.structure.StructureTemplateManager;
 import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.noise.NoiseConfig;
 import net.minecraft.world.gen.structure.Structure;
 
 public class GridPiece extends StructurePiece {
 
+  private final DynamicRegistryManager registryManager;
   private final StructureTemplateManager manager;
-  private final StructurePoolElement element;
+  private final Identifier template;
   private final BlockRotation rotation;
   private final BlockPos pos;
-  private final BlockPos pivot;
   private final int size;
 
   public GridPiece(Structure.Context context, Identifier poolId, BlockPos pos, BlockRotation rotation, int size) {
@@ -38,21 +40,11 @@ public class GridPiece extends StructurePiece {
     if (pool == null) {
       throw new RuntimeException("Pool not found: " + poolId);
     }
-    this.element = pool.getRandomElement(context.random());
     this.pos = pos;
     this.rotation = rotation;
     this.size = size;
-    this.pivot = new BlockPos(size / 2, 0, size / 2);
-  }
-
-  public GridPiece(StructureTemplateManager manager, StructurePoolElement element, BlockPos pos, BlockRotation rotation, BlockBox boundingBox, int size) {
-    super(MineCellsStructures.GRID_PIECE, 0, boundingBox);
-    this.manager = manager;
-    this.pos = pos;
-    this.element = element;
-    this.rotation = rotation;
-    this.size = size;
-    this.pivot = new BlockPos(size / 2, 0, size / 2);
+    this.registryManager = context.dynamicRegistryManager();
+    this.template = poolId;
   }
 
   public GridPiece(StructureContext context, NbtCompound nbt) {
@@ -60,9 +52,9 @@ public class GridPiece extends StructurePiece {
     this.manager = context.structureTemplateManager();
     this.pos = new BlockPos(nbt.getInt("PosX"), nbt.getInt("PosY"), nbt.getInt("PosZ"));
     this.rotation = BlockRotation.valueOf(nbt.getString("Rot"));
-    this.element = StructurePoolElement.CODEC.decode(NbtOps.INSTANCE, nbt.get("Element")).getOrThrow(false, MineCells.LOGGER::error).getFirst();
     this.size = nbt.getInt("Size");
-    this.pivot = new BlockPos(size / 2, 0, size / 2);
+    this.registryManager = context.registryManager();
+    this.template = new Identifier(nbt.getString("Template"));
   }
 
   @Override
@@ -71,14 +63,34 @@ public class GridPiece extends StructurePiece {
     nbt.putInt("PosY", pos.getY());
     nbt.putInt("PosZ", pos.getZ());
     nbt.putString("Rot", rotation.name());
-    nbt.put("Element", StructurePoolElement.CODEC.encodeStart(NbtOps.INSTANCE, element).getOrThrow(false, MineCells.LOGGER::error));
     nbt.putInt("Size", size);
+    nbt.putString("Template", template.toString());
   }
 
   @Override
   public void generate(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox chunkBox, ChunkPos chunkPos, BlockPos pivot) {
     BlockPos startingPos = this.getStartingPos();
-    this.element.generate(this.manager, world, structureAccessor, chunkGenerator, startingPos, startingPos, this.rotation, chunkBox, random, false);
+    NoiseConfig config = world.getChunkManager() instanceof ServerChunkManager ? ((ServerChunkManager) world.getChunkManager()).getNoiseConfig() : null;
+    Registry<StructurePool> poolRegistry = registryManager.get(Registry.STRUCTURE_POOL_KEY);
+    var optPoolEntry = poolRegistry.getEntry(RegistryKey.of(Registry.STRUCTURE_POOL_KEY, this.template));
+    if (optPoolEntry.isEmpty()) {
+      return;
+    }
+    RegistryEntry<StructurePool> poolEntry = optPoolEntry.get();
+    MineCellsStructurePoolBasedGenerator.generate(
+      world,
+      chunkGenerator,
+      registryManager,
+      manager,
+      structureAccessor,
+      config,
+      random,
+      200,
+      poolEntry,
+      8,
+      startingPos,
+      rotation
+    );
   }
 
   private BlockPos getStartingPos() {
