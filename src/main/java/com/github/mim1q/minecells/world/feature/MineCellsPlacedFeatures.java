@@ -48,7 +48,7 @@ public class MineCellsPlacedFeatures {
   public static final RegistryEntry<PlacedFeature> WILTED_LEAVES = createPlacedFeature(
     MineCells.createId("wilted_leaves"),
     MineCellsConfiguredFeatures.WILTED_LEAVES,
-    CountPlacementModifier.of(32),
+    CountPlacementModifier.of(64),
     SquarePlacementModifier.of(),
     PlacedFeatures.BOTTOM_TO_TOP_RANGE
   );
@@ -67,7 +67,6 @@ public class MineCellsPlacedFeatures {
       EnvironmentScanPlacementModifier.of(
         Direction.UP,
         BlockPredicate.allOf(
-          BlockPredicate.hasSturdyFace(Direction.DOWN),
           BlockPredicate.matchingBlockTag(MineCellsBlockTags.CEILING_DECORATION_SUPPORT)
         ),
         BlockPredicate.IS_AIR,

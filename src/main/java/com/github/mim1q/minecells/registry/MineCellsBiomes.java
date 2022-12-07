@@ -15,27 +15,16 @@ import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 
 public class MineCellsBiomes {
   public static final RegistryKey<Biome> PROMENADE_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("promenade"));
-  public static final RegistryKey<Biome> PUTRID_WATERS_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("putrid_waters"));
   public static final RegistryKey<Biome> PRISON_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("prison"));
 
   public static void init() {
     Registry.register(BuiltinRegistries.BIOME, PROMENADE_KEY.getValue(), createPromenade());
-    Registry.register(BuiltinRegistries.BIOME, PUTRID_WATERS_KEY.getValue(), createPutridWaters());
     Registry.register(BuiltinRegistries.BIOME, PRISON_KEY.getValue(), createPrison());
   }
 
   private static Biome createPrison() {
-//    SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
-//      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 150, 2, 3))
-//      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.SHIELDBEARER, 100, 1, 2))
-//      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.UNDEAD_ARCHER, 75, 1, 3))
-//      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1));
-
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
-      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.WILTED_LEAVES)
-      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.CEILING_CAGES)
-      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.CEILING_CHAINS)
-      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.CEILING_BIG_CHAINS);
+      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.WILTED_LEAVES);
 
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.NONE)
@@ -48,7 +37,6 @@ public class MineCellsBiomes {
         .skyColor(0x80a0ff)
         .build())
         .spawnSettings(new SpawnSettings.Builder().build())
-//      .spawnSettings(spawnSettings.build())
       .generationSettings(generationSettings.build())
       .build();
   }
@@ -76,27 +64,6 @@ public class MineCellsBiomes {
         .fogColor(0x4F9FFF)
         .skyColor(0x61D8FF)
         .grassColor(0x3FC558)
-        .build())
-      .spawnSettings(spawnSettings.build())
-      .generationSettings(generationSettings.build())
-      .build();
-  }
-
-  private static Biome createPutridWaters() {
-    SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
-
-    GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
-
-    return new Biome.Builder()
-      .precipitation(Biome.Precipitation.RAIN)
-      .downfall(0.5F)
-      .temperature(0.8F)
-      .effects(new BiomeEffects.Builder()
-        .waterColor(0x60B6FF)
-        .waterFogColor(0x61D8FF)
-        .fogColor(0x4F9FFF)
-        .skyColor(0x61D8FF)
-        .grassColor(0x4AB96D)
         .build())
       .spawnSettings(spawnSettings.build())
       .generationSettings(generationSettings.build())
