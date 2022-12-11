@@ -3,7 +3,7 @@
   "biomes": [
     "minecells:prison"
   ],
-  "step": "surface_structures",
+  "step": "underground_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "none",
   "start_height": {
