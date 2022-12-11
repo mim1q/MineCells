@@ -23,7 +23,7 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
     boolean specialLeft = random.nextBoolean();
     Vec3i end1 = generateFloor(Vec3i.ZERO, BlockRotation.NONE, SPAWN, CHAIN_UPPER, random, specialLeft);
     Vec3i end2 = generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, CHAIN_UPPER, random, specialLeft);
-    generateFloor(end2.add(0, -1, 0), BlockRotation.NONE, CHAIN_LOWER, END, random, random.nextBoolean());
+    generateFloor(end2.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean());
   }
 
   protected Vec3i generateFloor(Vec3i pos, BlockRotation rotation, Identifier startPool, Identifier endPool, Random random, boolean specialLeft) {
