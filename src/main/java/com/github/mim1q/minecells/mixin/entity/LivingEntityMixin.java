@@ -28,8 +28,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +58,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @Shadow public abstract Identifier getLootTable();
 
+  @SuppressWarnings("WrongEntityDataParameterClass")
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
   public LivingEntityMixin(EntityType<?> type, World world) {
@@ -83,18 +84,28 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     }
   }
 
-  @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), cancellable = true)
-  public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-    if (source == MineCellsDamageSource.CURSED) {
-      return;
+  @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), argsOnly = true)
+  public DamageSource damageModifyDamageSource(DamageSource source) {
+    if (this.isInvulnerableTo(source)) {
+      return source;
+    }
+    if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
+      return MineCellsDamageSource.CURSED;
+    }
+    return source;
+  }
+
+  @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), argsOnly = true)
+  public float damageModifyAmount(float amount, DamageSource source) {
+    if (this.isInvulnerableTo(source)) {
+      return amount;
     }
     if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
       world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
       this.setHealth(0.5f);
-      this.damage(MineCellsDamageSource.CURSED, 10.0f);
-      cir.setReturnValue(true);
-      cir.cancel();
+      return 10.0f;
     }
+    return amount;
   }
 
   @Override

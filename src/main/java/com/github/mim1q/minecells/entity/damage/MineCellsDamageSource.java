@@ -6,7 +6,7 @@ import net.minecraft.entity.damage.EntityDamageSource;
 
 public class MineCellsDamageSource {
   public static final DamageSource ELEVATOR = new DamageSource("minecells.elevator").setBypassesArmor();
-  public static final DamageSource CURSED = new DamageSource("minecells.cursed").setOutOfWorld();
+  public static final DamageSource CURSED = new DamageSource("minecells.cursed").setBypassesArmor().setBypassesProtection();
   public static final DamageSource BLEEDING = new DamageSource("minecells.bleeding").setBypassesArmor().setBypassesProtection();
 
   public static DamageSource katana(Entity attacker) {
