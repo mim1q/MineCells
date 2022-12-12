@@ -39,11 +39,11 @@ def generate_data(output_path: str):
     # TEMPLATE POOLS ===================================================================================================
     poolgen = TemplatePoolGenerator(output_path + "\\data\\minecells\\worldgen\\template_pool")
 
-    # Prison
+    # Prison - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     poolgen.generate_single("minecells:prison/spawn")
     poolgen.generate_single("minecells:prison/corridor")
     poolgen.generate_single("minecells:prison/corridor_end")
-    poolgen.generate_single("minecells:prison/main_corridor")
+    poolgen.generate_autoprefixed("minecells:prison/main_corridor", [("0", 1), ("1", 1)])
     poolgen.generate_single("minecells:prison/main_corridor_end")
     poolgen.generate_single("minecells:prison/chain_lower")
     poolgen.generate_single("minecells:prison/chain_upper")
@@ -62,6 +62,7 @@ def generate_data(output_path: str):
     poolgen.generate_autoprefixed("minecells:prison/spawn_decoration", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_doorway", [("0", 1), ("1", 1), ("2", 1), ("3", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_side_doorway", [("0", 2), ("1", 1), ("2", 1), ("3", 1)])
+    poolgen.generate_autoprefixed("minecells:prison/cell", [("0", 2), ("1", 1), ("2", 1), ("3", 1)])
 
 
 def main():
