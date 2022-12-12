@@ -23,9 +23,6 @@ public class MineCellsBiomes {
   }
 
   private static Biome createPrison() {
-    GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
-      .feature(GenerationStep.Feature.UNDERGROUND_DECORATION, MineCellsPlacedFeatures.WILTED_LEAVES);
-
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.NONE)
       .downfall(0.5F)
@@ -36,8 +33,8 @@ public class MineCellsBiomes {
         .fogColor(0xc0d8ff)
         .skyColor(0x80a0ff)
         .build())
-        .spawnSettings(new SpawnSettings.Builder().build())
-      .generationSettings(generationSettings.build())
+      .spawnSettings(new SpawnSettings.Builder().build())
+      .generationSettings(new GenerationSettings.Builder().build())
       .build();
   }
 
