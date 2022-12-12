@@ -26,7 +26,8 @@ public class HangingLeavesBlock extends HorizontalFacingBlock {
   @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
     if (neighborPos.equals(pos.up())) {
-      return Blocks.AIR.getDefaultState();
+      boolean stay = neighborState.getBlock() instanceof LeavesBlock || neighborState.isSideSolidFullSquare(world, neighborPos, Direction.DOWN);
+      return stay ? state : Blocks.AIR.getDefaultState();
     }
     return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
   }
