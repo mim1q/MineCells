@@ -3,10 +3,14 @@ import sys
 from autolang.autolang import get_entries_from_directory, autolang, write_autolang_file
 from presets import block_set_presets
 from presets.preset_generator import PresetGenerator
+from template_pools.template_pool import TemplatePoolGenerator
 from template import Template, TemplateType
 
 
 def generate_data(output_path: str):
+
+    # PRESETS ==========================================================================================================
+
     generator = PresetGenerator("minecells", output_path)
 
     # Block Sets
@@ -27,8 +31,19 @@ def generate_data(output_path: str):
     generator.generate_template(Template(TemplateType.RECIPE, "stonecutting", "small_prison_bricks_stonecutting", {"input": "prison_bricks", "output": "small_prison_bricks", "count": 1}))
     generator.generate_template(Template(TemplateType.RECIPE, "stonecutting", "small_prison_bricks_stonecutting_from_prison_stone", {"input": "prison_stone", "output": "small_prison_bricks", "count": 1}))
 
+    # AUTOLANG =========================================================================================================
+
     block_autolang = autolang(get_entries_from_directory(output_path + "\\assets\\minecells\\blockstates\\"), "block.minecells.")
     write_autolang_file(output_path, block_autolang)
+
+    # TEMPLATE POOLS ===================================================================================================
+
+    # Prison
+    poolgen = TemplatePoolGenerator(output_path + "\\data\\minecells\\worldgen\\template_pool")
+    poolgen.generate_autoprefixed(
+        "prison/ceiling_decoration",
+        [("broken_cage", 1), ("cage", 1), ("chains_0", 1), ("chains_1", 1), ("chains_2", 1), ("cobwebs_0", 1), ("cobwebs_1", 1), ("leaves_0", 1), ("leaves_1", 1), ("leaves_2", 1)]
+    )
 
 
 def main():
