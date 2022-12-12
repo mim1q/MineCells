@@ -116,7 +116,7 @@ public class MineCellsItemGroups {
           Items.STRUCTURE_VOID.getDefaultStack(),
           Items.BARRIER.getDefaultStack(),
           SpawnerRuneItem.withData("Test", EntryList.PRISON, 100, 1, 10, 10.0F, 3.0F),
-          SpawnerRuneItem.withData("Prison", EntryList.PRISON, 60 * 20, 3, 5, 6.0F, 10.0F),
+          SpawnerRuneItem.withData("Prison", EntryList.PRISON, 15 * 20, 1, 2, 6.0F, 12.0F),
           SpawnerRuneItem.withData("Promenade of The Condemnded", EntryList.PROMENADE_OF_THE_CONDEMNED, 60 * 20, 3, 5, 5.0F, 10.0F),
           SpawnerRuneItem.withData("Protector", EntryList.PROTECTOR, 120 * 20, 1, 1, 0.0F, 32.0F),
           SpawnerRuneItem.withData("Shocker", EntryList.SHOCKER, 120 * 20, 1, 1, 0.0F, 32.0F)
