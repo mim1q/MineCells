@@ -51,7 +51,8 @@ def generate_data(output_path: str):
     poolgen.generate_autoprefixed(
         "minecells:prison/ceiling_decoration",
         [("minecraft:empty", 2), ("broken_cage", 2), ("cage", 2), ("chains_0", 1), ("chains_1", 1), ("chains_2", 1),
-         ("cobwebs_0", 1), ("cobwebs_1", 1), ("leaves_0", 3), ("leaves_1", 3), ("leaves_2", 3)]
+         ("cobwebs_0", 1), ("cobwebs_1", 1), ("leaves_0", 3), ("leaves_1", 3), ("leaves_2", 3), ("stone_0", 3),
+         ("stone_1", 3), ("stone_2", 3)]
     )
     poolgen.generate_autoprefixed(
         "minecells:prison/corridor_decoration",
@@ -60,6 +61,7 @@ def generate_data(output_path: str):
     )
     poolgen.generate_autoprefixed("minecells:prison/spawn_decoration", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_doorway", [("0", 1), ("1", 1), ("2", 1), ("3", 1)])
+    poolgen.generate_autoprefixed("minecells:prison/main_corridor_side_doorway", [("0", 2), ("1", 1), ("2", 1), ("3", 1)])
 
 
 def main():

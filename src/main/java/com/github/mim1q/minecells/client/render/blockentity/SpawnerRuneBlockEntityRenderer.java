@@ -21,13 +21,13 @@ public class SpawnerRuneBlockEntityRenderer implements BlockEntityRenderer<Spawn
   @Override
   public void render(SpawnerRuneBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     matrices.push();
-    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEyes(TEXTURE));
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(TEXTURE));
     Matrix4f positionMatrix = matrices.peek().getPositionMatrix();
     Matrix3f normalMatrix = matrices.peek().getNormalMatrix();
-    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xFF0000, 0.0F, 0.05F, 0.0F, 0.0F, 0.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xFF0000, 0.0F, 0.05F, 1.0F, 0.0F, 1.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xFF0000, 1.0F, 0.05F, 1.0F, 1.0F, 1.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xFF0000, 1.0F, 0.05F, 0.0F, 1.0F, 0.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF00000, 0.0F, 0.05F, 0.0F, 0.0F, 0.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF00000, 0.0F, 0.05F, 1.0F, 0.0F, 1.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF00000, 1.0F, 0.05F, 1.0F, 1.0F, 1.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF00000, 1.0F, 0.05F, 0.0F, 1.0F, 0.0F, 255);
     matrices.pop();
   }
 }
