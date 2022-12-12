@@ -65,7 +65,6 @@ public class WallLeavesBlock extends Block {
   @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
     if (direction == state.get(DIRECTION).getOpposite()) {
-      System.out.println(neighborState);
       boolean stay = neighborState.getBlock() instanceof LeavesBlock || neighborState.isSideSolidFullSquare(world, neighborPos, direction);
       return stay ? state : Blocks.AIR.getDefaultState();
     }
