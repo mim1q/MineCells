@@ -35,18 +35,18 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
 
     int specialCorridor = random.nextInt(4) + 1;
 
-    for (int i = 1; i <= 5; i++) {
+    for (int i = 1; i < 5; i++) {
       addRoom(pos.add(unit.multiply(i)), BlockRotation.NONE.rotate(rotation), MAIN_CORRIDOR);
       // Left corridors
       int length1 = random.nextInt(2) + 1;
       for (int j = 1; j <= length1; j++) {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(j)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR, unit.multiply(-1));
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(j)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR);
       }
       if (i == specialCorridor && specialLeft) {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), endPool, unit.multiply(-1));
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), endPool);
         endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1));
       } else {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR_END, unit.multiply(-1));
+        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR_END);
       }
       // Right corridors
       int length2 = random.nextInt(2) + 1;

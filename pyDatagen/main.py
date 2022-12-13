@@ -41,7 +41,7 @@ def generate_data(output_path: str):
 
     # Prison - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     poolgen.generate_single("minecells:prison/spawn")
-    poolgen.generate_single("minecells:prison/corridor")
+    poolgen.generate_autoprefixed("minecells:prison/corridor", [("0", 1)], processors="minecells:brick_decay")
     poolgen.generate_single("minecells:prison/corridor_end")
     poolgen.generate_autoprefixed("minecells:prison/main_corridor", [("0", 2), ("1", 2), ("2", 1)], processors="minecells:brick_decay")
     poolgen.generate_single("minecells:prison/main_corridor_end")
