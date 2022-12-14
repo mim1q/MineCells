@@ -41,7 +41,7 @@ def generate_data(output_path: str):
 
     # Prison - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     poolgen.generate_single("minecells:prison/spawn")
-    poolgen.generate_autoprefixed("minecells:prison/corridor", [("0", 1)], processors="minecells:brick_decay")
+    poolgen.generate_autoprefixed("minecells:prison/corridor", [("0", 1), ("1", 2), ("2", 2)], processors="minecells:brick_decay")
     poolgen.generate_single("minecells:prison/corridor_end")
     poolgen.generate_autoprefixed("minecells:prison/main_corridor", [("0", 2), ("1", 2), ("2", 1)], processors="minecells:brick_decay")
     poolgen.generate_single("minecells:prison/main_corridor_end")
@@ -62,7 +62,12 @@ def generate_data(output_path: str):
     poolgen.generate_autoprefixed("minecells:prison/spawn_decoration", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_doorway", [("0", 1), ("1", 1), ("2", 1), ("3", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_side_doorway", [("0", 2), ("1", 1), ("2", 1), ("3", 1)])
+    poolgen.generate(
+        "minecells:prison/corridor_hole",
+        [("minecells:prison/main_corridor_doorway/1", 1), ("minecells:prison/main_corridor_doorway/2", 1), ("minecells:prison/main_corridor_doorway/3", 1)]
+    )
     poolgen.generate_autoprefixed("minecells:prison/cell", [("0", 2), ("1", 1), ("2", 1), ("3", 1)])
+    poolgen.generate_autoprefixed("minecells:prison/corridor_hole_cell", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1)], processors="minecells:brick_decay")
 
 
 def main():
