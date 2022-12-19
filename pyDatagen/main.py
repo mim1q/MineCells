@@ -40,7 +40,7 @@ def generate_data(output_path: str):
     poolgen = TemplatePoolGenerator(output_path + "\\data\\minecells\\worldgen\\template_pool")
 
     # Prison - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    poolgen.generate_single("minecells:prison/spawn")
+    poolgen.generate_single("minecells:prison/spawn", processors="minecells:brick_decay")
     poolgen.generate_autoprefixed("minecells:prison/corridor", [("0", 1), ("1", 2), ("2", 2)], processors="minecells:brick_decay")
     poolgen.generate_autoprefixed("minecells:prison/main_corridor", [("0", 2), ("1", 2), ("2", 1)], processors="minecells:brick_decay")
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_end", [("0", 1)], processors="minecells:brick_decay")
@@ -50,14 +50,14 @@ def generate_data(output_path: str):
     poolgen.generate_single("minecells:prison/end")
     poolgen.generate_autoprefixed(
         "minecells:prison/ceiling_decoration",
-        [("minecraft:empty", 2), ("broken_cage", 2), ("cage", 2), ("chains_0", 1), ("chains_1", 1), ("chains_2", 1),
-         ("cobwebs_0", 1), ("cobwebs_1", 1), ("leaves_0", 3), ("leaves_1", 3), ("leaves_2", 3), ("stone_0", 3),
-         ("stone_1", 3), ("stone_2", 3)]
+        [("minecraft:empty", 4), ("broken_cage", 4), ("cage", 4), ("chains_0", 2), ("chains_1", 2), ("chains_2", 2),
+         ("cobwebs_0", 1), ("cobwebs_1", 1), ("leaves_0", 6), ("leaves_1", 6), ("leaves_2", 6), ("stone_0", 6),
+         ("stone_1", 6), ("stone_2", 6)]
     )
     poolgen.generate_autoprefixed(
         "minecells:prison/corridor_decoration",
-        [("bars", 1), ("cobwebs", 1), ("crates_0", 1), ("crates_1", 1), ("crates_2", 1), ("crates_3", 1),
-         ("shelves_0", 1), ("shelves_1", 1)]
+        [("bars", 2), ("cobwebs", 1), ("crates_0", 2), ("crates_1", 2), ("crates_2", 2), ("crates_3", 2),
+         ("shelves_0", 2), ("shelves_1", 2)]
     )
     poolgen.generate_autoprefixed("minecells:prison/spawn_decoration", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_doorway", [("0", 1), ("1", 1), ("2", 1), ("3", 1)])
