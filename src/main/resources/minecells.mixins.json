@@ -3,13 +3,14 @@
   "minVersion": "0.8",
   "package": "com.github.mim1q.minecells.mixin",
   "mixins": [
+    "client.SlotAccessor",
     "entity.EntityMixin",
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
+    "entity.player.ServerPlayerEntityMixin",
     "item.MilkBucketItemMixin",
-    "world.TrunkPlacerTypeInvoker",
-    "client.SlotAccessor"
+    "world.TrunkPlacerTypeInvoker"
   ],
   "client": [
     "client.BipedEntityModelMixin",

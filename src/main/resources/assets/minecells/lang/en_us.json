@@ -106,6 +106,8 @@
   "gui.minecells.cell_forge.title": "Cell Forge",
   "gui.minecells.cell_forge.forge": "Forge",
 
+  "chat.minecells.suffocation_fix_message": "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
+
   "comment.minecells.001": "================================== FROM PYTHON AUTOLANG ===================================",
 
   "block.minecells.prison_bricks": "Prison Bricks",
