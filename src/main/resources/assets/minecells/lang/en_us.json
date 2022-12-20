@@ -103,6 +103,13 @@
   "death.attack.minecells.bleeding": "%s bled to death",
   "death.attack.minecells.katana": "%s was sliced by %s",
 
+  "dimension.minecraft.overworld": "Overworld",
+  "dimension.minecells.prison": "Prisoners' Quarters",
+  "dimension.minecells.insufferable_crypt": "Insufferable Crypt",
+
+  "biome.minecells.prison": "Prisoners' Quarters",
+  "biome.minecells.insufferable_crypt": "Insufferable Crypt",
+
   "gui.minecells.cell_forge.title": "Cell Forge",
   "gui.minecells.cell_forge.forge": "Forge",
 
