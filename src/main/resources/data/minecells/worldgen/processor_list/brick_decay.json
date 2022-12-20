@@ -5,30 +5,25 @@
       "rules": [
         {
           "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
             "predicate_type": "minecraft:random_block_match",
             "block": "minecells:small_prison_bricks",
             "probability": 0.5
           },
-          "input_predicate": {
-            "predicate_type": "minecraft:always_true"
-          },
           "output_state": {
             "Name": "minecells:prison_stone"
           }
-        }
-      ]
-    },
-    {
-      "processor_type": "minecraft:rule",
-      "rules": [
+        },
         {
           "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
             "predicate_type": "minecraft:random_block_match",
             "block": "minecells:prison_cobblestone",
             "probability": 0.25
-          },
-          "input_predicate": {
-            "predicate_type": "minecraft:always_true"
           },
           "output_state": {
             "Name": "minecells:prison_stone"

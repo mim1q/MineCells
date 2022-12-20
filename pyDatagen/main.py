@@ -70,6 +70,8 @@ def generate_data(output_path: str):
     poolgen.generate_autoprefixed("minecells:prison/corridor_hole_cell", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1)], processors="minecells:brick_decay")
 
     # Insufferable Crypt - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    poolgen.generate_single("minecells:insufferable_crypt/spawn", processors="minecells:brick_decay")
+    poolgen.generate_single("minecells:insufferable_crypt/elevator_shaft", processors="minecells:brick_decay")
     poolgen.generate_single("minecells:insufferable_crypt/boss_room", processors="minecells:brick_decay")
 
 

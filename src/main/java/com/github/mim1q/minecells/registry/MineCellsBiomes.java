@@ -16,13 +16,31 @@ import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 public class MineCellsBiomes {
   public static final RegistryKey<Biome> PROMENADE_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("promenade"));
   public static final RegistryKey<Biome> PRISON_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("prison"));
+  public static final RegistryKey<Biome> INSUFFERABLE_CRYPT_KEY = RegistryKey.of(Registry.BIOME_KEY, MineCells.createId("insufferable_crypt"));
 
   public static void init() {
     Registry.register(BuiltinRegistries.BIOME, PROMENADE_KEY.getValue(), createPromenade());
     Registry.register(BuiltinRegistries.BIOME, PRISON_KEY.getValue(), createPrison());
+    Registry.register(BuiltinRegistries.BIOME, INSUFFERABLE_CRYPT_KEY.getValue(), createInsufferableCrypt());
   }
 
   private static Biome createPrison() {
+    return new Biome.Builder()
+      .precipitation(Biome.Precipitation.NONE)
+      .downfall(0.5F)
+      .temperature(0.5F)
+      .effects(new BiomeEffects.Builder()
+        .waterColor(0x3f76e4)
+        .waterFogColor(0x050533)
+        .fogColor(0xc0d8ff)
+        .skyColor(0x80a0ff)
+        .build())
+      .spawnSettings(new SpawnSettings.Builder().build())
+      .generationSettings(new GenerationSettings.Builder().build())
+      .build();
+  }
+
+  private static Biome createInsufferableCrypt() {
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.NONE)
       .downfall(0.5F)
