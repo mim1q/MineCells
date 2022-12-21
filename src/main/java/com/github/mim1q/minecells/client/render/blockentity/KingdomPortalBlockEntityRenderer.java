@@ -1,7 +1,9 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
+import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.MinecraftClient;
@@ -15,6 +17,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -72,8 +75,7 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
       this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha * 0.75F);
     }
     matrices.pop();
-    matrices.translate(offset.getX(), offset.getY(), offset.getZ());
-    Identifier dimensionId = entity.getDimensionKey().getValue();
+
     EntityRenderDispatcher dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     float distance = (float) dispatcher.getSquaredDistanceToCamera(
       entity.getPos().getX() + offset.getX(),
@@ -82,16 +84,30 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     );
     distance = distance == 0 ? 0.01F : distance;
     float opacity = MathHelper.clamp(1000.0F / (distance * distance), 0.025F, 1.0F);
+    if (opacity <= 0.025F) {
+      return;
+    }
 
+    String key = MineCellsDimensions.getTranslationKey(entity.getDimensionKey());
+    if (entity.isUpstream()) {
+      PlayerEntity player = MinecraftClient.getInstance().player;
+      if (player != null) {
+        key = ((PlayerEntityAccessor) player).getLastDimensionTranslationKey();
+      }
+    }
+
+    matrices.push();
+    matrices.translate(offset.getX(), offset.getY(), offset.getZ());
     renderLabel(
       MinecraftClient.getInstance().textRenderer,
       dispatcher,
-      Text.translatable("dimension." + dimensionId.getNamespace() + "." + dimensionId.getPath()),
+      Text.translatable(key),
       matrices,
       vertexConsumers,
       light,
       opacity
     );
+    matrices.pop();
   }
 
   protected void renderLabel(

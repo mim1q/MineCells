@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.dimension;
 
-import com.github.mim1q.minecells.accessor.ServerPlayerEntityAccessor;
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -22,7 +22,7 @@ public class MineCellsPortal {
       Direction portalDirection,
       RegistryKey<World> targetDimension
   ) {
-    ServerPlayerEntityAccessor playerAccessor = (ServerPlayerEntityAccessor) player;
+    PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
     playerAccessor.getMineCellsPortalData().push(world.getRegistryKey(), pos.add(portalDirection.getVector()));
     ServerWorld targetWorld = world.getServer().getWorld(targetDimension);
     Vec3d teleportPos = MineCellsDimensions.getTeleportPos(targetDimension, pos);
@@ -39,7 +39,7 @@ public class MineCellsPortal {
   }
 
   public static void teleportPlayerUpstream(ServerPlayerEntity player, ServerWorld world) {
-    ServerPlayerEntityAccessor playerAccessor = (ServerPlayerEntityAccessor) player;
+    PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
     Pair<String, BlockPos> portal = playerAccessor.getMineCellsPortalData().pop();
     if (portal == null) {
       teleportToSpawnpoint(player, world);

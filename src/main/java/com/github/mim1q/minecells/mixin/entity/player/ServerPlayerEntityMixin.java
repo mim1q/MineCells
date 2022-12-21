@@ -1,9 +1,7 @@
 package com.github.mim1q.minecells.mixin.entity.player;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.accessor.ServerPlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimensions;
-import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
@@ -11,7 +9,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -28,13 +25,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class ServerPlayerEntityMixin extends PlayerEntity implements ServerPlayerEntityAccessor {
-
-  private final MineCellsPortalData mineCellsPortalData = new MineCellsPortalData();
+public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
   @Shadow public abstract ServerWorld getWorld();
@@ -86,20 +80,5 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Se
         )
       );
     }
-  }
-
-  @Override
-  public MineCellsPortalData getMineCellsPortalData() {
-    return this.mineCellsPortalData;
-  }
-
-  @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-  public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-    nbt.put("mineCellsPortalData", this.mineCellsPortalData.toNbt());
-  }
-
-  @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-  public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-    this.mineCellsPortalData.fromNbt(nbt.getCompound("mineCellsPortalData"));
   }
 }

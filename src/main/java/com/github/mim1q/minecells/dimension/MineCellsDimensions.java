@@ -47,4 +47,14 @@ public class MineCellsDimensions {
     }
     return null;
   }
+
+  public static String getTranslationKey(RegistryKey<World> dimension) {
+    Identifier id = dimension.getValue();
+    return "dimension." + id.getNamespace() + "." + id.getPath();
+  }
+
+  public static String getTranslationKey(String key) {
+    Identifier id = new Identifier(key);
+    return "dimension." + id.getNamespace() + "." + id.getPath();
+  }
 }

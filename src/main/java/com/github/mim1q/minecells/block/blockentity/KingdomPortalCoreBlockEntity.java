@@ -244,4 +244,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   public RegistryKey<World> getDimensionKey() {
     return this.dimension;
   }
+
+  public boolean isUpstream() {
+    return this.upstream;
+  }
 }
