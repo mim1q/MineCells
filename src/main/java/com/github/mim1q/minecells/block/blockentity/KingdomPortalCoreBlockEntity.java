@@ -35,6 +35,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   private Vec3d offset = null;
   private Vec3d widthVector = null;
   private Box box = null;
+  private boolean upstream = false;
   private RegistryKey<World> dimension = RegistryKey.of(Registry.WORLD_KEY, MineCells.createId("prison"));
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
@@ -167,7 +168,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     PlayerEntityAccessor accessor = (PlayerEntityAccessor) player;
     if (this.box.intersects(player.getBoundingBox())) {
       if (accessor.canUseKingdomPortal()) {
-        MineCellsPortal.teleportPlayer(player, world, this.getPos(), this.getDimensionKey());
+        if (this.upstream) {
+          MineCellsPortal.teleportPlayerUpstream(player, world);
+        } else {
+          MineCellsPortal.teleportPlayerDownstream(player, world, this.getPos(), this.getDirection(), this.getDimensionKey());
+        }
       } else {
         accessor.setKingdomPortalCooldown(50);
       }
@@ -180,6 +185,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (nbt.contains("dimensionKey")) {
       this.dimension = RegistryKey.of(Registry.WORLD_KEY, new Identifier(nbt.getString("dimensionKey")));
     }
+    this.upstream = nbt.getBoolean("upstream");
     this.update(this.getCachedState());
     World world = this.getWorld();
     if (world != null) {
@@ -193,6 +199,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (this.dimension != null) {
       nbt.putString("dimensionKey", this.dimension.getValue().toString());
     }
+    nbt.putBoolean("upstream", this.upstream);
   }
 
   @Nullable
