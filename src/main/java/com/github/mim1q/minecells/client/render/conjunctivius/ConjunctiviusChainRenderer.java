@@ -51,7 +51,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     startPos = startPos.add(0.0D, -offset.getY() * 2.0D + 3.0D, 0.0D);
     Vec3d direction = targetPos.subtract(startPos);
     direction = direction.rotateY(MathUtils.radians(headYaw));
-    direction = direction.add(-offset.getX() * 1.5D, 0.0D, -1.0D);
+    direction = direction.add(-offset.getX() * 1.5D, 0.0D, 0.0D);
 
     float rx = (float) -Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
     float ry = (float) -Math.atan2(direction.x, direction.z);
