@@ -53,6 +53,9 @@ public class MineCellsPortalData {
       long element = nbt.getLong(key);
       portalStack.add(new Pair<>(key, BlockPos.fromLong(element)));
     }
+    if (portalStack.isEmpty()) {
+      return;
+    }
     player.setLastDimensionTranslationKey(MineCellsDimensions.getTranslationKey(peek().getLeft()));
   }
 }
