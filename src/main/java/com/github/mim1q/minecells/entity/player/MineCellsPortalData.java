@@ -25,6 +25,9 @@ public class MineCellsPortalData {
   }
 
   public Pair<String, BlockPos> pop() {
+    if (portalStack.isEmpty()) {
+      return null;
+    }
     Pair<String, BlockPos> pair = portalStack.pop();
     String translationKey = "dimension.minecraft.overworld";
     if (!portalStack.isEmpty()) {
@@ -35,6 +38,9 @@ public class MineCellsPortalData {
   }
 
   public Pair<String, BlockPos> peek() {
+    if (portalStack.isEmpty()) {
+      return null;
+    }
     return portalStack.peek();
   }
 
