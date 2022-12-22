@@ -1,8 +1,9 @@
 # Mine Cells - Dead Cells Mod 1.3.0
 
-## IMPORTANT
+## **IMPORTANT**
 
 - If you are updating from a previous version, make sure to reset the dimensions of Mine Cells! Follow the guide [here](https://github.com/mim1q/MineCells/wiki/Updating-Mine-Cells)
+- This is an alpha version! Please test it out and backup your world before deciding to use it!
 
 ## Blocks
 
@@ -14,10 +15,8 @@
 
 ## Generation
 
-- Completely overhauled **Prison dungeon generation**
-  - Much smaller, easier to navigate through and better optimized!
-- **Insufferable Crypt** - new dimension, biome and dungeon (all in one)
-  - The Conjunctivius's Room was moved there
+- Completely overhauled **Prison dungeon generation** - Much smaller, easier to navigate through and better optimized!
+- **Insufferable Crypt** - new dimension, biome and dungeon (all in one). The Conjunctivius's Room was moved there
 
 ## Conjunctivius Boss
 
