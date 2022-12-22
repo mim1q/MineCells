@@ -37,13 +37,12 @@ public class MineCellsDimensions {
   }
 
   public static Vec3d getTeleportPos(RegistryKey<World> dimension, BlockPos pos) {
-    pos = pos.multiply(2);
     BlockPos multiple = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 256));
     if (dimension.equals(PRISON)) {
       return new Vec3d(multiple.getX() + 8, 43, multiple.getZ() + 5.5);
     }
     if (dimension.equals(INSUFFERABLE_CRYPT)) {
-      return new Vec3d(multiple.getX() - 2, 41, multiple.getZ() + 6.5);
+      return new Vec3d(multiple.getX() + 6, 41, multiple.getZ() + 3.5);
     }
     return null;
   }

@@ -41,7 +41,7 @@ public class MineCellsStructurePoolBasedGenerator {
   public MineCellsStructurePoolBasedGenerator() {
   }
 
-  private static Optional<Structure.StructurePosition> generate(
+  public static Optional<Structure.StructurePosition> generate(
     Structure.Context context,
     RegistryEntry<StructurePool> structurePool,
     Optional<Identifier> id,

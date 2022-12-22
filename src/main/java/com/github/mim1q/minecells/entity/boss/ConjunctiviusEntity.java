@@ -85,7 +85,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.ignoreCameraFrustum = true;
     this.experiencePoints = 5000;
     this.noClip = true;
-    this.setRotation(90.0F, 0.0F);
+    this.setRotation(180.0F, 0.0F);
   }
 
   @Nullable
@@ -93,25 +93,24 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
     this.spawnPos = Vec3d.ofCenter(this.getBlockPos());
     this.roomBox = this.createBox();
-    this.direction = Direction.WEST;
+    this.direction = Direction.NORTH;
     this.spawnRot = this.direction.asRotation();
     BlockPos topAnchor = this.getBlockPos().add(0, 9, 0);
-    BlockPos leftAnchor = this.getBlockPos().add(0, 0, -11);
-    BlockPos rightAnchor = this.getBlockPos().add(0, 0, 11);
+    BlockPos leftAnchor = this.getBlockPos().add(-11, 0, 0);
+    BlockPos rightAnchor = this.getBlockPos().add(11, 0, 0);
     this.setAnchors(topAnchor, leftAnchor, rightAnchor);
     return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
   }
 
   protected BlockBox createBox() {
     BlockPos startPos = this.getBlockPos();
-    int minX = startPos.getX() - 22;
-    int maxX = startPos.getX() + 2;
+    int minX = startPos.getX() - 11;
+    int maxX = startPos.getX() + 11;
     int minY = startPos.getY() - 10;
     int maxY = startPos.getY() + 9;
-    int minZ = startPos.getZ() - 11;
-    int maxZ = startPos.getZ() + 11;
-
-    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ).expand(-1);
+    int minZ = startPos.getZ() - 22;
+    int maxZ = startPos.getZ() + 2;
+    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ);
   }
 
   @Override
@@ -157,7 +156,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .defaultCooldown(400)
       .actionTick(30)
       .chance(0.1F)
-      .length(50)
+      .length(60)
       .noRotation()
       .margin(0.5D))
       .build();

@@ -13,10 +13,15 @@ import java.util.Locale;
 
 public class MineCellsStructures {
   // Structures
+  public static final StructureType<MineCellsBigJigsawStructure> BIG_JIGSAW = registerStructure(
+    "big_jigsaw",
+    MineCellsBigJigsawStructure.CODEC
+  );
   public static final StructureType<GridBasedStructures.Prison> PRISON = registerStructure(
     "prison",
     GridBasedStructures.Prison.CODEC
   );
+
   // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");
 
@@ -28,7 +33,5 @@ public class MineCellsStructures {
     return Registry.register(Registry.STRUCTURE_PIECE, id.toLowerCase(Locale.ROOT), type);
   }
 
-  public static void init() {
-
-  }
+  public static void init() {}
 }

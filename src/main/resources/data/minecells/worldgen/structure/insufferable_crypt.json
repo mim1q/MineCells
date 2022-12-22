@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:jigsaw",
+  "type": "minecells:big_jigsaw",
   "biomes": [
     "minecells:insufferable_crypt"
   ],
   "step": "underground_structures",
   "start_pool": "minecells:insufferable_crypt/spawn",
   "spawn_overrides": {},
-  "size": 5,
+  "size": 8,
   "terrain_adaptation": "none",
   "start_height": {
     "absolute": 40
