@@ -96,8 +96,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.direction = Direction.NORTH;
     this.spawnRot = this.direction.asRotation();
     BlockPos topAnchor = this.getBlockPos().add(0, 9, 0);
-    BlockPos leftAnchor = this.getBlockPos().add(-11, 0, 0);
-    BlockPos rightAnchor = this.getBlockPos().add(11, 0, 0);
+    BlockPos leftAnchor = this.getBlockPos().add(11, 0, 0);
+    BlockPos rightAnchor = this.getBlockPos().add(-11, 0, 0);
     this.setAnchors(topAnchor, leftAnchor, rightAnchor);
     return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
   }
@@ -348,7 +348,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public boolean damage(DamageSource source, float amount) {
-    if (this.getTarget() == null) {
+    if (this.getTarget() == null && !source.isSourceCreativePlayer()) {
       return false;
     }
     if (source.isProjectile()) {
