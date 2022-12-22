@@ -90,6 +90,8 @@
   "entity.minecells.scorpion": "Scorpion",
   "entity.minecells.conjunctivius": "Conjunctivius",
 
+  "entity.minecells.elevator": "Elevator (Right Click to Activate)",
+
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
   "effect.minecells.cursed": "Cursed",
