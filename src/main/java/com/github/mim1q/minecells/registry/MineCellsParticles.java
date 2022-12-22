@@ -5,13 +5,13 @@ import com.github.mim1q.minecells.particle.ChargeParticle;
 import com.github.mim1q.minecells.particle.ExplosionParticle;
 import com.github.mim1q.minecells.particle.ProtectorParticle;
 import com.github.mim1q.minecells.particle.SpeckleParticle;
-import com.mojang.serialization.Codec;
+import com.github.mim1q.minecells.particle.colored.ColoredParticle;
+import com.github.mim1q.minecells.particle.colored.ColoredParticleType;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.registry.Registry;
 
@@ -21,15 +21,7 @@ public class MineCellsParticles {
   public static final DefaultParticleType EXPLOSION = FabricParticleTypes.simple();
   public static final DefaultParticleType PROTECTOR = FabricParticleTypes.simple();
   public static final DefaultParticleType CHARGE = FabricParticleTypes.simple();
-  public static final ParticleType<SpeckleParticle.SpeckleParticleEffect> SPECKLE = new ParticleType<>(
-    true,
-    SpeckleParticle.SpeckleParticleEffect.PARAMETERS_FACTORY
-  ) {
-    @Override
-    public Codec<SpeckleParticle.SpeckleParticleEffect> getCodec() {
-      return SpeckleParticle.SpeckleParticleEffect.createCodec(SPECKLE);
-    }
-  };
+  public static final ColoredParticleType SPECKLE = ColoredParticleType.create();
 
   public static void init() {
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
@@ -51,6 +43,6 @@ public class MineCellsParticles {
     ParticleFactoryRegistry.getInstance().register(EXPLOSION, ExplosionParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(PROTECTOR, ProtectorParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(CHARGE, ChargeParticle.Factory::new);
-    ParticleFactoryRegistry.getInstance().register(SPECKLE, SpeckleParticle.Factory::new);
+    ParticleFactoryRegistry.getInstance().register(SPECKLE, ColoredParticle.createFactory(SpeckleParticle::new));
   }
 }
