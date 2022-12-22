@@ -57,7 +57,7 @@ def generate_data(output_path: str):
     poolgen.generate_autoprefixed(
         "minecells:prison/corridor_decoration",
         [("bars", 2), ("cobwebs", 1), ("crates_0", 2), ("crates_1", 2), ("crates_2", 2), ("crates_3", 2),
-         ("shelves_0", 2), ("shelves_1", 2)]
+         ("shelves_0", 2), ("shelves_1", 2), ("chest", 2)]
     )
     poolgen.generate_autoprefixed("minecells:prison/spawn_decoration", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1)])
     poolgen.generate_autoprefixed("minecells:prison/main_corridor_doorway", [("0", 1), ("1", 1), ("2", 1), ("3", 1)])
@@ -68,6 +68,9 @@ def generate_data(output_path: str):
     )
     poolgen.generate_autoprefixed("minecells:prison/cell", [("0", 2), ("1", 1), ("2", 1), ("3", 1)])
     poolgen.generate_autoprefixed("minecells:prison/corridor_hole_cell", [("0", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1)], processors="minecells:brick_decay")
+    poolgen.generate_single("minecells:prison/spawn_rune_and_chest")
+    poolgen.generate_single("minecells:prison/spawn_rune")
+    poolgen.generate_single("minecells:prison/chest")
 
     # Insufferable Crypt - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     poolgen.generate_single("minecells:insufferable_crypt/spawn", processors="minecells:brick_decay")
