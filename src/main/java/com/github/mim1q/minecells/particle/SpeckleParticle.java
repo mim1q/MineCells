@@ -19,7 +19,7 @@ public class SpeckleParticle extends ColoredParticle {
     super.tick();
     float progress = this.age / (float) this.maxAge;
     this.alpha = 1.0F - progress;
-    this.velocityMultiplier = 1.0F - progress;
+    this.velocityMultiplier = 1.0F - progress * 0.2F;
   }
 
   @Override

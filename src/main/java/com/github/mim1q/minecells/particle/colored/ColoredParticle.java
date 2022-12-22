@@ -28,6 +28,10 @@ public abstract class ColoredParticle extends SpriteBillboardParticle {
     return (spriteProvider) -> new Factory(spriteProvider, constructor);
   }
 
+  public static ColoredParticleEffect create(ColoredParticleType type, int color) {
+    return new ColoredParticleEffect(type, color);
+  }
+
   public static class Factory implements ParticleFactory<ColoredParticleEffect> {
     private final SpriteProvider spriteProvider;
     private final ColoredParticleConstructor constructor;
