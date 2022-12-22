@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:prison_stone",
+    "minecells:prison_cobblestone",
+    "minecells:prison_bricks",
+    "minecells:small_prison_bricks"
+  ]
+}

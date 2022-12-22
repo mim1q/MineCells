@@ -1,19 +1,28 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
+import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3f;
 
 public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<KingdomPortalCoreBlockEntity> {
@@ -65,6 +74,60 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
       VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE_GLOW));
       this.model.render(matrices, vertexConsumer3, 0xF000F0, overlay, 1.0F, 1.0F, 1.0F, alpha * 0.75F);
     }
+    matrices.pop();
+
+    EntityRenderDispatcher dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
+    float distance = (float) dispatcher.getSquaredDistanceToCamera(
+      entity.getPos().getX() + offset.getX(),
+      entity.getPos().getY() + offset.getY(),
+      entity.getPos().getZ() + offset.getZ()
+    );
+    distance = distance == 0 ? 0.01F : distance;
+    float opacity = MathHelper.clamp(1000.0F / (distance * distance), 0.025F, 1.0F);
+    if (opacity <= 0.025F) {
+      return;
+    }
+
+    String key = MineCellsDimensions.getTranslationKey(entity.getDimensionKey());
+    if (entity.isUpstream()) {
+      PlayerEntity player = MinecraftClient.getInstance().player;
+      if (player != null) {
+        key = ((PlayerEntityAccessor) player).getLastDimensionTranslationKey();
+      }
+    }
+
+    matrices.push();
+    matrices.translate(offset.getX(), offset.getY(), offset.getZ());
+    renderLabel(
+      MinecraftClient.getInstance().textRenderer,
+      dispatcher,
+      Text.translatable(key),
+      matrices,
+      vertexConsumers,
+      light,
+      opacity
+    );
+    matrices.pop();
+  }
+
+  protected void renderLabel(
+    TextRenderer textRenderer,
+    EntityRenderDispatcher dispatcher,
+    Text text,
+    MatrixStack matrices,
+    VertexConsumerProvider vertexConsumers,
+    int light,
+    float opacity
+  ) {
+    matrices.push();
+    matrices.translate(0.0, 3.0F, 0.0);
+    matrices.multiply(dispatcher.getRotation());
+    matrices.scale(-0.025f, -0.025f, 0.025f);
+    Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+    float h = -textRenderer.getWidth(text) / 2.0F;
+    int color = 0xFFFFFF + ((int)(0xFF * opacity) << 24);
+    int background = (int)(0x80 * opacity) << 24;
+    textRenderer.draw(text, h, 0, color, false, matrix4f, vertexConsumers, false, background, light);
     matrices.pop();
   }
 

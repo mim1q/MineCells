@@ -9,15 +9,7 @@
       "layers": [
         {
           "block": "minecraft:bedrock",
-          "height": 1
-        },
-        {
-          "block": "minecraft:deepslate",
-          "height": 62
-        },
-        {
-          "block": "minecraft:bedrock",
-          "height": 1
+          "height": 64
         }
       ]
     }

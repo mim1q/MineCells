@@ -1,0 +1,17 @@
+{
+  "type": "minecells:prison",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "minecells:insufferable_crypt",
+      "lakes": false,
+      "features": true,
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 64
+        }
+      ]
+    }
+  }
+}

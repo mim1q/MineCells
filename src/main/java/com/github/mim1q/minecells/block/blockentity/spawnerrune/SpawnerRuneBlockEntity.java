@@ -41,13 +41,17 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
 
     if (world.getTime() % 10 == 0) {
       if (entity.cooldown == 0) {
-        if (world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), entity.data.playerRange, false) != null) {
+        if (isPlayerNearby(world, pos, entity.data.playerRange)) {
           entity.cooldown = entity.data.maxCooldown;
           spawnEntities(world, pos, entity);
         }
       }
       entity.canCooldown = !areEntitiesNearby(world, pos);
     }
+  }
+
+  public static boolean isPlayerNearby(World world, BlockPos pos, double range) {
+    return world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), range, true) != null;
   }
 
   private static boolean areEntitiesNearby(World world, BlockPos pos) {
@@ -100,7 +104,7 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
       }
       y++;
     }
-    return pos.add(0, 1, 0);
+    return pos;
   }
 
   @Override

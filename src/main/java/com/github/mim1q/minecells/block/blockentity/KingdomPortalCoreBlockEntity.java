@@ -1,26 +1,31 @@
 package com.github.mim1q.minecells.block.blockentity;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.dimension.MineCellsPortal;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
-import com.github.mim1q.minecells.world.state.OverworldPortals;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -28,11 +33,10 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
 
   private static final ParticleEffect PARTICLE = new DustParticleEffect(new Vec3f(1.0F, 0.5F, 0.0F), 1.0F);
   private Vec3d offset = null;
-  private Direction direction = null;
   private Vec3d widthVector = null;
   private Box box = null;
-
-  private Integer portalId = null;
+  private boolean upstream = false;
+  private RegistryKey<World> dimension = RegistryKey.of(Registry.WORLD_KEY, MineCells.createId("prison"));
 
   public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
@@ -57,9 +61,6 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void update(BlockState state) {
-    if (direction == null) {
-      direction = state.get(KingdomPortalCoreBlock.DIRECTION);
-    }
     if (offset == null) {
       offset = calculateOffset();
     }
@@ -86,11 +87,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public void tick(World world, BlockPos pos, BlockState state) {
-    this.update(state);
     if (world.isClient()) {
       tickClient((ClientWorld) world);
     } else {
       tickServer((ServerWorld) world);
+      this.update(state);
     }
   }
 
@@ -122,6 +123,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   protected void tickServer(ServerWorld world) {
+
     if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
       tryTeleportPlayer(world);
     } else {
@@ -130,7 +132,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   private void tryActivatePortal(ServerWorld world) {
-    Vec3d offset = Vec3d.of(this.direction.getVector());
+    Vec3d offset = Vec3d.of(this.getDirection().getVector());
     Box newBox = this.getBox().expand(offset.getX() * 8.0D, 0.0D, offset.getZ() * 8.0D);
 
     List<ServerPlayerEntity> players = world
@@ -150,15 +152,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (!canActivate) {
       return;
     }
-    if (this.portalId == null) {
-      var state = OverworldPortals.get(world);
-      world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
-      this.portalId = state.addPortal(this.pos);
-    }
+    world.setBlockState(pos, this.getCachedState().with(KingdomPortalCoreBlock.LIT, true));
   }
 
   private void tryTeleportPlayer(ServerWorld world) {
-    PlayerEntity player = world.getClosestPlayer(
+    ServerPlayerEntity player = (ServerPlayerEntity) world.getClosestPlayer(
       TargetPredicate.createNonAttackable(),
       this.getPos().getX(),
       this.getPos().getY(),
@@ -167,24 +165,16 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     if (player == null) {
       return;
     }
+    PlayerEntityAccessor accessor = (PlayerEntityAccessor) player;
     if (this.box.intersects(player.getBoundingBox())) {
-      if (((PlayerEntityAccessor) player).canUseKingdomPortal()) {
-        if (MineCellsDimensions.isDimension(world, MineCellsDimensions.OVERWORLD)) {
-          MineCellsPortal.teleportPlayerFromOverworld(
-            (ServerPlayerEntity) player,
-            world,
-            this
-          );
+      if (accessor.canUseKingdomPortal()) {
+        if (this.upstream) {
+          MineCellsPortal.teleportPlayerUpstream(player, world);
         } else {
-          MineCellsPortal.teleportPlayerToOverworld(
-            (ServerPlayerEntity) player,
-            world,
-            this
-          );
+          MineCellsPortal.teleportPlayerDownstream(player, world, this.getPos(), this.getDirection(), this.getDimensionKey());
         }
-
       } else {
-        ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
+        accessor.setKingdomPortalCooldown(50);
       }
     }
   }
@@ -192,24 +182,35 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   @Override
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
-    if (nbt.contains("portalId")) {
-      this.portalId = nbt.getInt("portalId");
+    if (nbt.contains("dimensionKey")) {
+      this.dimension = RegistryKey.of(Registry.WORLD_KEY, new Identifier(nbt.getString("dimensionKey")));
     }
-    if (nbt.contains("direction")) {
-      this.direction = Direction.byId(nbt.getInt("direction"));
-    }
+    this.upstream = nbt.getBoolean("upstream");
     this.update(this.getCachedState());
+    World world = this.getWorld();
+    if (world != null) {
+      world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), Block.NOTIFY_LISTENERS);
+    }
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
     super.writeNbt(nbt);
-    if (this.portalId != null) {
-      nbt.putInt("portalId", this.portalId);
+    if (this.dimension != null) {
+      nbt.putString("dimensionKey", this.dimension.getValue().toString());
     }
-    if (this.direction != null) {
-      nbt.putInt("direction", this.direction.getId());
-    }
+    nbt.putBoolean("upstream", this.upstream);
+  }
+
+  @Nullable
+  @Override
+  public Packet<ClientPlayPacketListener> toUpdatePacket() {
+    return BlockEntityUpdateS2CPacket.create(this);
+  }
+
+  @Override
+  public NbtCompound toInitialChunkDataNbt() {
+    return createNbt();
   }
 
   private void spawnParticleSphere(ClientWorld world, Vec3d pos) {
@@ -225,7 +226,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public Direction getDirection() {
-    return direction;
+    return this.getCachedState().get(KingdomPortalCoreBlock.DIRECTION);
   }
 
   public Vec3d getOffset() {
@@ -240,7 +241,11 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     return box;
   }
 
-  public Integer getPortalId() {
-    return portalId;
+  public RegistryKey<World> getDimensionKey() {
+    return this.dimension;
+  }
+
+  public boolean isUpstream() {
+    return this.upstream;
   }
 }

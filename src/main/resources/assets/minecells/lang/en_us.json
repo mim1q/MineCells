@@ -44,6 +44,7 @@
   "block.minecells.alchemy_equipment_1": "Spilled Alchemical Vials",
   "block.minecells.alchemy_equipment_2": "Alchemical Vials",
   "block.minecells.spikes": "Spikes",
+  "block.minecells.hanged_skeleton": "Hanged Skeleton",
   "block.minecells.biome_banner": "Flag",
   "item.minecells.biome_banner": "Flag",
   "item.minecells.biome_banner.promenade_of_the_condemned": "Promenade of the Condemned",
@@ -89,6 +90,8 @@
   "entity.minecells.scorpion": "Scorpion",
   "entity.minecells.conjunctivius": "Conjunctivius",
 
+  "entity.minecells.elevator": "Elevator (Right Click to Activate)",
+
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
   "effect.minecells.cursed": "Cursed",
@@ -102,8 +105,17 @@
   "death.attack.minecells.bleeding": "%s bled to death",
   "death.attack.minecells.katana": "%s was sliced by %s",
 
+  "dimension.minecraft.overworld": "Overworld",
+  "dimension.minecells.prison": "Prisoners' Quarters",
+  "dimension.minecells.insufferable_crypt": "Insufferable Crypt",
+
+  "biome.minecells.prison": "Prisoners' Quarters",
+  "biome.minecells.insufferable_crypt": "Insufferable Crypt",
+
   "gui.minecells.cell_forge.title": "Cell Forge",
   "gui.minecells.cell_forge.forge": "Forge",
+
+  "chat.minecells.suffocation_fix_message": "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
 
   "comment.minecells.001": "================================== FROM PYTHON AUTOLANG ===================================",
 

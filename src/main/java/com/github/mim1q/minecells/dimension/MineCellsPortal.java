@@ -1,62 +1,75 @@
 package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
-import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
-import com.github.mim1q.minecells.registry.MineCellsPointOfInterestTypes;
-import com.github.mim1q.minecells.util.MathUtils;
-import com.github.mim1q.minecells.world.state.OverworldPortals;
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.poi.PointOfInterestStorage;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.TeleportTarget;
+import net.minecraft.world.World;
 
 public class MineCellsPortal {
-  public static void teleportPlayerFromOverworld(
-    ServerPlayerEntity player,
-    ServerWorld currentWorld,
-    KingdomPortalCoreBlockEntity portal
+  public static void teleportPlayerDownstream(
+      ServerPlayerEntity player,
+      ServerWorld world,
+      BlockPos pos,
+      Direction portalDirection,
+      RegistryKey<World> targetDimension
   ) {
-    ServerWorld prisonDimension = (ServerWorld) MineCellsDimensions.getWorld(currentWorld, MineCellsDimensions.PRISON);
-    if (prisonDimension == null) {
+    PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
+    playerAccessor.getMineCellsPortalData().push(world.getRegistryKey(), pos.add(portalDirection.getVector()));
+    ServerWorld targetWorld = world.getServer().getWorld(targetDimension);
+    Vec3d teleportPos = MineCellsDimensions.getTeleportPos(targetDimension, pos);
+    if (teleportPos == null) {
+      teleportToSpawnpoint(player, world);
+    }
+    TeleportTarget target = new TeleportTarget(
+      teleportPos,
+      Vec3d.ZERO,
+      0.0F,
+      0.0F
+    );
+    FabricDimensions.teleport(player, targetWorld, target);
+  }
+
+  public static void teleportPlayerUpstream(ServerPlayerEntity player, ServerWorld world) {
+    PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
+    Pair<String, BlockPos> portal = playerAccessor.getMineCellsPortalData().pop();
+    if (portal == null) {
+      teleportToSpawnpoint(player, world);
       return;
     }
-    int id = portal.getPortalId();
-    BlockPos portalPos = new BlockPos(MathUtils.getSpiralPosition(id).multiply(4096)).withY(33).add(8, 0, 8);
-    prisonDimension.getChunk(portalPos);
-    player.teleport(prisonDimension, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
-    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
-  }
-
-  public static void teleportPlayerToOverworld(
-    ServerPlayerEntity player,
-    ServerWorld currentWorld,
-    KingdomPortalCoreBlockEntity portal
-  ) {
-    ServerWorld overworld = currentWorld.getServer().getOverworld();
-    Vec3i closest4096Multiple = MathUtils.getClosestMultiplePosition(portal.getPos(), 4096);
-    int x = closest4096Multiple.getX() / 4096;
-    int z = closest4096Multiple.getZ() / 4096;
-    int portalId = MathUtils.getSpiralIndex(x, z);
-    var portalPos = OverworldPortals.get(currentWorld).getPortalPos(portalId);
-    if (portalPos == null) {
-      player.teleport(overworld, overworld.getSpawnPos().getX(), overworld.getSpawnPos().getY(), overworld.getSpawnPos().getZ(), player.getYaw(), player.getPitch());
-    } else {
-      player.teleport(overworld, portalPos.getX(), portalPos.getY(), portalPos.getZ(), player.getYaw(), player.getPitch());
-    }
-    ((PlayerEntityAccessor) player).setKingdomPortalCooldown(50);
-  }
-
-  private static BlockPos searchNearestPortalPos(ServerWorld prisonDimension, BlockPos searchPos) {
-    var portalPos = prisonDimension.getPointOfInterestStorage().getNearestPosition(
-      type -> type.value() == MineCellsPointOfInterestTypes.KINGDOM_PORTAL,
-      searchPos,
-      128,
-      PointOfInterestStorage.OccupationStatus.ANY
+    RegistryKey<World> worldKey = RegistryKey.of(Registry.WORLD_KEY, new Identifier(portal.getLeft()));
+    ServerWorld targetWorld = world.getServer().getWorld(worldKey);
+    TeleportTarget target = new TeleportTarget(
+      Vec3d.ofCenter(portal.getRight()),
+      Vec3d.ZERO,
+      0.0F,
+      0.0F
     );
-    if (portalPos.isEmpty()) {
-      return null;
+    FabricDimensions.teleport(player, targetWorld, target);
+  }
+
+  public static void teleportToSpawnpoint(ServerPlayerEntity player, ServerWorld world) {
+    ServerWorld targetWorld = world.getServer().getOverworld();
+    Vec3d teleportPos = Vec3d.ofCenter(targetWorld.getSpawnPos());
+    BlockPos spawnPos = player.getSpawnPointPosition();
+    if (spawnPos != null) {
+      teleportPos = Vec3d.ofCenter(spawnPos);
+      targetWorld = world.getServer().getWorld(player.getSpawnPointDimension());
     }
-    return portalPos.get();
+    TeleportTarget teleportTarget = new TeleportTarget(
+      teleportPos,
+      Vec3d.ZERO,
+      0.0F,
+      0.0F
+    );
+    FabricDimensions.teleport(player, targetWorld, teleportTarget);
   }
 }

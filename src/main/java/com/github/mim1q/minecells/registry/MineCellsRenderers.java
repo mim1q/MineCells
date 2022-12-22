@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.client.gui.screen.CellForgeScreen;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.SpawnerRuneBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -174,6 +175,7 @@ public class MineCellsRenderers {
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(MineCellsBlockEntities.SPAWNER_RUNE_BLOCK_ENTITY, SpawnerRuneBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

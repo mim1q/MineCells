@@ -83,10 +83,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.navigation = new BirdNavigation(this, this.world);
     this.setNoGravity(true);
     this.ignoreCameraFrustum = true;
-    if (this.roomBox == null) {
-      this.roomBox = BlockBox.create(this.getBlockPos(), this.getBlockPos());
-    }
     this.experiencePoints = 5000;
+    this.noClip = true;
+    this.setRotation(180.0F, 0.0F);
   }
 
   @Nullable
@@ -94,54 +93,24 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
     this.spawnPos = Vec3d.ofCenter(this.getBlockPos());
     this.roomBox = this.createBox();
-    this.direction = this.determineDirection(this.getBlockPos(), this.roomBox);
+    this.direction = Direction.NORTH;
     this.spawnRot = this.direction.asRotation();
-    BlockPos topAnchor = this.getBoxWall(this.getBlockPos(), Direction.UP.getVector());
-    BlockPos leftAnchor = this.getBoxWall(this.getBlockPos().up(2), direction.rotateYClockwise().getVector());
-    BlockPos rightAnchor = this.getBoxWall(this.getBlockPos().up(2), direction.rotateYCounterclockwise().getVector());
+    BlockPos topAnchor = this.getBlockPos().add(0, 9, 0);
+    BlockPos leftAnchor = this.getBlockPos().add(11, 0, 0);
+    BlockPos rightAnchor = this.getBlockPos().add(-11, 0, 0);
     this.setAnchors(topAnchor, leftAnchor, rightAnchor);
     return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
   }
 
   protected BlockBox createBox() {
     BlockPos startPos = this.getBlockPos();
-    int minY = this.getBoxWall(startPos, Direction.DOWN.getVector()).getY();
-    int maxY = this.getBoxWall(startPos, Direction.UP.getVector()).getY();
-    int minX = this.getBoxWall(startPos, Direction.WEST.getVector()).getX();
-    int maxX = this.getBoxWall(startPos, Direction.EAST.getVector()).getX();
-    int minZ = this.getBoxWall(startPos, Direction.NORTH.getVector()).getZ();
-    int maxZ = this.getBoxWall(startPos, Direction.SOUTH.getVector()).getZ();
-
-    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ).expand(-1);
-  }
-
-  private BlockPos getBoxWall(BlockPos position, Vec3i offset) {
-    for (int i = 0; i < 100; i++) {
-      position = position.add(offset);
-      if (!this.world.getBlockState(position).isAir()) {
-        return position;
-      }
-    }
-    return position;
-  }
-
-  protected Direction determineDirection(BlockPos spawnBlockPos, BlockBox box) {
-    int southDistance = box.getMaxZ() - spawnBlockPos.getZ();
-    int northDistance = spawnBlockPos.getZ() - box.getMinZ();
-    int eastDistance = box.getMaxX() - spawnBlockPos.getX();
-    int westDistance = spawnBlockPos.getX() - box.getMinX();
-
-    int smallestDistance = Math.min(southDistance, Math.min(northDistance, Math.min(eastDistance, westDistance)));
-    if (smallestDistance == southDistance) {
-      return Direction.NORTH;
-    }
-    if (smallestDistance == northDistance) {
-      return Direction.SOUTH;
-    }
-    if (smallestDistance == eastDistance) {
-      return Direction.WEST;
-    }
-    return Direction.EAST;
+    int minX = startPos.getX() - 11;
+    int maxX = startPos.getX() + 11;
+    int minY = startPos.getY() - 10;
+    int maxY = startPos.getY() + 9;
+    int minZ = startPos.getZ() - 22;
+    int maxZ = startPos.getZ() + 2;
+    return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ);
   }
 
   @Override
@@ -187,7 +156,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .defaultCooldown(400)
       .actionTick(30)
       .chance(0.1F)
-      .length(50)
+      .length(60)
       .noRotation()
       .margin(0.5D))
       .build();
@@ -220,14 +189,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       this.spawnParticles();
     } else {
-      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox())) {
+      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().expand(0.5D))) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
           this.tryAttack(livingEntity);
           this.knockback(livingEntity);
         }
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
-        if (!this.world.getBlockState(blockPos).isIn(MineCellsBlockTags.CONJUNCTIVIUS_UNBREAKABLE) && this.getRoomBox().contains(blockPos)) {
+        if (this.world.getBlockState(blockPos).isIn(MineCellsBlockTags.CONJUNCTIVIUS_BREAKABLE)) {
           this.world.breakBlock(blockPos, true);
         }
       });
@@ -379,11 +348,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public boolean damage(DamageSource source, float amount) {
-    if (this.getTarget() == null) {
+    if (this.getTarget() == null && !source.isSourceCreativePlayer()) {
       return false;
     }
     if (source.isProjectile()) {
-      return super.damage(source, amount * 0.33F);
+      return super.damage(source, amount * 0.5F);
     }
     return super.damage(source, amount);
   }
@@ -506,8 +475,22 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     if (this.canMoveVoluntarily() || this.isLogicalSideForUpdatingMovement()) {
       this.updateVelocity(0.02F, movementInput);
       this.move(MovementType.SELF, this.getVelocity());
-      this.setVelocity(this.getVelocity().multiply(0.9D));
+      this.setVelocity(this.getVelocity().multiply(0.85D));
     }
+  }
+
+  @Override
+  public void setPosition(double x, double y, double z) {
+    BlockBox box = this.getRoomBox();
+    if (box == null) {
+      super.setPosition(x, y, z);
+      return;
+    }
+    super.setPosition(
+      MathHelper.clamp(x, box.getMinX(), box.getMaxX()),
+      MathHelper.clamp(y, box.getMinY(), box.getMaxY()),
+      MathHelper.clamp(z, box.getMinZ(), box.getMaxZ())
+    );
   }
 
   public boolean isClimbing() {

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "minecells:insufferable_crypt",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 16,
+    "separation": 15,
+    "salt": 2043237655
+  }
+}

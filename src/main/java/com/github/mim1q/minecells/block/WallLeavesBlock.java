@@ -6,6 +6,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -56,9 +57,16 @@ public class WallLeavesBlock extends Block {
 
   @Override
   @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(DIRECTION, rotation.rotate(state.get(DIRECTION)));
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
     if (direction == state.get(DIRECTION).getOpposite()) {
-      return Blocks.AIR.getDefaultState();
+      boolean stay = neighborState.getBlock() instanceof LeavesBlock || neighborState.isSideSolidFullSquare(world, neighborPos, direction);
+      return stay ? state : Blocks.AIR.getDefaultState();
     }
     return state;
   }

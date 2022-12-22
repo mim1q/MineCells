@@ -6,6 +6,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -41,6 +42,12 @@ public class SkeletonDecorationBlock extends Block {
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
     return getDefaultState().with(FACING, ctx.getPlayerFacing());
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(FACING, rotation.rotate(state.get(FACING)));
   }
 
   @Override

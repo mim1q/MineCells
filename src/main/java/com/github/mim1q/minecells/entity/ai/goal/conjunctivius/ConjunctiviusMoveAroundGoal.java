@@ -69,10 +69,10 @@ public class ConjunctiviusMoveAroundGoal extends Goal {
   private Vec3d getRandomTargetPos() {
     Vec3d center = this.entity.getSpawnPos();
     return center.add(
-      (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-      (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D,
-      (this.entity.getRandom().nextDouble() - 0.5D) * 5.0D
-    );
+      -4.0D + this.entity.getRandom().nextDouble() * 8.0D,
+      -5.0D + this.entity.getRandom().nextDouble() * 3.0D,
+      -1.0D - this.entity.getRandom().nextDouble() * 2.0D
+      );
   }
 
   protected int getNextCooldown() {
