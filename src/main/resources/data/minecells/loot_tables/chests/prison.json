@@ -20,8 +20,8 @@
         {
           "function": "minecraft:enchant_with_levels",
           "levels": {
-            "min": 20,
-            "max": 25
+            "min": 15,
+            "max": 20
           },
           "treasure": true,
           "conditions": [
@@ -57,7 +57,7 @@
     },
     {
       "rolls": {
-        "min": 0,
+        "min": 1,
         "max": 2
       },
       "entries": [
@@ -68,12 +68,18 @@
             {
               "function": "minecraft:enchant_with_levels",
               "levels": {
-                "min": 20,
+                "min": 15,
                 "max": 30
               },
               "treasure": true
             }
           ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.5
         }
       ]
     },
@@ -85,7 +91,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 3,
+          "weight": 4,
           "name": "minecraft:emerald"
         },
         {
@@ -102,14 +108,17 @@
       ]
     },
     {
-      "rolls": {
-        "min": 0,
-        "max": 1
-      },
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
           "name": "minecells:health_flask"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.25
         }
       ]
     }
