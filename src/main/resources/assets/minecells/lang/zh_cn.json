@@ -1,5 +1,5 @@
 {
-  "itemGroup.minecells.eggs": "MC重生细胞刷怪蛋",
+  "itemGroup.minecells.eggs": "MC死亡细胞刷怪蛋",
 
   "item.minecells.shocker_spawn_egg": "电击者刷怪蛋",
   "item.minecells.leaping_zombie_spawn_egg": "跳跃僵尸刷怪蛋",
@@ -16,7 +16,7 @@
   "item.minecells.runner_spawn_egg": "速魔刷怪蛋",
   "item.minecells.scorpion_spawn_egg": "蝎子刷怪蛋",
 
-  "itemGroup.minecells.blocks_and_items": "MC重生细胞方块与物品",
+  "itemGroup.minecells.blocks_and_items": "MC死亡细胞方块与物品",
 
   "block.minecells.putrid_log": "腐烂原木",
   "block.minecells.putrid_wood": "腐烂木",
@@ -25,9 +25,9 @@
   "block.minecells.wilted_leaves": "枯叶",
   "block.minecells.hanging_wilted_leaves": "干枯的悬挂植物",
   "block.minecells.wall_wilted_leaves": "干枯的墙体植物",
-  "block.minecells.orange_wilted_leaves": "橘色枯叶",
-  "block.minecells.hanging_orange_wilted_leaves": "橘色干枯的悬挂植物",
-  "block.minecells.orange_wall_wilted_leaves": "橘色干枯的墙体植物",
+  "block.minecells.orange_wilted_leaves": "橙色枯叶",
+  "block.minecells.hanging_orange_wilted_leaves": "干枯的橙色悬挂植物",
+  "block.minecells.orange_wall_wilted_leaves": "干枯的橙色墙体植物",
   "block.minecells.crate": "板条箱",
   "block.minecells.small_crate": "小型板条箱",
   "block.minecells.brittle_barrel": "易碎的桶",
@@ -57,7 +57,7 @@
   "item.minecells.health_flask": "补充血瓶",
   "item.minecells.health_flask.tooltip": "回复2颗心。移除流血与中毒效果",
 
-  "itemGroup.minecells.weapons": "MC重生细胞武器",
+  "itemGroup.minecells.weapons": "MC死亡细胞武器",
 
   "item.minecells.assassins_dagger": "刺客匕首",
   "item.minecells.assassins_dagger.tooltip": "背刺时造成 %s 点伤害",
@@ -121,12 +121,12 @@
   "block.minecells.prison_stone_stairs": "牢房石楼梯",
   "block.minecells.prison_stone_wall": "牢房石墙体",
   "block.minecells.putrid_door": "腐烂木门",
-  "block.minecells.putrid_fence": "腐烂栅栏",
-  "block.minecells.putrid_fence_gate": "腐烂栅栏门",
+  "block.minecells.putrid_fence": "腐烂木栅栏",
+  "block.minecells.putrid_fence_gate": "腐烂木栅栏门",
   "block.minecells.putrid_planks": "腐烂木板",
-  "block.minecells.putrid_slab": "腐烂台阶",
-  "block.minecells.putrid_stairs": "腐烂楼梯",
-  "block.minecells.putrid_trapdoor": "腐烂活板门",
+  "block.minecells.putrid_slab": "腐烂木台阶",
+  "block.minecells.putrid_stairs": "腐烂木楼梯",
+  "block.minecells.putrid_trapdoor": "腐烂木活板门",
   "block.minecells.small_prison_bricks": "小牢房砖块",
   "block.minecells.small_prison_brick_slab": "小牢房砖块台阶",
   "block.minecells.small_prison_brick_stairs": "小牢房砖块楼梯",
