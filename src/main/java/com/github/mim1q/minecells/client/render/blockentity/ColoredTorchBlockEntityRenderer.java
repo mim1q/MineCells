@@ -37,8 +37,8 @@ public class ColoredTorchBlockEntityRenderer implements BlockEntityRenderer<Colo
 
     MatrixStack.Entry entry = matrices.peek();
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
-    int sprite = ((int)entity.getWorld().getTime() / 2) % 7;
-    drawFlame(entry, vertexConsumer, light, sprite);
+    int time = (int)(entity.getWorld().getTime() / 2 - entity.getPos().hashCode());
+    drawFlame(entry, vertexConsumer, light, time % 7);
 
     matrices.pop();
   }
