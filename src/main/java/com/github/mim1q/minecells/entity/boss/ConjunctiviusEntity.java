@@ -295,10 +295,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   private Vec3d getTentaclePos() {
-    int x = this.random.nextBetween(this.roomBox.getMinX() + 1, this.roomBox.getMaxX() - 1);
-    int y = this.roomBox.getMinY() + 3;
-    int z = this.random.nextBetween(this.roomBox.getMinZ() + 1, this.roomBox.getMaxZ() - 1);
-    return new Vec3d(x, y, z);
+    BlockPos center = this.roomBox.getCenter().add(
+      this.random.nextInt(8) - 4,
+      0,
+      this.random.nextInt(8) - 4
+    );
+    return Vec3d.ofCenter(center);
   }
 
   protected void spawnParticles() {

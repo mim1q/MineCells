@@ -259,9 +259,9 @@ public class MineCellsBlocks {
     "alchemy_equipment_2"
   );
 
-  public static final MetalTorchBlock METAL_TORCH = registerBlockWithItem(
-    new MetalTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15)),
-    "metal_torch"
+  public static final ColoredTorchBlock METAL_TORCH = registerBlockWithItem(
+    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15), "prison"),
+    "prison_torch"
   );
 
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(

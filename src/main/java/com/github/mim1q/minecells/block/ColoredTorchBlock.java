@@ -15,15 +15,17 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
-public class MetalTorchBlock extends BlockWithEntity {
+public class ColoredTorchBlock extends BlockWithEntity {
   public static final VoxelShape SHAPE = VoxelShapes.union(
     createCuboidShape(7.0D, 3.0D, 1.0D, 9.0D, 11.0D, 3.0D),
     createCuboidShape(6.0D, 11.0D, 0.0D, 10.0D, 14.0D, 4.0D)
   );
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+  private final String flameType;
 
-  public MetalTorchBlock(Settings settings) {
+  public ColoredTorchBlock(Settings settings, String flameType) {
     super(settings);
+    this.flameType = flameType;
   }
 
   @Override
@@ -55,5 +57,9 @@ public class MetalTorchBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), SHAPE);
+  }
+
+  public String getFlameType() {
+    return this.flameType;
   }
 }
