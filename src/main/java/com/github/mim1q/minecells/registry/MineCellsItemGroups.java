@@ -96,7 +96,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0.asItem().getDefaultStack(),
       MineCellsBlocks.ALCHEMY_EQUIPMENT_1.asItem().getDefaultStack(),
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2.asItem().getDefaultStack(),
-      MineCellsBlocks.METAL_TORCH.asItem().getDefaultStack(),
+      MineCellsBlocks.PRISON_TORCH.asItem().getDefaultStack(),
       MineCellsItems.SEWAGE_BUCKET.getDefaultStack(),
       MineCellsItems.ANCIENT_SEWAGE_BUCKET.getDefaultStack(),
       MineCellsItems.ELEVATOR_MECHANISM.getDefaultStack(),

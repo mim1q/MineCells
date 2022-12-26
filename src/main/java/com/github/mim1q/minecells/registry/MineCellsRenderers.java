@@ -162,7 +162,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_DOOR,
-      MineCellsBlocks.METAL_TORCH,
+      MineCellsBlocks.PRISON_TORCH,
+      MineCellsBlocks.METAL_BARS,
       MineCellsBlocks.SPAWNER_RUNE
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(

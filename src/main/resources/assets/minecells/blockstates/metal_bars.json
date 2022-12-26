@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,center=true": {
+      "model": "minecells:block/metal_bars_center"
+    },
+    "facing=east,center=true": {
+      "model": "minecells:block/metal_bars_center",
+      "y": 90
+    },
+    "facing=south,center=true": {
+      "model": "minecells:block/metal_bars_center",
+      "y": 180
+    },
+    "facing=west,center=true": {
+      "model": "minecells:block/metal_bars_center",
+      "y": 270
+    },
+    "facing=north,center=false": {
+      "model": "minecells:block/metal_bars"
+    },
+    "facing=east,center=false": {
+      "model": "minecells:block/metal_bars",
+      "y": 90
+    },
+    "facing=south,center=false": {
+      "model": "minecells:block/metal_bars",
+      "y": 180
+    },
+    "facing=west,center=false": {
+      "model": "minecells:block/metal_bars",
+      "y": 270
+    }
+  }
+}

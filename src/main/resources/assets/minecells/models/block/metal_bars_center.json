@@ -1,0 +1,63 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"0": "minecells:block/cage_bars",
+		"1": "minecells:block/metal_bar",
+		"particle": "minecells:block/cage_bars"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 7],
+			"to": [4, 16, 9],
+			"faces": {
+				"north": {"uv": [4, 0, 6, 16], "texture": "#0"},
+				"east": {"uv": [12, 0, 14, 16], "texture": "#0"},
+				"south": {"uv": [4, 0, 6, 16], "texture": "#0"},
+				"west": {"uv": [12, 0, 14, 16], "texture": "#0"},
+				"up": {"uv": [4, 0, 6, 2], "texture": "#0"},
+				"down": {"uv": [4, 0, 6, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [12, 0, 7],
+			"to": [14, 16, 9],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"east": {"uv": [8, 0, 10, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"west": {"uv": [8, 0, 10, 16], "texture": "#0"},
+				"up": {"uv": [4, 0, 6, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 0, 7],
+			"to": [9, 16, 9],
+			"faces": {
+				"north": {"uv": [4, 0, 6, 16], "texture": "#0"},
+				"east": {"uv": [12, 0, 14, 16], "texture": "#0"},
+				"south": {"uv": [4, 0, 6, 16], "texture": "#0"},
+				"west": {"uv": [12, 0, 14, 16], "texture": "#0"},
+				"up": {"uv": [4, 0, 6, 2], "texture": "#0"},
+				"down": {"uv": [4, 0, 6, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 2, 6],
+			"to": [16, 2, 10],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 4], "texture": "#1"},
+				"down": {"uv": [0, 0, 16, 4], "texture": "#1"}
+			}
+		},
+		{
+			"from": [0, 14, 6],
+			"to": [16, 14, 10],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 4], "texture": "#1"},
+				"down": {"uv": [0, 0, 16, 4], "texture": "#1"}
+			}
+		}
+	]
+}
