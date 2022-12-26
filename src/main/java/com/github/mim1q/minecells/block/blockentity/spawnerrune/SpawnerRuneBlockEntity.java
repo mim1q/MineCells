@@ -32,7 +32,9 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
   }
 
   public static void tick(World world, BlockPos pos, BlockState state, SpawnerRuneBlockEntity entity) {
-    if (world.isClient) return;
+    if (world.isClient) {
+      return;
+    }
 
     if (entity.canCooldown) {
       entity.cooldown = Math.max(0, entity.cooldown - 1);

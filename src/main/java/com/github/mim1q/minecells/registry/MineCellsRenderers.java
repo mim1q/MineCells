@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.ColoredTorchBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.SpawnerRuneBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -163,7 +162,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_DOOR,
-      MineCellsBlocks.METAL_TORCH
+      MineCellsBlocks.METAL_TORCH,
+      MineCellsBlocks.SPAWNER_RUNE
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
@@ -177,7 +177,6 @@ public class MineCellsRenderers {
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.SPAWNER_RUNE_BLOCK_ENTITY, SpawnerRuneBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.COLORED_TORCH_BLOCK_ENTITY, (ctx) -> new ColoredTorchBlockEntityRenderer());
 
     ModelPredicateProviderRegistry.register(

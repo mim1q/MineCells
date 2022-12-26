@@ -69,7 +69,6 @@ public class MineCellsModelProvider extends FabricModelProvider {
       ModelIds.getBlockModelId(MineCellsBlocks.SPIKES)
     );
     generator.registerSimpleCubeAll(MineCellsBlocks.ELEVATOR_ASSEMBLER);
-    generator.registerSimpleCubeAll(MineCellsBlocks.SPAWNER_RUNE);
     generator.registerParentedItemModel(
       MineCellsItems.SPAWNER_RUNE,
       ModelIds.getBlockModelId(MineCellsBlocks.SPAWNER_RUNE)

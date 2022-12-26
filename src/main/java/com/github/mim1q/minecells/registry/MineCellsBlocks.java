@@ -297,7 +297,7 @@ public class MineCellsBlocks {
   );
 
   public static final Block SPAWNER_RUNE = registerBlock(
-    new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision().nonOpaque()),
+    new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision().nonOpaque().ticksRandomly()),
     "spawner_rune"
   );
 
