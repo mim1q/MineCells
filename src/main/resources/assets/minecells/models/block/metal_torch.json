@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "minecells:block/metal_torch",
 		"particle": "minecells:block/metal_torch"
