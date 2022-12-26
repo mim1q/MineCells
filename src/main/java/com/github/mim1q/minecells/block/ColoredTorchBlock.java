@@ -13,6 +13,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class ColoredTorchBlock extends BlockWithEntity {
@@ -40,7 +41,21 @@ public class ColoredTorchBlock extends BlockWithEntity {
     if (ctx.getSide() == Direction.UP || ctx.getSide() == Direction.DOWN) {
       return null;
     }
-    return getDefaultState().with(FACING, ctx.getSide());
+    BlockPos pos = ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector());
+    if (ctx.getWorld().getBlockState(pos).isSideSolidFullSquare(ctx.getWorld(), pos, ctx.getSide())) {
+      return getDefaultState().with(FACING, ctx.getSide());
+    }
+    return null;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    Direction facing = state.get(FACING);
+    if (direction == facing.getOpposite() && !neighborState.isSideSolidFullSquare(world, pos, facing)) {
+      return Blocks.AIR.getDefaultState();
+    }
+    return state;
   }
 
   public BlockRenderType getRenderType(BlockState state) {
