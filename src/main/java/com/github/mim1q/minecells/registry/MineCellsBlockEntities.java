@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.ColoredTorchBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
@@ -47,6 +48,15 @@ public class MineCellsBlockEntities {
     FabricBlockEntityTypeBuilder
       .create(SpawnerRuneBlockEntity::new)
       .addBlock(MineCellsBlocks.SPAWNER_RUNE)
+      .build()
+  );
+
+  public static final BlockEntityType<ColoredTorchBlockEntity> COLORED_TORCH_BLOCK_ENTITY = Registry.register(
+    Registry.BLOCK_ENTITY_TYPE,
+    MineCells.createId("colored_torch"),
+    FabricBlockEntityTypeBuilder
+      .create(ColoredTorchBlockEntity::new)
+      .addBlock(MineCellsBlocks.METAL_TORCH)
       .build()
   );
 

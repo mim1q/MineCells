@@ -259,6 +259,11 @@ public class MineCellsBlocks {
     "alchemy_equipment_2"
   );
 
+  public static final MetalTorchBlock METAL_TORCH = registerBlockWithItem(
+    new MetalTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15)),
+    "metal_torch"
+  );
+
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
       state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)
@@ -311,7 +316,7 @@ public class MineCellsBlocks {
     return block;
   }
 
-  public static Block registerBlockWithItem(Block block, String id) {
+  public static <T extends Block> T registerBlockWithItem(T block, String id) {
     registerBlock(block, id);
     Registry.register(
       Registry.ITEM,
