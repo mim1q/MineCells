@@ -106,7 +106,8 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   public enum BannerPattern implements StringIdentifiable {
     PROMENADE("promenade_of_the_condemned"),
-    KING_CREST("king_crest");
+    KING_CREST("king_crest"),
+    INSUFFERABLE_CRYPT("insufferable_crypt");
 
     private final String name;
     private final Identifier texture;

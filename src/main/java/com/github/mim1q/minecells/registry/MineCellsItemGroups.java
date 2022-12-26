@@ -93,6 +93,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.SPIKES.asItem().getDefaultStack(),
       MineCellsItems.BIOME_BANNER.of(BiomeBannerBlock.BannerPattern.KING_CREST),
       MineCellsItems.BIOME_BANNER.of(BiomeBannerBlock.BannerPattern.PROMENADE),
+      MineCellsItems.BIOME_BANNER.of(BiomeBannerBlock.BannerPattern.INSUFFERABLE_CRYPT),
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0.asItem().getDefaultStack(),
       MineCellsBlocks.ALCHEMY_EQUIPMENT_1.asItem().getDefaultStack(),
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2.asItem().getDefaultStack(),
