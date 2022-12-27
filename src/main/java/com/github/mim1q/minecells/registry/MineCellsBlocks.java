@@ -174,12 +174,12 @@ public class MineCellsBlocks {
   );
 
   public static final Block WILTED_HANGING_LEAVES = registerBlockWithItem(
-    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
     "wilted_hanging_leaves"
   );
 
   public static final Block WILTED_WALL_LEAVES = registerBlockWithItem(
-    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
     "wilted_wall_leaves"
   );
 
@@ -189,12 +189,12 @@ public class MineCellsBlocks {
   );
 
   public static final Block ORANGE_WILTED_HANGING_LEAVES = registerBlockWithItem(
-    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
     "orange_wilted_hanging_leaves"
   );
 
   public static final Block ORANGE_WILTED_WALL_LEAVES = registerBlockWithItem(
-    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
     "orange_wilted_wall_leaves"
   );
 
