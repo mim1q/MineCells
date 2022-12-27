@@ -1,0 +1,6 @@
+{
+  "parent": "minecells:block/hanged_corpse",
+  "textures": {
+    "0": "minecells:block/rotting_corpse"
+  }
+}

@@ -10,7 +10,6 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
@@ -18,14 +17,23 @@ import org.jetbrains.annotations.Nullable;
 public class SkeletonDecorationBlock extends Block {
 
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+  private final boolean sitting;
 
-  public static final VoxelShape SHAPE = VoxelShapes.union(
-    VoxelShapes.cuboid(0.125D, 0.3125D, 0.3125D, 0.875D, 1.0625D, 0.4375D),
-    VoxelShapes.cuboid(0.25D, 0.3125D, 0.25D, 0.75D, 1.0625D, 0.5D)
+  public static final VoxelShape SHAPE = createCuboidShape(
+    1.0D, 5.0D, 8.0D, 15.0D, 17.0D, 12.0D
+  );
+
+  public static final VoxelShape SITTING_SHAPE = createCuboidShape(
+    1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 5.0D
   );
 
   public SkeletonDecorationBlock(Settings settings) {
+    this(settings, false);
+  }
+
+  public SkeletonDecorationBlock(Settings settings, boolean sitting) {
     super(settings);
+    this.sitting = sitting;
   }
 
   @Override
@@ -65,6 +73,6 @@ public class SkeletonDecorationBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), SHAPE);
+    return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), this.sitting ? SITTING_SHAPE : SHAPE);
   }
 }

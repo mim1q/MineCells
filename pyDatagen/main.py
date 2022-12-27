@@ -27,9 +27,11 @@ def generate_data(output_path: str):
 
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "resting_skeleton", {"block": "resting_skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "skeleton", {"block": "skeleton"}))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_corpse", {"block": "hanged_corpse"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "resting_corpse", {"block": "resting_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "corpse", {"block": "corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_rotting_corpse", {"block": "hanged_rotting_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "rotting_corpse", {"block": "rotting_corpse"}))
 
     # Custom Drops
     util.generate_self_dropping_blocks(gen, [

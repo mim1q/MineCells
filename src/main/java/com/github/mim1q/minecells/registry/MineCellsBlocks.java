@@ -259,8 +259,8 @@ public class MineCellsBlocks {
   );
 
   public static final Block RESTING_SKELETON = registerBlock(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK)),
-    "resting_skeleton"
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK), true),
+    "skeleton"
   );
 
   public static final Block HANGED_CORPSE = registerBlock(
@@ -269,8 +269,18 @@ public class MineCellsBlocks {
   );
 
   public static final Block RESTING_CORPSE = registerBlock(
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM), true),
+    "corpse"
+  );
+
+  public static final Block HANGED_ROTTING_CORPSE = registerBlock(
     new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM)),
-    "resting_corpse"
+    "hanged_rotting_corpse"
+  );
+
+  public static final Block RESTING_ROTTING_CORPSE = registerBlock(
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM), true),
+    "rotting_corpse"
   );
 
   public static final Block BIOME_BANNER = registerBlock(
