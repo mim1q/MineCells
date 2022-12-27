@@ -16,6 +16,9 @@ public class ColoredTorchBlockEntity extends BlockEntity {
 
   public Identifier getTexture() {
     Block block = this.getCachedState().getBlock();
-    return MineCells.createId("textures/blockentity/metal_torch/" + ((ColoredTorchBlock)block).getFlameType() + ".png");
+    if (block instanceof ColoredTorchBlock torchBlock) {
+      return torchBlock.getFlameTexture();
+    }
+    return MineCells.createId("textures/block/metal_torch/white.png");
   }
 }

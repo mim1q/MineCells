@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.ColoredTorchBlockEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
@@ -8,6 +9,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -22,11 +24,11 @@ public class ColoredTorchBlock extends BlockWithEntity {
     createCuboidShape(6.0D, 11.0D, 0.0D, 10.0D, 14.0D, 4.0D)
   );
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-  private final String flameType;
+  private final Identifier flameTexture;
 
   public ColoredTorchBlock(Settings settings, String flameType) {
     super(settings);
-    this.flameType = flameType;
+    this.flameTexture = MineCells.createId("textures/blockentity/metal_torch" + flameType + ".png");
   }
 
   @Override
@@ -74,7 +76,7 @@ public class ColoredTorchBlock extends BlockWithEntity {
     return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), SHAPE);
   }
 
-  public String getFlameType() {
-    return this.flameType;
+  public Identifier getFlameTexture() {
+    return this.flameTexture;
   }
 }
