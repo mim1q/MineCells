@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEnti
 import com.github.mim1q.minecells.client.render.blockentity.ColoredTorchBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
+import com.github.mim1q.minecells.client.render.item.BiomeBannerItemRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.ElevatorEntityModel;
@@ -23,10 +24,7 @@ import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -36,6 +34,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
+  private static boolean dynamicItemRenderersRegistered = false;
+
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
   public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(MineCells.createId("shocker"), "main");
   public static final EntityModelLayer GRENADIER_LAYER = new EntityModelLayer(MineCells.createId("grenadier"), "main");
@@ -50,6 +50,7 @@ public class MineCellsRenderers {
   public static final EntityModelLayer RANCID_RAT_LAYER = new EntityModelLayer(MineCells.createId("rancid_rat"), "main");
   public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(MineCells.createId("runner"), "main");
   public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
+
   public static final EntityModelLayer CONJUNCTIVIUS_MAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
   public static final EntityModelLayer CONJUNCTIVIUS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "tentacle");
@@ -168,7 +169,7 @@ public class MineCellsRenderers {
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
       MineCellsBlocks.ALCHEMY_EQUIPMENT_1
-      );
+    );
 
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
@@ -198,6 +199,20 @@ public class MineCellsRenderers {
     ColorProviderRegistry.ITEM.register(
       (stack, tintIndex) -> 0x80CC80,
       MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES
+    );
+
+    // I am disgusted by my own code
+    // Ugly hack, hopefully I'll find some way to rewrite this later
+    LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
+      ((entityType, entityRenderer, registrationHelper, context) -> {
+        if (!dynamicItemRenderersRegistered) {
+          BuiltinItemRendererRegistry.INSTANCE.register(
+            MineCellsItems.BIOME_BANNER,
+            new BiomeBannerItemRenderer(context.getModelLoader())
+          );
+          dynamicItemRenderersRegistered = true;
+        }
+      })
     );
   }
 }

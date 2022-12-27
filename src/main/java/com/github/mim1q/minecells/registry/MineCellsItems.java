@@ -30,7 +30,7 @@ public class MineCellsItems {
     "charged_interdimensional_rune"
   );
 
-  public static final BiomeBannerItem BIOME_BANNER = registerSimpleItem(
+  public static final BiomeBannerItem BIOME_BANNER = register(
     new BiomeBannerItem(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
     "biome_banner"
   );
