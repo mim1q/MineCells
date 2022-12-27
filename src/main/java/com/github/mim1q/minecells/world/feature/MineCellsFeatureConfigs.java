@@ -36,7 +36,7 @@ public class MineCellsFeatureConfigs {
   );
 
   public static final WallPlantsFeatureConfig WILTED_LEAVES_CONFIG = new WallPlantsFeatureConfig(
-    BlockStateProvider.of(MineCellsBlocks.WALL_WILTED_LEAVES.getDefaultState()),
+    BlockStateProvider.of(MineCellsBlocks.WILTED_WALL_LEAVES.getDefaultState()),
     Optional.of(
       BlockStateProvider.of(MineCellsBlocks.WILTED_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true))
     ),

@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "minecells:block/hanging_wilted_leaves",
+    "0": "minecells:block/wilted_hanging_leaves",
     "particle": "minecells:block/wilted_leaves"
   },
   "elements": [

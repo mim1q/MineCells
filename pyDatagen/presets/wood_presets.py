@@ -1,4 +1,5 @@
-from presets.common_presets import GeneratedItemModel, SimpleDrop, ItemBlockModel, AlternativeItemBlockModel
+from presets.common_presets import GeneratedItemModel, SimpleDrop, ItemBlockModel, AlternativeItemBlockModel, \
+    SilkTouchOrShearsOnlyDrop
 from presets.preset_generator import Preset
 from template import Template, TemplateType
 
@@ -87,5 +88,27 @@ class Trapdoor(Preset):
             [
                 SimpleDrop(base + "_trapdoor"),
                 AlternativeItemBlockModel(base + "_trapdoor", base + "_trapdoor_bottom"),
+            ]
+        )
+
+
+class Leaves(Preset):
+    def __init__(self, name: str, foliage: bool = False):
+        super().__init__(
+            [
+                Template(TemplateType.BLOCKSTATE, "single_state", name + "_leaves", {"block": name + "_leaves"}),
+                Template(TemplateType.BLOCKSTATE, "rotating_full", name + "_wall_leaves", {"block": name + "_wall_leaves"}),
+                Template(TemplateType.BLOCKSTATE, "rotating_horizontal", name + "_hanging_leaves", {"block": name + "_hanging_leaves"}),
+                Template(TemplateType.BLOCK_MODEL, "leaves" if foliage else "cube_all", name + "_leaves", {"texture": name + "_leaves"}),
+                Template(TemplateType.BLOCK_MODEL, "hanging_leaves", name + "_hanging_leaves", {"name": name}),
+                Template(TemplateType.BLOCK_MODEL, "wall_leaves", name + "_wall_leaves", {"name": name}),
+            ],
+            [
+                ItemBlockModel(name + "_leaves"),
+                ItemBlockModel(name + "_hanging_leaves"),
+                ItemBlockModel(name + "_wall_leaves"),
+                SilkTouchOrShearsOnlyDrop(name + "_leaves"),
+                SilkTouchOrShearsOnlyDrop(name + "_hanging_leaves"),
+                SilkTouchOrShearsOnlyDrop(name + "_wall_leaves")
             ]
         )

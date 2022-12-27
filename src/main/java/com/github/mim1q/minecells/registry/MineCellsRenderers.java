@@ -154,11 +154,11 @@ public class MineCellsRenderers {
       MineCellsBlocks.SPIKES,
       MineCellsBlocks.HANGED_SKELETON,
       MineCellsBlocks.WILTED_LEAVES,
-      MineCellsBlocks.HANGING_WILTED_LEAVES,
-      MineCellsBlocks.WALL_WILTED_LEAVES,
+      MineCellsBlocks.WILTED_HANGING_LEAVES,
+      MineCellsBlocks.WILTED_WALL_LEAVES,
       MineCellsBlocks.ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES,
+      MineCellsBlocks.ORANGE_WILTED_HANGING_LEAVES,
+      MineCellsBlocks.ORANGE_WILTED_WALL_LEAVES,
       MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
@@ -193,12 +193,12 @@ public class MineCellsRenderers {
         }
         return BiomeColors.getFoliageColor(world, pos);
       },
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
     );
 
     ColorProviderRegistry.ITEM.register(
       (stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.HANGING_WILTED_LEAVES, MineCellsBlocks.WALL_WILTED_LEAVES
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
     );
 
     // I am disgusted by my own code

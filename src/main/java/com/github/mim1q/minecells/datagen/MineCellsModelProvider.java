@@ -30,30 +30,9 @@ public class MineCellsModelProvider extends FabricModelProvider {
     generator.registerAxisRotated(MineCellsBlocks.PUTRID_WOOD, TexturedModel.CUBE_ALL);
     generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_WOOD, TexturedModel.CUBE_ALL);
 
-    // Plants / Leaves
-    generator.registerSingleton(MineCellsBlocks.WILTED_LEAVES, TexturedModel.LEAVES);
-    generator.registerParentedItemModel(
-      MineCellsBlocks.HANGING_WILTED_LEAVES,
-      ModelIds.getBlockModelId(MineCellsBlocks.HANGING_WILTED_LEAVES)
-    );
-    generator.registerParentedItemModel(
-      MineCellsBlocks.WALL_WILTED_LEAVES,
-      ModelIds.getBlockModelId(MineCellsBlocks.WALL_WILTED_LEAVES)
-    );
-    generator.registerSingleton(MineCellsBlocks.ORANGE_WILTED_LEAVES, TexturedModel.LEAVES);
-    generator.registerParentedItemModel(
-      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
-      ModelIds.getBlockModelId(MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES)
-    );
-    generator.registerParentedItemModel(
-      MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES,
-      ModelIds.getBlockModelId(MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES)
-    );
-
     // Decoration
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);
     generator.registerAxisRotated(MineCellsBlocks.CRATE, TexturedModel.CUBE_COLUMN);
-    generator.registerStateWithModelReference(MineCellsBlocks.BIOME_BANNER, Blocks.WHITE_WOOL);
     generator.registerParentedItemModel(
       MineCellsBlocks.BRITTLE_BARREL,
       ModelIds.getBlockModelId(MineCellsBlocks.BRITTLE_BARREL)

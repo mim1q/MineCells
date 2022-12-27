@@ -9,6 +9,13 @@ class SimpleDrop(Preset):
         ])
 
 
+class SilkTouchOrShearsOnlyDrop(Preset):
+    def __init__(self, block: str):
+        super().__init__([
+            Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_or_shears_only", block, {"item": block}),
+        ])
+
+
 class ItemBlockModel(Preset):
     def __init__(self, block: str):
         super().__init__([

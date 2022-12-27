@@ -48,16 +48,6 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
       MineCellsBlocks.BROKEN_CAGE
     );
 
-    generateBlocksDroppingSelfWithSilkTouchOrShears(biConsumer,
-      // Plants
-      MineCellsBlocks.WILTED_LEAVES,
-      MineCellsBlocks.HANGING_WILTED_LEAVES,
-      MineCellsBlocks.WALL_WILTED_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.HANGING_ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.ORANGE_WALL_WILTED_LEAVES
-    );
-
     generateBlock(biConsumer, MineCellsBlocks.BIOME_BANNER, MineCellsItems.BIOME_BANNER);
 
     biConsumer.accept(

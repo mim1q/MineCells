@@ -1,7 +1,8 @@
 import sys
 
+import util
 from autolang.autolang import get_entries_from_directory, autolang, write_autolang_file
-from presets import block_set_presets, common_presets
+from presets import block_set_presets, common_presets, wood_presets
 from presets.preset_generator import PresetGenerator
 from template_pools.template_pool import TemplatePoolGenerator
 from template import Template, TemplateType
@@ -20,9 +21,15 @@ def generate_data(output_path: str):
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
     gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
 
+    gen.generate_preset(wood_presets.Leaves("wilted", True))
+    gen.generate_preset(wood_presets.Leaves("orange_wilted", True))
+
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
 
     # Custom Drops
+    util.generate_self_dropping_blocks(gen, [
+        "prison_torch"
+    ])
     gen.generate_template(Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_simple_drop", "prison_stone", {"item": "prison_cobblestone", "silk_touch_item": "prison_stone"}))
 
     # Custom Recipes

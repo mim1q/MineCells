@@ -2,8 +2,8 @@
   "parent": "minecraft:block/block",
   "credit": "Made with Blockbench",
   "textures": {
-    "base": "minecells:block/wall_wilted_leaves",
-    "detail": "minecells:block/wall_wilted_leaves_detail",
+    "base": "minecells:block/wilted_wall_leaves",
+    "detail": "minecells:block/wilted_wall_leaves_detail",
     "particle": "minecells:block/wilted_leaves"
   },
   "elements": [

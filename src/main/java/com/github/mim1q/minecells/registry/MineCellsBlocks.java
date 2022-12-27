@@ -166,19 +166,21 @@ public class MineCellsBlocks {
     "putrid_trapdoor"
   );
 
+  // Leaves - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   public static final Block WILTED_LEAVES = registerBlockWithItem(
     new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
     "wilted_leaves"
   );
 
-  public static final Block HANGING_WILTED_LEAVES = registerBlockWithItem(
-    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
-    "hanging_wilted_leaves"
+  public static final Block WILTED_HANGING_LEAVES = registerBlockWithItem(
+    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    "wilted_hanging_leaves"
   );
 
-  public static final Block WALL_WILTED_LEAVES = registerBlockWithItem(
-    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
-    "wall_wilted_leaves"
+  public static final Block WILTED_WALL_LEAVES = registerBlockWithItem(
+    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    "wilted_wall_leaves"
   );
 
   public static final Block ORANGE_WILTED_LEAVES = registerBlockWithItem(
@@ -186,15 +188,17 @@ public class MineCellsBlocks {
     "orange_wilted_leaves"
   );
 
-  public static final Block HANGING_ORANGE_WILTED_LEAVES = registerBlockWithItem(
-    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
-    "hanging_orange_wilted_leaves"
+  public static final Block ORANGE_WILTED_HANGING_LEAVES = registerBlockWithItem(
+    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    "orange_wilted_hanging_leaves"
   );
 
-  public static final Block ORANGE_WALL_WILTED_LEAVES = registerBlockWithItem(
-    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
-    "orange_wall_wilted_leaves"
+  public static final Block ORANGE_WILTED_WALL_LEAVES = registerBlockWithItem(
+    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).dynamicBounds()),
+    "orange_wilted_wall_leaves"
   );
+
+  // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block CRATE = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)),

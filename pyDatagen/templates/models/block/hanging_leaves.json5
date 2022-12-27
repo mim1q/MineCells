@@ -1,0 +1,7 @@
+{
+  "parent": "minecells:block/hanging_leaves",
+  "textures": {
+    "0": "{{id}}:block/{{name}}_hanging_leaves",
+    "particle": "{{id}}:block/{{name}}_leaves"
+  }
+}

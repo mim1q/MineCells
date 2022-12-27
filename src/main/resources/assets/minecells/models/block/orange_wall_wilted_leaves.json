@@ -1,8 +1,0 @@
-{
-  "parent": "minecells:block/wall_wilted_leaves",
-  "textures": {
-    "base": "minecells:block/orange_wall_wilted_leaves",
-    "detail": "minecells:block/orange_wall_wilted_leaves_detail",
-    "particle": "minecells:block/orange_wilted_leaves"
-  }
-}
