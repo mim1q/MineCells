@@ -18,6 +18,7 @@ public class SkeletonDecorationBlock extends Block {
 
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   private final boolean sitting;
+  private final Block hangingBlock;
 
   public static final VoxelShape SHAPE = createCuboidShape(
     1.0D, 5.0D, 8.0D, 15.0D, 17.0D, 12.0D
@@ -28,12 +29,13 @@ public class SkeletonDecorationBlock extends Block {
   );
 
   public SkeletonDecorationBlock(Settings settings) {
-    this(settings, false);
+    this(settings, false, null);
   }
 
-  public SkeletonDecorationBlock(Settings settings, boolean sitting) {
+  public SkeletonDecorationBlock(Settings settings, boolean sitting, Block hanging) {
     super(settings);
     this.sitting = sitting;
+    this.hangingBlock = hanging;
   }
 
   @Override
@@ -49,7 +51,14 @@ public class SkeletonDecorationBlock extends Block {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    return getDefaultState().with(FACING, ctx.getPlayerFacing());
+    if (ctx.getSide() == Direction.DOWN) {
+      if (ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock) {
+        return this.hangingBlock.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+      }
+    } else if (ctx.getSide() == Direction.UP) {
+      return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+    }
+    return Blocks.AIR.getDefaultState();
   }
 
   @Override

@@ -33,6 +33,10 @@ def generate_data(output_path: str):
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_rotting_corpse", {"block": "hanged_rotting_corpse"}))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "rotting_corpse", {"block": "rotting_corpse"}))
 
+    util.generate_block_items(gen, [
+        "skeleton", "rotting_corpse", "corpse"
+    ])
+
     # Custom Drops
     util.generate_self_dropping_blocks(gen, [
         "prison_torch"

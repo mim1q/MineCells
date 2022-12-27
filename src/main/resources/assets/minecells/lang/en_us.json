@@ -115,7 +115,9 @@
 
   "comment.minecells.001": "================================== FROM PYTHON AUTOLANG ===================================",
 
+  "block.minecells.corpse": "Corpse",
   "block.minecells.hanged_corpse": "Hanged Corpse",
+  "block.minecells.hanged_rotting_corpse": "Hanged Rotting Corpse",
   "block.minecells.hanged_skeleton": "Hanged Skeleton",
   "block.minecells.orange_wilted_hanging_leaves": "Orange Wilted Hanging Leaves",
   "block.minecells.orange_wilted_leaves": "Orange Wilted Leaves",
@@ -142,8 +144,8 @@
   "block.minecells.red_wilted_hanging_leaves": "Red Wilted Hanging Leaves",
   "block.minecells.red_wilted_leaves": "Red Wilted Leaves",
   "block.minecells.red_wilted_wall_leaves": "Red Wilted Wall Leaves",
-  "block.minecells.resting_corpse": "Resting Corpse",
-  "block.minecells.resting_skeleton": "Resting Skeleton",
+  "block.minecells.rotting_corpse": "Rotting Corpse",
+  "block.minecells.skeleton": "Skeleton",
   "block.minecells.small_prison_bricks": "Small Prison Bricks",
   "block.minecells.small_prison_brick_slab": "Small Prison Brick Slab",
   "block.minecells.small_prison_brick_stairs": "Small Prison Brick Stairs",
