@@ -25,7 +25,7 @@ public class ColoredTorchBlockEntityRenderer implements BlockEntityRenderer<Colo
     matrices.translate(0.0F, 0.8F, -0.375F);
 
     Vec3d camera = MinecraftClient.getInstance().getCameraEntity().getCameraPosVec(tickDelta);
-    Vec3d pos = Vec3d.ofCenter(entity.getPos());
+    Vec3d pos = ColoredTorchBlock.getOffsetPos(entity.getPos(), facing);
     float pitch = (float) -MathHelper.atan2(pos.getX() - camera.getX(), pos.getZ() - camera.getZ());
 
     matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(MathHelper.DEGREES_PER_RADIAN * pitch - facing.asRotation() - 180.0F));

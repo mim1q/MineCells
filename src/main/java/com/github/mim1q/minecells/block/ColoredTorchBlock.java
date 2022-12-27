@@ -6,15 +6,19 @@ import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,5 +82,22 @@ public class ColoredTorchBlock extends BlockWithEntity {
 
   public Identifier getFlameTexture() {
     return this.flameTexture;
+  }
+
+  @Override
+  public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    if (random.nextFloat() > 0.5f) {
+      return;
+    }
+
+    Vec3d particlePos = getOffsetPos(pos, state.get(FACING));
+    world.addParticle(ParticleTypes.SMOKE, particlePos.getX(), particlePos.getY(), particlePos.getZ(), 0.0D, 0.02D, 0.0D);
+  }
+
+  public static Vec3d getOffsetPos(BlockPos pos, Direction direction) {
+    double x = 0.5D - 0.4D * direction.getOffsetX();
+    double z = 0.5D - 0.4D * direction.getOffsetZ();
+    Vec3d offset = new Vec3d(x, 1.0D, z);
+    return offset.add(pos.getX(), pos.getY(), pos.getZ());
   }
 }

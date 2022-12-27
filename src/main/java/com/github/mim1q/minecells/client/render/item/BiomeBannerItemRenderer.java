@@ -29,7 +29,7 @@ public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.Dyna
     matrices.push();
 
     float scale = 0.45F;
-    float x = 1.2F;
+    float x = 1.15F;
     float y = -2.0F;
     float z = -1.0F;
 
