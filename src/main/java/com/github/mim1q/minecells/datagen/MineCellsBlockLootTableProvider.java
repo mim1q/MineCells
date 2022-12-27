@@ -45,7 +45,6 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
       // Other
       MineCellsBlocks.BIG_CHAIN,
       MineCellsBlocks.ELEVATOR_ASSEMBLER,
-      MineCellsBlocks.CAGE,
       MineCellsBlocks.BROKEN_CAGE
     );
 

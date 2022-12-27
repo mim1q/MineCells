@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "minecells:cage",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "flipped": "false"
+              }
+            }
+          ],
+          "name": "minecells:cage"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

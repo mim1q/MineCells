@@ -59,7 +59,7 @@ public class CageBlock extends Block {
     BlockPos newPos = state.get(FLIPPED) ? pos.down() : pos.up();
     BlockState newState = world.getBlockState(newPos);
     if (newState.getBlock() instanceof CageBlock && newState.get(FLIPPED) != state.get(FLIPPED)) {
-      world.breakBlock(newPos, false);
+      world.breakBlock(newPos, true);
     }
   }
 
