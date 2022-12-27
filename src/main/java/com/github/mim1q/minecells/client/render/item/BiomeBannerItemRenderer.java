@@ -25,8 +25,22 @@ public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.Dyna
     NbtCompound nbt = stack.getNbt();
     String name = nbt == null ? "king_crest" : nbt.getString("pattern");
     VertexConsumer consumer = vertexConsumers.getBuffer(model.getLayer(MineCells.createId("textures/blockentity/banner/" + name + ".png")));
+
     matrices.push();
+
+    float scale = 0.45F;
+    float x = 1.2F;
+    float y = -2.0F;
+    float z = -1.0F;
+
+    if (mode == ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND || mode == ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND) {
+      y = -1.25F;
+    }
+
+    matrices.scale(scale, -scale, -scale);
+    matrices.translate(x, y, z);
     this.model.render(matrices, consumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+
     matrices.pop();
   }
 }
