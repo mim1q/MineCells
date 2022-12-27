@@ -198,6 +198,21 @@ public class MineCellsBlocks {
     "orange_wilted_wall_leaves"
   );
 
+  public static final Block RED_WILTED_LEAVES = registerBlockWithItem(
+    new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
+    "red_wilted_leaves"
+  );
+
+  public static final Block RED_WILTED_HANGING_LEAVES = registerBlockWithItem(
+    new HangingLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
+    "red_wilted_hanging_leaves"
+  );
+
+  public static final Block RED_WILTED_WALL_LEAVES = registerBlockWithItem(
+    new WallLeavesBlock(FabricBlockSettings.copyOf(Blocks.GRASS)),
+    "red_wilted_wall_leaves"
+  );
+
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block CRATE = registerBlockWithItem(

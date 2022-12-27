@@ -22,7 +22,8 @@ def generate_data(output_path: str):
     gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
 
     gen.generate_preset(wood_presets.Leaves("wilted", True))
-    gen.generate_preset(wood_presets.Leaves("orange_wilted", True))
+    gen.generate_preset(wood_presets.Leaves("orange_wilted"))
+    gen.generate_preset(wood_presets.Leaves("red_wilted"))
 
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
 
