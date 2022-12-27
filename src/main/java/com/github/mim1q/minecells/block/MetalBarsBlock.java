@@ -41,14 +41,14 @@ public class MetalBarsBlock extends Block {
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
     if (ctx.getSide() == Direction.DOWN || ctx.getSide() == Direction.UP) {
-      return this.getDefaultState().with(CENTER, true).with(FACING, ctx.getPlayerLookDirection());
+      return this.getDefaultState().with(CENTER, true).with(FACING, ctx.getPlayerFacing().getOpposite());
     }
-    return this.getDefaultState().with(FACING, ctx.getPlayerLookDirection());
+    return this.getDefaultState().with(CENTER, false).with(FACING, ctx.getPlayerFacing().getOpposite());
   }
 
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), state.get(CENTER) ? CENTER_SHAPE : SHAPE);
+    return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), state.get(CENTER) ? CENTER_SHAPE : SHAPE);
   }
 }
