@@ -30,7 +30,7 @@ public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.Dyna
 
     float scale = 0.45F;
     float x = 1.15F;
-    float y = -2.0F;
+    float y = -2.25F;
     float z = -1.0F;
 
     if (mode == ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND || mode == ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND) {

@@ -26,6 +26,10 @@ def generate_data(output_path: str):
     gen.generate_preset(wood_presets.Leaves("red_wilted"))
 
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "resting_skeleton", {"block": "resting_skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_corpse", {"block": "hanged_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "resting_corpse", {"block": "resting_corpse"}))
 
     # Custom Drops
     util.generate_self_dropping_blocks(gen, [
