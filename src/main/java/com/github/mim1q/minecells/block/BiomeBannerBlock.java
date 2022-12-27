@@ -72,7 +72,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   @Override
   public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-    return MineCellsItems.BIOME_BANNER.of(state.get(PATTERN));
+    return MineCellsItems.BIOME_BANNER.stackOf(state.get(PATTERN));
   }
 
   @Override
@@ -107,6 +107,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
   public enum BannerPattern implements StringIdentifiable {
     PROMENADE("promenade_of_the_condemned"),
     KING_CREST("king_crest"),
+    TORN_KING_CREST("torn_king_crest"),
     INSUFFERABLE_CRYPT("insufferable_crypt");
 
     private final String name;
