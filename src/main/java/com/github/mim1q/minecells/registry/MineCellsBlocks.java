@@ -264,11 +264,6 @@ public class MineCellsBlocks {
     "prison_torch"
   );
 
-  public static final MetalBarsBlock METAL_BARS = registerBlockWithItem(
-    new MetalBarsBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)),
-    "metal_bars"
-  );
-
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
       state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)
