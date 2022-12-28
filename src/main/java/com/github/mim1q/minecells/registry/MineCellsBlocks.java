@@ -260,27 +260,27 @@ public class MineCellsBlocks {
   );
 
   public static final Block SKELETON = registerBlockWithItem(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_SKELETON).dropsLike(HANGED_SKELETON), true, HANGED_SKELETON),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_SKELETON).dropsLike(HANGED_SKELETON), HANGED_SKELETON),
     "skeleton"
   );
 
   public static final Block HANGED_CORPSE = registerBlock(
-    new SkeletonDecorationBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.5F).sounds(BlockSoundGroup.MUD)),
+    new SkeletonDecorationBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.5F).sounds(BlockSoundGroup.MUD).ticksRandomly()),
     "hanged_corpse"
   );
 
   public static final Block CORPSE = registerBlockWithItem(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_CORPSE), true, HANGED_CORPSE),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_CORPSE).ticksRandomly(), HANGED_CORPSE),
     "corpse"
   );
 
   public static final Block HANGED_ROTTING_CORPSE = registerBlock(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE)),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).ticksRandomly()),
     "hanged_rotting_corpse"
   );
 
   public static final Block ROTTING_CORPSE = registerBlockWithItem(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE), true, HANGED_ROTTING_CORPSE),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE).ticksRandomly(), HANGED_ROTTING_CORPSE),
     "rotting_corpse"
   );
 

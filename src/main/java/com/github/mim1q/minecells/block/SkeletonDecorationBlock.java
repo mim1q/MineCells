@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
@@ -9,8 +11,11 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,12 +34,14 @@ public class SkeletonDecorationBlock extends Block {
   );
 
   public SkeletonDecorationBlock(Settings settings) {
-    this(settings, false, null);
+    super(settings);
+    this.sitting = false;
+    this.hangingBlock = null;
   }
 
-  public SkeletonDecorationBlock(Settings settings, boolean sitting, Block hanging) {
+  public SkeletonDecorationBlock(Settings settings, Block hanging) {
     super(settings);
-    this.sitting = sitting;
+    this.sitting = true;
     this.hangingBlock = hanging;
   }
 
@@ -52,7 +59,7 @@ public class SkeletonDecorationBlock extends Block {
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
     if (ctx.getSide() == Direction.DOWN) {
-      if (ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock) {
+      if (this.hangingBlock != null && ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock) {
         return this.hangingBlock.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
       }
     } else if (ctx.getSide() == Direction.UP) {
@@ -83,5 +90,22 @@ public class SkeletonDecorationBlock extends Block {
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), this.sitting ? SITTING_SHAPE : SHAPE);
+  }
+
+  @Override
+  public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    if (state.isOf(MineCellsBlocks.SKELETON) || state.isOf(MineCellsBlocks.HANGED_SKELETON)) {
+      return;
+    }
+
+    float chance = 0.2F;
+    if (state.isOf(MineCellsBlocks.ROTTING_CORPSE) || state.isOf(MineCellsBlocks.HANGED_ROTTING_CORPSE)) {
+      chance = 0.6F;
+    }
+    if (random.nextFloat() <= chance) {
+      Vec3d particlePos = Vec3d.ofCenter(pos).add(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F);
+      double velY = random.nextFloat() * 0.05F;
+      world.addParticle(MineCellsParticles.FLY, particlePos.x, particlePos.y, particlePos.z, 0.0D, velY, 0.0D);
+    }
   }
 }
