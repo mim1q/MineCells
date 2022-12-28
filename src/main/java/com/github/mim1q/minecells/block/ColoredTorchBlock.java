@@ -10,6 +10,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -62,6 +63,12 @@ public class ColoredTorchBlock extends BlockWithEntity {
       return Blocks.AIR.getDefaultState();
     }
     return state;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(FACING, rotation.rotate(state.get(FACING)));
   }
 
   public BlockRenderType getRenderType(BlockState state) {
