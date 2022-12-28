@@ -170,7 +170,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   @Override
   public boolean shouldRender(double distance) {
-    if (this.isBuried() && this.buriedTicks > 20) {
+    if (this.isBuried() && (this.buriedTicks > 20 || this.age <= 20)) {
       return false;
     }
     return super.shouldRender(distance);
@@ -244,12 +244,12 @@ public class SewersTentacleEntity extends MineCellsEntity {
     @Override
     public void tick() {
       if (attacking) {
-        if (ticks > 10) {
+        if (ticks > 15) {
           ((SewersTentacleEntity) this.mob).setBuried(false);
           for (PlayerEntity player : this.mob.world.getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(0.75D, 0.0D, 0.75D))) {
             this.attack(player, player.squaredDistanceTo(this.mob));
           }
-          if (ticks > 40) {
+          if (ticks > 80) {
             this.attacking = false;
           }
         }
