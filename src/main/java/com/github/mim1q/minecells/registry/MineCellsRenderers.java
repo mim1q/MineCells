@@ -154,6 +154,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.SPIKES,
       MineCellsBlocks.HANGED_SKELETON,
       MineCellsBlocks.SKELETON,
+      MineCellsBlocks.HANGED_ROTTING_CORPSE,
+      MineCellsBlocks.HANGED_CORPSE,
       MineCellsBlocks.WILTED_LEAVES,
       MineCellsBlocks.WILTED_HANGING_LEAVES,
       MineCellsBlocks.WILTED_WALL_LEAVES,

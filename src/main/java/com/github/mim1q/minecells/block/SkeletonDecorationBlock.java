@@ -26,7 +26,7 @@ public class SkeletonDecorationBlock extends Block {
   private final Block hangingBlock;
 
   public static final VoxelShape SHAPE = createCuboidShape(
-    1.0D, 5.0D, 8.0D, 15.0D, 17.0D, 12.0D
+    1.0D, 5.0D, 8.0D, 15.0D, 16.0D, 12.0D
   );
 
   public static final VoxelShape SITTING_SHAPE = createCuboidShape(
@@ -77,6 +77,9 @@ public class SkeletonDecorationBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    if (this.sitting) {
+      return state;
+    }
     if (neighborPos.equals(pos.up())) {
       if (neighborState.getBlock() == Blocks.CHAIN && neighborState.get(ChainBlock.AXIS) == Direction.Axis.Y) {
         return state;

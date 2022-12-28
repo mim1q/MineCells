@@ -285,7 +285,7 @@ public class MineCellsBlocks {
   );
 
   public static final Block BIOME_BANNER = registerBlock(
-    new BiomeBannerBlock(FabricBlockSettings.copyOf(HANGED_CORPSE)),
+    new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)),
     "biome_banner"
   );
 
