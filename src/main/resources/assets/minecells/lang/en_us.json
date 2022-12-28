@@ -92,6 +92,7 @@
   "effect.minecells.protected": "Protected",
   "effect.minecells.cursed": "Cursed",
   "effect.minecells.bleeding": "Bleeding",
+  "effect.minecells.disarmed": "Disarmed",
 
   "death.attack.minecells.grenade": "%s was blown up by %s",
   "death.attack.minecells.aura": "%s didn't respect %s's boundaries",
