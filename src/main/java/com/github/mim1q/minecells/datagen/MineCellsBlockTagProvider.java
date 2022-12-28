@@ -52,7 +52,6 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.BIG_CHAIN,
         MineCellsBlocks.CHAIN_PILE,
         MineCellsBlocks.CHAIN_PILE_BLOCK,
-        MineCellsBlocks.HANGED_SKELETON,
         MineCellsBlocks.CAGE,
         MineCellsBlocks.BROKEN_CAGE
       );

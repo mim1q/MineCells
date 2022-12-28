@@ -51,13 +51,6 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
     generateBlock(biConsumer, MineCellsBlocks.BIOME_BANNER, MineCellsItems.BIOME_BANNER);
 
     biConsumer.accept(
-      MineCellsBlocks.HANGED_SKELETON.getLootTableId(),
-      LootTable.builder()
-        .pool(simplePool(ItemEntry.builder(Items.BONE), 2, 5))
-        .pool(simplePool(ItemEntry.builder(Items.SKELETON_SKULL), 1))
-    );
-
-    biConsumer.accept(
       MineCellsBlocks.CHAIN_PILE_BLOCK.getLootTableId(),
       LootTable.builder()
         .pool(simplePool(silkTouchEntry(MineCellsBlocks.CHAIN_PILE_BLOCK), 1))

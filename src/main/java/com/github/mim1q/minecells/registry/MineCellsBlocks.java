@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.registry.Registry;
 
 public class MineCellsBlocks {
@@ -254,37 +255,37 @@ public class MineCellsBlocks {
   );
 
   public static final Block HANGED_SKELETON = registerBlock(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK)),
+    new SkeletonDecorationBlock(FabricBlockSettings.of(Material.STONE).strength(0.5F).sounds(BlockSoundGroup.BONE)),
     "hanged_skeleton"
   );
 
   public static final Block SKELETON = registerBlockWithItem(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.BONE_BLOCK), true, HANGED_SKELETON),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_SKELETON).dropsLike(HANGED_SKELETON), true, HANGED_SKELETON),
     "skeleton"
   );
 
   public static final Block HANGED_CORPSE = registerBlock(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM)),
+    new SkeletonDecorationBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.5F).sounds(BlockSoundGroup.MUD)),
     "hanged_corpse"
   );
 
   public static final Block CORPSE = registerBlockWithItem(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM), true, HANGED_CORPSE),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_CORPSE), true, HANGED_CORPSE),
     "corpse"
   );
 
   public static final Block HANGED_ROTTING_CORPSE = registerBlock(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM)),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE)),
     "hanged_rotting_corpse"
   );
 
   public static final Block ROTTING_CORPSE = registerBlockWithItem(
-    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.MUSHROOM_STEM), true, HANGED_ROTTING_CORPSE),
+    new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE), true, HANGED_ROTTING_CORPSE),
     "rotting_corpse"
   );
 
   public static final Block BIOME_BANNER = registerBlock(
-    new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)),
+    new BiomeBannerBlock(FabricBlockSettings.copyOf(HANGED_CORPSE)),
     "biome_banner"
   );
 
