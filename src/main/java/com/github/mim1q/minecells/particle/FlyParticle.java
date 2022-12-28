@@ -11,6 +11,7 @@ public class FlyParticle extends SpriteBillboardParticle {
     this.maxAge = 30 + world.getRandom().nextInt(20);
     this.velocityY = vy;
     this.scale = 0.15F + world.getRandom().nextFloat() * 0.15F;
+    this.setAlpha(0.0F);
   }
 
   @Override
@@ -19,7 +20,7 @@ public class FlyParticle extends SpriteBillboardParticle {
     if (this.world.getRandom().nextFloat() < 0.25F) {
       randomizeVelocity();
     }
-    if (this.age < 5) {
+    if (this.age <= 5) {
       this.setAlpha(this.age / 5.0F);
     }
     if (this.age > this.maxAge - 5) {
