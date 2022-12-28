@@ -141,9 +141,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .damage(10.0F)
       .radius(8.0D)
       .defaultCooldown(300)
-      .actionTick(40)
-      .chance(0.025F)
-      .length(80))
+      .actionTick(30)
+      .chance(0.05F)
+      .length(60))
       .build();
 
     final ConjunctiviusDashGoal dashGoal = ((ConjunctiviusDashGoal.Builder) new ConjunctiviusDashGoal.Builder(this)
@@ -645,7 +645,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     public boolean canStart() {
       return super.canStart()
         && this.entity.canAttack()
-        && !this.entity.moving;
+        && !this.entity.moving
+        && this.entity.dashCooldown > this.length
+        && !this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT, this.entity, this.entity.getBoundingBox().expand(8.0D)).isEmpty();
     }
 
     public static class Builder extends TimedAuraGoal.Builder<ConjunctiviusEntity> {
