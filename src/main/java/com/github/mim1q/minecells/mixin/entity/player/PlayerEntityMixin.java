@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.mixin.entity.player;
 
+import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
 import net.minecraft.entity.EntityType;
@@ -11,11 +13,14 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @SuppressWarnings("WrongEntityDataParameterClass")
 @Mixin(PlayerEntity.class)
@@ -49,6 +54,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   public void tick(CallbackInfo ci) {
     if (kingdomPortalCooldown > 0) {
       kingdomPortalCooldown--;
+    }
+  }
+
+  @Inject(method = "isBlockBreakingRestricted", at = @At("HEAD"), cancellable = true)
+  public void isBlockBreakingRestricted(World world, BlockPos pos, GameMode gameMode, CallbackInfoReturnable<Boolean> cir) {
+    if (((LivingEntityAccessor) this).getMineCellsFlag(MineCellsEffectFlags.DISARMED)) {
+      cir.setReturnValue(true);
     }
   }
 

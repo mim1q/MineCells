@@ -16,6 +16,10 @@ public class MineCellsStatusEffects {
   public static final StatusEffect ELECTRIFIED = register(new ElectrifiedStatusEffect(), "electrified");
   public static final StatusEffect PROTECTED = register(new ProtectedStatusEffect(), "protected");
   public static final StatusEffect BLEEDING = register(new BleedingStatusEffect(), "bleeding");
+  public static final StatusEffect DISARMED = register(
+    new MineCellsStatusEffect(StatusEffectCategory.HARMFUL, 0x000000, false, MineCellsEffectFlags.DISARMED, false),
+    "disarmed"
+  );
 
   public static void init() { }
 

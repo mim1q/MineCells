@@ -296,9 +296,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   private Vec3d getTentaclePos() {
     BlockPos center = this.roomBox.getCenter().add(
-      this.random.nextInt(8) - 4,
+      this.random.nextInt(16) - 8,
       0,
-      this.random.nextInt(8) - 4
+      this.random.nextInt(16) - 8
     );
     return Vec3d.ofCenter(center);
   }

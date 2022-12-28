@@ -40,7 +40,7 @@ public class MineCellsStatusEffect extends StatusEffect {
     super.onApplied(entity, attributes, amplifier);
   }
 
-  public boolean isCurable() {
-    return curable;
+  public boolean isIncurable() {
+    return !curable;
   }
 }

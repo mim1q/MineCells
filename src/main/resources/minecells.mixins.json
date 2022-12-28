@@ -9,6 +9,7 @@
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
     "entity.player.ServerPlayerEntityMixin",
+    "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
     "world.TrunkPlacerTypeInvoker"
   ],

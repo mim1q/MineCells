@@ -113,7 +113,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     Iterator<StatusEffectInstance> iterator = this.getActiveStatusEffects().values().iterator();
     while(iterator.hasNext()) {
       StatusEffectInstance statusEffectInstance = iterator.next();
-      if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && !effect.isCurable()) {
+      if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && effect.isIncurable()) {
         continue;
       }
       ((LivingEntityInvoker) this).invokeOnStatusEffectRemoved(statusEffectInstance);
@@ -124,7 +124,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Override
   public boolean hasIncurableStatusEffects() {
     for (StatusEffectInstance statusEffectInstance : this.getActiveStatusEffects().values()) {
-      if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && !effect.isCurable()) {
+      if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && effect.isIncurable()) {
         return true;
       }
     }
