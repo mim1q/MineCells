@@ -26,6 +26,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -38,6 +39,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -210,8 +212,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
       // Handle bossbar visibility
       boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
-      boolean playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size() > 0;
-      this.bossBar.setVisible(closestPlayerNearby && playersInArea);
+      List<PlayerEntity> playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
+      for (PlayerEntity player : playersInArea) {
+        player.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.DISARMED, 20, 0, true, false, true));
+      }
+      this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
 
       this.switchStages(this.getStage());
 
