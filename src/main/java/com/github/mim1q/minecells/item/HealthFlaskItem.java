@@ -31,12 +31,13 @@ public class HealthFlaskItem extends Item {
     user.heal(4.0F);
     user.removeStatusEffect(MineCellsStatusEffects.BLEEDING);
     user.removeStatusEffect(StatusEffects.POISON);
-    return ItemStack.EMPTY;
+    stack.setCount(stack.getCount() - 1);
+    return stack;
   }
 
   @Override
   public int getMaxUseTime(ItemStack stack) {
-    return 80;
+    return 40;
   }
 
   @Override
