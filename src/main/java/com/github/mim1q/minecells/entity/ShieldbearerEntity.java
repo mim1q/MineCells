@@ -139,7 +139,7 @@ public class ShieldbearerEntity extends MineCellsEntity implements IDashEntity {
 
   @Override
   public float getDashDamage() {
-    return 15.0F;
+    return 8.0F;
   }
 
   @Override

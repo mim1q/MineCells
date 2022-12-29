@@ -63,7 +63,7 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
   public void initGoals() {
     super.initGoals();
 
-    this.goalSelector.add(0, new LeapGoal<>(this, 15, 20, 0.3F));
+    this.goalSelector.add(0, new LeapGoal<>(this, 15, 20, 0.1F));
     this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3D, false));
   }
 
@@ -100,12 +100,12 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
 
   @Override
   public int getLeapMaxCooldown() {
-    return 20 + this.getRandom().nextInt(20);
+    return 20 + this.getRandom().nextInt(60);
   }
 
   @Override
   public float getLeapDamage() {
-    return 10.0F;
+    return 6.0F;
   }
 
   @Override
