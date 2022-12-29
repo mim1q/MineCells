@@ -8,7 +8,7 @@
       "features": true,
       "layers": [
         {
-          "block": "minecraft:bedrock",
+          "block": "minecells:hardstone",
           "height": 64
         }
       ]
