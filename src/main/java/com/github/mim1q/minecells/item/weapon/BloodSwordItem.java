@@ -27,8 +27,8 @@ public class BloodSwordItem extends SwordItem {
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
     if (attacker instanceof ServerPlayerEntity player) {
       if (!player.getItemCooldownManager().isCoolingDown(this)) {
-        player.getItemCooldownManager().set(this, 40);
-        BleedingStatusEffect.apply(target);
+        player.getItemCooldownManager().set(this, 50);
+        BleedingStatusEffect.apply(target, 20 * 6);
       }
       return true;
     }

@@ -33,16 +33,16 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
     };
   }
 
-  public static void apply(LivingEntity entity) {
+  public static void apply(LivingEntity entity, int duration) {
     StatusEffectInstance effect = entity.getStatusEffect(MineCellsStatusEffects.BLEEDING);
     int newLevel = 0;
     if (effect != null) {
       int level = effect.getAmplifier();
       if (level == 2) {
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 20 * 6, 1, false, true, true));
+        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, duration, 1, false, true, true));
       }
       newLevel = effect.getAmplifier() == 0 ? 1 : 2;
     }
-    entity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 20 * 6, newLevel, false, false, true));
+    entity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, duration, newLevel, false, false, true));
   }
 }
