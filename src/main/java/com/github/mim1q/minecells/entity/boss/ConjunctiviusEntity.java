@@ -88,6 +88,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.experiencePoints = 5000;
     this.noClip = true;
     this.setRotation(180.0F, 0.0F);
+    this.bodyYaw = 180.0F;
+    this.prevBodyYaw = 180.0F;
+    this.prevYaw = 180.0F;
+    this.headYaw = 180.0F;
+    this.prevHeadYaw = 180.0F;
   }
 
   @Nullable
