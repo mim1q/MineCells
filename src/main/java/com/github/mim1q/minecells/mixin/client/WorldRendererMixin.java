@@ -18,6 +18,6 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
     if (player == null) {
       return true;
     }
-    return !((LivingEntityAccessor) player).getMineCellsFlag(MineCellsEffectFlags.DISARMED);
+    return original && !((LivingEntityAccessor) player).getMineCellsFlag(MineCellsEffectFlags.DISARMED);
   }
 }
