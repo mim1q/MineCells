@@ -46,8 +46,8 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   static {
     bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("SewersTentacleEntity.boss_armor", 5.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("SewersTentacleEntity.boss_damage", 5.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SewersTentacleEntity.boss_speed", 0.25D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("SewersTentacleEntity.boss_damage", 4.0D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SewersTentacleEntity.boss_speed", 0.15D, EntityAttributeModifier.Operation.ADDITION));
   }
 
   private int buriedTicks = 0;
@@ -181,7 +181,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
       .add(EntityAttributes.GENERIC_ARMOR, 2.5D)
       .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
       .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
