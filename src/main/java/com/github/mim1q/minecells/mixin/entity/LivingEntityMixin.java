@@ -43,20 +43,15 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   protected float droppedCellChance = 0.75F;
 
   @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
-
   @Shadow public abstract ItemStack getMainHandStack();
-
   @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
-
   @Shadow public abstract boolean damage(DamageSource source, float amount);
-
   @Shadow public abstract void kill();
-
   @Shadow public abstract void setHealth(float health);
-
   @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
-
   @Shadow public abstract Identifier getLootTable();
+  @Shadow public abstract ItemStack getOffHandStack();
+
 
   @SuppressWarnings("WrongEntityDataParameterClass")
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -73,7 +68,10 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Inject(method = "tick()V", at = @At("HEAD"))
   public void tick(CallbackInfo ci) {
     if (!this.world.isClient()) {
-      if (this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD)) {
+      if (
+        this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD)
+        || this.getOffHandStack().isOf(MineCellsItems.CURSED_SWORD)
+      ) {
         this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.CURSED, 210, 0, false, false, true));
       }
       if (this.checkIfInSewageAndUpdate()) {
