@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MineCellsVersionCheckState extends PersistentState {
+  // Modify these when significant changes are made to respective aspects of the mod
   private String prison = "v1";
   private String insufferableCrypt = "v1";
 
