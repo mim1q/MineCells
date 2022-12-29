@@ -23,6 +23,7 @@ public class MineCellsPortal {
       RegistryKey<World> targetDimension
   ) {
     PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
+    playerAccessor.setKingdomPortalCooldown(10);
     playerAccessor.getMineCellsPortalData().push(world.getRegistryKey(), pos.add(portalDirection.getVector()));
     ServerWorld targetWorld = world.getServer().getWorld(targetDimension);
     Vec3d teleportPos = MineCellsDimensions.getTeleportPos(targetDimension, pos);
@@ -40,6 +41,7 @@ public class MineCellsPortal {
 
   public static void teleportPlayerUpstream(ServerPlayerEntity player, ServerWorld world) {
     PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
+    playerAccessor.setKingdomPortalCooldown(10);
     Pair<String, BlockPos> portal = playerAccessor.getMineCellsPortalData().pop();
     if (portal == null) {
       teleportToSpawnpoint(player, world);

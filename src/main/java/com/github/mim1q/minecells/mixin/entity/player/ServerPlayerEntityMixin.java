@@ -5,8 +5,6 @@ import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.encryption.PlayerPublicKey;
@@ -46,17 +44,13 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
   @Inject(method = "damage", at = @At("HEAD"))
   public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
     if (
-      this.age < 100
+      this.age < 60
       && source == DamageSource.IN_WALL
       && this.world.getGameRules().getBoolean(MineCellsGameRules.SUFFOCATION_FIX)
       && !this.isCreative()
       && !this.isSpectator()
       && MineCellsDimensions.isMineCellsDimension(this.getWorld())
     ) {
-      BlockState state = world.getBlockState(this.getBlockPos());
-      if (!state.isOf(Blocks.BEDROCK)) {
-        return;
-      }
       MinecraftServer server = this.getServer();
       if (server == null) {
         return;
