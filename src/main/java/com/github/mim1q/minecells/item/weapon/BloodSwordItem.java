@@ -1,9 +1,8 @@
 package com.github.mim1q.minecells.item.weapon;
 
-import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
@@ -28,8 +27,8 @@ public class BloodSwordItem extends SwordItem {
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
     if (attacker instanceof ServerPlayerEntity player) {
       if (!player.getItemCooldownManager().isCoolingDown(this)) {
-        player.getItemCooldownManager().set(this, 20 * 20);
-        target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 20 * 10, 2, false, false, true));
+        player.getItemCooldownManager().set(this, 40);
+        BleedingStatusEffect.apply(target);
       }
       return true;
     }
