@@ -62,7 +62,7 @@ public class SkeletonDecorationBlock extends Block {
       if (this.hangingBlock != null && ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock) {
         return this.hangingBlock.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
       }
-    } else if (ctx.getSide() == Direction.UP) {
+    } else if (ctx.getWorld().getBlockState(ctx.getBlockPos().down()).isSolidBlock(ctx.getWorld(), ctx.getBlockPos().down())) {
       return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
     }
     return Blocks.AIR.getDefaultState();
