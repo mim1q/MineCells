@@ -58,14 +58,14 @@ public class SkeletonDecorationBlock extends Block {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    if (ctx.getSide() == Direction.DOWN) {
-      if (this.hangingBlock != null && ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock) {
-        return this.hangingBlock.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
-      }
-    } else if (ctx.getWorld().getBlockState(ctx.getBlockPos().down()).isSolidBlock(ctx.getWorld(), ctx.getBlockPos().down())) {
-      return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+    if (
+      ctx.getSide() == Direction.DOWN
+      && this.hangingBlock != null
+        && ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock
+    ) {
+      return this.hangingBlock.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
     }
-    return Blocks.AIR.getDefaultState();
+    return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
   }
 
   @Override
