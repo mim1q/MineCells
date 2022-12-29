@@ -46,10 +46,10 @@ public class MineCellsVersionCheckState extends PersistentState {
 
   public List<String> compareDifferences(MineCellsVersionCheckState other) {
     List<String> result = new ArrayList<>();
-    if (!this.prison.equals(other.prison)) {
+    if (!this.prison.equals(other.prison) && !this.prison.isEmpty()) {
       result.add("chat.minecells.version_mismatch.prison");
     }
-    if (!this.insufferableCrypt.equals(other.insufferableCrypt)) {
+    if (!this.insufferableCrypt.equals(other.insufferableCrypt) && !this.prison.isEmpty()) {
       result.add("chat.minecells.version_mismatch.insufferable_crypt");
     }
     return result;
@@ -68,7 +68,7 @@ public class MineCellsVersionCheckState extends PersistentState {
     if (diff.isEmpty()) {
       return;
     }
-    MutableText text = Text.literal("[Mine Cells] ").formatted(Formatting.RED)
+    MutableText text = Text.literal("\n[Mine Cells] ").formatted(Formatting.RED)
       .append(Text.translatable("chat.minecells.version_mismatch").formatted(Formatting.WHITE));
     for (String dimension : diff) {
       text = text.append(Text.literal("\n")).append(Text.translatable(dimension).formatted(Formatting.WHITE));
@@ -78,8 +78,8 @@ public class MineCellsVersionCheckState extends PersistentState {
       .formatted(Formatting.WHITE, Formatting.UNDERLINE)
       .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url))));
 
-    player.sendMessage(text);
-    MineCells.LOGGER.warn(text.getString());
+    player.sendMessage(text.append(Text.literal("\n")));
+    MineCells.LOGGER.warn("\n" + text.getString() + ": " + url + "\n");
     overworld.getPersistentStateManager().set("MineCellsVersionCheck", defaultState);
     defaultState.markDirty();
   }
