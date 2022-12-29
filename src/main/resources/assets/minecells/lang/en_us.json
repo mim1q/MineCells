@@ -113,6 +113,10 @@
   "gui.minecells.cell_forge.forge": "Forge",
 
   "chat.minecells.suffocation_fix_message": "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
+  "chat.minecells.version_mismatch": "It seems like you have installed a new version of Mine Cells! Here's what you should do after updating the mod:\n",
+  "chat.minecells.version_mismatch.link": "\n\nClick here for a guide on updating Mine Cells",
+  "chat.minecells.version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
+  "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
 
   "comment.minecells.001": "================================== FROM PYTHON AUTOLANG ===================================",
 

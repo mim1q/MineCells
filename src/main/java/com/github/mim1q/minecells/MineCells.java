@@ -5,8 +5,10 @@ import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
+import com.github.mim1q.minecells.world.state.MineCellsVersionCheckState;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,6 +41,8 @@ public class MineCells implements ModInitializer {
     MineCellsRecipeTypes.init();
     MineCellsScreenHandlerTypes.init();
     ServerPacketHandler.init();
+
+    ServerPlayConnectionEvents.JOIN.register(MineCellsVersionCheckState::onOpPlayerJoin);
 
 //    ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
 //      if (MineCellsDimensions.isMineCellsDimension(oldPlayer.getWorld())) {
