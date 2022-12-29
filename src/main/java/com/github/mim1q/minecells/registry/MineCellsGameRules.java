@@ -14,7 +14,7 @@ public class MineCellsGameRules {
   public static final GameRules.Key<GameRules.BooleanRule> SUFFOCATION_FIX = GameRuleRegistry.register(
     "minecells.suffocationFix",
     GameRules.Category.MISC,
-    GameRuleFactory.createBooleanRule(false)
+    GameRuleFactory.createBooleanRule(true)
   );
 
   public static void init() { }
