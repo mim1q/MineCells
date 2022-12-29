@@ -2,5 +2,5 @@
 
 ## Translation
 
-- Brazilian Portuguese - [FitFC](https://github.com/FITFC)
-- Traditional Chinese - [Kzeroko](https://github.com/Kzeroko)
+- Brazilian Portuguese: [FitFC](https://github.com/FITFC)
+- Chinese - Simplified: [Kzeroko](https://github.com/Kzeroko)
