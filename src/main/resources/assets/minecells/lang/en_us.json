@@ -129,6 +129,7 @@
   "gui.minecells.cell_forge.title": "Cell Forge",
   "gui.minecells.cell_forge.forge": "Forge",
 
+  "chat.minecells.obelisk_item_message": "Requires %s to activate",
   "chat.minecells.suffocation_fix_message": "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
   "chat.minecells.version_mismatch": "It seems like you have installed a new version of Mine Cells! Here's what you should do after updating the mod:\n",
   "chat.minecells.version_mismatch.link": "\n\nClick here for a guide on updating Mine Cells",

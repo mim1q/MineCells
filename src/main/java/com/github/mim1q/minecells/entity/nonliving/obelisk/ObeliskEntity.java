@@ -17,6 +17,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
@@ -92,6 +93,7 @@ public abstract class ObeliskEntity extends Entity {
       stack.setCount(stack.getCount() - 1);
       return ActionResult.SUCCESS;
     }
+    player.sendMessage(Text.translatable("chat.minecells.obelisk_item_message", Text.translatable(this.getActivationItem().getTranslationKey())), true);
     return ActionResult.FAIL;
   }
 
