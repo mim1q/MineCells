@@ -15,27 +15,6 @@
   "item.minecells.rancid_rat_spawn_egg": "Rancid Rat Spawn Egg",
   "item.minecells.runner_spawn_egg": "Runner Spawn Egg",
   "item.minecells.scorpion_spawn_egg": "Scorpion Spawn Egg",
-
-  "block.minecells.sewage": "Sewage",
-  "block.minecells.ancient_sewage": "Ancient Sewage",
-
-  "block.minecells.flowing_sewage": "Sewage",
-  "block.minecells.flowing_ancient_sewage": "Ancient Sewage",
-  
-  "entity.minecells.tentacle_weapon": "Tentacle Weapon",
-  "entity.minecells.magic_orb": "Magic Orb",
-  "entity.minecells.grenade": "Grenade",
-  "entity.minecells.scorpion_spit": "Scorpion Spit",
-  "entity.minecells.conjunctivius_projectile": "Conjunctivius Projectile",
-  "entity.minecells.cell": "Cell",
-  "entity.minecells.big_grenade": "Big Grenade",
-  "entity.minecells.disgusting_worm_egg": "Disgusting Worm Egg",
-
-  "block.minecells.spawner_rune": "Spawner Rune",
-  
-  "block.minecells.prison_box": "Prison Box",  
-  "block.minecells.conjunctivius_box": "Conjunctivius Box",  
-  "block.minecells.shocker_box": "Shocker Box",
   
   "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
 
@@ -66,8 +45,16 @@
   "item.minecells.biome_banner.king_crest": "King's Crest",
   "item.minecells.biome_banner.torn_king_crest": "Torn King's Crest",
   "item.minecells.biome_banner.insufferable_crypt": "Insufferable Crypt",
+  "block.minecells.sewage": "Sewage",
+  "block.minecells.ancient_sewage": "Ancient Sewage",
+  "block.minecells.flowing_sewage": "Sewage",
+  "block.minecells.flowing_ancient_sewage": "Ancient Sewage",
   "item.minecells.sewage_bucket": "Sewage Bucket",
   "item.minecells.ancient_sewage_bucket": "Ancient Sewage Bucket",
+  "block.minecells.spawner_rune": "Spawner Rune",
+  "block.minecells.prison_box": "Prison Box",
+  "block.minecells.conjunctivius_box": "Conjunctivius Box",
+  "block.minecells.shocker_box": "Shocker Box",
 
   "item.minecells.elevator_mechanism": "Elevator Mechanism",
   "item.minecells.charged_interdimensional_rune": "Unobtainable Rune",
@@ -109,6 +96,14 @@
 
   "entity.minecells.elevator": "Elevator (Right Click to Activate)",
   "entity.minecells.conjunctivius_obelisk": "Conjunctivius Spawn Obelisk",
+  "entity.minecells.tentacle_weapon": "Tentacle Weapon",
+  "entity.minecells.magic_orb": "Magic Orb",
+  "entity.minecells.grenade": "Grenade",
+  "entity.minecells.scorpion_spit": "Scorpion Spit",
+  "entity.minecells.conjunctivius_projectile": "Conjunctivius Projectile",
+  "entity.minecells.cell": "Cell",
+  "entity.minecells.big_grenade": "Big Grenade",
+  "entity.minecells.disgusting_worm_egg": "Disgusting Worm Egg",
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
