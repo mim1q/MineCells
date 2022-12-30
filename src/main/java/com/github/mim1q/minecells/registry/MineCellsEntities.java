@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
+import com.github.mim1q.minecells.entity.nonliving.obelisk.ConjunctiviusObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -217,6 +218,14 @@ public final class MineCellsEntities {
       .build()
   );
 
+  public static final EntityType<ConjunctiviusObeliskEntity> CONJUNCTIVIUS_OBELISK = Registry.register(
+    Registry.ENTITY_TYPE,
+    MineCells.createId("conjunctivius_obelisk"),
+    FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConjunctiviusObeliskEntity::new)
+      .dimensions(EntityDimensions.fixed(1.75F, 2.5F))
+      .build()
+  );
+
   //endregion
   //region Spawn Egg Items
 
@@ -320,6 +329,7 @@ public final class MineCellsEntities {
 
   //endregion
 
+  @SuppressWarnings("DataFlowIssue")
   public static void init() {
 
     // Register Attributes

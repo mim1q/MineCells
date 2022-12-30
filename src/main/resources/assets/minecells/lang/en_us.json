@@ -87,6 +87,7 @@
   "entity.minecells.conjunctivius": "Conjunctivius",
 
   "entity.minecells.elevator": "Elevator (Right Click to Activate)",
+  "entity.minecells.conjunctivius_obelisk": "Conjunctivius Spawn Obelisk",
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
