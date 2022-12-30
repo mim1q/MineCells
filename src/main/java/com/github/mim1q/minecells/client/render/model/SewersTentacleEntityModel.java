@@ -79,9 +79,6 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
 
   @Override
   public void setAngles(SewersTentacleEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    entity.wobble.update(animationProgress);
-    entity.belowGround.update(animationProgress);
-
     wiggleTentacle(this.segments, animationProgress, 15.0F * entity.wobble.getValue(), entity.getId());
     this.root.pivotY = 24.0F - entity.belowGround.getValue() * 16.0F + 8.5F;
   }

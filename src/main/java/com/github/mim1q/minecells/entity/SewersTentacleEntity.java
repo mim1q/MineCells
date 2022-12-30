@@ -168,12 +168,8 @@ public class SewersTentacleEntity extends MineCellsEntity {
     return false;
   }
 
-  @Override
-  public boolean shouldRender(double distance) {
-    if (this.isBuried() && (this.buriedTicks > 20 || this.age <= 20)) {
-      return false;
-    }
-    return super.shouldRender(distance);
+  public boolean isInvisible() {
+    return this.isBuried() && (this.buriedTicks > 20 || this.age <= 20);
   }
 
   public static DefaultAttributeContainer.Builder createSewersTentacleAttributes() {

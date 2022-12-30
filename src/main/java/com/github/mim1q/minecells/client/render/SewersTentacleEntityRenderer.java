@@ -30,8 +30,13 @@ public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentac
   }
 
   @Override
-  public void render(SewersTentacleEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-    super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
+  public void render(SewersTentacleEntity mobEntity, float f, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    mobEntity.wobble.update(mobEntity.age + tickDelta);
+    mobEntity.belowGround.update(mobEntity.age + tickDelta);
+    if (mobEntity.isInvisible()) {
+      return;
+    }
+    super.render(mobEntity, f, tickDelta, matrixStack, vertexConsumerProvider, i);
   }
 
   @Override
