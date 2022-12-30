@@ -59,7 +59,7 @@
   "item.minecells.elevator_mechanism": "Mechanizm windy",
   "item.minecells.charged_interdimensional_rune": "Niedostępna runa",
   "item.minecells.health_flask": "Fiolka zdrowia",
-  "item.minecells.health_flask.tooltip": "Odnawia 2 zdrowia. Leczy truciznę i krwawienie.",
+  "item.minecells.health_flask.tooltip": "Odnawia %s zdrowia. Leczy truciznę i krwawienie.",
 
   "itemGroup.minecells.weapons": "Mine Cells: bronie",
 
