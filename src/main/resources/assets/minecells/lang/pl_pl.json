@@ -132,7 +132,7 @@
   "chat.minecells.obelisk_item_message": "Wymagane do aktywacji: %s",
   "chat.minecells.suffocation_fix_message": "Zostałeś przetransportowany do punktu odrodzenia! Może to być związane ze zresetowaniem wymiaru, albo po prostu utknąłeś w ścianie",
   "chat.minecells.version_mismatch": "Wygląda na to, że zainstalowałeś nową wersję Mine Cells! Po aktualizacji powinieneś:\n",
-  "chat.minecells.version_mismatch.link": "\n\nKliknij tutaj, aby wyświetlić poradnik dotyczący aktualizowania Mine Cells (po angielsku)",
+  "chat.minecells.version_mismatch.link": "\n\n Kliknij tutaj, aby wyświetlić poradnik dotyczący aktualizowania Mine Cells (po angielsku)",
   "chat.minecells.version_mismatch.prison": " - zresetować wymiar \"minecells:prison\"",
   "chat.minecells.version_mismatch.insufferable_crypt": " - zresetować wymiar \"minecells:insufferable_crypt\"",
 
