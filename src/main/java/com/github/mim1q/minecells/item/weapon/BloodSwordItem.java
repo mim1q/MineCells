@@ -15,6 +15,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class BloodSwordItem extends SwordItem {
+
+  public static final float COOLDOWN = 2.5F;
+
   private static final String TOOLTIP1_KEY = "item.minecells.blood_sword.tooltip1";
   private static final String TOOLTIP2_KEY = "item.minecells.blood_sword.tooltip2";
   private static final String EFFECT_KEY = "effect.minecells.bleeding";
@@ -27,7 +30,7 @@ public class BloodSwordItem extends SwordItem {
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
     if (attacker instanceof ServerPlayerEntity player) {
       if (!player.getItemCooldownManager().isCoolingDown(this)) {
-        player.getItemCooldownManager().set(this, 50);
+        player.getItemCooldownManager().set(this, (int)(20  * COOLDOWN));
         BleedingStatusEffect.apply(target, 20 * 6);
       }
       return true;
@@ -38,6 +41,6 @@ public class BloodSwordItem extends SwordItem {
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     tooltip.add(Text.translatable(TOOLTIP1_KEY, Text.translatable(EFFECT_KEY).formatted(Formatting.RED)).formatted(Formatting.GRAY));
-    tooltip.add(Text.translatable(TOOLTIP2_KEY).formatted(Formatting.DARK_GRAY));
+    tooltip.add(Text.translatable(TOOLTIP2_KEY, COOLDOWN).formatted(Formatting.DARK_GRAY));
   }
 }

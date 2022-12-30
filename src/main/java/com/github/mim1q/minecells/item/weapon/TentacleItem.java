@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class TentacleItem extends AbstractCritWeaponItem {
+  public static final float COOLDOWN = 2.0F;
 
   public static final String TOOLTIP1_KEY = "item.minecells.tentacle.tooltip1";
   public static final String TOOLTIP2_KEY = "item.minecells.tentacle.tooltip2";
@@ -37,7 +38,7 @@ public class TentacleItem extends AbstractCritWeaponItem {
         world.spawnEntity(entity);
       }
       stack.damage(1, user, (p) -> p.sendToolBreakStatus(hand));
-      user.getItemCooldownManager().set(this, 40);
+      user.getItemCooldownManager().set(this, (int)(20 * COOLDOWN));
       return TypedActionResult.success(stack, true);
     }
     return super.use(world, user, hand);
@@ -56,6 +57,6 @@ public class TentacleItem extends AbstractCritWeaponItem {
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     tooltip.add(Text.translatable(TOOLTIP1_KEY).formatted(Formatting.GRAY));
-    tooltip.add(Text.translatable(TOOLTIP2_KEY).formatted(Formatting.DARK_GRAY));
+    tooltip.add(Text.translatable(TOOLTIP2_KEY, COOLDOWN).formatted(Formatting.DARK_GRAY));
   }
 }

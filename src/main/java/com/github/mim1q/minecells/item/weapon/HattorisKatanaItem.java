@@ -28,8 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HattorisKatanaItem extends SwordItem {
+  public static final float COOLDOWN = 15.0F;
+
   private static final String TOOLTIP1_KEY = "item.minecells.hattoris_katana.tooltip1";
   private static final String TOOLTIP2_KEY = "item.minecells.hattoris_katana.tooltip2";
+
   public HattorisKatanaItem(int attackDamage, float attackSpeed, Settings settings) {
     super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
   }
@@ -53,7 +56,7 @@ public class HattorisKatanaItem extends SwordItem {
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     if (user.isPlayer()) {
       PlayerEntity player = (PlayerEntity) user;
-      player.getItemCooldownManager().set(this, 20 * 15);
+      player.getItemCooldownManager().set(this, (int)(20 * COOLDOWN));
 
       Vec3d start = player.getPos().add(0.0D, 0.25D, 0.0D);
       Vec3d direction = player.getRotationVec(0.0F).multiply(1.0D, 0.0D, 1.0D).normalize();
@@ -148,6 +151,6 @@ public class HattorisKatanaItem extends SwordItem {
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     tooltip.add(Text.translatable(TOOLTIP1_KEY).formatted(Formatting.GRAY));
-    tooltip.add(Text.translatable(TOOLTIP2_KEY).formatted(Formatting.DARK_GRAY));
+    tooltip.add(Text.translatable(TOOLTIP2_KEY, COOLDOWN).formatted(Formatting.DARK_GRAY));
   }
 }
