@@ -36,7 +36,7 @@ public class ConjunctiviusObeliskEntity extends ObeliskEntity {
     if (boss == null) {
       return;
     }
-    boss.setPos(this.getX(), this.getY() + 8, this.getZ());
+    boss.setPos(this.getX(), this.getY() + 10, this.getZ());
     boss.initialize((ServerWorldAccess) this.getWorld(), this.world.getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
     this.world.spawnEntity(boss);
   }
