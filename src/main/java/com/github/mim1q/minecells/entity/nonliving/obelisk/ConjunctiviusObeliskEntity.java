@@ -3,13 +3,13 @@ package com.github.mim1q.minecells.entity.nonliving.obelisk;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Box;
@@ -24,7 +24,7 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
 
   @Override
   public Item getActivationItem() {
-    return Items.DIAMOND;
+    return MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE;
   }
 
   @Override

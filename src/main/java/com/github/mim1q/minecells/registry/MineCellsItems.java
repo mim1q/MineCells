@@ -6,9 +6,7 @@ import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
@@ -28,6 +26,26 @@ public class MineCellsItems {
   public static final Item CHARGED_INTERDIMENSIONAL_RUNE = registerSimpleItem(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
     "charged_interdimensional_rune"
+  );
+
+  public static final Item BLANK_RUNE = registerSimpleItem(
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
+    "blank_rune"
+  );
+
+  public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = registerSimpleItem(
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
+    "conjunctivius_respawn_rune"
+  );
+
+  public static final Item GUTS = registerSimpleItem(
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).food(FoodComponents.BEEF)),
+    "guts"
+  );
+
+  public static final Item MONSTERS_EYE = registerSimpleItem(
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).food(FoodComponents.COOKED_BEEF)),
+    "monsters_eye"
   );
 
   public static final BiomeBannerItem BIOME_BANNER = register(
@@ -111,8 +129,7 @@ public class MineCellsItems {
     ), "spawner_rune"
   );
 
-  public static void init() {
-  }
+  public static void init() { }
 
   public static <E extends Item> E register(E item, String name) {
     Registry.register(Registry.ITEM, MineCells.createId(name), item);
