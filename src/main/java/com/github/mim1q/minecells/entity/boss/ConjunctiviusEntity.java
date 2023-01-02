@@ -360,9 +360,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public boolean damage(DamageSource source, float amount) {
-    if (this.getTarget() == null && !source.isSourceCreativePlayer()) {
-      return false;
-    }
     if (source.isProjectile()) {
       return super.damage(source, amount * 0.5F);
     }
