@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.client.world.ClientWorld;
@@ -18,6 +19,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -28,7 +30,9 @@ import net.minecraft.world.World;
 public abstract class ObeliskEntity extends Entity {
 
   private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(ObeliskEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private boolean wasHidden = true;
   private int activatedTicks = 1000;
+  private int riseTicks = 0;
   public final AnimationProperty bury = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty glow = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
@@ -52,6 +56,7 @@ public abstract class ObeliskEntity extends Entity {
       this.serverTick();
     }
     this.activatedTicks++;
+    this.riseTicks++;
   }
 
   protected void clientTick() {
@@ -59,21 +64,33 @@ public abstract class ObeliskEntity extends Entity {
       this.bury.setupTransitionTo(this.isHidden() ? 50.0F : 0.0F, 40.0F);
     }
     if (this.bury.getProgress() > 0.0F && this.bury.getProgress() < 1.0F) {
-      this.spawnParticles();
+      this.spawnRiseParticles();
     }
     this.glow.setupTransitionTo(this.activatedTicks < 100 ? 1.0F : 0.0F, 10.0F);
+    if (this.activatedTicks <= 40) {
+      this.spawnActivationParticles(this.activatedTicks);
+    }
   }
 
   protected void serverTick() {
     if (this.age % 20 == 0) {
-      this.setHidden(isEntityPresent());
+      boolean hidden = isEntityPresent();
+      this.setHidden(hidden);
+      if (hidden != this.wasHidden) {
+        this.riseTicks = 0;
+      }
+      this.wasHidden = hidden;
+    }
+    if (this.age % 3 == 0 && this.riseTicks > 10 && this.riseTicks < 49) {
+      this.playSound(SoundEvents.BLOCK_STONE_STEP, 1.0F, this.random.nextFloat() * 0.5F + 0.25F);
+      this.playSound(SoundEvents.BLOCK_GRAVEL_HIT, 0.3F, this.random.nextFloat() * 0.5F + 0.5F);
     }
     if (this.activatedTicks == 40 && !this.isEntityPresent()) {
       this.spawnEntity();
     }
   }
 
-  protected void spawnParticles() {
+  protected void spawnRiseParticles() {
     ParticleUtils.addInBox(
       (ClientWorld) this.world,
       new BlockStateParticleEffect(ParticleTypes.BLOCK, MineCellsBlocks.PRISON_COBBLESTONE.getDefaultState()),
@@ -83,6 +100,8 @@ public abstract class ObeliskEntity extends Entity {
     );
   }
 
+  protected void spawnActivationParticles(int activatedTicks) { }
+
   @Override
   public ActionResult interact(PlayerEntity player, Hand hand) {
     if (this.isHidden() || this.activatedTicks < 100 || this.isEntityPresent()) {
@@ -90,6 +109,9 @@ public abstract class ObeliskEntity extends Entity {
     }
     ItemStack stack = player.getStackInHand(hand);
     if (stack.isOf(this.getActivationItem())) {
+      if (!this.world.isClient) {
+        this.playSound(MineCellsSounds.OBELISK, 1.0F, 1.0F);
+      }
       this.activatedTicks = 0;
       stack.setCount(stack.getCount() - 1);
       return ActionResult.SUCCESS;

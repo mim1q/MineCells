@@ -78,6 +78,7 @@ public final class MineCellsSounds {
   public static final SoundEvent CHARGE = register("charge");
   public static final SoundEvent CELL_ABSORB = register("cell_absorb");
   public static final SoundEvent CURSE_DEATH = register("curse_death");
+  public static final SoundEvent OBELISK = register("obelisk");
 
   public static SoundEvent register(String name) {
     Identifier id = MineCells.createId(name);
