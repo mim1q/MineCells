@@ -32,7 +32,7 @@ public abstract class ObeliskEntity extends Entity {
   private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(ObeliskEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private boolean wasHidden = true;
   private int activatedTicks = 1000;
-  private int riseTicks = 0;
+  private int riseTicks = 1000;
   public final AnimationProperty bury = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty glow = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
