@@ -6,13 +6,23 @@ import com.github.mim1q.minecells.block.blockentity.spawnerrune.EntryList;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.text.Text;
 
 import java.util.List;
 
 public class MineCellsItemGroups {
+
+  private static final ItemStack OP_SWORD;
+
+  static {
+    OP_SWORD = new ItemStack(MineCellsItems.CURSED_SWORD);
+    OP_SWORD.setCustomName(Text.literal("OP Stick"));
+    OP_SWORD.addEnchantment(Enchantments.SHARPNESS, 100);
+  }
 
   public static final ItemGroup MINECELLS_EGGS = FabricItemGroupBuilder.create(MineCells.createId("eggs"))
     .icon(() -> new ItemStack(MineCellsEntities.SHOCKER_SPAWN_EGG))
@@ -118,6 +128,7 @@ public class MineCellsItemGroups {
       MINECELLS_DEVELOPMENT = FabricItemGroupBuilder.create(MineCells.createId("development"))
         .icon(() -> new ItemStack(Blocks.BARRIER))
         .appendItems(stacks -> stacks.addAll(List.of(
+          OP_SWORD,
           Items.DEBUG_STICK.getDefaultStack(),
           Items.WOODEN_AXE.getDefaultStack(),
           Items.JIGSAW.getDefaultStack(),
