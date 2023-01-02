@@ -50,7 +50,7 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
 
   @Override
   protected void spawnActivationParticles(int activatedTicks) {
-    ParticleEffect particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFFA500);
+    ParticleEffect particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
     for (int i = 0; i < activatedTicks; i++) {
       float yOff = this.random.nextFloat() * 10.0F;
       float xOff = this.random.nextFloat() - 0.5F;
