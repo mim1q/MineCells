@@ -8,7 +8,6 @@ public class MineCellsDatagen implements DataGeneratorEntrypoint {
   public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
     fabricDataGenerator.addProvider(MineCellsModelProvider::new);
     fabricDataGenerator.addProvider(MineCellsBlockLootTableProvider::new);
-    fabricDataGenerator.addProvider(MineCellsEntityLootTableProvider::new);
     fabricDataGenerator.addProvider(MineCellsChestLootTableProvider::new);
     fabricDataGenerator.addProvider(MineCellsRecipeProvider::new);
     fabricDataGenerator.addProvider(MineCellsBlockTagProvider::new);
