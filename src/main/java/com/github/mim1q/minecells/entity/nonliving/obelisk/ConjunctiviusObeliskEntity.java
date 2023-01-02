@@ -17,7 +17,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
-public class ConjunctiviusObeliskEntity extends ObeliskEntity {
+public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
   public ConjunctiviusObeliskEntity(EntityType<?> type, World world) {
     super(type, world);
   }
@@ -34,7 +34,7 @@ public class ConjunctiviusObeliskEntity extends ObeliskEntity {
 
   @Override
   public Box getBox() {
-    return this.getBoundingBox().expand(28.0D);
+    return new Box(this.getX() - 13, this.getY() - 1, this.getZ() - 25, this.getX() + 13, this.getY() + 25, this.getZ() + 5);
   }
 
   @Override

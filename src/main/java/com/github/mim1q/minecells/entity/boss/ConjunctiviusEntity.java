@@ -115,7 +115,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     int maxX = startPos.getX() + 11;
     int minY = startPos.getY() - 10;
     int maxY = startPos.getY() + 9;
-    int minZ = startPos.getZ() - 22;
+    int minZ = startPos.getZ() - 25;
     int maxZ = startPos.getZ() + 2;
     return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ);
   }
@@ -218,9 +218,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       // Handle bossbar visibility
       boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
       List<PlayerEntity> playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
-      for (PlayerEntity player : playersInArea) {
-        player.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.DISARMED, 20, 0, true, false, true));
-      }
       this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
 
       this.switchStages(this.getStage());
