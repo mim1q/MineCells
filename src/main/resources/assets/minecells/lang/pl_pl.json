@@ -60,6 +60,10 @@
   "item.minecells.charged_interdimensional_rune": "Niedostępna runa",
   "item.minecells.health_flask": "Fiolka zdrowia",
   "item.minecells.health_flask.tooltip": "Odnawia %s zdrowia. Leczy truciznę i krwawienie.",
+  "item.minecells.guts": "Flaki",
+  "item.minecells.monsters_eye": "Oko potwora",
+  "item.minecells.blank_rune": "Pusta runa",
+  "item.minecells.conjunctivius_respawn_rune": "Runa odrodzenia Koniunktiwiusa",
 
   "itemGroup.minecells.weapons": "Mine Cells: bronie",
 
@@ -95,7 +99,7 @@
   "entity.minecells.conjunctivius": "Koniunktiwius",
 
   "entity.minecells.elevator": "Winda (PPM, aby aktywować)",
-  "entity.minecells.conjunctivius_obelisk": "Obelisk przyzwania Koniunktiwiusa",
+  "entity.minecells.conjunctivius_obelisk": "Obelisk odrodzenia Koniunktiwiusa",
   "entity.minecells.tentacle_weapon": "Macka",
   "entity.minecells.magic_orb": "Magiczna kula",
   "entity.minecells.grenade": "Granat",
