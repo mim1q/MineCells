@@ -8,13 +8,28 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 2,
           "name": "minecraft:rotten_flesh"
         },
         {
           "type": "minecraft:item",
           "weight": 1,
           "name": "minecells:guts"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monsters_eye"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.2
         }
       ]
     }
