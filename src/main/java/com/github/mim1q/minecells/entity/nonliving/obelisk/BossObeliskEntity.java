@@ -20,7 +20,7 @@ public abstract class BossObeliskEntity extends ObeliskEntity {
     if (this.age % 20 == 0) {
       List<PlayerEntity> players = this.getWorld().getPlayers(TargetPredicate.DEFAULT, null, this.getBox());
       for (PlayerEntity player : players) {
-        player.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.DISARMED, 40, 0, false, false, true));
+        player.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.DISARMED, 175, 0, false, false, true));
       }
     }
   }
