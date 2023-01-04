@@ -17,7 +17,8 @@
     "client.BipedEntityModelMixin",
     "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
-    "client.WorldRendererMixin"
+    "client.WorldRendererMixin",
+    "compat.firstperson.PlayerAnimatorSupportMixin"
   ],
   "server": [],
   "injectors": {
