@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:broken_cage",
+    "minecells:cage",
+    "minecells:hanged_skeleton",
+    "minecells:skeleton"
+  ]
+}

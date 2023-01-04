@@ -1,0 +1,22 @@
+{
+  "type": "create:cutting",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "minecells:putrid_log"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "minecells:stripped_putrid_log"
+    }
+  ]
+}

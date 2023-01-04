@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:spawner_rune",
+    "minecells:alchemy_equipment_2",
+    "minecells:alchemy_equipment_1",
+    "minecells:alchemy_equipment_0",
+    "minecells:kingdom_portal_filler",
+    "minecells:kingdom_portal_core",
+    "minecells:conjunctivius_box",
+    "minecells:shocker_box",
+    "minecells:prison_box"
+  ]
+}

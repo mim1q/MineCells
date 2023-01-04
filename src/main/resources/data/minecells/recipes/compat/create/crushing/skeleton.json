@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "minecells:skeleton"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "bone",
+      "count": 5
+    },
+    {
+      "item": "bone_meal",
+      "count": 6,
+      "chance": 0.25
+    }
+  ]
+}

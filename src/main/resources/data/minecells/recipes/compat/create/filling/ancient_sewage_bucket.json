@@ -1,0 +1,25 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bucket"
+    },
+    {
+      "amount": 81000,
+      "fluid": "minecells:ancient_sewage"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecells:ancient_sewage_bucket"
+    }
+  ]
+}

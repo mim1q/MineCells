@@ -1,0 +1,23 @@
+{
+  "type": "create:cutting",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "minecells:stripped_putrid_wood"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "minecells:putrid_planks",
+      "count": 6
+    }
+  ]
+}

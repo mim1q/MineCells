@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:wilted_hanging_leaves",
+    "minecells:wilted_wall_leaves",
+    "minecells:orange_wilted_hanging_leaves",
+    "minecells:orange_wilted_wall_leaves",
+    "minecells:red_wilted_hanging_leaves",
+    "minecells:red_wilted_wall_leaves"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:crushing",
+  "ingredients": [
+    [
+      {
+        "item": "minecells:corpse"
+      },
+      {
+        "item": "minecells:rotting_corpse"
+      }
+    ]
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "rotten_flesh",
+      "count": 6
+    },
+    {
+      "item": "bone",
+      "chance": 0.25,
+      "count": 4
+    },
+    {
+      "item": "bone_meal",
+      "count": 2,
+      "chance": 0.25
+    }
+  ]
+}

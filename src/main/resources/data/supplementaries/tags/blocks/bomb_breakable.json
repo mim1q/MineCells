@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:crate",
+    "minecells:small_crate",
+    "minecells:brittle_barrel",
+    "minecells:alchemy_equipment_0",
+    "minecells:alchemy_equipment_1",
+    "minecells:alchemy_equipment_2"
+  ]
+}

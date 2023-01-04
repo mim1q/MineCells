@@ -1,0 +1,21 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:haunting",
+  "ingredients": [
+    {
+      "item": "minecells:corpse"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecells:rotting_corpse"
+    }
+  ]
+}
