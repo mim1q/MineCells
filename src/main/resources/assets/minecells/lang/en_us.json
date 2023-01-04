@@ -61,7 +61,7 @@
   "item.minecells.guts": "Guts",
   "item.minecells.monsters_eye": "Monster's Eye",
   "item.minecells.health_flask": "Health Flask",
-  "item.minecells.health_flask.tooltip": "Restores %s hearts. Removes Bleeding and Poison.",
+  "item.minecells.health_flask.tooltip": "Restores %s HP. Removes Bleeding and Poison.",
   "item.minecells.blank_rune": "Blank Rune",
   "item.minecells.conjunctivius_respawn_rune": "Conjunctivius Respawn Rune",
 
