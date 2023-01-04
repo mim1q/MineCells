@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.block;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -36,6 +37,11 @@ public class HangingLeavesBlock extends HorizontalFacingBlock {
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
     if (ctx.getSide() != Direction.DOWN) {
+      return null;
+    }
+    BlockPos pos = ctx.getBlockPos().up();
+    BlockState state = ctx.getWorld().getBlockState(pos);
+    if (!(state.isSideSolidFullSquare(ctx.getWorld(), pos, Direction.DOWN) || state.isIn(BlockTags.LEAVES))) {
       return null;
     }
     return this.getDefaultState().with(

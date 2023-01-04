@@ -6,6 +6,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -52,6 +53,11 @@ public class WallLeavesBlock extends Block {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
+    BlockPos pos = ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector());
+    BlockState state = ctx.getWorld().getBlockState(pos);
+    if (!(state.isSideSolidFullSquare(ctx.getWorld(), pos, ctx.getSide()) || state.isIn(BlockTags.LEAVES))) {
+      return null;
+    }
     return this.getDefaultState().with(DIRECTION, ctx.getSide());
   }
 
