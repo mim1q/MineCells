@@ -6,6 +6,8 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -28,6 +30,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public abstract class ObeliskEntity extends Entity {
+  private static final EntityDimensions HIDDEN_DIMENSIONS = EntityDimensions.changing(1.75F, 0.0F);
 
   private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(ObeliskEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private boolean wasHidden = true;
@@ -76,6 +79,7 @@ public abstract class ObeliskEntity extends Entity {
     if (this.age % 20 == 0) {
       boolean hidden = isEntityPresent();
       this.setHidden(hidden);
+      this.setPose(hidden ? EntityPose.EMERGING : null);
       if (hidden != this.wasHidden) {
         this.riseTicks = 0;
       }
@@ -88,6 +92,11 @@ public abstract class ObeliskEntity extends Entity {
     if (this.activatedTicks == 40 && !this.isEntityPresent()) {
       this.spawnEntity();
     }
+  }
+
+  @Override
+  public EntityDimensions getDimensions(EntityPose pose) {
+    return pose == EntityPose.EMERGING ? HIDDEN_DIMENSIONS : super.getDimensions(null);
   }
 
   protected void spawnRiseParticles() {

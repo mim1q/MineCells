@@ -222,7 +222,7 @@ public final class MineCellsEntities {
     Registry.ENTITY_TYPE,
     MineCells.createId("conjunctivius_obelisk"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConjunctiviusObeliskEntity::new)
-      .dimensions(EntityDimensions.fixed(1.75F, 2.5F))
+      .dimensions(EntityDimensions.changing(1.75F, 2.5F))
       .build()
   );
 
