@@ -1,9 +1,12 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
+import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -109,23 +112,28 @@ public abstract class ObeliskEntity extends Entity {
     );
   }
 
+  public void resetActivatedTicks() {
+    this.activatedTicks = 0;
+  }
+
   protected void spawnActivationParticles(int activatedTicks) { }
 
   @Override
-  public ActionResult interact(PlayerEntity player, Hand hand) {
+  public ActionResult interact(PlayerEntity user, Hand hand) {
     if (this.isHidden() || this.activatedTicks < 100 || this.isEntityPresent()) {
       return ActionResult.FAIL;
     }
-    ItemStack stack = player.getStackInHand(hand);
+    ItemStack stack = user.getStackInHand(hand);
     if (stack.isOf(this.getActivationItem())) {
       if (!this.world.isClient) {
         this.playSound(MineCellsSounds.OBELISK, 1.0F, 1.0F);
+        this.activatedTicks = 0;
+        stack.setCount(stack.getCount() - 1);
+        PlayerLookup.tracking(this).forEach((player) -> ServerPlayNetworking.send(player, ObeliskActivationS2CPacket.ID, new ObeliskActivationS2CPacket(this.getId())));
       }
-      this.activatedTicks = 0;
-      stack.setCount(stack.getCount() - 1);
       return ActionResult.SUCCESS;
     }
-    player.sendMessage(Text.translatable("chat.minecells.obelisk_item_message", Text.translatable(this.getActivationItem().getTranslationKey())), true);
+    user.sendMessage(Text.translatable("chat.minecells.obelisk_item_message", Text.translatable(this.getActivationItem().getTranslationKey())), true);
     return ActionResult.FAIL;
   }
 
