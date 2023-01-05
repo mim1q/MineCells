@@ -30,7 +30,7 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
     matrices.push();
     matrices.scale(1.0F, -1.0F, -1.0F);
     matrices.translate(0.0F, -1.5F, 0.0F);
-    matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(yaw));
+    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(yaw));
     float animationProgress = entity.age + tickDelta;
     this.model.setAngles(entity, 0.0F, 0.0F, animationProgress, 0.0F, 0.0F);
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
