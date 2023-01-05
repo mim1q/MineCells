@@ -79,7 +79,7 @@ public abstract class ObeliskEntity extends Entity {
     if (this.age % 20 == 0) {
       boolean hidden = isEntityPresent();
       this.setHidden(hidden);
-      this.setPose(hidden ? EntityPose.EMERGING : null);
+      this.setPose(hidden ? EntityPose.SLEEPING : EntityPose.STANDING);
       if (hidden != this.wasHidden) {
         this.riseTicks = 0;
       }
@@ -96,7 +96,7 @@ public abstract class ObeliskEntity extends Entity {
 
   @Override
   public EntityDimensions getDimensions(EntityPose pose) {
-    return pose == EntityPose.EMERGING ? HIDDEN_DIMENSIONS : super.getDimensions(null);
+    return pose == EntityPose.SLEEPING ? HIDDEN_DIMENSIONS : super.getDimensions(pose);
   }
 
   protected void spawnRiseParticles() {

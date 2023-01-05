@@ -27,15 +27,15 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
   @Override
   public void render(ObeliskEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
     super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
-    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
-    VertexConsumer glowVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEyes(GLOW_TEXTURE));
     matrices.push();
     matrices.scale(1.0F, -1.0F, -1.0F);
     matrices.translate(0.0F, -1.5F, 0.0F);
     matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(yaw));
     float animationProgress = entity.age + tickDelta;
     this.model.setAngles(entity, 0.0F, 0.0F, animationProgress, 0.0F, 0.0F);
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
     this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    VertexConsumer glowVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(GLOW_TEXTURE));
     entity.glow.update(animationProgress);
     this.model.render(matrices, glowVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, entity.glow.getValue() * 0.75F);
     matrices.pop();
