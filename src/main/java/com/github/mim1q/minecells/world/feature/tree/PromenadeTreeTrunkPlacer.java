@@ -77,7 +77,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer {
     if (random.nextFloat() < 0.33f) {
       Block chain = random.nextFloat() < 0.25F ? MineCellsBlocks.BIG_CHAIN : Blocks.CHAIN;
       int length = 3 + random.nextInt(3);
-      if (canPlaceChain(world, origin.down(), length)) {
+      if (canPlaceChain(world, origin.down(), length + 2)) {
         placeChain(replacer, random, origin.down(), length, chain.getDefaultState());
         if (big) {
           BlockPos pos = origin.add(direction.getOpposite().getVector());
