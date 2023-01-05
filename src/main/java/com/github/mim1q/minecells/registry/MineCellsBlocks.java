@@ -112,6 +112,12 @@ public class MineCellsBlocks {
     new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
     "small_prison_brick_wall"
   );
+
+  public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK)),
+    "wilted_grass_block"
+  );
+
   public static final Block PUTRID_LOG = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
     "putrid_log"

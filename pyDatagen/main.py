@@ -25,6 +25,9 @@ def generate_data(output_path: str):
     gen.generate_preset(wood_presets.Leaves("orange_wilted"))
     gen.generate_preset(wood_presets.Leaves("red_wilted"))
 
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
+    gen.generate_preset(common_presets.ItemBlockModel("wilted_grass_block"))
+
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
     gen.generate_template(
         Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))

@@ -61,6 +61,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.SMALL_PRISON_BRICK_SLAB.asItem().getDefaultStack(),
       MineCellsBlocks.SMALL_PRISON_BRICK_STAIRS.asItem().getDefaultStack(),
       MineCellsBlocks.SMALL_PRISON_BRICK_WALL.asItem().getDefaultStack(),
+      MineCellsBlocks.WILTED_GRASS_BLOCK.asItem().getDefaultStack(),
       MineCellsBlocks.PUTRID_LOG.asItem().getDefaultStack(),
       MineCellsBlocks.PUTRID_WOOD.asItem().getDefaultStack(),
       MineCellsBlocks.STRIPPED_PUTRID_LOG.asItem().getDefaultStack(),

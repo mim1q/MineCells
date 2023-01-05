@@ -175,7 +175,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_DOOR,
       MineCellsBlocks.PRISON_TORCH,
-      MineCellsBlocks.SPAWNER_RUNE
+      MineCellsBlocks.SPAWNER_RUNE,
+      MineCellsBlocks.WILTED_GRASS_BLOCK
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
@@ -198,22 +199,22 @@ public class MineCellsRenderers {
     );
 
     ColorProviderRegistry.BLOCK.register(
-      (state, world, pos, tintIndex) -> {
-        if (world == null || pos == null) {
-          return 0x80CC80;
-        }
-        return BiomeColors.getFoliageColor(world, pos);
-      },
+      (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
       MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
     );
 
-    ColorProviderRegistry.ITEM.register(
-      (stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
+    ColorProviderRegistry.BLOCK.register(
+      (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getGrassColor(world, pos),
+      MineCellsBlocks.WILTED_GRASS_BLOCK
     );
 
-    // I am disgusted by my own code
-    // Ugly hack, hopefully I'll find some way to rewrite this later
+    ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES,
+      MineCellsBlocks.WILTED_GRASS_BLOCK
+    );
+
+    // I've accepted this code just like it is
+    // What really matters is on the inside (and that it somehow works)
     LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
       ((entityType, entityRenderer, registrationHelper, context) -> {
         if (!dynamicItemRenderersRegistered) {
