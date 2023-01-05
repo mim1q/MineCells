@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
 import com.github.mim1q.minecells.dimension.MineCellsPortal;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.Block;
@@ -20,6 +21,7 @@ import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.registry.Registry;
@@ -146,6 +148,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
         advancementLoader.get(new Identifier("minecraft:story/mine_diamond"))
       ).isDone()) {
         canActivate = true;
+        Vec3d pos = Vec3d.ofCenter(this.getPos());
+        world.playSound(null, pos.x, pos.y, pos.z, MineCellsSounds.PORTAL_ACTIVATE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         break;
       }
     }
