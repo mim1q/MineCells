@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacedFeatures;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -57,13 +56,6 @@ public class MineCellsBiomes {
   }
 
   private static Biome createPromenade() {
-    SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 150, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.MUTATED_BAT, 100, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.RUNNER, 100, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.PROTECTOR, 50, 1, 1));
-
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
     DefaultBiomeFeatures.addJungleGrass(generationSettings);
@@ -78,9 +70,10 @@ public class MineCellsBiomes {
         .waterFogColor(0x61D8FF)
         .fogColor(0x4F9FFF)
         .skyColor(0x61D8FF)
-        .grassColor(0x3FC558)
+        .grassColor(0x6cdebc)
+        .foliageColor(0x57b498)
         .build())
-      .spawnSettings(spawnSettings.build())
+      .spawnSettings(new SpawnSettings.Builder().build())
       .generationSettings(generationSettings.build())
       .build();
   }
