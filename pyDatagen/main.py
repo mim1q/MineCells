@@ -11,7 +11,6 @@ from units import common, insufferable_crypt, prison
 
 def generate_data(output_path: str):
     # TEMPLATES AND PRESETS ============================================================================================
-
     gen = PresetGenerator("minecells", output_path)
 
     # Block Sets
@@ -21,28 +20,27 @@ def generate_data(output_path: str):
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
     gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
 
+    # Misc Blocks
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
+    gen.generate_preset(common_presets.ItemBlockModel("wilted_grass_block"))
+
+    # Leaves
     gen.generate_preset(wood_presets.Leaves("wilted", True))
     gen.generate_preset(wood_presets.Leaves("orange_wilted"))
     gen.generate_preset(wood_presets.Leaves("red_wilted"))
 
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
-    gen.generate_preset(common_presets.ItemBlockModel("wilted_grass_block"))
-
+    # Torches
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
-    gen.generate_template(
-        Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "skeleton", {"block": "skeleton"}))
-    gen.generate_template(
-        Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_corpse", {"block": "hanged_corpse"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "corpse", {"block": "corpse"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_rotting_corpse",
-                                   {"block": "hanged_rotting_corpse"}))
-    gen.generate_template(
-        Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "rotting_corpse", {"block": "rotting_corpse"}))
+    gen.generate_preset(common_presets.GeneratedItemModel("promenade_torch"))
 
-    util.generate_block_items(gen, [
-        "skeleton", "rotting_corpse", "corpse"
-    ])
+    # Corpses
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "skeleton", {"block": "skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_corpse", {"block": "hanged_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "corpse", {"block": "corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_rotting_corpse", {"block": "hanged_rotting_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "rotting_corpse", {"block": "rotting_corpse"}))
+    util.generate_block_items(gen, ["skeleton", "rotting_corpse", "corpse"])
 
     # Custom Drops
     util.generate_self_dropping_blocks(gen, [

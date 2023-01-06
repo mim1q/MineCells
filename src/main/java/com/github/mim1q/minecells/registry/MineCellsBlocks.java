@@ -315,6 +315,11 @@ public class MineCellsBlocks {
     "prison_torch"
   );
 
+  public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(
+    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly(), "promenade"),
+    "promenade_torch"
+  );
+
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
       state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)

@@ -57,6 +57,7 @@ public class MineCellsBlockEntities {
     FabricBlockEntityTypeBuilder
       .create(ColoredTorchBlockEntity::new)
       .addBlock(MineCellsBlocks.PRISON_TORCH)
+      .addBlock(MineCellsBlocks.PROMENADE_TORCH)
       .build()
   );
 
