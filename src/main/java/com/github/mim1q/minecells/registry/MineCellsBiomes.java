@@ -57,9 +57,10 @@ public class MineCellsBiomes {
 
   private static Biome createPromenade() {
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
-      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE)
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.BIG_PROMENADE_TREE);
     DefaultBiomeFeatures.addPlainsTallGrass(generationSettings);
-    DefaultBiomeFeatures.addDefaultGrass(generationSettings);
+    DefaultBiomeFeatures.addJungleGrass(generationSettings);
 
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.RAIN)

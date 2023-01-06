@@ -29,7 +29,7 @@ public interface PromenadeTreeHelper {
       origin = origin.add(offset).up();
       replacer.accept(origin, TRUNK_BLOCK);
     }
-    if (random.nextFloat() < 0.33f) {
+    if (random.nextFloat() < 0.5f) {
       Block chain = random.nextFloat() < 0.25F ? MineCellsBlocks.BIG_CHAIN : Blocks.CHAIN;
       int length = 3 + random.nextInt(3);
       if (canPlaceChain(world, origin.down(), length + 2)) {

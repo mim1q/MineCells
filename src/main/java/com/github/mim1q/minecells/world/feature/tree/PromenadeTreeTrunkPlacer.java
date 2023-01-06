@@ -35,7 +35,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
     for (Direction dir : Properties.HORIZONTAL_FACING.getValues()) {
       // Generate trunk base
       BlockPos basePos = startPos.add(dir.getVector());
-      int baseHeight = random.nextInt(3);
+      int baseHeight = random.nextInt(5);
       if (baseHeight > 0) {
         for (int i = -3; i < baseHeight; i++) {
           replacer.accept(basePos.up(i), TRUNK_BLOCK);
@@ -45,7 +45,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       if (random.nextFloat() < 0.25) {
         continue;
       }
-      // Genearate branch
+      // Generate branch
       int h = random.nextBetween(6, height - 3);
       placeBranch(world, replacer, random, startPos.up(h), dir);
       if (h < height / 2) {
