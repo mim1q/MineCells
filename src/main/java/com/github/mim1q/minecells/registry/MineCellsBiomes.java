@@ -58,8 +58,8 @@ public class MineCellsBiomes {
   private static Biome createPromenade() {
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
-    DefaultBiomeFeatures.addJungleGrass(generationSettings);
-    DefaultBiomeFeatures.addGiantTaigaGrass(generationSettings);
+    DefaultBiomeFeatures.addPlainsTallGrass(generationSettings);
+    DefaultBiomeFeatures.addDefaultGrass(generationSettings);
 
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.RAIN)
@@ -68,10 +68,10 @@ public class MineCellsBiomes {
       .effects(new BiomeEffects.Builder()
         .waterColor(0x61D8FF)
         .waterFogColor(0x61D8FF)
-        .fogColor(0x4F9FFF)
-        .skyColor(0x61D8FF)
-        .grassColor(0x6cdebc)
-        .foliageColor(0x57b498)
+        .fogColor(0x7ABBC3)
+        .skyColor(0x7ABBC3)
+        .grassColor(0x6CDEBC)
+        .foliageColor(0x57B498)
         .build())
       .spawnSettings(new SpawnSettings.Builder().build())
       .generationSettings(generationSettings.build())

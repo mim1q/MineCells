@@ -11,7 +11,7 @@
   "ambient_light": 0,
   "fixed_time": 23800,
   "logical_height": 384,
-  "effects": "minecraft:overworld",
+  "effects": "minecells:promenade",
   "infiniburn": "#minecraft:infiniburn_overworld",
   "min_y": -64,
   "height": 384,

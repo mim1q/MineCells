@@ -10,7 +10,7 @@ import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 public class MineCellsFeatureConfigs {
-  public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 20, 15);
+  public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 30, 20);
 
   private static TreeFeatureConfig simpleTree(Block trunk, Block leaves, int height, int heightRandom) {
     return new TreeFeatureConfig.Builder(

@@ -23,6 +23,7 @@ import com.github.mim1q.minecells.client.render.nonliving.ObeliskEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.TentacleWeaponEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
+import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -130,10 +131,8 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ObeliskEntityRenderer::new);
 
-    DimensionEffectsAccessor.getIdentifierMap().put(
-      MineCells.createId("foggy"),
-      new FoggyDimensionEffects()
-    );
+    DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
+    DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
 
     HandledScreens.register(MineCellsScreenHandlerTypes.CELL_FORGE, CellForgeScreen::new);
   }
