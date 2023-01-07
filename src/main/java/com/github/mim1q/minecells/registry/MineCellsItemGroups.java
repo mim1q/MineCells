@@ -97,6 +97,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.CAGE.asItem().getDefaultStack(),
       MineCellsBlocks.BROKEN_CAGE.asItem().getDefaultStack(),
       MineCellsBlocks.SPIKES.asItem().getDefaultStack(),
+      MineCellsBlocks.FLAG_POLE.asItem().getDefaultStack(),
       MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.KING_CREST),
       MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.TORN_KING_CREST),
       MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.PROMENADE),
