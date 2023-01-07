@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.world.feature.JigsawFeature.JigsawFeatureConfig;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.RegistryEntry;
@@ -25,13 +26,15 @@ public class MineCellsConfiguredFeatures {
     new ConfiguredFeature<>(Feature.TREE, MineCellsFeatureConfigs.PROMENADE_SHRUB_CONFIG)
   );
 
+  public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> PROMENADE_CHAINS = createJigsawFeature("promenade_chains", "promenade/chain_pile", "decoration");
+
   private static <FC extends FeatureConfig, F extends Feature<FC>>
   RegistryEntry<ConfiguredFeature<FC, ?>> createConfiguredFeature(Identifier id, ConfiguredFeature<FC, F> feature) {
     return BuiltinRegistries.addCasted(BuiltinRegistries.CONFIGURED_FEATURE, id.toString(), feature);
   }
 
-  private static RegistryEntry<ConfiguredFeature<JigsawFeature.JigsawFeatureConfig, ?>> createJigsawFeature(String name, String pool, String start) {
-    JigsawFeature.JigsawFeatureConfig config = new JigsawFeature.JigsawFeatureConfig(MineCells.createId(pool), MineCells.createId(start));
+  private static RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> createJigsawFeature(String name, String pool, String start) {
+    JigsawFeatureConfig config = new JigsawFeatureConfig(MineCells.createId(pool), MineCells.createId(start));
     return createConfiguredFeature(MineCells.createId(name), new ConfiguredFeature<>(MineCellsFeatures.JIGSAW_FEATURE, config));
   }
 }

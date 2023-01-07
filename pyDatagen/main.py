@@ -6,7 +6,7 @@ from presets import block_set_presets, common_presets, wood_presets
 from presets.preset_generator import PresetGenerator
 from template_pools.template_pool import TemplatePoolGenerator
 from template import Template, TemplateType
-from units import common, insufferable_crypt, prison
+from units import common, insufferable_crypt, prison, promenade
 
 
 def generate_data(output_path: str):
@@ -76,6 +76,7 @@ def generate_data(output_path: str):
     common.generate_template_pools(poolgen)
     prison.generate_template_pools(poolgen)
     insufferable_crypt.generate_template_pools(poolgen)
+    promenade.generate_template_pools(poolgen)
 
 
 def main():

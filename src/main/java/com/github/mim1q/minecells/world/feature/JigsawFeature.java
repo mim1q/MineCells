@@ -1,10 +1,11 @@
 package com.github.mim1q.minecells.world.feature;
 
+import com.github.mim1q.minecells.structure.grid.MineCellsStructurePoolBasedGenerator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -18,31 +19,30 @@ public class JigsawFeature extends Feature<JigsawFeature.JigsawFeatureConfig> {
   }
 
   public boolean generate(FeatureContext<JigsawFeatureConfig> context) {
-    var templatePool = context.getConfig().templatePool;
-    var registry = context.getWorld().getRegistryManager().get(Registry.STRUCTURE_POOL_KEY);
-    var key = RegistryKey.of(Registry.STRUCTURE_POOL_KEY, templatePool);
-    var entry = registry.entryOf(key);
-    if (entry == null) {
+    var world = context.getWorld();
+    var registryManager = world.getRegistryManager();
+    var noiseConfig = world.getChunkManager() instanceof ServerChunkManager ? ((ServerChunkManager) world.getChunkManager()).getNoiseConfig() : null;
+    var poolRegistry = registryManager.get(Registry.STRUCTURE_POOL_KEY);
+    var optPoolEntry = poolRegistry.getEntry(RegistryKey.of(Registry.STRUCTURE_POOL_KEY, context.getConfig().templatePool()));
+    if (optPoolEntry.isEmpty()) {
       return false;
     }
-    var templateManager = context.getWorld().toServerWorld().getStructureTemplateManager();
-    var element = entry.value().getRandomElement(context.getRandom());
-    var start = element.getStart(templateManager, BlockRotation.NONE);
-    var pos = context.getOrigin().add(this.getOffset(start));
-
-    element.generate(
-      templateManager,
-      context.getWorld(),
-      context.getWorld().toServerWorld().getStructureAccessor(),
+    var pos = context.getOrigin().add(this.getOffset(context.getOrigin()));
+    var rotation = BlockRotation.random(context.getRandom());
+    MineCellsStructurePoolBasedGenerator.generate(
+      world,
       context.getGenerator(),
-      pos,
-      context.getOrigin(),
-      BlockRotation.random(context.getRandom()),
-      BlockBox.create(context.getOrigin().add(-5, -5, -5), context.getOrigin().add(5, 5, 5)),
+      registryManager,
+      world.toServerWorld().getStructureTemplateManager(),
+      world.toServerWorld().getStructureAccessor(),
+      noiseConfig,
       context.getRandom(),
-      false
+      (int) world.getSeed(),
+      optPoolEntry.get(),
+      8,
+      pos,
+      rotation
     );
-
     return true;
   }
 

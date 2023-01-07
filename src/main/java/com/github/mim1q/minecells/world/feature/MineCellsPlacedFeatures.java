@@ -46,6 +46,13 @@ public class MineCellsPlacedFeatures {
     BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
   );
 
+  public static final RegistryEntry<PlacedFeature> PROMENADE_CHAINS = createPlacedFeature(
+    MineCells.createId("promenade_chains"),
+    MineCellsConfiguredFeatures.PROMENADE_CHAINS,
+    PlacedFeatures.createCountExtraModifier(0, 0.25F, 3),
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP
+  );
+
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
     List<PlacementModifier> list = new ArrayList<>(List.of(placementModifiers));
     return createPlacedFeature(id, feature, list);
