@@ -21,8 +21,13 @@ def generate_data(output_path: str):
     gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
 
     # Misc Blocks
+    def simple_item_and_drop(name: str):
+        gen.generate_preset(common_presets.ItemBlockModel(name))
+        gen.generate_preset(common_presets.SimpleDrop(name))
+
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
-    gen.generate_preset(common_presets.ItemBlockModel("wilted_grass_block"))
+    simple_item_and_drop("wilted_grass_block")
+    simple_item_and_drop("flag_pole")
 
     # Leaves
     gen.generate_preset(wood_presets.Leaves("wilted", True))

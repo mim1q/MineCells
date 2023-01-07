@@ -290,6 +290,11 @@ public class MineCellsBlocks {
     "rotting_corpse"
   );
 
+  public static final Block FLAG_POLE = registerBlockWithItem(
+    new FlagPoleBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "flag_pole"
+  );
+
   public static final Block BIOME_BANNER = registerBlock(
     new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)),
     "biome_banner"

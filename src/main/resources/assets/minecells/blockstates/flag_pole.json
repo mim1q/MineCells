@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "connecting=false,facing=north": {
+      "model": "minecells:block/flag_pole"
+    },
+    "connecting=false,facing=east": {
+      "model": "minecells:block/flag_pole",
+      "y": 90
+    },
+    "connecting=false,facing=south": {
+      "model": "minecells:block/flag_pole",
+      "y": 180
+    },
+    "connecting=false,facing=west": {
+      "model": "minecells:block/flag_pole",
+      "y": 270
+    },
+    "connecting=true,facing=north": {
+      "model": "minecells:block/flag_pole_connecting"
+    },
+    "connecting=true,facing=east": {
+      "model": "minecells:block/flag_pole_connecting",
+      "y": 90
+    },
+    "connecting=true,facing=south": {
+      "model": "minecells:block/flag_pole_connecting",
+      "y": 180
+    },
+    "connecting=true,facing=west": {
+      "model": "minecells:block/flag_pole_connecting",
+      "y": 270
+    }
+  }
+}
