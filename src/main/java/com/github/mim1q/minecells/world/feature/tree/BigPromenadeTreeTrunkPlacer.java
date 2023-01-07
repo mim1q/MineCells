@@ -32,6 +32,9 @@ public class BigPromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements 
     generateColumn(world, replacer, random, height, startPos.add(1, 0, 0), Direction.EAST);
     generateColumn(world, replacer, random, height, startPos.add(1, 0, 1), Direction.SOUTH);
     generateColumn(world, replacer, random, height, startPos.add(0, 0, 1), Direction.WEST);
+    if (random.nextFloat() < 0.5F) {
+      return ImmutableList.of(new FoliagePlacer.TreeNode(startPos.up(), 0, true));
+    }
     return ImmutableList.of();
   }
 
@@ -68,6 +71,6 @@ public class BigPromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements 
 
   @Override
   protected TrunkPlacerType<?> getType() {
-    return MineCellsPlacerTypes.PROMENADE_BIG_TRUNK_PLACER;
+    return MineCellsPlacerTypes.PROMENADE_BIG_TRUNK;
   }
 }

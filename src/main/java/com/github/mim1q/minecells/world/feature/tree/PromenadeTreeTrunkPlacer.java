@@ -53,11 +53,14 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
         placeBranch(world, replacer, random, startPos.up(h), dir);
       }
     }
+    if (random.nextFloat() < 0.5F) {
+      return ImmutableList.of(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
+    }
     return ImmutableList.of();
   }
 
   @Override
   protected TrunkPlacerType<?> getType() {
-    return MineCellsPlacerTypes.PROMENADE_TRUNK_PLACER;
+    return MineCellsPlacerTypes.PROMENADE_TRUNK;
   }
 }

@@ -20,6 +20,11 @@ public class MineCellsConfiguredFeatures {
     new ConfiguredFeature<>(Feature.TREE, MineCellsFeatureConfigs.BIG_PROMENADE_TREE_CONFIG)
   );
 
+  public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> PROMENADE_SHRUB = createConfiguredFeature(
+    MineCells.createId("promenade_shrub"),
+    new ConfiguredFeature<>(Feature.TREE, MineCellsFeatureConfigs.PROMENADE_SHRUB_CONFIG)
+  );
+
   private static <FC extends FeatureConfig, F extends Feature<FC>>
   RegistryEntry<ConfiguredFeature<FC, ?>> createConfiguredFeature(Identifier id, ConfiguredFeature<FC, F> feature) {
     return BuiltinRegistries.addCasted(BuiltinRegistries.CONFIGURED_FEATURE, id.toString(), feature);
