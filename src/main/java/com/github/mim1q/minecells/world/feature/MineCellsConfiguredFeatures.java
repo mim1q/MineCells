@@ -29,4 +29,9 @@ public class MineCellsConfiguredFeatures {
   RegistryEntry<ConfiguredFeature<FC, ?>> createConfiguredFeature(Identifier id, ConfiguredFeature<FC, F> feature) {
     return BuiltinRegistries.addCasted(BuiltinRegistries.CONFIGURED_FEATURE, id.toString(), feature);
   }
+
+  private static RegistryEntry<ConfiguredFeature<JigsawFeature.JigsawFeatureConfig, ?>> createJigsawFeature(String name, String pool, String start) {
+    JigsawFeature.JigsawFeatureConfig config = new JigsawFeature.JigsawFeatureConfig(MineCells.createId(pool), MineCells.createId(start));
+    return createConfiguredFeature(MineCells.createId(name), new ConfiguredFeature<>(MineCellsFeatures.JIGSAW_FEATURE, config));
+  }
 }
