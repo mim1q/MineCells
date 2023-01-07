@@ -43,7 +43,9 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
       float time = world.getTime() + tickDelta;
       model.wave(
         (time * 0.1F) % (2.0F * MathHelper.PI),
-        offset % 100
+        offset % 100,
+        centered ? 0.125F : 0.075F,
+        true
       );
     } else {
       model.resetAngles();
@@ -130,9 +132,9 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
       this.main.pivotY = centered ? 1.0F : 0.0F;
     }
 
-    public void wave(float animationProgress, float offset) {
+    public void wave(float animationProgress, float offset, float strength, boolean tapered) {
       for (int i = 0; i < this.segments.length; i++) {
-        this.segments[i].pitch = MathHelper.sin(animationProgress - (float) i + offset) * 0.05F * i;
+        this.segments[i].pitch = MathHelper.sin(animationProgress - i + offset) * strength * (tapered ? i : 1.0F);
       }
     }
 
