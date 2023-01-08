@@ -1,11 +1,9 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
-import com.github.mim1q.minecells.block.blockentity.ColoredTorchBlockEntity;
-import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
-import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.*;
 import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
@@ -56,9 +54,14 @@ public class MineCellsBlockEntities {
     MineCells.createId("colored_torch"),
     FabricBlockEntityTypeBuilder
       .create(ColoredTorchBlockEntity::new)
-      .addBlock(MineCellsBlocks.PRISON_TORCH)
-      .addBlock(MineCellsBlocks.PROMENADE_TORCH)
+      .addBlocks(MineCellsBlocks.PRISON_TORCH, MineCellsBlocks.PROMENADE_TORCH)
       .build()
+  );
+
+  public static final BlockEntityType<DecorativeStatueBlockEntity> DECORATIVE_STATUE_BLOCK_ENTITY = Registry.register(
+    Registry.BLOCK_ENTITY_TYPE,
+    MineCells.createId("decorative_statue"),
+    FabricBlockEntityTypeBuilder.create(DecorativeStatueBlockEntity::new).addBlock(MineCellsBlocks.KING_STATUE).build()
   );
 
   public static void init() {}

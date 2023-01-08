@@ -25,6 +25,7 @@ def generate_data(output_path: str):
         gen.generate_preset(common_presets.ItemBlockModel(name))
         gen.generate_preset(common_presets.SimpleDrop(name))
 
+    gen.generate_preset(common_presets.GeneratedItemModel("king_statue"))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
     simple_item_and_drop("wilted_grass_block")
     simple_item_and_drop("flag_pole")
@@ -48,9 +49,7 @@ def generate_data(output_path: str):
     util.generate_block_items(gen, ["skeleton", "rotting_corpse", "corpse"])
 
     # Custom Drops
-    util.generate_self_dropping_blocks(gen, [
-        "prison_torch"
-    ])
+    util.generate_self_dropping_blocks(gen, ["prison_torch"])
     gen.generate_template(Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_simple_drop", "prison_stone",
                                    {"item": "prison_cobblestone", "silk_touch_item": "prison_stone"}))
 

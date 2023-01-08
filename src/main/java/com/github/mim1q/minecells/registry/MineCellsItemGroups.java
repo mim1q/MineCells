@@ -85,6 +85,7 @@ public class MineCellsItemGroups {
       MineCellsBlocks.CRATE.asItem().getDefaultStack(),
       MineCellsBlocks.SMALL_CRATE.asItem().getDefaultStack(),
       MineCellsBlocks.BRITTLE_BARREL.asItem().getDefaultStack(),
+      MineCellsBlocks.KING_STATUE.asItem().getDefaultStack(),
       MineCellsBlocks.SKELETON.asItem().getDefaultStack(),
       MineCellsBlocks.ROTTING_CORPSE.asItem().getDefaultStack(),
       MineCellsBlocks.CORPSE.asItem().getDefaultStack(),

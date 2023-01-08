@@ -6,6 +6,8 @@ import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.ColoredTorchBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.item.BiomeBannerItemRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
@@ -71,6 +73,7 @@ public class MineCellsRenderers {
 
   public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
   public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
+  public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
 
   public static void init() {
     EntityModelLayerRegistry.registerModelLayer(LEAPING_ZOMBIE_LAYER, LeapingZombieEntityModel::getTexturedModelData);
@@ -186,10 +189,12 @@ public class MineCellsRenderers {
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(BIOME_BANNER_LAYER, BiomeBannerBlockEntityRenderer.BiomeBannerBlockEntityModel::getTexturedModelData);
+    EntityModelLayerRegistry.registerModelLayer(KING_STATUE_LAYER, KingStatueModel::getTexturedModelData);
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.COLORED_TORCH_BLOCK_ENTITY, (ctx) -> new ColoredTorchBlockEntityRenderer());
+    BlockEntityRendererRegistry.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

@@ -290,6 +290,11 @@ public class MineCellsBlocks {
     "rotting_corpse"
   );
 
+  public static final Block KING_STATUE = registerBlockWithItem(
+    new DecorativeStatueBlock(FabricBlockSettings.copy(Blocks.STONE).nonOpaque().noCollision()),
+    "king_statue"
+  );
+
   public static final Block FLAG_POLE = registerBlockWithItem(
     new FlagPoleBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
     "flag_pole"
