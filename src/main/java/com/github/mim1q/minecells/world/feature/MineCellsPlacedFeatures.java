@@ -13,6 +13,7 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
 import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.PlacementModifier;
+import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 
 import java.util.ArrayList;
@@ -49,8 +50,19 @@ public class MineCellsPlacedFeatures {
   public static final RegistryEntry<PlacedFeature> PROMENADE_CHAINS = createPlacedFeature(
     MineCells.createId("promenade_chains"),
     MineCellsConfiguredFeatures.PROMENADE_CHAINS,
-    PlacedFeatures.createCountExtraModifier(0, 0.25F, 3),
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(3)
+  );
+
+  public static final RegistryEntry<PlacedFeature> PROMENADE_GALLOWS = createPlacedFeature(
+    MineCells.createId("promenade_gallows"),
+    MineCellsConfiguredFeatures.PROMENADE_GALLOWS,
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(4)
+  );
+
+  public static final RegistryEntry<PlacedFeature> PROMENADE_KING_STATUE = createPlacedFeature(
+    MineCells.createId("promenade_king_statue"),
+    MineCellsConfiguredFeatures.PROMENADE_KING_STATUE,
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(6)
   );
 
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
