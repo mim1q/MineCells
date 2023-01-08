@@ -50,7 +50,7 @@ public class MineCellsPlacedFeatures {
   public static final RegistryEntry<PlacedFeature> PROMENADE_CHAINS = createPlacedFeature(
     MineCells.createId("promenade_chains"),
     MineCellsConfiguredFeatures.PROMENADE_CHAINS,
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(3)
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(2)
   );
 
   public static final RegistryEntry<PlacedFeature> PROMENADE_GALLOWS = createPlacedFeature(
@@ -62,7 +62,7 @@ public class MineCellsPlacedFeatures {
   public static final RegistryEntry<PlacedFeature> PROMENADE_KING_STATUE = createPlacedFeature(
     MineCells.createId("promenade_king_statue"),
     MineCellsConfiguredFeatures.PROMENADE_KING_STATUE,
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(6)
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(20)
   );
 
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
