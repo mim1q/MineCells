@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.world.feature.tree;
 
+import com.github.mim1q.minecells.block.BiomeBannerBlock;
 import com.github.mim1q.minecells.block.CageBlock;
+import com.github.mim1q.minecells.block.FlagPoleBlock;
 import com.github.mim1q.minecells.block.SkeletonDecorationBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.Block;
@@ -21,6 +23,10 @@ public interface PromenadeTreeHelper {
   BlockState TRUNK_BLOCK = MineCellsBlocks.PUTRID_LOG.getDefaultState();
 
   default void placeBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos origin, Direction direction) {
+    if (random.nextFloat() < 0.025F) {
+      placeFlag(replacer, origin, direction);
+      return;
+    }
     boolean big = random.nextFloat() < 0.75f;
     Vec3i offset = direction.getVector();
     origin = origin.add(offset);
@@ -41,6 +47,20 @@ public interface PromenadeTreeHelper {
         }
       }
     }
+  }
+
+  default void placeFlag(BiConsumer<BlockPos, BlockState> replacer, BlockPos origin, Direction direction) {
+    var pole = MineCellsBlocks.FLAG_POLE.getDefaultState().with(FlagPoleBlock.FACING, direction);
+    var offset = direction.getVector();
+    origin = origin.add(offset);
+    replacer.accept(origin, pole.with(FlagPoleBlock.CONNECTING, true));
+    origin = origin.add(offset);
+    replacer.accept(origin, pole.with(FlagPoleBlock.CONNECTING, false));
+    replacer.accept(origin.down(), MineCellsBlocks.BIOME_BANNER.getDefaultState()
+      .with(BiomeBannerBlock.PATTERN, BiomeBannerBlock.BannerPattern.PROMENADE)
+      .with(BiomeBannerBlock.FACING, direction.rotateYClockwise())
+      .with(BiomeBannerBlock.CENTERED, true)
+    );
   }
 
   default boolean canPlaceChain(TestableWorld world, BlockPos origin, int length) {
