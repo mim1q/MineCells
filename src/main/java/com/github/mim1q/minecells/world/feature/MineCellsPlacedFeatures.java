@@ -6,15 +6,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
-import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.PlacementModifier;
-import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
+import net.minecraft.world.gen.placementmodifier.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,29 +45,9 @@ public class MineCellsPlacedFeatures {
     BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
   );
 
-  public static final RegistryEntry<PlacedFeature> PROMENADE_CHAINS = createPlacedFeature(
-    MineCells.createId("promenade_chains"),
-    MineCellsConfiguredFeatures.PROMENADE_CHAINS,
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(2)
-  );
-
-  public static final RegistryEntry<PlacedFeature> PROMENADE_GALLOWS = createPlacedFeature(
-    MineCells.createId("promenade_gallows"),
-    MineCellsConfiguredFeatures.PROMENADE_GALLOWS,
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(4)
-  );
-
-  public static final RegistryEntry<PlacedFeature> PROMENADE_KING_STATUE = createPlacedFeature(
-    MineCells.createId("promenade_king_statue"),
-    MineCellsConfiguredFeatures.PROMENADE_KING_STATUE,
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(20)
-  );
-
-  public static final RegistryEntry<PlacedFeature> PROMENADE_SPIKE_PIT = createPlacedFeature(
-    MineCells.createId("promenade_spike_pit"),
-    MineCellsConfiguredFeatures.PROMENADE_SPIKE_PIT,
-    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(15)
-  );
+  public static final RegistryEntry<PlacedFeature> PROMENADE_CHAINS = createJigsawFeature("promenade_chains", MineCellsConfiguredFeatures.PROMENADE_CHAINS, 2);
+  public static final RegistryEntry<PlacedFeature> PROMENADE_GALLOWS = createJigsawFeature("promenade_gallows", MineCellsConfiguredFeatures.PROMENADE_GALLOWS, 4);
+  public static final RegistryEntry<PlacedFeature> PROMENADE_KING_STATUE = createJigsawFeature("promenade_king_statue", MineCellsConfiguredFeatures.PROMENADE_KING_STATUE, 20);
 
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
     List<PlacementModifier> list = new ArrayList<>(List.of(placementModifiers));
@@ -78,5 +56,15 @@ public class MineCellsPlacedFeatures {
 
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, List<PlacementModifier> placementModifiers) {
     return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, id, new PlacedFeature(RegistryEntry.upcast(feature), List.copyOf(placementModifiers)));
+  }
+
+  private static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createJigsawFeature(String id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, int rarity, PlacementModifier... additionalModifiers) {
+    List<PlacementModifier> modifiers = new ArrayList<>();
+    modifiers.add(SquarePlacementModifier.of());
+    modifiers.add(RarityFilterPlacementModifier.of(rarity));
+    modifiers.add(HeightmapPlacementModifier.of(Heightmap.Type.MOTION_BLOCKING));
+    modifiers.add(BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT)));
+    modifiers.addAll(List.of(additionalModifiers));
+    return createPlacedFeature(MineCells.createId(id), feature, modifiers);
   }
 }

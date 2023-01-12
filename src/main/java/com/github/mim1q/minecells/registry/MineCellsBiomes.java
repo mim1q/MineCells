@@ -57,7 +57,6 @@ public class MineCellsBiomes {
 
   private static Biome createPromenade() {
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
-      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_SPIKE_PIT)
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_SHRUB)
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_CHAINS)
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_KING_STATUE)
