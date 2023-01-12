@@ -65,6 +65,12 @@ public class MineCellsPlacedFeatures {
     SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(20)
   );
 
+  public static final RegistryEntry<PlacedFeature> PROMENADE_SPIKE_PIT = createPlacedFeature(
+    MineCells.createId("promenade_spike_pit"),
+    MineCellsConfiguredFeatures.PROMENADE_SPIKE_PIT,
+    SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, RarityFilterPlacementModifier.of(15)
+  );
+
   public static <FC extends FeatureConfig> RegistryEntry<PlacedFeature> createPlacedFeature(Identifier id, RegistryEntry<ConfiguredFeature<FC, ?>> feature, PlacementModifier... placementModifiers) {
     List<PlacementModifier> list = new ArrayList<>(List.of(placementModifiers));
     return createPlacedFeature(id, feature, list);

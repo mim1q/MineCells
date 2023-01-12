@@ -29,6 +29,7 @@ public class MineCellsConfiguredFeatures {
   public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> PROMENADE_CHAINS = createJigsawFeature("promenade_chains", "promenade/chain_pile", "decoration");
   public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> PROMENADE_GALLOWS = createJigsawFeature("promenade_gallows", "promenade/gallows", "decoration");
   public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> PROMENADE_KING_STATUE = createJigsawFeature("promenade_king_statue", "promenade/king_statue", "decoration");
+  public static final RegistryEntry<ConfiguredFeature<JigsawFeatureConfig, ?>> PROMENADE_SPIKE_PIT = createJigsawFeature("promenade_spike_pit", "promenade/spike_pit", "decoration");
 
   private static <FC extends FeatureConfig, F extends Feature<FC>>
   RegistryEntry<ConfiguredFeature<FC, ?>> createConfiguredFeature(Identifier id, ConfiguredFeature<FC, F> feature) {
