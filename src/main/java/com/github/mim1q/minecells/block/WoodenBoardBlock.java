@@ -41,7 +41,16 @@ public class WoodenBoardBlock extends Block {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    return getDefaultState().with(FACING, ctx.getPlayerFacing());
+    Direction facing = ctx.getPlayerFacing().getOpposite();
+    BlockState stateBelow = ctx.getWorld().getBlockState(ctx.getBlockPos().down());
+    if (ctx.getSide() == Direction.UP && stateBelow.isOf(this)) {
+      facing = stateBelow.get(FACING);
+    }
+    BlockState stateAbove = ctx.getWorld().getBlockState(ctx.getBlockPos().up());
+    if (ctx.getSide() == Direction.DOWN && stateAbove.isOf(this)) {
+      facing = stateAbove.get(FACING);
+    }
+    return getDefaultState().with(FACING, facing);
   }
 
   @Override
@@ -49,6 +58,7 @@ public class WoodenBoardBlock extends Block {
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     if (player.getStackInHand(hand).getItem() instanceof AxeItem) {
       world.setBlockState(pos, state.cycle(TYPE));
+      return ActionResult.SUCCESS;
     }
     return ActionResult.PASS;
   }
