@@ -7,6 +7,4 @@ import net.minecraft.util.registry.Registry;
 
 public class MineCellsBlockTags {
   public static final TagKey<Block> CONJUNCTIVIUS_BREAKABLE = TagKey.of(Registry.BLOCK_KEY, MineCells.createId("conjunctivius_breakable"));
-  public static final TagKey<Block> VEGETATION_REPLACEABLE = TagKey.of(Registry.BLOCK_KEY, MineCells.createId("vegetation_replaceable"));
-  public static final TagKey<Block> CEILING_DECORATION_SUPPORT = TagKey.of(Registry.BLOCK_KEY, MineCells.createId("ceiling_decoration_support"));
 }
