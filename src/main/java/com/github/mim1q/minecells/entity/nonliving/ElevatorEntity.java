@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
@@ -361,7 +362,10 @@ public class ElevatorEntity extends Entity {
         BlockPos offsetPos = pos.add(offsets[i]);
         BlockState state = world.getBlockState(offsetPos);
         if (chain) {
-          if (!(state.getBlock() == Blocks.CHAIN) || state.get(ChainBlock.AXIS) != Direction.Axis.Y) {
+          if (
+            !(state.isIn(MineCellsBlockTags.ELEVATOR_CHAINS) && state.getProperties().contains(ChainBlock.AXIS))
+              || state.get(ChainBlock.AXIS) != Direction.Axis.Y
+          ) {
             return false;
           }
         } else if (state.isSolidBlock(world, offsetPos)) {
