@@ -173,6 +173,11 @@ public class MineCellsBlocks {
     "putrid_trapdoor"
   );
 
+  public static final Block PUTRID_BOARDS = registerBlockWithItem(
+    new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "putrid_boards"
+  );
+
   // Leaves - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block WILTED_LEAVES = registerBlockWithItem(

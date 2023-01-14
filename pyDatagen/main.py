@@ -49,7 +49,7 @@ def generate_data(output_path: str):
     util.generate_block_items(gen, ["skeleton", "rotting_corpse", "corpse"])
 
     # Custom Drops
-    util.generate_self_dropping_blocks(gen, ["prison_torch"])
+    util.generate_self_dropping_blocks(gen, ["prison_torch", "putrid_boards"])
     gen.generate_template(Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_simple_drop", "prison_stone",
                                    {"item": "prison_cobblestone", "silk_touch_item": "prison_stone"}))
 

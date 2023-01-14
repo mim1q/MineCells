@@ -70,6 +70,7 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.PUTRID_FENCE_GATE,
         MineCellsBlocks.PUTRID_DOOR,
         MineCellsBlocks.PUTRID_TRAPDOOR,
+        MineCellsBlocks.PUTRID_BOARDS,
         // Other
         MineCellsBlocks.ELEVATOR_ASSEMBLER,
         MineCellsBlocks.CRATE,
