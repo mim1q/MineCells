@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -25,6 +26,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class BiomeBannerBlock extends BlockWithEntity {
 
@@ -74,6 +76,12 @@ public class BiomeBannerBlock extends BlockWithEntity {
       return resultState.with(WAVING, true);
     }
     return resultState.with(WAVING, false);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+    return List.of(MineCellsItems.BIOME_BANNER.stackOf(state.get(PATTERN)));
   }
 
   @Override
