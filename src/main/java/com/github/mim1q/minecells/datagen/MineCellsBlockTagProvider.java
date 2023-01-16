@@ -71,6 +71,9 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.PUTRID_DOOR,
         MineCellsBlocks.PUTRID_TRAPDOOR,
         MineCellsBlocks.PUTRID_BOARDS,
+        MineCellsBlocks.PUTRID_BOARD_BLOCK,
+        MineCellsBlocks.PUTRID_BOARD_STAIRS,
+        MineCellsBlocks.PUTRID_BOARD_SLAB,
         // Other
         MineCellsBlocks.ELEVATOR_ASSEMBLER,
         MineCellsBlocks.CRATE,

@@ -178,6 +178,21 @@ public class MineCellsBlocks {
     "putrid_boards"
   );
 
+  public static final Block PUTRID_BOARD_BLOCK = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "putrid_board_block"
+  );
+
+  public static final Block PUTRID_BOARD_STAIRS = registerBlockWithItem(
+    new StairsBlock(PUTRID_BOARD_BLOCK.getDefaultState(), FabricBlockSettings.copyOf(Blocks.OAK_STAIRS)),
+    "putrid_board_stairs"
+  );
+
+  public static final Block PUTRID_BOARD_SLAB = registerBlockWithItem(
+    new SlabBlock(FabricBlockSettings.copyOf(Blocks.OAK_STAIRS)),
+    "putrid_board_slab"
+  );
+
   // Leaves - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block WILTED_LEAVES = registerBlockWithItem(

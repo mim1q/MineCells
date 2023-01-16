@@ -2,10 +2,10 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"0": "minecells:block/putrid_boards",
+		"0": "minecells:block/putrid_board_block",
 		"1": "minecells:block/putrid_wood",
 		"2": "minecells:block/putrid_planks",
-		"particle": "minecells:block/putrid_boards"
+		"particle": "minecells:block/putrid_board_block"
 	},
 	"elements": [
 		{
