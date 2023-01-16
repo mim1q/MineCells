@@ -174,7 +174,7 @@ public class MineCellsBlocks {
   );
 
   public static final Block PUTRID_BOARDS = registerBlockWithItem(
-    new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()),
     "putrid_boards"
   );
 
