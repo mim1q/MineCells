@@ -12,6 +12,7 @@ import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
@@ -67,6 +68,12 @@ public class WoodenBoardBlock extends Block {
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), SHAPE);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(FACING, rotation.rotate(state.get(FACING)));
   }
 
   public enum Type implements StringIdentifiable {
