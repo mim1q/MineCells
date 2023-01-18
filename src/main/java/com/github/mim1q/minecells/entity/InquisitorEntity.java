@@ -62,6 +62,11 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
   }
 
   @Override
+  public int getSafeFallDistance() {
+    return 3;
+  }
+
+  @Override
   protected void decrementCooldowns() {
     this.decrementCooldown(SHOOT_COOLDOWN);
   }
