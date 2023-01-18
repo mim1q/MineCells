@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "minecells:promenade",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 5,
+    "separation": 4,
+    "salt": 2043237655
+  }
+}
