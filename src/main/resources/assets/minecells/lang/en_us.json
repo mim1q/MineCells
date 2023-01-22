@@ -1,5 +1,5 @@
 {
-  "itemGroup.minecells.eggs": "Mine Cells Spawn Eggs",
+  "comment.minecells.001": "======================================= SPAWN EGGS ========================================",
 
   "item.minecells.shocker_spawn_egg": "Shocker Spawn Egg",
   "item.minecells.leaping_zombie_spawn_egg": "Leaping Zombie Spawn Egg",
@@ -16,7 +16,9 @@
   "item.minecells.runner_spawn_egg": "Runner Spawn Egg",
   "item.minecells.scorpion_spawn_egg": "Scorpion Spawn Egg",
   
-  "itemGroup.minecells.blocks_and_items": "Mine Cells Blocks And Items",
+  "comment.minecells.002": "==================================== BLOCKS AND ITEMS =====================================",
+
+  "itemGroup.minecells.minecells": "Mine Cells",
 
   "block.minecells.putrid_log": "Putrid Log",
   "block.minecells.putrid_wood": "Putrid Wood",
@@ -70,7 +72,7 @@
   "item.minecells.blank_rune": "Blank Rune",
   "item.minecells.conjunctivius_respawn_rune": "Conjunctivius Respawn Rune",
 
-  "itemGroup.minecells.weapons": "Mine Cells Weapons",
+  "comment.minecells.003": "========================================= WEAPONS =========================================",
 
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.tooltip": "Deals %s damage from behind",
@@ -145,7 +147,7 @@
   "chat.minecells.version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
   "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
 
-  "comment.minecells.001": "================================== FROM PYTHON AUTOLANG ===================================",
+  "comment.minecells.004": "================================== FROM PYTHON AUTOLANG ===================================",
 
   "block.minecells.corpse": "Corpse",
   "block.minecells.hanged_corpse": "Hanged Corpse",

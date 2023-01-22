@@ -411,7 +411,7 @@ public class MineCellsBlocks {
     Registry.register(
       Registry.ITEM,
       MineCells.createId(id), 
-      new BlockItem(block, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS))
+      new BlockItem(block, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS))
     );
     return block;
   }
