@@ -50,11 +50,11 @@ public class SpikesBlock extends Block {
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (entity instanceof LivingEntity livingEntity) {
-      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 45 * 20 + 1, 1, false, false, true));
+      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 20 * 10 + 1, 0, false, false, true));
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false, true));
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 1, false, false, true));
       if (livingEntity.age % 10 == 0) {
-        livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0f);
+        livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0F);
       }
       if (world.getRandom().nextFloat() < 0.01) {
         world.setBlockState(pos, state.with(BLOODY, true));
