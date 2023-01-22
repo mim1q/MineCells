@@ -13,7 +13,8 @@ New blocks:
 - **King Statue**
 - **Wilted Grass Block**
 - **Flag Pole**
-- **Putrid Boards**, **Putrid Board Blocks**, Stairs and ****Slabs
+- **Putrid Boards**, **Putrid Board Blocks**, **Stairs** and **Slabs**
+- **Barrier Rune**
 
 Improvements:
 
