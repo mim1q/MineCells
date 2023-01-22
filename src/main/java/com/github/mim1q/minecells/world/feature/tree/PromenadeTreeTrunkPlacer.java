@@ -37,9 +37,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       BlockPos basePos = startPos.add(dir.getVector());
       int baseHeight = random.nextInt(5);
       if (baseHeight > 0) {
-        for (int i = -3; i < baseHeight; i++) {
-          replacer.accept(basePos.up(i), TRUNK_BLOCK);
-        }
+        placeRoot(world, replacer, basePos.down(), baseHeight);
       }
 
       if (random.nextFloat() < 0.25) {

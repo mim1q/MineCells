@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.TestableWorld;
 
 import java.util.List;
@@ -46,6 +47,24 @@ public interface PromenadeTreeHelper {
           replacer.accept(pos, state);
         }
       }
+    }
+  }
+
+  default void placeRoot(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, BlockPos origin, int height) {
+    origin = origin.up(height);
+    for (int i = height; i > -3; i--) {
+      BlockPos[] positions = { origin.north(), origin.south(), origin.east(), origin.west() };
+      boolean shouldPlace = false;
+      for (BlockPos pos : positions) {
+        if (world.testBlockState(pos, state -> state.getCollisionShape((BlockView) world, pos).isEmpty())) {
+          shouldPlace = true;
+        }
+      }
+      if (!shouldPlace) {
+        return;
+      }
+      replacer.accept(origin, TRUNK_BLOCK);
+      origin = origin.down();
     }
   }
 
