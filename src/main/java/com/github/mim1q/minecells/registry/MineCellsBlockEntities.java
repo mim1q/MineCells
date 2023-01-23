@@ -25,10 +25,9 @@ public class MineCellsBlockEntities {
       .create(SetupBlockEntity::new)
       .addBlocks(
         MineCellsBlocks.ELEVATOR_ASSEMBLER,
-        MineCellsBlocks.PRISON_BOX,
         MineCellsBlocks.CONJUNCTIVIUS_BOX,
-        MineCellsBlocks.SHOCKER_BOX)
-      .build()
+        MineCellsBlocks.BEAM_PLACER
+      ).build()
   );
 
   public static final BlockEntityType<BiomeBannerBlockEntity> BIOME_BANNER_BLOCK_ENTITY = Registry.register(

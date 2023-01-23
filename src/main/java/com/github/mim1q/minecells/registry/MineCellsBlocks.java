@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.*;
+import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -361,25 +362,14 @@ public class MineCellsBlocks {
     "kingdom_portal_filler"
   );
 
-  public static final Block PRISON_BOX = registerBlock(
-    new MonsterBoxBlock(
-      0.5f,
-      new MonsterBoxBlock.Entry(MineCellsEntities.LEAPING_ZOMBIE, 4),
-      new MonsterBoxBlock.Entry(MineCellsEntities.UNDEAD_ARCHER, 2),
-      new MonsterBoxBlock.Entry(MineCellsEntities.GRENADIER, 1),
-      new MonsterBoxBlock.Entry(MineCellsEntities.SHIELDBEARER, 1)
-    ),
-    "prison_box"
-  );
-
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(
     new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS),
     "conjunctivius_box"
   );
 
-  public static final Block SHOCKER_BOX = registerBlock(
-    new MonsterBoxBlock(MineCellsEntities.SHOCKER),
-    "shocker_box"
+  public static final Block BEAM_PLACER = registerBlock(
+    new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)),
+    "beam_placer"
   );
 
   public static final Block SPAWNER_RUNE = registerBlock(
