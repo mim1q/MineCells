@@ -7,7 +7,9 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.FlyGoal;
@@ -27,7 +29,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
 
@@ -39,6 +44,13 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
     super(entityType, world);
     this.moveControl = new FlightMoveControl(this, 0, true);
     this.setNoGravity(true);
+  }
+
+  @Nullable
+  @Override
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+    this.setPosition(this.getPos().add(0.0D, 3.0D, 0.0D));
+    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
   }
 
   @Override
