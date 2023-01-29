@@ -16,17 +16,23 @@ public class EntryList {
     .addEntry(MineCellsEntities.UNDEAD_ARCHER, 3)
     .addEntry(MineCellsEntities.GRENADIER, 2);
 
-  public static final EntryList PROMENADE_OF_THE_CONDEMNED = new EntryList()
+  public static final EntryList PROMENADE_RANGED = new EntryList()
+    .addEntry(MineCellsEntities.UNDEAD_ARCHER, 1)
+    .addEntry(MineCellsEntities.GRENADIER, 1);
+
+  public static final EntryList PROMENADE_MELEE = new EntryList()
     .addEntry(MineCellsEntities.LEAPING_ZOMBIE, 4)
-    .addEntry(MineCellsEntities.GRENADIER, 3)
-    .addEntry(MineCellsEntities.RUNNER, 1)
-    .addEntry(MineCellsEntities.MUTATED_BAT, 3);
+    .addEntry(MineCellsEntities.RUNNER, 1);
 
   public static final EntryList PROTECTOR = new EntryList()
     .addEntry(MineCellsEntities.PROTECTOR, 1);
 
   public static final EntryList SHOCKER = new EntryList()
     .addEntry(MineCellsEntities.SHOCKER, 1);
+
+  public static EntryList single(EntityType<?> entity) {
+    return new EntryList().addEntry(entity, 1);
+  }
 
   public List<Entry> entries;
 
