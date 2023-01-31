@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.structure.grid;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PromenadeGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.PromenadeUndergroundGridGenerator;
 import com.mojang.serialization.Codec;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
@@ -30,6 +31,14 @@ public class GridBasedStructures {
 
     protected Promenade(Config config, HeightProvider heightProvider, Optional<Heightmap.Type> projectStartToHeightmap) {
       super(config, heightProvider, projectStartToHeightmap, new PromenadeGridGenerator());
+    }
+
+    @Override
+    protected GridPiecesGenerator.RoomGridGenerator getGenerator(Context context) {
+      if (context.chunkPos().x % 10 == 0 && context.chunkPos().z % 10 == 0 && context.random().nextFloat() < 0.5F) {
+        return new PromenadeUndergroundGridGenerator();
+      }
+      return super.getGenerator(context);
     }
 
     @Override

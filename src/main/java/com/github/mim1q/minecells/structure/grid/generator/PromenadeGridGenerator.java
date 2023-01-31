@@ -9,14 +9,13 @@ import net.minecraft.util.math.random.Random;
 
 public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
 
-
   public static final Identifier MAIN = MineCells.createId("promenade/overground_buildings/main");
   public static final Identifier PIT = MineCells.createId("promenade/overground_buildings/pit");
 
   @Override
   protected void addRooms(Random random) {
     if (random.nextFloat() < 0.2F) {
-      addRoom(Vec3i.ZERO, BlockRotation.random(random), PIT, new Vec3i(0, -3, 0));
+      addRoom(Vec3i.ZERO, BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
       return;
     }
     addRoom(Vec3i.ZERO, BlockRotation.random(random), MAIN);
