@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import com.github.mim1q.minecells.world.feature.tree.BigPromenadeTreeTrunkPlacer;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeShrubTrunkPlacer;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeTreeTrunkPlacer;
 import net.minecraft.block.LeavesBlock;
@@ -16,9 +15,6 @@ import net.minecraft.world.gen.trunk.TrunkPlacer;
 public class MineCellsFeatureConfigs {
   public static final TreeFeatureConfig PROMENADE_TREE_CONFIG = simpleTree(
     new PromenadeTreeTrunkPlacer(30, 20, 0)
-  );
-  public static final TreeFeatureConfig BIG_PROMENADE_TREE_CONFIG = simpleTree(
-    new BigPromenadeTreeTrunkPlacer(32, 24, 24)
   );
   public static final TreeFeatureConfig PROMENADE_SHRUB_CONFIG = shrub(
     new PromenadeShrubTrunkPlacer(1, 0, 0)

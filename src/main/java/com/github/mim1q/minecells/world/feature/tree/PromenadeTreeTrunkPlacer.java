@@ -29,6 +29,12 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
 
   @Override
   public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
+    for (int i = 1; i < height; i++) {
+      if (!world.testBlockState(startPos.up(i), state -> state.getMaterial().isReplaceable())) {
+        return List.of();
+      }
+    }
+
     for (int i = -3; i < height; i++) {
       replacer.accept(startPos.up(i), TRUNK_BLOCK);
     }
