@@ -62,16 +62,10 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
     return new Vec3d(0.5F, 1.0F, 1.0F);
   }
 
-  public void update(BlockState state) {
-    if (offset == null) {
-      offset = calculateOffset();
-    }
-    if (widthVector == null) {
-      widthVector = calculateWidthVector();
-    }
-    if (box == null) {
-      box = calculateBox();
-    }
+  public void update() {
+    offset = calculateOffset();
+    widthVector = calculateWidthVector();
+    box = calculateBox();
   }
 
   public Vec3d calculateWidthVector() {
@@ -79,8 +73,8 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public Box calculateBox() {
-    Vec3d pos = Vec3d.of(this.getPos()).add(offset);
-    Vec3d size = widthVector;
+    Vec3d pos = Vec3d.of(this.getPos()).add(getOffset());
+    Vec3d size = getWidthVector();
     return Box.of(pos, size.x * 1.5D, 1.5D, size.z * 1.5D).expand(0.2D);
   }
 
@@ -93,7 +87,6 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       tickClient((ClientWorld) world);
     } else {
       tickServer((ServerWorld) world);
-      this.update(state);
     }
   }
 
@@ -125,7 +118,6 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   protected void tickServer(ServerWorld world) {
-
     if (this.getCachedState().get(KingdomPortalCoreBlock.LIT)) {
       tryTeleportPlayer(world);
     } else {
@@ -190,7 +182,7 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
       this.dimension = RegistryKey.of(Registry.WORLD_KEY, new Identifier(nbt.getString("dimensionKey")));
     }
     this.upstream = nbt.getBoolean("upstream");
-    this.update(this.getCachedState());
+    this.update();
     World world = this.getWorld();
     if (world != null) {
       world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), Block.NOTIFY_LISTENERS);
@@ -234,14 +226,23 @@ public class KingdomPortalCoreBlockEntity extends BlockEntity {
   }
 
   public Vec3d getOffset() {
+    if (offset == null) {
+      update();
+    }
     return offset;
   }
 
   public Vec3d getWidthVector() {
+    if (widthVector == null) {
+      update();
+    }
     return widthVector;
   }
 
   public Box getBox() {
+    if (box == null) {
+      update();
+    }
     return box;
   }
 

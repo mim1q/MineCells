@@ -29,6 +29,7 @@ public class MineCellsPortal {
     Vec3d teleportPos = MineCellsDimensions.getTeleportPos(targetDimension, pos);
     if (teleportPos == null) {
       teleportToSpawnpoint(player, world);
+      return;
     }
     TeleportTarget target = new TeleportTarget(
       teleportPos,
