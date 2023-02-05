@@ -24,6 +24,8 @@ version = ModData.version
 repositories {
   mavenCentral()
   maven(url = "https://jitpack.io")
+  maven(url = "https://maven.shedaniel.me/")
+  maven(url = "https://maven.terraformersmc.com/releases/")
 }
 
 dependencies {
@@ -33,6 +35,9 @@ dependencies {
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.fabricApi}")
   include("com.github.Draylar.omega-config:omega-config-base:${Versions.omegaConfig}")
   modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.omegaConfig}")
+
+  modApi("com.github.mim1q:RpgDifficulty:1.19-SNAPSHOT")
+
 }
 
 @Suppress("UnstableApiUsage")

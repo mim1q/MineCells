@@ -1,0 +1,19 @@
+{
+  "dimension": "minecells:insufferable_crypt",
+  "increasingDistance": 0,
+  "distanceFactor": 0.0,
+  "increasingTime": 60,
+  "timeFactor": 0.1,
+  "heightDistance": 16,
+  "heightFactor": 0.0,
+  "maxFactorHealth": 3.0,
+  "maxFactorDamage": 3.0,
+  "maxFactorProtection": 1.5,
+  "maxFactorSpeed": 2.0,
+  "startingFactor": 1.0,
+  "startingDistance": 0,
+  "startingTime": 0,
+  "startingHeight": 62,
+  "positiveHeightIncreasion": false,
+  "negativeHeightIncreasion": true
+}
