@@ -1,5 +1,8 @@
 # Mine Cells 1.3.4
 
-## bugfix
+## bugfixes and tweaks
 
-- Introduced a potential fix for the crashes connected to the Portal Block Entity
+- Introduced potential fixes for the crashes connected to the Portal and Portal Block Entity
+- Added compatibility with RPGDifficulty
+- Fixed Conjunctivius's eye rendering with some shaders
+- Made portals a lot rarer
