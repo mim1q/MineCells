@@ -32,11 +32,11 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
 
   @Override
   public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
-    height = height + random.nextInt(30);
+    height = height + random.nextInt(10);
     List<FoliagePlacer.TreeNode> nodes = new ArrayList<>();
     boolean broken = random.nextFloat() < 0.1F;
     if (broken) {
-      height /= 2;
+      height = height * 2 / 3;
     }
     for (int i = 1; i < height; i++) {
       if (!world.testBlockState(startPos.up(i), state -> state.getMaterial().isReplaceable())) {
@@ -61,23 +61,43 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       // Generate branch
       int h = random.nextBetween(6, height - 3);
       placeBranch(world, replacer, random, startPos.up(h), dir);
-      if (h < height / 2) {
-        h = random.nextBetween(height / 2, height - 3);
+      int minH = h + 3;
+      while (h < height - 8) {
+        h = random.nextBetween(minH, height - 3);
         placeBranch(world, replacer, random, startPos.up(h), dir);
         if (!broken && h > height - 10) {
           generateLeaves(world, replacer, random, startPos.up(h + 2).add(dir.getVector().multiply(3)), 3);
         }
+        minH = h + 3;
       }
     }
     if (random.nextFloat() < 0.5F) {
       nodes.add(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
     }
     if (!broken) {
-      generateLeaves(world, replacer, random, startPos.up(height), 4);
-      generateLeaves(world, replacer, random, startPos.up(height - 6), 4);
-      generateLeaves(world, replacer, random, startPos.up(height - 10), 2);
+      int additionalRadius = random.nextInt(2);
+      generateLeaves(world, replacer, random, startPos.up(height), 3 + additionalRadius);
+      generateLeaves(world, replacer, random, startPos.up(height - 6), 3 + additionalRadius);
+      generateLeaves(world, replacer, random, startPos.up(height - 10), 1 + additionalRadius);
+
+      var dirs = Direction.Type.HORIZONTAL.getShuffled(random);
+      if (random.nextFloat() < 0.75F) {
+        generateLongBranch(world, replacer, random, startPos.up(height - 6 - random.nextInt(10)), dirs.get(0), 4 + random.nextInt(2));
+      }
+      if (random.nextFloat() < 0.5F) {
+        generateLongBranch(world, replacer, random, startPos.up(height - 8 - random.nextInt(10)), dirs.get(1), 3 + random.nextInt(1));
+      }
     }
     return nodes;
+  }
+
+  public void generateLongBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos startPos, Direction dir, int length) {
+    BlockPos pos = startPos;
+    for (int i = 0; i < length; i++) {
+      pos = pos.add(dir.getVector()).up();
+      replacer.accept(pos, TRUNK_BLOCK);
+    }
+    generateLeaves(world, replacer, random, pos.up(2), 4);
   }
 
   public void generateLeaves(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos startPos, int radius) {
