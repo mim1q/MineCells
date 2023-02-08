@@ -50,7 +50,12 @@ public abstract class GridBasedStructure extends Structure {
       type -> y + context.chunkGenerator().getHeightOnGround(x + 8, z + 8, type, context.world(), context.noiseConfig())
     ).orElse(0);
     BlockPos blockPos = new BlockPos(x, y + heightmapY, z);
-    pieces = GridPiecesGenerator.generatePieces(blockPos, context, 16, this.getGenerator(context));
+    GridPiecesGenerator.RoomGridGenerator generator = this.getGenerator(context);
+    if (generator.usesHeightmap()) {
+      pieces = GridPiecesGenerator.generateWithHeightmap(blockPos, projectStartToHeightmap, context, 16, generator);
+    } else {
+      pieces = GridPiecesGenerator.generatePieces(blockPos, context, 16, generator);
+    }
     return Optional.of(new Structure.StructurePosition(blockPos, collector -> {
       for (GridPiece piece : pieces) {
         collector.addPiece(piece);
