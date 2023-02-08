@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.world.feature.tree;
 
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -15,6 +17,7 @@ import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -29,9 +32,15 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
 
   @Override
   public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
+    height = height + random.nextInt(30);
+    List<FoliagePlacer.TreeNode> nodes = new ArrayList<>();
+    boolean broken = random.nextFloat() < 0.1F;
+    if (broken) {
+      height /= 2;
+    }
     for (int i = 1; i < height; i++) {
       if (!world.testBlockState(startPos.up(i), state -> state.getMaterial().isReplaceable())) {
-        return List.of();
+        return nodes;
       }
     }
 
@@ -55,12 +64,42 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       if (h < height / 2) {
         h = random.nextBetween(height / 2, height - 3);
         placeBranch(world, replacer, random, startPos.up(h), dir);
+        if (!broken && h > height - 10) {
+          generateLeaves(world, replacer, random, startPos.up(h + 2).add(dir.getVector().multiply(3)), 3);
+        }
       }
     }
     if (random.nextFloat() < 0.5F) {
-      return ImmutableList.of(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
+      nodes.add(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
     }
-    return ImmutableList.of();
+    if (!broken) {
+      generateLeaves(world, replacer, random, startPos.up(height), 4);
+      generateLeaves(world, replacer, random, startPos.up(height - 6), 4);
+      generateLeaves(world, replacer, random, startPos.up(height - 10), 2);
+    }
+    return nodes;
+  }
+
+  public void generateLeaves(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos startPos, int radius) {
+    BlockStatePredicate isAir = BlockStatePredicate.forBlock(Blocks.AIR);
+    for (int y = -radius; y <= radius; y++) {
+      for (int x = -radius; x <= radius; x++) {
+        for (int z = -radius; z <= radius; z++) {
+          BlockPos pos = startPos.add(x, y, z);
+          double distance = pos.getSquaredDistance(startPos);
+          if (distance > radius * radius) {
+            continue;
+          }
+          double chance = (distance) / (radius * radius);
+          if (random.nextFloat() < chance) {
+            continue;
+          }
+          if (world.testBlockState(pos, isAir)) {
+            replacer.accept(pos, MineCellsBlocks.RED_WILTED_LEAVES.getDefaultState().with(Properties.PERSISTENT, true));
+          }
+        }
+      }
+    }
   }
 
   @Override
