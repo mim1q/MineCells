@@ -1,0 +1,65 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:protected_blocks",
+      "value": "#minecells:protected"
+    },
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecells:small_prison_bricks",
+            "probability": 0.5
+          },
+          "output_state": {
+            "Name": "minecells:prison_stone"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecells:prison_cobblestone",
+            "probability": 0.25
+          },
+          "output_state": {
+            "Name": "minecells:prison_stone"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecells:putrid_board_block",
+            "probability": 0.5
+          },
+          "output_state": {
+            "Name": "minecells:putrid_planks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecells:putrid_board_block",
+            "probability": 0.02
+          },
+          "output_state": {
+            "Name": "minecraft:air"
+          }
+        }
+      ]
+    }
+  ]
+}
