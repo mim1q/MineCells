@@ -16,12 +16,14 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
 
   @Override
   protected void addRooms(Random random) {
-    if (random.nextFloat() < 0.2F) {
-      addRoom(Vec3i.ZERO, BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
-      return;
-    }
     addRoom(Vec3i.ZERO, BlockRotation.random(random), MAIN);
+    boolean special = false;
     for (Direction dir : Direction.Type.HORIZONTAL) {
+      if (!special && random.nextFloat() < 0.2F) {
+        addRoom(dir.getVector(), BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
+        special = true;
+        continue;
+      }
       addRoom(dir.getVector(), BlockRotation.random(random), SIDE);
     }
   }
