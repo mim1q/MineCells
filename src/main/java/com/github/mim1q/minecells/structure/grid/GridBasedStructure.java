@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.structure.grid;
 
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
 import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,9 +11,11 @@ import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
 import net.minecraft.world.gen.structure.Structure;
 
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class GridBasedStructure extends Structure {
@@ -28,14 +31,14 @@ public abstract class GridBasedStructure extends Structure {
     )).codec();
   }
 
-  private final GridPiecesGenerator.RoomGridGenerator generator;
+  private final Supplier<RoomGridGenerator> generatorProvider;
   private List<GridPiece> pieces = new ArrayList<>();
   private final HeightProvider heightProvider;
   private final Optional<Heightmap.Type> projectStartToHeightmap;
 
-  protected GridBasedStructure(Config config, HeightProvider heightProvider, Optional<Heightmap.Type> projectStartToHeightmap, GridPiecesGenerator.RoomGridGenerator generator) {
+  protected GridBasedStructure(Config config, HeightProvider heightProvider, Optional<Heightmap.Type> projectStartToHeightmap, Supplier<RoomGridGenerator> generatorProvider) {
     super(config);
-    this.generator = generator;
+    this.generatorProvider = generatorProvider;
     this.heightProvider = heightProvider;
     this.projectStartToHeightmap = projectStartToHeightmap;
   }
@@ -50,7 +53,7 @@ public abstract class GridBasedStructure extends Structure {
       type -> y + context.chunkGenerator().getHeightOnGround(x + 8, z + 8, type, context.world(), context.noiseConfig())
     ).orElse(0);
     BlockPos blockPos = new BlockPos(x, y + heightmapY, z);
-    GridPiecesGenerator.RoomGridGenerator generator = this.getGenerator(context);
+    RoomGridGenerator generator = this.getGenerator(context);
     if (generator.usesHeightmap()) {
       pieces = GridPiecesGenerator.generateWithHeightmap(blockPos, projectStartToHeightmap, context, 16, generator);
     } else {
@@ -63,8 +66,8 @@ public abstract class GridBasedStructure extends Structure {
     }));
   }
 
-  protected GridPiecesGenerator.RoomGridGenerator getGenerator(Structure.Context context) {
-    return this.generator;
+  protected RoomGridGenerator getGenerator(Structure.Context context) {
+    return this.generatorProvider.get();
   }
 
   public HeightProvider getHeightProvider() {

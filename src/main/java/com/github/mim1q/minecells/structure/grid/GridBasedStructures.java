@@ -17,7 +17,7 @@ public class GridBasedStructures {
     public static final Codec<Prison> CODEC = createGridBasedStructureCodec(Prison::new);
 
     protected Prison(Config config, HeightProvider heightProvider, Optional<Heightmap.Type> projectStartToHeightmap) {
-      super(config, heightProvider, projectStartToHeightmap, new PrisonGridGenerator());
+      super(config, heightProvider, projectStartToHeightmap, PrisonGridGenerator::new);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class GridBasedStructures {
     public static final Codec<Promenade> CODEC = createGridBasedStructureCodec(Promenade::new);
 
     protected Promenade(Config config, HeightProvider heightProvider, Optional<Heightmap.Type> projectStartToHeightmap) {
-      super(config, heightProvider, projectStartToHeightmap, new PromenadeGridGenerator());
+      super(config, heightProvider, projectStartToHeightmap, PromenadeGridGenerator::new);
     }
 
     @Override
