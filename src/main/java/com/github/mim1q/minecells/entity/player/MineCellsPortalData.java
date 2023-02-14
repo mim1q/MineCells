@@ -46,8 +46,13 @@ public class MineCellsPortalData {
 
   public NbtCompound toNbt() {
     NbtCompound nbt = new NbtCompound();
+    int i = 0;
     for (Pair<String, BlockPos> pair : portalStack) {
-      nbt.putLong(pair.getLeft(), pair.getRight().asLong());
+      NbtCompound subNbt = new NbtCompound();
+      subNbt.putString("dimensionKey", pair.getLeft());
+      subNbt.putLong("position", pair.getRight().asLong());
+      nbt.put(String.valueOf(i), subNbt);
+      i++;
     }
     return nbt;
   }
@@ -55,9 +60,15 @@ public class MineCellsPortalData {
   public void fromNbt(NbtCompound nbt) {
     portalStack.clear();
     Set<String> keys = nbt.getKeys();
-    for (String key : keys) {
-      long element = nbt.getLong(key);
-      portalStack.add(new Pair<>(key, BlockPos.fromLong(element)));
+    for (int i = 0; i < keys.size(); i++) {
+      NbtCompound element = nbt.getCompound(String.valueOf(i));
+      if (element == null || element.isEmpty()) {
+        continue;
+      }
+      portalStack.add(new Pair<>(
+        element.getString("dimensionKey"),
+        BlockPos.fromLong(element.getLong("position"))
+      ));
     }
     if (portalStack.isEmpty()) {
       return;
