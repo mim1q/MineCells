@@ -33,9 +33,8 @@ public class BloodSwordItem extends SwordItem {
         player.getItemCooldownManager().set(this, (int)(20  * COOLDOWN));
         BleedingStatusEffect.apply(target, 20 * 6);
       }
-      return true;
     }
-    return false;
+    return super.postHit(stack, target, attacker);
   }
 
   @Override
