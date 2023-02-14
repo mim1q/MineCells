@@ -1,4 +1,4 @@
-# Mine Cells 1.3.5
+# Mine Cells 1.3.5 (hotfix 1)
 
 ## bugfixes and tweaks
 
