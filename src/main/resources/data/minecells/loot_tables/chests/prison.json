@@ -41,8 +41,8 @@
     },
     {
       "rolls": {
-        "min": 4,
-        "max": 8
+        "min": 0,
+        "max": 5
       },
       "entries": [
         {
@@ -104,6 +104,49 @@
         {
           "condition": "minecraft:random_chance",
           "chance": 0.25
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 4,
+        "max": 16
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "minecraft:chain"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "minecraft:cobweb"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 6,
+          "name": "minecraft:stick"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecraft:iron_nugget"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecraft:gold_nugget"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "minecraft:string"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecells:guts"
         }
       ]
     }
