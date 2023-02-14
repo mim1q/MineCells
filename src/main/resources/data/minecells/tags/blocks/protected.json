@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecells:putrid_log",
+    "minecells:putrid_fence",
     "minecells:wilted_leaves"
   ]
 }
