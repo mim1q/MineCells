@@ -12,36 +12,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridPiecesGenerator {
-  public static List<GridPiece> generatePieces(BlockPos startPos, Structure.Context context, int size, RoomGridGenerator generator) {
+  public static List<GridPiece> generatePieces(BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size, RoomGridGenerator generator) {
     List<RoomData> roomDataList = generator.generate(context);
     List<GridPiece> pieces = new ArrayList<>();
     for (RoomData data : roomDataList) {
-      pieces.add(new GridPiece(context, data.poolId(), startPos.add(data.pos().multiply(size)).add(data.offset()), data.rotation(), size));
+      if (projectStartToHeightmap.isPresent() && data.terrainFit) {
+        pieces.add(getTerrainFitPiece(data, startPos, projectStartToHeightmap, context, size));
+      } else {
+        pieces.add(new GridPiece(context, data.poolId(), startPos.add(data.pos().multiply(size)).add(data.offset()), data.rotation(), size));
+      }
     }
     return pieces;
   }
 
-  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  public static List<GridPiece> generateWithHeightmap(BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size, RoomGridGenerator generator) {
-    List<RoomData> roomDataList = generator.generate(context);
-    List<GridPiece> pieces = new ArrayList<>();
-    for (RoomData data : roomDataList) {
-      BlockPos pos = startPos.add(data.pos().multiply(size));
-      int heightmapY = projectStartToHeightmap.map(
-        type -> context.chunkGenerator().getHeightOnGround(pos.getX() + size / 2, pos.getZ() + size / 2, type, context.world(), context.noiseConfig())
-      ).orElse(0);
-      int heightDiff = heightmapY - startPos.getY();
-      pieces.add(new GridPiece(context, data.poolId(), startPos.add(data.pos().multiply(size)).add(data.offset()).add(0, heightDiff, 0), data.rotation(), size));
-    }
-    return pieces;
+  public static GridPiece getTerrainFitPiece(RoomData data, BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size) {
+    BlockPos pos = startPos.add(data.pos().multiply(size));
+    int heightmapY = projectStartToHeightmap.map(
+      type -> context.chunkGenerator().getHeightOnGround(pos.getX() + size / 2, pos.getZ() + size / 2, type, context.world(), context.noiseConfig())
+    ).orElse(0);
+    int heightDiff = heightmapY - startPos.getY();
+    return new GridPiece(context, data.poolId(), startPos.add(data.pos().multiply(size)).add(data.offset()).add(0, heightDiff, 0), data.rotation(), size);
   }
 
   public record RoomData(
     Vec3i pos,
     BlockRotation rotation,
     Identifier poolId,
-    Vec3i offset
+    Vec3i offset,
+    boolean terrainFit
   ) { }
 
   public static abstract class RoomGridGenerator {
@@ -54,15 +54,19 @@ public class GridPiecesGenerator {
       return rooms;
     }
     protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
-      rooms.add(new RoomData(pos, rotation, poolId, offset));
+      rooms.add(new RoomData(pos, rotation, poolId, offset, false));
     }
 
     protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
       addRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
 
-    public boolean usesHeightmap() {
-      return false;
+    protected final void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+      rooms.add(new RoomData(pos, rotation, poolId, offset, true));
+    }
+
+    protected final void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
+      addTerrainFitRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
   }
 }

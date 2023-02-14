@@ -11,7 +11,6 @@ import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
 import net.minecraft.world.gen.structure.Structure;
 
-import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,11 +53,7 @@ public abstract class GridBasedStructure extends Structure {
     ).orElse(0);
     BlockPos blockPos = new BlockPos(x, y + heightmapY, z);
     RoomGridGenerator generator = this.getGenerator(context);
-    if (generator.usesHeightmap()) {
-      pieces = GridPiecesGenerator.generateWithHeightmap(blockPos, projectStartToHeightmap, context, 16, generator);
-    } else {
-      pieces = GridPiecesGenerator.generatePieces(blockPos, context, 16, generator);
-    }
+    pieces = GridPiecesGenerator.generatePieces(blockPos, projectStartToHeightmap, context, 16, generator);
     return Optional.of(new Structure.StructurePosition(blockPos, collector -> {
       for (GridPiece piece : pieces) {
         collector.addPiece(piece);

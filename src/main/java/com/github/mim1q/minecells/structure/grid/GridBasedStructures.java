@@ -36,8 +36,8 @@ public class GridBasedStructures {
     @Override
     protected GridPiecesGenerator.RoomGridGenerator getGenerator(Context context) {
       if (
-        (context.chunkPos().x / 4) % 3 == 0
-        && (context.chunkPos().z / 4) % 3 == 0
+        (context.chunkPos().x) % 10 == 0
+        && (context.chunkPos().z) % 10 == 0
         && context.random().nextFloat() < 0.5F
       ) {
         return new PromenadeUndergroundGridGenerator();

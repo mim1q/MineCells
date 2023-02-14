@@ -16,20 +16,15 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
 
   @Override
   protected void addRooms(Random random) {
-    addRoom(Vec3i.ZERO, BlockRotation.random(random), MAIN);
+    addTerrainFitRoom(Vec3i.ZERO, BlockRotation.random(random), MAIN);
     boolean special = false;
     for (Direction dir : Direction.Type.HORIZONTAL) {
       if (!special && random.nextFloat() < 0.2F) {
-        addRoom(dir.getVector(), BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
+        addTerrainFitRoom(dir.getVector(), BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
         special = true;
         continue;
       }
-      addRoom(dir.getVector(), BlockRotation.random(random), SIDE);
+      addTerrainFitRoom(dir.getVector(), BlockRotation.random(random), SIDE);
     }
-  }
-
-  @Override
-  public boolean usesHeightmap() {
-    return true;
   }
 }
