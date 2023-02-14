@@ -21,9 +21,9 @@ public class MineCellsPlacedFeatures {
   public static final RegistryEntry<PlacedFeature> PROMENADE_TREE = createPlacedFeature(
     MineCells.createId("promenade_tree"),
     MineCellsConfiguredFeatures.PROMENADE_TREE,
-    PlacedFeatures.createCountExtraModifier(1, 0.5F, 3),
+    PlacedFeatures.createCountExtraModifier(1, 0.5F, 4),
     SquarePlacementModifier.of(),
-    PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
+    PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP,
     BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
   );
 
