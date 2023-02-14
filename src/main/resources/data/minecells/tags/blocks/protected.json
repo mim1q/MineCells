@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
+    "minecells:putrid_log",
+    "minecraft:chain",
+    "minecells:big_chain",
     "minecells:putrid_fence",
     "minecells:wilted_leaves",
     "minecells:chain_pile_block",
