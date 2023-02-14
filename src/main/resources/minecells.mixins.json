@@ -11,6 +11,7 @@
     "entity.player.ServerPlayerEntityMixin",
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
+    "network.CustomPayloadS2CPacketMixin",
     "world.TrunkPlacerTypeInvoker"
   ],
   "client": [

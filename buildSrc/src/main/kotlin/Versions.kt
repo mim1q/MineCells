@@ -6,6 +6,7 @@ object Versions {
   const val yarn = "1.19.2+build.20"
   const val loom = "1.0-SNAPSHOT"
   const val omegaConfig = "1.2.3-1.18.1"
+  const val mixinExtras = "0.1.1"
 
   // Publishing
   const val cursegradle = "1.4.0"

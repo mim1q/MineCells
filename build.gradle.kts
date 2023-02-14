@@ -30,11 +30,18 @@ repositories {
 
 dependencies {
   minecraft("com.mojang:minecraft:${Versions.minecraft}")
+
   mappings("net.fabricmc:yarn:${Versions.yarn}:v2")
+
   modImplementation("net.fabricmc:fabric-loader:${Versions.fabricLoader}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.fabricApi}")
+
   include("com.github.Draylar.omega-config:omega-config-base:${Versions.omegaConfig}")
   modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.omegaConfig}")
+
+  implementation("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
+  annotationProcessor("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
+  include("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
 
   modApi("com.github.mim1q:RpgDifficulty:1.19-SNAPSHOT")
 
