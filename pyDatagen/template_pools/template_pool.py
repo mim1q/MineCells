@@ -50,6 +50,9 @@ class TemplatePoolGenerator:
     def generate_autoprefixed(self, file_name: str, elements: [(str, int)], processors: str = "minecraft:empty", projection: str = "rigid"):
         self.generate_prefixed(file_name, elements, file_name, processors, projection)
 
+    def generate_indexed(self, file_name: str, weights: [int], processors: str = "minecraft:empty", projection: str = "rigid"):
+        self.generate_autoprefixed(file_name, [(str(i), v) for (i, v) in enumerate(weights)], processors, projection)
+
     def generate(self, file_name: str, elements: [(str, int)], processors: str = "minecraft:empty", projection: str = "rigid"):
         self.save_to_file(file_name, generate_template_pool(elements, file_name, processors, projection))
 
