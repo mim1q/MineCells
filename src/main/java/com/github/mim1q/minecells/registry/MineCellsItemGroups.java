@@ -130,11 +130,12 @@ public class MineCellsItemGroups {
           Stack(Items.STRUCTURE_BLOCK),
           Stack(Items.STRUCTURE_VOID),
           Stack(Items.BARRIER),
+          SpawnerRuneItem.of("Arena", EntryList.TEST, 60 * 20, 2, 4, 8.0F, 16.0F),
           SpawnerRuneItem.of("Prison", EntryList.PRISON, 30 * 20, 1, 2, 6.0F, 10.0F),
           SpawnerRuneItem.of("Promenade - Ranged", EntryList.PROMENADE_RANGED, 90 * 20, 1, 1, 3.0F, 20.0F),
           SpawnerRuneItem.of("Promenade - Melee", EntryList.PROMENADE_MELEE, 90 * 20, 1, 1, 3.0F, 10.0F),
           SpawnerRuneItem.of("Runner", EntryList.single(MineCellsEntities.RUNNER), 3 * 60 * 20, 1, 1, 3.0F, 8.0F),
-          SpawnerRuneItem.of("Mutated Bats", EntryList.single(MineCellsEntities.MUTATED_BAT), 90 * 20, 1, 3, 5.0F, 10.0F),
+          SpawnerRuneItem.of("Mutated Bats", EntryList.single(MineCellsEntities.MUTATED_BAT), 90 * 20, 1, 2, 5.0F, 10.0F),
           SpawnerRuneItem.of("Protector", EntryList.PROTECTOR, 5 * 60 * 20, 1, 1, 0.0F, 32.0F),
           SpawnerRuneItem.of("Shocker", EntryList.SHOCKER, 120 * 20, 1, 1, 0.0F, 32.0F),
           Stack(MineCellsBlocks.BARRIER_RUNE)
