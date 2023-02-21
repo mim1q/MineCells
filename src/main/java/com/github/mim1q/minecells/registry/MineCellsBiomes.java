@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacedFeatures;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -65,6 +66,13 @@ public class MineCellsBiomes {
     DefaultBiomeFeatures.addPlainsTallGrass(generationSettings);
     DefaultBiomeFeatures.addJungleGrass(generationSettings);
 
+    SpawnSettings spawnSettings = new SpawnSettings.Builder()
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 10, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.UNDEAD_ARCHER, 5, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.MUTATED_BAT, 3, 1, 2))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.RUNNER, 1, 1, 1))
+      .build();
+
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.RAIN)
       .downfall(0.5F)
@@ -77,7 +85,7 @@ public class MineCellsBiomes {
         .grassColor(0x3C8787)
         .foliageColor(0x33797F)
         .build())
-      .spawnSettings(new SpawnSettings.Builder().build())
+      .spawnSettings(spawnSettings)
       .generationSettings(generationSettings.build())
       .build();
   }
