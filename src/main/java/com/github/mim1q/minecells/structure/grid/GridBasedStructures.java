@@ -35,14 +35,15 @@ public class GridBasedStructures {
 
     @Override
     protected GridPiecesGenerator.RoomGridGenerator getGenerator(Context context) {
-      if (
-        (context.chunkPos().x / 3) % 3 == 0
-        && (context.chunkPos().z / 3) % 3 == 0
-        && context.random().nextFloat() < 0.75F
-      ) {
+      if (context.chunkPos().x % 8 == 0 && context.chunkPos().z % 8 == 0 && context.random().nextFloat() < 0.5F) {
         return new PromenadeUndergroundGridGenerator();
       }
       return super.getGenerator(context);
+    }
+
+    @Override
+    protected boolean canSpawn(Context context) {
+      return context.chunkPos().x % 4 == 0 && context.chunkPos().z % 4 == 0;
     }
 
     @Override

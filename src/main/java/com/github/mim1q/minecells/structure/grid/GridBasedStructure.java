@@ -44,6 +44,9 @@ public abstract class GridBasedStructure extends Structure {
 
   @Override
   public Optional<Structure.StructurePosition> getStructurePosition(Structure.Context context) {
+    if (!canSpawn(context)) {
+      return Optional.empty();
+    }
     ChunkPos chunkPos = context.chunkPos();
     int x = chunkPos.x * 16;
     int z = chunkPos.z * 16;
@@ -59,6 +62,10 @@ public abstract class GridBasedStructure extends Structure {
         collector.addPiece(piece);
       }
     }));
+  }
+
+  protected boolean canSpawn(Structure.Context context) {
+    return true;
   }
 
   protected RoomGridGenerator getGenerator(Structure.Context context) {

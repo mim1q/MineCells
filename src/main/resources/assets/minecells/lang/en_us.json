@@ -146,6 +146,7 @@
   "chat.minecells.version_mismatch.link": "\n\nClick here for a guide on updating Mine Cells",
   "chat.minecells.version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
   "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
+  "chat.minecells.version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
 
   "comment.minecells.004": "================================== FROM PYTHON AUTOLANG ===================================",
 

@@ -29,7 +29,8 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
 
   @Override
   protected void addRooms(Random random) {
-    addMain(random);
+    Vec3i offset = getOffset(random);
+    addMain(random, offset);
 
     boolean special = false;
 
@@ -38,11 +39,11 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
         continue;
       }
       if (!special && random.nextFloat() < 0.1F) {
-        addTerrainFitRoom(vec, BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
+        addTerrainFitRoom(vec.add(offset), BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
         special = true;
         continue;
       }
-      addTerrainFitRoom(vec, BlockRotation.random(random), SIDE);
+      addTerrainFitRoom(vec.add(offset), BlockRotation.random(random), SIDE);
     }
 
     for (Vec3i vec : FARTHER_NEIGHBORS) {
@@ -50,15 +51,19 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
         continue;
       }
       if (!special && random.nextFloat() < 0.33F) {
-        addTerrainFitRoom(vec, BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
+        addTerrainFitRoom(vec.add(offset), BlockRotation.random(random), PIT, new Vec3i(0, -23, 0));
         special = true;
         continue;
       }
-      addTerrainFitRoom(vec, BlockRotation.random(random), SIDE);
+      addTerrainFitRoom(vec.add(offset), BlockRotation.random(random), SIDE);
     }
   }
 
-  protected void addMain(Random random) {
-    addRoom(Vec3i.ZERO, BlockRotation.random(random), MAIN);
+  protected Vec3i getOffset(Random random) {
+    return new Vec3i(random.nextInt(1), 0, random.nextInt(1));
+  }
+
+  protected void addMain(Random random, Vec3i offset) {
+    addRoom(offset, BlockRotation.random(random), MAIN);
   }
 }

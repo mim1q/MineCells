@@ -12,6 +12,8 @@ def generate_template_pools(poolgen: TemplatePoolGenerator):
     poolgen.generate_autoprefixed("minecells:promenade/underground_buildings/shaft", [("0", 1)], processors="minecells:promenade")
     poolgen.generate_autoprefixed("minecells:promenade/underground_buildings/shaft_bottom", [("0", 1)], processors="minecells:promenade")
     poolgen.generate_indexed("minecells:promenade/underground_buildings/room", [3, 2, 2, 1, 2], processors="minecells:promenade")
+    poolgen.generate_indexed("minecells:promenade/underground_buildings/chain_top", [1], processors="minecells:promenade")
+    poolgen.generate_indexed("minecells:promenade/underground_buildings/chain_bottom", [1], processors="minecells:promenade")
     poolgen.generate_single("minecells:promenade/underground_buildings/room_end_center", processors="minecells:promenade")
     poolgen.generate_single("minecells:promenade/underground_buildings/room_end_right", processors="minecells:promenade")
     poolgen.generate_single("minecells:promenade/underground_buildings/room_end_left", processors="minecells:promenade")
