@@ -17,21 +17,26 @@ public class PromenadeUndergroundGridGenerator extends PromenadeGridGenerator {
   public static final Identifier END_CENTER = MineCells.createId("promenade/underground_buildings/room_end_center");
   public static final Identifier END_RIGHT = MineCells.createId("promenade/underground_buildings/room_end_right");
   public static final Identifier END_LEFT = MineCells.createId("promenade/underground_buildings/room_end_left");
+  public static final Identifier END = MineCells.createId("promenade/underground_buildings/end");
 
   @Override
   protected void addRooms(Random random) {
     super.addRooms(random);
     addRoom(new Vec3i(0, -1, 0), BlockRotation.NONE, SHAFT);
-    Vec3i second = addFloor(new Vec3i(0, -2, 0), random, true);
-    Vec3i third = addFloor(second.down(), random, false);
-    addFloor(third.down(), random, false);
+    Vec3i second = addFloor(new Vec3i(0, -2, 0), random, true, false);
+    Vec3i third = addFloor(second.down(), random, false, false);
+    addFloor(third.down(), random, false, true);
   }
 
-  protected Vec3i addFloor(Vec3i startPos, Random random, boolean first) {
+  protected Vec3i addFloor(Vec3i startPos, Random random, boolean first, boolean last) {
     Vec3i origin = new Vec3i(startPos.getX(), startPos.getY(), 0);
     addRoom(startPos, BlockRotation.NONE, first ? SHAFT_BOTTOM : CHAIN_BOTTOM);
     for (int z = startPos.getZ() + 1; z <= 3; z++) {
       addRoom(origin.add(0, 0, z), BlockRotation.NONE, ROOM);
+    }
+    if (last) {
+      addRoom(origin.add(0, 0, 4), BlockRotation.NONE, END);
+      return origin.add(0, 0, 4);
     }
     addRoom(origin.add(0, 0, 4), BlockRotation.NONE, END_CENTER);
     addRoom(origin.add(1, 0, 4), BlockRotation.NONE, END_LEFT);
@@ -45,7 +50,7 @@ public class PromenadeUndergroundGridGenerator extends PromenadeGridGenerator {
     for (int z = 3; z >= rightMinZ; z--) {
       addRoom(origin.add(-1, 0, z), BlockRotation.NONE, z == rightMinZ && !left ? CHAIN_TOP : ROOM);
     }
-    return origin.add(left ? 1 : -1, 0, left ? rightMinZ : leftMinZ);
+    return origin.add(left ? 1 : -1, 0, left ? leftMinZ : rightMinZ);
   }
 
   @Override
