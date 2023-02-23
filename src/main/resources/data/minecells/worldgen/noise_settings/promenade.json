@@ -74,10 +74,10 @@
           "type": "minecraft:vertical_gradient",
           "random_name": "bedrock",
           "true_at_and_below": {
-            "above_bottom": 4
+            "absolute": 44
           },
           "false_at_and_above": {
-            "above_bottom": 8
+            "absolute": 50
           }
         },
         "then_run": {

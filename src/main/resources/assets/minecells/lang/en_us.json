@@ -133,9 +133,11 @@
   "dimension.minecraft.overworld": "Overworld",
   "dimension.minecells.prison": "Prisoners' Quarters",
   "dimension.minecells.insufferable_crypt": "Insufferable Crypt",
+  "dimension.minecells.promenade": "Promenade of The Condemned",
 
   "biome.minecells.prison": "Prisoners' Quarters",
   "biome.minecells.insufferable_crypt": "Insufferable Crypt",
+  "biome.minecells.promenade": "Promenade of The Condemned",
 
   "gui.minecells.cell_forge.title": "Cell Forge",
   "gui.minecells.cell_forge.forge": "Forge",
