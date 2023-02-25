@@ -54,7 +54,7 @@ public class MineCellsDimensions {
       BlockPos groundPos = multiple512.withY(y);
       if (groundPos.getY() == 0) return null;
       BlockPos tpPos = MineCellsPortal.placeUpstreamPortal(world, groundPos.down());
-      return Vec3d.ofCenter(tpPos).add(3.5D, 0.0D, 0.5D);
+      return Vec3d.ofCenter(tpPos).add(3.5D, 0.0D, 3.5D);
     }
     return null;
   }

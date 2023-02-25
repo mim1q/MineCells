@@ -7,6 +7,7 @@ import net.minecraft.block.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -41,10 +42,16 @@ public class BarrierRuneBlock extends BarrierBlock {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    if (context instanceof EntityShapeContext entityCtx && entityCtx.getEntity() instanceof HostileEntity) {
+    if (context instanceof EntityShapeContext entityCtx && (entityCtx.getEntity() instanceof HostileEntity || entityCtx.getEntity() instanceof ProjectileEntity)) {
       return VoxelShapes.fullCube();
     }
-    return super.getCollisionShape(state, world, pos, context);
+    return VoxelShapes.empty();
+  }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return context.isHolding(this.asItem()) ? VoxelShapes.fullCube() : VoxelShapes.empty();
   }
 
   @Nullable
