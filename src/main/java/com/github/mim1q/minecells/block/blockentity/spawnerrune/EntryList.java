@@ -33,7 +33,6 @@ public class EntryList {
     .addEntry(MineCellsEntities.GRENADIER, 2);
 
   public static final EntryList PROMENADE_RANGED = new EntryList()
-    .addEntry(MineCellsEntities.UNDEAD_ARCHER, 1)
     .addEntry(MineCellsEntities.GRENADIER, 1);
 
   public static final EntryList PROMENADE_MELEE = new EntryList()
