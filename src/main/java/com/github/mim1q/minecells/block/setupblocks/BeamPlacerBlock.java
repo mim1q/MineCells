@@ -17,6 +17,7 @@ public class BeamPlacerBlock extends SetupBlock {
         break;
       }
     }
+    world.setBlockState(pos, stateAbove);
     return true;
   }
 
