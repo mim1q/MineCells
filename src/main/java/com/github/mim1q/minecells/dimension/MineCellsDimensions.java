@@ -35,7 +35,8 @@ public class MineCellsDimensions {
   public static boolean isMineCellsDimension(World world) {
     return Set.of(
       PRISON,
-      INSUFFERABLE_CRYPT
+      INSUFFERABLE_CRYPT,
+      PROMENADE
     ).contains(world.getRegistryKey());
   }
 
@@ -49,10 +50,11 @@ public class MineCellsDimensions {
       return new Vec3d(multiple.getX() + 6, 41, multiple.getZ() + 3.5);
     }
     if (dimension.equals(PROMENADE)) {
-      world.getChunk(multiple512).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, multiple512.getX(), multiple512.getZ());
-      BlockPos groundPos = multiple512.withY(world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, multiple512.getX(), multiple512.getZ()));
+      int y = world.getChunk(multiple512).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, multiple512.getX(), multiple512.getZ());
+      BlockPos groundPos = multiple512.withY(y);
       if (groundPos.getY() == 0) return null;
-      return Vec3d.ofCenter(groundPos);
+      BlockPos tpPos = MineCellsPortal.placeUpstreamPortal(world, groundPos.down());
+      return Vec3d.ofCenter(tpPos).add(3.5D, 0.0D, 0.5D);
     }
     return null;
   }
