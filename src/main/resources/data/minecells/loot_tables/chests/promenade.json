@@ -41,13 +41,13 @@
     },
     {
       "rolls": {
-        "min": 0,
+        "min": 1,
         "max": 6
       },
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 8,
+          "weight": 7,
           "name": "minecraft:iron_nugget"
         },
         {
@@ -57,12 +57,12 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 6,
           "name": "minecraft:iron_ingot"
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
+          "weight": 6,
           "name": "minecraft:gold_ingot"
         },
         {
@@ -113,36 +113,16 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.25
+          "chance": 0.2
         }
       ]
     },
     {
       "rolls": {
-        "min": 4,
-        "max": 16
+        "min": 3,
+        "max": 8
       },
       "entries": [
-        {
-          "type": "minecraft:item",
-          "weight": 8,
-          "name": "minecraft:chain"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:cobweb"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "name": "minecraft:stick"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 6,
-          "name": "minecraft:string"
-        },
         {
           "type": "minecraft:item",
           "weight": 1,
@@ -152,6 +132,40 @@
           "type": "minecraft:item",
           "weight": 2,
           "name": "minecraft:rotten_flesh"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "minecells:putrid_log"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "minecells:wilted_leaves"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecells:red_wilted_leaves"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "minecells:big_chain"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "minecraft:chain"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:set_count",
+          "count": {
+            "min": 1,
+            "max": 4
+          }
         }
       ]
     }
