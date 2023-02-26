@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -20,19 +21,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class BiomeBannerBlock extends BlockWithEntity {
 
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   public static final BooleanProperty WAVING = BooleanProperty.of("waving");
-  public static EnumProperty<BannerPattern> PATTERN = EnumProperty.of("pattern", BannerPattern.class);
-  public static final VoxelShape SHAPE = VoxelShapes.cuboid(0.0D, 0.0D, 0.875D, 1.0D, 1.0D, 1.0D);
+  public static final EnumProperty<BannerPattern> PATTERN = EnumProperty.of("pattern", BannerPattern.class);
+  public static final BooleanProperty CENTERED = BooleanProperty.of("centered");
+
+  public static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 14.0D, 16.0D, 16.0D, 16.0D);
+  public static final VoxelShape CENTERED_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 7.0D, 16.0D, 16.0D, 9.0D);
 
   public BiomeBannerBlock(Settings settings) {
     super(settings);
@@ -40,6 +44,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
       .with(FACING, Direction.NORTH)
       .with(WAVING, true)
       .with(PATTERN, BannerPattern.KING_CREST)
+      .with(CENTERED, false)
     );
   }
 
@@ -51,14 +56,17 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-    builder.add(FACING, WAVING, PATTERN);
+    builder.add(FACING, WAVING, PATTERN, CENTERED);
   }
 
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    if (ctx.getSide() == Direction.UP || ctx.getSide() == Direction.DOWN) {
-      return Blocks.AIR.getDefaultState();
+    if (ctx.getSide() == Direction.UP) {
+      return null;
+    }
+    if (ctx.getSide() == Direction.DOWN) {
+      return getDefaultState().with(FACING, ctx.getPlayerFacing()).with(CENTERED, true);
     }
     Vec3i offset = ctx.getSide().getOpposite().getVector();
     BlockState state0 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down());
@@ -68,6 +76,12 @@ public class BiomeBannerBlock extends BlockWithEntity {
       return resultState.with(WAVING, true);
     }
     return resultState.with(WAVING, false);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+    return List.of(MineCellsItems.BIOME_BANNER.stackOf(state.get(PATTERN)));
   }
 
   @Override
@@ -91,7 +105,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), SHAPE);
+    return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), state.get(CENTERED) ? CENTERED_SHAPE : SHAPE);
   }
 
   @Override

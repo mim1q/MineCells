@@ -74,6 +74,7 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     private final ModelPart highlight;
 
     public ConjunctiviusEyeModel(ModelPart root) {
+      super(RenderLayer::getEyes);
       this.eye = root.getChild("eye");
       this.highlight = root.getChild("highlight");
     }
@@ -85,14 +86,14 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
       modelPartData.addChild("eye",
         ModelPartBuilder.create()
           .uv(0, 0)
-          .cuboid(-5.5F, -5.5F, 0.0F, 11, 11, 0, new Dilation(0.01F)),
+          .cuboid(-5.5F, -5.5F, 0.0F, 11, 11, 0),
         ModelTransform.NONE
       );
 
       modelPartData.addChild("highlight",
         ModelPartBuilder.create()
           .uv(0, 11)
-          .cuboid(0.0F, 0.0F, 0.0F, 5, 4, 0, new Dilation(0.01F)),
+          .cuboid(0.0F, 0.0F, 0.0F, 5, 4, 0),
         ModelTransform.pivot(1.0F, -5.0F, -0.25F)
       );
 

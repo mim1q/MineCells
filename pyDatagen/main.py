@@ -6,12 +6,11 @@ from presets import block_set_presets, common_presets, wood_presets
 from presets.preset_generator import PresetGenerator
 from template_pools.template_pool import TemplatePoolGenerator
 from template import Template, TemplateType
-from units import common, insufferable_crypt, prison
+from units import common, insufferable_crypt, prison, promenade
 
 
 def generate_data(output_path: str):
     # TEMPLATES AND PRESETS ============================================================================================
-
     gen = PresetGenerator("minecells", output_path)
 
     # Block Sets
@@ -20,31 +19,39 @@ def generate_data(output_path: str):
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_stone"))
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
     gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
+    gen.generate_preset(block_set_presets.CommonBlockSet("putrid_board_block", "putrid_board"))
 
+    # Misc Blocks
+    def simple_item_and_drop(name: str):
+        gen.generate_preset(common_presets.ItemBlockModel(name))
+        gen.generate_preset(common_presets.SimpleDrop(name))
+
+    gen.generate_preset(common_presets.GeneratedItemModel("king_statue"))
+    gen.generate_preset(common_presets.GeneratedItemModel("barrier_rune"))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
+    simple_item_and_drop("wilted_grass_block")
+    simple_item_and_drop("flag_pole")
+
+    # Leaves
     gen.generate_preset(wood_presets.Leaves("wilted", True))
     gen.generate_preset(wood_presets.Leaves("orange_wilted"))
     gen.generate_preset(wood_presets.Leaves("red_wilted"))
 
+    # Torches
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
-    gen.generate_template(
-        Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "skeleton", {"block": "skeleton"}))
-    gen.generate_template(
-        Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_corpse", {"block": "hanged_corpse"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "corpse", {"block": "corpse"}))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_rotting_corpse",
-                                   {"block": "hanged_rotting_corpse"}))
-    gen.generate_template(
-        Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "rotting_corpse", {"block": "rotting_corpse"}))
+    gen.generate_preset(common_presets.GeneratedItemModel("promenade_torch"))
 
-    util.generate_block_items(gen, [
-        "skeleton", "rotting_corpse", "corpse"
-    ])
+    # Corpses
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "skeleton", {"block": "skeleton"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_corpse", {"block": "hanged_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "corpse", {"block": "corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_rotting_corpse", {"block": "hanged_rotting_corpse"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "rotting_corpse", {"block": "rotting_corpse"}))
+    util.generate_block_items(gen, ["skeleton", "rotting_corpse", "corpse"])
 
     # Custom Drops
-    util.generate_self_dropping_blocks(gen, [
-        "prison_torch"
-    ])
+    util.generate_self_dropping_blocks(gen, ["prison_torch", "putrid_boards"])
     gen.generate_template(Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_simple_drop", "prison_stone",
                                    {"item": "prison_cobblestone", "silk_touch_item": "prison_stone"}))
 
@@ -75,6 +82,7 @@ def generate_data(output_path: str):
     common.generate_template_pools(poolgen)
     prison.generate_template_pools(poolgen)
     insufferable_crypt.generate_template_pools(poolgen)
+    promenade.generate_template_pools(poolgen)
 
 
 def main():

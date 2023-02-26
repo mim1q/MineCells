@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "type=middle,facing=north": { "model": "minecells:block/putrid_boards/middle" },
+    "type=middle,facing=east":  { "model": "minecells:block/putrid_boards/middle", "y": 90 },
+    "type=middle,facing=south": { "model": "minecells:block/putrid_boards/middle", "y": 180 },
+    "type=middle,facing=west":  { "model": "minecells:block/putrid_boards/middle", "y": 270 },
+    "type=boarded,facing=north": { "model": "minecells:block/putrid_boards/boarded" },
+    "type=boarded,facing=east":  { "model": "minecells:block/putrid_boards/boarded", "y": 90 },
+    "type=boarded,facing=south": { "model": "minecells:block/putrid_boards/boarded", "y": 180 },
+    "type=boarded,facing=west":  { "model": "minecells:block/putrid_boards/boarded", "y": 270 },
+    "type=top,facing=north": { "model": "minecells:block/putrid_boards/top" },
+    "type=top,facing=east":  { "model": "minecells:block/putrid_boards/top", "y": 90 },
+    "type=top,facing=south": { "model": "minecells:block/putrid_boards/top", "y": 180 },
+    "type=top,facing=west":  { "model": "minecells:block/putrid_boards/top", "y": 270 },
+    "type=top_inverted,facing=north": { "model": "minecells:block/putrid_boards/top_inverted" },
+    "type=top_inverted,facing=east":  { "model": "minecells:block/putrid_boards/top_inverted", "y": 90 },
+    "type=top_inverted,facing=south": { "model": "minecells:block/putrid_boards/top_inverted", "y": 180 },
+    "type=top_inverted,facing=west":  { "model": "minecells:block/putrid_boards/top_inverted", "y": 270 },
+    "type=bottom,facing=north": { "model": "minecells:block/putrid_boards/bottom" },
+    "type=bottom,facing=east":  { "model": "minecells:block/putrid_boards/bottom", "y": 90 },
+    "type=bottom,facing=south": { "model": "minecells:block/putrid_boards/bottom", "y": 180 },
+    "type=bottom,facing=west":  { "model": "minecells:block/putrid_boards/bottom", "y": 270 },
+    "type=bottom_inverted,facing=north": { "model": "minecells:block/putrid_boards/bottom_inverted" },
+    "type=bottom_inverted,facing=east":  { "model": "minecells:block/putrid_boards/bottom_inverted", "y": 90 },
+    "type=bottom_inverted,facing=south": { "model": "minecells:block/putrid_boards/bottom_inverted", "y": 180 },
+    "type=bottom_inverted,facing=west":  { "model": "minecells:block/putrid_boards/bottom_inverted", "y": 270 }
+  }
+}

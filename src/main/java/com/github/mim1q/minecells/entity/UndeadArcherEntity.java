@@ -84,6 +84,11 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     this.decrementCooldown(SHOOT_COOLDOWN);
   }
 
+  @Override
+  public int getSafeFallDistance() {
+    return 3;
+  }
+
   public static DefaultAttributeContainer.Builder createUndeadArcherAttributes() {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)

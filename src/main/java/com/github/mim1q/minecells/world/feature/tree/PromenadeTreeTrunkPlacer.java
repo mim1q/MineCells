@@ -1,16 +1,15 @@
 package com.github.mim1q.minecells.world.feature.tree;
 
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.PillarBlock;
+import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
@@ -18,71 +17,113 @@ import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer {
-  public static final Codec<PromenadeTreeTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> {
-    return fillTrunkPlacerFields(instance).apply(instance, PromenadeTreeTrunkPlacer::new);
-  });
+public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements PromenadeTreeHelper {
+  public static final Codec<PromenadeTreeTrunkPlacer> CODEC = RecordCodecBuilder.create(
+    (instance) -> fillTrunkPlacerFields(instance).apply(instance, PromenadeTreeTrunkPlacer::new)
+  );
 
-  public PromenadeTreeTrunkPlacer(int i, int j, int k) {
-    super(i, j, k);
+  public PromenadeTreeTrunkPlacer(int baseHeight, int firstRandom, int secondRandom) {
+    super(baseHeight, firstRandom, secondRandom);
   }
 
   @Override
   public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
-    setToDirt(world, replacer, random, startPos.down(), config);
-    Direction lastDirection = null;
-    for (int i = 0; i < height; ++i) {
-      this.getAndSetState(world, replacer, random, startPos.up(i), config);
-      if (i > 3 && i < height - 2 && random.nextFloat() < 0.2F) {
-        lastDirection = this.placeBranchAndGetDirection(lastDirection, world, replacer, random, i, startPos, config);
+    height = height + random.nextInt(10);
+    List<FoliagePlacer.TreeNode> nodes = new ArrayList<>();
+    boolean broken = random.nextFloat() < 0.1F;
+    if (broken) {
+      height = height * 2 / 3;
+    }
+    for (int i = 1; i < height; i++) {
+      if (!world.testBlockState(startPos.up(i), state -> state.getMaterial().isReplaceable())) {
+        return nodes;
       }
     }
 
-    return ImmutableList.of(new FoliagePlacer.TreeNode(startPos.up(height), 0, false));
-  }
+    for (int i = -3; i < height; i++) {
+      replacer.accept(startPos.up(i), TRUNK_BLOCK);
+    }
+    for (Direction dir : Properties.HORIZONTAL_FACING.getValues()) {
+      // Generate trunk base
+      BlockPos basePos = startPos.add(dir.getVector());
+      int baseHeight = random.nextInt(5);
+      if (baseHeight > 0) {
+        placeRoot(world, replacer, basePos.down(), baseHeight);
+      }
 
-  public Direction placeBranchAndGetDirection(Direction lastDirection, TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
-    BlockPos position = startPos.up(height);
-    Direction direction = null;
-    while (direction == null || direction == lastDirection) {
-      direction = switch (random.nextInt(4)) {
-        case 0 -> Direction.NORTH;
-        case 1 -> Direction.EAST;
-        case 2 -> Direction.SOUTH;
-        default -> Direction.WEST;
-      };
-    }
-    Vec3i offset = direction.getVector();
-    position = position.add(offset);
-    Block block = config.trunkProvider.getBlockState(random, position).getBlock();
-    BlockState state = block.getDefaultState();
-    if (block instanceof PillarBlock) {
-      Direction.Axis axis = (direction == Direction.SOUTH || direction == Direction.NORTH)
-        ? Direction.Axis.Z
-        : Direction.Axis.X;
-      state = state.with(PillarBlock.AXIS, axis);
-    }
-    if (this.canReplace(world, position)) {
-      replacer.accept(position, state);
-      if (random.nextFloat() < 0.2F) {
-        this.placeChain(replacer, random, height, position);
+      if (random.nextFloat() < 0.25) {
+        continue;
+      }
+      // Generate branch
+      int h = random.nextBetween(6, height - 3);
+      placeBranch(world, replacer, random, startPos.up(h), dir);
+      int minH = h + 3;
+      while (h < height - 8) {
+        h = random.nextBetween(minH, height - 3);
+        placeBranch(world, replacer, random, startPos.up(h), dir);
+        if (!broken && h > height - 10) {
+          generateLeaves(world, replacer, random, startPos.up(h + 2).add(dir.getVector().multiply(3)), 3);
+        }
+        minH = h + 3;
       }
     }
-    return direction;
+    if (random.nextFloat() < 0.5F) {
+      nodes.add(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
+    }
+    if (!broken) {
+      int additionalRadius = random.nextInt(2);
+      generateLeaves(world, replacer, random, startPos.up(height), 3 + additionalRadius);
+      generateLeaves(world, replacer, random, startPos.up(height - 6), 3 + additionalRadius);
+      generateLeaves(world, replacer, random, startPos.up(height - 10), 1 + additionalRadius);
+
+      var dirs = Direction.Type.HORIZONTAL.getShuffled(random);
+      if (random.nextFloat() < 0.75F) {
+        generateLongBranch(world, replacer, random, startPos.up(height - 6 - random.nextInt(10)), dirs.get(0), 4 + random.nextInt(2));
+      }
+      if (random.nextFloat() < 0.5F) {
+        generateLongBranch(world, replacer, random, startPos.up(height - 8 - random.nextInt(10)), dirs.get(1), 3 + random.nextInt(1));
+      }
+    }
+    return nodes;
   }
 
-  public void placeChain(BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos) {
-    float randomHeight = random.nextInt(height - 1) + 1;
-    for (int i = 1; i <= randomHeight; i++) {
-      replacer.accept(startPos.down(i), Blocks.CHAIN.getDefaultState());
+  public void generateLongBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos startPos, Direction dir, int length) {
+    BlockPos pos = startPos;
+    for (int i = 0; i < length; i++) {
+      pos = pos.add(dir.getVector()).up();
+      replacer.accept(pos, TRUNK_BLOCK);
+    }
+    generateLeaves(world, replacer, random, pos.up(2), 4);
+  }
+
+  public void generateLeaves(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos startPos, int radius) {
+    BlockStatePredicate isAir = BlockStatePredicate.forBlock(Blocks.AIR);
+    for (int y = -radius; y <= radius; y++) {
+      for (int x = -radius; x <= radius; x++) {
+        for (int z = -radius; z <= radius; z++) {
+          BlockPos pos = startPos.add(x, y, z);
+          double distance = pos.getSquaredDistance(startPos);
+          if (distance > radius * radius) {
+            continue;
+          }
+          double chance = (distance) / (radius * radius);
+          if (random.nextFloat() < chance) {
+            continue;
+          }
+          if (world.testBlockState(pos, isAir)) {
+            replacer.accept(pos, MineCellsBlocks.RED_WILTED_LEAVES.getDefaultState().with(Properties.PERSISTENT, true));
+          }
+        }
+      }
     }
   }
 
   @Override
   protected TrunkPlacerType<?> getType() {
-    return MineCellsPlacerTypes.PROMENADE_TRUNK_PLACER;
+    return MineCellsPlacerTypes.PROMENADE_TRUNK;
   }
 }

@@ -21,6 +21,10 @@ public class MineCellsStructures {
     "prison",
     GridBasedStructures.Prison.CODEC
   );
+  public static final StructureType<GridBasedStructures.Promenade> PROMENADE = registerStructure(
+    "promenade",
+    GridBasedStructures.Promenade.CODEC
+  );
 
   // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");

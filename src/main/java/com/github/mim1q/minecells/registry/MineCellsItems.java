@@ -6,7 +6,10 @@ import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.*;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.FoodComponents;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
@@ -18,38 +21,38 @@ public class MineCellsItems {
   private static final Set<Item> simpleItems = new HashSet<>();
 
   public static final Item ELEVATOR_MECHANISM = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS)),
     "elevator_mechanism"
   );
 
   // AOF 6 uses this as an icon for the mod
   public static final Item CHARGED_INTERDIMENSIONAL_RUNE = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
     "charged_interdimensional_rune"
   );
 
   public static final Item BLANK_RUNE = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
     "blank_rune"
   );
 
   public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).maxCount(1)),
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
     "conjunctivius_respawn_rune"
   );
 
   public static final Item GUTS = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).food(FoodComponents.BEEF)),
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).food(FoodComponents.BEEF)),
     "guts"
   );
 
   public static final Item MONSTERS_EYE = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS).food(FoodComponents.COOKED_BEEF)),
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).food(FoodComponents.COOKED_BEEF)),
     "monsters_eye"
   );
 
   public static final BiomeBannerItem BIOME_BANNER = register(
-    new BiomeBannerItem(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)),
+    new BiomeBannerItem(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS)),
     "biome_banner"
   );
 
@@ -57,7 +60,7 @@ public class MineCellsItems {
     new BucketItem(MineCellsFluids.STILL_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
-      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
+      .group(MineCellsItemGroups.MINECELLS)
     ),
     "sewage_bucket"
   );
@@ -66,7 +69,7 @@ public class MineCellsItems {
     new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
-      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
+      .group(MineCellsItemGroups.MINECELLS)
     ),
     "ancient_sewage_bucket"
   );
@@ -75,7 +78,7 @@ public class MineCellsItems {
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
-      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .group(MineCellsItemGroups.MINECELLS)
       .rarity(Rarity.UNCOMMON)
     ), "assassins_dagger"
   );
@@ -84,7 +87,7 @@ public class MineCellsItems {
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
-      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .group(MineCellsItemGroups.MINECELLS)
       .rarity(Rarity.UNCOMMON)
     ), "blood_sword"
   );
@@ -93,7 +96,7 @@ public class MineCellsItems {
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(600)
-      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .group(MineCellsItemGroups.MINECELLS)
     ), "cursed_sword"
   );
 
@@ -102,7 +105,7 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(800)
       .rarity(Rarity.EPIC)
-      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .group(MineCellsItemGroups.MINECELLS)
     ), "tentacle"
   );
 
@@ -111,21 +114,21 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(1200)
       .rarity(Rarity.RARE)
-      .group(MineCellsItemGroups.MINECELLS_WEAPONS)
+      .group(MineCellsItemGroups.MINECELLS)
     ), "hattoris_katana"
   );
 
   public static final Item HEALTH_FLASK = registerSimpleItem(
     new HealthFlaskItem(new FabricItemSettings()
       .maxCount(16)
-      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
+      .group(MineCellsItemGroups.MINECELLS)
     ), "health_flask"
   );
 
   public static final SpawnerRuneItem SPAWNER_RUNE = register(
     new SpawnerRuneItem(new FabricItemSettings()
       .maxCount(1)
-      .group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS)
+      .group(MineCellsItemGroups.MINECELLS)
     ), "spawner_rune"
   );
 

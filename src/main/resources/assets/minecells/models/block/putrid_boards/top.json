@@ -1,0 +1,35 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"0": "minecells:block/putrid_board_block",
+		"1": "minecells:block/putrid_wood",
+		"particle": "minecells:block/putrid_board_block"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 14],
+			"to": [16, 8, 16],
+			"faces": {
+				"north": {"uv": [16, 8, 0, 16], "texture": "#0"},
+				"east": {"uv": [6, 8, 8, 16], "texture": "#1"},
+				"south": {"uv": [0, 8, 16, 16], "texture": "#0"},
+				"west": {"uv": [6, 8, 8, 16], "texture": "#1"},
+				"up": {"uv": [16, 8, 0, 10], "texture": "#1"},
+				"down": {"uv": [0, 0, 16, 2], "texture": "#1"}
+			}
+		},
+		{
+			"from": [0, 8, 14],
+			"to": [8, 16, 16],
+			"faces": {
+				"north": {"uv": [8, 0, 0, 8], "texture": "#0"},
+				"east": {"uv": [6, 0, 8, 8], "texture": "#1"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"west": {"uv": [6, 0, 8, 8], "texture": "#1"},
+				"up": {"uv": [8, 8, 0, 10], "texture": "#1"},
+				"down": {"uv": [0, 0, 8, 2], "texture": "#1"}
+			}
+		}
+	]
+}

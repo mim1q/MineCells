@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.*;
+import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -112,6 +113,12 @@ public class MineCellsBlocks {
     new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
     "small_prison_brick_wall"
   );
+
+  public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK)),
+    "wilted_grass_block"
+  );
+
   public static final Block PUTRID_LOG = registerBlockWithItem(
     new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
     "putrid_log"
@@ -165,6 +172,26 @@ public class MineCellsBlocks {
   public static final Block PUTRID_TRAPDOOR = registerBlockWithItem(
     new TrapdoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_TRAPDOOR)),
     "putrid_trapdoor"
+  );
+
+  public static final Block PUTRID_BOARDS = registerBlockWithItem(
+    new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()),
+    "putrid_boards"
+  );
+
+  public static final Block PUTRID_BOARD_BLOCK = registerBlockWithItem(
+    new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "putrid_board_block"
+  );
+
+  public static final Block PUTRID_BOARD_STAIRS = registerBlockWithItem(
+    new StairsBlock(PUTRID_BOARD_BLOCK.getDefaultState(), FabricBlockSettings.copyOf(Blocks.OAK_STAIRS)),
+    "putrid_board_stairs"
+  );
+
+  public static final Block PUTRID_BOARD_SLAB = registerBlockWithItem(
+    new SlabBlock(FabricBlockSettings.copyOf(Blocks.OAK_STAIRS)),
+    "putrid_board_slab"
   );
 
   // Leaves - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -284,6 +311,16 @@ public class MineCellsBlocks {
     "rotting_corpse"
   );
 
+  public static final Block KING_STATUE = registerBlockWithItem(
+    new DecorativeStatueBlock(FabricBlockSettings.copy(Blocks.STONE).nonOpaque().noCollision()),
+    "king_statue"
+  );
+
+  public static final Block FLAG_POLE = registerBlockWithItem(
+    new FlagPoleBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+    "flag_pole"
+  );
+
   public static final Block BIOME_BANNER = registerBlock(
     new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)),
     "biome_banner"
@@ -309,6 +346,11 @@ public class MineCellsBlocks {
     "prison_torch"
   );
 
+  public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(
+    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly(), "promenade"),
+    "promenade_torch"
+  );
+
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
       state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)
@@ -320,30 +362,23 @@ public class MineCellsBlocks {
     "kingdom_portal_filler"
   );
 
-  public static final Block PRISON_BOX = registerBlock(
-    new MonsterBoxBlock(
-      0.5f,
-      new MonsterBoxBlock.Entry(MineCellsEntities.LEAPING_ZOMBIE, 4),
-      new MonsterBoxBlock.Entry(MineCellsEntities.UNDEAD_ARCHER, 2),
-      new MonsterBoxBlock.Entry(MineCellsEntities.GRENADIER, 1),
-      new MonsterBoxBlock.Entry(MineCellsEntities.SHIELDBEARER, 1)
-    ),
-    "prison_box"
-  );
-
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(
     new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS),
     "conjunctivius_box"
   );
 
-  public static final Block SHOCKER_BOX = registerBlock(
-    new MonsterBoxBlock(MineCellsEntities.SHOCKER),
-    "shocker_box"
+  public static final Block BEAM_PLACER = registerBlock(
+    new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)),
+    "beam_placer"
   );
 
   public static final Block SPAWNER_RUNE = registerBlock(
     new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision().nonOpaque().ticksRandomly()),
     "spawner_rune"
+  );
+
+  public static final Block BARRIER_RUNE = registerBlockWithItem(
+    new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().ticksRandomly()),"barrier_rune"
   );
 
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
@@ -366,7 +401,7 @@ public class MineCellsBlocks {
     Registry.register(
       Registry.ITEM,
       MineCells.createId(id), 
-      new BlockItem(block, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS_BLOCKS_AND_ITEMS))
+      new BlockItem(block, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS))
     );
     return block;
   }

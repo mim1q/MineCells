@@ -29,6 +29,7 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
   public void render(BiomeBannerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     matrices.push();
     Direction dir = entity.getCachedState().get(BiomeBannerBlock.FACING);
+    boolean centered = entity.getCachedState().get(BiomeBannerBlock.CENTERED);
     matrices.translate(0.5F, 1.0F, 0.5F);
     matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-dir.asRotation()));
     matrices.translate(0.0F, 0.0F, -0.4375F);
@@ -37,11 +38,14 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
     float x = entity.getPos().getX();
     float z = entity.getPos().getZ();
     float offset = 0.5F * (x + z) * (x + z + 1) + z;
+    model.setCentered(centered);
     if (world != null && entity.getCachedState().get(BiomeBannerBlock.WAVING)) {
       float time = world.getTime() + tickDelta;
       model.wave(
         (time * 0.1F) % (2.0F * MathHelper.PI),
-        offset % 100
+        offset % 100,
+        centered ? 0.125F : 0.075F,
+        true
       );
     } else {
       model.resetAngles();
@@ -123,9 +127,14 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
       return TexturedModelData.of(modelData, 64, 64);
     }
 
-    public void wave(float animationProgress, float offset) {
+    public void setCentered(boolean centered) {
+      this.main.pivotZ = centered ? -7.0F : 0.0F;
+      this.main.pivotY = centered ? 1.0F : 0.0F;
+    }
+
+    public void wave(float animationProgress, float offset, float strength, boolean tapered) {
       for (int i = 0; i < this.segments.length; i++) {
-        this.segments[i].pitch = MathHelper.sin(animationProgress - (float) i + offset) * 0.05F * i;
+        this.segments[i].pitch = MathHelper.sin(animationProgress - i + offset) * strength * (tapered ? i : 1.0F);
       }
     }
 

@@ -33,7 +33,7 @@ public class ColoredTorchBlock extends BlockWithEntity {
 
   public ColoredTorchBlock(Settings settings, String flameType) {
     super(settings);
-    this.flameTexture = MineCells.createId("textures/blockentity/metal_torch/" + flameType + ".png");
+    this.flameTexture = MineCells.createId("textures/blockentity/colored_torch/" + flameType + ".png");
   }
 
   @Override

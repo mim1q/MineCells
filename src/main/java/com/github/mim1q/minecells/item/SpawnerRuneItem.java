@@ -19,10 +19,9 @@ public class SpawnerRuneItem extends BlockItem {
     super(MineCellsBlocks.SPAWNER_RUNE, settings);
   }
 
-  public static ItemStack withData(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls, float spawnRadius, float playerRange) {
+  public static ItemStack of(String name, EntryList entryList, int maxCooldown, int minRolls, int maxRolls, float spawnRadius, float playerRange) {
     ItemStack stack = new ItemStack(MineCellsBlocks.SPAWNER_RUNE);
     SpawnerRuneData data = new SpawnerRuneData(name, entryList, maxCooldown, minRolls, maxRolls, spawnRadius, playerRange);
-    data.writeNbt(stack.getOrCreateNbt());
     data.writeNbt(stack.getOrCreateSubNbt("BlockEntityTag"));
     return stack;
   }
@@ -30,7 +29,7 @@ public class SpawnerRuneItem extends BlockItem {
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     super.appendTooltip(stack, world, tooltip, context);
-    SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateNbt());
+    SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateSubNbt("BlockEntityTag"));
     tooltip.add(Text.literal("Cooldown: " + data.maxCooldown / 20.0F + "s").formatted(Formatting.DARK_GRAY));
     tooltip.add(Text.literal("Spawn radius: " + data.spawnRadius).formatted(Formatting.DARK_GRAY));
     tooltip.add(Text.literal("Player range: " + data.playerRange).formatted(Formatting.DARK_GRAY));
@@ -48,7 +47,7 @@ public class SpawnerRuneItem extends BlockItem {
   @Override
   public Text getName(ItemStack stack) {
     MutableText text = Text.literal("Spawner Rune").formatted(Formatting.GOLD);
-    SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateNbt());
+    SpawnerRuneData data = SpawnerRuneData.fromNbt(stack.getOrCreateSubNbt("BlockEntityTag"));
     if (data.name != null && !data.name.isEmpty()) {
       text = text.append(Text.literal(" (" + data.name + ")").formatted(Formatting.GRAY));
     }

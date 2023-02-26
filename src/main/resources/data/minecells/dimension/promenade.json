@@ -1,0 +1,11 @@
+{
+  "type": "minecells:promenade",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "minecells:promenade",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "minecells:promenade"
+    }
+  }
+}

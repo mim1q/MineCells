@@ -83,6 +83,11 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
   }
 
   @Override
+  public int getSafeFallDistance() {
+    return 3;
+  }
+
+  @Override
   public boolean isShootReleasing() {
     return this.dataTracker.get(SHOOT_RELEASING);
   }

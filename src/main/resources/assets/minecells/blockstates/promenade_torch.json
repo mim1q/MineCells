@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "minecells:block/metal_torch"
+    },
+    "facing=east": {
+      "model": "minecells:block/metal_torch",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "minecells:block/metal_torch",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "minecells:block/metal_torch",
+      "y": 270
+    }
+  }
+}

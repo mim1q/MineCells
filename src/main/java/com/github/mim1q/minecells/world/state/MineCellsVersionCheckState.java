@@ -18,12 +18,14 @@ import java.util.List;
 
 public class MineCellsVersionCheckState extends PersistentState {
   // Modify these when significant changes are made to respective aspects of the mod
-  private String prison = "1.3.2";
+  private String prison = "1.4.0";
   private String insufferableCrypt = "1.3.3";
+  private String promenade = "1.4.0";
 
   private MineCellsVersionCheckState(NbtCompound nbt) {
     this.prison = nbt.getString("prison");
     this.insufferableCrypt = nbt.getString("insufferable_crypt");
+    this.promenade = nbt.getString("promenade");
   }
 
   private MineCellsVersionCheckState() {}
@@ -40,6 +42,7 @@ public class MineCellsVersionCheckState extends PersistentState {
   public NbtCompound writeNbt(NbtCompound nbt) {
     nbt.putString("prison", this.prison);
     nbt.putString("insufferable_crypt", this.insufferableCrypt);
+    nbt.putString("promenade", this.promenade);
 
     return nbt;
   }
@@ -49,8 +52,11 @@ public class MineCellsVersionCheckState extends PersistentState {
     if (!this.prison.equals(other.prison) && !this.prison.isEmpty()) {
       result.add("chat.minecells.version_mismatch.prison");
     }
-    if (!this.insufferableCrypt.equals(other.insufferableCrypt) && !this.prison.isEmpty()) {
+    if (!this.insufferableCrypt.equals(other.insufferableCrypt) && !this.insufferableCrypt.isEmpty()) {
       result.add("chat.minecells.version_mismatch.insufferable_crypt");
+    }
+    if (!this.promenade.equals(other.promenade) && !this.promenade.isEmpty()) {
+      result.add("chat.minecells.version_mismatch.promenade");
     }
     return result;
   }

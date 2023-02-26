@@ -9,7 +9,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +26,7 @@ public class BiomeBannerItem extends BlockItem {
   @Override
   protected BlockState getPlacementState(ItemPlacementContext context) {
     BlockState state = super.getPlacementState(context);
-    if (state == null || context.getSide() == Direction.DOWN || context.getSide() == Direction.UP) {
+    if (state == null) {
       return null;
     }
     var nbt = context.getStack().getNbt();

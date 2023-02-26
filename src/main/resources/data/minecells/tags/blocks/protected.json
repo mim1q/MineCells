@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:putrid_log",
+    "minecraft:chain",
+    "minecells:big_chain",
+    "minecells:putrid_fence",
+    "minecells:wilted_leaves",
+    "minecells:chain_pile_block",
+    "minecells:chain_pile",
+    "minecells:skeleton",
+    "minecells:hanged_skeleton",
+    "minecells:rotting_corpse",
+    "minecells:hanged_rotting_corpse",
+    "minecells:corpse",
+    "minecells:hanged_corpse",
+    "minecells:cage",
+    "minecells:broken_cage"
+  ]
+}

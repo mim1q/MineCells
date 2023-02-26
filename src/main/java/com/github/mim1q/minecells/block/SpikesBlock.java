@@ -14,6 +14,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -49,11 +50,11 @@ public class SpikesBlock extends Block {
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (entity instanceof LivingEntity livingEntity) {
-      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 45 * 20 + 1, 1, false, false, true));
+      livingEntity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 20 * 10 + 1, 0, false, false, true));
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false, true));
-      livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 1, false, false, true));
+      livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 0, false, false, true));
       if (livingEntity.age % 10 == 0) {
-        livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0f);
+        livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0F);
       }
       if (world.getRandom().nextFloat() < 0.01) {
         world.setBlockState(pos, state.with(BLOODY, true));
@@ -64,6 +65,12 @@ public class SpikesBlock extends Block {
   @Override
   public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
     return true;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(FACING, rotation.rotate(state.get(FACING)));
   }
 
   @Override

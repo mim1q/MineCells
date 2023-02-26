@@ -57,17 +57,21 @@ public class MineCellsBiomes {
   }
 
   private static Biome createPromenade() {
-    SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder()
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 150, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 75, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.MUTATED_BAT, 100, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.RUNNER, 100, 1, 1))
-      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.PROTECTOR, 50, 1, 1));
-
     GenerationSettings.Builder generationSettings = new GenerationSettings.Builder()
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_SHRUB)
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_CHAINS)
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_KING_STATUE)
+      .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_GALLOWS)
       .feature(GenerationStep.Feature.VEGETAL_DECORATION, MineCellsPlacedFeatures.PROMENADE_TREE);
+    DefaultBiomeFeatures.addPlainsTallGrass(generationSettings);
     DefaultBiomeFeatures.addJungleGrass(generationSettings);
-    DefaultBiomeFeatures.addGiantTaigaGrass(generationSettings);
+
+    SpawnSettings spawnSettings = new SpawnSettings.Builder()
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.LEAPING_ZOMBIE, 10, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.GRENADIER, 3, 1, 1))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.MUTATED_BAT, 2, 1, 2))
+      .spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(MineCellsEntities.RUNNER, 1, 1, 1))
+      .build();
 
     return new Biome.Builder()
       .precipitation(Biome.Precipitation.RAIN)
@@ -76,11 +80,12 @@ public class MineCellsBiomes {
       .effects(new BiomeEffects.Builder()
         .waterColor(0x61D8FF)
         .waterFogColor(0x61D8FF)
-        .fogColor(0x4F9FFF)
-        .skyColor(0x61D8FF)
-        .grassColor(0x3FC558)
+        .fogColor(0x91E8F2)
+        .skyColor(0x91E8F2)
+        .grassColor(0x3C8787)
+        .foliageColor(0x33797F)
         .build())
-      .spawnSettings(spawnSettings.build())
+      .spawnSettings(spawnSettings)
       .generationSettings(generationSettings.build())
       .build();
   }

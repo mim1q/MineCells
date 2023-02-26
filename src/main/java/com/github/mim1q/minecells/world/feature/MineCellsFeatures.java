@@ -11,16 +11,6 @@ public class MineCellsFeatures {
     new JigsawFeature(JigsawFeature.JigsawFeatureConfig.CODEC)
   );
 
-  public static final CeilingJigsawFeature CEILING_JIGSAW_FEATURE = register(
-    "ceiling_jigsaw_feature",
-    new CeilingJigsawFeature(JigsawFeature.JigsawFeatureConfig.CODEC)
-  );
-
-  public static final WallPlantsFeature WALL_PLANTS_FEATURE = register(
-    "wall_plants_feature",
-    new WallPlantsFeature(WallPlantsFeature.WallPlantsFeatureConfig.CODEC)
-  );
-
   private static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
     return Registry.register(Registry.FEATURE, MineCells.createId(name), feature);
   }

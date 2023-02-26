@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.MutatedBatEntity;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -18,6 +19,7 @@ public class MutatedBatEntityModel extends EntityModel<MutatedBatEntity> {
   private final ModelPart tailBack;
 
   public MutatedBatEntityModel(ModelPart root) {
+    super(RenderLayer::getEntityCutout);
     this.root = root.getChild("root");
     this.rightWing = this.root.getChild("right_wing");
     this.leftWing = this.root.getChild("left_wing");
@@ -41,21 +43,21 @@ public class MutatedBatEntityModel extends EntityModel<MutatedBatEntity> {
         .uv(12, 27)
         .cuboid(-1.5F, -1.0F, -2.0F, 3, 4, 2)
         .uv(22, 26)
-        .cuboid(-4.5F, -1.0F, -1.0F, 9, 8, 0, new Dilation(0.01F)),
+        .cuboid(-4.5F, -1.0F, -1.0F, 9, 8, 0),
       ModelTransform.pivot(0.0F, -3.0F, -5.0F)
     );
 
     dRoot.addChild("left_wing",
       ModelPartBuilder.create()
         .uv(0, 8)
-        .cuboid(0.0F, 0.0F, -4.0F, 12, 0, 8, new Dilation(0.01F)),
+        .cuboid(0.0F, 0.0F, -4.0F, 12, 0, 8),
       ModelTransform.pivot(1.5F, -5.0F, -2.5F)
     );
 
     dRoot.addChild("right_wing",
       ModelPartBuilder.create()
         .uv(0, 0)
-        .cuboid(-12.0F, 0.0F, -4.0F, 12, 0, 8, new Dilation(0.01F)),
+        .cuboid(-12.0F, 0.0F, -4.0F, 12, 0, 8),
       ModelTransform.pivot(-1.5F, -5.0F, -2.5F)
     );
 

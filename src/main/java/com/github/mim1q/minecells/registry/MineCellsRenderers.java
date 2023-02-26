@@ -6,6 +6,8 @@ import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.ColoredTorchBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
 import com.github.mim1q.minecells.client.render.item.BiomeBannerItemRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
@@ -23,6 +25,7 @@ import com.github.mim1q.minecells.client.render.nonliving.ObeliskEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.TentacleWeaponEntityRenderer;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
+import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -70,6 +73,7 @@ public class MineCellsRenderers {
 
   public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
   public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
+  public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
 
   public static void init() {
     EntityModelLayerRegistry.registerModelLayer(LEAPING_ZOMBIE_LAYER, LeapingZombieEntityModel::getTexturedModelData);
@@ -130,10 +134,8 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ObeliskEntityRenderer::new);
 
-    DimensionEffectsAccessor.getIdentifierMap().put(
-      MineCells.createId("foggy"),
-      new FoggyDimensionEffects()
-    );
+    DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
+    DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
 
     HandledScreens.register(MineCellsScreenHandlerTypes.CELL_FORGE, CellForgeScreen::new);
   }
@@ -175,7 +177,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_DOOR,
       MineCellsBlocks.PRISON_TORCH,
-      MineCellsBlocks.SPAWNER_RUNE
+      MineCellsBlocks.SPAWNER_RUNE,
+      MineCellsBlocks.WILTED_GRASS_BLOCK
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
@@ -186,10 +189,12 @@ public class MineCellsRenderers {
 
     EntityModelLayerRegistry.registerModelLayer(KINGDOM_PORTAL_LAYER, KingdomPortalBlockEntityRenderer.KingdomPortalBlockEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(BIOME_BANNER_LAYER, BiomeBannerBlockEntityRenderer.BiomeBannerBlockEntityModel::getTexturedModelData);
+    EntityModelLayerRegistry.registerModelLayer(KING_STATUE_LAYER, KingStatueModel::getTexturedModelData);
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.COLORED_TORCH_BLOCK_ENTITY, (ctx) -> new ColoredTorchBlockEntityRenderer());
+    BlockEntityRendererRegistry.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,
@@ -198,22 +203,22 @@ public class MineCellsRenderers {
     );
 
     ColorProviderRegistry.BLOCK.register(
-      (state, world, pos, tintIndex) -> {
-        if (world == null || pos == null) {
-          return 0x80CC80;
-        }
-        return BiomeColors.getFoliageColor(world, pos);
-      },
+      (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
       MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
     );
 
-    ColorProviderRegistry.ITEM.register(
-      (stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
+    ColorProviderRegistry.BLOCK.register(
+      (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getGrassColor(world, pos),
+      MineCellsBlocks.WILTED_GRASS_BLOCK
     );
 
-    // I am disgusted by my own code
-    // Ugly hack, hopefully I'll find some way to rewrite this later
+    ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
+      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES,
+      MineCellsBlocks.WILTED_GRASS_BLOCK
+    );
+
+    // I've accepted this code just like it is
+    // What really matters is on the inside (and that it somehow works)
     LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
       ((entityType, entityRenderer, registrationHelper, context) -> {
         if (!dynamicItemRenderersRegistered) {

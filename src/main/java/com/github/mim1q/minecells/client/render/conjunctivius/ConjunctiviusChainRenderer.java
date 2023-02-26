@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -73,6 +74,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
 
     private final ModelPart main;
     public ConjunctiviusChainModel(ModelPart part) {
+      super(RenderLayer::getEntityCutout);
       this.main = part.getChild("main");
     }
 
@@ -82,9 +84,9 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
       modelPartData.addChild("main",
         ModelPartBuilder.create()
           .uv(0, 0)
-          .cuboid(-4.0F, -12.0F, 0.0F, 8, 12, 0, new Dilation(0.01F))
+          .cuboid(-4.0F, -12.0F, 0.0F, 8, 12, 0)
           .uv(0, -8)
-          .cuboid(0.0F, -20.0F, -4.0F, 0, 12, 8, new Dilation(0.01F)),
+          .cuboid(0.0F, -20.0F, -4.0F, 0, 12, 8),
         ModelTransform.rotation(MathHelper.HALF_PI, 0.0F, 0.0F)
       );
 

@@ -42,12 +42,22 @@
     {
       "rolls": {
         "min": 0,
-        "max": 5
+        "max": 6
       },
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 4,
+          "weight": 8,
+          "name": "minecraft:iron_nugget"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 7,
+          "name": "minecraft:gold_nugget"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
           "name": "minecraft:iron_ingot"
         },
         {
@@ -57,7 +67,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 3,
           "name": "minecraft:emerald"
         },
         {
@@ -115,38 +125,33 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 4,
+          "weight": 8,
           "name": "minecraft:chain"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 4,
           "name": "minecraft:cobweb"
         },
         {
           "type": "minecraft:item",
-          "weight": 6,
+          "weight": 10,
           "name": "minecraft:stick"
         },
         {
           "type": "minecraft:item",
-          "weight": 1,
-          "name": "minecraft:iron_nugget"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "name": "minecraft:gold_nugget"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 4,
+          "weight": 6,
           "name": "minecraft:string"
         },
         {
           "type": "minecraft:item",
           "weight": 1,
           "name": "minecells:guts"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "minecraft:rotten_flesh"
         }
       ]
     }

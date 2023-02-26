@@ -2,13 +2,13 @@
   "pools": [
     {
       "rolls": {
-        "min": 1,
-        "max": 3
+        "min": 0,
+        "max": 2
       },
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 3,
           "name": "minecraft:rotten_flesh"
         },
         {
@@ -29,7 +29,7 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.2
+          "chance": 0.05
         }
       ]
     }

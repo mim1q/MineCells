@@ -10,23 +10,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntryList {
+  public static final EntryList TEST = new EntryList()
+    .addEntry(MineCellsEntities.LEAPING_ZOMBIE, 8)
+    .addEntry(MineCellsEntities.GRENADIER, 8)
+    .addEntry(MineCellsEntities.UNDEAD_ARCHER, 8)
+    .addEntry(MineCellsEntities.SHIELDBEARER, 5)
+    .addEntry(MineCellsEntities.INQUISITOR, 5)
+    .addEntry(MineCellsEntities.MUTATED_BAT, 5)
+    .addEntry(MineCellsEntities.RANCID_RAT, 5)
+    .addEntry(MineCellsEntities.RUNNER, 3)
+    .addEntry(MineCellsEntities.SEWERS_TENTACLE, 3)
+    .addEntry(MineCellsEntities.DISGUSTING_WORM, 3)
+    .addEntry(MineCellsEntities.PROTECTOR, 1)
+    .addEntry(MineCellsEntities.KAMIKAZE, 1)
+    .addEntry(MineCellsEntities.SCORPION, 1)
+    .addEntry(MineCellsEntities.SHOCKER, 1);
+
   public static final EntryList PRISON = new EntryList()
     .addEntry(MineCellsEntities.LEAPING_ZOMBIE, 6)
     .addEntry(MineCellsEntities.SHIELDBEARER, 3)
     .addEntry(MineCellsEntities.UNDEAD_ARCHER, 3)
     .addEntry(MineCellsEntities.GRENADIER, 2);
 
-  public static final EntryList PROMENADE_OF_THE_CONDEMNED = new EntryList()
+  public static final EntryList PROMENADE_RANGED = new EntryList()
+    .addEntry(MineCellsEntities.GRENADIER, 1);
+
+  public static final EntryList PROMENADE_MELEE = new EntryList()
     .addEntry(MineCellsEntities.LEAPING_ZOMBIE, 4)
-    .addEntry(MineCellsEntities.GRENADIER, 3)
-    .addEntry(MineCellsEntities.RUNNER, 1)
-    .addEntry(MineCellsEntities.MUTATED_BAT, 3);
+    .addEntry(MineCellsEntities.RUNNER, 1);
 
   public static final EntryList PROTECTOR = new EntryList()
     .addEntry(MineCellsEntities.PROTECTOR, 1);
 
   public static final EntryList SHOCKER = new EntryList()
     .addEntry(MineCellsEntities.SHOCKER, 1);
+
+  public static EntryList single(EntityType<?> entity) {
+    return new EntryList().addEntry(entity, 1);
+  }
 
   public List<Entry> entries;
 

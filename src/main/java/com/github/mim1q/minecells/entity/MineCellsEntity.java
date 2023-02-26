@@ -20,6 +20,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
@@ -58,12 +60,12 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-    BlockState blockBelow = world.getBlockState(this.getBlockPos().down());
-    if (this.getRandom().nextFloat() > 0.1F) {
+    int worldY = world.getTopY(Heightmap.Type.WORLD_SURFACE, this.getBlockX(), this.getBlockZ());
+    if (this.getRandom().nextFloat() > 0.1F || MathHelper.abs(worldY - this.getBlockY()) > 5) {
       return false;
     }
-    return blockBelow.isSideSolidFullSquare(world, this.getBlockPos().down(), Direction.UP)
-      && blockBelow.getBlock() != Blocks.BEDROCK;
+    BlockState blockBelow = world.getBlockState(this.getBlockPos().down());
+    return blockBelow.isSideSolidFullSquare(world, this.getBlockPos().down(), Direction.UP) && blockBelow.getBlock() != Blocks.BEDROCK;
   }
 
   @Override
