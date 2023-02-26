@@ -35,4 +35,4 @@ Improvements:
 - Flags now drop with the correct pattern
 - Conjunctivius' Eye now glows when using certain shaders
 - Fixed Immersive Portals crash
-- Fixed texture stitching issues of Conunctivius and Mutated Bat
+- Fixed texture stitching issues of Conjunctivius and Mutated Bat
