@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
+import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.BucketItem;
@@ -131,6 +132,9 @@ public class MineCellsItems {
       .group(MineCellsItemGroups.MINECELLS)
     ), "spawner_rune"
   );
+
+  // Skills
+  public static final PhaserItem PHASER = registerSimpleItem(new PhaserItem(), "phaser");
 
   public static void init() { }
 
