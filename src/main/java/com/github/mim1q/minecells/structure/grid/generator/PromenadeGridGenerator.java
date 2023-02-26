@@ -66,4 +66,14 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
   protected void addMain(Random random, Vec3i offset) {
     addRoom(offset, BlockRotation.random(random), MAIN);
   }
+
+  public static class NoCenter extends PromenadeGridGenerator {
+    @Override
+    protected Vec3i getOffset(Random random) {
+      return Vec3i.ZERO;
+    }
+
+    @Override
+    protected void addMain(Random random, Vec3i offset) { }
+  }
 }

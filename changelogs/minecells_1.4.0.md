@@ -9,7 +9,7 @@
 
 - New dimension: **Promenade of The Condemned**
 - 3 previously creative-only enemies spawn there: **Runner**, **Mutated Bat** and **Protector**
-- The Prison now has a barrier wall in the spawn room, and the Mimi
+- The Prison now has a barrier wall in the spawn room, and the Insufferable Crypt portal room now also leads to the Promenade of the Condemned
 
 ## Blocks
 
@@ -34,3 +34,5 @@ Improvements:
 
 - Flags now drop with the correct pattern
 - Conjunctivius' Eye now glows when using certain shaders
+- Fixed Immersive Portals crash
+- Fixed texture stitching issues of Conunctivius and Mutated Bat

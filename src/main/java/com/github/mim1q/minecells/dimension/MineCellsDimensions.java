@@ -50,6 +50,7 @@ public class MineCellsDimensions {
       return new Vec3d(multiple.getX() + 6, 41, multiple.getZ() + 3.5);
     }
     if (dimension.equals(PROMENADE)) {
+      multiple512 = multiple512.add(6, 0, 6);
       int y = world.getChunk(multiple512).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, multiple512.getX(), multiple512.getZ());
       BlockPos groundPos = multiple512.withY(y);
       if (groundPos.getY() == 0) return null;
