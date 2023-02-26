@@ -103,7 +103,7 @@ public class PhaserItem extends Item {
 
   @Override
   public int getMaxUseTime(ItemStack stack) {
-    return 20;
+    return 10;
   }
 
   @Override

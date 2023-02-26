@@ -61,7 +61,7 @@ public class HattorisKatanaItem extends SwordItem {
       Vec3d start = player.getPos().add(0.0D, 0.25D, 0.0D);
       Vec3d direction = player.getRotationVec(0.0F).multiply(1.0D, 0.0D, 1.0D).normalize();
 
-      Vec3d hitPos = getHitPos(player, start, direction, 8.0D).subtract(direction.multiply(0.5D));
+      Vec3d hitPos = getHitPos(player, start, direction, 10.0D).subtract(direction.multiply(0.5D));
       this.damageEntities(world, player, start, hitPos);
       if (world.isClient()) {
         spawnTrailParticles(world, start, hitPos);
@@ -123,7 +123,7 @@ public class HattorisKatanaItem extends SwordItem {
     for (Vec3d pos : increments) {
       world.getOtherEntities(user, Box.of(pos, 1.5D, 1.5D, 1.5D)).forEach(entity -> {
         if (entity instanceof LivingEntity && !entities.contains(entity)) {
-          entity.damage(MineCellsDamageSource.katana(user), 10.0F);
+          entity.damage(MineCellsDamageSource.katana(user), 18.0F);
           Vec3d direction = pos.subtract(entity.getPos()).normalize();
           ((LivingEntity) entity).takeKnockback(0.5F, direction.getX(), direction.getZ());
           entities.add((LivingEntity) entity);
@@ -139,7 +139,7 @@ public class HattorisKatanaItem extends SwordItem {
 
   @Override
   public int getMaxUseTime(ItemStack stack) {
-    return 30;
+    return 20;
   }
 
   @Override
