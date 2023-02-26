@@ -24,12 +24,10 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
   private final List<MathUtils.PosRotScale> posRotScales = new ArrayList<>();
 
   public static final Identifier TEXTURE = MineCells.createId("textures/entity/conjunctivius/spike.png");
-  public final RenderLayer layer;
 
   public ConjunctiviusSpikeRenderer(FeatureRendererContext<ConjunctiviusEntity, ConjunctiviusEntityModel> context, ModelPart spikeRoot) {
     super(context);
     this.model = new ConjunctiviusSpikeModel(spikeRoot);
-    this.layer = this.model.getLayer(TEXTURE);
   }
 
   public void addPosRotScale(float px, float py, float pz, float rx, float ry, float rz, float s) {
@@ -43,7 +41,7 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
       posRotScale.apply(matrices);
       this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
       boolean hurt = entity.hurtTime > 0;
-      this.model.render(matrices, vertexConsumers.getBuffer(layer), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumers.getBuffer(model.getLayer(TEXTURE)), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.pop();
     }
   }
@@ -54,6 +52,7 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
     private final ModelPart spike;
 
     public ConjunctiviusSpikeModel(ModelPart root) {
+      super(RenderLayer::getEntityCutout);
       this.base = root.getChild("base");
       this.spike = this.base.getChild("spike");
     }
@@ -72,9 +71,9 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
       dBase.addChild("spike",
         ModelPartBuilder.create()
           .uv(0, 11)
-          .cuboid(-2.5F, -10.0F, 0.0F, 5, 8, 0, new Dilation(0.01F))
+          .cuboid(-2.5F, -10.0F, 0.0F, 5, 8, 0)
           .uv(0, 6)
-          .cuboid(0.0F, -10.0F, -2.5F, 0, 8, 5, new Dilation(0.01F)),
+          .cuboid(0.0F, -10.0F, -2.5F, 0, 8, 5),
         ModelTransform.NONE
       );
 

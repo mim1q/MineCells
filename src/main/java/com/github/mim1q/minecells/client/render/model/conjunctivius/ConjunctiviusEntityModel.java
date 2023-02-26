@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.render.model.conjunctivius;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,6 +13,7 @@ public class ConjunctiviusEntityModel extends EntityModel<ConjunctiviusEntity> {
   private final ModelPart main;
 
   public ConjunctiviusEntityModel(ModelPart root) {
+    super(RenderLayer::getEntityCutout);
     this.main = root.getChild("main");
   }
 
@@ -32,7 +34,7 @@ public class ConjunctiviusEntityModel extends EntityModel<ConjunctiviusEntity> {
         .uv(92, 64)
         .cuboid(-12.0F, -42.0F, -12.0F, 24, 6, 24) // Head Top
         .uv(46, 70)
-        .cuboid(-10.0F, -48.0F, 0.0F, 20, 6, 0, new Dilation(0.01F)) // Pulled Head Skin
+        .cuboid(-10.0F, -48.0F, 0.0F, 20, 6, 0) // Pulled Head Skin
         .uv(102, 98)
         .cuboid(16.0F, -22.0F, -12.0F, 6, 16, 24) // Lower Left Side
         .uv(60, 122)
@@ -42,11 +44,11 @@ public class ConjunctiviusEntityModel extends EntityModel<ConjunctiviusEntity> {
         .uv(86, 138)
         .cuboid(-19.0F, -30.0F, -10.0F, 3, 8, 20) // Upper Right Side
         .uv(0, 64)
-        .cuboid(22.0F, -21.0F, 0.0F, 8, 14, 0, new Dilation(0.01F)) // Left Spike Flat
+        .cuboid(22.0F, -21.0F, 0.0F, 8, 14, 0) // Left Spike Flat
         .uv(16, 64)
         .cuboid(22.0F, -16.0F, -2.0F, 4, 4, 4) // Left Spike Cube
         .uv(0, 64).mirrored()
-        .cuboid(-30.0F, -21.0F, 0.0F, 8, 14, 0, new Dilation(0.01F)) // Right Spike Flat
+        .cuboid(-30.0F, -21.0F, 0.0F, 8, 14, 0) // Right Spike Flat
         .uv(16, 64).mirrored()
         .cuboid(-26.0F, -16.0F, -2.0F, 4, 4, 4), // Right Spike Cube
       ModelTransform.pivot(0.0F, 24.0F, 0.0F)

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.MutatedBatEntity;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -18,6 +19,7 @@ public class MutatedBatEntityModel extends EntityModel<MutatedBatEntity> {
   private final ModelPart tailBack;
 
   public MutatedBatEntityModel(ModelPart root) {
+    super(RenderLayer::getEntityCutout);
     this.root = root.getChild("root");
     this.rightWing = this.root.getChild("right_wing");
     this.leftWing = this.root.getChild("left_wing");
