@@ -3,8 +3,10 @@ package com.github.mim1q.minecells.mixin.entity.player;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.encryption.PlayerPublicKey;
@@ -23,6 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
@@ -39,6 +42,11 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey) {
     super(world, pos, yaw, gameProfile, publicKey);
+  }
+
+  @Inject(method = "attack", at = @At("RETURN"))
+  public void attack(Entity target, CallbackInfo ci) {
+    this.removeStatusEffect(MineCellsStatusEffects.ASSASSINS_STRENGTH);
   }
 
   @Inject(method = "damage", at = @At("HEAD"))

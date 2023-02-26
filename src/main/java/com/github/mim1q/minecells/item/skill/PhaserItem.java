@@ -2,12 +2,14 @@ package com.github.mim1q.minecells.item.skill;
 
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -51,6 +53,7 @@ public class PhaserItem extends Item {
 
     if (canTeleport) {
       stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
+      user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
       player.getItemCooldownManager().set(this, 20 * 5);
     } else {
       player.getItemCooldownManager().set(this, 20);
