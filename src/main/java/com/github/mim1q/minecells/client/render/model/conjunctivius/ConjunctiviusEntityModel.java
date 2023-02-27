@@ -13,7 +13,7 @@ public class ConjunctiviusEntityModel extends EntityModel<ConjunctiviusEntity> {
   private final ModelPart main;
 
   public ConjunctiviusEntityModel(ModelPart root) {
-    super(RenderLayer::getEntityCutout);
+    super(RenderLayer::getEntityCutoutNoCull);
     this.main = root.getChild("main");
   }
 
