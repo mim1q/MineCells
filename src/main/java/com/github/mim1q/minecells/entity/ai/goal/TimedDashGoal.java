@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.ai.goal;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.particle.ParticleEffect;
@@ -73,12 +74,19 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
       direction = diff.normalize();
       targetDistance = diff.length();
       if (rotate) {
-        entity.getLookControl().lookAt(targetPos);
+        lookAtTarget();
       }
     }
     if (particle != null) {
       spawnParticles();
     }
+  }
+
+  protected void lookAtTarget() {
+    this.entity.getMoveControl().moveTo(this.target.getX(), this.target.getY(), this.target.getZ(), 0.01F);
+    this.entity.move(MovementType.SELF, this.direction.multiply(0.01F));
+    this.entity.getLookControl().lookAt(this.target, 360.0F, 360.0F);
+    this.entity.getNavigation().stop();
   }
 
   protected void spawnParticles() {
@@ -96,9 +104,6 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void release() {
-    if (rotate) {
-      entity.getLookControl().lookAt(targetPos);
-    }
     entity.setVelocity(direction.multiply(speed));
     distanceTravelled += speed;
     List<Entity> entitiesInRange = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(margin));
