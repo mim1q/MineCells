@@ -4,6 +4,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.sound.SoundEvent;
 
+import java.util.function.Predicate;
+
 public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
   protected final E entity;
@@ -17,28 +19,31 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   protected final SoundEvent chargeSound;
   protected final SoundEvent releaseSound;
   protected final float soundVolume;
+  protected final Predicate<E> startPredicate;
 
   private int ticks = 0;
 
   public TimedActionGoal(Builder<E, ?> builder) {
-    this.entity = builder.entity;
-    this.cooldownGetter = builder.cooldownGetter;
-    this.cooldownSetter = builder.cooldownSetter;
-    this.stateSetter = builder.stateSetter;
-    this.defaultCooldown = builder.defaultCooldown;
-    this.actionTick = builder.actionTick;
-    this.length = builder.length;
-    this.chance = builder.chance;
-    this.chargeSound = builder.chargeSound;
-    this.releaseSound = builder.releaseSound;
-    this.soundVolume = builder.soundVolume;
+    entity = builder.entity;
+    cooldownGetter = builder.cooldownGetter;
+    cooldownSetter = builder.cooldownSetter;
+    stateSetter = builder.stateSetter;
+    defaultCooldown = builder.defaultCooldown;
+    actionTick = builder.actionTick;
+    length = builder.length;
+    chance = builder.chance;
+    chargeSound = builder.chargeSound;
+    releaseSound = builder.releaseSound;
+    soundVolume = builder.soundVolume;
+    startPredicate = builder.startPredicate;
   }
 
   @Override
   public boolean canStart() {
     int cooldown = cooldownGetter.getCooldown();
     return cooldown == 0
-      && (this.chance == 1.0F || entity.getRandom().nextFloat() < chance);
+      && (this.chance == 1.0F || entity.getRandom().nextFloat() < chance)
+      && startPredicate.test(entity);
   }
 
   @Override
@@ -141,6 +146,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     public SoundEvent chargeSound;
     public SoundEvent releaseSound;
     public float soundVolume = 1.0F;
+    public Predicate<E> startPredicate = (mob) -> true;
 
     public Builder(E entity) {
       this.entity = entity;
@@ -193,6 +199,11 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
     public B soundVolume(float soundVolume) {
       this.soundVolume = soundVolume;
+      return (B) this;
+    }
+
+    public B startPredicate(Predicate<E> predicate) {
+      this.startPredicate = predicate;
       return (B) this;
     }
 

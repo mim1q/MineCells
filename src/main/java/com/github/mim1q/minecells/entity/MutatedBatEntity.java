@@ -64,6 +64,7 @@ public class MutatedBatEntity extends MineCellsEntity {
   @Override
   protected void initGoals() {
     final TimedDashGoal<MutatedBatEntity> dashGoal = new TimedDashGoal.Builder<>(this)
+      .startPredicate(mob -> mob.distanceTo(mob.getTarget()) < 8.0D)
       .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
       .cooldownGetter(() -> this.dashCooldown)
       .stateSetter(this::switchDashState)
@@ -73,8 +74,8 @@ public class MutatedBatEntity extends MineCellsEntity {
       .damage(8.0F)
       .defaultCooldown(80)
       .actionTick(20)
-      .alignTick(18)
-      .chance(0.02F)
+      .alignTick(19)
+      .chance(0.075F)
       .length(60)
       .margin(0.25D)
       .particle(ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000))

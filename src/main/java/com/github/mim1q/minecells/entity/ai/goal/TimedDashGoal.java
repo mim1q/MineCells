@@ -45,9 +45,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   @Override
   public boolean canStart() {
     target = entity.getTarget();
-    return super.canStart()
-      && target != null
-      && (!onGround || entity.getY() >= target.getY());
+    return target != null && super.canStart() && (!onGround || entity.getY() >= target.getY());
   }
 
   @Override
@@ -62,7 +60,6 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   @Override
   public boolean shouldContinue() {
     return super.shouldContinue()
-      && distanceTravelled <= targetDistance
       && target != null;
   }
 
@@ -104,6 +101,11 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void release() {
+    if (distanceTravelled > targetDistance) {
+      entity.setVelocity(entity.getVelocity().multiply(0.8D));
+      return;
+    }
+
     entity.setVelocity(direction.multiply(speed));
     distanceTravelled += speed;
     List<Entity> entitiesInRange = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(margin));
