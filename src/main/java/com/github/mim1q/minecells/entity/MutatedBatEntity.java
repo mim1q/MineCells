@@ -1,7 +1,8 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.entity.ai.goal.DashGoal;
-import com.github.mim1q.minecells.entity.interfaces.IDashEntity;
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
+import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -27,18 +28,18 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
+public class MutatedBatEntity extends MineCellsEntity {
 
   private static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(MutatedBatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(MutatedBatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  private static final TrackedData<Integer> DASH_COOLDOWN = DataTracker.registerData(MutatedBatEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
+  private int dashCooldown = 80;
 
   public MutatedBatEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -58,13 +59,29 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
     super.initDataTracker();
     this.dataTracker.startTracking(DASH_CHARGING, false);
     this.dataTracker.startTracking(DASH_RELEASING, false);
-    this.dataTracker.startTracking(DASH_COOLDOWN, 0);
   }
 
   @Override
   protected void initGoals() {
+    final TimedDashGoal<MutatedBatEntity> dashGoal = new TimedDashGoal.Builder<>(this)
+      .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
+      .cooldownGetter(() -> this.dashCooldown)
+      .stateSetter(this::switchDashState)
+      .chargeSound(MineCellsSounds.MUTATED_BAT_CHARGE)
+      .releaseSound(MineCellsSounds.MUTATED_BAT_RELEASE)
+      .speed(0.8F)
+      .damage(8.0F)
+      .defaultCooldown(80)
+      .actionTick(20)
+      .alignTick(18)
+      .chance(0.02F)
+      .length(60)
+      .margin(0.25D)
+      .particle(ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000))
+      .build();
+
     this.goalSelector.add(4, new FlyGoal(this, 1.0D));
-    this.goalSelector.add(0, new DashGoal<>(this, 20, 40, 45, 1.0F, 1.0F));
+    this.goalSelector.add(0, dashGoal);
     this.goalSelector.add(1, new MeleeAttackGoal(this, 3.0D, false));
 
     this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
@@ -74,12 +91,12 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.isDashCharging() && this.world.isClient()) {
+    if (this.dataTracker.get(DASH_CHARGING) && this.world.isClient()) {
       for (int i = 0; i < 5; i++) {
         ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.CHARGE, this.getPos().add(0.0D, 0.2D, 0.0D), Vec3d.ZERO);
       }
     }
-    this.decrementCooldown(DASH_COOLDOWN);
+    this.dashCooldown = Math.max(0, --this.dashCooldown);
   }
 
   @Override
@@ -92,54 +109,11 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
     return false;
   }
 
-  @Override
-  public boolean isDashCharging() {
-    return this.dataTracker.get(DASH_CHARGING);
-  }
-
-  @Override
-  public void setDashCharging(boolean charging) {
-    this.dataTracker.set(DASH_CHARGING, charging);
-  }
-
-  @Override
-  public boolean isDashReleasing() {
-    return this.dataTracker.get(DASH_RELEASING);
-  }
-
-  @Override
-  public void setDashReleasing(boolean releasing) {
-    this.dataTracker.set(DASH_RELEASING, releasing);
-  }
-
-  @Override
-  public int getDashCooldown() {
-    return this.dataTracker.get(DASH_COOLDOWN);
-  }
-
-  @Override
-  public void setDashCooldown(int ticks) {
-    this.dataTracker.set(DASH_COOLDOWN, ticks);
-  }
-
-  @Override
-  public int getDashMaxCooldown() {
-    return 20 + this.random.nextInt(20);
-  }
-
-  @Override
-  public float getDashDamage() {
-    return 8.0F;
-  }
-
-  @Override
-  public SoundEvent getDashChargeSoundEvent() {
-    return MineCellsSounds.MUTATED_BAT_CHARGE;
-  }
-
-  @Override
-  public SoundEvent getDashReleaseSoundEvent() {
-    return MineCellsSounds.MUTATED_BAT_RELEASE;
+  protected void switchDashState(TimedActionGoal.State state, boolean value) {
+    switch (state) {
+      case CHARGE -> this.dataTracker.set(DASH_CHARGING, value);
+      case RELEASE -> this.dataTracker.set(DASH_RELEASING, value);
+    }
   }
 
   public static DefaultAttributeContainer.Builder createMutatedBatAttributes() {
@@ -154,13 +128,13 @@ public class MutatedBatEntity extends MineCellsEntity implements IDashEntity {
   @Override
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
-    nbt.putInt("dashCooldown", this.getDashCooldown());
+    nbt.putInt("dashCooldown", dashCooldown);
   }
 
   @Override
   public void readCustomDataFromNbt(NbtCompound nbt) {
     super.readCustomDataFromNbt(nbt);
-    this.setDashCooldown(nbt.getInt("dashCooldown"));
+    dashCooldown = nbt.getInt("dashCooldown");
   }
 
   public static class MutatedBatNavigation extends BirdNavigation {

@@ -27,7 +27,6 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected double targetDistance;
   protected double distanceTravelled;
   protected Vec3d targetPos;
-  private float yaw = 0.0F;
   private final List<Integer> attackedIds = new ArrayList<>();
 
   public TimedDashGoal(Builder<E> builder) {
@@ -75,7 +74,6 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
       targetDistance = diff.length();
       if (rotate) {
         entity.getLookControl().lookAt(targetPos);
-        yaw = entity.getYaw();
       }
     }
     if (particle != null) {
@@ -85,7 +83,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   protected void spawnParticles() {
     super.charge();
-    Vec3d entityPos = this.entity.getPos().add(0.0D, 3.0D, 0.0D);
+    Vec3d entityPos = entity.getPos().add(0.0D, entity.getHeight() * 0.5F, 0.0D);
     Vec3d diff = targetPos.subtract(entityPos);
     Vec3d norm = diff.normalize();
     for (float i = 0; i < diff.length(); i += 0.1F) {
@@ -99,13 +97,13 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   @Override
   protected void release() {
     if (rotate) {
-      entity.setYaw(yaw);
+      entity.getLookControl().lookAt(targetPos);
     }
     entity.setVelocity(direction.multiply(speed));
     distanceTravelled += speed;
     List<Entity> entitiesInRange = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(margin));
     for (Entity e : entitiesInRange) {
-      if (e instanceof LivingEntity && !attackedIds.contains(e.getId())) {
+      if (e instanceof LivingEntity && !(e instanceof HostileEntity) && !attackedIds.contains(e.getId())) {
         e.damage(DamageSource.mob(entity), damage);
         attackedIds.add(e.getId());
       }
