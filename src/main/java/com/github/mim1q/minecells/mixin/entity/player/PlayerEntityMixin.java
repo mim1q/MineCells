@@ -5,6 +5,9 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
+import com.github.mim1q.minecells.item.weapon.ICritWeapon;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -12,19 +15,28 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @SuppressWarnings("WrongEntityDataParameterClass")
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccessor {
+
+  @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
+
+  @Shadow public abstract int getXpToDrop();
 
   private static final TrackedData<Integer> CELL_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<String> LAST_DIMENSION_TRANSLATION_KEY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.STRING);
@@ -55,6 +67,23 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     if (kingdomPortalCooldown > 0) {
       kingdomPortalCooldown--;
     }
+  }
+
+  @ModifyVariable(
+    method = "attack",
+    at = @At(value = "STORE", ordinal = 1),
+    ordinal = 0
+  )
+  private float modifyDamage(float original, Entity target) {
+    ItemStack stack = this.getMainHandStack();
+    if (stack.getItem() instanceof ICritWeapon critWeapon
+        && target instanceof LivingEntity livingTarget
+        && critWeapon.canCrit(stack, livingTarget, this)
+    ) {
+      this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+      return original + critWeapon.getAdditionalCritDamage(stack, livingTarget, this);
+    }
+    return original;
   }
 
   @Inject(method = "isBlockBreakingRestricted", at = @At("HEAD"), cancellable = true)

@@ -26,7 +26,7 @@ public class MineCellsStatusEffects {
   );
   public static final StatusEffect ASSASSINS_STRENGTH = register(
     new MineCellsStatusEffect(StatusEffectCategory.BENEFICIAL, 0xDA1C1C, false, null, false)
-      .addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, UUID.randomUUID().toString(), 5.0F, EntityAttributeModifier.Operation.ADDITION),
+      .addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, UUID.randomUUID().toString(), 1.25F, EntityAttributeModifier.Operation.MULTIPLY_TOTAL),
     "assassins_strength"
   );
 
