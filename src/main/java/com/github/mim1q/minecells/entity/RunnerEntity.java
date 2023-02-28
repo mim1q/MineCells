@@ -58,9 +58,9 @@ public class RunnerEntity extends MineCellsEntity {
       .stateSetter(this::switchAttackState)
       .chargeSound(MineCellsSounds.GRENADIER_CHARGE)
       .releaseSound(MineCellsSounds.SWIPE)
-      .defaultCooldown(40)
+      .defaultCooldown(35)
       .actionTick(12)
-      .length(25)
+      .length(20)
       .build()
     );
     this.goalSelector.add(0, new TimedTeleportGoal.Builder(this)
@@ -99,8 +99,8 @@ public class RunnerEntity extends MineCellsEntity {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 25.0D)
       .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
-      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 13.0D)
-      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 9.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 14.0D);
   }
 
   public void switchAttackState(TimedActionGoal.State state, boolean value) {

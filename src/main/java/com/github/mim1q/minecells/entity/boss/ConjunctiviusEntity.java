@@ -146,7 +146,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .soundVolume(2.0F)
       .damage(10.0F)
       .radius(8.0D)
-      .defaultCooldown(300)
+      .defaultCooldown(200)
       .actionTick(30)
       .chance(0.05F)
       .length(60))
@@ -161,11 +161,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       .soundVolume(2.0F)
       .speed(1.0F)
       .damage(20.0F)
-      .defaultCooldown(400)
+      .defaultCooldown(200)
       .actionTick(30)
-      .alignTick(23)
+      .alignTick(26)
       .chance(0.1F)
-      .length(55)
+      .length(70)
       .noRotation()
       .margin(0.5D)
       .particle(ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000)))
@@ -199,7 +199,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       this.spawnParticles();
     } else {
-      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().expand(0.5D))) {
+      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().expand(0.25D))) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
           this.tryAttack(livingEntity);
           this.knockback(livingEntity);
@@ -369,9 +369,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public int stageAdjustedCooldown(int cooldown) {
     int stage = this.getStage();
     return switch (stage) {
-      case 3 -> cooldown / 2;
-      case 5 -> cooldown / 3;
-      case 7 -> cooldown / 4;
+      case 3 -> (cooldown * 4) / 5;
+      case 5 -> (cooldown * 3) / 4;
+      case 7 -> (cooldown * 2) / 3;
       default -> cooldown;
     };
   }
@@ -612,12 +612,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
 
     @Override
-    public boolean shouldContinue() {
-      boolean hitWall = (this.ticks() > (this.actionTick + 5) && (this.entity.horizontalCollision || this.entity.verticalCollision));
-      return super.shouldContinue() && !hitWall;
-    }
-
-    @Override
     public void stop() {
       super.stop();
       if (this.entity.getSpawnPos() != null) {
@@ -649,7 +643,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         && this.entity.canAttack()
         && !this.entity.moving
         && this.entity.dashCooldown > this.length
-        && !this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT, this.entity, this.entity.getBoundingBox().expand(8.0D)).isEmpty();
+        && !this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT, this.entity, this.entity.getBoundingBox().expand(6.0D)).isEmpty();
     }
 
     public static class Builder extends TimedAuraGoal.Builder<ConjunctiviusEntity> {

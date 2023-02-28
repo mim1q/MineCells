@@ -71,7 +71,7 @@ public class MutatedBatEntity extends MineCellsEntity {
       .chargeSound(MineCellsSounds.MUTATED_BAT_CHARGE)
       .releaseSound(MineCellsSounds.MUTATED_BAT_RELEASE)
       .speed(0.8F)
-      .damage(8.0F)
+      .damage(6.0F)
       .defaultCooldown(80)
       .actionTick(20)
       .alignTick(19)
@@ -123,7 +123,7 @@ public class MutatedBatEntity extends MineCellsEntity {
       .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0D)
       .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.3D)
       .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D)
-      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D);
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0D);
   }
 
   @Override

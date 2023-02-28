@@ -68,7 +68,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
   @Override
   public void stop() {
     this.ticks = 0;
-    this.entity.barrageCooldown = this.entity.stageAdjustedCooldown(200);
+    this.entity.barrageCooldown = this.entity.stageAdjustedCooldown(300);
     this.entity.getDataTracker().set(ConjunctiviusEntity.BARRAGE_ACTIVE, false);
     super.stop();
   }

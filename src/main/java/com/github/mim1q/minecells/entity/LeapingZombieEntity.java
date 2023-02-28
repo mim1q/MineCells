@@ -138,10 +138,10 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
   public static DefaultAttributeContainer.Builder createLeapingZombieAttributes() {
     return createLivingAttributes()
       .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
-      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
+      .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-      .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
-      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 3.0D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0D)
       .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
   }
 }
