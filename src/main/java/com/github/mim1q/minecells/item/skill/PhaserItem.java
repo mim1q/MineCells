@@ -1,11 +1,8 @@
 package com.github.mim1q.minecells.item.skill;
 
-import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
-import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -13,11 +10,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -27,38 +22,6 @@ import net.minecraft.world.World;
 public class PhaserItem extends Item {
   public PhaserItem() {
     super(new FabricItemSettings().maxCount(1).maxDamage(32));
-  }
-
-  @Override
-  public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-    if (!user.isPlayer()) {
-      return stack;
-    }
-    PlayerEntity player = (PlayerEntity) user;
-    Vec3d searchPos = user.getPos().add(user.getRotationVector().multiply(4.0D));
-    var closestEntity = world.getClosestEntity(
-      LivingEntity.class,
-      TargetPredicate.createAttackable(),
-      user,
-      searchPos.x,
-      searchPos.y,
-      searchPos.z,
-      Box.of(searchPos, 8.0D, 8.0D, 8.0D)
-    );
-
-    boolean canTeleport = teleportBehindTarget(world, player, closestEntity);
-    if (world.isClient()) {
-      return stack;
-    }
-
-    if (canTeleport) {
-      stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
-      user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
-      player.getItemCooldownManager().set(this, 20 * 5);
-    } else {
-      player.getItemCooldownManager().set(this, 20);
-    }
-    return stack;
   }
 
   private static boolean teleportBehindTarget(World world, PlayerEntity player, LivingEntity target) {
@@ -86,34 +49,31 @@ public class PhaserItem extends Item {
   }
 
   @Override
-  public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-    if (user instanceof PlayerEntity player) {
-      player.getItemCooldownManager().set(this, 20);
-    }
-  }
-
-  @Override
-  public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-    if (!world.isClient) {
-      return;
-    }
-    ParticleUtils.addParticle((ClientWorld) world, MineCellsParticles.CHARGE, user.getPos().add(0.0D, 1.25D, 0.0D), Vec3d.ZERO);
-    ParticleUtils.addParticle((ClientWorld) world, MineCellsParticles.CHARGE, user.getPos().add(0.0D, 1.25D, 0.0D), Vec3d.ZERO);
-  }
-
-  @Override
-  public int getMaxUseTime(ItemStack stack) {
-    return 10;
-  }
-
-  @Override
-  public UseAction getUseAction(ItemStack stack) {
-    return UseAction.BLOCK;
-  }
-
-  @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-    user.playSound(MineCellsSounds.TELEPORT_CHARGE, 1.0F, 1.0F);
-    return ItemUsage.consumeHeldItem(world, user, hand);
+    ItemStack stack = user.getStackInHand(hand);
+    Vec3d searchPos = user.getPos().add(user.getRotationVector().multiply(4.0D));
+    var closestEntity = world.getClosestEntity(
+      LivingEntity.class,
+      TargetPredicate.createAttackable(),
+      user,
+      searchPos.x,
+      searchPos.y,
+      searchPos.z,
+      Box.of(searchPos, 8.0D, 8.0D, 8.0D)
+    );
+
+    boolean canTeleport = teleportBehindTarget(world, user, closestEntity);
+    if (world.isClient()) {
+      return TypedActionResult.success(stack);
+    }
+
+    if (canTeleport) {
+      stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
+      user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
+      user.getItemCooldownManager().set(this, 20 * 5);
+      return TypedActionResult.success(stack);
+    }
+    user.getItemCooldownManager().set(this, 20);
+    return TypedActionResult.fail(stack);
   }
 }
