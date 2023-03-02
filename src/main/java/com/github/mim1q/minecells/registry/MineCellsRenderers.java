@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.ColoredTorchBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -195,6 +196,7 @@ public class MineCellsRenderers {
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.COLORED_TORCH_BLOCK_ENTITY, (ctx) -> new ColoredTorchBlockEntityRenderer());
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

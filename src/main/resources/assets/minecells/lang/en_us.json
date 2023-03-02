@@ -51,6 +51,8 @@
   "item.minecells.biome_banner.king_crest": "King's Crest",
   "item.minecells.biome_banner.torn_king_crest": "Torn King's Crest",
   "item.minecells.biome_banner.insufferable_crypt": "Insufferable Crypt",
+  "block.minecells.return_stone": "Return Stone",
+  "block.minecells.return_stone.title": "Return to the surface",
   "block.minecells.sewage": "Sewage",
   "block.minecells.ancient_sewage": "Ancient Sewage",
   "block.minecells.flowing_sewage": "Sewage",

@@ -351,6 +351,10 @@ public class MineCellsBlocks {
     "promenade_torch"
   );
 
+  public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(
+    new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone"
+  );
+
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(
       state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)
@@ -378,7 +382,8 @@ public class MineCellsBlocks {
   );
 
   public static final Block BARRIER_RUNE = registerBlockWithItem(
-    new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().ticksRandomly()),"barrier_rune"
+    new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().ticksRandomly()),
+    "barrier_rune"
   );
 
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));

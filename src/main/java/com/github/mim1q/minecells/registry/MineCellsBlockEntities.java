@@ -63,5 +63,11 @@ public class MineCellsBlockEntities {
     FabricBlockEntityTypeBuilder.create(DecorativeStatueBlockEntity::new).addBlock(MineCellsBlocks.KING_STATUE).build()
   );
 
+  public static final BlockEntityType<ReturnStoneBlockEntity> RETURN_STONE = Registry.register(
+    Registry.BLOCK_ENTITY_TYPE,
+    MineCells.createId("return_stone"),
+    FabricBlockEntityTypeBuilder.create(ReturnStoneBlockEntity::new).addBlock(MineCellsBlocks.RETURN_STONE).build()
+  );
+
   public static void init() {}
 }
