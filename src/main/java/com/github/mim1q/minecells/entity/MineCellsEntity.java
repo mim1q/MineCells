@@ -61,7 +61,7 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
     int worldY = world.getTopY(Heightmap.Type.WORLD_SURFACE, this.getBlockX(), this.getBlockZ());
-    if (this.getRandom().nextFloat() < 0.75F || MathHelper.abs(worldY - this.getBlockY()) > 5) {
+    if (this.getRandom().nextFloat() < 0.85F || MathHelper.abs(worldY - this.getBlockY()) > 5) {
       return false;
     }
     BlockState blockBelow = world.getBlockState(this.getBlockPos().down());
