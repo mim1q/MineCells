@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.config.CommonConfig;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
+import com.github.mim1q.minecells.world.feature.MineCellsPlacementModifiers;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.github.mim1q.minecells.world.state.MineCellsVersionCheckState;
 import draylar.omegaconfig.OmegaConfig;
@@ -35,6 +36,7 @@ public class MineCells implements ModInitializer {
     MineCellsBiomes.init();
     MineCellsStructures.init();
     MineCellsPlacerTypes.init();
+    MineCellsPlacementModifiers.init();
     MineCellsPointOfInterestTypes.init();
     MineCellsCommands.init();
     MineCellsGameRules.init();
@@ -43,21 +45,6 @@ public class MineCells implements ModInitializer {
     ServerPacketHandler.init();
 
     ServerPlayConnectionEvents.JOIN.register(MineCellsVersionCheckState::onOpPlayerJoin);
-
-//    ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-//      if (MineCellsDimensions.isMineCellsDimension(oldPlayer.getWorld())) {
-//        ((PlayerEntityAccessor) newPlayer).setKingdomPortalCooldown(20);
-//        Vec3d pos = Vec3d.of(MathUtils.getClosestMultiplePosition(oldPlayer.getBlockPos(), 4096));
-//        newPlayer.teleport(
-//          oldPlayer.getWorld(),
-//          pos.x + 8,
-//          pos.y + 32,
-//          pos.z + 8,
-//          oldPlayer.getYaw(),
-//          oldPlayer.getPitch()
-//        );
-//      }
-//    });
   }
 
   public static Identifier createId(String path) {

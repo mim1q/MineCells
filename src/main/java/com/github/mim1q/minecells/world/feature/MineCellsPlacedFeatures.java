@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.world.feature.placementmodifier.ExcludeChunkMultiplesPlacementModifier;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -24,7 +25,8 @@ public class MineCellsPlacedFeatures {
     PlacedFeatures.createCountExtraModifier(1, 0.5F, 4),
     SquarePlacementModifier.of(),
     PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP,
-    BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT))
+    BlockFilterPlacementModifier.of(BlockPredicate.matchingBlockTag(Direction.DOWN.getVector(), BlockTags.DIRT)),
+    ExcludeChunkMultiplesPlacementModifier.of(32)
   );
 
   public static final RegistryEntry<PlacedFeature> PROMENADE_SHRUB = createPlacedFeature(
