@@ -47,32 +47,32 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 7,
+          "weight": 5,
           "name": "minecraft:iron_nugget"
         },
         {
           "type": "minecraft:item",
-          "weight": 7,
+          "weight": 5,
           "name": "minecraft:gold_nugget"
         },
         {
           "type": "minecraft:item",
-          "weight": 6,
+          "weight": 4,
           "name": "minecraft:iron_ingot"
         },
         {
           "type": "minecraft:item",
-          "weight": 6,
+          "weight": 4,
           "name": "minecraft:gold_ingot"
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
+          "weight": 4,
           "name": "minecraft:emerald"
         },
         {
           "type": "minecraft:item",
-          "weight": 1,
+          "weight": 3,
           "name": "minecraft:diamond"
         }
       ]
@@ -87,8 +87,8 @@
             {
               "function": "minecraft:enchant_with_levels",
               "levels": {
-                "min": 25,
-                "max": 30
+                "min": 24,
+                "max": 28
               },
               "treasure": true
             }
@@ -120,7 +120,7 @@
     {
       "rolls": {
         "min": 3,
-        "max": 8
+        "max": 6
       },
       "entries": [
         {
@@ -155,7 +155,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 3,
           "name": "minecraft:chain"
         }
       ],
@@ -164,7 +164,7 @@
           "function": "minecraft:set_count",
           "count": {
             "min": 1,
-            "max": 4
+            "max": 3
           }
         }
       ]
