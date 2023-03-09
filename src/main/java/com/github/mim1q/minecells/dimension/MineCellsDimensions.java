@@ -51,7 +51,7 @@ public class MineCellsDimensions {
     }
     if (dimension.equals(PROMENADE)) {
       multiple512 = multiple512.add(6, 0, 6);
-      int y = world.getChunk(multiple512).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, multiple512.getX(), multiple512.getZ());
+      int y = world.getChunk(multiple512).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, multiple512.getX(), multiple512.getZ());
       BlockPos groundPos = multiple512.withY(y);
       if (groundPos.getY() == 0) return null;
       BlockPos tpPos = MineCellsPortal.placeUpstreamPortal(world, groundPos.down());

@@ -7,10 +7,7 @@ import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.FoodComponents;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
@@ -88,8 +85,8 @@ public class MineCellsItems {
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
-      .group(MineCellsItemGroups.MINECELLS)
       .rarity(Rarity.UNCOMMON)
+      .group(MineCellsItemGroups.MINECELLS)
     ), "blood_sword"
   );
 
@@ -117,6 +114,15 @@ public class MineCellsItems {
       .rarity(Rarity.RARE)
       .group(MineCellsItemGroups.MINECELLS)
     ), "hattoris_katana"
+  );
+
+  public static final Item BROADSWORD = register(new SwordItem(ToolMaterials.IRON, 7, -2.9F,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(1200)
+      .rarity(Rarity.COMMON)
+      .group(MineCellsItemGroups.MINECELLS)
+    ), "broadsword"
   );
 
   public static final Item HEALTH_FLASK = registerSimpleItem(

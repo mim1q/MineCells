@@ -90,6 +90,7 @@
   "item.minecells.hattoris_katana": "Hattori's Katana",
   "item.minecells.hattoris_katana.tooltip1": "Hold right-click to charge",
   "item.minecells.hattoris_katana.tooltip2": "[%ss cooldown]",
+  "item.minecells.broadsword": "Broadsword",
   "item.minecells.phaser": "Phaser",
   "item.minecells.phaser.tooltip": "Teleports you to a nearby enemy. Your next attack deals additional damage",
 
