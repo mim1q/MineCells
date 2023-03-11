@@ -5,7 +5,8 @@ public enum MineCellsEffectFlags {
   BLEEDING(1),
   AWAKENED(2),
   CURSED(3),
-  DISARMED(4);
+  DISARMED(4),
+  FROZEN(5);
 
   private final int offset;
 

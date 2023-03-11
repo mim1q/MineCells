@@ -8,4 +8,7 @@ public interface LivingEntityAccessor {
   void mixinSetCellAmountAndChance(int amount, float chance);
   void clearCurableStatusEffects();
   boolean hasIncurableStatusEffects();
+  default boolean shouldActFrozen() {
+    return getMineCellsFlag(MineCellsEffectFlags.FROZEN);
+  }
 }

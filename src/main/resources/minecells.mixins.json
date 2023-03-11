@@ -8,6 +8,7 @@
     "entity.EntityMixin",
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
+    "entity.MobEntityMixin",
     "entity.player.PlayerEntityMixin",
     "entity.player.ServerPlayerEntityMixin",
     "item.BlockItemMixin",
@@ -20,7 +21,8 @@
     "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
-    "compat.firstperson.PlayerAnimatorSupportMixin"
+    "compat.firstperson.PlayerAnimatorSupportMixin",
+    "entity.LivingEntityClientMixin"
   ],
   "server": [],
   "injectors": {

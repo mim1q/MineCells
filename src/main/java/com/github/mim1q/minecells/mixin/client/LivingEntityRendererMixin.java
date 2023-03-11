@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.mixin.client;
 
-import com.github.mim1q.minecells.client.render.feature.ProtectedGlintFeatureRenderer;
+import com.github.mim1q.minecells.client.render.feature.MineCellsEffectsFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -23,6 +23,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
   @Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;Lnet/minecraft/client/render/entity/model/EntityModel;F)V", at = @At("TAIL"))
   public void init(EntityRendererFactory.Context ctx, EntityModel<Entity> model, float shadowRadius, CallbackInfo ci) {
     LivingEntityRenderer<T, M> renderer = (LivingEntityRenderer) (Object) this;
-    this.addFeature(new ProtectedGlintFeatureRenderer(renderer));
+    this.addFeature(new MineCellsEffectsFeatureRenderer(renderer));
   }
 }
