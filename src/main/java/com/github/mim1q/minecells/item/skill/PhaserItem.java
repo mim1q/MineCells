@@ -44,6 +44,7 @@ public class PhaserItem extends Item {
     }
     player.setYaw(target.getYaw(0.0F));
     world.playSound(null, player.getX(), player.getY(), player.getZ(), MineCellsSounds.TELEPORT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+    target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.STUNNED, 30, 0, false, false, true));
     player.teleport(targetPos.x, targetPos.y, targetPos.z);
     return true;
   }

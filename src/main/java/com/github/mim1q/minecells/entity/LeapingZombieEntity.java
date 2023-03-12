@@ -52,10 +52,8 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
   protected void clientTick() {
     if (this.isLeapCharging()) {
       this.additionalRotation.setupTransitionTo(90.0F, 15);
-    } else if (this.isLeapReleasing()) {
-      this.additionalRotation.setupTransitionTo(0.0F, 15);
     } else {
-      this.additionalRotation.setupTransitionTo(0.0F, 5);
+      this.additionalRotation.setupTransitionTo(0.0F, 15);
     }
   }
 

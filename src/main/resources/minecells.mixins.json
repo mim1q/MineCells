@@ -8,6 +8,7 @@
     "entity.EntityMixin",
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
+    "entity.MobEntityAccessor",
     "entity.MobEntityMixin",
     "entity.player.PlayerEntityMixin",
     "entity.player.ServerPlayerEntityMixin",

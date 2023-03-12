@@ -23,11 +23,8 @@ public class MineCellsStatusEffects {
     new MineCellsStatusEffect(StatusEffectCategory.HARMFUL, 0x000000, false, MineCellsEffectFlags.DISARMED, false),
     "disarmed"
   );
-  public static final StatusEffect FROZEN = register(new FrozenStatusEffect(), "frozen");
-  public static final StatusEffect STUNNED = register(new MineCellsStatusEffect(
-    StatusEffectCategory.HARMFUL, 0xE8B724, false, MineCellsEffectFlags.STUNNED, false),
-    "stunned"
-  );
+  public static final StatusEffect FROZEN = register(new FrozenStatusEffect(MineCellsEffectFlags.FROZEN, 0x96f0ff, true), "frozen");
+  public static final StatusEffect STUNNED = register(new FrozenStatusEffect(MineCellsEffectFlags.STUNNED, 0xf1f8b5, false), "stunned");
   public static final StatusEffect ASSASSINS_STRENGTH = register(
     new MineCellsStatusEffect(StatusEffectCategory.BENEFICIAL, 0xDA1C1C, false, null, false)
       .addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, ASSASSINS_STRENGTH_UUID, 1.25F, Operation.MULTIPLY_TOTAL),
