@@ -91,6 +91,10 @@
   "item.minecells.hattoris_katana.tooltip1": "Hold right-click to charge",
   "item.minecells.hattoris_katana.tooltip2": "[%ss cooldown]",
   "item.minecells.broadsword": "Broadsword",
+  "item.minecells.balanced_blade": "Balanced Blade",
+  "item.minecells.crowbar": "Crowbar",
+  "item.minecells.frost_blast": "Frost Blast",
+  "item.minecells.nutcracker": "Nutcracker",
   "item.minecells.phaser": "Phaser",
   "item.minecells.phaser.tooltip": "Teleports you to a nearby enemy. Your next attack deals additional damage",
 
@@ -126,7 +130,9 @@
   "effect.minecells.cursed": "Cursed",
   "effect.minecells.bleeding": "Bleeding",
   "effect.minecells.disarmed": "Disarmed",
-  "effect.minecells.assassins_strength": "Assassin's Strength",
+  "effect.minecells.assassins_strength": "Assassination",
+  "effect.minecells.stunned": "Stunned",
+  "effect.minecells.frozen": "Frozen",
 
   "death.attack.minecells.grenade": "%s was blown up by %s",
   "death.attack.minecells.aura": "%s didn't respect %s's boundaries",
