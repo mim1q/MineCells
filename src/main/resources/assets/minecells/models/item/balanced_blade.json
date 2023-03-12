@@ -1,0 +1,30 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"particle": "minecells:item/balanced_blade",
+		"layer0": "minecells:item/balanced_blade"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -90, -45],
+			"translation": [0, 6, 1.25],
+			"scale": [0.85, 0.85, 0.85]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 90, 45],
+			"translation": [0, 6, 1.25],
+			"scale": [0.85, 0.85, 0.85]
+		},
+		"firstperson_righthand": {
+			"rotation": [-160, -80, 165],
+			"translation": [2, 4.5, 0.75],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"firstperson_lefthand": {
+			"rotation": [20, 80, 15],
+			"translation": [2, 4.5, 0.75],
+			"scale": [0.68, 0.68, 0.68]
+		}
+	}
+}
