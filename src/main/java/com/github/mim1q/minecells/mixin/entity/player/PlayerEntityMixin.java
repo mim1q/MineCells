@@ -94,6 +94,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     return original;
   }
 
+  @Inject(method = "damage", at = @At("HEAD"))
+  private void minecells$injectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    this.balancedBladeStacks = 0;
+  }
+
   @Inject(method = "isBlockBreakingRestricted", at = @At("HEAD"), cancellable = true)
   public void isBlockBreakingRestricted(World world, BlockPos pos, GameMode gameMode, CallbackInfoReturnable<Boolean> cir) {
     if (((LivingEntityAccessor) this).getMineCellsFlag(MineCellsEffectFlags.DISARMED)) {
