@@ -72,6 +72,7 @@ public class MineCellsItems {
     "ancient_sewage_bucket"
   );
 
+  // Weapons
   public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(2, -2.1F,
     new FabricItemSettings()
       .maxCount(1)
@@ -125,6 +126,18 @@ public class MineCellsItems {
     ), "broadsword"
   );
 
+  public static final Item FROST_BLAST = register(new FrostBlastItem(
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(32)
+      .rarity(Rarity.COMMON)
+      .group(MineCellsItemGroups.MINECELLS)
+    ), "frost_blast"
+  );
+
+  // Skills
+  public static final PhaserItem PHASER = registerSimpleItem(new PhaserItem(), "phaser");
+
   public static final Item HEALTH_FLASK = registerSimpleItem(
     new HealthFlaskItem(new FabricItemSettings()
       .maxCount(16)
@@ -138,9 +151,6 @@ public class MineCellsItems {
       .group(MineCellsItemGroups.MINECELLS)
     ), "spawner_rune"
   );
-
-  // Skills
-  public static final PhaserItem PHASER = registerSimpleItem(new PhaserItem(), "phaser");
 
   public static void init() { }
 
