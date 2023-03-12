@@ -11,4 +11,6 @@ public interface PlayerEntityAccessor {
   MineCellsPortalData getMineCellsPortalData();
   void setLastDimensionTranslationKey(String key);
   String getLastDimensionTranslationKey();
+  void addBalancedBladeStack();
+  int getBalancedBladeStacks();
 }

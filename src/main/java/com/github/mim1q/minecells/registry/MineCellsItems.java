@@ -120,16 +120,25 @@ public class MineCellsItems {
   public static final Item BROADSWORD = register(new SwordItem(ToolMaterials.IRON, 7, -2.9F,
     new FabricItemSettings()
       .maxCount(1)
-      .maxDamage(1200)
+      .maxDamage(1000)
       .rarity(Rarity.COMMON)
       .group(MineCellsItemGroups.MINECELLS)
     ), "broadsword"
   );
 
-  public static final Item NUTCRACKER = register(new NutcrackerItem(7.0F, -3.0F,
+  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(ToolMaterials.IRON, 2, -2.4F,
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
+        .rarity(Rarity.COMMON)
+        .group(MineCellsItemGroups.MINECELLS)
+    ), "balanced_blade"
+  );
+
+  public static final Item NUTCRACKER = register(new NutcrackerItem(7.0F, -3.0F,
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1000)
         .rarity(Rarity.COMMON)
         .group(MineCellsItemGroups.MINECELLS)
     ), "nutcracker"

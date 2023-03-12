@@ -42,7 +42,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   private static final TrackedData<String> LAST_DIMENSION_TRANSLATION_KEY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.STRING);
   private int kingdomPortalCooldown = 0;
   private final MineCellsPortalData mineCellsPortalData = new MineCellsPortalData(this);
-
+  private int balancedBladeStacks = 0;
+  private int balancedBladeTimer = 0;
 
   protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -66,6 +67,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   public void tick(CallbackInfo ci) {
     if (kingdomPortalCooldown > 0) {
       kingdomPortalCooldown--;
+    }
+    if (balancedBladeTimer > 0) {
+      balancedBladeTimer--;
+    } else {
+      balancedBladeStacks = 0;
     }
   }
 
@@ -142,5 +148,18 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   @Override
   public String getLastDimensionTranslationKey() {
     return this.dataTracker.get(LAST_DIMENSION_TRANSLATION_KEY);
+  }
+
+  @Override
+  public void addBalancedBladeStack() {
+    if (balancedBladeStacks < 9) {
+      balancedBladeStacks++;
+    }
+    balancedBladeTimer = 20 * 5;
+  }
+
+  @Override
+  public int getBalancedBladeStacks() {
+    return balancedBladeStacks;
   }
 }
