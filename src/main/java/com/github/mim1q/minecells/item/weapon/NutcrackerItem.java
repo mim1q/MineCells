@@ -31,6 +31,12 @@ public class NutcrackerItem extends Item implements ICritWeapon {
   }
 
   @Override
+  public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    stack.damage(1, attacker, (user) -> user.sendToolBreakStatus(user.getActiveHand()));
+    return super.postHit(stack, target, attacker);
+  }
+
+  @Override
   public boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
     return Stream.of(MineCellsEffectFlags.FROZEN, MineCellsEffectFlags.STUNNED).anyMatch(
       flag -> ((LivingEntityAccessor) target).getMineCellsFlag(flag)

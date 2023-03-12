@@ -6,8 +6,11 @@ import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
@@ -135,6 +138,15 @@ public class MineCellsItems {
     ), "balanced_blade"
   );
 
+  public static final Item CROWBAR = register(new CrowbarItem(ToolMaterials.IRON, 3, -2.4F,
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1100)
+        .rarity(Rarity.COMMON)
+        .group(MineCellsItemGroups.MINECELLS)
+    ), "crowbar"
+  );
+
   public static final Item NUTCRACKER = register(new NutcrackerItem(7.0F, -3.0F,
       new FabricItemSettings()
         .maxCount(1)
@@ -177,7 +189,18 @@ public class MineCellsItems {
     ), "spawner_rune"
   );
 
-  public static void init() { }
+  public static void init() {
+    AttackBlockCallback.EVENT.register(
+      (player, world, hand, pos, direction) -> {
+        if (world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
+          world.breakBlock(pos, true, player);
+          player.getStackInHand(hand).getOrCreateNbt().putLong("lastDoorBreakTime", world.getTime());
+          return ActionResult.SUCCESS;
+        }
+        return ActionResult.PASS;
+      }
+    );
+  }
 
   public static <E extends Item> E register(E item, String name) {
     Registry.register(Registry.ITEM, MineCells.createId(name), item);
