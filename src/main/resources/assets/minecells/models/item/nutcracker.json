@@ -1,0 +1,40 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"particle": "minecells:item/nutcracker",
+		"layer0": "minecells:item/nutcracker"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 90, 45],
+			"translation": [0, 6.5, 1.5],
+			"scale": [1.7, 1.7, 0.85]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -90, -45],
+			"translation": [0, 6.5, 1.5],
+			"scale": [1.7, 1.7, 0.85]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -90, 30],
+			"translation": [1.5, 4, 0.5],
+			"scale": [1.36, 1.36, 0.68]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 90, 30],
+			"translation": [1.5, 4, 0.5],
+			"scale": [1.36, 1.36, 0.68]
+		},
+		"ground": {
+			"translation": [0, 5, 0],
+			"scale": [1.5, 1.5, 0.75]
+		},
+		"gui": {
+			"scale": [1.5, 1.5, 1]
+		},
+		"fixed": {
+			"scale": [1.5, 1, 1]
+		}
+	}
+}

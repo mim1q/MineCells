@@ -99,6 +99,7 @@ public class MineCellsItemGroups {
       Stack(MineCellsItems.ASSASSINS_DAGGER),
       Stack(MineCellsItems.BLOOD_SWORD),
       Stack(MineCellsItems.BROADSWORD),
+      Stack(MineCellsItems.NUTCRACKER),
       Stack(MineCellsItems.CURSED_SWORD),
       Stack(MineCellsItems.HATTORIS_KATANA),
       Stack(MineCellsItems.TENTACLE),

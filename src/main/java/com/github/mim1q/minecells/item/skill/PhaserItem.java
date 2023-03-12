@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.item.skill;
 
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -20,8 +19,8 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class PhaserItem extends Item {
-  public PhaserItem() {
-    super(new FabricItemSettings().maxCount(1).maxDamage(32));
+  public PhaserItem(Settings settings) {
+    super(settings);
   }
 
   private static boolean teleportBehindTarget(World world, PlayerEntity player, LivingEntity target) {

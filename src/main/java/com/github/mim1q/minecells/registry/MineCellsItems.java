@@ -126,6 +126,15 @@ public class MineCellsItems {
     ), "broadsword"
   );
 
+  public static final Item NUTCRACKER = register(new NutcrackerItem(7.0F, -3.0F,
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1200)
+        .rarity(Rarity.COMMON)
+        .group(MineCellsItemGroups.MINECELLS)
+    ), "nutcracker"
+  );
+
   public static final Item FROST_BLAST = register(new FrostBlastItem(
     new FabricItemSettings()
       .maxCount(1)
@@ -136,7 +145,14 @@ public class MineCellsItems {
   );
 
   // Skills
-  public static final PhaserItem PHASER = registerSimpleItem(new PhaserItem(), "phaser");
+  public static final PhaserItem PHASER = registerSimpleItem(new PhaserItem(
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(32)
+      .rarity(Rarity.COMMON)
+      .group(MineCellsItemGroups.MINECELLS)
+    ), "phaser"
+  );
 
   public static final Item HEALTH_FLASK = registerSimpleItem(
     new HealthFlaskItem(new FabricItemSettings()
