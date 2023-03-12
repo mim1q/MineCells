@@ -102,6 +102,7 @@ public class MineCellsItemGroups {
       Stack(MineCellsItems.CURSED_SWORD),
       Stack(MineCellsItems.HATTORIS_KATANA),
       Stack(MineCellsItems.TENTACLE),
+      Stack(MineCellsItems.FROST_BLAST),
       Stack(MineCellsItems.PHASER),
       Stack(MineCellsEntities.LEAPING_ZOMBIE_SPAWN_EGG),
       Stack(MineCellsEntities.SHOCKER_SPAWN_EGG),

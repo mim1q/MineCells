@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +52,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
   @Shadow public abstract Identifier getLootTable();
   @Shadow public abstract ItemStack getOffHandStack();
-
+  @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
 
   @SuppressWarnings("WrongEntityDataParameterClass")
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -104,6 +105,13 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
       return 10.0f;
     }
     return amount;
+  }
+
+  @Inject(method = "damage", at = @At("HEAD"))
+  private void minecells$injectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    if (source != DamageSource.FREEZE) {
+      this.removeStatusEffect(MineCellsStatusEffects.FROZEN);
+    }
   }
 
   @Override

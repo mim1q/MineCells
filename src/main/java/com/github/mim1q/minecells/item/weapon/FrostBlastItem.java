@@ -7,7 +7,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -59,7 +58,7 @@ public class FrostBlastItem extends Item {
     }
     for (LivingEntity entity : entities) {
       applyFreeze(entity);
-      entity.damage(DamageSource.MAGIC, 6.0F);
+      entity.damage(DamageSource.FREEZE, 6.0F);
     }
     return stack;
   }
@@ -87,7 +86,5 @@ public class FrostBlastItem extends Item {
       duration = 20 * 10;
     }
     entity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, duration, 0, false, false, true));
-    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 15, 1, false, false, true));
-    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 20 * 5, 1, false, false, true));
   }
 }
