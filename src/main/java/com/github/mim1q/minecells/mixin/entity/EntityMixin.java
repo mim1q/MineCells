@@ -23,12 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityAccessor, Nameable, EntityLike, CommandOutput {
   @Shadow public abstract Vec3d getPos();
-
   @Shadow public abstract float getBodyYaw();
-
   @Shadow public abstract boolean isPlayer();
-
-  @Shadow private Vec3d velocity;
 
   @Accessor("dimensions")
   public abstract void setDimensions(EntityDimensions dimensions);
