@@ -86,7 +86,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         && target instanceof LivingEntity livingTarget
         && critWeapon.canCrit(stack, livingTarget, this)
     ) {
-      this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+      if (critWeapon.shouldPlayCritSound(stack, livingTarget, this)) {
+        this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+      }
       return original + critWeapon.getAdditionalCritDamage(stack, livingTarget, this);
     }
     return original;

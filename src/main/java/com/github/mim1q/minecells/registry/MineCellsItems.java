@@ -126,7 +126,7 @@ public class MineCellsItems {
     ), "broadsword"
   );
 
-  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(ToolMaterials.IRON, 2, -2.4F,
+  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(ToolMaterials.IRON, 3, -2.4F,
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)

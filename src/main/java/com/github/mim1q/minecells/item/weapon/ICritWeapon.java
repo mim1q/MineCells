@@ -9,4 +9,7 @@ public interface ICritWeapon {
   default float getAdditionalCritDamage(ItemStack stack, @Nullable LivingEntity target, @Nullable LivingEntity attacker) {
     return 4.0F;
   }
+  default boolean shouldPlayCritSound(ItemStack stack, @Nullable LivingEntity target, @Nullable LivingEntity attacker) {
+    return true;
+  }
 }
