@@ -63,14 +63,9 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
     matrices.scale(-1F, -1F, 1F);
     matrices.translate(0.0F, 0.75F, 0.0F);
     matrices.multiply(dispatcher.getRotation());
-    Matrix3f m3f = matrices.peek().getNormalMatrix();
-    Matrix4f m4f = matrices.peek().getPositionMatrix();
     VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
-    float d = 3.5F / 16F;
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -d, -d, 0F, 1 / 32F, 24 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0,  d, -d, 0F, 8 / 32F, 24 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0,  d,  d, 0F, 8 / 32F, 17 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -d,  d, 0F, 1 / 32F, 17 / 32F, 255);
+    float d = 7.0F / 16F;
+    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, d, d, 1/32F, 8/32F, 17/32F, 24/32F, 255);
     matrices.pop();
   }
 

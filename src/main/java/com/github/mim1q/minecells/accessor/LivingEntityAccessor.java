@@ -9,6 +9,6 @@ public interface LivingEntityAccessor {
   void clearCurableStatusEffects();
   boolean hasIncurableStatusEffects();
   default boolean shouldActFrozen() {
-    return getMineCellsFlag(MineCellsEffectFlags.FROZEN);
+    return getMineCellsFlag(MineCellsEffectFlags.FROZEN) || getMineCellsFlag(MineCellsEffectFlags.STUNNED);
   }
 }
