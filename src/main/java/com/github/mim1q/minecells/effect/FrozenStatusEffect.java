@@ -22,6 +22,7 @@ public class FrozenStatusEffect extends MineCellsStatusEffect {
     super.onApplied(entity, attributes, amplifier);
     if (entity instanceof MobEntity mob) {
       mob.getNavigation().stop();
+      mob.setMovementSpeed(0.0F);
     }
   }
 

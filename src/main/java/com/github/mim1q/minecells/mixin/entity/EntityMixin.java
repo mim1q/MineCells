@@ -1,12 +1,10 @@
 package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.EntityAccessor;
-import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.util.Arm;
@@ -18,7 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
@@ -41,19 +38,5 @@ public abstract class EntityMixin implements EntityAccessor, Nameable, EntityLik
       positionUpdater.accept(passenger, pos.x + offset.x, pos.y + offset.y, pos.z + offset.z);
       ci.cancel();
     }
-  }
-
-  @ModifyVariable(method = "move", at = @At("HEAD"), argsOnly = true)
-  private Vec3d minecells$modifyMoveVelocity(Vec3d velocity, MovementType type) {
-    if (type != MovementType.SELF) {
-      return velocity;
-    }
-    if (this instanceof LivingEntityAccessor living && living.shouldActFrozen()) {
-      if (velocity.getY() >= 0.0D) {
-        return Vec3d.ZERO;
-      }
-      return velocity.multiply(0.0D, 1.0D, 0.0D);
-    }
-    return velocity;
   }
 }
