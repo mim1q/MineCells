@@ -23,7 +23,7 @@
         "upswing": 0.35,
         "animation": "bettercombat:two_handed_slash_horizontal_right",
         "swing_sound": {
-          "id": "bettercombat:claymore_slash"
+          "id": "bettercombat:claymore_swing"
         }
       }
     ]
