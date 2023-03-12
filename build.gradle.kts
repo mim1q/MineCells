@@ -80,7 +80,7 @@ val dataOutput = file("src/main/generated")
 loom {
   runs {
     create("datagen")  {
-      server()
+      client()
       name("Data Generation")
       vmArg("-Dfabric-api.datagen")
       vmArg("-Dfabric-api.datagen.output-dir=${dataOutput}")
