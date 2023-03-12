@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HattorisKatanaItem extends SwordItem {
-  public static final float COOLDOWN = 15.0F;
+  public static final float COOLDOWN = 12.0F;
 
   private static final String TOOLTIP1_KEY = "item.minecells.hattoris_katana.tooltip1";
   private static final String TOOLTIP2_KEY = "item.minecells.hattoris_katana.tooltip2";

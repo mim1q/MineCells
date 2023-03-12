@@ -112,7 +112,7 @@ public class MineCellsItems {
   );
 
   public static final Item HATTORIS_KATANA = register(
-    new HattorisKatanaItem(5, -2.2F, new FabricItemSettings()
+    new HattorisKatanaItem(4, -2.2F, new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
       .rarity(Rarity.RARE)
