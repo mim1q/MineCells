@@ -192,9 +192,10 @@ public class MineCellsItems {
   public static void init() {
     AttackBlockCallback.EVENT.register(
       (player, world, hand, pos, direction) -> {
-        if (world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
-          world.breakBlock(pos, true, player);
-          player.getStackInHand(hand).getOrCreateNbt().putLong("lastDoorBreakTime", world.getTime());
+        ItemStack stack = player.getStackInHand(player.getActiveHand());
+        if (stack.isOf(CROWBAR) && world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
+          world.breakBlock(pos, false, player);
+          stack.getOrCreateNbt().putLong("lastDoorBreakTime", world.getTime());
           return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
