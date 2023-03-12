@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.util.Arm;
@@ -43,7 +44,10 @@ public abstract class EntityMixin implements EntityAccessor, Nameable, EntityLik
   }
 
   @ModifyVariable(method = "move", at = @At("HEAD"), argsOnly = true)
-  private Vec3d minecells$modifyMoveVelocity(Vec3d velocity) {
+  private Vec3d minecells$modifyMoveVelocity(Vec3d velocity, MovementType type) {
+    if (type != MovementType.SELF) {
+      return velocity;
+    }
     if (this instanceof LivingEntityAccessor living && living.shouldActFrozen()) {
       if (velocity.getY() >= 0.0D) {
         return Vec3d.ZERO;
