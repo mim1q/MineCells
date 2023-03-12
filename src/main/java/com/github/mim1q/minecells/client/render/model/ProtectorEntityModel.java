@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.ProtectorEntity;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,6 +14,7 @@ public class ProtectorEntityModel extends EntityModel<ProtectorEntity> {
   private final ModelPart root;
 
   public ProtectorEntityModel(ModelPart root) {
+    super(RenderLayer::getEntityCutout);
     this.root = root.getChild("root");
   }
 
@@ -43,22 +45,22 @@ public class ProtectorEntityModel extends EntityModel<ProtectorEntity> {
         .uv(1, 20)
         .cuboid(-3.0F, -7.0F, -3.0F, 6, 7, 6)
         .uv(38, 27)
-        .cuboid(-3.0F, -10.0F, -3.0F, 6, 3, 0, new Dilation(0.01F))
-        .cuboid(-3.0F, -10.0F, 3.0F, 6, 3, 0, new Dilation(0.01F))
+        .cuboid(-3.0F, -10.0F, -3.0F, 6, 3, 0)
+        .cuboid(-3.0F, -10.0F, 3.0F, 6, 3, 0)
         .uv(-6, 19)
-        .cuboid(-0.5F, -9.9F, -3.0F, 1, 0, 6, new Dilation(0.01F)),
+        .cuboid(-0.5F, -9.9F, -3.0F, 1, 0, 6),
       ModelTransform.pivot(0.0F, -12.0F, 0.0F));
 
     dHead.addChild("left_slope",
       ModelPartBuilder.create()
         .uv(0, 28)
-        .cuboid(0.0F, -4.0F, -3.0F, 0, 4, 6, new Dilation(0.01F)),
+        .cuboid(0.0F, -4.0F, -3.0F, 0, 4, 6),
       ModelTransform.of(3.0F, -7.0F, 0.0F, 0.0F, 0.0F, -45.0F * RADIANS_PER_DEGREE));
 
     dHead.addChild("right_slope",
       ModelPartBuilder.create()
         .uv(0, 28)
-        .cuboid(0.0F, -4.0F, -3.0F, 0, 4, 6, new Dilation(0.01F)),
+        .cuboid(0.0F, -4.0F, -3.0F, 0, 4, 6),
       ModelTransform.of(-3.0F, -7.0F, 0.0F, 0.0F, 0.0F, 45.0F * RADIANS_PER_DEGREE));
 
     ModelPartData dLeftArm = dBody.addChild("left_arm",
