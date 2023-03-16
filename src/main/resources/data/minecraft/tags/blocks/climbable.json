@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecells:big_chain"
+    "minecells:big_chain",
+    "minecells:runic_vine"
   ]
 }

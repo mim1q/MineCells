@@ -241,6 +241,11 @@ public class MineCellsBlocks {
     "red_wilted_wall_leaves"
   );
 
+  public static final Block RUNIC_VINE = registerBlock(
+    new RunicVineBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
+    "runic_vine"
+  );
+
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block CRATE = registerBlockWithItem(

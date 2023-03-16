@@ -173,6 +173,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.RED_WILTED_LEAVES,
       MineCellsBlocks.RED_WILTED_HANGING_LEAVES,
       MineCellsBlocks.RED_WILTED_WALL_LEAVES,
+      MineCellsBlocks.RUNIC_VINE,
       MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
