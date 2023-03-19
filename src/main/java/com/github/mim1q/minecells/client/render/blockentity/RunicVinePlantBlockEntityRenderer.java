@@ -26,10 +26,12 @@ public class RunicVinePlantBlockEntityRenderer implements BlockEntityRenderer<Ru
     if (entity.getWorld() == null) return;
     matrices.push();
     float time = entity.getWorld().getTime() + tickDelta;
+    entity.wobble.update(time);
+    float wobble = entity.wobble.getValue() * 0.2F;
     float vScale = 1.25F + (float) Math.sin(time * 0.2F) * 0.075F;
     float hScale = 1.25F + (float) Math.cos(time * 0.2F) * 0.05F;
     matrices.translate(0.5D, 0.0D, 0.5D);
-    matrices.scale(hScale, vScale, hScale);
+    matrices.scale(hScale - wobble, vScale + wobble, hScale - wobble);
     matrices.translate(-0.5D, 0.0D, -0.5D);
     var consumer = vertexConsumers.getBuffer(RenderLayers.getBlockLayer(BLOCK));
     blockRenderer.render(matrices.peek(), consumer, BLOCK, model, 1.0F, 1.0F, 1.0F, light, overlay);
