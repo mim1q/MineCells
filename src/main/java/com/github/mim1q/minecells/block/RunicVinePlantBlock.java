@@ -37,7 +37,7 @@ public class RunicVinePlantBlock extends BlockWithEntity {
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     var entity = world.getBlockEntity(pos);
     if (entity instanceof RunicVinePlantBlockEntity blockEntity) {
-      blockEntity.usedTicks = 20;
+      blockEntity.use(state, world, pos, player, hand);
       return ActionResult.SUCCESS;
     }
     return ActionResult.FAIL;
