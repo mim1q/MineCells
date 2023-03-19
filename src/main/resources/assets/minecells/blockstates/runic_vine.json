@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "minecells:block/runic_vine"
+    },
+    "top=true": {
+      "model": "minecells:block/runic_vine_top"
+    }
+  }
+}

@@ -10,10 +10,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import static com.github.mim1q.minecells.block.RunicVinePlantBlock.ACTIVATED;
 
 public class RunicVinePlantBlockEntity extends BlockEntity {
   private int usedTicks = 0;
@@ -37,7 +40,11 @@ public class RunicVinePlantBlockEntity extends BlockEntity {
     if (blocksAbove > 0 && blocksAbove < 16 && world.getTime() % 2 == 0) {
       BlockPos posAbove = pos.up(blocksAbove);
       BlockState stateAbove = world.getBlockState(posAbove);
-      if (stateAbove.isAir() || stateAbove.isOf(MineCellsBlocks.HARDSTONE)) {
+      BlockState stateBelow = world.getBlockState(posAbove.down());
+      if (
+        (stateAbove.isAir() || stateAbove.isOf(MineCellsBlocks.HARDSTONE))
+        && (stateBelow.isOf(MineCellsBlocks.RUNIC_VINE_PLANT) || stateBelow.isOf(MineCellsBlocks.RUNIC_VINE))
+      ) {
         world.playSound(null, posAbove, SoundEvents.BLOCK_WET_GRASS_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         Vec3d particlePos = Vec3d.ofCenter(posAbove);
         ((ServerWorld) world).spawnParticles(RunicVinePlantBlock.PARTICLE, particlePos.getX(), particlePos.getY(), particlePos.getZ(), 10, 0.25D, 0.5D, 0.25D, 0.01D);
@@ -53,8 +60,13 @@ public class RunicVinePlantBlockEntity extends BlockEntity {
     blockEntity.tick(world, pos, state);
   }
 
-  public void use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
+  public ActionResult use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
     usedTicks = 20;
+    if (state.get(ACTIVATED)) {
+      return ActionResult.SUCCESS;
+    }
     blocksAbove = 1;
+    world.setBlockState(pos, state.with(ACTIVATED, true));
+    return ActionResult.SUCCESS;
   }
 }

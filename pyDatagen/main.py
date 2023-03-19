@@ -36,8 +36,8 @@ def generate_data(output_path: str):
     gen.generate_preset(wood_presets.Leaves("wilted", True))
     gen.generate_preset(wood_presets.Leaves("orange_wilted"))
     gen.generate_preset(wood_presets.Leaves("red_wilted"))
-    gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "runic_vine", {"block": "runic_vine"}))
     gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cross", "runic_vine", {"texture": "runic_vine"}))
+    gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cross", "runic_vine_top", {"texture": "runic_vine_top"}))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "runic_vine_plant", {"block": "runic_vine_plant"}))
 
 # Torches

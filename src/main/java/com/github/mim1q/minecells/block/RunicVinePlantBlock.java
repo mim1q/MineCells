@@ -3,33 +3,42 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
 import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class RunicVinePlantBlock extends BlockWithEntity {
   public static final ParticleEffect PARTICLE = ColoredParticle.create(MineCellsParticles.SPECKLE, 0x49b74a);
+  public static final BooleanProperty ACTIVATED = BooleanProperty.of("activated");
 
   public RunicVinePlantBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    builder.add(ACTIVATED);
+    super.appendProperties(builder);
   }
 
   @Override
@@ -37,10 +46,20 @@ public class RunicVinePlantBlock extends BlockWithEntity {
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     var entity = world.getBlockEntity(pos);
     if (entity instanceof RunicVinePlantBlockEntity blockEntity) {
-      blockEntity.use(state, world, pos, player, hand);
-      return ActionResult.SUCCESS;
+      return blockEntity.use(state, world, pos, player, hand);
     }
     return ActionResult.FAIL;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    if (direction == Direction.UP) {
+      if (!neighborState.isOf(MineCellsBlocks.RUNIC_VINE)) {
+        return state.with(ACTIVATED, false);
+      }
+    }
+    return state;
   }
 
   @Override
