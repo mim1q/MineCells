@@ -3,10 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.gui.screen.CellForgeScreen;
 import com.github.mim1q.minecells.client.render.*;
-import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.ColoredTorchBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.*;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -174,6 +171,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.RED_WILTED_HANGING_LEAVES,
       MineCellsBlocks.RED_WILTED_WALL_LEAVES,
       MineCellsBlocks.RUNIC_VINE,
+      MineCellsBlocks.RUNIC_VINE_PLANT,
       MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
@@ -198,6 +196,7 @@ public class MineCellsRenderers {
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.COLORED_TORCH_BLOCK_ENTITY, (ctx) -> new ColoredTorchBlockEntityRenderer());
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
+    BlockEntityRendererRegistry.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

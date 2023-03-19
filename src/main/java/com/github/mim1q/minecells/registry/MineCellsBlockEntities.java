@@ -69,5 +69,11 @@ public class MineCellsBlockEntities {
     FabricBlockEntityTypeBuilder.create(ReturnStoneBlockEntity::new).addBlock(MineCellsBlocks.RETURN_STONE).build()
   );
 
+  public static final BlockEntityType<RunicVinePlantBlockEntity> RUNIC_VINE_PLANT = Registry.register(
+    Registry.BLOCK_ENTITY_TYPE,
+    MineCells.createId("runic_vine_plant"),
+    FabricBlockEntityTypeBuilder.create(RunicVinePlantBlockEntity::new).addBlock(MineCellsBlocks.RUNIC_VINE_PLANT).build()
+  );
+
   public static void init() {}
 }

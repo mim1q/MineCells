@@ -246,6 +246,11 @@ public class MineCellsBlocks {
     "runic_vine"
   );
 
+  public static final Block RUNIC_VINE_PLANT = registerBlock(
+    new RunicVinePlantBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).sounds(BlockSoundGroup.WET_GRASS).luminance(8)),
+    "runic_vine_plant"
+  );
+
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block CRATE = registerBlockWithItem(
