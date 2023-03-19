@@ -1,21 +1,24 @@
 package com.github.mim1q.minecells.block.blockentity;
 
+import com.github.mim1q.minecells.block.RunicVinePlantBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class RunicVinePlantBlockEntity extends BlockEntity {
   private int usedTicks = 0;
   private int blocksAbove = 0;
-  public AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
   public RunicVinePlantBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.RUNIC_VINE_PLANT, pos, state);
@@ -36,6 +39,8 @@ public class RunicVinePlantBlockEntity extends BlockEntity {
       BlockState stateAbove = world.getBlockState(posAbove);
       if (stateAbove.isAir() || stateAbove.isOf(MineCellsBlocks.HARDSTONE)) {
         world.playSound(null, posAbove, SoundEvents.BLOCK_WET_GRASS_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        Vec3d particlePos = Vec3d.ofCenter(posAbove);
+        ((ServerWorld) world).spawnParticles(RunicVinePlantBlock.PARTICLE, particlePos.getX(), particlePos.getY(), particlePos.getZ(), 10, 0.25D, 0.5D, 0.25D, 0.01D);
         world.setBlockState(posAbove, MineCellsBlocks.RUNIC_VINE.getDefaultState());
         blocksAbove++;
       } else {

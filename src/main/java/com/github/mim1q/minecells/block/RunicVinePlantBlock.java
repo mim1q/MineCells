@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class RunicVinePlantBlock extends BlockWithEntity {
-  private static final ParticleEffect PARTICLE = ColoredParticle.create(MineCellsParticles.SPECKLE, 0x49b74a);
+  public static final ParticleEffect PARTICLE = ColoredParticle.create(MineCellsParticles.SPECKLE, 0x49b74a);
 
   public RunicVinePlantBlock(Settings settings) {
     super(settings);
