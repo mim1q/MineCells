@@ -96,6 +96,7 @@ public class MineCellsItemGroups {
       Stack(MineCellsItems.HEALTH_FLASK),
       Stack(MineCellsItems.BLANK_RUNE),
       Stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE),
+      Stack(MineCellsItems.VINE_RUNE),
       Stack(MineCellsItems.ASSASSINS_DAGGER),
       Stack(MineCellsItems.BLOOD_SWORD),
       Stack(MineCellsItems.BROADSWORD),

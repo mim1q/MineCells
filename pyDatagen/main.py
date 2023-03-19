@@ -39,6 +39,8 @@ def generate_data(output_path: str):
     gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cross", "runic_vine", {"texture": "runic_vine"}))
     gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cross", "runic_vine_top", {"texture": "runic_vine_top"}))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "runic_vine_plant", {"block": "runic_vine_plant"}))
+    gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "runic_vine_stone", {"block": "runic_vine_stone"}))
+    gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cube_all", "runic_vine_stone", {"texture": "runic_vine_stone"}))
 
 # Torches
     gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))

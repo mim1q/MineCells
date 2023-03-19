@@ -61,6 +61,10 @@
   "item.minecells.ancient_sewage_bucket": "Ancient Sewage Bucket",
   "block.minecells.spawner_rune": "Spawner Rune",
   "block.minecells.barrier_rune": "Barrier Rune",
+  "block.minecells.runic_vine": "Runic Vine",
+  "block.minecells.runic_vine_plant": "Runic Vine Plant",
+  "block.minecells.runic_vine_plant.message": "Requires Vine Rune to activate",
+  "block.minecells.runic_vine_stone": "Runic Vine Stone",
   "block.minecells.prison_box": "Prison Box",
   "block.minecells.conjunctivius_box": "Conjunctivius Box",
   "block.minecells.shocker_box": "Shocker Box",
@@ -73,6 +77,7 @@
   "item.minecells.health_flask.tooltip": "Restores %s HP. Removes Bleeding and Poison.",
   "item.minecells.blank_rune": "Blank Rune",
   "item.minecells.conjunctivius_respawn_rune": "Conjunctivius Respawn Rune",
+  "item.minecells.vine_rune": "Vine Rune",
 
   "comment.minecells.003": "========================================= WEAPONS =========================================",
 

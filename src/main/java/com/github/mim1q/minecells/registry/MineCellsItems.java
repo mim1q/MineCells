@@ -42,6 +42,11 @@ public class MineCellsItems {
     "conjunctivius_respawn_rune"
   );
 
+  public static final Item VINE_RUNE = registerSimpleItem(
+    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1).maxDamage(8)),
+    "vine_rune"
+  );
+
   public static final Item GUTS = registerSimpleItem(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).food(FoodComponents.BEEF)),
     "guts"
