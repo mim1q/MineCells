@@ -20,4 +20,11 @@ public class SetupBlockEntity extends BlockEntity {
       blockEntity.done = setupBlock.setup(world, pos, state);
     }
   }
+
+  @Override
+  public void markDirty() {
+    if (this.world != null) {
+      world.markDirty(this.getPos());
+    }
+  }
 }

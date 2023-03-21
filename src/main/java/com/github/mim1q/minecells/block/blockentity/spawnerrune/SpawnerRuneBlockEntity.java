@@ -115,6 +115,13 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
   }
 
   @Override
+  public void markDirty() {
+    if (this.world != null) {
+      world.markDirty(this.getPos());
+    }
+  }
+
+  @Override
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
     data = SpawnerRuneData.fromNbt(nbt);
