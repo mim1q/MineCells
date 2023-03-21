@@ -17,21 +17,14 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class ColoredTorchBlock extends Block {
-  public static final VoxelShape SHAPE = VoxelShapes.union(
-    createCuboidShape(7.0D, 3.0D, 1.0D, 9.0D, 11.0D, 3.0D),
-    createCuboidShape(6.0D, 11.0D, 0.0D, 10.0D, 14.0D, 4.0D)
-  );
-  public static final VoxelShape STANDING_SHAPE = VoxelShapes.union(
-    createCuboidShape(7.0D, 0.0D, 7.0D, 9.0D, 8.0D, 9.0D),
-    createCuboidShape(6.0D, 8.0D, 6.0D, 10.0D, 11.0D, 10.0D)
-  );
+  public static final VoxelShape SHAPE = createCuboidShape(6.0D, 3.0D, 0.0D, 10.0D, 14.0D, 4.0D);
+  public static final VoxelShape STANDING_SHAPE = createCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 11.0D, 10.0D);
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   public static final BooleanProperty STANDING = BooleanProperty.of("standing");
 
