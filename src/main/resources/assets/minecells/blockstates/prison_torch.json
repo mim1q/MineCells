@@ -1,17 +1,20 @@
 {
   "variants": {
-    "facing=north": {
+    "standing=true": {
+      "model": "minecells:block/colored_torch/prison_standing"
+    },
+    "standing=false,facing=north": {
       "model": "minecells:block/colored_torch/prison"
     },
-    "facing=east": {
+    "standing=false,facing=east": {
       "model": "minecells:block/colored_torch/prison",
       "y": 90
     },
-    "facing=south": {
+    "standing=false,facing=south": {
       "model": "minecells:block/colored_torch/prison",
       "y": 180
     },
-    "facing=west": {
+    "standing=false,facing=west": {
       "model": "minecells:block/colored_torch/prison",
       "y": 270
     }

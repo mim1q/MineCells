@@ -8,6 +8,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockRotation;
@@ -27,24 +28,30 @@ public class ColoredTorchBlock extends Block {
     createCuboidShape(7.0D, 3.0D, 1.0D, 9.0D, 11.0D, 3.0D),
     createCuboidShape(6.0D, 11.0D, 0.0D, 10.0D, 14.0D, 4.0D)
   );
+  public static final VoxelShape STANDING_SHAPE = VoxelShapes.union(
+    createCuboidShape(7.0D, 0.0D, 7.0D, 9.0D, 8.0D, 9.0D),
+    createCuboidShape(6.0D, 8.0D, 6.0D, 10.0D, 11.0D, 10.0D)
+  );
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+  public static final BooleanProperty STANDING = BooleanProperty.of("standing");
 
   public ColoredTorchBlock(Settings settings) {
     super(settings);
+    setDefaultState(getDefaultState().with(STANDING, false));
   }
 
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(FACING);
+    builder.add(STANDING);
   }
 
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    if (ctx.getSide() == Direction.UP || ctx.getSide() == Direction.DOWN) {
-      return null;
-    }
+    if (ctx.getSide() == Direction.DOWN) return null;
+    if (ctx.getSide() == Direction.UP) return getDefaultState().with(STANDING, true);
     BlockPos pos = ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector());
     if (ctx.getWorld().getBlockState(pos).isSideSolidFullSquare(ctx.getWorld(), pos, ctx.getSide())) {
       return getDefaultState().with(FACING, ctx.getSide());
@@ -55,6 +62,9 @@ public class ColoredTorchBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    if (state.get(STANDING)) {
+      return direction == Direction.DOWN ? Blocks.AIR.getDefaultState() : state;
+    }
     Direction facing = state.get(FACING);
     if (direction == facing.getOpposite() && !neighborState.isSideSolidFullSquare(world, pos, facing)) {
       return Blocks.AIR.getDefaultState();
@@ -70,6 +80,7 @@ public class ColoredTorchBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    if (state.get(STANDING)) return STANDING_SHAPE;
     return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), SHAPE);
   }
 
