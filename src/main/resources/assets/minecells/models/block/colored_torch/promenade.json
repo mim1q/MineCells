@@ -1,0 +1,6 @@
+{
+  "parent": "minecells:block/colored_torch/colored_torch",
+  "textures": {
+    "flame": "minecells:block/colored_torch/promenade"
+  }
+}

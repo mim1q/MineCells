@@ -48,15 +48,6 @@ public class MineCellsBlockEntities {
       .build()
   );
 
-  public static final BlockEntityType<ColoredTorchBlockEntity> COLORED_TORCH_BLOCK_ENTITY = Registry.register(
-    Registry.BLOCK_ENTITY_TYPE,
-    MineCells.createId("colored_torch"),
-    FabricBlockEntityTypeBuilder
-      .create(ColoredTorchBlockEntity::new)
-      .addBlocks(MineCellsBlocks.PRISON_TORCH, MineCellsBlocks.PROMENADE_TORCH)
-      .build()
-  );
-
   public static final BlockEntityType<DecorativeStatueBlockEntity> DECORATIVE_STATUE_BLOCK_ENTITY = Registry.register(
     Registry.BLOCK_ENTITY_TYPE,
     MineCells.createId("decorative_statue"),

@@ -3,7 +3,10 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.gui.screen.CellForgeScreen;
 import com.github.mim1q.minecells.client.render.*;
-import com.github.mim1q.minecells.client.render.blockentity.*;
+import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -177,6 +180,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_DOOR,
       MineCellsBlocks.PRISON_TORCH,
+      MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.SPAWNER_RUNE,
       MineCellsBlocks.WILTED_GRASS_BLOCK
     );
@@ -193,7 +197,6 @@ public class MineCellsRenderers {
 
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.COLORED_TORCH_BLOCK_ENTITY, (ctx) -> new ColoredTorchBlockEntityRenderer());
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
     BlockEntityRendererRegistry.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);

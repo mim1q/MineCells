@@ -1,17 +1,16 @@
 package com.github.mim1q.minecells.block;
 
-import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.blockentity.ColoredTorchBlockEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -23,17 +22,15 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class ColoredTorchBlock extends BlockWithEntity {
+public class ColoredTorchBlock extends Block {
   public static final VoxelShape SHAPE = VoxelShapes.union(
     createCuboidShape(7.0D, 3.0D, 1.0D, 9.0D, 11.0D, 3.0D),
     createCuboidShape(6.0D, 11.0D, 0.0D, 10.0D, 14.0D, 4.0D)
   );
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-  private final Identifier flameTexture;
 
-  public ColoredTorchBlock(Settings settings, String flameType) {
+  public ColoredTorchBlock(Settings settings) {
     super(settings);
-    this.flameTexture = MineCells.createId("textures/blockentity/colored_torch/" + flameType + ".png");
   }
 
   @Override
@@ -70,25 +67,10 @@ public class ColoredTorchBlock extends BlockWithEntity {
   public BlockState rotate(BlockState state, BlockRotation rotation) {
     return state.with(FACING, rotation.rotate(state.get(FACING)));
   }
-
-  public BlockRenderType getRenderType(BlockState state) {
-    return BlockRenderType.MODEL;
-  }
-
-  @Nullable
-  @Override
-  public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-    return new ColoredTorchBlockEntity(pos, state);
-  }
-
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), SHAPE);
-  }
-
-  public Identifier getFlameTexture() {
-    return this.flameTexture;
   }
 
   @Override

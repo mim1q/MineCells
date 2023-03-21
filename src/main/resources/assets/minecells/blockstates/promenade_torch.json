@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "minecells:block/metal_torch"
+      "model": "minecells:block/colored_torch/promenade"
     },
     "facing=east": {
-      "model": "minecells:block/metal_torch",
+      "model": "minecells:block/colored_torch/promenade",
       "y": 90
     },
     "facing=south": {
-      "model": "minecells:block/metal_torch",
+      "model": "minecells:block/colored_torch/promenade",
       "y": 180
     },
     "facing=west": {
-      "model": "minecells:block/metal_torch",
+      "model": "minecells:block/colored_torch/promenade",
       "y": 270
     }
   }

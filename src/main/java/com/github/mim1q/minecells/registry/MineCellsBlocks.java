@@ -357,12 +357,12 @@ public class MineCellsBlocks {
   );
 
   public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(
-    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly(), "prison"),
+    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly()),
     "prison_torch"
   );
 
   public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(
-    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly(), "promenade"),
+    new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly()),
     "promenade_torch"
   );
 

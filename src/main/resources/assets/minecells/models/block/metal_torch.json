@@ -3,6 +3,7 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "minecells:block/metal_torch",
+		"1": "minecells:block/colored_torch/white",
 		"particle": "minecells:block/metal_torch"
 	},
 	"elements": [
@@ -35,6 +36,24 @@
 			"faces": {
 				"north": {"uv": [8, 0, 12, 2], "texture": "#0"},
 				"south": {"uv": [8, 0, 12, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5.5, 12, 14],
+			"to": [10.5, 28, 14],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 20, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 5, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 5, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [8, 12, 11.5],
+			"to": [8, 28, 16.5],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 20, 14]},
+			"faces": {
+				"east": {"uv": [0, 0, 5, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 5, 16], "texture": "#1"}
 			}
 		},
 		{
