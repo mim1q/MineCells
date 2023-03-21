@@ -59,18 +59,12 @@ public class ElevatorAssemblerBlock extends SetupBlock {
         ElevatorEntity.spawn(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, goingUp);
         world.removeBlockEntity(pos);
         world.breakBlock(pos, false);
-        world.removeBlockEntity(new BlockPos(pos.getX(), second, pos.getZ()));
-        world.breakBlock(new BlockPos(pos.getX(), second, pos.getZ()), false);
+        world.removeBlockEntity(pos.withY(second));
+        world.breakBlock(pos.withY(second), false);
       }
       return true;
     }
     return false;
-  }
-
-  @Override
-  @SuppressWarnings("deprecation")
-  public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-    this.setup(world, pos, state);
   }
 
   @Override

@@ -10,7 +10,6 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.nbt.NbtCompound;
@@ -31,8 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class KingdomPortalCoreBlockEntity extends BlockEntity {
-
+public class KingdomPortalCoreBlockEntity extends MineCellsBlockEntity {
   private static final ParticleEffect PARTICLE = new DustParticleEffect(new Vec3f(1.0F, 0.5F, 0.0F), 1.0F);
   private Vec3d offset = null;
   private Vec3d widthVector = null;

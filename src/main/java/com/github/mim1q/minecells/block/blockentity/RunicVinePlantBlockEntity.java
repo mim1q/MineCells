@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -20,7 +19,7 @@ import net.minecraft.world.World;
 
 import static com.github.mim1q.minecells.block.RunicVinePlantBlock.ACTIVATED;
 
-public class RunicVinePlantBlockEntity extends BlockEntity {
+public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
   private static final String REQUIRED_MESSAGE = "block.minecells.runic_vine_plant.message";
 
   private int usedTicks = 0;

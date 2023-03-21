@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block.blockentity.spawnerrune;
 
+import com.github.mim1q.minecells.block.blockentity.MineCellsBlockEntity;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
@@ -7,7 +8,6 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -24,7 +24,7 @@ import net.rpgdifficulty.api.MobStrengthener;
 
 import java.util.List;
 
-public class SpawnerRuneBlockEntity extends BlockEntity {
+public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   private SpawnerRuneData data = new SpawnerRuneData("", new EntryList(), 0, 0, 0, 0, 0);
   private int cooldown = 20;
   private boolean canCooldown = false;
@@ -112,13 +112,6 @@ public class SpawnerRuneBlockEntity extends BlockEntity {
       y++;
     }
     return pos;
-  }
-
-  @Override
-  public void markDirty() {
-    if (this.world != null) {
-      world.markDirty(this.getPos());
-    }
   }
 
   @Override
