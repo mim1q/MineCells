@@ -83,11 +83,14 @@ public class ColoredTorchBlock extends Block {
       return;
     }
 
-    Vec3d particlePos = getOffsetPos(pos, state.get(FACING));
+    Vec3d particlePos = getOffsetPos(state.get(STANDING), pos, state.get(FACING));
     world.addParticle(ParticleTypes.SMOKE, particlePos.getX(), particlePos.getY(), particlePos.getZ(), 0.0D, 0.02D, 0.0D);
   }
 
-  public static Vec3d getOffsetPos(BlockPos pos, Direction direction) {
+  public static Vec3d getOffsetPos(boolean onGround, BlockPos pos, Direction direction) {
+    if (onGround) {
+      return Vec3d.ofBottomCenter(pos).add(0.0D, 0.75D, 0.0D);
+    }
     double x = 0.5D - 0.4D * direction.getOffsetX();
     double z = 0.5D - 0.4D * direction.getOffsetZ();
     Vec3d offset = new Vec3d(x, 1.0D, z);
