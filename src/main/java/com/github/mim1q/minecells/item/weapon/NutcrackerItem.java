@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.EquipmentSlot;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
-public class NutcrackerItem extends Item implements ICritWeapon {
+public class NutcrackerItem extends Item implements CrittingWeapon {
   private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
   public NutcrackerItem(float attackDamage, float attackSpeed, Settings settings) {

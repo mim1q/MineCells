@@ -1,13 +1,14 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import org.jetbrains.annotations.Nullable;
 
-public class BalancedBladeItem extends SwordItem implements ICritWeapon {
+public class BalancedBladeItem extends SwordItem implements CrittingWeapon {
   public BalancedBladeItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
     super(toolMaterial, attackDamage, attackSpeed, settings);
   }

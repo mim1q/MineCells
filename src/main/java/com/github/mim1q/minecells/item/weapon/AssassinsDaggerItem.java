@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class AssassinsDaggerItem extends SwordItem implements ICritWeapon {
+public class AssassinsDaggerItem extends SwordItem implements CrittingWeapon {
   public AssassinsDaggerItem(int attackDamage, float attackSpeed, Settings settings) {
     super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
   }

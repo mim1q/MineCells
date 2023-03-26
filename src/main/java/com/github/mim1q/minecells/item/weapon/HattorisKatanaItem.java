@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.item.TooltipContext;
@@ -13,7 +14,6 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -27,12 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HattorisKatanaItem extends SwordItem {
-  public static final float COOLDOWN = 12.0F;
-
-  private static final String TOOLTIP1_KEY = "item.minecells.hattoris_katana.tooltip1";
-  private static final String TOOLTIP2_KEY = "item.minecells.hattoris_katana.tooltip2";
-
+public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
   public HattorisKatanaItem(int attackDamage, float attackSpeed, Settings settings) {
     super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
   }
@@ -56,13 +51,13 @@ public class HattorisKatanaItem extends SwordItem {
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     if (user.isPlayer()) {
       PlayerEntity player = (PlayerEntity) user;
-      player.getItemCooldownManager().set(this, (int)(20 * COOLDOWN));
+      player.getItemCooldownManager().set(this, getAbilityCooldown(stack));
 
       Vec3d start = player.getPos().add(0.0D, 0.25D, 0.0D);
       Vec3d direction = player.getRotationVec(0.0F).multiply(1.0D, 0.0D, 1.0D).normalize();
 
       Vec3d hitPos = getHitPos(player, start, direction, 10.0D).subtract(direction.multiply(0.5D));
-      this.damageEntities(world, player, start, hitPos);
+      this.damageEntities(world, player, getAbilityDamage(stack), start, hitPos);
       if (world.isClient()) {
         spawnTrailParticles(world, start, hitPos);
       } else {
@@ -117,13 +112,13 @@ public class HattorisKatanaItem extends SwordItem {
     return result;
   }
 
-  private void damageEntities(World world, PlayerEntity user, Vec3d start, Vec3d end) {
+  private void damageEntities(World world, PlayerEntity user, float damage, Vec3d start, Vec3d end) {
     List<LivingEntity> entities = new ArrayList<>();
     List<Vec3d> increments = getIncrements(start, end, 10);
     for (Vec3d pos : increments) {
       world.getOtherEntities(user, Box.of(pos, 1.5D, 1.5D, 1.5D)).forEach(entity -> {
         if (entity instanceof LivingEntity && !entities.contains(entity)) {
-          entity.damage(MineCellsDamageSource.katana(user), 18.0F);
+          entity.damage(MineCellsDamageSource.katana(user), damage);
           Vec3d direction = pos.subtract(entity.getPos()).normalize();
           ((LivingEntity) entity).takeKnockback(0.5F, direction.getX(), direction.getZ());
           entities.add((LivingEntity) entity);
@@ -150,7 +145,17 @@ public class HattorisKatanaItem extends SwordItem {
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    tooltip.add(Text.translatable(TOOLTIP1_KEY).formatted(Formatting.GRAY));
-    tooltip.add(Text.translatable(TOOLTIP2_KEY, COOLDOWN).formatted(Formatting.DARK_GRAY));
+    super.appendTooltip(stack, world, tooltip, context);
+    fillTooltip(tooltip, true, "item.minecells.hattoris_katana.description", stack);
+  }
+
+  @Override
+  public float getBaseAbilityDamage(ItemStack stack) {
+    return 20.0F;
+  }
+
+  @Override
+  public int getBaseAbilityCooldown(ItemStack stack) {
+    return 20 * 8;
   }
 }

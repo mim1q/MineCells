@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
+import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
@@ -10,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -18,12 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TentacleItem extends AbstractCritWeaponItem {
-  public static final float COOLDOWN = 2.0F;
-
-  public static final String TOOLTIP1_KEY = "item.minecells.tentacle.tooltip1";
-  public static final String TOOLTIP2_KEY = "item.minecells.tentacle.tooltip2";
-
+public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAbility {
   public TentacleItem(float attackDamage, float critAttackDamage, float attackSpeed, Settings settings) {
     super(ToolMaterials.IRON, attackDamage, critAttackDamage, attackSpeed, settings);
   }
@@ -38,7 +33,7 @@ public class TentacleItem extends AbstractCritWeaponItem {
         world.spawnEntity(entity);
       }
       stack.damage(1, user, (p) -> p.sendToolBreakStatus(hand));
-      user.getItemCooldownManager().set(this, (int)(20 * COOLDOWN));
+      user.getItemCooldownManager().set(this, getAbilityCooldown(stack));
       return TypedActionResult.success(stack, true);
     }
     return super.use(world, user, hand);
@@ -56,7 +51,17 @@ public class TentacleItem extends AbstractCritWeaponItem {
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    tooltip.add(Text.translatable(TOOLTIP1_KEY).formatted(Formatting.GRAY));
-    tooltip.add(Text.translatable(TOOLTIP2_KEY, COOLDOWN).formatted(Formatting.DARK_GRAY));
+    super.appendTooltip(stack, world, tooltip, context);
+    fillTooltip(tooltip, false, "item.minecells.tentacle.description", stack);
+  }
+
+  @Override
+  public float getBaseAbilityDamage(ItemStack stack) {
+    return 0.0F;
+  }
+
+  @Override
+  public int getBaseAbilityCooldown(ItemStack stack) {
+    return 40;
   }
 }

@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -13,17 +15,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class FrostBlastItem extends Item {
+public class FrostBlastItem extends Item implements WeaponWithAbility {
   public FrostBlastItem(Settings settings) {
     super(settings);
   }
@@ -48,7 +53,7 @@ public class FrostBlastItem extends Item {
       return stack;
     }
     if (user.isPlayer()) {
-      ((PlayerEntity)user).getItemCooldownManager().set(this, 20 * 15);
+      ((PlayerEntity)user).getItemCooldownManager().set(this, getAbilityCooldown(stack));
     }
     Set<LivingEntity> entities = new HashSet<>();
     for (int i = 1; i <= 3; ++i) {
@@ -58,7 +63,7 @@ public class FrostBlastItem extends Item {
     }
     for (LivingEntity entity : entities) {
       applyFreeze(entity);
-      entity.damage(DamageSource.FREEZE, 6.0F);
+      entity.damage(DamageSource.FREEZE, getAbilityDamage(stack));
     }
     return stack;
   }
@@ -86,5 +91,21 @@ public class FrostBlastItem extends Item {
       duration = 20 * 10;
     }
     entity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, duration, 0, false, false, true));
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    fillTooltip(tooltip, true, "item.minecells.frost_blast.description", stack);
+  }
+
+  @Override
+  public float getBaseAbilityDamage(ItemStack stack) {
+    return 6.0F;
+  }
+
+  @Override
+  public int getBaseAbilityCooldown(ItemStack stack) {
+    return 20 * 15;
   }
 }

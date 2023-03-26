@@ -1,12 +1,13 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import org.jetbrains.annotations.Nullable;
 
-public class CrowbarItem extends SwordItem implements ICritWeapon {
+public class CrowbarItem extends SwordItem implements CrittingWeapon {
   public CrowbarItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
     super(toolMaterial, attackDamage, attackSpeed, settings);
   }

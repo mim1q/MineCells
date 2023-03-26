@@ -5,7 +5,7 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
-import com.github.mim1q.minecells.item.weapon.ICritWeapon;
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -82,7 +82,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   )
   private float modifyDamage(float original, Entity target) {
     ItemStack stack = this.getMainHandStack();
-    if (stack.getItem() instanceof ICritWeapon critWeapon
+    if (stack.getItem() instanceof CrittingWeapon critWeapon
         && target instanceof LivingEntity livingTarget
         && critWeapon.canCrit(stack, livingTarget, this)
     ) {
