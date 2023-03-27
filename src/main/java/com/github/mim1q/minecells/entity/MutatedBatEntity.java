@@ -63,23 +63,22 @@ public class MutatedBatEntity extends MineCellsEntity {
 
   @Override
   protected void initGoals() {
-    final TimedDashGoal<MutatedBatEntity> dashGoal = new TimedDashGoal.Builder<>(this)
-      .startPredicate(mob -> mob.distanceTo(mob.getTarget()) < 8.0D)
-      .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
-      .cooldownGetter(() -> this.dashCooldown)
-      .stateSetter(this::switchDashState)
-      .chargeSound(MineCellsSounds.MUTATED_BAT_CHARGE)
-      .releaseSound(MineCellsSounds.MUTATED_BAT_RELEASE)
-      .speed(0.8F)
-      .damage(6.0F)
-      .defaultCooldown(80)
-      .actionTick(20)
-      .alignTick(19)
-      .chance(0.075F)
-      .length(60)
-      .margin(0.25D)
-      .particle(ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000))
-      .build();
+    final var dashGoal = new TimedDashGoal<>(this, (s) -> {
+      s.cooldownSetter = (cooldown) -> this.dashCooldown = cooldown;
+      s.cooldownGetter = () -> this.dashCooldown;
+      s.stateSetter = this::switchDashState;
+      s.chargeSound = MineCellsSounds.MUTATED_BAT_CHARGE;
+      s.releaseSound = MineCellsSounds.MUTATED_BAT_RELEASE;
+      s.speed = 0.8F;
+      s.damage = 6.0F;
+      s.defaultCooldown = 80;
+      s.actionTick = 20;
+      s.alignTick = 19;
+      s.chance = 0.075F;
+      s.length = 60;
+      s.margin = 0.25D;
+      s.particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+    }, mob -> mob.distanceTo(mob.getTarget()) < 8.0D);
 
     this.goalSelector.add(4, new FlyGoal(this, 1.0D));
     this.goalSelector.add(0, dashGoal);

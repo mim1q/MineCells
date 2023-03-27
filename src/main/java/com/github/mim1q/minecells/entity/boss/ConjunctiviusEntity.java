@@ -42,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class ConjunctiviusEntity extends MineCellsBossEntity {
@@ -137,39 +138,39 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
-    final ConjunctiviusAuraGoal auraGoal = ((ConjunctiviusAuraGoal.Builder) new ConjunctiviusAuraGoal.Builder(this)
-      .cooldownGetter(() -> this.auraCooldown)
-      .cooldownSetter((cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown))
-      .stateSetter(this::switchAuraState)
-      .chargeSound(MineCellsSounds.SHOCKER_CHARGE)
-      .releaseSound(MineCellsSounds.SHOCKER_RELEASE)
-      .soundVolume(2.0F)
-      .damage(10.0F)
-      .radius(8.0D)
-      .defaultCooldown(200)
-      .actionTick(30)
-      .chance(0.05F)
-      .length(60))
-      .build();
+    final var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
+      s.cooldownGetter = () -> this.auraCooldown;
+      s.cooldownSetter = (cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown);
+      s.stateSetter = this::switchAuraState;
+      s.chargeSound = MineCellsSounds.SHOCKER_CHARGE;
+      s.releaseSound = MineCellsSounds.SHOCKER_RELEASE;
+      s.soundVolume = 2.0F;
+      s.damage = 10.0F;
+      s.radius = 8.0D;
+      s.defaultCooldown = 200;
+      s.actionTick = 30;
+      s.chance = 0.05F;
+      s.length = 60;
+    });
 
-    final ConjunctiviusDashGoal dashGoal = ((ConjunctiviusDashGoal.Builder) new ConjunctiviusDashGoal.Builder(this)
-      .cooldownSetter((cooldown) -> this.dashCooldown = this.stageAdjustedCooldown(cooldown))
-      .cooldownGetter(() -> this.dashCooldown)
-      .stateSetter(this::switchDashState)
-      .chargeSound(MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE)
-      .releaseSound(MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE)
-      .soundVolume(2.0F)
-      .speed(1.0F)
-      .damage(20.0F)
-      .defaultCooldown(200)
-      .actionTick(30)
-      .alignTick(26)
-      .chance(0.1F)
-      .length(70)
-      .noRotation()
-      .margin(0.5D)
-      .particle(ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000)))
-      .build();
+    final var dashGoal = (new ConjunctiviusDashGoal(this, s -> {
+      s.cooldownGetter = () -> this.dashCooldown;
+      s.cooldownSetter = (cooldown) -> this.dashCooldown = this.stageAdjustedCooldown(cooldown);
+      s.stateSetter = this::switchDashState;
+      s.chargeSound = MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE;
+      s.releaseSound = MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE;
+      s.soundVolume = 2.0F;
+      s.speed = 1.0F;
+      s.damage = 20.0F;
+      s.defaultCooldown = 200;
+      s.actionTick = 30;
+      s.alignTick = 26;
+      s.chance = 0.1F;
+      s.length = 70;
+      s.rotate = false;
+      s.margin = 0.5D;
+      s.particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+    }));
 
     this.goalSelector.add(2, dashGoal);
     this.goalSelector.add(9, auraGoal);
@@ -600,8 +601,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   protected static class ConjunctiviusDashGoal extends TimedDashGoal<ConjunctiviusEntity> {
 
-    public ConjunctiviusDashGoal(Builder builder) {
-      super(builder);
+    public ConjunctiviusDashGoal(ConjunctiviusEntity entity, Consumer<TimedDashSettings> settings) {
+      super(entity, settings, null);
     }
 
     @Override
@@ -618,23 +619,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         this.entity.setVelocity(this.entity.getSpawnPos().subtract(this.entity.getPos()).normalize());
       }
     }
-
-    public static class Builder extends TimedDashGoal.Builder<ConjunctiviusEntity> {
-
-      public Builder(ConjunctiviusEntity entity) {
-        super(entity);
-      }
-
-      public ConjunctiviusDashGoal build() {
-        return new ConjunctiviusDashGoal(this);
-      }
-    }
   }
 
   protected static class ConjunctiviusAuraGoal extends TimedAuraGoal<ConjunctiviusEntity> {
 
-    public ConjunctiviusAuraGoal(Builder builder) {
-      super(builder);
+    public ConjunctiviusAuraGoal(ConjunctiviusEntity entity, Consumer<TimedAuraSettings> settings) {
+      super(entity, settings, null);
     }
 
     @Override
@@ -644,17 +634,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         && !this.entity.moving
         && this.entity.dashCooldown > this.length
         && !this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT, this.entity, this.entity.getBoundingBox().expand(6.0D)).isEmpty();
-    }
-
-    public static class Builder extends TimedAuraGoal.Builder<ConjunctiviusEntity> {
-
-      public Builder(ConjunctiviusEntity entity) {
-        super(entity);
-      }
-
-      public ConjunctiviusAuraGoal build() {
-        return new ConjunctiviusAuraGoal(this);
-      }
     }
   }
 }

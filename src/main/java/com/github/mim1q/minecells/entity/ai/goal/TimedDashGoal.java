@@ -12,9 +12,10 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
-
   private final float speed;
   protected final float damage;
   protected final boolean rotate;
@@ -30,18 +31,22 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected Vec3d targetPos;
   private final List<Integer> attackedIds = new ArrayList<>();
 
-  public TimedDashGoal(Builder<E> builder) {
-    super(builder);
-    speed = builder.speed;
-    damage = builder.damage;
-    rotate = builder.rotate;
-    margin = builder.margin;
-    onGround = builder.onGround;
-    alignTick = builder.alignTick;
-    particle = builder.particle;
+  public TimedDashGoal(E entity, TimedDashSettings settings, Predicate<E> predicate) {
+    super(entity, settings, predicate);
+    damage = settings.damage;
+    speed = settings.speed;
+    rotate = settings.rotate;
+    margin = settings.margin;
+    onGround = settings.onGround;
+    alignTick = settings.alignTick;
+    particle = settings.particle;
     setControls(EnumSet.of(Control.MOVE, Control.LOOK));
   }
 
+  public TimedDashGoal(E entity, Consumer<TimedDashSettings> settingsConsumer, Predicate<E> predicate) {
+    this(entity, TimedActionSettings.edit(new TimedDashSettings(), settingsConsumer), predicate);
+  }
+  
   @Override
   public boolean canStart() {
     target = entity.getTarget();
@@ -117,59 +122,13 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     }
   }
 
-  public static class Builder<E extends HostileEntity> extends TimedActionGoal.Builder<E, Builder<E>> {
-
-    public float speed;
-    public float damage;
+  public static class TimedDashSettings extends TimedActionSettings {
+    public float speed = 1.0F;
+    public float damage = 10.0F;
     public boolean rotate = true;
     public double margin = 0.0D;
     public boolean onGround = false;
     public int alignTick = 0;
     public ParticleEffect particle = null;
-
-    public Builder(E entity) {
-      super(entity);
-    }
-
-    public Builder<E> speed(float speed) {
-      this.speed = speed;
-      return this;
-    }
-
-    public Builder<E> damage(float damage) {
-      this.damage = damage;
-      return this;
-    }
-
-    public Builder<E> noRotation() {
-      this.rotate = false;
-      return this;
-    }
-
-    public Builder<E> margin(double margin) {
-      this.margin = margin;
-      return this;
-    }
-
-    public Builder<E> onGround() {
-      this.onGround = true;
-      return this;
-    }
-
-    public Builder<E> alignTick(int alignTick) {
-      this.alignTick = alignTick;
-      return this;
-    }
-
-    public Builder<E> particle(ParticleEffect particle) {
-      this.particle = particle;
-      return this;
-    }
-
-    @Override
-    public TimedDashGoal<E> build() {
-      this.check();
-      return new TimedDashGoal<>(this);
-    }
   }
 }

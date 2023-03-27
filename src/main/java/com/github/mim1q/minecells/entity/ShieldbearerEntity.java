@@ -42,24 +42,23 @@ public class ShieldbearerEntity extends MineCellsEntity {
 
   @Override
   protected void initGoals() {
-    final TimedDashGoal<ShieldbearerEntity> dashGoal = new TimedDashGoal.Builder<>(this)
-      .startPredicate(mob -> mob.distanceTo(mob.getTarget()) < 8.0D)
-      .cooldownSetter((cooldown) -> this.dashCooldown = cooldown)
-      .cooldownGetter(() -> this.dashCooldown)
-      .stateSetter(this::switchDashState)
-      .chargeSound(MineCellsSounds.SHIELDBEARER_CHARGE)
-      .releaseSound(MineCellsSounds.SHIELDBEARER_RELEASE)
-      .speed(0.65F)
-      .onGround()
-      .damage(6.0F)
-      .defaultCooldown(120)
-      .actionTick(20)
-      .alignTick(12)
-      .chance(0.25F)
-      .length(80)
-      .margin(0.25D)
-      .particle(ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000))
-      .build();
+    final TimedDashGoal<ShieldbearerEntity> dashGoal = new TimedDashGoal<>(this, s -> {
+      s.cooldownSetter = (cooldown) -> this.dashCooldown = cooldown;
+      s.cooldownGetter = () -> this.dashCooldown;
+      s.stateSetter = this::switchDashState;
+      s.chargeSound = MineCellsSounds.SHIELDBEARER_CHARGE;
+      s.releaseSound = MineCellsSounds.SHIELDBEARER_RELEASE;
+      s.speed = 0.65F;
+      s.onGround = true;
+      s.damage = 6.0F;
+      s.defaultCooldown = 120;
+      s.actionTick = 20;
+      s.alignTick = 12;
+      s.chance = 0.25F;
+      s.length = 80;
+      s.margin = 0.25D;
+      s.particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+    }, mob -> mob.distanceTo(mob.getTarget()) < 8.0D);
     super.initGoals();
 
     this.goalSelector.add(0, dashGoal);

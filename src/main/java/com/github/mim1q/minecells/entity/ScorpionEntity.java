@@ -61,24 +61,23 @@ public class ScorpionEntity extends MineCellsEntity {
     super.initGoals();
 
     this.goalSelector.add(1, new MeleeAttackGoal(this, 1.2D, true));
-    this.goalSelector.add(0, new TimedShootGoal.Builder<>(this)
-      .cooldownSetter((cooldown) -> this.shootCooldown = cooldown)
-      .cooldownGetter(() -> this.shootCooldown)
-      .stateSetter(this::handleShootState)
-      .projectileCreator((pos, targetPos) -> {
+    this.goalSelector.add(0, new TimedShootGoal<>(this, s -> {
+      s.cooldownSetter = (cooldown) -> this.shootCooldown = cooldown;
+      s.cooldownGetter = () -> this.shootCooldown;
+      s.stateSetter = this::handleShootState;
+      s.projectileCreator = (pos, targetPos) -> {
         ScorpionSpitEntity entity = new ScorpionSpitEntity(MineCellsEntities.SCORPION_SPIT, this.world);
         pos = pos.add(0.0D, 0.25D, 0.0D);
         entity.setPosition(pos);
         entity.setVelocity(targetPos.subtract(pos).normalize().multiply(0.8D));
         return entity;
-      })
-      .chargeSound(MineCellsSounds.SCORPION_CHARGE)
-      .actionTick(20)
-      .length(20)
-      .defaultCooldown(40)
-      .chance(0.1F)
-      .build()
-    );
+      };
+      s.chargeSound = MineCellsSounds.SCORPION_CHARGE;
+      s.actionTick = 20;
+      s.length = 20;
+      s.defaultCooldown = 40;
+      s.chance = 0.1F;
+    }, null));
   }
 
   @Override

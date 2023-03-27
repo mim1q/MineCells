@@ -1,20 +1,24 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
-import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 
 import java.util.EnumSet;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-public class TimedTeleportGoal extends TimedActionGoal<HostileEntity> {
+public class TimedTeleportGoal<E extends HostileEntity> extends TimedActionGoal<E> {
+  private Entity target;
 
-  Entity target;
-
-  public TimedTeleportGoal(Builder builder) {
-    super(builder);
-    if (builder.shouldStandStill) {
+  public TimedTeleportGoal(E entity, TimedTeleportSettings settings, Predicate<E> predicate) {
+    super(entity, settings, predicate);
+    if (settings.shouldStandStill) {
       this.setControls(EnumSet.of(Control.MOVE));
     }
+  }
+
+  public TimedTeleportGoal(E entity, Consumer<TimedTeleportSettings> settingsConsumer, Predicate<E> predicate) {
+    this(entity, TimedActionSettings.edit(new TimedTeleportSettings(), settingsConsumer), predicate);
   }
 
   @Override
@@ -41,24 +45,7 @@ public class TimedTeleportGoal extends TimedActionGoal<HostileEntity> {
     super.playReleaseSound();
   }
 
-  public static class Builder extends TimedActionGoal.Builder<HostileEntity, Builder> {
-
+  public static class TimedTeleportSettings extends TimedActionSettings {
     public boolean shouldStandStill = false;
-
-    public Builder(HostileEntity entity) {
-      super(entity);
-      this.chargeSound = MineCellsSounds.TELEPORT_CHARGE;
-      this.releaseSound = MineCellsSounds.TELEPORT_RELEASE;
-    }
-
-    public Builder standStill() {
-      this.shouldStandStill = true;
-      return this;
-    }
-
-    public TimedTeleportGoal build() {
-      this.check();
-      return new TimedTeleportGoal(this);
-    }
   }
 }

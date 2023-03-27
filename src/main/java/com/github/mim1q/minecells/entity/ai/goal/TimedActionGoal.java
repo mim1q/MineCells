@@ -4,14 +4,17 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.sound.SoundEvent;
 
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class TimedActionGoal<E extends LivingEntity> extends Goal {
-
   protected final E entity;
-  protected final CooldownGetter cooldownGetter;
-  protected final CooldownSetter cooldownSetter;
-  protected final StateSetter stateSetter;
+  protected final Supplier<Integer> cooldownGetter;
+  protected final Consumer<Integer> cooldownSetter;
+  protected final BiConsumer<State, Boolean> stateSetter;
   protected final int defaultCooldown;
   protected final int actionTick;
   protected final int length;
@@ -23,24 +26,28 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
   private int ticks = 0;
 
-  public TimedActionGoal(Builder<E, ?> builder) {
-    entity = builder.entity;
-    cooldownGetter = builder.cooldownGetter;
-    cooldownSetter = builder.cooldownSetter;
-    stateSetter = builder.stateSetter;
-    defaultCooldown = builder.defaultCooldown;
-    actionTick = builder.actionTick;
-    length = builder.length;
-    chance = builder.chance;
-    chargeSound = builder.chargeSound;
-    releaseSound = builder.releaseSound;
-    soundVolume = builder.soundVolume;
-    startPredicate = builder.startPredicate;
+  protected <S extends TimedActionSettings> TimedActionGoal(E entity, S settings, Predicate<E> predicate) {
+    this.entity = entity;
+    cooldownGetter = settings.cooldownGetter;
+    cooldownSetter = settings.cooldownSetter;
+    stateSetter = settings.stateSetter;
+    defaultCooldown = settings.defaultCooldown;
+    actionTick = settings.actionTick;
+    length = settings.length;
+    chance = settings.chance;
+    chargeSound = settings.chargeSound;
+    releaseSound = settings.releaseSound;
+    soundVolume = settings.soundVolume;
+    startPredicate = predicate;
+  }
+
+  public TimedActionGoal(E entity, Consumer<TimedActionSettings> settingsConsumer, Predicate<E> predicate) {
+    this(entity, TimedActionSettings.edit(new TimedActionSettings(), settingsConsumer), predicate == null ? Objects::nonNull : predicate);
   }
 
   @Override
   public boolean canStart() {
-    int cooldown = cooldownGetter.getCooldown();
+    int cooldown = cooldownGetter.get();
     return cooldown == 0
       && (this.chance == 1.0F || entity.getRandom().nextFloat() < chance)
       && startPredicate.test(entity);
@@ -54,7 +61,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   @Override
   public void start() {
     this.ticks = 0;
-    this.stateSetter.setState(State.CHARGE, true);
+    this.stateSetter.accept(State.CHARGE, true);
     this.playChargeSound();
   }
 
@@ -62,8 +69,8 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   public void tick() {
     if (this.ticks == actionTick) {
       this.runAction();
-      this.stateSetter.setState(State.CHARGE, false);
-      this.stateSetter.setState(State.RELEASE, true);
+      this.stateSetter.accept(State.CHARGE, false);
+      this.stateSetter.accept(State.RELEASE, true);
       this.playReleaseSound();
     } else if (this.ticks < actionTick) {
       this.charge();
@@ -105,9 +112,9 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
 
   @Override
   public void stop() {
-    cooldownSetter.setCooldown(defaultCooldown);
-    this.stateSetter.setState(State.CHARGE, false);
-    this.stateSetter.setState(State.RELEASE, false);
+    cooldownSetter.accept(defaultCooldown);
+    this.stateSetter.accept(State.CHARGE, false);
+    this.stateSetter.accept(State.RELEASE, false);
   }
 
   @Override
@@ -121,24 +128,10 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     RELEASE
   }
 
-  public interface CooldownGetter {
-    int getCooldown();
-  }
-
-  public interface CooldownSetter {
-    void setCooldown(int cooldown);
-  }
-
-  public interface StateSetter {
-    void setState(State state, boolean bool);
-  }
-
-  @SuppressWarnings("unchecked")
-  public static class Builder<E extends LivingEntity, B extends Builder<E, B>> {
-    public E entity;
-    public CooldownGetter cooldownGetter;
-    public CooldownSetter cooldownSetter;
-    public StateSetter stateSetter;
+  public static class TimedActionSettings {
+    public Supplier<Integer> cooldownGetter;
+    public Consumer<Integer> cooldownSetter;
+    public BiConsumer<State, Boolean> stateSetter;
     public int defaultCooldown = 100;
     public int actionTick = 10;
     public int length = 20;
@@ -146,76 +139,10 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     public SoundEvent chargeSound;
     public SoundEvent releaseSound;
     public float soundVolume = 1.0F;
-    public Predicate<E> startPredicate = (mob) -> true;
 
-    public Builder(E entity) {
-      this.entity = entity;
-    }
-
-    public B cooldownSetter(CooldownSetter cooldownSetter) {
-      this.cooldownSetter = cooldownSetter;
-      return (B) this;
-    }
-
-    public B cooldownGetter(CooldownGetter cooldownGetter) {
-      this.cooldownGetter = cooldownGetter;
-      return (B) this;
-    }
-
-    public B stateSetter(StateSetter stateSetter) {
-      this.stateSetter = stateSetter;
-      return (B) this;
-    }
-
-    public B defaultCooldown(int defaultCooldown) {
-      this.defaultCooldown = defaultCooldown;
-      return (B) this;
-    }
-
-    public B actionTick(int actionTick) {
-      this.actionTick = actionTick;
-      return (B) this;
-    }
-
-    public B length(int length) {
-      this.length = length;
-      return (B) this;
-    }
-
-    public B chance(float chance) {
-      this.chance = chance;
-      return (B) this;
-    }
-
-    public B chargeSound(SoundEvent chargeSound) {
-      this.chargeSound = chargeSound;
-      return (B) this;
-    }
-
-    public B releaseSound(SoundEvent releaseSound) {
-      this.releaseSound = releaseSound;
-      return (B) this;
-    }
-
-    public B soundVolume(float soundVolume) {
-      this.soundVolume = soundVolume;
-      return (B) this;
-    }
-
-    public B startPredicate(Predicate<E> predicate) {
-      this.startPredicate = predicate;
-      return (B) this;
-    }
-
-    protected void check() {
-      if (this.cooldownGetter == null || this.cooldownSetter == null || this.stateSetter == null) {
-        throw new IllegalStateException("cooldownGetter, cooldownSetter and stateSetter must be set");
-      }
-    }
-
-    public TimedActionGoal<E> build() {
-      this.check();
-      return new TimedActionGoal<>(this);
+    public static <S extends TimedActionSettings> S edit(S settings, Consumer<S> consumer) {
+      consumer.accept(settings);
+      return settings;
     }
   }
 }

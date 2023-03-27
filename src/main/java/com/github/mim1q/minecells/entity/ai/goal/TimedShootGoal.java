@@ -5,16 +5,22 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class TimedShootGoal<E extends HostileEntity> extends TimedActionGoal<E> {
-
   private Entity target;
-  private final ProjectileCreator projectileCreator;
+  private final BiFunction<Vec3d, Vec3d, Entity> projectileCreator;
 
-  public TimedShootGoal(Builder<E> builder) {
-    super(builder);
-    this.projectileCreator = builder.projectileCreator;
+  public TimedShootGoal(E entity, TimedShootSettings settings, Predicate<E> predicate) {
+    super(entity, settings, predicate);
+    this.projectileCreator = settings.projectileCreator;
     this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+  }
+
+  public TimedShootGoal(E entity, Consumer<TimedShootSettings> settingsConsumer, Predicate<E> predicate) {
+    this(entity, TimedActionSettings.edit(new TimedShootSettings(), settingsConsumer), predicate);
   }
 
   @Override
@@ -35,7 +41,7 @@ public class TimedShootGoal<E extends HostileEntity> extends TimedActionGoal<E> 
   @Override
   protected void runAction() {
     if (this.target != null) {
-      Entity projectile = projectileCreator.create(
+      Entity projectile = projectileCreator.apply(
         this.entity.getPos(),
         this.target.getPos().add(0.0D, this.target.getHeight() * 0.5D, 0.0D)
       );
@@ -43,34 +49,7 @@ public class TimedShootGoal<E extends HostileEntity> extends TimedActionGoal<E> 
     }
   }
 
-  public interface ProjectileCreator {
-    Entity create(Vec3d position, Vec3d targetPosition);
-  }
-
-  public static class Builder<E extends HostileEntity> extends TimedActionGoal.Builder<E, Builder<E>> {
-
-    ProjectileCreator projectileCreator = null;
-
-    public Builder(E entity) {
-      super(entity);
-    }
-
-    public Builder<E> projectileCreator(ProjectileCreator projectileCreator) {
-      this.projectileCreator = projectileCreator;
-      return this;
-    }
-
-    @Override
-    protected void check() {
-      super.check();
-      if (this.projectileCreator == null) {
-        throw new IllegalStateException("projectileCreator must be set");
-      }
-    }
-
-    public TimedShootGoal<E> build() {
-      this.check();
-      return new TimedShootGoal<>(this);
-    }
+  public static class TimedShootSettings extends TimedActionSettings {
+    public BiFunction<Vec3d, Vec3d, Entity> projectileCreator = null;
   }
 }

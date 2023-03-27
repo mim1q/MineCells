@@ -19,7 +19,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.EnumSet;
+import java.util.function.Consumer;
 
 import static com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal.State.CHARGE;
 
@@ -52,26 +52,24 @@ public class RunnerEntity extends MineCellsEntity {
     super.initGoals();
 
     this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.2F, false));
-    this.goalSelector.add(0, new RunnerTimedAttackGoal.Builder(this)
-      .cooldownSetter((cooldown) -> this.attackCooldown = cooldown)
-      .cooldownGetter(() -> this.attackCooldown)
-      .stateSetter(this::switchAttackState)
-      .chargeSound(MineCellsSounds.GRENADIER_CHARGE)
-      .releaseSound(MineCellsSounds.SWIPE)
-      .defaultCooldown(35)
-      .actionTick(12)
-      .length(20)
-      .build()
-    );
-    this.goalSelector.add(0, new TimedTeleportGoal.Builder(this)
-      .cooldownSetter((cooldown) -> this.teleportCooldown = cooldown)
-      .cooldownGetter(() -> this.teleportCooldown)
-      .stateSetter(this::switchTeleportState)
-      .defaultCooldown(40)
-      .actionTick(20)
-      .length(30)
-      .build()
-    );
+    this.goalSelector.add(0, new RunnerTimedAttackGoal(this, s -> {
+      s.cooldownSetter = (cooldown) -> this.attackCooldown = cooldown;
+      s.cooldownGetter = () -> this.attackCooldown;
+      s.stateSetter = this::switchAttackState;
+      s.chargeSound = MineCellsSounds.GRENADIER_CHARGE;
+      s.releaseSound = MineCellsSounds.SWIPE;
+      s.defaultCooldown = 35;
+      s.actionTick = 12;
+      s.length = 20;
+    }));
+    this.goalSelector.add(0, new TimedTeleportGoal<>(this, s -> {
+      s.cooldownSetter = (cooldown) -> this.teleportCooldown = cooldown;
+      s.cooldownGetter = () -> this.teleportCooldown;
+      s.stateSetter = this::switchTeleportState;
+      s.defaultCooldown = 40;
+      s.actionTick = 20;
+      s.length = 30;
+    }, null));
   }
 
   @Override
@@ -133,9 +131,8 @@ public class RunnerEntity extends MineCellsEntity {
   public static class RunnerTimedAttackGoal extends TimedActionGoal<RunnerEntity> {
     protected Entity target;
 
-    public RunnerTimedAttackGoal(Builder builder) {
-      super(builder);
-      this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+    public RunnerTimedAttackGoal(RunnerEntity entity, Consumer<TimedActionSettings> settingsConsumer) {
+      super(entity, settingsConsumer, null);
     }
 
     @Override
@@ -158,18 +155,6 @@ public class RunnerEntity extends MineCellsEntity {
     protected void runAction() {
       if (this.target.isAlive() && this.entity.distanceTo(this.target) < 2.5D) {
         this.entity.tryAttack(this.target);
-      }
-    }
-
-    public static class Builder extends TimedActionGoal.Builder<RunnerEntity, Builder> {
-
-      public Builder(RunnerEntity entity) {
-        super(entity);
-      }
-
-      public RunnerTimedAttackGoal build() {
-        this.check();
-        return new RunnerTimedAttackGoal(this);
       }
     }
   }

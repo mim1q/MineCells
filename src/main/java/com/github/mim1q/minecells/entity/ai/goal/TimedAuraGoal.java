@@ -6,15 +6,21 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 
-public class TimedAuraGoal<E extends LivingEntity> extends TimedActionGoal<E> {
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
+public class TimedAuraGoal<E extends LivingEntity> extends TimedActionGoal<E> {
   private final double radius;
   private final float damage;
 
-  public TimedAuraGoal(Builder<E> builder) {
-    super(builder);
-    this.radius = builder.radius;
-    this.damage = builder.damage;
+  protected TimedAuraGoal(E entity, TimedAuraSettings settings, Predicate<E> predicate) {
+    super(entity, settings, predicate);
+    this.radius = settings.radius;
+    this.damage = settings.damage;
+  }
+
+  public TimedAuraGoal(E entity, Consumer<TimedAuraSettings> settingsConsumer, Predicate<E> predicate) {
+    this(entity, TimedActionSettings.edit(new TimedAuraSettings(), settingsConsumer), predicate);
   }
 
   @Override
@@ -27,27 +33,8 @@ public class TimedAuraGoal<E extends LivingEntity> extends TimedActionGoal<E> {
     }
   }
 
-  public static class Builder<E extends LivingEntity> extends TimedActionGoal.Builder<E, Builder<E>> {
-
-    double radius;
-    float damage;
-
-    public Builder(E entity) {
-      super(entity);
-    }
-
-    public Builder<E> radius(double radius) {
-      this.radius = radius;
-      return this;
-    }
-
-    public Builder<E> damage(float damage) {
-      this.damage = damage;
-      return this;
-    }
-
-    public TimedAuraGoal<E> build() {
-      return new TimedAuraGoal<>(this);
-    }
+  public static class TimedAuraSettings extends TimedActionSettings {
+    public double radius = 10.0D;
+    public float damage = 10.0F;
   }
 }
