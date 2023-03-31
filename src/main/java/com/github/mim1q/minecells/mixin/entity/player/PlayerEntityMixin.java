@@ -44,6 +44,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   private final MineCellsPortalData mineCellsPortalData = new MineCellsPortalData(this);
   private int balancedBladeStacks = 0;
   private int balancedBladeTimer = 0;
+  private int minecells$invincibilityFrames = 0;
 
   protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -72,6 +73,16 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
       balancedBladeTimer--;
     } else {
       balancedBladeStacks = 0;
+    }
+    if (minecells$invincibilityFrames > 0) {
+      minecells$invincibilityFrames--;
+    }
+  }
+
+  @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
+  private void minecells$isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    if (minecells$invincibilityFrames > 0) {
+      cir.setReturnValue(true);
     }
   }
 
@@ -168,5 +179,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   @Override
   public int getBalancedBladeStacks() {
     return balancedBladeStacks;
+  }
+
+  @Override
+  public void setInvincibilityFrames(int frames) {
+    this.minecells$invincibilityFrames = frames;
   }
 }

@@ -13,4 +13,5 @@ public interface PlayerEntityAccessor {
   String getLastDimensionTranslationKey();
   void addBalancedBladeStack();
   int getBalancedBladeStacks();
+  void setInvincibilityFrames(int frames);
 }

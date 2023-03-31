@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
@@ -65,6 +66,7 @@ public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
       }
       player.teleport(hitPos.x, hitPos.y, hitPos.z);
       user.playSound(MineCellsSounds.KATANA_RELEASE, 2.0F, 1.0F);
+      ((PlayerEntityAccessor) player).setInvincibilityFrames(10);
     }
     return super.finishUsing(stack, world, user);
   }
