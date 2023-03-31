@@ -43,7 +43,7 @@ dependencies {
   annotationProcessor("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
   include("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
 
-  modCompileOnlyApi("com.github.Globox1997:RpgDifficulty:1.19-SNAPSHOT")
+  modCompileOnlyApi("com.github.mim1q:RpgDifficulty:1.19-SNAPSHOT")
 
 }
 
