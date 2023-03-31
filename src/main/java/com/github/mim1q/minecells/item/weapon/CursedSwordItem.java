@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.util.TextUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -26,9 +27,7 @@ public class CursedSwordItem extends SwordItem {
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    tooltip.addAll(List.of(
-      Text.translatable(TOOLTIP).formatted(Formatting.GRAY),
-      Text.translatable(TOOLTIP2).formatted(Formatting.GRAY)
-    ));
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, "item.minecells.cursed_sword.description");
   }
 }

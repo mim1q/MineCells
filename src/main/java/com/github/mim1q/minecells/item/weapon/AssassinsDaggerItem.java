@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
+import com.github.mim1q.minecells.util.TextUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -29,7 +30,7 @@ public class AssassinsDaggerItem extends SwordItem implements CrittingWeapon {
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    MutableText text = Text.literal("+" + this.getAdditionalCritDamage(stack, null, null)).formatted(Formatting.RED);
-    tooltip.add(Text.translatable("item.minecells.assassins_dagger.tooltip", text).formatted(Formatting.GRAY));
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, "item.minecells.assassins_dagger.description", getAdditionalCritDamage(stack, null, null));
   }
 }

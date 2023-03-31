@@ -46,11 +46,6 @@ public class HealthFlaskItem extends Item {
   }
 
   @Override
-  public SoundEvent getDrinkSound() {
-    return SoundEvents.ENTITY_GENERIC_DRINK;
-  }
-
-  @Override
   public SoundEvent getEatSound() {
     return SoundEvents.ENTITY_GENERIC_DRINK;
   }

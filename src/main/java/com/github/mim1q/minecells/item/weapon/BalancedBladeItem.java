@@ -2,11 +2,17 @@ package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class BalancedBladeItem extends SwordItem implements CrittingWeapon {
   public BalancedBladeItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
@@ -41,5 +47,11 @@ public class BalancedBladeItem extends SwordItem implements CrittingWeapon {
       return player.getBalancedBladeStacks() >= 9;
     }
     return false;
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, "item.minecells.balanced_blade.description", 6.75F);
   }
 }

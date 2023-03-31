@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.item.weapon.interfaces;
 
+import com.github.mim1q.minecells.util.TextUtils;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -20,12 +20,8 @@ public interface WeaponWithAbility {
   default int getAbilityCooldown(ItemStack stack) {
     return getBaseAbilityCooldown(stack);
   }
-  private void fillTooltip(List<Text> tooltip, boolean hold, MutableText description, ItemStack stack) {
-    var text = description.getString();
-    var lines = text.split("\n");
-    for (var line : lines) {
-      tooltip.add(Text.literal(line).formatted(Formatting.GRAY));
-    }
+  default void fillTooltip(List<Text> tooltip, boolean hold, String descriptionKey, ItemStack stack) {
+    TextUtils.addDescription(tooltip, descriptionKey);
     var key = Text.keybind("key.use");
     var stringBuilder = new StringBuilder().append("(");
     if (hold) {
@@ -38,9 +34,5 @@ public interface WeaponWithAbility {
       tooltip.add(Text.translatable(ABILITY_DAMAGE_KEY, getAbilityDamage(stack)).formatted(Formatting.DARK_GRAY));
     }
     tooltip.add(Text.translatable(ABILITY_COOLDOWN_KEY, getAbilityCooldown(stack) / 20.0F).formatted(Formatting.DARK_GRAY));
-  }
-
-  default void fillTooltip(List<Text> lines, boolean hold, String descriptionKey, ItemStack stack) {
-    fillTooltip(lines, hold, Text.translatable(descriptionKey), stack);
   }
 }

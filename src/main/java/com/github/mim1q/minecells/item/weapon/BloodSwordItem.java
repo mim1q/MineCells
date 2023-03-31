@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
+import com.github.mim1q.minecells.util.TextUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -39,7 +40,7 @@ public class BloodSwordItem extends SwordItem {
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    tooltip.add(Text.translatable(TOOLTIP1_KEY, Text.translatable(EFFECT_KEY).formatted(Formatting.RED)).formatted(Formatting.GRAY));
-    tooltip.add(Text.translatable(TOOLTIP2_KEY, COOLDOWN).formatted(Formatting.DARK_GRAY));
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, "item.minecells.blood_sword.description");
   }
 }

@@ -1,11 +1,17 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class CrowbarItem extends SwordItem implements CrittingWeapon {
   public CrowbarItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
@@ -19,7 +25,8 @@ public class CrowbarItem extends SwordItem implements CrittingWeapon {
   }
 
   @Override
-  public float getAdditionalCritDamage(ItemStack stack, @Nullable LivingEntity target, @Nullable LivingEntity attacker) {
-    return 4.0F;
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, "item.minecells.crowbar.description", getAdditionalCritDamage(stack, null, null));
   }
 }

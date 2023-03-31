@@ -1,8 +1,11 @@
 package com.github.mim1q.minecells.item.skill;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -11,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -18,8 +22,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class PhaserItem extends Item {
+import java.util.List;
+
+public class PhaserItem extends Item implements WeaponWithAbility {
   public PhaserItem(Settings settings) {
     super(settings);
   }
@@ -72,10 +79,26 @@ public class PhaserItem extends Item {
     if (canTeleport) {
       stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
       user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
-      user.getItemCooldownManager().set(this, 20 * 5);
+      user.getItemCooldownManager().set(this, getAbilityCooldown(stack));
       return TypedActionResult.success(stack);
     }
     user.getItemCooldownManager().set(this, 20);
     return TypedActionResult.fail(stack);
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    fillTooltip(tooltip, false, "item.minecells.phaser.description", stack);
+  }
+
+  @Override
+  public float getBaseAbilityDamage(ItemStack stack) {
+    return 0.0F;
+  }
+
+  @Override
+  public int getBaseAbilityCooldown(ItemStack stack) {
+    return 20 * 5;
   }
 }
