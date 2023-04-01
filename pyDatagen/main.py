@@ -32,6 +32,10 @@ def generate_data(output_path: str):
     simple_item_and_drop("wilted_grass_block")
     simple_item_and_drop("flag_pole")
 
+    ## Torches
+    for torch in ["promenade", "prison"]:
+      gen.generate_template(Template(TemplateType.ITEM_MODEL, "block_model", f"{torch}_torch", {"block": f"colored_torch/{torch}_standing"}))
+
     # Leaves
     gen.generate_preset(wood_presets.Leaves("wilted", True))
     gen.generate_preset(wood_presets.Leaves("orange_wilted"))
@@ -41,10 +45,6 @@ def generate_data(output_path: str):
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "runic_vine_plant", {"block": "runic_vine_plant"}))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "runic_vine_stone", {"block": "runic_vine_stone"}))
     gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cube_all", "runic_vine_stone", {"texture": "runic_vine_stone"}))
-
-# Torches
-    gen.generate_preset(common_presets.GeneratedItemModel("prison_torch"))
-    gen.generate_preset(common_presets.GeneratedItemModel("promenade_torch"))
 
     # Corpses
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "rotating_horizontal", "hanged_skeleton", {"block": "hanged_skeleton"}))
