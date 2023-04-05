@@ -26,10 +26,10 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
 
   private int getInterval(int amplifier) {
     return switch (amplifier) {
-      case 0 -> 20;
-      case 1 -> 15;
-      case 2 -> 10;
-      default -> 5;
+      case 0 -> 25;
+      case 1 -> 20;
+      case 2 -> 15;
+      default -> 10;
     };
   }
 
