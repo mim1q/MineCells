@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.Blocks;
@@ -36,6 +37,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
   @Override
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     stack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
+    user.playSound(MineCellsSounds.FROST_BLAST, 1.0F, 1.1F);
     if (user.world.isClient()) {
       for (int i = 0; i < 20; i++) {
         Vec3d pos = user.getPos().add(0.0D, 1.25D, 0.0D);
@@ -87,9 +89,10 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
     int duration = 20 * 5;
     World world = entity.getWorld();
     if (world.getBlockState(entity.getBlockPos()).getFluidState().isIn(FluidTags.WATER)) {
-      world.setBlockState(entity.getBlockPos(), Blocks.FROSTED_ICE.getDefaultState());
+      world.setBlockState(entity.getBlockPos(), Blocks.ICE.getDefaultState());
       duration = 20 * 10;
     }
+    entity.playSound(MineCellsSounds.FREEZE, 1.0F, 1.0F);
     entity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, duration, 0, false, false, true));
   }
 
@@ -106,6 +109,6 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
 
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
-    return 20 * 15;
+    return 20;
   }
 }

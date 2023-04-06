@@ -61,6 +61,8 @@ public final class MineCellsSounds {
   public static final SoundEvent KATANA_CHARGE = register("weapon.katana.charge");
   public static final SoundEvent KATANA_RELEASE = register("weapon.katana.release");
 
+  public static final SoundEvent FROST_BLAST = register("weapon.frost_blast.release");
+
   //Blocks
   public static final SoundEvent PORTAL_ACTIVATE = register("portal.activate");
   public static final SoundEvent PORTAL_USE = register("portal.use");
@@ -68,6 +70,7 @@ public final class MineCellsSounds {
   // Other
   public static final SoundEvent CRIT = register("crit");
   public static final SoundEvent SHOCK = register("shock");
+  public static final SoundEvent FREEZE = register("freeze");
   public static final SoundEvent EXPLOSION = register("explosion");
   public static final SoundEvent ELEVATOR_START = register("elevator_start");
   public static final SoundEvent ELEVATOR_STOP = register("elevator_stop");
