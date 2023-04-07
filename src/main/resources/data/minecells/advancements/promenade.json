@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:wilted_grass_block"
+    },
+    "title": {
+      "translate": "advancements.minecells.promenade"
+    },
+    "description": {
+      "translate": "advancements.minecells.promenade.description"
+    }
+  },
+  "parent": "minecells:prison",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "dimension": "minecells:promenade"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

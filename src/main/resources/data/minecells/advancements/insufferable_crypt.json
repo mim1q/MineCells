@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:crate"
+    },
+    "title": {
+      "translate": "advancements.minecells.insufferable_crypt"
+    },
+    "description": {
+      "translate": "advancements.minecells.insufferable_crypt.description"
+    }
+  },
+  "parent": "minecells:prison",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "dimension": "minecells:insufferable_crypt"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

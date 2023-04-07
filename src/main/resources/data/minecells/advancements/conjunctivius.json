@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:tentacle"
+    },
+    "title": {
+      "translate": "advancements.minecells.conjunctivius"
+    },
+    "description": {
+      "translate": "advancements.minecells.conjunctivius.description"
+    }
+  },
+  "parent": "minecells:insufferable_crypt",
+  "criteria": {
+    "conjunctivius_killed": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

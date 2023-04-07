@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:small_prison_bricks"
+    },
+    "title": {
+      "translate": "advancements.minecells.prison"
+    },
+    "description": {
+      "translate": "advancements.minecells.prison.description"
+    }
+  },
+  "parent": "minecells:root",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "dimension": "minecells:prison"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

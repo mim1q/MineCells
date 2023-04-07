@@ -1,5 +1,5 @@
 {
-  "comment.minecells.001": "======================================= SPAWN EGGS ========================================",
+  "comment.minecells.001": "====================================== SPAWN EGGS ========================================",
 
   "item.minecells.shocker_spawn_egg": "Shocker Spawn Egg",
   "item.minecells.leaping_zombie_spawn_egg": "Leaping Zombie Spawn Egg",
@@ -16,7 +16,7 @@
   "item.minecells.runner_spawn_egg": "Runner Spawn Egg",
   "item.minecells.scorpion_spawn_egg": "Scorpion Spawn Egg",
   
-  "comment.minecells.002": "==================================== BLOCKS AND ITEMS =====================================",
+  "comment.minecells.002": "=================================== BLOCKS AND ITEMS =====================================",
 
   "itemGroup.minecells.minecells": "Mine Cells",
 
@@ -79,7 +79,7 @@
   "item.minecells.conjunctivius_respawn_rune": "Conjunctivius Respawn Rune",
   "item.minecells.vine_rune": "Vine Rune",
 
-  "comment.minecells.003": "========================================= WEAPONS =========================================",
+  "comment.minecells.003": "======================================== WEAPONS =========================================",
 
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.description": "Deals critical (+%sHP) damage\nwhen hitting enemies in the back",
@@ -172,7 +172,22 @@
   "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
   "chat.minecells.version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
 
-  "comment.minecells.004": "================================== FROM PYTHON AUTOLANG ===================================",
+  "comment.minecells.004": "====================================== ADVANCEMENTS ======================================",
+
+  "advancements.minecells.root": "Mine Cells",
+  "advancements.minecells.root.description": "Find a portal to the Prisoner's Quarters",
+  "advancements.minecells.prison": "Behind bars",
+  "advancements.minecells.prison.description": "Enter the Prisoner's Quarters",
+  "advancements.minecells.promenade": "Love the serenity...",
+  "advancements.minecells.promenade.description": "Reach the Promenade of The Condemned",
+  "advancements.minecells.insufferable_crypt": "Even the rats avoid this place",
+  "advancements.minecells.insufferable_crypt.description": "Reach the Insufferable Crypt",
+  "advancements.minecells.conjunctivius": "Something in your eye?",
+  "advancements.minecells.conjunctivius.description": "Defeat the Conjunctivius",
+  "advancements.minecells.respawn_boss": "Never enough",
+  "advancements.minecells.respawn_boss.description": "Respawn a Mine Cells boss",
+
+  "comment.minecells.005": "================================== FROM PYTHON AUTOLANG ==================================",
 
   "block.minecells.corpse": "Corpse",
   "block.minecells.hanged_corpse": "Hanged Corpse",

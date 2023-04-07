@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:biome_banner"
+    },
+    "title": {
+      "translate": "advancements.minecells.root"
+    },
+    "description": {
+      "translate": "advancements.minecells.root.description"
+    },
+    "background": "minecells:textures/block/hardstone.png"
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "structure": "minecells:portal"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
