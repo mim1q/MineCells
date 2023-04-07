@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.boss;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
@@ -32,6 +33,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
@@ -267,6 +269,25 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
     }
     this.deathTime++;
+  }
+
+  @Override
+  public void onDeath(DamageSource damageSource) {
+    super.onDeath(damageSource);
+    if (this.world.isClient || this.world.getServer() == null) {
+      return;
+    }
+
+    var server = this.world.getServer();
+    var advancement = server.getAdvancementLoader().get(MineCells.createId("conjunctivius"));
+
+    if (advancement == null) {
+      return;
+    }
+
+    this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.getRoomBox().expand(10))).forEach(
+      player -> ((ServerPlayerEntity)player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
+    );
   }
 
   protected void switchStages(int stage) {

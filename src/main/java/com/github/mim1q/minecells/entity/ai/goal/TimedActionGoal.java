@@ -38,11 +38,11 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
     chargeSound = settings.chargeSound;
     releaseSound = settings.releaseSound;
     soundVolume = settings.soundVolume;
-    startPredicate = predicate;
+    startPredicate = predicate == null ? Objects::nonNull : predicate;
   }
 
   public TimedActionGoal(E entity, Consumer<TimedActionSettings> settingsConsumer, Predicate<E> predicate) {
-    this(entity, TimedActionSettings.edit(new TimedActionSettings(), settingsConsumer), predicate == null ? Objects::nonNull : predicate);
+    this(entity, TimedActionSettings.edit(new TimedActionSettings(), settingsConsumer), predicate);
   }
 
   @Override
