@@ -109,6 +109,6 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
 
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
-    return 20;
+    return 20 * 15;
   }
 }
