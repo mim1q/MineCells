@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:elevator_assembler"
+    },
+    "title": {
+      "translate": "advancements.minecells.elevator"
+    },
+    "description": {
+      "translate": "advancements.minecells.elevator.description"
+    }
+  },
+  "parent": "minecells:root",
+  "criteria": {
+    "entity_squashed": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

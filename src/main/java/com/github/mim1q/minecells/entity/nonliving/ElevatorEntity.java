@@ -293,6 +293,16 @@ public class ElevatorEntity extends Entity {
         this.hitEntities.add(e);
       }
     }
+
+    if (
+      entities.size() > 0
+      && !this.world.isClient
+      && this.getFirstPassenger() instanceof ServerPlayerEntity player
+      && this.world.getServer() != null
+    ) {
+      var advancement = world.getServer().getAdvancementLoader().get(MineCells.createId("elevator"));
+      player.getAdvancementTracker().grantCriterion(advancement, "entity_squashed");
+    }
   }
 
   public void handleRedstone() {

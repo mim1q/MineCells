@@ -147,6 +147,7 @@
   "death.attack.minecells.aura": "%s didn't respect %s's boundaries",
   "death.attack.minecells.backstab": "%s was backstabbed by %s",
   "death.attack.minecells.elevator": "%s turned into a pancake",
+  "death.attack.minecells.elevator.player": "%s squashed %s",
   "death.attack.minecells.cursed": "%s succumbed to a curse",
   "death.attack.minecells.cursed.player": "%s succumbed to a curse",
   "death.attack.minecells.bleeding": "%s bled to death",
@@ -156,6 +157,11 @@
   "dimension.minecells.prison": "Prisoners' Quarters",
   "dimension.minecells.insufferable_crypt": "Insufferable Crypt",
   "dimension.minecells.promenade": "Promenade of The Condemned",
+
+  "travelerstitles.minecraft.overworld": "Overworld",
+  "travelerstitles.minecells.prison": "Prisoners' Quarters",
+  "travelerstitles.minecells.insufferable_crypt": "Insufferable Crypt",
+  "travelerstitles.minecells.promenade": "Promenade of The Condemned",
 
   "biome.minecells.prison": "Prisoners' Quarters",
   "biome.minecells.insufferable_crypt": "Insufferable Crypt",
@@ -186,6 +192,8 @@
   "advancements.minecells.conjunctivius.description": "Defeat the Conjunctivius",
   "advancements.minecells.respawn_boss": "Never enough",
   "advancements.minecells.respawn_boss.description": "Respawn a Mine Cells boss",
+  "advancements.minecells.elevator": "Get pancaked!",
+  "advancements.minecells.elevator.description": "Squash someone while riding an elevator",
 
   "comment.minecells.005": "================================== FROM PYTHON AUTOLANG ==================================",
 

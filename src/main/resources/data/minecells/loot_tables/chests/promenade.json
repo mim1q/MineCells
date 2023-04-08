@@ -3,18 +3,15 @@
     {
       "rolls": 1,
       "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecells:assassins_dagger"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecells:blood_sword"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecells:hattoris_katana"
-        }
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:assassins_dagger" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:broadsword" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:balanced_blade" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:blood_sword" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:crowbar" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:nutcracker" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:hattoris_katana" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:frost_blast" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:phaser" }
       ],
       "functions": [
         {
