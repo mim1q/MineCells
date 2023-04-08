@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:conjunctivius_respawn_rune"
+    },
+    "title": {
+      "translate": "advancements.minecells.respawn_boss"
+    },
+    "description": {
+      "translate": "advancements.minecells.respawn_boss.description"
+    }
+  },
+  "parent": "minecells:root",
+  "criteria": {
+    "obelisk_used": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

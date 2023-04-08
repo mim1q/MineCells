@@ -47,6 +47,8 @@ Most of these weapons can be found in chests. Phaser rarely drops from Promenade
 
 ## Advancements
 
+- **Mine Cells** - find a portal to the Prisoners' Quarters
 - **Behind Bars** - visit the Prisoner's Quarters
 - **Love the serenity** - visit the Promenade of the Condemned
 - **Even the rats avoid the place** - visit the Insufferable Crypt
+- **Something in your eye?** - defeat the Conjunctivius
