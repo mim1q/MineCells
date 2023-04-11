@@ -42,7 +42,8 @@ Most of these weapons can be found in chests. Phaser rarely drops from Promenade
 
 - **Vine Rune**, **Runic Vine Plant**, **Runic Vine** and **Runic Vine Stone**
   Runic Vine Plants can be activated with the Vine Rune. They then place climbable Runic Vines that break through any Runic Vine Stones above.
-
+- Barrels and crates now drop themselves instead of ingots and nuggets. 
+- Alchemy Equipment drops itself when using silk touch
 - Tweaked the models and colors of the custom Torches and Prison Stone variants
 
 ## Advancements
