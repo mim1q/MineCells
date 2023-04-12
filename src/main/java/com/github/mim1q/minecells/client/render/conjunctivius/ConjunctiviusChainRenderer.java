@@ -49,7 +49,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
   protected void renderChain(MatrixStack matrices, VertexConsumer vertices, int light, Vec3d startPos, Vec3d targetPos, float headYaw, Vec3f offset) {
     matrices.push();
     matrices.scale(0.75F, 0.75F, 0.75F);
-    startPos = startPos.add(0.0D, -offset.getY() * 2.0D + 3.0D, 0.0D);
+    startPos = startPos.add(0.0D, -offset.getY() * 2.0D + 3.0D, 0.01D);
     Vec3d direction = targetPos.subtract(startPos);
     direction = direction.rotateY(MathUtils.radians(headYaw));
     direction = direction.add(-offset.getX() * 1.5D, 0.0D, 0.0D);
