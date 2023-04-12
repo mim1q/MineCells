@@ -17,16 +17,17 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
   private static final Identifier CHAIN_UPPER = MineCells.createId("prison/chain_upper");
   private static final Identifier CHAIN_LOWER = MineCells.createId("prison/chain_lower");
   private static final Identifier END = MineCells.createId("prison/end");
+  private static final Identifier END_SEWERS = MineCells.createId("prison/end_sewers");
 
   @Override
   protected void addRooms(Random random) {
     boolean specialLeft = random.nextBoolean();
-    Vec3i end1 = generateFloor(Vec3i.ZERO, BlockRotation.NONE, SPAWN, CHAIN_UPPER, random, specialLeft);
-    Vec3i end2 = generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, CHAIN_UPPER, random, specialLeft);
-    generateFloor(end2.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean());
+    Vec3i end1 = generateFloor(Vec3i.ZERO, BlockRotation.NONE, SPAWN, CHAIN_UPPER, random, specialLeft, true);
+    Vec3i end2 = generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, CHAIN_UPPER, random, specialLeft, false);
+    generateFloor(end2.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean(), false);
   }
 
-  protected Vec3i generateFloor(Vec3i pos, BlockRotation rotation, Identifier startPool, Identifier endPool, Random random, boolean specialLeft) {
+  protected Vec3i generateFloor(Vec3i pos, BlockRotation rotation, Identifier startPool, Identifier endPool, Random random, boolean specialLeft, boolean sewersExit) {
     addRoom(pos, BlockRotation.NONE.rotate(rotation), startPool);
     Vec3i unit = rotation.rotate(Direction.SOUTH).getVector();
     Vec3i rotatedUnit = rotation.rotate(Direction.EAST).getVector();
@@ -61,7 +62,7 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
       }
     }
 
-    addRoom(pos.add(unit.multiply(5)), BlockRotation.NONE.rotate(rotation), MAIN_CORRIDOR_END);
+    addRoom(pos.add(unit.multiply(5)), BlockRotation.NONE.rotate(rotation), sewersExit ? END_SEWERS : MAIN_CORRIDOR_END);
 
     return endPos;
   }

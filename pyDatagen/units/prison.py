@@ -9,7 +9,8 @@ def generate_template_pools(poolgen: TemplatePoolGenerator):
     poolgen.generate("minecells:prison/corridor_end", [("minecells:prison/main_corridor_end/0", 1)], processors="minecells:brick_decay")
     poolgen.generate_autoprefixed("minecells:prison/chain_lower", [("0", 1)], processors="minecells:brick_decay")
     poolgen.generate_autoprefixed("minecells:prison/chain_upper", [("0", 1)], processors="minecells:brick_decay")
-    poolgen.generate_single("minecells:prison/end")
+    poolgen.generate_single("minecells:prison/end", processors="minecells:brick_decay")
+    poolgen.generate_single("minecells:prison/end_sewers", processors="minecells:brick_decay")
     poolgen.generate_autoprefixed(
         "minecells:prison/ceiling_decoration",
         [("minecraft:empty", 4), ("broken_cage", 4), ("cage", 4), ("chains_0", 2), ("chains_1", 2), ("chains_2", 2),
