@@ -46,6 +46,11 @@ Most of these weapons can be found in chests. Phaser rarely drops from Promenade
 - Alchemy Equipment drops itself when using silk touch
 - Tweaked the models and colors of the custom Torches and Prison Stone variants
 
+## Structures:
+
+- You can now obtain the Vine Rune in the Promenade's underground dungeon!
+- The Vine Rune is now required to access the Insufferable Crypt, the portal to which has been moved to another room
+
 ## Advancements
 
 - **Mine Cells** - find a portal to the Prisoners' Quarters
@@ -55,3 +60,10 @@ Most of these weapons can be found in chests. Phaser rarely drops from Promenade
 - **Something in your eye?** - defeat the Conjunctivius
 - **Never enough** - respawn a Mine Cells boss
 - **Get pancaked!** - squash someone while riding an elevator
+- **Jack and the Beanstalk** - obtain the Vine Rune
+
+## Language
+
+- Ukrainian by Sprechstallmeister on Discord
+- Russian by Hamilitonb6 on CurseForge
+- Updated Polish translation
