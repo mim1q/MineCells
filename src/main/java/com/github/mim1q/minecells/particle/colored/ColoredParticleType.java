@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.particle.colored;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 
 public class ColoredParticleType extends ParticleType<ColoredParticleEffect> {
@@ -15,5 +16,9 @@ public class ColoredParticleType extends ParticleType<ColoredParticleEffect> {
 
   public static ColoredParticleType create() {
     return new ColoredParticleType();
+  }
+
+  public ParticleEffect get(int color) {
+    return new ColoredParticleEffect(this, color);
   }
 }

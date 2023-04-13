@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -57,7 +56,7 @@ public class ShieldbearerEntity extends MineCellsEntity {
       s.chance = 0.25F;
       s.length = 80;
       s.margin = 0.25D;
-      s.particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+      s.particle = MineCellsParticles.SPECKLE.get(0xFF0000);
     }, mob -> mob.distanceTo(mob.getTarget()) < 8.0D);
     super.initGoals();
 

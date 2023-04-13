@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
@@ -28,12 +27,13 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class RunicVinePlantBlock extends BlockWithEntity {
-  public static final ParticleEffect PARTICLE = ColoredParticle.create(MineCellsParticles.SPECKLE, 0x49b74a);
-  public static final BooleanProperty ACTIVATED = BooleanProperty.of("activated");
+  public static final ParticleEffect PARTICLE = MineCellsParticles.SPECKLE.get(0x49b74a);
 
   public RunicVinePlantBlock(Settings settings) {
     super(settings);
   }
+
+  public static final BooleanProperty ACTIVATED = BooleanProperty.of("activated");
 
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -80,7 +80,7 @@ public class RunicVinePlantBlock extends BlockWithEntity {
 
   @Override
   public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-    Vec3d particlePos = Vec3d.of(pos).add(random.nextDouble(), random.nextDouble(), random.nextDouble());
+    var particlePos = Vec3d.of(pos).add(random.nextDouble(), random.nextDouble(), random.nextDouble());
     world.addParticle(PARTICLE, particlePos.getX(), particlePos.getY(), particlePos.getZ(), 0.0D, 0.01D + random.nextDouble() * 0.03D, 0.0D);
   }
 

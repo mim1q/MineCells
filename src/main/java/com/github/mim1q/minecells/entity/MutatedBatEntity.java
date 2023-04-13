@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -77,7 +76,7 @@ public class MutatedBatEntity extends MineCellsEntity {
       s.chance = 0.075F;
       s.length = 60;
       s.margin = 0.25D;
-      s.particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+      s.particle = MineCellsParticles.SPECKLE.get(0xFF0000);
     }, mob -> mob.distanceTo(mob.getTarget()) < 8.0D);
 
     this.goalSelector.add(4, new FlyGoal(this, 1.0D));

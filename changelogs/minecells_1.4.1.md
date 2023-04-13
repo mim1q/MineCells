@@ -4,6 +4,10 @@
 
 - If you are updating from an old version, make sure to reset the dimensions of Mine Cells! Follow the guide [here](https://github.com/mim1q/MineCells/wiki/Updating-Mine-Cells)
 
+## Patch 1:
+
+- Fixed server crash related to particles
+
 ## Mobs
 
 Improvements:

@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.block.*;
@@ -43,7 +42,7 @@ public class SpawnerRuneBlock extends BlockWithEntity implements BlockEntityProv
       Vec3d particlePos = Vec3d.of(pos).add(rng.nextFloat(), 0.0F, rng.nextFloat());
       float offset = rng.nextFloat() * 0.02F;
       world.addParticle(
-        ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF8000),
+        MineCellsParticles.SPECKLE.get(0xFF8000),
         particlePos.getX(), particlePos.getY() - offset, particlePos.getZ(),
         0.0D, 0.01D + rng.nextFloat() * 0.01D + offset, 0.0D
       );

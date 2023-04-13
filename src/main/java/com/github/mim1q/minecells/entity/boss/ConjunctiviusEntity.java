@@ -10,7 +10,6 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarrageGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
@@ -168,7 +167,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.length = 70;
       s.rotate = false;
       s.margin = 0.5D;
-      s.particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+      s.particle = MineCellsParticles.SPECKLE.get(0xFF0000);
     }));
 
     this.goalSelector.add(2, dashGoal);

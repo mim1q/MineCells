@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.block;
 
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.*;
@@ -67,7 +66,7 @@ public class BarrierRuneBlock extends BarrierBlock {
     }
     ParticleUtils.addParticle(
       (ClientWorld) world,
-      ColoredParticle.create(MineCellsParticles.SPECKLE, 0x00AAEE),
+      MineCellsParticles.SPECKLE.get(0x00AAEE),
       Vec3d.ofBottomCenter(pos).add(random.nextDouble() - 0.5F, 0.05F, random.nextFloat() - 0.5F),
       new Vec3d(0.0F, 0.01F + random.nextDouble() * 0.05F, 0.0F)
     );

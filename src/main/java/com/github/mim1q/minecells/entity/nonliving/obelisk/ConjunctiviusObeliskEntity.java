@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
@@ -50,7 +49,7 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
 
   @Override
   protected void spawnActivationParticles(int activatedTicks) {
-    ParticleEffect particle = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFF0000);
+    ParticleEffect particle = MineCellsParticles.SPECKLE.get(0xFF0000);
     for (int i = 0; i < activatedTicks; i++) {
       float yOff = this.random.nextFloat() * 10.0F;
       float xOff = this.random.nextFloat() - 0.5F;

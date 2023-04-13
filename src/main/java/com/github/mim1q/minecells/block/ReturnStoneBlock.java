@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.block.blockentity.ReturnStoneBlockEntity;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -31,9 +30,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ReturnStoneBlock extends Block implements BlockEntityProvider {
+  private static final ParticleEffect PARTICLE = MineCellsParticles.SPECKLE.get(0xFFC410);
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   public static final VoxelShape SHAPE = createCuboidShape(3.0F, 0.0F, 3.0F, 13.0F, 16.0F, 13.0F);
-  public static final ParticleEffect PARTICLE = ColoredParticle.create(MineCellsParticles.SPECKLE, 0xFFC410);
 
   public ReturnStoneBlock(Settings settings) {
     super(settings);
