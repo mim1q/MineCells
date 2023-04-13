@@ -18,9 +18,9 @@ import java.util.List;
 
 public class MineCellsVersionCheckState extends PersistentState {
   // Modify these when significant changes are made to respective aspects of the mod
-  private String prison = "1.4.0";
+  private String prison = "1.4.1";
   private String insufferableCrypt = "1.3.3";
-  private String promenade = "1.4.0";
+  private String promenade = "1.4.1";
 
   private MineCellsVersionCheckState(NbtCompound nbt) {
     this.prison = nbt.getString("prison");

@@ -18,7 +18,7 @@
           "function": "minecraft:enchant_with_levels",
           "levels": {
             "min": 15,
-            "max": 20
+            "max": 18
           },
           "treasure": true,
           "conditions": [
@@ -32,13 +32,13 @@
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.15
+          "chance": 0.2
         }
       ]
     },
     {
       "rolls": {
-        "min": 1,
+        "min": 2,
         "max": 6
       },
       "entries": [
@@ -116,8 +116,8 @@
     },
     {
       "rolls": {
-        "min": 3,
-        "max": 6
+        "min": 2,
+        "max": 5
       },
       "entries": [
         {
