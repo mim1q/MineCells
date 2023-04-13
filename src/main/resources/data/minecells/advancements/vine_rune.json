@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:vine_rune"
+    },
+    "title": {
+      "translate": "advancements.minecells.vine_rune"
+    },
+    "description": {
+      "translate": "advancements.minecells.vine_rune.description"
+    }
+  },
+  "parent": "minecells:promenade",
+  "criteria": {
+    "vine_rune": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecells:vine_rune"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vine_rune"
+    ]
+  ]
+}
