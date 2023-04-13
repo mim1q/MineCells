@@ -15,7 +15,8 @@
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
     "network.CustomPayloadS2CPacketMixin",
-    "world.TrunkPlacerTypeInvoker"
+    "world.TrunkPlacerTypeInvoker",
+    "world.WorldMixin"
   ],
   "client": [
     "client.BipedEntityModelMixin",

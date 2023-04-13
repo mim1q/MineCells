@@ -41,11 +41,9 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class ConjunctiviusEntity extends MineCellsBossEntity {
 
@@ -81,7 +79,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public boolean moving = false;
   private int stageTicks = 1;
   private int lastStage = 0;
-  private final Set<Integer> tentacleIds = new HashSet<>();
 
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -221,25 +218,21 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.prevBodyYaw = this.spawnRot;
       this.setYaw(this.spawnRot);
 
-      // Handle bossbar visibility
-      boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
-      List<PlayerEntity> playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
-      this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
+      if (this.age % 20 == 0) {
+        // Handle bossbar visibility
+        boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
+        List<PlayerEntity> playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
+        this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
 
-      this.switchStages(this.getStage());
+        this.switchStages(this.getStage());
 
-      if (!this.isInFullStage()) {
-        Set<Integer> aliveTentacles = this.tentacleIds
-          .stream()
-          .filter(id -> this.world.getEntityById(id) != null)
-          .collect(Collectors.toSet());
-        this.tentacleIds.clear();
-        this.tentacleIds.addAll(aliveTentacles);
-
-        if (this.stageTicks > 30 && aliveTentacles.isEmpty() && this.getStage() != 0) {
-          this.setStage(this.getStage() + 1);
-        } else if (this.getStage() != 0) {
-          this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.PROTECTED, 20, 0, false, false));
+        if (!this.isInFullStage()) {
+          var tentacles = world.getEntitiesByClass(SewersTentacleEntity.class, Box.from(roomBox.expand(10)), Objects::nonNull);
+          if (this.stageTicks > 30 && tentacles.isEmpty() && this.getStage() != 0) {
+            this.setStage(this.getStage() + 1);
+          } else if (this.getStage() != 0) {
+            this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.PROTECTED, 30, 0, false, false));
+          }
         }
       }
     }
@@ -320,7 +313,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         tentacle.setVariant(this.getStage() == 1 ? 0 : this.getStage() == 3 ? 1 : 2);
         tentacle.setPosition(this.getTentaclePos());
         tentacle.setSpawnedByBoss(true);
-        this.tentacleIds.add(tentacle.getId());
         this.world.spawnEntity(tentacle);
       }
     }
@@ -552,7 +544,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     });
     nbt.putInt("stage", this.dataTracker.get(STAGE));
     nbt.putInt("stageTicks", this.stageTicks);
-    nbt.putIntArray("tentacleIds", this.tentacleIds.stream().toList());
   }
 
   @Override
@@ -581,10 +572,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.addStageGoals(3);
     }
     this.stageTicks = nbt.getInt("stageTicks");
-    int[] tentacleIds = nbt.getIntArray("tentacleIds");
-    for (int id : tentacleIds) {
-      this.tentacleIds.add(id);
-    }
   }
 
   @Override
