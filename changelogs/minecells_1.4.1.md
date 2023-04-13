@@ -1,5 +1,9 @@
 # Mine Cells 1.4.1
 
+## **IMPORTANT**
+
+- If you are updating from an old version, make sure to reset the dimensions of Mine Cells! Follow the guide [here](https://github.com/mim1q/MineCells/wiki/Updating-Mine-Cells)
+
 ## Mobs
 
 Improvements:
@@ -65,5 +69,5 @@ Most of these weapons can be found in chests. Phaser rarely drops from Promenade
 ## Language
 
 - Ukrainian by Sprechstallmeister on Discord
-- Russian by Hamilitonb6 on CurseForge
+- Russian by Hamilionb6 on CurseForge
 - Updated Polish translation
