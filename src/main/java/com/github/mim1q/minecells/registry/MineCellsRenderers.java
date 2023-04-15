@@ -20,10 +20,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.BigGr
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.ConjunctiviusProjectileEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.DisgustingWormEggEntityModel;
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
-import com.github.mim1q.minecells.client.render.nonliving.CellEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.ElevatorEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.ObeliskEntityRenderer;
-import com.github.mim1q.minecells.client.render.nonliving.TentacleWeaponEntityRenderer;
+import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
@@ -134,6 +131,7 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ObeliskEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneEntityRenderer::new);
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());

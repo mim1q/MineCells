@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.entity.*;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
+import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ConjunctiviusObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
@@ -223,6 +224,14 @@ public final class MineCellsEntities {
     MineCells.createId("conjunctivius_obelisk"),
     FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConjunctiviusObeliskEntity::new)
       .dimensions(EntityDimensions.changing(1.75F, 2.5F))
+      .build()
+  );
+
+  public static final EntityType<SpawnerRuneEntity> SPAWNER_RUNE = Registry.register(
+    Registry.ENTITY_TYPE,
+    MineCells.createId("spawner_rune"),
+    FabricEntityTypeBuilder.create(SpawnGroup.MISC, SpawnerRuneEntity::new)
+      .dimensions(EntityDimensions.changing(0.5F, 0.5F))
       .build()
   );
 
