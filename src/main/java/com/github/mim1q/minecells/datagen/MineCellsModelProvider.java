@@ -53,7 +53,6 @@ public class MineCellsModelProvider extends FabricModelProvider {
       ModelIds.getBlockModelId(MineCellsBlocks.SPAWNER_RUNE)
     );
     generator.registerStateWithModelReference(MineCellsBlocks.CONJUNCTIVIUS_BOX, Blocks.AIR);
-    generator.registerStateWithModelReference(MineCellsBlocks.KINGDOM_PORTAL_CORE, Blocks.AIR);
     generator.registerStateWithModelReference(MineCellsBlocks.BEAM_PLACER, Blocks.AIR);
   }
 
