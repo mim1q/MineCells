@@ -48,7 +48,7 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   @Override
   public boolean canStart() {
     int cooldown = cooldownGetter.get();
-    return cooldown == 0
+    return cooldown <= 0
       && (this.chance == 1.0F || entity.getRandom().nextFloat() < chance)
       && startPredicate.test(entity);
   }

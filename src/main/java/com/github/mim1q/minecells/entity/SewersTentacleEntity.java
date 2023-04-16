@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
@@ -33,28 +35,33 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class SewersTentacleEntity extends MineCellsEntity {
+import java.util.function.Consumer;
 
+public class SewersTentacleEntity extends MineCellsEntity {
   public final AnimationProperty belowGround = new AnimationProperty(-2.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
   public final AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty wobbleOffset = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
 
   private static final TrackedData<Integer> VARIANT = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> BURIED = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> SPAWNED_BY_BOSS = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
   private static final HashMultimap<EntityAttribute, EntityAttributeModifier> bossModifiers = HashMultimap.create();
 
   static {
-    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("SewersTentacleEntity.boss_armor", 5.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("SewersTentacleEntity.boss_damage", 4.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SewersTentacleEntity.boss_speed", 0.15D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("boss_armor", 5.0D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("boss_damage", 4.0D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("boss_speed", 0.05D, EntityAttributeModifier.Operation.ADDITION));
   }
 
   private int buriedTicks = 0;
+  private int dashCooldown = 100;
 
   public SewersTentacleEntity(EntityType<SewersTentacleEntity> entityType, World world) {
     super(entityType, world);
-    this.stepHeight = 1.0F;
+    this.stepHeight = 0.5F;
     this.updateAttributeModifiers();
   }
 
@@ -64,14 +71,45 @@ public class SewersTentacleEntity extends MineCellsEntity {
     this.dataTracker.startTracking(VARIANT, 0);
     this.dataTracker.startTracking(BURIED, true);
     this.dataTracker.startTracking(SPAWNED_BY_BOSS, false);
+    this.dataTracker.startTracking(DASH_CHARGING, false);
+    this.dataTracker.startTracking(DASH_RELEASING, false);
   }
 
   @Override
   protected void initGoals() {
-    this.goalSelector.add(0, new TentacleAttackGoal(this, 1.2D));
+    this.goalSelector.add(1, new TentacleAttackGoal(this, 1.2D));
+    this.goalSelector.add(0, new TentacleSweepGoal(this, s -> {
+      s.cooldownSetter = (cooldown) -> this.dashCooldown = cooldown;
+      s.cooldownGetter = () -> this.dashCooldown;
+      s.stateSetter = this::switchDashState;
+      s.speed = 0.4F;
+      s.onGround = true;
+      s.damage = 6.0F;
+      s.defaultCooldown = 100;
+      s.actionTick = 5;
+      s.alignTick = 4;
+      s.chance = 0.075F;
+      s.length = 80;
+      s.margin = 0.25D;
+    }));
 
     this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
     this.targetSelector.add(0, new RevengeGoal(this));
+  }
+
+  private void switchDashState(TimedActionGoal.State state, boolean value) {
+    if (state == TimedActionGoal.State.CHARGE && value) {
+      setBuried(false);
+      stepHeight = 0.0F;
+    }
+    if (state == TimedActionGoal.State.RELEASE && !value) {
+      setBuried(true);
+      stepHeight = 1.0F;
+    }
+    switch (state) {
+      case CHARGE -> this.dataTracker.set(DASH_CHARGING, value);
+      case RELEASE -> this.dataTracker.set(DASH_RELEASING, value);
+    }
   }
 
   @Nullable
@@ -98,20 +136,26 @@ public class SewersTentacleEntity extends MineCellsEntity {
       this.spawnMovingParticles();
       if (this.isAlive()) {
         if (this.isBuried()) {
-          this.belowGround.setupTransitionTo(-2.0F, 20.0F);
+          this.belowGround.setupTransitionTo(-2.5F, 20.0F);
           this.wobble.setupTransitionTo(0.0F, 15.0F);
         } else {
           this.belowGround.setupTransitionTo(0.0F, 10.0F);
           this.wobble.setupTransitionTo(1.0F, 20.0F);
         }
+        if (this.getStateFromTrackedData(DASH_CHARGING, DASH_RELEASING) == TimedActionGoal.State.IDLE) {
+          this.wobbleOffset.setupTransitionTo(0.0F, 20.0F);
+        } else {
+          this.wobbleOffset.setupTransitionTo(1.0F, 10.0F);
+        }
       }
     }
+    this.dashCooldown--;
     this.buriedTicks = this.isBuried() ? this.buriedTicks + 1 : 0;
   }
 
   @Override
   protected void updatePostDeath() {
-    this.belowGround.setupTransitionTo(-2.0F, 10.0F);
+    this.belowGround.setupTransitionTo(-2.5F, 10.0F);
     super.updatePostDeath();
   }
 
@@ -176,7 +220,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 30.0D)
       .add(EntityAttributes.GENERIC_ARMOR, 2.5D)
-      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
+      .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.22D)
       .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0D)
       .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 2.0D)
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D)
@@ -284,6 +328,27 @@ public class SewersTentacleEntity extends MineCellsEntity {
       this.ticks = 0;
       this.attacking = false;
       ((SewersTentacleEntity)this.mob).setBuried(true);
+    }
+  }
+
+  public static class TentacleSweepGoal extends TimedDashGoal<SewersTentacleEntity> {
+    public TentacleSweepGoal(SewersTentacleEntity entity, Consumer<TimedDashSettings> settingsConsumer) {
+      super(entity, settingsConsumer, e ->
+        e.getTarget() != null
+        && Math.abs(e.getTarget().getY() - e.getY()) < 0.1F
+        && e.buriedTicks > 60
+        && (e.squaredDistanceTo(e.getTarget()) > 16.0F || e.isSpawnedByBoss())
+      );
+    }
+
+    @Override
+    protected boolean shouldSlowDown() {
+      return distanceTravelled > 1.25D * targetDistance;
+    }
+
+    @Override
+    public boolean shouldContinue() {
+      return super.shouldContinue() && !shouldSlowDown() && entity.fallDistance == 0 && !entity.horizontalCollision;
     }
   }
 }
