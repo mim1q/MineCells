@@ -1,18 +1,14 @@
 package com.github.mim1q.minecells.block.setupblocks;
 
-import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.rpgdifficulty.api.MobStrengthener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +40,6 @@ public class MonsterBoxBlock extends SetupBlock {
       e.setPersistent();
       e.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
       e.initialize((ServerWorldAccess) world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);
-      if (FabricLoader.getInstance().isModLoaded("rpgdifficulty")) {
-        if (e instanceof MineCellsBossEntity) {
-          MobStrengthener.changeBossAttributes(e, (ServerWorld) world);
-        } else {
-          MobStrengthener.changeAttributes(e, (ServerWorld) world);
-        }
-      }
       world.spawnEntity(e);
       return true;
     }
