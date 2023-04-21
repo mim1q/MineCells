@@ -14,7 +14,7 @@ public abstract class RunBorderPlayerEntityMixin extends RunBorderEntityMixin {
 
   private Vec3d getCenter() {
     try {
-      if (!(isSpectator()) && MineCellsDimensions.isMineCellsDimension(this.getWorld())) {
+      if (age > 10 && !(isSpectator()) && MineCellsDimensions.isMineCellsDimension(this.getWorld())) {
         return Vec3d.ofCenter(MathUtils.getClosestMultiplePosition(this.getBlockPos(), 1024));
       }
     } catch (NullPointerException e) {

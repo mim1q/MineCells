@@ -16,8 +16,8 @@ public abstract class RunBorderEntityMixin {
   @Shadow public abstract BlockPos getBlockPos();
   @Shadow public abstract double getX();
   @Shadow public abstract double getZ();
-
   @Shadow public abstract void stopRiding();
+  @Shadow public int age;
 
   @ModifyVariable(method = "setPos", at = @At(value = "HEAD"), ordinal = 0, argsOnly = true)
   protected double minecells$modifySetPosX(double x) { return x; }
