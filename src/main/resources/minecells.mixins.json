@@ -11,6 +11,8 @@
     "entity.MobEntityAccessor",
     "entity.MobEntityMixin",
     "entity.player.PlayerEntityMixin",
+    "entity.player.RunBorderEntityMixin",
+    "entity.player.RunBorderPlayerEntityMixin",
     "entity.player.ServerPlayerEntityMixin",
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
