@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.mixin.world;
 
+import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
@@ -14,7 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WorldMixin implements WorldAccess, AutoCloseable {
   @Inject(method = "updateComparators", at = @At("HEAD"), cancellable = true)
   private void minecells$cancelUpdateComparators(BlockPos pos, Block block, CallbackInfo ci) {
-    if (!this.isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ()))) {
+    if (
+      MineCellsDimensions.isMineCellsDimension((World)(Object)this)
+        && (!this.isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ())))
+    ) {
       ci.cancel();
     }
   }
