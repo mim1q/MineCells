@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacementModifiers;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
+import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
 import com.github.mim1q.minecells.world.state.MineCellsVersionCheckState;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
@@ -40,6 +41,7 @@ public class MineCells implements ModInitializer {
     MineCellsBiomes.init();
     MineCellsStructures.init();
     MineCellsPlacerTypes.init();
+    MineCellsStructurePlacementTypes.init();
     MineCellsPlacementModifiers.init();
     MineCellsPointOfInterestTypes.init();
     MineCellsCommands.init();
