@@ -51,6 +51,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
       dz = MathHelper.sign(dz) * 511.5 - dz;
       var adx = Math.abs(dx);
       var adz = Math.abs(dz);
+      if (adx == 0.0F || adz == 0.0F) {
+        return;
+      }
       if (adx < 4) {
         spawnBorderParticle(getPos().add(dx, 0, 0), 2, true);
       }
