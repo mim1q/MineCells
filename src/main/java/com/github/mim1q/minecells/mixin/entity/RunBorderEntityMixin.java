@@ -39,6 +39,7 @@ public abstract class RunBorderEntityMixin implements Nameable, EntityLike, Comm
     }
   }
 
+  // IntelliJ believes this won't compile, but it does.
   @ModifyVariable(
     method = "adjustMovementForCollisions(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Lnet/minecraft/world/World;Ljava/util/List;)Lnet/minecraft/util/math/Vec3d;",
     at = @At("STORE")
