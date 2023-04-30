@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(WorldRenderer.class)
@@ -43,6 +44,16 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
       var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
       renderedBorder.setCenter(pos.getX() + 0.5D, pos.getZ() + 0.5D);
       return renderedBorder;
+    }
+    return original;
+  }
+
+  @ModifyArg(method = "renderWorldBorder", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V"), index = 3)
+  private float minecells$modifyRenderWorldBorderOpacity(float original) {
+    if (MineCellsDimensions.isMineCellsDimension(world)) {
+      var player = MinecraftClient.getInstance().player;
+      if (player == null) return original;
+      return Math.max(0.0F, (float)(16.0F - renderedBorder.getDistanceInsideBorder(player)) / 16.0F);
     }
     return original;
   }
