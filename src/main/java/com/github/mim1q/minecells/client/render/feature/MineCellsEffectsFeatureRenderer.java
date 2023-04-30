@@ -57,7 +57,8 @@ public class MineCellsEffectsFeatureRenderer<E extends LivingEntity, M extends E
 
   private void drawBillboard(E entity, VertexConsumer consumer, MatrixStack matrices, Vec3d offset) {
     matrices.push();
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180F - entity.getYaw(MinecraftClient.getInstance().getTickDelta())));
+    var yaw = MathUtils.lerp(entity.prevBodyYaw, entity.bodyYaw, MinecraftClient.getInstance().getTickDelta());
+    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180F - yaw));
     matrices.translate(0.0D, 1.0D - entity.getHeight(), 0.0D);
     matrices.scale(-1F, -1F, 1F);
     matrices.multiply(MinecraftClient.getInstance().getEntityRenderDispatcher().getRotation());
