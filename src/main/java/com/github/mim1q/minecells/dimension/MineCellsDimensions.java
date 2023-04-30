@@ -33,7 +33,7 @@ public class MineCellsDimensions {
   }
 
   public static boolean isMineCellsDimension(World world) {
-    return Set.of(
+    return world != null && Set.of(
       PRISON,
       INSUFFERABLE_CRYPT,
       PROMENADE

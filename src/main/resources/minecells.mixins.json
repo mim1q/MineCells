@@ -11,8 +11,7 @@
     "entity.MobEntityAccessor",
     "entity.MobEntityMixin",
     "entity.player.PlayerEntityMixin",
-    "entity.player.RunBorderEntityMixin",
-    "entity.player.RunBorderPlayerEntityMixin",
+    "entity.RunBorderEntityMixin",
     "entity.player.ServerPlayerEntityMixin",
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
@@ -26,8 +25,7 @@
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
-    "entity.LivingEntityClientMixin",
-    "entity.player.ClientPlayerEntityMixin"
+    "entity.LivingEntityClientMixin"
   ],
   "server": [],
   "injectors": {
