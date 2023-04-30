@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(Entity.class)
-public abstract class RunBorderEntityMixin implements Nameable, EntityLike, CommandOutput {
+public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike, CommandOutput {
   @Shadow public int age;
   @Shadow public abstract BlockPos getBlockPos();
   @Shadow public World world;
@@ -53,7 +53,7 @@ public abstract class RunBorderEntityMixin implements Nameable, EntityLike, Comm
     List<VoxelShape> collisions
   ) {
     if (entity != null && MineCellsDimensions.isMineCellsDimension(world)) {
-      return ((RunBorderEntityMixin)(Object)entity).minecellsBorder;
+      return ((MineCellsBorderEntityMixin)(Object)entity).minecellsBorder;
     }
     return original;
   }
