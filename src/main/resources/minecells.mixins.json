@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "com.github.mim1q.minecells.mixin",
   "plugin": "com.github.mim1q.minecells.MineCellsMixinPlugin",
