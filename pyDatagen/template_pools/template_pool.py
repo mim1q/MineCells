@@ -4,8 +4,8 @@ ELEMENT_TEMPLATE = """    {
       "weight": {{weight}},
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "{{name}}",
         "projection": "{{projection}}",
+        "location": "{{name}}",
         "processors": "{{processors}}"
       }
     },
