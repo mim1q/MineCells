@@ -93,7 +93,7 @@ loom {
 sourceSets {
   main {
     resources {
-      srcDirs("src/main/generated", "src/main/pyGenerated")
+      srcDirs("src/main/generated", "src/main/pyGenerated", "src/main/generated2")
     }
   }
 }

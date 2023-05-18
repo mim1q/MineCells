@@ -4,9 +4,7 @@ import util
 from autolang.autolang import get_entries_from_directory, autolang, write_autolang_file
 from presets import block_set_presets, common_presets, wood_presets
 from presets.preset_generator import PresetGenerator
-from template_pools.template_pool import TemplatePoolGenerator
 from template import Template, TemplateType
-from units import common, insufferable_crypt, prison, promenade
 
 
 def generate_data(output_path: str):
@@ -84,14 +82,6 @@ def generate_data(output_path: str):
     block_autolang = autolang(get_entries_from_directory(output_path + "\\assets\\minecells\\blockstates\\"),
                               "block.minecells.")
     write_autolang_file(output_path, block_autolang)
-
-    # TEMPLATE POOLS ===================================================================================================
-    poolgen = TemplatePoolGenerator(output_path + "\\data\\minecells\\worldgen\\template_pool")
-
-    common.generate_template_pools(poolgen)
-    prison.generate_template_pools(poolgen)
-    insufferable_crypt.generate_template_pools(poolgen)
-    promenade.generate_template_pools(poolgen)
 
 
 def main():
