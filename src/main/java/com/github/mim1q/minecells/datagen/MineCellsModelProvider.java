@@ -24,12 +24,6 @@ public class MineCellsModelProvider extends FabricModelProvider {
     // Stone
     generator.registerSimpleCubeAll(MineCellsBlocks.HARDSTONE);
 
-    // Wood
-    generator.registerAxisRotated(MineCellsBlocks.PUTRID_LOG, TexturedModel.CUBE_COLUMN);
-    generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_LOG, TexturedModel.CUBE_COLUMN);
-    generator.registerAxisRotated(MineCellsBlocks.PUTRID_WOOD, TexturedModel.CUBE_ALL);
-    generator.registerAxisRotated(MineCellsBlocks.STRIPPED_PUTRID_WOOD, TexturedModel.CUBE_ALL);
-
     // Decoration
     generator.registerSimpleCubeAll(MineCellsBlocks.CHAIN_PILE_BLOCK);
     generator.registerAxisRotated(MineCellsBlocks.CRATE, TexturedModel.CUBE_COLUMN);

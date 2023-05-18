@@ -16,7 +16,7 @@ def generate_data(output_path: str):
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_bricks", "prison_brick"))
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_stone"))
     gen.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
-    gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
+    # gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
     gen.generate_preset(block_set_presets.CommonBlockSet("putrid_board_block", "putrid_board"))
 
     # Misc Blocks

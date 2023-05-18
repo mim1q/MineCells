@@ -14,15 +14,6 @@ public class MineCellsItemTagProvider extends FabricTagProvider<Item> {
 
   @Override
   protected void generateTags() {
-    getOrCreateTagBuilder(ItemTags.LOGS)
-      .add(MineCellsBlocks.PUTRID_LOG.asItem())
-      .add(MineCellsBlocks.STRIPPED_PUTRID_LOG.asItem())
-      .add(MineCellsBlocks.PUTRID_WOOD.asItem())
-      .add(MineCellsBlocks.STRIPPED_PUTRID_WOOD.asItem());
-
-    getOrCreateTagBuilder(ItemTags.PLANKS)
-      .add(MineCellsBlocks.PUTRID_PLANKS.asItem());
-
     getOrCreateTagBuilder(ItemTags.STONE_CRAFTING_MATERIALS)
       .add(MineCellsBlocks.PRISON_STONE.asItem())
       .add(MineCellsBlocks.PRISON_COBBLESTONE.asItem());

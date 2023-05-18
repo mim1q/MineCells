@@ -28,11 +28,6 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
   @Override
   public void accept(BiConsumer<Identifier, LootTable.Builder> biConsumer) {
     generateSelfDroppingBlocks(biConsumer,
-      // Wood
-      MineCellsBlocks.PUTRID_LOG,
-      MineCellsBlocks.STRIPPED_PUTRID_LOG,
-      MineCellsBlocks.PUTRID_WOOD,
-      MineCellsBlocks.STRIPPED_PUTRID_WOOD,
       // Other
       MineCellsBlocks.BIG_CHAIN,
       MineCellsBlocks.ELEVATOR_ASSEMBLER,

@@ -5,9 +5,9 @@ import com.github.mim1q.minecells.block.*;
 import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
+import com.github.mim1q.minecells.registry.featureset.WoodSet;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
@@ -119,60 +119,10 @@ public class MineCellsBlocks {
     "wilted_grass_block"
   );
 
-  public static final Block PUTRID_LOG = registerBlockWithItem(
-    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
-    "putrid_log"
-  );
+  // Putrid wood
+  public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), defaultItemSettings(), FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
 
-  public static final Block STRIPPED_PUTRID_LOG = registerBlockWithItem(
-    new PillarBlock(FabricBlockSettings.copyOf(Blocks.STRIPPED_OAK_LOG)),
-    "stripped_putrid_log"
-  );
-
-  public static final Block PUTRID_WOOD = registerBlockWithItem(
-    new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)),
-    "putrid_wood"
-  );
-
-  public static final Block STRIPPED_PUTRID_WOOD = registerBlockWithItem(
-    new PillarBlock(FabricBlockSettings.copyOf(Blocks.STRIPPED_OAK_WOOD)),
-    "stripped_putrid_wood"
-  );
-
-  public static final Block PUTRID_PLANKS = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
-    "putrid_planks"
-  );
-
-  public static final Block PUTRID_STAIRS = registerBlockWithItem(
-    new StairsBlock(PUTRID_PLANKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.OAK_STAIRS)),
-    "putrid_stairs"
-  );
-
-  public static final Block PUTRID_SLAB = registerBlockWithItem(
-    new SlabBlock(FabricBlockSettings.copyOf(Blocks.OAK_SLAB)),
-    "putrid_slab"
-  );
-
-  public static final Block PUTRID_FENCE = registerBlockWithItem(
-    new FenceBlock(FabricBlockSettings.copyOf(Blocks.OAK_FENCE)),
-    "putrid_fence"
-  );
-
-  public static final Block PUTRID_FENCE_GATE = registerBlockWithItem(
-    new FenceGateBlock(FabricBlockSettings.copyOf(Blocks.OAK_FENCE_GATE)),
-    "putrid_fence_gate"
-  );
-
-  public static final Block PUTRID_DOOR = registerBlockWithItem(
-    new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR)),
-    "putrid_door"
-  );
-
-  public static final Block PUTRID_TRAPDOOR = registerBlockWithItem(
-    new TrapdoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_TRAPDOOR)),
-    "putrid_trapdoor"
-  );
+  // Putrid boards
 
   public static final Block PUTRID_BOARDS = registerBlockWithItem(
     new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()),
@@ -407,8 +357,6 @@ public class MineCellsBlocks {
   public static void init() {
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registry.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
-
-    StrippableBlockRegistry.register(PUTRID_LOG, STRIPPED_PUTRID_LOG);
   }
 
   public static Block registerBlock(Block block, String id) {
@@ -424,5 +372,9 @@ public class MineCellsBlocks {
       new BlockItem(block, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS))
     );
     return block;
+  }
+
+  private static FabricItemSettings defaultItemSettings() {
+    return new FabricItemSettings().group(MineCellsItemGroups.MINECELLS);
   }
 }

@@ -14,18 +14,6 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
 
   @Override
   protected void generateTags() {
-    getOrCreateTagBuilder(BlockTags.LOGS)
-      .add(
-        MineCellsBlocks.PUTRID_LOG,
-        MineCellsBlocks.STRIPPED_PUTRID_LOG,
-        MineCellsBlocks.PUTRID_WOOD,
-        MineCellsBlocks.STRIPPED_PUTRID_WOOD
-      );
-    getOrCreateTagBuilder(BlockTags.PLANKS)
-      .add(
-        MineCellsBlocks.PUTRID_PLANKS
-      );
-
     getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
       .add(
         // Prison Bricks
@@ -59,17 +47,6 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
     getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
       .add(
         // Putrid Wood
-        MineCellsBlocks.PUTRID_LOG,
-        MineCellsBlocks.PUTRID_WOOD,
-        MineCellsBlocks.STRIPPED_PUTRID_LOG,
-        MineCellsBlocks.STRIPPED_PUTRID_WOOD,
-        MineCellsBlocks.PUTRID_PLANKS,
-        MineCellsBlocks.PUTRID_STAIRS,
-        MineCellsBlocks.PUTRID_SLAB,
-        MineCellsBlocks.PUTRID_FENCE,
-        MineCellsBlocks.PUTRID_FENCE_GATE,
-        MineCellsBlocks.PUTRID_DOOR,
-        MineCellsBlocks.PUTRID_TRAPDOOR,
         MineCellsBlocks.PUTRID_BOARDS,
         MineCellsBlocks.PUTRID_BOARD_BLOCK,
         MineCellsBlocks.PUTRID_BOARD_STAIRS,
@@ -88,11 +65,6 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.PRISON_COBBLESTONE_WALL,
         MineCellsBlocks.PRISON_BRICK_WALL,
         MineCellsBlocks.SMALL_PRISON_BRICK_WALL
-      );
-
-    getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
-      .add(
-        MineCellsBlocks.PUTRID_FENCE
       );
   }
 }
