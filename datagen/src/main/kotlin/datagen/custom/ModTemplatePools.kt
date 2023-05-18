@@ -3,7 +3,7 @@ package datagen.custom
 import tada.lib.presets.Preset
 import tada.lib.presets.common.TemplatePoolPresets as Presets
 
-object CustomTemplatePoolPresets {
+object ModTemplatePools {
   fun common() = Preset {
     add(Presets.prefixed("minecells:common/corpse", "skeleton" to 1, "rotting_corpse" to 1, "corpse" to 1))
     add(Presets.prefixed("minecells:common/hanged_corpse", "skeleton" to 1, "rotting_corpse" to 1, "corpse" to 1))

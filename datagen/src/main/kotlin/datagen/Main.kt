@@ -1,6 +1,7 @@
 package datagen
 
-import datagen.custom.CustomTemplatePoolPresets
+import datagen.custom.ModItemModels
+import datagen.custom.ModTemplatePools
 import tada.lib.generator.ResourceGenerator
 import tada.lib.presets.blocksets.BlockSets
 import java.nio.file.Path
@@ -11,10 +12,14 @@ fun main(args: Array<String>) {
   ResourceGenerator.create("minecells", Path.of(args[0])).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
+    // Item Models
+    add(ModItemModels.generated())
+    add(ModItemModels.handheld())
+    add(ModItemModels.spawnEggs())
     // Template Pools
-    add(CustomTemplatePoolPresets.common())
-    add(CustomTemplatePoolPresets.prisonersQuarters())
-    add(CustomTemplatePoolPresets.promenadeOfTheCondemned())
-    add(CustomTemplatePoolPresets.insufferableCrypt())
+    add(ModTemplatePools.common())
+    add(ModTemplatePools.prisonersQuarters())
+    add(ModTemplatePools.promenadeOfTheCondemned())
+    add(ModTemplatePools.insufferableCrypt())
   }.generate()
 }

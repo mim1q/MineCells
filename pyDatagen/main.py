@@ -24,8 +24,8 @@ def generate_data(output_path: str):
         gen.generate_preset(common_presets.ItemBlockModel(name))
         gen.generate_preset(common_presets.SimpleDrop(name))
 
-    gen.generate_preset(common_presets.GeneratedItemModel("king_statue"))
-    gen.generate_preset(common_presets.GeneratedItemModel("barrier_rune"))
+    # gen.generate_preset(common_presets.GeneratedItemModel("king_statue"))
+    # gen.generate_preset(common_presets.GeneratedItemModel("barrier_rune"))
     gen.generate_template(Template(TemplateType.BLOCKSTATE, "single_state", "wilted_grass_block", {"block": "wilted_grass_block"}))
     simple_item_and_drop("wilted_grass_block")
     simple_item_and_drop("flag_pole")

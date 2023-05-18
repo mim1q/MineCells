@@ -18,12 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.registry.Registry;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public final class MineCellsEntities {
-
-  private static final Set<SpawnEggItem> spawnEggs = new HashSet<>();
 
   //region EntityTypes
 
@@ -338,11 +333,7 @@ public final class MineCellsEntities {
 
   //endregion
 
-  @SuppressWarnings("DataFlowIssue")
   public static void init() {
-
-    // Register Attributes
-
     FabricDefaultAttributeRegistry.register(LEAPING_ZOMBIE, LeapingZombieEntity.createLeapingZombieAttributes());
     FabricDefaultAttributeRegistry.register(SHOCKER, ShockerEntity.createShockerAttributes());
     FabricDefaultAttributeRegistry.register(GRENADIER, GrenadierEntity.createGrenadierAttributes());
@@ -378,11 +369,6 @@ public final class MineCellsEntities {
   }
 
   public static void registerSpawnEgg(String entityName, SpawnEggItem item) {
-    spawnEggs.add(item);
     Registry.register(Registry.ITEM, MineCells.createId(entityName + "_spawn_egg"), item);
-  }
-
-  public static Set<SpawnEggItem> getSpawnEggs() {
-    return spawnEggs;
   }
 }
