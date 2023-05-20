@@ -9,329 +9,59 @@ import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ConjunctiviusObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.item.Item;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.registry.Registry;
 
 public final class MineCellsEntities {
+  public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = registerEntity("leaping_zombie", SpawnGroup.MONSTER, LeapingZombieEntity::new, 0.75F, 1.9F);
+  public static final EntityType<ShockerEntity> SHOCKER = registerEntity("shocker", SpawnGroup.MONSTER, ShockerEntity::new, 0.9F, 3.0F);
+  public static final EntityType<GrenadierEntity> GRENADIER = registerEntity("grenadier", SpawnGroup.MONSTER, GrenadierEntity::new, 0.8F, 1.9F);
+  public static final EntityType<DisgustingWormEntity> DISGUSTING_WORM = registerEntity("disgusting_worm", SpawnGroup.MONSTER, DisgustingWormEntity::new, 0.9F, 0.6F);
+  public static final EntityType<InquisitorEntity> INQUISITOR = registerEntity("inquisitor", SpawnGroup.MONSTER, InquisitorEntity::new, 0.75F, 1.9F);
+  public static final EntityType<KamikazeEntity> KAMIKAZE = registerEntity("kamikaze", SpawnGroup.MONSTER, KamikazeEntity::new, 0.75F, 0.75F);
+  public static final EntityType<ProtectorEntity> PROTECTOR = registerEntity("protector", SpawnGroup.MONSTER, ProtectorEntity::new, 0.75F, 1.9F);
+  public static final EntityType<UndeadArcherEntity> UNDEAD_ARCHER = registerEntity("undead_archer", SpawnGroup.MONSTER, UndeadArcherEntity::new, 0.75F, 1.9F);
+  public static final EntityType<ShieldbearerEntity> SHIELDBEARER = registerEntity("shieldbearer", SpawnGroup.MONSTER, ShieldbearerEntity::new, 0.75F, 1.9F);
+  public static final EntityType<MutatedBatEntity> MUTATED_BAT = registerEntity("mutated_bat", SpawnGroup.MONSTER, MutatedBatEntity::new, 0.5F, 0.5F);
+  public static final EntityType<SewersTentacleEntity> SEWERS_TENTACLE = registerEntity("sewers_tentacle", SpawnGroup.MONSTER, SewersTentacleEntity::new, EntityDimensions.changing(0.75F, 2.25F));
+  public static final EntityType<RancidRatEntity> RANCID_RAT = registerEntity("rancid_rat", SpawnGroup.MONSTER, RancidRatEntity::new, 0.5F, 0.75F);
+  public static final EntityType<RunnerEntity> RUNNER = registerEntity("runner", SpawnGroup.MONSTER, RunnerEntity::new,0.8F, 2.1F);
+  public static final EntityType<ScorpionEntity> SCORPION = registerEntity("scorpion", SpawnGroup.MONSTER, ScorpionEntity::new, 0.8F, 1.5F);
+  public static final EntityType<ConjunctiviusEntity> CONJUNCTIVIUS = registerEntity("conjunctivius", SpawnGroup.MONSTER, ConjunctiviusEntity::new, 5.0F, 5.0F);
+  public static final EntityType<GrenadeEntity> GRENADE = registerEntity("grenade", SpawnGroup.MISC, GrenadeEntity::new, 0.5F, 0.5F);
+  public static final EntityType<BigGrenadeEntity> BIG_GRENADE = registerEntity("big_grenade", SpawnGroup.MISC, BigGrenadeEntity::new, 0.75F, 0.75F);
+  public static final EntityType<DisgustingWormEggEntity> DISGUSTING_WORM_EGG = registerEntity("disgusting_worm_egg", SpawnGroup.MISC, DisgustingWormEggEntity::new, 0.375F, 0.375F);
+  public static final EntityType<MagicOrbEntity> MAGIC_ORB = registerEntity("magic_orb", SpawnGroup.MISC, MagicOrbEntity::new, 0.75F, 0.75F);
+  public static final EntityType<ScorpionSpitEntity> SCORPION_SPIT = registerEntity("scorpion_spit", SpawnGroup.MISC, ScorpionSpitEntity::new, 0.5F, 0.5F);
+  public static final EntityType<ConjunctiviusProjectileEntity> CONJUNCTIVIUS_PROJECTILE = registerEntity("conjunctivius_projectile", SpawnGroup.MISC, ConjunctiviusProjectileEntity::new, 0.5F, 0.5F);
+  public static final EntityType<ElevatorEntity> ELEVATOR = registerEntity("elevator", SpawnGroup.MISC, ElevatorEntity::new, 2.0F, 0.5F);
+  public static final EntityType<CellEntity> CELL = registerEntity("cell", SpawnGroup.MISC, CellEntity::new, 0.5F, 0.5F);
+  public static final EntityType<TentacleWeaponEntity> TENTACLE_WEAPON = registerEntity("tentacle_weapon", SpawnGroup.MISC, TentacleWeaponEntity::new, 0.1F, 0.1F);
+  public static final EntityType<ConjunctiviusObeliskEntity> CONJUNCTIVIUS_OBELISK = registerEntity("conjunctivius_obelisk", SpawnGroup.MISC, ConjunctiviusObeliskEntity::new, EntityDimensions.changing(1.75F, 2.5F)  );
+  public static final EntityType<SpawnerRuneEntity> SPAWNER_RUNE = registerEntity("spawner_rune", SpawnGroup.MISC, SpawnerRuneEntity::new, EntityDimensions.changing(0.5F, 0.5F)  );
 
-  //region EntityTypes
-
-  public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("leaping_zombie"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, LeapingZombieEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
-      .build()
-  );
-
-  public static final EntityType<ShockerEntity> SHOCKER = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("shocker"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShockerEntity::new)
-      .dimensions(EntityDimensions.fixed(0.9F, 3.0F))
-      .build()
-  );
-
-  public static final EntityType<GrenadierEntity> GRENADIER = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("grenadier"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GrenadierEntity::new)
-      .dimensions(EntityDimensions.fixed(0.8F, 1.9F))
-      .build()
-  );
-
-  public static final EntityType<DisgustingWormEntity> DISGUSTING_WORM = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("disgusting_worm"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, DisgustingWormEntity::new)
-      .dimensions(EntityDimensions.fixed(0.9F, 0.6F))
-      .build()
-  );
-
-  public static final EntityType<InquisitorEntity> INQUISITOR = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("inquisitor"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, InquisitorEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
-      .build()
-  );
-
-  public static final EntityType<KamikazeEntity> KAMIKAZE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("kamikaze"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, KamikazeEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
-      .build()
-  );
-
-  public static final EntityType<ProtectorEntity> PROTECTOR = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("protector"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ProtectorEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
-      .build()
-  );
-
-  public static final EntityType<UndeadArcherEntity> UNDEAD_ARCHER = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("undead_archer"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, UndeadArcherEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
-      .build()
-  );
-
-  public static final EntityType<ShieldbearerEntity> SHIELDBEARER = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("shieldbearer"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ShieldbearerEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 1.9F))
-      .build()
-  );
-
-  public static final EntityType<MutatedBatEntity> MUTATED_BAT = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("mutated_bat"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, MutatedBatEntity::new)
-      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-      .build()
-  );
-
-  public static final EntityType<SewersTentacleEntity> SEWERS_TENTACLE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("sewers_tentacle"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SewersTentacleEntity::new)
-      .dimensions(EntityDimensions.changing(0.75F, 2.25F))
-      .build()
-  );
-
-  public static final EntityType<RancidRatEntity> RANCID_RAT = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("rancid_rat"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, RancidRatEntity::new)
-      .dimensions(EntityDimensions.fixed(0.5F, 0.75F))
-      .build()
-  );
-
-  public static final EntityType<RunnerEntity> RUNNER = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("runner"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, RunnerEntity::new)
-      .dimensions(EntityDimensions.fixed(0.8F, 2.1F))
-      .build()
-  );
-
-  public static final EntityType<ScorpionEntity> SCORPION = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("scorpion"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ScorpionEntity::new)
-      .dimensions(EntityDimensions.fixed(0.8F, 1.5F))
-      .build()
-  );
-
-  public static final EntityType<ConjunctiviusEntity> CONJUNCTIVIUS = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("conjunctivius"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ConjunctiviusEntity::new)
-      .dimensions(EntityDimensions.fixed(5.0F, 5.0F))
-      .build()
-  );
-
-  public static final EntityType<GrenadeEntity> GRENADE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("grenade"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, GrenadeEntity::new)
-      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-      .build()
-  );
-
-  public static final EntityType<BigGrenadeEntity> BIG_GRENADE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("big_grenade"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, BigGrenadeEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
-      .build()
-  );
-
-  public static final EntityType<DisgustingWormEggEntity> DISGUSTING_WORM_EGG = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("disgusting_worm_egg"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, DisgustingWormEggEntity::new)
-      .dimensions(EntityDimensions.fixed(0.375F, 0.375F))
-      .build()
-  );
-
-  public static final EntityType<MagicOrbEntity> MAGIC_ORB = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("magic_orb"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicOrbEntity::new)
-      .dimensions(EntityDimensions.fixed(0.75F, 0.75F))
-      .build()
-  );
-
-  public static final EntityType<ScorpionSpitEntity> SCORPION_SPIT = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("scorpion_spit"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, ScorpionSpitEntity::new)
-      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-      .build()
-  );
-
-  public static final EntityType<ConjunctiviusProjectileEntity> CONJUNCTIVIUS_PROJECTILE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("conjunctivius_projectile"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConjunctiviusProjectileEntity:: new)
-      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-      .build()
-  );
-
-  public static final EntityType<ElevatorEntity> ELEVATOR = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("elevator"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, ElevatorEntity::new)
-      .dimensions(EntityDimensions.fixed(2.0F, 0.5F))
-      .build()
-  );
-
-  public static final EntityType<CellEntity> CELL = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("cell"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, CellEntity::new)
-      .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-      .build()
-  );
-
-  public static final EntityType<TentacleWeaponEntity> TENTACLE_WEAPON = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("tentacle_weapon"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, TentacleWeaponEntity::new)
-      .dimensions(EntityDimensions.fixed(0.1F, 0.1F))
-      .build()
-  );
-
-  public static final EntityType<ConjunctiviusObeliskEntity> CONJUNCTIVIUS_OBELISK = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("conjunctivius_obelisk"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConjunctiviusObeliskEntity::new)
-      .dimensions(EntityDimensions.changing(1.75F, 2.5F))
-      .build()
-  );
-
-  public static final EntityType<SpawnerRuneEntity> SPAWNER_RUNE = Registry.register(
-    Registry.ENTITY_TYPE,
-    MineCells.createId("spawner_rune"),
-    FabricEntityTypeBuilder.create(SpawnGroup.MISC, SpawnerRuneEntity::new)
-      .dimensions(EntityDimensions.changing(0.5F, 0.5F))
-      .build()
-  );
-
-  //endregion
-  //region Spawn Egg Items
-
-  public static final SpawnEggItem LEAPING_ZOMBIE_SPAWN_EGG = new SpawnEggItem(
-    LEAPING_ZOMBIE,
-    0x5B7B53,
-    0x8DBB4E,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem SHOCKER_SPAWN_EGG = new SpawnEggItem(
-    SHOCKER,
-    0x2B5369,
-    0x5FBED1,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem GRENADIER_SPAWN_EGG = new SpawnEggItem(
-    GRENADIER,
-    0x8B3D56,
-    0xDB7CDB,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem DISGUSTING_WORM_SPAWN_EGG = new SpawnEggItem(
-    DISGUSTING_WORM,
-    0x67DFCF,
-    0xFF44C6,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem INQUISITOR_SPAWN_EGG = new SpawnEggItem(
-    INQUISITOR,
-    0xFFFFFF,
-    0xE52806,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem KAMIKAZE_SPAWN_EGG = new SpawnEggItem(
-    KAMIKAZE,
-    0x0A6F47,
-    0x15FF4E,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem PROTECTOR_SPAWN_EGG = new SpawnEggItem(
-    PROTECTOR,
-    0xC0861D,
-    0x5FBED1,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem UNDEAD_ARCHER_SPAWN_EGG = new SpawnEggItem(
-    UNDEAD_ARCHER,
-    0x4C854A,
-    0x755240,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem SHIELDBEARER_SPAWN_EGG = new SpawnEggItem(
-    SHIELDBEARER,
-    0x8459AA,
-    0xA2A9B6,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem MUTATED_BAT_SPAWN_EGG = new SpawnEggItem(
-    MUTATED_BAT,
-    0xD279D2,
-    0xD33D3D,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem SEWERS_TENTACLE_SPAWN_EGG = new SpawnEggItem(
-    SEWERS_TENTACLE,
-    0x3983B9,
-    0xFFF0C6,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem RANCID_RAT_SPAWN_EGG = new SpawnEggItem(
-    RANCID_RAT,
-    0x68607C,
-    0xF17E5D,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem RUNNER_SPAWN_EGG = new SpawnEggItem(
-    RUNNER,
-    0xE43E2C,
-    0xF9F9F9,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  public static final SpawnEggItem SCORPION_SPAWN_EGG = new SpawnEggItem(
-    SCORPION,
-    0x6DBCD5,
-    0x4B3A5B,
-    new Item.Settings().group(MineCellsItemGroups.MINECELLS)
-  );
-
-  //endregion
+  public static final SpawnEggItem LEAPING_ZOMBIE_SPAWN_EGG = registerSpawnEgg(LEAPING_ZOMBIE, 0x5B7B53, 0x8DBB4E);
+  public static final SpawnEggItem SHOCKER_SPAWN_EGG = registerSpawnEgg(SHOCKER, 0x2B5369, 0x5FBED1);
+  public static final SpawnEggItem GRENADIER_SPAWN_EGG = registerSpawnEgg(GRENADIER, 0x8B3D56, 0xDB7CDB);
+  public static final SpawnEggItem DISGUSTING_WORM_SPAWN_EGG = registerSpawnEgg(DISGUSTING_WORM, 0x67DFCF, 0xFF44C6);
+  public static final SpawnEggItem INQUISITOR_SPAWN_EGG = registerSpawnEgg(INQUISITOR, 0xFFFFFF, 0xE52806);
+  public static final SpawnEggItem KAMIKAZE_SPAWN_EGG = registerSpawnEgg(KAMIKAZE, 0x0A6F47, 0x15FF4E);
+  public static final SpawnEggItem PROTECTOR_SPAWN_EGG = registerSpawnEgg(PROTECTOR, 0xC0861D, 0x5FBED1);
+  public static final SpawnEggItem UNDEAD_ARCHER_SPAWN_EGG = registerSpawnEgg(UNDEAD_ARCHER, 0x4C854A, 0x755240);
+  public static final SpawnEggItem SHIELDBEARER_SPAWN_EGG = registerSpawnEgg(SHIELDBEARER, 0x8459AA, 0xA2A9B6);
+  public static final SpawnEggItem MUTATED_BAT_SPAWN_EGG = registerSpawnEgg(MUTATED_BAT, 0xD279D2, 0xD33D3D);
+  public static final SpawnEggItem SEWERS_TENTACLE_SPAWN_EGG = registerSpawnEgg(SEWERS_TENTACLE, 0x3983B9, 0xFFF0C6);
+  public static final SpawnEggItem RANCID_RAT_SPAWN_EGG = registerSpawnEgg(RANCID_RAT, 0x68607C, 0xF17E5D);
+  public static final SpawnEggItem RUNNER_SPAWN_EGG = registerSpawnEgg(RUNNER, 0xE43E2C, 0xF9F9F9);
+  public static final SpawnEggItem SCORPION_SPAWN_EGG = registerSpawnEgg(SCORPION, 0x6DBCD5, 0x4B3A5B);
 
   public static void init() {
     FabricDefaultAttributeRegistry.register(LEAPING_ZOMBIE, LeapingZombieEntity.createLeapingZombieAttributes());
@@ -349,26 +79,25 @@ public final class MineCellsEntities {
     FabricDefaultAttributeRegistry.register(RUNNER, RunnerEntity.createRunnerAttributes());
     FabricDefaultAttributeRegistry.register(SCORPION, ScorpionEntity.createScorpionAttributes());
     FabricDefaultAttributeRegistry.register(CONJUNCTIVIUS, ConjunctiviusEntity.createConjunctiviusAttributes());
-
-    // Register Spawn Eggs
-
-    registerSpawnEgg("leaping_zombie", LEAPING_ZOMBIE_SPAWN_EGG);
-    registerSpawnEgg("shocker", SHOCKER_SPAWN_EGG);
-    registerSpawnEgg("grenadier", GRENADIER_SPAWN_EGG);
-    registerSpawnEgg("disgusting_worm", DISGUSTING_WORM_SPAWN_EGG);
-    registerSpawnEgg("inquisitor", INQUISITOR_SPAWN_EGG);
-    registerSpawnEgg("kamikaze", KAMIKAZE_SPAWN_EGG);
-    registerSpawnEgg("protector", PROTECTOR_SPAWN_EGG);
-    registerSpawnEgg("undead_archer", UNDEAD_ARCHER_SPAWN_EGG);
-    registerSpawnEgg("shieldbearer", SHIELDBEARER_SPAWN_EGG);
-    registerSpawnEgg("mutated_bat", MUTATED_BAT_SPAWN_EGG);
-    registerSpawnEgg("sewers_tentacle", SEWERS_TENTACLE_SPAWN_EGG);
-    registerSpawnEgg("rancid_rat", RANCID_RAT_SPAWN_EGG);
-    registerSpawnEgg("runner", RUNNER_SPAWN_EGG);
-    registerSpawnEgg("scorpion", SCORPION_SPAWN_EGG);
   }
 
-  public static void registerSpawnEgg(String entityName, SpawnEggItem item) {
-    Registry.register(Registry.ITEM, MineCells.createId(entityName + "_spawn_egg"), item);
+  private static SpawnEggItem registerSpawnEgg(EntityType<? extends MobEntity> type, int primaryColor, int secondaryColor) {
+    return Registry.register(
+      Registry.ITEM,
+      MineCells.createId(EntityType.getId(type).getPath() + "_spawn_egg"),
+      new SpawnEggItem(type, primaryColor, secondaryColor, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS))
+    );
+  }
+
+  private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup spawnGroup, EntityType.EntityFactory<T> factory, EntityDimensions dimensions) {
+    return Registry.register(
+      Registry.ENTITY_TYPE,
+      MineCells.createId(name),
+      FabricEntityTypeBuilder.create(spawnGroup, factory).dimensions(dimensions).build()
+    );
+  }
+
+  private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup spawnGroup, EntityType.EntityFactory<T> factory, float width, float height) {
+    return registerEntity(name, spawnGroup, factory, EntityDimensions.fixed(width, height));
   }
 }
