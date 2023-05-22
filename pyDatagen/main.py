@@ -12,10 +12,10 @@ def generate_data(output_path: str):
     gen = PresetGenerator("minecells", output_path)
 
     # Block Sets
-    gen.generate_preset(block_set_presets.StoneBlockSet("small_prison_bricks", "small_prison_brick"))
-    gen.generate_preset(block_set_presets.StoneBlockSet("prison_bricks", "prison_brick"))
-    gen.generate_preset(block_set_presets.StoneBlockSet("prison_stone"))
-    gen.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
+    # gen.generate_preset(block_set_presets.StoneBlockSet("small_prison_bricks", "small_prison_brick"))
+    # gen.generate_preset(block_set_presets.StoneBlockSet("prison_bricks", "prison_brick"))
+    # gen.generate_preset(block_set_presets.StoneBlockSet("prison_stone"))
+    # gen.generate_preset(block_set_presets.StoneBlockSet("prison_cobblestone"))
     # gen.generate_preset(block_set_presets.WoodBlockSet("putrid_planks", "putrid"))
     gen.generate_preset(block_set_presets.CommonBlockSet("putrid_board_block", "putrid_board"))
 
@@ -59,23 +59,23 @@ def generate_data(output_path: str):
 
     # Custom Drops
     util.generate_self_dropping_blocks(gen, ["prison_torch", "promenade_torch", "putrid_boards", "crate", "small_crate", "brittle_barrel"])
-    gen.generate_template(Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_simple_drop", "prison_stone",
-                                   {"item": "prison_cobblestone", "silk_touch_item": "prison_stone"}))
+    # gen.generate_template(Template(TemplateType.BLOCK_LOOT_TABLE, "silk_touch_simple_drop", "prison_stone",
+    #                                {"item": "prison_cobblestone", "silk_touch_item": "prison_stone"}))
 
     # Custom Recipes
-    gen.generate_template(Template(TemplateType.RECIPE, "smelting", "prison_cobblestone",
-                                   {"input": "prison_cobblestone", "output": "prison_stone"}))
-    gen.generate_template(Template(TemplateType.RECIPE, "packed_2x2", "prison_bricks",
-                                   {"input": "prison_stone", "output": "prison_bricks", "count": 4}))
-    gen.generate_template(Template(TemplateType.RECIPE, "packed_2x2", "small_prison_bricks",
-                                   {"input": "prison_bricks", "output": "small_prison_bricks", "count": 4}))
-    gen.generate_template(Template(TemplateType.RECIPE, "stonecutting", "prison_bricks_stonecutting",
-                                   {"input": "prison_stone", "output": "prison_bricks", "count": 1}))
-    gen.generate_template(Template(TemplateType.RECIPE, "stonecutting", "small_prison_bricks_stonecutting",
-                                   {"input": "prison_bricks", "output": "small_prison_bricks", "count": 1}))
-    gen.generate_template(
-        Template(TemplateType.RECIPE, "stonecutting", "small_prison_bricks_stonecutting_from_prison_stone",
-                 {"input": "prison_stone", "output": "small_prison_bricks", "count": 1}))
+    # gen.generate_template(Template(TemplateType.RECIPE, "smelting", "prison_cobblestone",
+    #                                {"input": "prison_cobblestone", "output": "prison_stone"}))
+    # gen.generate_template(Template(TemplateType.RECIPE, "packed_2x2", "prison_bricks",
+    #                                {"input": "prison_stone", "output": "prison_bricks", "count": 4}))
+    # gen.generate_template(Template(TemplateType.RECIPE, "packed_2x2", "small_prison_bricks",
+    #                                {"input": "prison_bricks", "output": "small_prison_bricks", "count": 4}))
+    # gen.generate_template(Template(TemplateType.RECIPE, "stonecutting", "prison_bricks_stonecutting",
+    #                                {"input": "prison_stone", "output": "prison_bricks", "count": 1}))
+    # gen.generate_template(Template(TemplateType.RECIPE, "stonecutting", "small_prison_bricks_stonecutting",
+    #                                {"input": "prison_bricks", "output": "small_prison_bricks", "count": 1}))
+    # gen.generate_template(
+    #     Template(TemplateType.RECIPE, "stonecutting", "small_prison_bricks_stonecutting_from_prison_stone",
+    #              {"input": "prison_stone", "output": "small_prison_bricks", "count": 1}))
 
     # AUTOLANG =========================================================================================================
 

@@ -14,35 +14,14 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
 
   @Override
   protected void generateTags() {
-    getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-      .add(
-        // Prison Bricks
-        MineCellsBlocks.PRISON_BRICKS,
-        MineCellsBlocks.PRISON_BRICK_SLAB,
-        MineCellsBlocks.PRISON_BRICK_STAIRS,
-        MineCellsBlocks.PRISON_BRICK_WALL,
-        // Prison Stone
-        MineCellsBlocks.PRISON_STONE,
-        MineCellsBlocks.PRISON_STONE_SLAB,
-        MineCellsBlocks.PRISON_STONE_STAIRS,
-        MineCellsBlocks.PRISON_STONE_WALL,
-        // Prison Cobblestone
-        MineCellsBlocks.PRISON_COBBLESTONE,
-        MineCellsBlocks.PRISON_COBBLESTONE_SLAB,
-        MineCellsBlocks.PRISON_COBBLESTONE_STAIRS,
-        MineCellsBlocks.PRISON_COBBLESTONE_WALL,
-        // Small Prison Bricks
-        MineCellsBlocks.SMALL_PRISON_BRICKS,
-        MineCellsBlocks.SMALL_PRISON_BRICK_SLAB,
-        MineCellsBlocks.SMALL_PRISON_BRICK_STAIRS,
-        MineCellsBlocks.SMALL_PRISON_BRICK_WALL,
-        // Other
-        MineCellsBlocks.BIG_CHAIN,
-        MineCellsBlocks.CHAIN_PILE,
-        MineCellsBlocks.CHAIN_PILE_BLOCK,
-        MineCellsBlocks.CAGE,
-        MineCellsBlocks.BROKEN_CAGE
-      );
+//    getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+//      .add(
+//        MineCellsBlocks.BIG_CHAIN,
+//        MineCellsBlocks.CHAIN_PILE,
+//        MineCellsBlocks.CHAIN_PILE_BLOCK,
+//        MineCellsBlocks.CAGE,
+//        MineCellsBlocks.BROKEN_CAGE
+//      );
 
     getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
       .add(
@@ -57,14 +36,6 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
         MineCellsBlocks.SMALL_CRATE,
         MineCellsBlocks.BRITTLE_BARREL,
         MineCellsBlocks.BIOME_BANNER
-      );
-
-    getOrCreateTagBuilder(BlockTags.WALLS)
-      .add(
-        MineCellsBlocks.PRISON_STONE_WALL,
-        MineCellsBlocks.PRISON_COBBLESTONE_WALL,
-        MineCellsBlocks.PRISON_BRICK_WALL,
-        MineCellsBlocks.SMALL_PRISON_BRICK_WALL
       );
   }
 }

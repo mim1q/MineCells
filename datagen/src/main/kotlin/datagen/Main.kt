@@ -1,5 +1,6 @@
 package datagen
 
+import datagen.custom.CustomBlockSets
 import datagen.custom.ModItemModels
 import datagen.custom.ModTemplatePools
 import tada.lib.generator.ResourceGenerator
@@ -12,6 +13,8 @@ fun main(args: Array<String>) {
   ResourceGenerator.create("minecells", Path.of(args[0])).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
+    // Stone
+    add(CustomBlockSets.stoneFamily("minecells:prison"))
     // Item Models
     add(ModItemModels.generated())
     add(ModItemModels.handheld())
@@ -23,3 +26,8 @@ fun main(args: Array<String>) {
     add(ModTemplatePools.insufferableCrypt())
   }.generate()
 }
+
+
+
+
+

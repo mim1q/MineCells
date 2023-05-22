@@ -21,26 +21,12 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS = FabricItemGroupBuilder.create(MineCells.createId("minecells"))
     .icon(() -> Stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE))
     .appendItems(stacks -> {
-      stacks.addAll(List.of(
-        Stack(MineCellsBlocks.PRISON_STONE),
-        Stack(MineCellsBlocks.PRISON_STONE_SLAB),
-        Stack(MineCellsBlocks.PRISON_STONE_STAIRS),
-        Stack(MineCellsBlocks.PRISON_STONE_WALL),
-        Stack(MineCellsBlocks.PRISON_COBBLESTONE),
-        Stack(MineCellsBlocks.PRISON_COBBLESTONE_SLAB),
-        Stack(MineCellsBlocks.PRISON_COBBLESTONE_STAIRS),
-        Stack(MineCellsBlocks.PRISON_COBBLESTONE_WALL),
-        Stack(MineCellsBlocks.PRISON_BRICKS),
-        Stack(MineCellsBlocks.PRISON_BRICK_SLAB),
-        Stack(MineCellsBlocks.PRISON_BRICK_STAIRS),
-        Stack(MineCellsBlocks.PRISON_BRICK_WALL),
-        Stack(MineCellsBlocks.SMALL_PRISON_BRICKS),
-        Stack(MineCellsBlocks.SMALL_PRISON_BRICK_SLAB),
-        Stack(MineCellsBlocks.SMALL_PRISON_BRICK_STAIRS),
-        Stack(MineCellsBlocks.SMALL_PRISON_BRICK_WALL),
-        Stack(MineCellsBlocks.WILTED_GRASS_BLOCK)
-      ));
-      stacks.addAll(MineCellsBlocks.PUTRID_WOOD.stacks);
+      stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
+      stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());
+      stacks.addAll(MineCellsBlocks.PRISON_BRICKS.getStacks());
+      stacks.addAll(MineCellsBlocks.SMALL_PRISON_BRICKS.getStacks());
+      stacks.add(Stack(MineCellsBlocks.WILTED_GRASS_BLOCK));
+      stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());
       stacks.addAll(List.of(
         Stack(MineCellsBlocks.PUTRID_BOARD_BLOCK),
         Stack(MineCellsBlocks.PUTRID_BOARD_STAIRS),

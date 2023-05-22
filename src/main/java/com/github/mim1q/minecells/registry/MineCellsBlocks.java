@@ -5,6 +5,8 @@ import com.github.mim1q.minecells.block.*;
 import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
+import com.github.mim1q.minecells.registry.featureset.FullStoneSet;
+import com.github.mim1q.minecells.registry.featureset.StoneSet;
 import com.github.mim1q.minecells.registry.featureset.WoodSet;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -34,93 +36,97 @@ public class MineCellsBlocks {
     "hardstone"
   );
 
-  public static final Block PRISON_STONE = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
-    "prison_stone"
-  );
-
-  public static final Block PRISON_STONE_SLAB = registerBlockWithItem(
-    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_SLAB)),
-    "prison_stone_slab"
-  );
-
-  public static final Block PRISON_STONE_STAIRS = registerBlockWithItem(
-    new StairsBlock(PRISON_STONE.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_STAIRS)),
-    "prison_stone_stairs"
-  );
-
-  public static final Block PRISON_STONE_WALL = registerBlockWithItem(
-    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
-    "prison_stone_wall"
-  );
-
-  public static final Block PRISON_COBBLESTONE = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.COBBLESTONE)),
-    "prison_cobblestone"
-  );
-
-  public static final Block PRISON_COBBLESTONE_SLAB = registerBlockWithItem(
-    new SlabBlock(FabricBlockSettings.copyOf(Blocks.COBBLESTONE_SLAB)),
-    "prison_cobblestone_slab"
-  );
-
-  public static final Block PRISON_COBBLESTONE_STAIRS = registerBlockWithItem(
-    new StairsBlock(PRISON_COBBLESTONE.getDefaultState(), FabricBlockSettings.copyOf(Blocks.COBBLESTONE_STAIRS)),
-    "prison_cobblestone_stairs"
-  );
-
-  public static final Block PRISON_COBBLESTONE_WALL = registerBlockWithItem(
-    new WallBlock(FabricBlockSettings.copyOf(Blocks.COBBLESTONE_WALL)),
-    "prison_cobblestone_wall"
-  );
-
-  public static final Block PRISON_BRICKS = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.STONE_BRICKS)),
-    "prison_bricks"
-  );
-
-  public static final Block PRISON_BRICK_SLAB = registerBlockWithItem(
-    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
-    "prison_brick_slab"
-  );
-
-  public static final Block PRISON_BRICK_STAIRS = registerBlockWithItem(
-    new StairsBlock(PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
-    "prison_brick_stairs"
-  );
-
-  public static final Block PRISON_BRICK_WALL = registerBlockWithItem(
-    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
-    "prison_brick_wall"
-  );
-
-  public static final Block SMALL_PRISON_BRICKS = registerBlockWithItem(
-    new Block(FabricBlockSettings.copyOf(Blocks.STONE_BRICKS)),
-    "small_prison_bricks"
-  );
-
-  public static final Block SMALL_PRISON_BRICK_SLAB = registerBlockWithItem(
-    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
-    "small_prison_brick_slab"
-  );
-
-  public static final Block SMALL_PRISON_BRICK_STAIRS = registerBlockWithItem(
-    new StairsBlock(SMALL_PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
-    "small_prison_brick_stairs"
-  );
-
-  public static final Block SMALL_PRISON_BRICK_WALL = registerBlockWithItem(
-    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
-    "small_prison_brick_wall"
-  );
+//  public static final Block PRISON_STONE = registerBlockWithItem(
+//    new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
+//    "prison_stone"
+//  );
+//
+//  public static final Block PRISON_STONE_SLAB = registerBlockWithItem(
+//    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_SLAB)),
+//    "prison_stone_slab"
+//  );
+//
+//  public static final Block PRISON_STONE_STAIRS = registerBlockWithItem(
+//    new StairsBlock(PRISON_STONE.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_STAIRS)),
+//    "prison_stone_stairs"
+//  );
+//
+//  public static final Block PRISON_STONE_WALL = registerBlockWithItem(
+//    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
+//    "prison_stone_wall"
+//  );
+//
+//  public static final Block PRISON_COBBLESTONE = registerBlockWithItem(
+//    new Block(FabricBlockSettings.copyOf(Blocks.COBBLESTONE)),
+//    "prison_cobblestone"
+//  );
+//
+//  public static final Block PRISON_COBBLESTONE_SLAB = registerBlockWithItem(
+//    new SlabBlock(FabricBlockSettings.copyOf(Blocks.COBBLESTONE_SLAB)),
+//    "prison_cobblestone_slab"
+//  );
+//
+//  public static final Block PRISON_COBBLESTONE_STAIRS = registerBlockWithItem(
+//    new StairsBlock(PRISON_COBBLESTONE.getDefaultState(), FabricBlockSettings.copyOf(Blocks.COBBLESTONE_STAIRS)),
+//    "prison_cobblestone_stairs"
+//  );
+//
+//  public static final Block PRISON_COBBLESTONE_WALL = registerBlockWithItem(
+//    new WallBlock(FabricBlockSettings.copyOf(Blocks.COBBLESTONE_WALL)),
+//    "prison_cobblestone_wall"
+//  );
+//
+//  public static final Block PRISON_BRICKS = registerBlockWithItem(
+//    new Block(FabricBlockSettings.copyOf(Blocks.STONE_BRICKS)),
+//    "prison_bricks"
+//  );
+//
+//  public static final Block PRISON_BRICK_SLAB = registerBlockWithItem(
+//    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
+//    "prison_brick_slab"
+//  );
+//
+//  public static final Block PRISON_BRICK_STAIRS = registerBlockWithItem(
+//    new StairsBlock(PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
+//    "prison_brick_stairs"
+//  );
+//
+//  public static final Block PRISON_BRICK_WALL = registerBlockWithItem(
+//    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
+//    "prison_brick_wall"
+//  );
+//
+//  public static final Block SMALL_PRISON_BRICKS = registerBlockWithItem(
+//    new Block(FabricBlockSettings.copyOf(Blocks.STONE_BRICKS)),
+//    "small_prison_bricks"
+//  );
+//
+//  public static final Block SMALL_PRISON_BRICK_SLAB = registerBlockWithItem(
+//    new SlabBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_SLAB)),
+//    "small_prison_brick_slab"
+//  );
+//
+//  public static final Block SMALL_PRISON_BRICK_STAIRS = registerBlockWithItem(
+//    new StairsBlock(SMALL_PRISON_BRICKS.getDefaultState(), FabricBlockSettings.copyOf(Blocks.STONE_BRICK_STAIRS)),
+//    "small_prison_brick_stairs"
+//  );
+//
+//  public static final Block SMALL_PRISON_BRICK_WALL = registerBlockWithItem(
+//    new WallBlock(FabricBlockSettings.copyOf(Blocks.STONE_BRICK_WALL)),
+//    "small_prison_brick_wall"
+//  );
 
   public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(
     new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK)),
     "wilted_grass_block"
   );
 
-  // Putrid wood
-  public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), defaultItemSettings(), FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+  // Block sets
+  public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+  public static final FullStoneSet PRISON_STONE = new FullStoneSet(MineCells.createId("prison_stone"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet PRISON_COBBLESTONE = new StoneSet(MineCells.createId("prison_cobblestone"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.COBBLESTONE));
+  public static final StoneSet PRISON_BRICKS = new StoneSet(MineCells.createId("prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet SMALL_PRISON_BRICKS = new StoneSet(MineCells.createId("small_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
 
   // Putrid boards
 

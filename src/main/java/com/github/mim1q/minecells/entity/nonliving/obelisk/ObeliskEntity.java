@@ -105,7 +105,7 @@ public abstract class ObeliskEntity extends Entity {
   protected void spawnRiseParticles() {
     ParticleUtils.addInBox(
       (ClientWorld) this.world,
-      new BlockStateParticleEffect(ParticleTypes.BLOCK, MineCellsBlocks.PRISON_COBBLESTONE.getDefaultState()),
+      new BlockStateParticleEffect(ParticleTypes.BLOCK, MineCellsBlocks.PRISON_COBBLESTONE.block.getDefaultState()),
       Box.of(this.getPos(), 2.5D, 0.25D, 2.0D),
       50,
       new Vec3d(-1.0D, 1.0D, -1.0D)

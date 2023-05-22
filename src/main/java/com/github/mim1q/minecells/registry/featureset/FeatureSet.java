@@ -5,16 +5,24 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 abstract class FeatureSet {
-  protected final FabricItemSettings defaultItemSettings;
-  protected final FabricBlockSettings defaultBlockSettings;
+  protected final Supplier<FabricItemSettings> defaultItemSettings;
+  protected final Supplier<FabricBlockSettings> defaultBlockSettings;
   protected final String name;
   protected final String namespace;
 
-  public FeatureSet(Identifier identifier, FabricItemSettings defaultItemSettings, FabricBlockSettings defaultBlockSettings) {
+  public FeatureSet(
+    Identifier identifier,
+    Supplier<FabricItemSettings> defaultItemSettings,
+    Supplier<FabricBlockSettings> defaultBlockSettings
+  ) {
     this.defaultItemSettings = defaultItemSettings;
     this.defaultBlockSettings = defaultBlockSettings;
     this.name = identifier.getPath();
@@ -32,7 +40,17 @@ abstract class FeatureSet {
   }
 
   protected <B extends Block> B registerBlockWithItem(String name, B block) {
-    registerItem(name, new BlockItem(block, defaultItemSettings));
+    registerItem(name, new BlockItem(block, defaultItemSettings.get()));
     return registerBlock(name, block);
   }
+
+  protected FabricItemSettings defaultItemSettings() {
+    return defaultItemSettings.get();
+  }
+
+  protected FabricBlockSettings defaultBlockSettings() {
+    return defaultBlockSettings.get();
+  }
+
+  public abstract List<ItemStack> getStacks();
 }
