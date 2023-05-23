@@ -5,6 +5,7 @@ import datagen.custom.CustomPresets
 import datagen.custom.ModItemModels
 import datagen.custom.ModTemplatePools
 import tada.lib.generator.ResourceGenerator
+import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
 import tada.lib.presets.common.CommonDropPresets
 import tada.lib.presets.common.CommonModelPresets
@@ -14,10 +15,17 @@ import tada.lib.tags.TagManager
 import java.nio.file.Path
 
 fun main(args: Array<String>) {
-  if (args.isEmpty()) throw IllegalArgumentException("Must provide an output directory")
+  if (args.size != 3) {
+    throw IllegalArgumentException("Must provide an output directory, lang directory and helper lang directory.")
+  }
   val path = Path.of(args[0]).toAbsolutePath()
-  println("Running datagen script. Output directory: $path")
-  ResourceGenerator.create("minecells", path).apply {
+  val helperLangPath = Path.of(args[2]).toAbsolutePath()
+  println(
+    "Running datagen script." +
+    "\n  Output directory: $path" +
+    "\n  Generated language helper directory: $helperLangPath"
+  )
+  val generator = ResourceGenerator.create("minecells", path).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
     add(CustomBlockSets.leaves("minecells:wilted"))
@@ -79,7 +87,13 @@ fun main(args: Array<String>) {
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",
       "minecells:small_crate", "minecells:brittle_barrel", "minecells:biome_banner"
     )
-  }.generate()
+  }
+  generator.generate()
+
+  LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {
+    automaticallyGenerateBlockEntries(generator)
+    generateMissingLangEntries()
+  }
 }
 
 

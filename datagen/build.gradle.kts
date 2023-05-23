@@ -6,8 +6,6 @@ plugins {
   id("application")
 }
 
-group = "com.github.mim1q.derelict"
-
 repositories {
   mavenCentral()
 }
@@ -34,6 +32,8 @@ fun deleteDir(directory: Path) {
 }
 
 val generatedDir = projectDir.resolve("../src/main/generated")
+val langDir = projectDir.resolve("../src/main/resources/assets/minecells/lang")
+val langHelperDir = projectDir.resolve("../lang")
 tasks {
   withType<JavaExec> {
     doFirst {
@@ -43,6 +43,6 @@ tasks {
         println("Datagen output directory hasn't been generated yet")
       }
     }
-    args = listOf(generatedDir.path)
+    args = listOf(generatedDir.path, langDir.path, langHelperDir.path)
   }
 }
