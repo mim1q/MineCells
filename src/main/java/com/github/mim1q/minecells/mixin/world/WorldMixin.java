@@ -17,7 +17,7 @@ public abstract class WorldMixin implements WorldAccess, AutoCloseable {
   private void minecells$cancelUpdateComparators(BlockPos pos, Block block, CallbackInfo ci) {
     if (
       MineCellsDimensions.isMineCellsDimension((World)(Object)this)
-        && (!this.isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ())))
+      && (!this.isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ())))
     ) {
       ci.cancel();
     }
