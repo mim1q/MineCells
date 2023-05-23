@@ -15,8 +15,8 @@ import java.nio.file.Path
 
 fun main(args: Array<String>) {
   if (args.isEmpty()) throw IllegalArgumentException("Must provide an output directory")
-  val path = Path.of(args[0])
-  println("Runnning datagen script. Output directory: $path")
+  val path = Path.of(args[0]).toAbsolutePath()
+  println("Running datagen script. Output directory: $path")
   ResourceGenerator.create("minecells", path).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))

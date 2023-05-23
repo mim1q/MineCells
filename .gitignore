@@ -42,5 +42,3 @@ bin/
 run/
 publishing.properties
 src/main/generated/
-src/main/generated2/
-src/main/pyGenerated/
