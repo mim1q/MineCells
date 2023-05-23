@@ -1,11 +1,8 @@
 package com.github.mim1q.minecells.datagen;
 
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.loot.LootTable;
@@ -27,29 +24,6 @@ public class MineCellsBlockLootTableProvider extends MineCellsLootTableHelper {
 
   @Override
   public void accept(BiConsumer<Identifier, LootTable.Builder> biConsumer) {
-    generateSelfDroppingBlocks(biConsumer,
-      // Other
-      MineCellsBlocks.BIG_CHAIN,
-      MineCellsBlocks.ELEVATOR_ASSEMBLER,
-      MineCellsBlocks.BROKEN_CAGE
-    );
-
-    generateBlock(biConsumer, MineCellsBlocks.BIOME_BANNER, MineCellsItems.BIOME_BANNER);
-
-    biConsumer.accept(
-      MineCellsBlocks.CHAIN_PILE_BLOCK.getLootTableId(),
-      LootTable.builder()
-        .pool(simplePool(silkTouchEntry(MineCellsBlocks.CHAIN_PILE_BLOCK), 1))
-        .pool(simplePool(noSilkTouchEntry(MineCellsBlocks.BIG_CHAIN), 1, 2))
-        .pool(simplePool(noSilkTouchEntry(Blocks.CHAIN), 1, 2))
-    );
-
-    biConsumer.accept(
-      MineCellsBlocks.CHAIN_PILE.getLootTableId(),
-      LootTable.builder()
-        .pool(simplePool(silkTouchEntry(MineCellsBlocks.CHAIN_PILE), 1))
-        .pool(simplePool(noSilkTouchEntry(MineCellsBlocks.BIG_CHAIN), 1))
-    );
   }
 
   public static void generateSelfDroppingBlock(BiConsumer<Identifier, LootTable.Builder> biConsumer, Block block) {

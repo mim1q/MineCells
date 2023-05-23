@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "MPM",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:chain"
+    },
+    "M": {
+      "item": "minecells:elevator_mechanism"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "count": 2,
+    "item": "minecells:elevator_assembler"
+  }
+}

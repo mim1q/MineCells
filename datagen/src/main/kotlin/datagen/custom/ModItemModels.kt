@@ -30,4 +30,10 @@ object ModItemModels {
       add("${it}_spawn_egg", ParentedModel.item("minecraft:item/template_spawn_egg"))
     }
   }
+
+  fun blockModels() = Preset {
+    listOf("brittle_barrel", "spikes", "flag_pole", "spawner_rune").forEach {
+      add(CommonModelPresets.itemBlockModel("minecells:$it"))
+    }
+  }
 }
