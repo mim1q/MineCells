@@ -68,8 +68,8 @@ public class MineCellsBlocks {
   public static final Block ALCHEMY_EQUIPMENT_0 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offsetType(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_0");
   public static final Block ALCHEMY_EQUIPMENT_1 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS)), "alchemy_equipment_1");
   public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offsetType(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
-  public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly()), "prison_torch");
-  public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).ticksRandomly()), "promenade_torch");
+  public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).emissiveLighting((s, w, p) -> true).ticksRandomly().noCollision()), "prison_torch");
+  public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "promenade_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(
     new KingdomPortalCoreBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(state -> state.get(KingdomPortalCoreBlock.LIT) ? 8 : 0)),

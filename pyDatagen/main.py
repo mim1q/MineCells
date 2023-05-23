@@ -22,8 +22,8 @@ def generate_data(output_path: str):
     simple_item_and_drop("flag_pole")
 
     ## Torches
-    for torch in ["promenade", "prison"]:
-      gen.generate_template(Template(TemplateType.ITEM_MODEL, "block_model", f"{torch}_torch", {"block": f"colored_torch/{torch}_standing"}))
+    # for torch in ["promenade", "prison"]:
+    #   gen.generate_template(Template(TemplateType.ITEM_MODEL, "block_model", f"{torch}_torch", {"block": f"colored_torch/{torch}_standing"}))
 
     gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cross", "runic_vine", {"texture": "runic_vine"}))
     gen.generate_template(Template(TemplateType.BLOCK_MODEL, "cross", "runic_vine_top", {"texture": "runic_vine_top"}))
@@ -45,7 +45,7 @@ def generate_data(output_path: str):
     gen.generate_preset(common_presets.ItemBlockModel("return_stone"))
 
     # Custom Drops
-    util.generate_self_dropping_blocks(gen, ["prison_torch", "promenade_torch", "putrid_boards", "crate", "small_crate", "brittle_barrel"])
+    util.generate_self_dropping_blocks(gen, ["putrid_boards", "crate", "small_crate", "brittle_barrel"])
 
     # AUTOLANG =========================================================================================================
 

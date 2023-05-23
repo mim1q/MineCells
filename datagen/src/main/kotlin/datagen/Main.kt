@@ -1,6 +1,7 @@
 package datagen
 
 import datagen.custom.CustomBlockSets
+import datagen.custom.CustomPresets
 import datagen.custom.ModItemModels
 import datagen.custom.ModTemplatePools
 import tada.lib.generator.ResourceGenerator
@@ -8,9 +9,10 @@ import tada.lib.presets.blocksets.BlockSets
 import java.nio.file.Path
 
 fun main(args: Array<String>) {
-  println("Hello from datagen!")
   if (args.isEmpty()) throw IllegalArgumentException("Must provide an output directory")
-  ResourceGenerator.create("minecells", Path.of(args[0])).apply {
+  val path = Path.of(args[0])
+  println("Runnning datagen script. Output directory: $path")
+  ResourceGenerator.create("minecells", path).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
     add(CustomBlockSets.leaves("minecells:wilted"))
@@ -18,6 +20,10 @@ fun main(args: Array<String>) {
     add(CustomBlockSets.leaves("minecells:red_wilted"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
+    // Torches
+    listOf("prison", "promenade").forEach {
+      add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it"))
+    }
     // Other
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
     // Item Models
