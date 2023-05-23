@@ -28,6 +28,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   public static final DirectionProperty DIRECTION = HorizontalFacingBlock.FACING;
   public static final BooleanProperty LIT = BooleanProperty.of("lit");
+  public static final VoxelShape SHAPE = createCuboidShape(0, 0, 7, 16, 16, 9);
 
   public KingdomPortalCoreBlock(Settings settings) {
     super(settings);
@@ -47,11 +48,6 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   }
 
   @Override
-  public BlockRenderType getRenderType(BlockState state) {
-    return BlockRenderType.INVISIBLE;
-  }
-
-  @Override
   public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
     return true;
   }
@@ -59,6 +55,12 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   @Override
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return ModelUtils.rotateShape(Direction.NORTH, state.get(DIRECTION), SHAPE);
+  }
+
+  @SuppressWarnings("deprecation")
+  @Override
+  public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return VoxelShapes.empty();
   }
 
@@ -138,10 +140,16 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
         case SIDE_UPPER -> SIDE_UPPER_SHAPE;
         case CORNER_LOWER -> CORNER_LOWER_SHAPE;
         case CORNER_UPPER -> CORNER_UPPER_SHAPE;
-        case MIDDLE -> VoxelShapes.empty();
+        case MIDDLE -> SHAPE;
       };
 
       return ModelUtils.rotateShape(Direction.NORTH, state.get(DIRECTION), shape);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+      return state.get(PART) == Part.MIDDLE ? VoxelShapes.empty() : super.getCollisionShape(state, world, pos, context);
     }
 
     @Override

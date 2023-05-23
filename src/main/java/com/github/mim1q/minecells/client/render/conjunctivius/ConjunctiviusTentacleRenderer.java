@@ -79,7 +79,7 @@ public class ConjunctiviusTentacleRenderer extends FeatureRenderer<Conjunctivius
 
     @Override
     public void setAngles(ConjunctiviusEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-      SewersTentacleEntityModel.wiggleTentacle(this.segments, animationProgress, 10, this.offset);
+      SewersTentacleEntityModel.wiggleTentacle(this.segments, animationProgress, 10, this.offset, 0);
     }
 
     @Override

@@ -106,7 +106,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void release() {
-    if (distanceTravelled > targetDistance) {
+    if (shouldSlowDown()) {
       entity.setVelocity(entity.getVelocity().multiply(0.8D));
       return;
     }
@@ -120,6 +120,10 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
         attackedIds.add(e.getId());
       }
     }
+  }
+
+  protected boolean shouldSlowDown() {
+    return distanceTravelled > targetDistance;
   }
 
   public static class TimedDashSettings extends TimedActionSettings {

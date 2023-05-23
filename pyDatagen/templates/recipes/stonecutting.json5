@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1 /*{{count}}*/,
-  "ingredient": {
-    "item": "{{id}}:{{input}}"
-  },
-  "result": "{{id}}:{{output}}"
-}

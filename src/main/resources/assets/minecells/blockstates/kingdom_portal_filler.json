@@ -91,7 +91,7 @@
       "y": 90
     },
     "part=middle": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/kingdom_portal_filler/middle"
     }
   }
 }

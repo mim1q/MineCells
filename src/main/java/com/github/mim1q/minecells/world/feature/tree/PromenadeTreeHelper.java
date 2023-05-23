@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public interface PromenadeTreeHelper {
-  BlockState TRUNK_BLOCK = MineCellsBlocks.PUTRID_LOG.getDefaultState();
+  BlockState TRUNK_BLOCK = MineCellsBlocks.PUTRID_WOOD.log.getDefaultState();
 
   default void placeBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos origin, Direction direction) {
     if (random.nextFloat() < 0.025F) {

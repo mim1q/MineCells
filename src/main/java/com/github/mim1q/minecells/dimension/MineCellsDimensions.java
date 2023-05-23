@@ -33,7 +33,7 @@ public class MineCellsDimensions {
   }
 
   public static boolean isMineCellsDimension(World world) {
-    return Set.of(
+    return world != null && Set.of(
       PRISON,
       INSUFFERABLE_CRYPT,
       PROMENADE
@@ -41,18 +41,17 @@ public class MineCellsDimensions {
   }
 
   public static Vec3d getTeleportPos(RegistryKey<World> dimension, BlockPos pos, ServerWorld world) {
-    BlockPos multiple = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 256));
-    BlockPos multiple512 = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 512));
+    BlockPos runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
     if (dimension.equals(PRISON)) {
-      return new Vec3d(multiple.getX() + 8, 43, multiple.getZ() + 5.5);
+      return new Vec3d(runCenter.getX() + 8, 43, runCenter.getZ() + 5.5);
     }
     if (dimension.equals(INSUFFERABLE_CRYPT)) {
-      return new Vec3d(multiple.getX() + 6, 41, multiple.getZ() + 3.5);
+      return new Vec3d(runCenter.getX() + 6, 41, runCenter.getZ() + 3.5);
     }
     if (dimension.equals(PROMENADE)) {
-      multiple512 = multiple512.add(6, 0, 6);
-      int y = world.getChunk(multiple512).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, multiple512.getX(), multiple512.getZ());
-      BlockPos groundPos = multiple512.withY(y);
+      runCenter = runCenter.add(6, 0, 6);
+      int y = world.getChunk(runCenter).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, runCenter.getX(), runCenter.getZ());
+      BlockPos groundPos = runCenter.withY(y);
       if (groundPos.getY() == 0) return null;
       BlockPos tpPos = MineCellsPortal.placeUpstreamPortal(world, groundPos.down());
       return Vec3d.ofCenter(tpPos).add(3.5D, 0.0D, 3.5D);

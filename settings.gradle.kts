@@ -7,4 +7,5 @@ pluginManagement {
     mavenCentral()
     gradlePluginPortal()
   }
+  include("datagen")
 }

@@ -33,6 +33,7 @@ public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentac
   public void render(SewersTentacleEntity mobEntity, float f, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
     mobEntity.wobble.update(mobEntity.age + tickDelta);
     mobEntity.belowGround.update(mobEntity.age + tickDelta);
+    mobEntity.wobbleOffset.update(mobEntity.age + tickDelta);
     if (mobEntity.isInvisible()) {
       return;
     }

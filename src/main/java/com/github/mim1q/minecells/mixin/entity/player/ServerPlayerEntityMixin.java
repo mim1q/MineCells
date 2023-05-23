@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin.entity.player;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.MineCellsBorderEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimensions;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
@@ -30,7 +31,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
-
   @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
   @Shadow public abstract ServerWorld getWorld();
   @Shadow public abstract RegistryKey<World> getSpawnPointDimension();
@@ -81,6 +81,13 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
           Text.translatable("chat.minecells.suffocation_fix_message").formatted(Formatting.WHITE)
         )
       );
+    }
+  }
+
+  @Inject(method = {"requestTeleport", "requestTeleportAndDismount"}, at = @At("HEAD"), cancellable = true)
+  private void minecells$cancelRequestTeleport(double destX, double destY, double destZ, CallbackInfo ci) {
+    if (((MineCellsBorderEntity)this).getMineCellsBorder().getDistanceInsideBorder(destX, destZ) < 2.0D) {
+      ci.cancel();
     }
   }
 }

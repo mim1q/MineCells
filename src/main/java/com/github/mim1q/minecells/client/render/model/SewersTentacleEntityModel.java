@@ -79,13 +79,13 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
 
   @Override
   public void setAngles(SewersTentacleEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    wiggleTentacle(this.segments, animationProgress, 15.0F * entity.wobble.getValue(), entity.getId());
+    wiggleTentacle(this.segments, animationProgress, 15.0F * entity.wobble.getValue(), entity.getId(), entity.wobbleOffset.getValue() * 0.2F);
     this.root.pivotY = 24.0F - entity.belowGround.getValue() * 16.0F + 8.5F;
   }
 
-  public static void wiggleTentacle(ModelPart[] segments, float animationProgress, float degrees, int offset) {
+  public static void wiggleTentacle(ModelPart[] segments, float animationProgress, float degrees, int id, float offset) {
     for (int i = 0; i < segments.length - 1; i++) {
-      segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + offset) * MathUtils.radians(degrees);
+      segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + id) * MathUtils.radians(degrees) - offset;
     }
   }
 
