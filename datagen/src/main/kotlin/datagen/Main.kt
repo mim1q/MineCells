@@ -13,8 +13,13 @@ fun main(args: Array<String>) {
   ResourceGenerator.create("minecells", Path.of(args[0])).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
+    add(CustomBlockSets.leaves("minecells:wilted"))
+    add(CustomBlockSets.leaves("minecells:orange_wilted"))
+    add(CustomBlockSets.leaves("minecells:red_wilted"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
+    // Other
+    add(BlockSets.basicSet("minecells:putrid_board", "_block"))
     // Item Models
     add(ModItemModels.generated())
     add(ModItemModels.handheld())

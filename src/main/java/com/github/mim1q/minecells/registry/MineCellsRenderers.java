@@ -164,15 +164,15 @@ public class MineCellsRenderers {
       MineCellsBlocks.SKELETON,
       MineCellsBlocks.HANGED_ROTTING_CORPSE,
       MineCellsBlocks.HANGED_CORPSE,
-      MineCellsBlocks.WILTED_LEAVES,
-      MineCellsBlocks.WILTED_HANGING_LEAVES,
-      MineCellsBlocks.WILTED_WALL_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_HANGING_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_WALL_LEAVES,
-      MineCellsBlocks.RED_WILTED_LEAVES,
-      MineCellsBlocks.RED_WILTED_HANGING_LEAVES,
-      MineCellsBlocks.RED_WILTED_WALL_LEAVES,
+      MineCellsBlocks.WILTED_LEAVES.leaves,
+      MineCellsBlocks.WILTED_LEAVES.hangingLeaves,
+      MineCellsBlocks.WILTED_LEAVES.wallLeaves,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES.leaves,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES.hangingLeaves,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES.wallLeaves,
+      MineCellsBlocks.RED_WILTED_LEAVES.leaves,
+      MineCellsBlocks.RED_WILTED_LEAVES.hangingLeaves,
+      MineCellsBlocks.RED_WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.RUNIC_VINE,
       MineCellsBlocks.RUNIC_VINE_PLANT,
       MineCellsBlocks.CELL_FORGE,
@@ -209,7 +209,7 @@ public class MineCellsRenderers {
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
+      MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves
     );
 
     ColorProviderRegistry.BLOCK.register(
@@ -218,7 +218,7 @@ public class MineCellsRenderers {
     );
 
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES,
+      MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.WILTED_GRASS_BLOCK
     );
 

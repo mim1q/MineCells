@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "minecells:block/wilted_hanging_leaves",
-		"particle": "minecells:block/wilted_leaves"
+		"particle": "#0"
 	},
 	"elements": [
 		{

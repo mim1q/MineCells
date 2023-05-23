@@ -27,9 +27,6 @@ public class MineCellsBlockTagProvider extends FabricTagProvider<Block> {
       .add(
         // Putrid Wood
         MineCellsBlocks.PUTRID_BOARDS,
-        MineCellsBlocks.PUTRID_BOARD_BLOCK,
-        MineCellsBlocks.PUTRID_BOARD_STAIRS,
-        MineCellsBlocks.PUTRID_BOARD_SLAB,
         // Other
         MineCellsBlocks.ELEVATOR_ASSEMBLER,
         MineCellsBlocks.CRATE,

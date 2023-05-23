@@ -4,7 +4,7 @@
 	"textures": {
 		"base": "minecells:block/wilted_wall_leaves",
 		"detail": "minecells:block/wilted_wall_leaves_detail",
-		"particle": "minecells:block/wilted_leaves"
+		"particle": "#base"
 	},
 	"elements": [
 		{

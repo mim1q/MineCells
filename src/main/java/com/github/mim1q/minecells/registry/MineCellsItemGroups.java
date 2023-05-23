@@ -27,20 +27,12 @@ public class MineCellsItemGroups {
       stacks.addAll(MineCellsBlocks.SMALL_PRISON_BRICKS.getStacks());
       stacks.add(Stack(MineCellsBlocks.WILTED_GRASS_BLOCK));
       stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());
+      stacks.add(Stack(MineCellsBlocks.PUTRID_BOARDS));
+      stacks.addAll(MineCellsBlocks.PUTRID_BOARD.getStacks());
+      stacks.addAll(MineCellsBlocks.WILTED_LEAVES.getStacks());
+      stacks.addAll(MineCellsBlocks.ORANGE_WILTED_LEAVES.getStacks());
+      stacks.addAll(MineCellsBlocks.RED_WILTED_LEAVES.getStacks());
       stacks.addAll(List.of(
-        Stack(MineCellsBlocks.PUTRID_BOARD_BLOCK),
-        Stack(MineCellsBlocks.PUTRID_BOARD_STAIRS),
-        Stack(MineCellsBlocks.PUTRID_BOARD_SLAB),
-        Stack(MineCellsBlocks.PUTRID_BOARDS),
-        Stack(MineCellsBlocks.WILTED_LEAVES),
-        Stack(MineCellsBlocks.WILTED_HANGING_LEAVES),
-        Stack(MineCellsBlocks.WILTED_WALL_LEAVES),
-        Stack(MineCellsBlocks.ORANGE_WILTED_LEAVES),
-        Stack(MineCellsBlocks.ORANGE_WILTED_HANGING_LEAVES),
-        Stack(MineCellsBlocks.ORANGE_WILTED_WALL_LEAVES),
-        Stack(MineCellsBlocks.RED_WILTED_LEAVES),
-        Stack(MineCellsBlocks.RED_WILTED_HANGING_LEAVES),
-        Stack(MineCellsBlocks.RED_WILTED_WALL_LEAVES),
         Stack(MineCellsBlocks.CRATE),
         Stack(MineCellsBlocks.SMALL_CRATE),
         Stack(MineCellsBlocks.BRITTLE_BARREL),
