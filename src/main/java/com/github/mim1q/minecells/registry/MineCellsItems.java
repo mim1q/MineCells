@@ -14,45 +14,33 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class MineCellsItems {
-
-  private static final Set<Item> simpleItems = new HashSet<>();
-
-  public static final Item ELEVATOR_MECHANISM = registerSimpleItem(
+  public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS)),
     "elevator_mechanism"
   );
 
-  // AOF 6 uses this as an icon for the mod
-  public static final Item CHARGED_INTERDIMENSIONAL_RUNE = registerSimpleItem(
-    new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
-    "charged_interdimensional_rune"
-  );
-
-  public static final Item BLANK_RUNE = registerSimpleItem(
+  public static final Item BLANK_RUNE = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
     "blank_rune"
   );
 
-  public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = registerSimpleItem(
+  public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
     "conjunctivius_respawn_rune"
   );
 
-  public static final Item VINE_RUNE = registerSimpleItem(
+  public static final Item VINE_RUNE = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1).maxDamage(8)),
     "vine_rune"
   );
 
-  public static final Item GUTS = registerSimpleItem(
+  public static final Item GUTS = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).food(FoodComponents.BEEF)),
     "guts"
   );
 
-  public static final Item MONSTERS_EYE = registerSimpleItem(
+  public static final Item MONSTERS_EYE = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).food(FoodComponents.COOKED_BEEF)),
     "monsters_eye"
   );
@@ -62,7 +50,7 @@ public class MineCellsItems {
     "biome_banner"
   );
 
-  public static final Item SEWAGE_BUCKET = registerSimpleItem(
+  public static final Item SEWAGE_BUCKET = register(
     new BucketItem(MineCellsFluids.STILL_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
@@ -71,7 +59,7 @@ public class MineCellsItems {
     "sewage_bucket"
   );
 
-  public static final Item ANCIENT_SEWAGE_BUCKET = registerSimpleItem(
+  public static final Item ANCIENT_SEWAGE_BUCKET = register(
     new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
@@ -171,7 +159,7 @@ public class MineCellsItems {
   );
 
   // Skills
-  public static final PhaserItem PHASER = registerSimpleItem(new PhaserItem(
+  public static final PhaserItem PHASER = register(new PhaserItem(
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(32)
@@ -180,7 +168,7 @@ public class MineCellsItems {
     ), "phaser"
   );
 
-  public static final Item HEALTH_FLASK = registerSimpleItem(
+  public static final Item HEALTH_FLASK = register(
     new HealthFlaskItem(new FabricItemSettings()
       .maxCount(16)
       .group(MineCellsItemGroups.MINECELLS)
@@ -211,14 +199,5 @@ public class MineCellsItems {
   public static <E extends Item> E register(E item, String name) {
     Registry.register(Registry.ITEM, MineCells.createId(name), item);
     return item;
-  }
-
-  public static <E extends Item> E registerSimpleItem(E item, String name) {
-    simpleItems.add(item);
-    return register(item, name);
-  }
-
-  public static Set<Item> getSimpleItems() {
-    return simpleItems;
   }
 }

@@ -115,7 +115,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
             continue;
           }
           if (world.testBlockState(pos, isAir)) {
-            replacer.accept(pos, MineCellsBlocks.RED_WILTED_LEAVES.getDefaultState().with(Properties.PERSISTENT, true));
+            replacer.accept(pos, MineCellsBlocks.RED_WILTED_LEAVES.leaves.getDefaultState().with(Properties.PERSISTENT, true));
           }
         }
       }

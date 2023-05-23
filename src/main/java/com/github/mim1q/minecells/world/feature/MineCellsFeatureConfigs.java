@@ -22,9 +22,9 @@ public class MineCellsFeatureConfigs {
 
   private static TreeFeatureConfig simpleTree(TrunkPlacer trunkPlacer) {
     return new TreeFeatureConfig.Builder(
-      BlockStateProvider.of(MineCellsBlocks.PUTRID_LOG.getDefaultState()),
+      BlockStateProvider.of(MineCellsBlocks.PUTRID_WOOD.log.getDefaultState()),
       trunkPlacer,
-      BlockStateProvider.of(MineCellsBlocks.WILTED_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true)),
+      BlockStateProvider.of(MineCellsBlocks.WILTED_LEAVES.leaves.getDefaultState().with(LeavesBlock.PERSISTENT, true)),
       new BushFoliagePlacer(UniformIntProvider.create(1, 2), ConstantIntProvider.create(0), 2),
       new TwoLayersFeatureSize(1, 0, 1)
     ).ignoreVines().build();
@@ -32,9 +32,9 @@ public class MineCellsFeatureConfigs {
 
   private static TreeFeatureConfig shrub(TrunkPlacer trunkPlacer) {
     return new TreeFeatureConfig.Builder(
-      BlockStateProvider.of(MineCellsBlocks.PUTRID_LOG.getDefaultState()),
+      BlockStateProvider.of(MineCellsBlocks.PUTRID_WOOD.log.getDefaultState()),
       trunkPlacer,
-      BlockStateProvider.of(MineCellsBlocks.WILTED_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true)),
+      BlockStateProvider.of(MineCellsBlocks.WILTED_LEAVES.leaves.getDefaultState().with(LeavesBlock.PERSISTENT, true)),
       new BushFoliagePlacer(UniformIntProvider.create(1, 2), ConstantIntProvider.create(0), 2),
       new TwoLayersFeatureSize(1, 0, 1)
     ).ignoreVines().build();

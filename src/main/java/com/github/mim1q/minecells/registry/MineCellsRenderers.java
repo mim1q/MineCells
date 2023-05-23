@@ -33,6 +33,7 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
@@ -73,6 +74,7 @@ public class MineCellsRenderers {
   public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
   public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
 
+  @SuppressWarnings("UnstableApiUsage")
   public static void init() {
     EntityModelLayerRegistry.registerModelLayer(LEAPING_ZOMBIE_LAYER, LeapingZombieEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(SHOCKER_LAYER, ShockerEntityModel::getTexturedModelData);
@@ -162,21 +164,21 @@ public class MineCellsRenderers {
       MineCellsBlocks.SKELETON,
       MineCellsBlocks.HANGED_ROTTING_CORPSE,
       MineCellsBlocks.HANGED_CORPSE,
-      MineCellsBlocks.WILTED_LEAVES,
-      MineCellsBlocks.WILTED_HANGING_LEAVES,
-      MineCellsBlocks.WILTED_WALL_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_HANGING_LEAVES,
-      MineCellsBlocks.ORANGE_WILTED_WALL_LEAVES,
-      MineCellsBlocks.RED_WILTED_LEAVES,
-      MineCellsBlocks.RED_WILTED_HANGING_LEAVES,
-      MineCellsBlocks.RED_WILTED_WALL_LEAVES,
+      MineCellsBlocks.WILTED_LEAVES.leaves,
+      MineCellsBlocks.WILTED_LEAVES.hangingLeaves,
+      MineCellsBlocks.WILTED_LEAVES.wallLeaves,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES.leaves,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES.hangingLeaves,
+      MineCellsBlocks.ORANGE_WILTED_LEAVES.wallLeaves,
+      MineCellsBlocks.RED_WILTED_LEAVES.leaves,
+      MineCellsBlocks.RED_WILTED_LEAVES.hangingLeaves,
+      MineCellsBlocks.RED_WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.RUNIC_VINE,
       MineCellsBlocks.RUNIC_VINE_PLANT,
       MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
-      MineCellsBlocks.PUTRID_DOOR,
+      MineCellsBlocks.PUTRID_WOOD.door,
       MineCellsBlocks.PRISON_TORCH,
       MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.SPAWNER_RUNE,
@@ -193,11 +195,11 @@ public class MineCellsRenderers {
     EntityModelLayerRegistry.registerModelLayer(BIOME_BANNER_LAYER, BiomeBannerBlockEntityRenderer.BiomeBannerBlockEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(KING_STATUE_LAYER, KingStatueModel::getTexturedModelData);
 
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
-    BlockEntityRendererRegistry.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, KingdomPortalBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,
@@ -207,7 +209,7 @@ public class MineCellsRenderers {
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES
+      MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves
     );
 
     ColorProviderRegistry.BLOCK.register(
@@ -216,7 +218,7 @@ public class MineCellsRenderers {
     );
 
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
-      MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.WILTED_HANGING_LEAVES, MineCellsBlocks.WILTED_WALL_LEAVES,
+      MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.WILTED_GRASS_BLOCK
     );
 

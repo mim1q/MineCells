@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -20,7 +19,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.rpgdifficulty.api.MobStrengthener;
 
 import java.util.List;
 
@@ -82,9 +80,6 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
     Entity spawnedEntity = type.create(world, null, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity != null) {
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
-        if (FabricLoader.getInstance().isModLoaded("rpgdifficulty")) {
-          MobStrengthener.changeAttributes(mcEntity, world);
-        }
         mcEntity.spawnRunePos = runePos;
         for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
           ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(mcEntity.getBoundingBox().expand(0.5D)));

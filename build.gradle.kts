@@ -43,8 +43,6 @@ dependencies {
   annotationProcessor("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
   include("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
 
-  modCompileOnlyApi("com.github.mim1q:RpgDifficulty:1.19-SNAPSHOT")
-
 }
 
 @Suppress("UnstableApiUsage")
@@ -60,40 +58,18 @@ tasks {
       options.release.set(17)
     }
   }
-  withType<Assemble> {
-    dependsOn("runDatagen")
+  register("runDatagenScript") {
+    group = "fabric"
+    dependsOn("datagen:run")
   }
 }
 
 // Data generation
 
-tasks.register<Exec>("runPythonDatagen") {
-  workingDir = projectDir
-  val scriptFile = workingDir.resolve("pyDatagen/main.py")
-  val outputPath = workingDir.resolve("src/main/pyGenerated")
-
-  commandLine("python", scriptFile.absolutePath, outputPath.absolutePath)
-}
-
-val dataOutput = file("src/main/generated")
-
-loom {
-  runs {
-    create("datagen")  {
-      client()
-      name("Data Generation")
-      vmArg("-Dfabric-api.datagen")
-      vmArg("-Dfabric-api.datagen.output-dir=${dataOutput}")
-
-      runDir("build/datagen")
-    }
-  }
-}
-
 sourceSets {
   main {
     resources {
-      srcDirs("src/main/generated", "src/main/pyGenerated")
+      srcDirs("src/main/generated")
     }
   }
 }
