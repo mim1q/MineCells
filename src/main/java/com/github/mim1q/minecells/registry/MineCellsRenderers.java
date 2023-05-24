@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEnti
 import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -28,6 +29,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -73,6 +75,17 @@ public class MineCellsRenderers {
   public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
   public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
   public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
+  public static final EntityModelLayer TELEPORTER_LAYER = registerLayer("teleporter", TeleporterBlockEntityRenderer.TeleporterModel::getTexturedModelData);
+
+  private static EntityModelLayer registerLayer(String path, String name, TexturedModelDataProvider provider) {
+    var layer = new EntityModelLayer(MineCells.createId(path), name);
+    EntityModelLayerRegistry.registerModelLayer(layer, provider);
+    return layer;
+  }
+
+  private static EntityModelLayer registerLayer(String path, TexturedModelDataProvider provider) {
+    return registerLayer(path, "main", provider);
+  }
 
   @SuppressWarnings("UnstableApiUsage")
   public static void init() {
@@ -200,6 +213,7 @@ public class MineCellsRenderers {
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.TELEPORTER, TeleporterBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

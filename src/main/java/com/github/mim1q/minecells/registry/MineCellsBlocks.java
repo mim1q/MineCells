@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.*;
+import com.github.mim1q.minecells.block.portal.TeleporterBlock;
 import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
@@ -83,12 +84,16 @@ public class MineCellsBlocks {
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
 
+  // Portals
+  public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
+  public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.STONE).strength(50.0f, 1200.0f)), "teleporter_frame");
+
   public static void init() {
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registry.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
   }
 
-  public static Block registerBlock(Block block, String id) {
+  public static  <T extends Block> T registerBlock(T block, String id) {
     Registry.register(Registry.BLOCK, MineCells.createId(id), block);
     return block;
   }

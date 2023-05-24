@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.*;
 import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
+import com.github.mim1q.minecells.block.portal.TeleporterBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -33,6 +34,9 @@ public class MineCellsBlockEntities {
   );
   public static final BlockEntityType<RunicVinePlantBlockEntity> RUNIC_VINE_PLANT = register(
     "runic_vine_plant", RunicVinePlantBlockEntity::new, MineCellsBlocks.RUNIC_VINE_PLANT
+  );
+  public static final BlockEntityType<TeleporterBlockEntity> TELEPORTER = register(
+    "teleporter", TeleporterBlockEntity::new, MineCellsBlocks.TELEPORTER_CORE
   );
 
   public static void init() {}
