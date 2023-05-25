@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
       add(CommonModelPresets.cubeAllBlock("minecells:$it"))
     }
     add(CommonModelPresets.pillarBlock("minecells:crate"))
-    listOf("conjunctivius_box", "beam_placer", "teleporter_core", "teleporter_frame").forEach {
+    listOf("conjunctivius_box", "beam_placer", "teleporter_core").forEach {
       add(it, BlockState.createSingle("minecraft:block/air"))
     }
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))

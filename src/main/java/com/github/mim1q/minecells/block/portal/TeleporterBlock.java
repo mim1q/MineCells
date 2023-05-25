@@ -8,7 +8,9 @@ import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -17,10 +19,11 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 public class TeleporterBlock extends BlockWithEntity {
+  public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   private static final VoxelShape SHAPE = createCuboidShape(0, 0, 7, 16, 16, 9);
 
   public TeleporterBlock(Settings settings) {
-    super(settings);
+    super(settings.nonOpaque().luminance(state -> 8));
   }
 
   @Nullable
@@ -29,17 +32,23 @@ public class TeleporterBlock extends BlockWithEntity {
     return new TeleporterBlockEntity(pos, state);
   }
 
+  @Override
+  protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    super.appendProperties(builder);
+    builder.add(FACING);
+  }
+
   public static class Filler extends FillerBlock {
-    private static final EnumProperty<Type> TYPE = EnumProperty.of("type", Type.class);
+    public static final EnumProperty<Type> TYPE = EnumProperty.of("type", Type.class);
 
     public Filler(Settings settings) {
-      super(settings, MineCellsBlocks.TELEPORTER_CORE, true);
+      super(settings.nonOpaque().luminance(state -> 8), MineCellsBlocks.TELEPORTER_CORE, true);
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
       super.appendProperties(builder);
-      builder.add(TYPE);
+      builder.add(TYPE, FACING);
     }
 
     @Override
