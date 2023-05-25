@@ -8,10 +8,10 @@
       "y": 90
     },
     "type=bottom,facing=south": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/teleporter/middle"
     },
     "type=bottom,facing=west": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/teleporter/middle"
     },
     "type=top,facing=north": {
       "model": "minecells:block/teleporter/top"
@@ -21,10 +21,10 @@
       "y": 90
     },
     "type=top,facing=south": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/teleporter/middle"
     },
     "type=top,facing=west": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/teleporter/middle"
     },
     "type=corner_lower,facing=north": {
       "model": "minecells:block/teleporter/corner_lower"
@@ -72,10 +72,10 @@
       "y": 270
     },
     "type=side_upper": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/teleporter/middle"
     },
     "type=middle": {
-      "model": "minecraft:block/air"
+      "model": "minecells:block/teleporter/middle"
     }
   }
 }
