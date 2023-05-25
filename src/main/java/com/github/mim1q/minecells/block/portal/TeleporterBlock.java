@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.block.FillerBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -13,6 +14,7 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -20,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TeleporterBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-  private static final VoxelShape SHAPE = createCuboidShape(0, 0, 7, 16, 16, 9);
+  private static final VoxelShape SHAPE = createCuboidShape(0, 0, 6, 16, 16, 10);
 
   public TeleporterBlock(Settings settings) {
     super(settings.nonOpaque().luminance(state -> 8));
@@ -36,6 +38,12 @@ public class TeleporterBlock extends BlockWithEntity {
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(FACING);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), SHAPE);
   }
 
   public static class Filler extends FillerBlock {
@@ -57,35 +65,41 @@ public class TeleporterBlock extends BlockWithEntity {
       return state.get(TYPE) == Type.MIDDLE ? VoxelShapes.empty() : super.getCollisionShape(state, world, pos, context);
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+      return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), state.get(TYPE).shape);
+    }
+
     public enum Type implements StringIdentifiable {
       BOTTOM("bottom", VoxelShapes.union(
-        Block.createCuboidShape(3, 0, 0, 13, 10, 13),
-        Block.createCuboidShape(3, 3, 11, 13, 14, 16)
+        Block.createCuboidShape(0, 4, 3, 6, 14, 13),
+        Block.createCuboidShape(4, 0, 3, 16, 10, 13)
       )),
 
       TOP("top", VoxelShapes.union(
-        Block.createCuboidShape(3, 6, 0, 13, 16, 13),
-        Block.createCuboidShape(3, 2, 11, 13, 13, 16)
+        Block.createCuboidShape(0, 2, 3, 6, 12, 13),
+        Block.createCuboidShape(4, 6, 3, 16, 16, 13)
       )),
 
       SIDE_LOWER("side_lower", VoxelShapes.union(
-        Block.createCuboidShape(3, 0, 2, 13, 4, 13),
-        Block.createCuboidShape(3, 2, 6, 13, 16, 16)
+        Block.createCuboidShape(0, 4, 3, 10, 16, 13),
+        Block.createCuboidShape(4, 0, 3, 14, 6, 13)
       )),
 
       SIDE_UPPER("side_upper", VoxelShapes.union(
-        Block.createCuboidShape(3, 12, 2, 13, 16, 13),
-        Block.createCuboidShape(3, 0, 6, 13, 14, 16)
+        Block.createCuboidShape(0, 0, 3, 10, 12, 13),
+        Block.createCuboidShape(4, 10, 3, 14, 16, 13)
       )),
 
       CORNER_LOWER("corner_lower", VoxelShapes.union(
-        Block.createCuboidShape(3, 3, 0, 13, 14, 7),
-        Block.createCuboidShape(3, 9, 2, 13, 16, 13)
+        Block.createCuboidShape(4, 10, 3, 14, 16, 13),
+        Block.createCuboidShape(10, 4, 3, 16, 14, 13)
       )),
 
       CORNER_UPPER("corner_upper", VoxelShapes.union(
-        Block.createCuboidShape(3, 2, 0, 13, 13, 7),
-        Block.createCuboidShape(3, 0, 2, 13, 7, 13)
+        Block.createCuboidShape(4, 0, 3, 14, 6, 13),
+        Block.createCuboidShape(10, 2, 3, 16, 12, 13)
       )),
 
       MIDDLE("middle", SHAPE);
