@@ -46,9 +46,10 @@ fun main(args: Array<String>) {
       add(CommonModelPresets.cubeAllBlock("minecells:$it"))
     }
     add(CommonModelPresets.pillarBlock("minecells:crate"))
-    listOf("conjunctivius_box", "beam_placer").forEach {
+    listOf("conjunctivius_box", "beam_placer", "doorway_frame").forEach {
       add(it, BlockState.createSingle("minecraft:block/air"))
     }
+    add(CustomPresets.doorway("minecells:promenade"))
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))
     listOf("runic_vine", "runic_vine_top").forEach {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))

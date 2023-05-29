@@ -48,4 +48,10 @@ object CustomPresets {
     add(CommonModelPresets.itemBlockModel(id))
     add(CommonDropPresets.silkTouchDrop(id, stoneId, id))
   }
+
+  fun doorway(id: String) = Preset {
+    val (ns, name) = Id(id)
+    add("${name}_doorway", ParentedModel.block("minecells:block/template/doorway").texture("0", "$ns:block/doorway/$name"))
+    add("${name}_doorway", BlockState.createSingle("$ns:block/${name}_doorway"))
+  }
 }

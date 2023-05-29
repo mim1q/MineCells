@@ -16,16 +16,20 @@ public class RenderUtils {
   }
 
   public static void drawBillboard(VertexConsumer consumer, MatrixStack matrices, int light, float width, float height, float minU, float maxU, float minV, float maxV, int alpha) {
-    Matrix3f m3f = matrices.peek().getNormalMatrix();
-    Matrix4f m4f = matrices.peek().getPositionMatrix();
-
     float dx = width / 2F;
     float dy = height / 2F;
 
-    RenderUtils.produceVertex(consumer, m4f, m3f, light, -dx,  dy, 0F, minU, minV, alpha);
-    RenderUtils.produceVertex(consumer, m4f, m3f, light,  dx,  dy, 0F, maxU, minV, alpha);
-    RenderUtils.produceVertex(consumer, m4f, m3f, light,  dx, -dy, 0F, maxU, maxV, alpha);
-    RenderUtils.produceVertex(consumer, m4f, m3f, light, -dx, -dy, 0F, minU, maxV, alpha);
+    drawBillboard(consumer, matrices, light, -dx, dx, -dy, dy, minU, maxU, minV, maxV, alpha);
+  }
+
+  public static void drawBillboard(VertexConsumer consumer, MatrixStack matrices, int light, float minX, float maxX, float minY, float maxY, float minU, float maxU, float minV, float maxV, int alpha) {
+    Matrix3f m3f = matrices.peek().getNormalMatrix();
+    Matrix4f m4f = matrices.peek().getPositionMatrix();
+
+    RenderUtils.produceVertex(consumer, m4f, m3f, light, minX, maxY, 0F, minU, minV, alpha);
+    RenderUtils.produceVertex(consumer, m4f, m3f, light, maxX, maxY, 0F, maxU, minV, alpha);
+    RenderUtils.produceVertex(consumer, m4f, m3f, light, maxX, minY, 0F, maxU, maxV, alpha);
+    RenderUtils.produceVertex(consumer, m4f, m3f, light, minX, minY, 0F, minU, maxV, alpha);
   }
 
   public static class VertexCoordinates {

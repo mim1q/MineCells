@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.*;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.DoorwayType;
 import com.github.mim1q.minecells.block.portal.TeleporterBlock;
 import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
@@ -87,6 +89,8 @@ public class MineCellsBlocks {
   // Portals
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.STONE).strength(50.0f, 1200.0f)), "teleporter_frame");
+  public static final DoorwayPortalBlock.Filler DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK).nonOpaque()), "doorway_frame");
+  public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
 
   public static void init() {
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);

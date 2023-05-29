@@ -12,17 +12,24 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 @SuppressWarnings("deprecation")
 public abstract class FillerBlock extends Block {
 
-  private final Block targetBlock;
+  private final Predicate<Block> targetBlockPredicate;
   protected static final int MAX_DEPTH = 7;
   private final boolean usable;
 
+  public FillerBlock(Settings settings, Predicate<Block> targetBlockPredicate, boolean usable) {
+    super(settings);
+    this.targetBlockPredicate = targetBlockPredicate;
+    this.usable = usable;
+  }
+
   public FillerBlock(Settings settings, Block targetBlock, boolean usable) {
     super(settings);
-    this.targetBlock = targetBlock;
+    this.targetBlockPredicate = (block) -> block == targetBlock;
     this.usable = usable;
   }
 
@@ -36,7 +43,7 @@ public abstract class FillerBlock extends Block {
       return ActionResult.FAIL;
     }
     BlockState targetState = world.getBlockState(targetPos);
-    return targetBlock.onUse(targetState, world, targetPos, player, hand, hit);
+    return targetState.getBlock().onUse(targetState, world, targetPos, player, hand, hit);
   }
 
   @Override
@@ -44,7 +51,7 @@ public abstract class FillerBlock extends Block {
     if (world.isClient()) {
       return;
     }
-    destroyNeighbors(world, pos, this, this.targetBlock);
+    destroyNeighbors(world, pos, this, this.targetBlockPredicate);
   }
 
   private BlockPos findTarget(World world, BlockPos pos, int depth) {
@@ -53,11 +60,10 @@ public abstract class FillerBlock extends Block {
     }
     BlockPos.Mutable mutable = new BlockPos.Mutable();
     Direction[] dirs = Direction.values();
-
     for (Direction direction : dirs) {
       mutable.set(pos, direction);
       BlockState neighborState = world.getBlockState(mutable);
-      if (neighborState.getBlock() == this.targetBlock) {
+      if (targetBlockPredicate.test(neighborState.getBlock())) {
         return mutable;
       }
       BlockPos newTargetPos = findTarget(world, mutable, depth + 1);
@@ -65,16 +71,15 @@ public abstract class FillerBlock extends Block {
         return newTargetPos;
       }
     }
-
     return null;
   }
 
-  public static void destroyNeighbors(WorldAccess world, BlockPos pos, Block filler, Block target) {
+  public static void destroyNeighbors(WorldAccess world, BlockPos pos, Block filler, Predicate<Block> targetPredicate) {
     for (BlockPos neighbor : getNeighbors(pos)) {
       Block block = world.getBlockState(neighbor).getBlock();
-      if (block == filler || block == target) {
+      if (block == filler || targetPredicate.test(block)) {
         world.breakBlock(neighbor, false);
-        destroyNeighbors(world, neighbor, filler, target);
+        destroyNeighbors(world, neighbor, filler, targetPredicate);
       }
     }
   }

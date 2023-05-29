@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.*;
 import com.github.mim1q.minecells.block.blockentity.spawnerrune.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.portal.TeleporterBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -37,6 +38,9 @@ public class MineCellsBlockEntities {
   );
   public static final BlockEntityType<TeleporterBlockEntity> TELEPORTER = register(
     "teleporter", TeleporterBlockEntity::new, MineCellsBlocks.TELEPORTER_CORE
+  );
+  public static final BlockEntityType<DoorwayPortalBlockEntity> DOORWAY = register(
+    "doorway", DoorwayPortalBlockEntity::new, MineCellsBlocks.PROMENADE_DOORWAY
   );
 
   public static void init() {}

@@ -37,7 +37,7 @@ public class KingdomPortalCoreBlock extends BlockWithEntity {
 
   @Override
   public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-    FillerBlock.destroyNeighbors(world, pos, MineCellsBlocks.KINGDOM_PORTAL_FILLER, this);
+    FillerBlock.destroyNeighbors(world, pos, MineCellsBlocks.KINGDOM_PORTAL_FILLER, (block) -> block == this);
     super.onBroken(world, pos, state);
   }
 
