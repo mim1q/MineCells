@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.block.portal;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.FillerBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,9 +15,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class DoorwayPortalBlock extends BlockWithEntity {
@@ -60,13 +64,36 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     return BlockRenderType.MODEL;
   }
 
+  @Override
+  public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    var direction = state.get(FACING);
+    var rotatedVector = Vec3d.of(direction.rotateYClockwise().getVector());
+    for (int i = 0; i < 3; i++) {
+      var dx = rotatedVector.getX() * (random.nextDouble() * 1.4 - 0.7);
+      var dy = random.nextDouble() * 2.4 - 1.5;
+      var dz = rotatedVector.getZ() * (random.nextDouble() * 1.4 - 0.7);
+      var particlePos = Vec3d.ofCenter(pos)
+        .add(Vec3d.of(direction.getOpposite().getVector()).multiply(0.48))
+        .add(dx, dy, dz);
+      world.addParticle(
+        MineCellsParticles.SPECKLE.get(type.color),
+        particlePos.x, particlePos.y, particlePos.z,
+        (random.nextDouble() * 0.02 + 0.03) * direction.getOffsetX(),
+        random.nextDouble() * 0.02 - 0.01,
+        (random.nextDouble() * 0.02 + 0.03) * direction.getOffsetZ()
+      );
+    }
+  }
+
   public enum DoorwayType {
-    PROMENADE(MineCells.createId("promenade"), "promenade");
+    PROMENADE(MineCells.createId("promenade"), "promenade", 0x93FFF7);
     public final Identifier dimension;
     public final Identifier texture;
-    DoorwayType(Identifier dimension, String name) {
+    public final int color;
+    DoorwayType(Identifier dimension, String name, int color) {
       this.dimension = dimension;
       this.texture = MineCells.createId("textures/block/doorway/" + name + ".png");
+      this.color = color;
     }
   }
 
