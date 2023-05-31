@@ -102,7 +102,10 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   }
 
   public enum DoorwayType {
-    PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7);
+    PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0xFFE77E),
+    PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7),
+    INSUFFERABLE_CRYPT(MineCellsDimension.INSUFFERABLE_CRYPT, 0xFF4CF4);
+
     public final MineCellsDimension dimension;
     public final Identifier texture;
     public final int color;

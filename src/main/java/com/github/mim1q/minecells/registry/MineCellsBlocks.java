@@ -90,7 +90,9 @@ public class MineCellsBlocks {
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.STONE).strength(50.0f, 1200.0f)), "teleporter_frame");
   public static final DoorwayPortalBlock.Filler DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK).nonOpaque()), "doorway_frame");
+  public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
   public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
+  public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
 
   public static void init() {
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
