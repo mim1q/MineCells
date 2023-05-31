@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.client.render.blockentity;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.blockentity.KingdomPortalCoreBlockEntity;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.MinecraftClient;
@@ -88,7 +88,7 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
       return;
     }
 
-    String key = MineCellsDimensions.getTranslationKey(entity.getDimensionKey());
+    String key = MineCellsDimension.getTranslationKey(entity.getDimensionKey());
     if (entity.isUpstream()) {
       PlayerEntity player = MinecraftClient.getInstance().player;
       if (player != null) {

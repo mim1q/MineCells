@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.mixin.client;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.MinecraftClient;
@@ -38,7 +38,7 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
 
   @ModifyVariable(method = "renderWorldBorder", at = @At("STORE"))
   private WorldBorder minecells$modifyRenderWorldBorder(WorldBorder original) {
-    if (MineCellsDimensions.isMineCellsDimension(world)) {
+    if (MineCellsDimension.isMineCellsDimension(world)) {
       var player = MinecraftClient.getInstance().player;
       if (player == null) return original;
       var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
@@ -50,7 +50,7 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
 
   @ModifyArg(method = "renderWorldBorder", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V"), index = 3)
   private float minecells$modifyRenderWorldBorderOpacity(float original) {
-    if (MineCellsDimensions.isMineCellsDimension(world)) {
+    if (MineCellsDimension.isMineCellsDimension(world)) {
       var player = MinecraftClient.getInstance().player;
       if (player == null) return original;
       return Math.max(0.0F, (float)(16.0F - renderedBorder.getDistanceInsideBorder(player)) / 16.0F);

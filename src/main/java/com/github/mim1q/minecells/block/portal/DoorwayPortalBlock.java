@@ -2,11 +2,14 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.FillerBlock;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -65,6 +68,19 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   }
 
   @Override
+  @SuppressWarnings("deprecation")
+  public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    if (world instanceof ServerWorld serverWorld) {
+      var box = getCollisionShape(state, world, pos, ShapeContext.of(entity)).getBoundingBox()
+        .offset(pos)
+        .expand(0.01);
+      if (entity.getBoundingBox().intersects(box)) {
+        type.dimension.teleportEntity(entity, serverWorld);
+      }
+    }
+  }
+
+  @Override
   public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
     var direction = state.get(FACING);
     var rotatedVector = Vec3d.of(direction.rotateYClockwise().getVector());
@@ -86,13 +102,13 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   }
 
   public enum DoorwayType {
-    PROMENADE(MineCells.createId("promenade"), "promenade", 0x93FFF7);
-    public final Identifier dimension;
+    PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7);
+    public final MineCellsDimension dimension;
     public final Identifier texture;
     public final int color;
-    DoorwayType(Identifier dimension, String name, int color) {
+    DoorwayType(MineCellsDimension dimension, int color) {
       this.dimension = dimension;
-      this.texture = MineCells.createId("textures/block/doorway/" + name + ".png");
+      this.texture = MineCells.createId("textures/block/doorway/" + dimension.key.getValue().getPath() + ".png");
       this.color = color;
     }
   }

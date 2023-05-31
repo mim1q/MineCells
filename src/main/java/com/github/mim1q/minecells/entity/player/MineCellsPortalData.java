@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity.player;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +21,7 @@ public class MineCellsPortalData {
 
   public void push(RegistryKey<World> dimension, BlockPos pos) {
     portalStack.push(new Pair<>(dimension.getValue().toString(), pos));
-    player.setLastDimensionTranslationKey(MineCellsDimensions.getTranslationKey(dimension));
+    player.setLastDimensionTranslationKey(MineCellsDimension.getTranslationKey(dimension));
   }
 
   public Pair<String, BlockPos> pop() {
@@ -31,7 +31,7 @@ public class MineCellsPortalData {
     Pair<String, BlockPos> pair = portalStack.pop();
     String translationKey = "dimension.minecraft.overworld";
     if (!portalStack.isEmpty()) {
-      translationKey = MineCellsDimensions.getTranslationKey(portalStack.peek().getLeft());
+      translationKey = MineCellsDimension.getTranslationKey(portalStack.peek().getLeft());
     }
     player.setLastDimensionTranslationKey(translationKey);
     return pair;
@@ -73,6 +73,6 @@ public class MineCellsPortalData {
     if (portalStack.isEmpty()) {
       return;
     }
-    player.setLastDimensionTranslationKey(MineCellsDimensions.getTranslationKey(peek().getLeft()));
+    player.setLastDimensionTranslationKey(MineCellsDimension.getTranslationKey(peek().getLeft()));
   }
 }

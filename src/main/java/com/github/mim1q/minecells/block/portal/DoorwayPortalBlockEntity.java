@@ -17,12 +17,8 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return ((DoorwayPortalBlock)getCachedState().getBlock()).type.texture;
   }
 
-  public Identifier getDimension() {
-    return ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension;
-  }
-
   public MutableText getLabel() {
-    return Text.translatable(getDimension().toTranslationKey("dimension"));
+    return Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
   }
 
   public float getRotation() {

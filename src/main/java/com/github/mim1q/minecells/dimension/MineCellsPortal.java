@@ -32,7 +32,7 @@ public class MineCellsPortal {
     playerAccessor.setKingdomPortalCooldown(10);
     playerAccessor.getMineCellsPortalData().push(world.getRegistryKey(), pos.add(portalDirection.getVector()));
     ServerWorld targetWorld = world.getServer().getWorld(targetDimension);
-    Vec3d teleportPos = MineCellsDimensions.getTeleportPos(targetDimension, pos, targetWorld);
+    Vec3d teleportPos = MineCellsDimension.getTeleportPos(targetDimension, pos, targetWorld);
     if (teleportPos == null) {
       teleportToSpawnpoint(player, world);
       return;

@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.mixin.entity.player;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.MineCellsBorderEntity;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.mojang.authlib.GameProfile;
@@ -57,7 +57,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
       && this.world.getGameRules().getBoolean(MineCellsGameRules.SUFFOCATION_FIX)
       && !this.isCreative()
       && !this.isSpectator()
-      && MineCellsDimensions.isMineCellsDimension(this.getWorld())
+      && MineCellsDimension.isMineCellsDimension(this.getWorld())
     ) {
       MinecraftServer server = this.getServer();
       if (server == null) {
