@@ -6,6 +6,7 @@ plugins {
   id("fabric-loom") version Versions.loom
   id("com.modrinth.minotaur") version Versions.minotaur
   id("com.matthewprenger.cursegradle") version Versions.cursegradle
+  id("io.github.p03w.machete") version "2.0.1"
 }
 
 java {
