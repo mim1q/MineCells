@@ -10,6 +10,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 
 public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<DoorwayPortalBlockEntity> {
   private final TextRenderer textRenderer;
@@ -22,7 +23,9 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
   public void render(DoorwayPortalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(entity.getTexture()));
     matrices.push();
-    matrices.translate(0.5, 0.25, 0.99);
+    matrices.translate(0.5, 0.25, 0.5);
+    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - entity.getRotation()));
+    matrices.translate(0.0, 0.0, 0.49);
     RenderUtils.drawBillboard(vertices, matrices, 0xF000F0, 1.5F, 2.5F, 40F/64, 64F/64, 8F/64,48F/64, 255);
     var barsProgress = 0.25F;
     var minY = 1.25F - barsProgress * 2.5F;

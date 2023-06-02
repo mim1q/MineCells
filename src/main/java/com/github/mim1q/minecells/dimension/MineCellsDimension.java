@@ -25,6 +25,7 @@ public enum MineCellsDimension {
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, 200, 6, 1024.0);
 
   public final RegistryKey<World> key;
+  private final Identifier id;
   public final String translationKey;
   private final Vec3i spawnOffset;
   public final double borderSize;
@@ -33,6 +34,7 @@ public enum MineCellsDimension {
 
   MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize, float pitch, float yaw) {
     this.key = RegistryKey.of(Registry.WORLD_KEY, id);
+    this.id = id;
     this.translationKey = (id.toTranslationKey("dimension"));
     this.spawnOffset = new Vec3i(offsetX, offsetY, offsetZ);
     this.borderSize = borderSize;
@@ -44,7 +46,8 @@ public enum MineCellsDimension {
     this(id, offsetX, offsetY, offsetZ, borderSize, 0, 0);
   }
 
-  public Vec3d getTeleportPosition(BlockPos pos, ServerWorld destination) {
+  public Vec3d getTeleportPosition(BlockPos pos, ServerWorld world) {
+    var destination = getWorld(world);
     var runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
     var tpPos = runCenter.add(spawnOffset.getX(), spawnOffset.getY(), spawnOffset.getZ());
     var y = destination.getChunk(tpPos).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, tpPos.getX(), tpPos.getZ());
@@ -115,5 +118,9 @@ public enum MineCellsDimension {
   public static String getTranslationKey(String key) {
     Identifier id = new Identifier(key);
     return "dimension." + id.getNamespace() + "." + id.getPath();
+  }
+
+  public static MineCellsDimension getFrom(Identifier id) {
+    return Arrays.stream(values()).filter(value -> value.id.equals(id)).findFirst().orElse(null);
   }
 }
