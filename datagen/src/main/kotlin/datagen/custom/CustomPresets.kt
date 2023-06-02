@@ -52,6 +52,11 @@ object CustomPresets {
   fun doorway(id: String) = Preset {
     val (ns, name) = Id(id)
     add("${name}_doorway", ParentedModel.block("minecells:block/template/doorway").texture("0", "$ns:block/doorway/$name"))
-    add("${name}_doorway", BlockState.createSingle("$ns:block/${name}_doorway"))
+    add("${name}_doorway", BlockState.create {
+      variant("facing=north", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.NONE))
+      variant("facing=east", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_90))
+      variant("facing=south", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_180))
+      variant("facing=west", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_270))
+    })
   }
 }
