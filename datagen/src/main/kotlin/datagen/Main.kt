@@ -49,7 +49,7 @@ fun main(args: Array<String>) {
     listOf("conjunctivius_box", "beam_placer", "doorway_frame").forEach {
       add(it, BlockState.createSingle("minecraft:block/air"))
     }
-    listOf("prison", "promenade", "insufferable_crypt").forEach {
+    listOf("overworld", "prison", "promenade", "insufferable_crypt").forEach {
       add(CustomPresets.doorway("minecells:$it"))
     }
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))
