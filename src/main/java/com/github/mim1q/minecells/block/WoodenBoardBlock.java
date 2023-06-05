@@ -77,16 +77,22 @@ public class WoodenBoardBlock extends Block {
   }
 
   public enum Type implements StringIdentifiable {
-    MIDDLE,
-    BOARDED,
-    TOP,
-    TOP_INVERTED,
-    BOTTOM,
-    BOTTOM_INVERTED;
+    MIDDLE("middle"),
+    BOARDED("boarded"),
+    TOP("top"),
+    TOP_INVERTED("top_inverted"),
+    BOTTOM("bottom"),
+    BOTTOM_INVERTED("bottom_inverted");
+
+    private final String name;
+
+    Type(String name) {
+      this.name = name;
+    }
 
     @Override
     public String asString() {
-      return this.name().toLowerCase();
+      return name;
     }
   }
 }
