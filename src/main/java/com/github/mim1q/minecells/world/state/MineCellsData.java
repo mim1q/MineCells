@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.world.state;
 
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -57,6 +59,10 @@ public class MineCellsData extends PersistentState {
 
   public RunData getRun(BlockPos pos) {
     return getRun(Math.round(pos.getX() / 1024F), Math.round(pos.getZ() / 1024F));
+  }
+
+  public static void syncCurrentPlayerData(ServerPlayerEntity player, ServerWorld world) {
+    SyncMineCellsPlayerDataS2CPacket.send(player, getPlayerData(player, world));
   }
 
   public static class RunData {
@@ -144,7 +150,9 @@ public class MineCellsData extends PersistentState {
 
     public void addActivatedSpawnerRune(MineCellsDimension dimension, BlockPos pos) {
       activatedSpawnerRunes.computeIfAbsent(dimension, k -> new ArrayList<>()).add(pos);
-      parent.markDirty();
+      if (parent != null) {
+        parent.markDirty();
+      }
     }
 
     public void addPortalData(
@@ -159,7 +167,9 @@ public class MineCellsData extends PersistentState {
         }
       }
       portals.add(new PortalData(fromDimension, toDimension, fromPos, toPos));
-      parent.markDirty();
+      if (parent != null) {
+        parent.markDirty();
+      }
     }
 
     public record PortalData(
