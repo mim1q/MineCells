@@ -161,15 +161,15 @@ public class KingdomPortalCoreBlockEntity extends MineCellsBlockEntity {
     }
     PlayerEntityAccessor accessor = (PlayerEntityAccessor) player;
     if (this.box.intersects(player.getBoundingBox())) {
-      if (accessor.canUseKingdomPortal()) {
-        if (this.upstream) {
-          MineCellsPortal.teleportPlayerUpstream(player, world);
-        } else {
-          MineCellsPortal.teleportPlayerDownstream(player, world, this.getPos(), this.getDirection(), this.getDimensionKey());
-        }
-      } else {
-        accessor.setKingdomPortalCooldown(50);
-      }
+//      if (accessor.canUseKingdomPortal()) {
+//        if (this.upstream) {
+//          MineCellsPortal.teleportPlayerUpstream(player, world);
+//        } else {
+//          MineCellsPortal.teleportPlayerDownstream(player, world, this.getPos(), this.getDirection(), this.getDimensionKey());
+//        }
+//      } else {
+//        accessor.setKingdomPortalCooldown(50);
+//      }
     }
   }
 

@@ -92,7 +92,7 @@ public class KingdomPortalBlockEntityRenderer implements BlockEntityRenderer<Kin
     if (entity.isUpstream()) {
       PlayerEntity player = MinecraftClient.getInstance().player;
       if (player != null) {
-        key = ((PlayerEntityAccessor) player).getLastDimensionTranslationKey();
+//        key = ((PlayerEntityAccessor) player).getLastDimensionTranslationKey();
       }
     }
 

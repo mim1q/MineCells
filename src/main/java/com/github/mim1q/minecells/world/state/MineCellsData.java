@@ -18,7 +18,6 @@ public class MineCellsData extends PersistentState {
   @Override
   public void markDirty() {
     super.markDirty();
-    System.out.println(writeNbt(new NbtCompound()));
   }
 
   public static MineCellsData fromNbt(NbtCompound nbt) {
@@ -170,6 +169,20 @@ public class MineCellsData extends PersistentState {
       if (parent != null) {
         parent.markDirty();
       }
+    }
+
+    public Optional<PortalData> getPortalData(MineCellsDimension fromDimension, MineCellsDimension toDimension) {
+      System.out.println(portals);
+      var result = portals.stream()
+        .filter(it -> it.fromDimension == fromDimension && it.toDimension == toDimension)
+        .findFirst();
+      if (result.isPresent()) {
+        return result;
+      }
+      return portals.stream()
+        .filter(it -> it.fromDimension == toDimension && it.toDimension == fromDimension)
+        .findFirst()
+        .map(it -> new PortalData(it.toDimension, it.fromDimension, it.toPos, it.fromPos));
     }
 
     public record PortalData(

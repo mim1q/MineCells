@@ -21,7 +21,7 @@ public class MineCellsPortalData {
 
   public void push(RegistryKey<World> dimension, BlockPos pos) {
     portalStack.push(new Pair<>(dimension.getValue().toString(), pos));
-    player.setLastDimensionTranslationKey(MineCellsDimension.getTranslationKey(dimension));
+//    player.setLastDimensionTranslationKey(MineCellsDimension.getTranslationKey(dimension));
   }
 
   public Pair<String, BlockPos> pop() {
@@ -33,7 +33,7 @@ public class MineCellsPortalData {
     if (!portalStack.isEmpty()) {
       translationKey = MineCellsDimension.getTranslationKey(portalStack.peek().getLeft());
     }
-    player.setLastDimensionTranslationKey(translationKey);
+//    player.setLastDimensionTranslationKey(translationKey);
     return pair;
   }
 
@@ -73,6 +73,6 @@ public class MineCellsPortalData {
     if (portalStack.isEmpty()) {
       return;
     }
-    player.setLastDimensionTranslationKey(MineCellsDimension.getTranslationKey(peek().getLeft()));
+//    player.setLastDimensionTranslationKey(MineCellsDimension.getTranslationKey(peek().getLeft()));
   }
 }

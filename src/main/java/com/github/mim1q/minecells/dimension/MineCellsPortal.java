@@ -29,8 +29,8 @@ public class MineCellsPortal {
       RegistryKey<World> targetDimension
   ) {
     PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
-    playerAccessor.setKingdomPortalCooldown(10);
-    playerAccessor.getMineCellsPortalData().push(world.getRegistryKey(), pos.add(portalDirection.getVector()));
+//    playerAccessor.setKingdomPortalCooldown(10);
+//    playerAccessor.getMineCellsPortalData().push(world.getRegistryKey(), pos.add(portalDirection.getVector()));
     ServerWorld targetWorld = world.getServer().getWorld(targetDimension);
     Vec3d teleportPos = MineCellsDimension.getTeleportPos(targetDimension, pos, targetWorld);
     if (teleportPos == null) {
@@ -47,22 +47,22 @@ public class MineCellsPortal {
   }
 
   public static void teleportPlayerUpstream(ServerPlayerEntity player, ServerWorld world) {
-    PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
-    playerAccessor.setKingdomPortalCooldown(10);
-    Pair<String, BlockPos> portal = playerAccessor.getMineCellsPortalData().pop();
-    if (portal == null) {
-      teleportToSpawnpoint(player, world);
-      return;
-    }
-    RegistryKey<World> worldKey = RegistryKey.of(Registry.WORLD_KEY, new Identifier(portal.getLeft()));
-    ServerWorld targetWorld = world.getServer().getWorld(worldKey);
-    TeleportTarget target = new TeleportTarget(
-      Vec3d.ofCenter(portal.getRight()),
-      Vec3d.ZERO,
-      0.0F,
-      0.0F
-    );
-    FabricDimensions.teleport(player, targetWorld, target);
+//    PlayerEntityAccessor playerAccessor = (PlayerEntityAccessor) player;
+//    playerAccessor.setKingdomPortalCooldown(10);
+//    Pair<String, BlockPos> portal = playerAccessor.getMineCellsPortalData().pop();
+//    if (portal == null) {
+//      teleportToSpawnpoint(player, world);
+//      return;
+//    }
+//    RegistryKey<World> worldKey = RegistryKey.of(Registry.WORLD_KEY, new Identifier(portal.getLeft()));
+//    ServerWorld targetWorld = world.getServer().getWorld(worldKey);
+//    TeleportTarget target = new TeleportTarget(
+//      Vec3d.ofCenter(portal.getRight()),
+//      Vec3d.ZERO,
+//      0.0F,
+//      0.0F
+//    );
+//    FabricDimensions.teleport(player, targetWorld, target);
   }
 
   public static void teleportToSpawnpoint(ServerPlayerEntity player, ServerWorld world) {
