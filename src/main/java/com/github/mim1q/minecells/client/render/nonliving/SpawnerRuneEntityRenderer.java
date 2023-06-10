@@ -21,6 +21,9 @@ public class SpawnerRuneEntityRenderer extends EntityRenderer<SpawnerRuneEntity>
 
   @Override
   public void render(SpawnerRuneEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    if (!entity.isVisible) {
+      return;
+    }
     matrices.push();
     var yOffset = MathHelper.sin(0.1F * (entity.age + tickDelta)) * 0.15F;
     matrices.translate(0.0D, 1.25D + yOffset, 0.0D);

@@ -157,6 +157,10 @@ public class MineCellsData extends PersistentState {
       }
     }
 
+    public boolean hasActivatedSpawnerRune(MineCellsDimension dimension, BlockPos pos) {
+      return activatedSpawnerRunes.computeIfAbsent(dimension, k -> new ArrayList<>()).contains(pos);
+    }
+
     public void addPortalData(
       MineCellsDimension fromDimension,
       MineCellsDimension toDimension,

@@ -22,7 +22,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class SpawnerRuneCommand {
   public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
-    dispatcher.register(literal("spawner_rune").requires(source -> source.hasPermissionLevel(2))
+    dispatcher.register(literal("minecells:spawnerrune").requires(source -> source.hasPermissionLevel(2))
       .then(literal("spawn")
         .then(argument("id", IdentifierArgumentType.identifier())
           .executes(SpawnerRuneCommand::spawn)
@@ -39,7 +39,12 @@ public class SpawnerRuneCommand {
 
   private static int spawn(ServerWorld world, Vec3d pos, Identifier id) {
     if (world == null || pos == null || id == null) return 1;
-    var spawnerRune = MineCellsEntities.SPAWNER_RUNE.create(world);
+    SpawnerRuneEntity spawnerRune = null;
+    try {
+      spawnerRune = MineCellsEntities.SPAWNER_RUNE.create(world);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     if (spawnerRune == null) return 1;
     spawnerRune.setPosition(pos);
     spawnerRune.setDataId(id);

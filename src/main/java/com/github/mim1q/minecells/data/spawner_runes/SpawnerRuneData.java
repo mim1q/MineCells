@@ -4,8 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.floatprovider.ConstantFloatProvider;
-import net.minecraft.util.math.floatprovider.FloatProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
@@ -14,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record SpawnerRuneData(
-  FloatProvider cooldown,
-  FloatProvider spawnDistance,
+  float cooldown,
+  float spawnDistance,
   float playerDistance,
   List<Pool> pools
 ) {
   public static final Codec<SpawnerRuneData> CODEC = RecordCodecBuilder.create(instance ->
     instance.group(
-      FloatProvider.VALUE_CODEC.optionalFieldOf("cooldown", ConstantFloatProvider.create(60.0F)).forGetter(SpawnerRuneData::cooldown),
-      FloatProvider.VALUE_CODEC.optionalFieldOf("spawnDistance", ConstantFloatProvider.create(0.0F)).forGetter(SpawnerRuneData::spawnDistance),
+      Codec.FLOAT.optionalFieldOf("cooldown", 60F).forGetter(SpawnerRuneData::cooldown),
+      Codec.FLOAT.optionalFieldOf("spawnDistance", 0F).forGetter(SpawnerRuneData::spawnDistance),
       Codec.FLOAT.fieldOf("playerDistance").forGetter(SpawnerRuneData::playerDistance),
       Pool.CODEC.listOf().fieldOf("pools").forGetter(SpawnerRuneData::pools)
     ).apply(instance, SpawnerRuneData::new)

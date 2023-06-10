@@ -65,7 +65,9 @@ public class MineCellsDataCommand {
     } catch (CommandSyntaxException e) {
       return 1;
     }
-    MineCellsData.getPlayerData(player, ctx.getSource().getWorld()).portals.clear();
+    var data = MineCellsData.getPlayerData(player, ctx.getSource().getWorld());
+    data.portals.clear();
+    data.activatedSpawnerRunes.clear();
     MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
     ctx.getSource().sendFeedback(Text.literal("Mine Cells data cleared for player " + player.getName().getString()), false);
     return 0;
@@ -104,8 +106,11 @@ public class MineCellsDataCommand {
     var runPos = "x: " + Math.round(player.getX() / 1024F) + ", y: " + Math.round(player.getY() / 1024F);
     receiver.sendMessage(Text.of("Data of player " + playerName + " for run " + runPos));
     receiver.sendMessage(Text.of("Visited portals: "));
-    data.portals.forEach(it -> {
-      receiver.sendMessage(Text.of("  " + it.fromDimension().name() + " [" + it.fromPos().toShortString() + "] -> " + it.toDimension().name() + " [" + it.toPos().toShortString() + "]"));
+    data.portals.forEach(it -> receiver.sendMessage(Text.of("  " + it.fromDimension().name() + " [" + it.fromPos().toShortString() + "] -> " + it.toDimension().name() + " [" + it.toPos().toShortString() + "]")));
+    receiver.sendMessage(Text.of("Activated spawner runes: "));
+    data.activatedSpawnerRunes.forEach((k, v) -> {
+      receiver.sendMessage(Text.of("  Dimension: " + k.name()));
+      v.forEach(it -> receiver.sendMessage(Text.of("    " + it.toShortString())));
     });
   }
 }
