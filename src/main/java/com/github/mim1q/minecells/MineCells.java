@@ -8,11 +8,9 @@ import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacementModifiers;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
-import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.github.mim1q.minecells.world.state.MineCellsVersionCheckState;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
@@ -54,12 +52,6 @@ public class MineCells implements ModInitializer {
 
     ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(SPAWNER_RUNE_DATA);
     ServerPlayConnectionEvents.JOIN.register(MineCellsVersionCheckState::onOpPlayerJoin);
-    ServerPlayConnectionEvents.JOIN.register(
-      (handler, sender, server) -> MineCellsData.syncCurrentPlayerData(handler.player, server.getOverworld())
-    );
-    ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(
-      (player, fromWorld, toWorld) -> MineCellsData.syncCurrentPlayerData(player, fromWorld)
-    );
   }
 
   public static Identifier createId(String path) {

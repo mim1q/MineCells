@@ -26,7 +26,8 @@
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
-    "entity.LivingEntityClientMixin"
+    "entity.LivingEntityClientMixin",
+    "entity.player.ClientPlayerEntityMixin"
   ],
   "server": [],
   "injectors": {

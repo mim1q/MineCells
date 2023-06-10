@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.world.state;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
 import net.minecraft.entity.player.PlayerEntity;
@@ -61,7 +62,9 @@ public class MineCellsData extends PersistentState {
   }
 
   public static void syncCurrentPlayerData(ServerPlayerEntity player, ServerWorld world) {
-    SyncMineCellsPlayerDataS2CPacket.send(player, getPlayerData(player, world));
+    var data = getPlayerData(player, world);
+    ((PlayerEntityAccessor)player).setMineCellsData(data);
+    SyncMineCellsPlayerDataS2CPacket.send(player, data);
   }
 
   public static class RunData {
@@ -172,7 +175,6 @@ public class MineCellsData extends PersistentState {
     }
 
     public Optional<PortalData> getPortalData(MineCellsDimension fromDimension, MineCellsDimension toDimension) {
-      System.out.println(portals);
       var result = portals.stream()
         .filter(it -> it.fromDimension == fromDimension && it.toDimension == toDimension)
         .findFirst();

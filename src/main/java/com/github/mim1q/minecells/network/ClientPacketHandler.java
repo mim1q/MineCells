@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.network;
 import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SyncCellForgeRecipeS2CPacket;
+import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -33,6 +34,7 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(SyncCellForgeRecipeS2CPacket.ID, ClientPacketHandler::handleSyncCellForge);
     ClientPlayNetworking.registerGlobalReceiver(SpawnRuneParticlesS2CPacket.ID, SpawnRuneParticlesS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(ObeliskActivationS2CPacket.ID, ObeliskActivationS2CPacket::apply);
+    ClientPlayNetworking.registerGlobalReceiver(SyncMineCellsPlayerDataS2CPacket.ID, SyncMineCellsPlayerDataS2CPacket::apply);
   }
   private static void handleCrit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
     Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());

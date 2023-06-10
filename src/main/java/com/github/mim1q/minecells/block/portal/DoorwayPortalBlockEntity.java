@@ -1,8 +1,11 @@
 package com.github.mim1q.minecells.block.portal;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -19,6 +22,14 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public MutableText getLabel() {
     return Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
+  }
+
+  public boolean canPlayerEnter(PlayerEntity player) {
+    if (player == null) return false;
+    return ((PlayerEntityAccessor)player).getMineCellsData().getPortalData(
+      MineCellsDimension.getFrom(player.world),
+      ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
+    ).isPresent();
   }
 
   public float getRotation() {

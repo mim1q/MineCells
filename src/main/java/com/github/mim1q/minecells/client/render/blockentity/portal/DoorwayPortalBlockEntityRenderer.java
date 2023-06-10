@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.blockentity.portal;
 
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.util.RenderUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -27,7 +28,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - entity.getRotation()));
     matrices.translate(0.0, 0.0, 0.49);
     RenderUtils.drawBillboard(vertices, matrices, 0xF000F0, 1.5F, 2.5F, 40F/64, 64F/64, 8F/64,48F/64, 255);
-    var barsProgress = 0.25F;
+    var barsProgress = entity.canPlayerEnter(MinecraftClient.getInstance().player) ? 0.25F : 1.0F;
     var minY = 1.25F - barsProgress * 2.5F;
     var minV = (48 - 40F * barsProgress)/64;
     matrices.translate(0.0, 0.01, -0.25);
