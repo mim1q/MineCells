@@ -103,7 +103,7 @@ public class MineCellsDataCommand {
     if (receiver == null) {
       return;
     }
-    var runPos = "x: " + Math.round(player.getX() / 1024F) + ", y: " + Math.round(player.getY() / 1024F);
+    var runPos = "x: " + Math.round(player.getX() / 1024F) + ", z: " + Math.round(player.getZ() / 1024F);
     receiver.sendMessage(Text.of("Data of player " + playerName + " for run " + runPos));
     receiver.sendMessage(Text.of("Visited portals: "));
     data.portals.forEach(it -> receiver.sendMessage(Text.of("  " + it.fromDimension().name() + " [" + it.fromPos().toShortString() + "] -> " + it.toDimension().name() + " [" + it.toPos().toShortString() + "]")));
