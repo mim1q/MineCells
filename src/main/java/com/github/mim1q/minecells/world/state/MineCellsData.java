@@ -14,7 +14,7 @@ import net.minecraft.world.PersistentState;
 import java.util.*;
 
 public class MineCellsData extends PersistentState {
-  private final Map<Integer, RunData> runs = new HashMap<>();
+  public final Map<Integer, RunData> runs = new HashMap<>();
 
   @Override
   public void markDirty() {
@@ -41,7 +41,7 @@ public class MineCellsData extends PersistentState {
     return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(MineCellsData::fromNbt, MineCellsData::new, "MineCellsData");
   }
 
-  public static PlayerData getPlayerData(PlayerEntity player, ServerWorld world) {
+  public static PlayerData getPlayerData(ServerPlayerEntity player, ServerWorld world) {
     return get(world).getRun(player.getBlockPos()).getPlayerData(player);
   }
 
@@ -62,7 +62,7 @@ public class MineCellsData extends PersistentState {
   }
 
   public static void syncCurrentPlayerData(ServerPlayerEntity player, ServerWorld world) {
-    var data = getPlayerData(player, world);
+    var data = new PlayerSpecificMineCellsData(get(world), player);
     ((PlayerEntityAccessor)player).setMineCellsData(data);
     SyncMineCellsPlayerDataS2CPacket.send(player, data);
   }
@@ -114,6 +114,8 @@ public class MineCellsData extends PersistentState {
   }
 
   public static class PlayerData {
+    public static final PlayerData EMPTY = new PlayerData(new NbtCompound(), null);
+
     public final Map<MineCellsDimension, List<BlockPos>> activatedSpawnerRunes = new HashMap<>();
     public final List<PortalData> portals = new ArrayList<>();
     private final PersistentState parent;

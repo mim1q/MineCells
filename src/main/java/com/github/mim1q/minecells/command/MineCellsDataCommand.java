@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.command;
 
 import com.github.mim1q.minecells.world.state.MineCellsData;
+import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -86,8 +87,8 @@ public class MineCellsDataCommand {
   private static int printServerWorldData(CommandContext<ServerCommandSource> ctx) {
     try {
       var player = EntityArgumentType.getPlayer(ctx, "player");
-      var data = MineCellsData.getPlayerData(player, ctx.getSource().getWorld());
-      sendData(ctx.getSource().getPlayer(), player, player.getName().getString(), data);
+      var data = new PlayerSpecificMineCellsData(MineCellsData.get(ctx.getSource().getWorld()), player);
+      sendData(ctx.getSource(), player.getName().getString(), data);
     } catch (CommandSyntaxException e) {
       return 1;
     }
@@ -95,22 +96,23 @@ public class MineCellsDataCommand {
   }
 
   private static void sendData(
-    ServerPlayerEntity receiver,
-    ServerPlayerEntity player,
+    ServerCommandSource source,
     String playerName,
-    MineCellsData.PlayerData data
+    PlayerSpecificMineCellsData data
   ) {
-    if (receiver == null) {
-      return;
-    }
-    var runPos = "x: " + Math.round(player.getX() / 1024F) + ", z: " + Math.round(player.getZ() / 1024F);
-    receiver.sendMessage(Text.of("Data of player " + playerName + " for run " + runPos));
-    receiver.sendMessage(Text.of("Visited portals: "));
-    data.portals.forEach(it -> receiver.sendMessage(Text.of("  " + it.fromDimension().name() + " [" + it.fromPos().toShortString() + "] -> " + it.toDimension().name() + " [" + it.toPos().toShortString() + "]")));
-    receiver.sendMessage(Text.of("Activated spawner runes: "));
-    data.activatedSpawnerRunes.forEach((k, v) -> {
-      receiver.sendMessage(Text.of("  Dimension: " + k.name()));
-      v.forEach(it -> receiver.sendMessage(Text.of("    " + it.toShortString())));
+    source.sendMessage(Text.of("=== Mine Cells Data for " + playerName + " ==="));
+    data.map.forEach((key, value) -> {
+      source.sendMessage(Text.of(key));
+      source.sendMessage(Text.of(" Portals:"));
+      value.portals.forEach(it -> source.sendMessage(Text.of("  " + it.fromDimension() + " [" + it.fromPos().toShortString() + "] -> " + it.toDimension() + " [" + it.toPos().toShortString() + "]")));
+      source.sendMessage(Text.of(" Activated Spawner Runes:"));
+      value.activatedSpawnerRunes.forEach((k, v) -> {
+        var runesString = new StringBuilder();
+        v.forEach(it -> {
+          runesString.append("[").append(it.toShortString()).append("] ");
+        });
+        source.sendMessage(Text.of("  " + k + ": " + runesString));
+      });
     });
   }
 }

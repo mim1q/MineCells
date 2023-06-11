@@ -25,9 +25,9 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   public boolean canPlayerEnter(PlayerEntity player) {
-    if (player == null) return false;
-    return ((PlayerEntityAccessor)player).getMineCellsData().getPortalData(
-      MineCellsDimension.getFrom(player.world),
+    if (player == null || world == null) return false;
+    return ((PlayerEntityAccessor)player).getMineCellsData().get(this.pos).getPortalData(
+      MineCellsDimension.getFrom(world),
       ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
     ).isPresent();
   }

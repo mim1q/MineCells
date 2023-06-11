@@ -39,10 +39,10 @@ public class SpawnerRuneEntity extends Entity {
   @Override
   public void tick() {
     if (!world.isClient && age % 20 == 0 && data != null && !isCoolingDown()) {
-      for (var player : world.getEntitiesByClass(PlayerEntity.class, this.getBoundingBox().expand(data.playerDistance()), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
+      for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, this.getBoundingBox().expand(data.playerDistance()), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player)) {
-          ((PlayerEntityAccessor)player).getMineCellsData().addActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
-          MineCellsData.syncCurrentPlayerData((ServerPlayerEntity) player, (ServerWorld) world);
+          MineCellsData.getPlayerData(player, (ServerWorld) world).addActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
+          MineCellsData.syncCurrentPlayerData(player, (ServerWorld) world);
           spawnEntities();
           break;
         }
@@ -60,7 +60,7 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   private boolean canPlayerActivate(PlayerEntity player) {
-    var dimensionData = ((PlayerEntityAccessor)player).getMineCellsData();
+    var dimensionData = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData();
     if (dimensionData == null) {
       return false;
     }

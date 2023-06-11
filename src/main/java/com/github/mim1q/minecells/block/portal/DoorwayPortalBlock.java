@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.block.portal;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.FillerBlock;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
@@ -11,6 +12,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -55,6 +57,15 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    if (context instanceof EntityShapeContext entityShapeContext) {
+      var entity = entityShapeContext.getEntity();
+      var blockEntity = world.getBlockEntity(pos, MineCellsBlockEntities.DOORWAY).orElse(null);
+      if (entity instanceof PlayerEntity player && blockEntity != null) {
+        if (!blockEntity.canPlayerEnter(player)) {
+          return getOutlineShape(state, world, pos, context);
+        }
+      }
+    }
     return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), COLLISION_SHAPE);
   }
 
@@ -73,18 +84,16 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (world instanceof ServerWorld serverWorld) {
-      var box = getCollisionShape(state, world, pos, ShapeContext.of(entity)).getBoundingBox()
+      var box = ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), COLLISION_SHAPE).getBoundingBox()
         .offset(pos)
         .expand(0.01);
-      if (entity.getBoundingBox().intersects(box)) {
-        if (entity instanceof PlayerEntity player) {
-          MineCellsData.getPlayerData(player, serverWorld).addPortalData(
-            MineCellsDimension.getFrom(world),
-            type.dimension,
-            pos.add(state.get(FACING).getVector()),
-            new BlockPos(type.dimension.getTeleportPosition(pos, serverWorld))
-          );
-        }
+      if (entity.getBoundingBox().intersects(box) && entity instanceof ServerPlayerEntity player) {
+        MineCellsData.getPlayerData(player, serverWorld).addPortalData(
+          MineCellsDimension.getFrom(world),
+          type.dimension,
+          pos.add(state.get(FACING).getVector()),
+          new BlockPos(type.dimension.getTeleportPosition(pos, serverWorld))
+        );
         type.dimension.teleportEntity(entity, serverWorld);
       }
     }

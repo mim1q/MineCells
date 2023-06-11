@@ -8,6 +8,7 @@ import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -45,7 +46,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   private int balancedBladeStacks = 0;
   private int balancedBladeTimer = 0;
   private int minecells$invincibilityFrames = 0;
-  private MineCellsData.PlayerData mineCellsPlayerData = new MineCellsData.PlayerData(new NbtCompound(), null);
+  private PlayerSpecificMineCellsData mineCellsPlayerData = new PlayerSpecificMineCellsData(new NbtCompound());
 
   protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -80,12 +81,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   }
 
   @Override
-  public MineCellsData.PlayerData getMineCellsData() {
+  public PlayerSpecificMineCellsData getMineCellsData() {
     return mineCellsPlayerData;
   }
 
   @Override
-  public void setMineCellsData(MineCellsData.PlayerData data) {
+  public MineCellsData.PlayerData getCurrentMineCellsPlayerData() {
+    return mineCellsPlayerData.get(this.getBlockX(), this.getBlockZ());
+  }
+
+  @Override
+  public void setMineCellsData(PlayerSpecificMineCellsData data) {
     mineCellsPlayerData = data;
   }
 
