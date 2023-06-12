@@ -87,7 +87,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
 
   @Override
   public MineCellsData.PlayerData getCurrentMineCellsPlayerData() {
-    return mineCellsPlayerData.get(this.getBlockX(), this.getBlockZ());
+    return mineCellsPlayerData.get(this.getBlockPos());
   }
 
   @Override

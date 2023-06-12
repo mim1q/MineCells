@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.command;
 
+import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import com.mojang.brigadier.CommandDispatcher;
@@ -75,7 +76,13 @@ public class MineCellsDataCommand {
   }
 
   private static int printServerPlayerData(CommandContext<ServerCommandSource> ctx) {
-    ctx.getSource().sendFeedback(Text.literal("Not implemented"), false);
+    try {
+      var player = EntityArgumentType.getPlayer(ctx, "player");
+      var data = ((PlayerEntityAccessor)player).getMineCellsData();
+      sendData(ctx.getSource(), player.getName().getString(), data);
+    } catch (CommandSyntaxException e) {
+      return 1;
+    }
     return 0;
   }
 
@@ -108,9 +115,7 @@ public class MineCellsDataCommand {
       source.sendMessage(Text.of(" Activated Spawner Runes:"));
       value.activatedSpawnerRunes.forEach((k, v) -> {
         var runesString = new StringBuilder();
-        v.forEach(it -> {
-          runesString.append("[").append(it.toShortString()).append("] ");
-        });
+        v.forEach(it -> runesString.append("[").append(it.toShortString()).append("] "));
         source.sendMessage(Text.of("  " + k + ": " + runesString));
       });
     });

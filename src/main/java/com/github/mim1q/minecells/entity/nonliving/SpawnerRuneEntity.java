@@ -21,6 +21,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 public class SpawnerRuneEntity extends Entity {
   private Identifier dataId = MineCells.createId("prison_melee");
   private SpawnerRuneData data = MineCells.SPAWNER_RUNE_DATA.get(dataId);
-  public boolean isVisible = false;
+  public boolean isVisible = true;
 
   private static final TrackedData<Integer> LAST_ACTIVATION_TIME = DataTracker.registerData(SpawnerRuneEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -39,7 +40,8 @@ public class SpawnerRuneEntity extends Entity {
   @Override
   public void tick() {
     if (!world.isClient && age % 20 == 0 && data != null && !isCoolingDown()) {
-      for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, this.getBoundingBox().expand(data.playerDistance()), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
+      var d = data.playerDistance();
+      for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(this.getPos(), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player)) {
           MineCellsData.getPlayerData(player, (ServerWorld) world).addActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
           MineCellsData.syncCurrentPlayerData(player, (ServerWorld) world);
@@ -49,8 +51,7 @@ public class SpawnerRuneEntity extends Entity {
       }
     }
     if (world.isClient && age % 20 == 0) {
-      var clientPlayer = MinecraftClient.getInstance().player;
-      isVisible = clientPlayer != null && (clientPlayer.isCreative() || canPlayerActivate(clientPlayer));
+      isVisible = canClientPlayerActivate();
     }
   }
 
@@ -60,6 +61,16 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   private boolean canPlayerActivate(PlayerEntity player) {
+    var dimensionData = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData();
+    if (dimensionData == null) {
+      return false;
+    }
+    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
+  }
+
+  private boolean canClientPlayerActivate() {
+    var player = MinecraftClient.getInstance().player;
+    if (player == null) return false;
     var dimensionData = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData();
     if (dimensionData == null) {
       return false;
