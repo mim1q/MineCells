@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@Mixin(value = CustomPayloadS2CPacket.class, priority = 2275)
+@Mixin(value = CustomPayloadS2CPacket.class, priority = 275)
 public abstract class CustomPayloadS2CPacketMixin implements Packet<ClientPlayPacketListener> {
   @ModifyConstant(
     method = "<init>(Lnet/minecraft/util/Identifier;Lnet/minecraft/network/PacketByteBuf;)V",
