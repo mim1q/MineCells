@@ -1,0 +1,13 @@
+{
+  "cooldown": 120.0,
+  "spawnDistance": 0.0,
+  "playerDistance": 8.0,
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "weight": 1, "entity": "minecells:runner" }
+      ]
+    }
+  ]
+}

@@ -109,6 +109,14 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   public void setDataId(Identifier id) {
+    var newData = MineCells.SPAWNER_RUNE_DATA.get(id);
+    if (newData == null) {
+      MineCells.LOGGER.warn("Tried to load unknown spawner rune data with id: " + id
+        + " at pos " + getBlockPos().toShortString()
+        + " in dimension " + world.getRegistryKey().getValue().toString()
+      );
+      return;
+    }
     this.dataId = id;
     this.data = MineCells.SPAWNER_RUNE_DATA.get(id);
   }
