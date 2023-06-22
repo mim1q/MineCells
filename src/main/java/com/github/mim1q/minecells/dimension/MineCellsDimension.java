@@ -3,8 +3,8 @@ package com.github.mim1q.minecells.dimension;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
-import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -55,17 +55,28 @@ public enum MineCellsDimension {
     return Vec3d.ofCenter(tpPos);
   }
 
-  public void teleportEntity(Entity entity, ServerWorld world) {
+  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world) {
     var destination = getWorld(world);
-    var target = new TeleportTarget(getTeleportPosition(entity.getBlockPos(), destination), Vec3d.ZERO, pitch, yaw);
-    FabricDimensions.teleport(entity, destination, target);
+    Vec3d teleportPos;
+    if (this == OVERWORLD) {
+      if (player.getSpawnPointDimension() == OVERWORLD.key && player.getSpawnPointPosition() != null) {
+        teleportPos = Vec3d.ofCenter(player.getSpawnPointPosition());
+      } else {
+        teleportPos = Vec3d.ofCenter(world.getSpawnPos());
+      }
+    } else {
+      teleportPos = getTeleportPosition(player.getBlockPos(), world);
+    }
+    world.getServer().execute(() ->
+      FabricDimensions.teleport(player, destination, new TeleportTarget(teleportPos, Vec3d.ZERO, 0F, 0F))
+    );
   }
 
   public ServerWorld getWorld(ServerWorld world) {
     return world.getServer().getWorld(key);
   }
 
-  public static MineCellsDimension getFrom(RegistryKey<World> key) {
+  public static MineCellsDimension of(RegistryKey<World> key) {
     for (MineCellsDimension dimension : values()) {
       if (dimension.key.equals(key)) {
         return dimension;
@@ -74,8 +85,8 @@ public enum MineCellsDimension {
     return null;
   }
 
-  public static MineCellsDimension getFrom(World world) {
-    return getFrom(world.getRegistryKey());
+  public static MineCellsDimension of(World world) {
+    return of(world.getRegistryKey());
   }
 
   public static World getWorld(World world, RegistryKey<World> key) {
@@ -91,25 +102,6 @@ public enum MineCellsDimension {
     return Arrays.stream(values()).anyMatch(dimension -> dimension.key == world.getRegistryKey());
   }
 
-  public static Vec3d getTeleportPos(RegistryKey<World> dimension, BlockPos pos, ServerWorld world) {
-    BlockPos runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
-//    if (dimension.equals(PRISON)) {
-//      return new Vec3d(runCenter.getX() + 8, 43, runCenter.getZ() + 5.5);
-//    }
-//    if (dimension.equals(INSUFFERABLE_CRYPT)) {
-//      return new Vec3d(runCenter.getX() + 6, 41, runCenter.getZ() + 3.5);
-//    }
-//    if (dimension.equals(PROMENADE)) {
-//      runCenter = runCenter.add(6, 0, 6);
-//      int y = world.getChunk(runCenter).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, runCenter.getX(), runCenter.getZ());
-//      BlockPos groundPos = runCenter.withY(y);
-//      if (groundPos.getY() == 0) return null;
-//      BlockPos tpPos = MineCellsPortal.placeUpstreamPortal(world, groundPos.down());
-//      return Vec3d.ofCenter(tpPos).add(3.5D, 0.0D, 3.5D);
-//    }
-    return null;
-  }
-
   public static String getTranslationKey(RegistryKey<World> dimension) {
     Identifier id = dimension.getValue();
     return "dimension." + id.getNamespace() + "." + id.getPath();
@@ -120,7 +112,7 @@ public enum MineCellsDimension {
     return "dimension." + id.getNamespace() + "." + id.getPath();
   }
 
-  public static MineCellsDimension getFrom(Identifier id) {
+  public static MineCellsDimension of(Identifier id) {
     return Arrays.stream(values()).filter(value -> value.id.equals(id)).findFirst().orElse(null);
   }
 }

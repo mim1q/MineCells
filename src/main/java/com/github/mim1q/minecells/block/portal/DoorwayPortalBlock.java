@@ -7,7 +7,6 @@ import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
-import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -88,13 +87,10 @@ public class DoorwayPortalBlock extends BlockWithEntity {
         .offset(pos)
         .expand(0.01);
       if (entity.getBoundingBox().intersects(box) && entity instanceof ServerPlayerEntity player) {
-        MineCellsData.getPlayerData(player, serverWorld).addPortalData(
-          MineCellsDimension.getFrom(world),
-          type.dimension,
-          pos.add(state.get(FACING).getVector()),
-          new BlockPos(type.dimension.getTeleportPosition(pos, serverWorld))
-        );
-        type.dimension.teleportEntity(entity, serverWorld);
+        var blockentity = world.getBlockEntity(pos);
+        if (blockentity instanceof DoorwayPortalBlockEntity doorway) {
+          doorway.teleportPlayer(player, serverWorld, type.dimension);
+        }
       }
     }
   }

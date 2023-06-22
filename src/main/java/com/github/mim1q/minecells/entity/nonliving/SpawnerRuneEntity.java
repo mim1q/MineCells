@@ -43,7 +43,7 @@ public class SpawnerRuneEntity extends Entity {
       var d = data.playerDistance();
       for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(this.getPos(), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player)) {
-          MineCellsData.getPlayerData(player, (ServerWorld) world).addActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
+          MineCellsData.getPlayerData(player, (ServerWorld) world).addActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
           MineCellsData.syncCurrentPlayerData(player, (ServerWorld) world);
           spawnEntities();
           break;
@@ -65,7 +65,7 @@ public class SpawnerRuneEntity extends Entity {
     if (dimensionData == null) {
       return false;
     }
-    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
+    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
   }
 
   private boolean canClientPlayerActivate() {
@@ -75,7 +75,7 @@ public class SpawnerRuneEntity extends Entity {
     if (dimensionData == null) {
       return false;
     }
-    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.getFrom(world), getBlockPos());
+    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
   }
 
   private void spawnEntities() {

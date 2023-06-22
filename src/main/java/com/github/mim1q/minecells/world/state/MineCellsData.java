@@ -124,7 +124,7 @@ public class MineCellsData extends PersistentState {
       this.parent = parent;
       var runeNbt = nbt.getCompound("ActivatedSpawnerRunes");
       for (var id : runeNbt.getKeys()) {
-        var dimension = MineCellsDimension.getFrom(new Identifier(id));
+        var dimension = MineCellsDimension.of(new Identifier(id));
         activatedSpawnerRunes.put(dimension, new ArrayList<>());
         for (var pos : runeNbt.getLongArray(id)) {
           activatedSpawnerRunes.get(dimension).add(BlockPos.fromLong(pos));
@@ -201,8 +201,8 @@ public class MineCellsData extends PersistentState {
     ) {
       public static PortalData fromNbt(NbtCompound nbt) {
         return new PortalData(
-          MineCellsDimension.getFrom(new Identifier(nbt.getString("FromDimension"))),
-          MineCellsDimension.getFrom(new Identifier(nbt.getString("ToDimension"))),
+          MineCellsDimension.of(new Identifier(nbt.getString("FromDimension"))),
+          MineCellsDimension.of(new Identifier(nbt.getString("ToDimension"))),
           BlockPos.fromLong(nbt.getLong("FromPos")),
           BlockPos.fromLong(nbt.getLong("ToPos"))
         );
