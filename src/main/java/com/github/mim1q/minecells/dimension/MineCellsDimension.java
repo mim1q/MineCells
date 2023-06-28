@@ -17,41 +17,46 @@ import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 8, 43, 5, 1024.0),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 3, 1024.0),
-  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, 200, 6, 1024.0);
+  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0);
+
+  private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
+    PROMENADE_OF_THE_CONDEMNED
+  );
 
   public final RegistryKey<World> key;
   private final Identifier id;
   public final String translationKey;
   private final Vec3i spawnOffset;
   public final double borderSize;
-  private final float pitch;
   private final float yaw;
 
-  MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize, float pitch, float yaw) {
+  MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize, float yaw) {
     this.key = RegistryKey.of(Registry.WORLD_KEY, id);
     this.id = id;
     this.translationKey = (id.toTranslationKey("dimension"));
     this.spawnOffset = new Vec3i(offsetX, offsetY, offsetZ);
     this.borderSize = borderSize;
-    this.pitch = pitch;
     this.yaw = yaw;
   }
 
   MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize) {
-    this(id, offsetX, offsetY, offsetZ, borderSize, 0, 0);
+    this(id, offsetX, offsetY, offsetZ, borderSize, 0F);
   }
 
   public Vec3d getTeleportPosition(BlockPos pos, ServerWorld world) {
     var destination = getWorld(world);
     var runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
     var tpPos = runCenter.add(spawnOffset.getX(), spawnOffset.getY(), spawnOffset.getZ());
-    var y = destination.getChunk(tpPos).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, tpPos.getX(), tpPos.getZ());
-    if (y < tpPos.getY()) return Vec3d.ofCenter(tpPos.withY(y + 2));
+    if (DIMENSIONS_WITH_SURFACE.contains(this)) {
+      var y = destination.getChunk(tpPos).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, tpPos.getX(), tpPos.getZ());
+      return Vec3d.ofCenter(tpPos).add(0.0, y, 0.0);
+    }
     return Vec3d.ofCenter(tpPos);
   }
 
@@ -68,7 +73,7 @@ public enum MineCellsDimension {
       teleportPos = getTeleportPosition(player.getBlockPos(), world);
     }
     world.getServer().execute(() ->
-      FabricDimensions.teleport(player, destination, new TeleportTarget(teleportPos, Vec3d.ZERO, 0F, 0F))
+      FabricDimensions.teleport(player, destination, new TeleportTarget(teleportPos, Vec3d.ZERO, yaw, 0F))
     );
   }
 

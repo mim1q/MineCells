@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.block.blockentity;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
-import com.github.mim1q.minecells.dimension.MineCellsPortal;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;

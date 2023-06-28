@@ -51,6 +51,8 @@ object ModTemplatePools {
 
   fun promenadeOfTheCondemned() = Preset {
     val proc = "minecells:promenade"
+    // Spawn
+    add(Presets.single("minecells:promenade/spawn", proc))
     // Overground decorations
     add(Presets.indexed("minecells:promenade/chain_pile", 1, 2, 2, 2, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = proc))

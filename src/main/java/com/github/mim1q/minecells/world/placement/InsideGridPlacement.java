@@ -25,7 +25,7 @@ public class InsideGridPlacement extends StructurePlacement {
   public static final Codec<InsideGridPlacement> CODEC = RecordCodecBuilder.create(instance ->
     instance.group(
       Vec3i.createOffsetCodec(16).optionalFieldOf("locate_offset", Vec3i.ZERO).forGetter(InsideGridPlacement::getLocateOffset),
-      Codecs.NONNEGATIVE_INT.fieldOf("salt").forGetter(InsideGridPlacement::getSalt),
+      Codecs.NONNEGATIVE_INT.optionalFieldOf("salt", 0).forGetter(InsideGridPlacement::getSalt),
       ExclusionZone.CODEC.optionalFieldOf("exclusion_zone").forGetter(InsideGridPlacement::getExclusionZone),
       Codecs.NONNEGATIVE_INT.optionalFieldOf("grid_size", 64).forGetter(p -> p.gridSize),
       Codecs.NONNEGATIVE_INT.fieldOf("min_distance").forGetter(p -> p.minDistance),

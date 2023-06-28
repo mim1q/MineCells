@@ -17,6 +17,8 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
@@ -116,9 +118,21 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     }
   }
 
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(FACING, rotation.rotate(state.get(FACING)));
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState mirror(BlockState state, BlockMirror mirror) {
+    return state.with(FACING, mirror.apply(state.get(FACING)));
+  }
+
   public enum DoorwayType {
     OVERWORLD(MineCellsDimension.OVERWORLD, 0x8EF96D),
-    PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0xFFE77E),
+    PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0xC1FCC4),
     PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7),
     INSUFFERABLE_CRYPT(MineCellsDimension.INSUFFERABLE_CRYPT, 0xFF4CF4);
 
@@ -162,8 +176,15 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     }
 
     @Override
-    public float getHardness() {
-      return super.getHardness();
+    @SuppressWarnings("deprecation")
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+      return state.with(FACING, rotation.rotate(state.get(FACING)));
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
+      return state.with(FACING, mirror.apply(state.get(FACING)));
     }
 
     private enum FillerType implements StringIdentifiable {
