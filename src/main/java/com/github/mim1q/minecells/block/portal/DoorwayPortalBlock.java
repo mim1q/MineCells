@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.FillerBlock;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
@@ -24,6 +23,7 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -35,7 +35,6 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   private static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
   private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
-  private static final Filler FILLER = MineCellsBlocks.DOORWAY_FRAME;
   public final DoorwayType type;
 
   public DoorwayPortalBlock(Settings settings, DoorwayType type) {
@@ -130,6 +129,27 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     return state.with(FACING, mirror.apply(state.get(FACING)));
   }
 
+  @Override
+  @SuppressWarnings("deprecation")
+  public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    super.onStateReplaced(state, world, pos, newState, moved);
+    if (world.isClient()) return;
+    var facing = state.get(FACING);
+    var x = facing.rotateYClockwise().getOffsetX();
+    var z = facing.rotateYClockwise().getOffsetZ();
+    for (int xz = -1; xz <= 1; xz++) {
+      for (int y = -1; y <= 1; y++) {
+        world.breakBlock(pos.add(x * xz, y, z * xz), true);
+      }
+    }
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+    MineCellsBlocks.DOORWAY_FRAME.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+  }
+
   public enum DoorwayType {
     OVERWORLD(MineCellsDimension.OVERWORLD, 0x8EF96D),
     PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0xC1FCC4),
@@ -146,11 +166,11 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     }
   }
 
-  public static class Filler extends FillerBlock {
+  public static class Frame extends Block {
     private static final EnumProperty<FillerType> TYPE = EnumProperty.of("type", FillerType.class);
 
-    public Filler(Settings settings) {
-      super(settings, (block) -> block instanceof DoorwayPortalBlock, true);
+    public Frame(Settings settings) {
+      super(settings);
     }
 
     @Override
@@ -187,17 +207,54 @@ public class DoorwayPortalBlock extends BlockWithEntity {
       return state.with(FACING, mirror.apply(state.get(FACING)));
     }
 
-    private enum FillerType implements StringIdentifiable {
-      MIDDLE(SHAPE, COLLISION_SHAPE, "middle"),
+    @Override
+    @SuppressWarnings("deprecation")
+    public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView blockView, BlockPos pos) {
+      if (blockView instanceof World world && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
+        return super.calcBlockBreakingDelta(state, player, blockView, pos);
+      }
+      return 0F;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+      if (
+        MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
+        && sourcePos.equals(pos.subtract(state.get(FACING).getVector()))
+      ) {
+        onBroken(world, pos, state);
+        world.breakBlock(pos, true);
+      }
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+      super.onStateReplaced(state, world, pos, newState, moved);
+      if (world.isClient()) return;
+      var direction = state.get(FACING);
+      var offset = state.get(TYPE).breakOffset;
+      var x = direction.rotateYCounterclockwise().getOffsetX();
+      var z = direction.rotateYCounterclockwise().getOffsetZ();
+      var breakPos = pos.add(offset.getX() * x, offset.getY(), offset.getX() * z);
+      world.getBlockState(breakPos).getBlock().onBroken(world, breakPos, world.getBlockState(breakPos));
+      world.breakBlock(breakPos, true);
+    }
+
+    public enum FillerType implements StringIdentifiable {
+      MIDDLE(SHAPE, COLLISION_SHAPE, "middle", new Vec3i(0, 1, 0)),
       RIGHT(
         createCuboidShape(4.0, 0.0, 8.0, 16.0, 16.0, 16.0),
         createCuboidShape(4.0, 0.0, 8.0, 12.0, 16.0, 16.0),
-        "right"
+        "right",
+        new Vec3i(-1, 0, 0)
       ),
       LEFT(
         createCuboidShape(0.0, 0.0, 8.0, 12.0, 16.0, 16.0),
         createCuboidShape(4.0, 0.0, 8.0, 12.0, 16.0, 16.0),
-        "left"
+        "left",
+        new Vec3i(1, 0, 0)
       ),
       TOP_RIGHT(
         createCuboidShape(4.0, 0.0, 8.0, 16.0, 16.0, 16.0),
@@ -205,7 +262,8 @@ public class DoorwayPortalBlock extends BlockWithEntity {
           createCuboidShape(4.0, 0.0, 8.0, 12.0, 16.0, 16.0),
           createCuboidShape(12.0, 8.0, 8.0, 16.0, 16.0, 16.0)
         ),
-        "top_right"
+        "top_right",
+        new Vec3i(-1, 0, 0)
       ),
       TOP_LEFT(
         createCuboidShape(0.0, 0.0, 8.0, 12.0, 16.0, 16.0),
@@ -213,21 +271,26 @@ public class DoorwayPortalBlock extends BlockWithEntity {
           createCuboidShape(4.0, 0.0, 8.0, 12.0, 16.0, 16.0),
           createCuboidShape(0.0, 8.0, 8.0, 4.0, 16.0, 16.0)
         ),
-        "top_left"
+        "top_left",
+        new Vec3i(1, 0, 0)
       ),
       TOP(
         SHAPE,
         createCuboidShape(0.0, 8.0, 8.0, 16.0, 16.0, 16.0),
-        "top"
+        "top",
+        new Vec3i(0, -1, 0)
       );
 
       public final VoxelShape outlineShape;
       public final VoxelShape collisionShape;
       private final String name;
-      FillerType(VoxelShape outlineShape, VoxelShape collisionShape, String name) {
+      private final Vec3i breakOffset;
+
+      FillerType(VoxelShape outlineShape, VoxelShape collisionShape, String name, Vec3i breakOffset) {
         this.outlineShape = outlineShape;
         this.collisionShape = collisionShape;
         this.name = name;
+        this.breakOffset = breakOffset;
       }
 
       @Override

@@ -4,8 +4,14 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -23,6 +29,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
@@ -39,7 +46,7 @@ public class SpawnerRuneEntity extends Entity {
 
   @Override
   public void tick() {
-    if (!world.isClient && age % 20 == 0 && data != null && !isCoolingDown()) {
+    if (!world.isClient && age % 10 == 0 && data != null && !isCoolingDown()) {
       var d = data.playerDistance();
       for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(this.getPos(), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player)) {
@@ -50,8 +57,18 @@ public class SpawnerRuneEntity extends Entity {
         }
       }
     }
-    if (world.isClient && age % 20 == 0) {
-      isVisible = canClientPlayerActivate();
+    if (world.isClient && age % 5 == 0) {
+      var visible = canClientPlayerActivate();
+      if (isVisible ^ visible) {
+        ParticleUtils.addInBox(
+          (ClientWorld) world,
+          MineCellsParticles.SPECKLE.get(0xFF6A00),
+          this.getBoundingBox().offset(0.0, 1.25, 0.0),
+          5,
+          new Vec3d(-0.2D, -0.2D, -0.2D).multiply(random.nextDouble() * 0.5D + 0.5D)
+        );
+        isVisible = visible;
+      }
     }
   }
 
@@ -90,6 +107,9 @@ public class SpawnerRuneEntity extends Entity {
         hostile.initialize((ServerWorldAccess) world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.NATURAL, null, null);
       }
       world.spawnEntity(entity);
+      PlayerLookup.tracking(this).forEach((player) ->
+        ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(entity.getBoundingBox()))
+      );
     }
   }
 

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
+import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.SpawnerRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
@@ -180,6 +181,13 @@ public class MineCellsItems {
       .maxCount(1)
       .group(MineCellsItemGroups.MINECELLS)
     ), "spawner_rune"
+  );
+
+  public static final DoorwayItem PRISON_DOORWAY = register(
+    new DoorwayItem(new FabricItemSettings()
+      .maxCount(1)
+      .group(MineCellsItemGroups.MINECELLS)
+    ), "prison_doorway"
   );
 
   public static void init() {

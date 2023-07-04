@@ -21,6 +21,7 @@ public class MineCellsItemGroups {
   public static final ItemGroup MINECELLS = FabricItemGroupBuilder.create(MineCells.createId("minecells"))
     .icon(() -> Stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE))
     .appendItems(stacks -> {
+      stacks.add(Stack(MineCellsItems.PRISON_DOORWAY));
       stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
       stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());
       stacks.addAll(MineCellsBlocks.PRISON_BRICKS.getStacks());

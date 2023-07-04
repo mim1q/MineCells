@@ -103,7 +103,7 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
   @Override
   public int getShootMaxCooldown() {
-    return 20 + this.random.nextInt(20);
+    return 40 + this.random.nextInt(40);
   }
 
   @Override
@@ -163,7 +163,7 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
       Vec3d targetPos = target.getPos().add(0.0D, 1.3D, 0.0D);
       Vec3d entityPos = this.entity.getPos().add(0.0D, 2.25D, 0.0D);
 
-      Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(1.25D);
+      Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(1.0D);
 
       MagicOrbEntity orb = new MagicOrbEntity(MineCellsEntities.MAGIC_ORB, this.entity.world);
       orb.setPosition(entityPos);

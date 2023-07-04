@@ -46,8 +46,9 @@ fun main(args: Array<String>) {
       add(CommonModelPresets.cubeAllBlock("minecells:$it"))
     }
     add(CommonModelPresets.pillarBlock("minecells:crate"))
+    add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
     listOf("conjunctivius_box", "beam_placer", "doorway_frame").forEach {
-      add(it, BlockState.createSingle("minecraft:block/air"))
+      add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }
     listOf("overworld", "prison", "promenade", "insufferable_crypt").forEach {
       add(CustomPresets.doorway("minecells:$it"))
@@ -69,7 +70,7 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "biome_banner"
+      "big_chain", "broken_cage", "biome_banner", "prison_doorway"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }
@@ -84,7 +85,7 @@ fun main(args: Array<String>) {
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage"
+      "minecells:broken_cage", "minecells:prison_doorway"
     )
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",

@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "minecells:block/doorway/promenade",
-		"particle": "minecells:block/doorway/promenade"
+		"particle": "minecells:block/prison_stone"
 	},
 	"elements": [
 		{

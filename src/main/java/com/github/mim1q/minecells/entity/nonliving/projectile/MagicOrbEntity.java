@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -10,7 +11,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -41,11 +41,12 @@ public class MagicOrbEntity extends ProjectileEntity {
   }
 
   protected void spawnParticles() {
+    var particle = MineCellsParticles.SPECKLE.get(0xFFAAFF);
     if (this.age == 1) {
-      ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 15, 0.0D, 0.5D);
+      ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), particle, 15, 0.0D, 0.5D);
     }
-    ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.5D, 0.0D);
-    ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), ParticleTypes.END_ROD, 3, 0.0D, 0.0D);
+    ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), particle, 3, 0.5D, 0.0D);
+    ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), particle, 3, 0.0D, 0.0D);
   }
 
   protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
@@ -66,7 +67,7 @@ public class MagicOrbEntity extends ProjectileEntity {
   }
 
   protected float getDamage() {
-    return 5.0F;
+    return 3.0F;
   }
 
   @Override

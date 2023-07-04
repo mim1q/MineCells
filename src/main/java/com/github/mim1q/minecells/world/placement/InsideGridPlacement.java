@@ -69,7 +69,6 @@ public class InsideGridPlacement extends StructurePlacement {
   }
 
   protected List<ChunkPos> getStartChunks(ChunkPos center, int minDistance, int maxDistance, int count, Random random, long seed, long salt) {
-    System.out.println(CACHE.size());
     if (CACHE.size() >= 512 || seed != cachedSeed) {
       CACHE.clear();
       cachedSeed = seed;
@@ -98,6 +97,7 @@ public class InsideGridPlacement extends StructurePlacement {
         removeBySeparation(selection, separation, result.get(i));
       }
     }
+    System.out.println(result);
     return result;
   }
 

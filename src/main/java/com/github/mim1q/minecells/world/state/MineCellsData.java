@@ -163,17 +163,20 @@ public class MineCellsData extends PersistentState {
       return activatedSpawnerRunes.computeIfAbsent(dimension, k -> new ArrayList<>()).contains(pos);
     }
 
+    public boolean hasVisitedDimension(MineCellsDimension dimension) {
+      return portals.stream().anyMatch(it -> it.toDimension == dimension);
+    }
+
     public void addPortalData(
       MineCellsDimension fromDimension,
       MineCellsDimension toDimension,
       BlockPos fromPos,
       BlockPos toPos
     ) {
-      for (var data : portals) {
-        if (data.fromDimension == fromDimension && data.toDimension == toDimension) {
-          return;
-        }
-      }
+      portals.removeIf(data ->
+        (data.fromDimension == fromDimension && data.toDimension == toDimension)
+        || (data.toDimension == toDimension && data.fromDimension == toDimension)
+      );
       portals.add(new PortalData(fromDimension, toDimension, fromPos, toPos));
       if (parent != null) {
         parent.markDirty();

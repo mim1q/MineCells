@@ -1,7 +1,7 @@
 {
   "structures": [
     {
-      "structure": "minecells:portal",
+      "structure": "minecells:overworld_portal",
       "weight": 1
     }
   ],

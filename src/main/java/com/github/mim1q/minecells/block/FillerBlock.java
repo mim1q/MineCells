@@ -78,7 +78,7 @@ public abstract class FillerBlock extends Block {
     for (BlockPos neighbor : getNeighbors(pos)) {
       Block block = world.getBlockState(neighbor).getBlock();
       if (block == filler || targetPredicate.test(block)) {
-        world.breakBlock(neighbor, false);
+        world.breakBlock(neighbor, true);
         destroyNeighbors(world, neighbor, filler, targetPredicate);
       }
     }
