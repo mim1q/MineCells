@@ -25,6 +25,7 @@
     "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
+    "item.CompassItemMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
     "entity.LivingEntityClientMixin",
     "entity.player.ClientPlayerEntityMixin"

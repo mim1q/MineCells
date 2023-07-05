@@ -79,7 +79,12 @@ public class DoorwayItem extends AliasedBlockItem {
 
   @Override
   public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-    if (!world.isClient && selected && entity instanceof ServerPlayerEntity player) {
+    if (
+      !world.isClient
+      && selected
+      && entity instanceof ServerPlayerEntity player
+      && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
+    ) {
       var area =
            "[x: " + Math.round(entity.getPos().x / 1024F) * 1024
         + ", z: " + Math.round(entity.getPos().z / 1024F) * 1024 + "]";

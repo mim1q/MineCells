@@ -32,7 +32,7 @@ public enum MineCellsDimension {
   public final RegistryKey<World> key;
   private final Identifier id;
   public final String translationKey;
-  private final Vec3i spawnOffset;
+  public final Vec3i spawnOffset;
   public final double borderSize;
   private final float yaw;
 
