@@ -22,8 +22,11 @@ import org.jetbrains.annotations.Nullable;
 public class BarrierRuneBlock extends BarrierBlock {
   public static final BooleanProperty BOTTOM = BooleanProperty.of("bottom");
 
-  public BarrierRuneBlock(Settings settings) {
+  private final boolean solid;
+
+  public BarrierRuneBlock(Settings settings, boolean solid) {
     super(settings);
+    this.solid = solid;
   }
 
   @Override
@@ -41,7 +44,11 @@ public class BarrierRuneBlock extends BarrierBlock {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    if (context instanceof EntityShapeContext entityCtx && (entityCtx.getEntity() instanceof HostileEntity || entityCtx.getEntity() instanceof ProjectileEntity)) {
+    if (solid) return VoxelShapes.fullCube();
+    if (
+      context instanceof EntityShapeContext entityCtx
+      && (entityCtx.getEntity() instanceof HostileEntity || entityCtx.getEntity() instanceof ProjectileEntity)
+    ) {
       return VoxelShapes.fullCube();
     }
     return VoxelShapes.empty();

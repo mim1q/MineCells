@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.KingdomPortalCoreBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.Block;
@@ -37,8 +38,8 @@ public class KingdomPortalCoreBlockEntity extends MineCellsBlockEntity {
   private boolean upstream = false;
   private RegistryKey<World> dimension = RegistryKey.of(Registry.WORLD_KEY, MineCells.createId("prison"));
 
-  public final AnimationProperty litProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
-  public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty litProgress = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
+  public final AnimationProperty portalOpacity = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
 
   public KingdomPortalCoreBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.KINGDOM_PORTAL_CORE_BLOCK_ENTITY, pos, state);

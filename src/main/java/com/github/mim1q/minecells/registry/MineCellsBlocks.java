@@ -82,9 +82,15 @@ public class MineCellsBlocks {
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS), "conjunctivius_box");
   public static final Block BEAM_PLACER = registerBlock(new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "beam_placer");
   public static final Block SPAWNER_RUNE = registerBlock(new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision().nonOpaque().ticksRandomly()), "spawner_rune");
-  public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().ticksRandomly()), "barrier_rune");
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
+
+  // Barriers
+  public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
+  public static final Block SOLID_BARRIER = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
+  public static final Block CONDITIONAL_BARRIER = registerBlockWithItem(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
+  public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
+  public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::playerPredicate), "player_barrier_controller");
 
   // Portals
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");

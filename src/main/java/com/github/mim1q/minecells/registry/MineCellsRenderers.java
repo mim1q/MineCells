@@ -3,12 +3,11 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.gui.screen.CellForgeScreen;
 import com.github.mim1q.minecells.client.render.*;
-import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.KingdomPortalBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.*;
+import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -73,10 +72,12 @@ public class MineCellsRenderers {
   public static final EntityModelLayer TENTACLE_WEAPON_LAYER = new EntityModelLayer(MineCells.createId("tentacle_weapon"), "main");
   public static final EntityModelLayer OBELISK_LAYER = new EntityModelLayer(MineCells.createId("obelisk"), "main");
 
+  public static final EntityModelLayer BIG_DOOR_BARRIER_LAYER = registerLayer("barrier_controller", "big_door", BarrierControllerModel::getBigDoorTexturedModelData);
+
   public static final EntityModelLayer KINGDOM_PORTAL_LAYER = new EntityModelLayer(MineCells.createId("kingdom_portal"), "main");
   public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
   public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
-  public static final EntityModelLayer TELEPORTER_LAYER = registerLayer("teleporter", TeleporterBlockEntityRenderer.TeleporterModel::getTexturedModelData);
+  public static final EntityModelLayer TELEPORTER_LAYER = registerLayer("teleporter", TeleporterModel::getTexturedModelData);
 
   private static EntityModelLayer registerLayer(String path, String name, TexturedModelDataProvider provider) {
     var layer = new EntityModelLayer(MineCells.createId(path), name);
@@ -214,6 +215,9 @@ public class MineCellsRenderers {
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
+
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.BARRIER_CONTROLLER, BarrierControllerRenderer::new);
+
     BlockEntityRendererFactories.register(MineCellsBlockEntities.TELEPORTER, TeleporterBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
 

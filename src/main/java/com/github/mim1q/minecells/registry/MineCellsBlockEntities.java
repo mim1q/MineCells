@@ -44,6 +44,10 @@ public class MineCellsBlockEntities {
     MineCellsBlocks.OVERWORLD_DOORWAY, MineCellsBlocks.PRISON_DOORWAY, MineCellsBlocks.PROMENADE_DOORWAY,
     MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY
   );
+  public static final BlockEntityType<BarrierControllerBlockEntity> BARRIER_CONTROLLER = register(
+    "barrier_controller", BarrierControllerBlockEntity::new,
+    MineCellsBlocks.BOSS_BARRIER_CONTROLLER, MineCellsBlocks.PLAYER_BARRIER_CONTROLLER
+  );
 
   public static void init() {}
 

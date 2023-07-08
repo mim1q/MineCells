@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class DoorwayItem extends AliasedBlockItem {
   public DoorwayItem(Settings settings) {
-    super(MineCellsBlocks.DOORWAY_FRAME, settings);
+    super(MineCellsBlocks.PROMENADE_DOORWAY, settings);
   }
 
   @Override

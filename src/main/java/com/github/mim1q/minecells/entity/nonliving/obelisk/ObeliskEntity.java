@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity.nonliving.obelisk;
 import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -39,8 +40,8 @@ public abstract class ObeliskEntity extends Entity {
   private boolean wasHidden = true;
   private int activatedTicks = 1000;
   private int riseTicks = 1000;
-  public final AnimationProperty bury = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
-  public final AnimationProperty glow = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty bury = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
+  public final AnimationProperty glow = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
 
   public ObeliskEntity(EntityType<?> type, World world) {
     super(type, world);
