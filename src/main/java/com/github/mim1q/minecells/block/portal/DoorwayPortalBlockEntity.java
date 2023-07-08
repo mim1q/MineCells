@@ -50,19 +50,28 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, MineCellsDimension targetDimension) {
     if (isDownstream()) {
-      MineCellsData.getPlayerData(player, world).addPortalData(
-        MineCellsDimension.of(world),
-        targetDimension,
-        pos.add(getCachedState().get(FACING).getVector()),
-        new BlockPos(targetDimension.getTeleportPosition(pos, world))
-      );
-      targetDimension.teleportPlayer(player, world);
+      if (targetDimension == MineCellsDimension.OVERWORLD) {
+        var data = MineCellsData.getPlayerData(player, world).getPortalData(MineCellsDimension.PRISONERS_QUARTERS, MineCellsDimension.OVERWORLD);
+        world.getServer().execute(() -> data.ifPresent(portalData -> FabricDimensions.teleport(
+          player,
+          world.getServer().getOverworld(),
+          new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, 0F)
+        )));
+      } else {
+        MineCellsData.getPlayerData(player, world).addPortalData(
+          MineCellsDimension.of(world),
+          targetDimension,
+          pos.add(getCachedState().get(FACING).getVector()),
+          new BlockPos(targetDimension.getTeleportPosition(pos, world))
+        );
+        targetDimension.teleportPlayer(player, world);
+      }
     } else {
       var data = MineCellsData.getPlayerData(player, world).getPortalData(MineCellsDimension.of(world), targetDimension);
       world.getServer().execute(() -> data.ifPresent(portalData -> FabricDimensions.teleport(
         player,
         targetDimension.getWorld(world),
-        new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, 0F)
+        new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, targetDimension.yaw)
       )));
     }
   }

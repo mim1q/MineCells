@@ -48,17 +48,17 @@ public class BarrierControllerBlock extends ConditionalBarrierBlock implements B
   }
 
   public static boolean bossPredicate(World world, BlockPos pos, BlockState state) {
-    var nearestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 4, false);
+    var nearestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 6, false);
     if (nearestPlayer == null) return false;
     var noBossAround = world.getEntitiesByClass(
       MineCellsBossEntity.class,
       Box.of(Vec3d.of(pos), 64, 64, 64),
       EntityPredicates.VALID_ENTITY
     ).isEmpty();
-    var nearestPlayerBehindDoor = nearestPlayer.getPos()
+    var behindDoorPos = nearestPlayer.getPos()
       .subtract(Vec3d.of(pos))
       .multiply(Vec3d.of(state.get(FACING).getVector()));
-    return noBossAround || nearestPlayerBehindDoor.x < 0 || nearestPlayerBehindDoor.z < 0;
+    return noBossAround || behindDoorPos.x < 0 || behindDoorPos.z < 0;
   }
 
   public static boolean playerPredicate(World world, BlockPos pos, BlockState state) {

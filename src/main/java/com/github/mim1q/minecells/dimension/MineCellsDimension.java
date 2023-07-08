@@ -21,7 +21,7 @@ import java.util.Set;
 
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
-  PRISONERS_QUARTERS(MineCells.createId("prison"), 8, 43, 5, 1024.0),
+  PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 3, 1024.0),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0);
 
@@ -34,7 +34,7 @@ public enum MineCellsDimension {
   public final String translationKey;
   public final Vec3i spawnOffset;
   public final double borderSize;
-  private final float yaw;
+  public final float yaw;
 
   MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize, float yaw) {
     this.key = RegistryKey.of(Registry.WORLD_KEY, id);

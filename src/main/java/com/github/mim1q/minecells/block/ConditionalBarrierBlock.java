@@ -1,10 +1,7 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.util.ModelUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
@@ -49,5 +46,11 @@ public class ConditionalBarrierBlock extends HorizontalFacingBlock {
       return state.with(OPEN, neighborState.get(OPEN));
     }
     return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockRenderType getRenderType(BlockState state) {
+    return BlockRenderType.INVISIBLE;
   }
 }

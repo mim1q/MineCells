@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.accessor.MineCellsBorderEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.entity.Entity;
@@ -89,5 +90,11 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     if (((MineCellsBorderEntity)this).getMineCellsBorder().getDistanceInsideBorder(destX, destZ) < 2.0D) {
       ci.cancel();
     }
+  }
+
+  @Inject(method = "onSpawn", at = @At("HEAD"))
+  void minecells$injectOnSpawn(CallbackInfo ci) {
+    MineCellsData.syncCurrentPlayerData((ServerPlayerEntity)(Object) this, this.getWorld());
+    MineCells.DIMENSION_GRAPH.saveStuckPlayer((ServerPlayerEntity)(Object) this);
   }
 }
