@@ -6,7 +6,6 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 
 public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity> {
 
@@ -85,7 +84,8 @@ public class SewersTentacleEntityModel extends EntityModel<SewersTentacleEntity>
 
   public static void wiggleTentacle(ModelPart[] segments, float animationProgress, float degrees, int id, float offset) {
     for (int i = 0; i < segments.length - 1; i++) {
-      segments[i].pitch = MathHelper.sin(animationProgress * 0.25F - i + id) * MathUtils.radians(degrees) - offset;
+      segments[i].yaw = (float) Math.sin(animationProgress * 0.125F) * 0.25F;
+      segments[i].pitch = (float) Math.sin(animationProgress * 0.25F - i + id) * MathUtils.radians(degrees) - offset;
     }
   }
 
