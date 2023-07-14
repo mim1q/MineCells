@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.structure;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.structure.grid.GridBasedStructures;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructure;
 import com.github.mim1q.minecells.structure.grid.GridPiece;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePieceType;
@@ -13,18 +13,11 @@ import java.util.Locale;
 
 public class MineCellsStructures {
   // Structures
-  public static final StructureType<MineCellsBigJigsawStructure> BIG_JIGSAW = registerStructure(
-    "big_jigsaw",
-    MineCellsBigJigsawStructure.CODEC
-  );
-  public static final StructureType<GridBasedStructures.Prison> PRISON = registerStructure(
-    "prison",
-    GridBasedStructures.Prison.CODEC
-  );
-  public static final StructureType<GridBasedStructures.Promenade> PROMENADE = registerStructure(
-    "promenade",
-    GridBasedStructures.Promenade.CODEC
-  );
+  public static final StructureType<MineCellsBigJigsawStructure> BIG_JIGSAW = registerStructure("big_jigsaw", MineCellsBigJigsawStructure.CODEC);
+  public static final StructureType<GridBasedStructure> PRISON = registerStructure("prison", GridBasedStructure.PRISON_CODEC );
+  public static final StructureType<GridBasedStructure> PROMENADE_OVERGROUND = registerStructure("promenade_overground", GridBasedStructure.PROMENADE_OVERGROUND_CODEC);
+  public static final StructureType<GridBasedStructure> PROMENADE_UNDERGROUND = registerStructure("promenade_underground", GridBasedStructure.PROMENADE_UNDERGROUND_CODEC);
+  public static final StructureType<GridBasedStructure> PROMENADE_PIT  = registerStructure("promenade_pit", GridBasedStructure.PROMENADE_PIT_CODEC);
 
   // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");

@@ -1,12 +1,13 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
-public class PromenadeUndergroundGridGenerator extends PromenadeGridGenerator {
+public class PromenadeUndergroundGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
 
   public static final Identifier ENTRY = MineCells.createId("promenade/underground_buildings/entry");
   public static final Identifier SHAFT = MineCells.createId("promenade/underground_buildings/shaft");
@@ -21,7 +22,7 @@ public class PromenadeUndergroundGridGenerator extends PromenadeGridGenerator {
 
   @Override
   protected void addRooms(Random random) {
-    super.addRooms(random);
+    addRoom(new Vec3i(0, 0, 0), BlockRotation.NONE, ENTRY);
     addRoom(new Vec3i(0, -1, 0), BlockRotation.NONE, SHAFT);
     Vec3i second = addFloor(new Vec3i(0, -2, 0), random, true, false);
     Vec3i third = addFloor(second.down(), random, false, false);
@@ -51,15 +52,5 @@ public class PromenadeUndergroundGridGenerator extends PromenadeGridGenerator {
       addRoom(origin.add(-1, 0, z), BlockRotation.NONE, z == rightMinZ && !left ? CHAIN_TOP : ROOM);
     }
     return origin.add(left ? 1 : -1, 0, left ? leftMinZ : rightMinZ);
-  }
-
-  @Override
-  protected Vec3i getOffset(Random random) {
-    return Vec3i.ZERO;
-  }
-
-  @Override
-  protected void addMain(Random random, Vec3i offset) {
-    addRoom(offset, BlockRotation.NONE, ENTRY);
   }
 }

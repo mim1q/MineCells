@@ -5,8 +5,10 @@ import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -19,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("deprecation")
 public class InsideGridPlacement extends StructurePlacement {
-  private static final Map<CacheKey, List<ChunkPos>> CACHE = new ConcurrentHashMap<>();
+  private static final Map<CacheKey, List<ChunkPos>> CACHE = new ConcurrentHashMap<>(512);
   private static long cachedSeed = 0;
 
   public static final Codec<InsideGridPlacement> CODEC = RecordCodecBuilder.create(instance ->
@@ -64,21 +66,22 @@ public class InsideGridPlacement extends StructurePlacement {
   protected boolean isStartChunk(ChunkGenerator chunkGenerator, NoiseConfig noiseConfig, long seed, int chunkX, int chunkZ) {
     var center = MathUtils.getClosestMultiplePosition(new Vec3i(chunkX, 0, chunkZ), gridSize);
     var centerChunkPos = new ChunkPos(center.getX(), center.getZ());
-    var random = new ChunkRandom(Random.create());
-    return getStartChunks(centerChunkPos, minDistance, maxDistance, maxCount, random, seed, getSalt()).contains(new ChunkPos(chunkX, chunkZ));
+    return getStartChunks(centerChunkPos, seed).contains(new ChunkPos(chunkX, chunkZ));
   }
 
-  protected List<ChunkPos> getStartChunks(ChunkPos center, int minDistance, int maxDistance, int count, Random random, long seed, long salt) {
+  protected List<ChunkPos> getStartChunks(ChunkPos center, long seed) {
     if (CACHE.size() >= 512 || seed != cachedSeed) {
       CACHE.clear();
       cachedSeed = seed;
     }
-    var key = new CacheKey(center, seed, salt);
+    var key = new CacheKey(center, seed, getSalt());
     if (CACHE.containsKey(key)) {
       return CACHE.get(key);
     }
     var candidateChunks = generateCandidateChunks(center, minDistance, maxDistance);
-    var result = pickStartChunks(candidateChunks, count, random);
+    var random = new ChunkRandom(new CheckedRandom(0L));
+    random.setCarverSeed(seed + getSalt(), center.x, center.z);
+    var result = pickStartChunks(candidateChunks, maxCount, random);
     CACHE.put(key, result);
     return result;
   }
@@ -97,7 +100,6 @@ public class InsideGridPlacement extends StructurePlacement {
         removeBySeparation(selection, separation, result.get(i));
       }
     }
-    System.out.println(result);
     return result;
   }
 
@@ -132,6 +134,22 @@ public class InsideGridPlacement extends StructurePlacement {
   @Override
   public StructurePlacementType<?> getType() {
     return MineCellsStructurePlacementTypes.INSIDE_GRID;
+  }
+
+  public BlockPos getClosestPosition(ChunkPos pos, long worldSeed) {
+    var center = MathUtils.getClosestMultiplePosition(new Vec3i(pos.x, 0, pos.z), gridSize);
+    var startChunks = getStartChunks(new ChunkPos(center.getX(), center.getZ()), worldSeed);
+    if (startChunks.isEmpty()) {
+      return null;
+    }
+    var closest = startChunks.get(0);
+    for (var chunk : startChunks) {
+      var distance = pos.getChebyshevDistance(chunk);
+      if (distance < closest.getChebyshevDistance(pos)) {
+        closest = chunk;
+      }
+    }
+    return new BlockPos(closest.x * 16 + getLocateOffset().getX(), getLocateOffset().getY(), closest.z * 16 + getLocateOffset().getZ());
   }
 
   private record CacheKey(

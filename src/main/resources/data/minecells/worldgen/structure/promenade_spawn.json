@@ -7,7 +7,7 @@
   "start_pool": "minecells:promenade/spawn",
   "spawn_overrides": {},
   "size": 7,
-  "terrain_adaptation": "none",
+  "terrain_adaptation": "beard_thin",
   "start_height": {
     "absolute": 0
   },

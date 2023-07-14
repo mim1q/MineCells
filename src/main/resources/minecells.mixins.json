@@ -17,6 +17,7 @@
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
     "network.CustomPayloadS2CPacketMixin",
+    "world.ChunkGeneratorMixin",
     "world.TrunkPlacerTypeInvoker",
     "world.WorldMixin"
   ],
@@ -25,10 +26,10 @@
     "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
-    "item.CompassItemMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
     "entity.LivingEntityClientMixin",
-    "entity.player.ClientPlayerEntityMixin"
+    "entity.player.ClientPlayerEntityMixin",
+    "item.CompassItemMixin"
   ],
   "server": [],
   "injectors": {

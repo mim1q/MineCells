@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BarrierControllerBlockEntity;
 import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
@@ -59,6 +60,10 @@ public class BarrierControllerBlock extends ConditionalBarrierBlock implements B
       .subtract(Vec3d.of(pos))
       .multiply(Vec3d.of(state.get(FACING).getVector()));
     return noBossAround || behindDoorPos.x < 0 || behindDoorPos.z < 0;
+  }
+
+  public static boolean bossEntryPredicate(World world, BlockPos pos, BlockState state) {
+    return MineCells.COMMON_CONFIG.unlockedBossEntry || bossPredicate(world, pos, state);
   }
 
   public static boolean playerPredicate(World world, BlockPos pos, BlockState state) {
