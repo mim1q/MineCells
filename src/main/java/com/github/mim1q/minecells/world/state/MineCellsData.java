@@ -164,7 +164,7 @@ public class MineCellsData extends PersistentState {
     }
 
     public boolean hasVisitedDimension(MineCellsDimension dimension) {
-      return portals.stream().anyMatch(it -> it.toDimension == dimension);
+      return portals.stream().anyMatch(it -> it.toDimension == dimension || it.fromDimension == dimension);
     }
 
     public void addPortalData(

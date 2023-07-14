@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
@@ -26,6 +27,7 @@ import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
   private boolean upstream = false;
+  private boolean clientVisited = false;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.DOORWAY, pos, state);
@@ -33,6 +35,10 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public Identifier getTexture() {
     return ((DoorwayPortalBlock)getCachedState().getBlock()).type.texture;
+  }
+
+  public boolean hasClientVisited() {
+    return clientVisited;
   }
 
   public MutableText getLabel() {
@@ -55,7 +61,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
         world.getServer().execute(() -> data.ifPresent(portalData -> FabricDimensions.teleport(
           player,
           world.getServer().getOverworld(),
-          new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, 0F)
+          new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, targetDimension.yaw, 0F)
         )));
       } else {
         MineCellsData.getPlayerData(player, world).addPortalData(
@@ -71,7 +77,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       world.getServer().execute(() -> data.ifPresent(portalData -> FabricDimensions.teleport(
         player,
         targetDimension.getWorld(world),
-        new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, targetDimension.yaw)
+        new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, 0F)
       )));
     }
   }
@@ -102,6 +108,13 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   @Override
   public void readNbt(NbtCompound nbt) {
     upstream = nbt.getBoolean("upstream");
+    if (world != null && world.isClient) {
+      var player =  (PlayerEntityAccessor) MinecraftClient.getInstance().player;
+      if (player == null) return;
+      clientVisited = player.getCurrentMineCellsPlayerData().hasVisitedDimension(
+        ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
+      );
+    }
   }
 
   @Override

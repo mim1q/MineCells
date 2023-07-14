@@ -17,14 +17,14 @@
         {
           "function": "minecraft:enchant_with_levels",
           "levels": {
-            "min": 15,
+            "min": 10,
             "max": 18
           },
           "treasure": true,
           "conditions": [
             {
               "condition": "minecraft:random_chance",
-              "chance": 0.5
+              "chance": 0.2
             }
           ]
         }
@@ -39,7 +39,7 @@
     {
       "rolls": {
         "min": 2,
-        "max": 6
+        "max": 7
       },
       "entries": [
         {
@@ -69,7 +69,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
+          "weight": 1,
           "name": "minecraft:diamond"
         }
       ]

@@ -68,6 +68,7 @@ public class MineCellsDataCommand {
       return 1;
     }
     var data = MineCellsData.getPlayerData(player, ctx.getSource().getWorld());
+    MineCellsData.get(ctx.getSource().getWorld()).markDirty();
     data.portals.clear();
     data.activatedSpawnerRunes.clear();
     MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());

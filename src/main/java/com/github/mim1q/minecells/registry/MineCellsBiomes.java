@@ -80,7 +80,7 @@ public class MineCellsBiomes {
       .effects(new BiomeEffects.Builder()
         .waterColor(0x61D8FF)
         .waterFogColor(0x61D8FF)
-        .fogColor(0x91E8F2)
+        .fogColor(0x67E8FA)
         .skyColor(0x91E8F2)
         .grassColor(0x3C8787)
         .foliageColor(0x33797F)

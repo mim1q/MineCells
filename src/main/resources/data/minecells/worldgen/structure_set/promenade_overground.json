@@ -13,7 +13,7 @@
     "type": "minecells:better_random_spread",
     "spacing": 1,
     "separation": 0,
-    "frequency": 0.6,
+    "frequency": 0.45,
     "salt": 2043237625,
     "exclusion_zones": [
       {

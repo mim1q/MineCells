@@ -33,7 +33,8 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     var minV = (48 - 40F * barsProgress)/64;
     matrices.translate(0.0, 0.01, -0.25);
     RenderUtils.drawBillboard(vertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 16F/64, 40F/64, minV, 48F/64, 255);
-    renderLabel(entity.getLabel(), matrices, vertexConsumers);
+    var text = entity.hasClientVisited() ? entity.getLabel() : entity.getLabel().append(Text.literal("*"));
+    renderLabel(text, matrices, vertexConsumers);
     matrices.pop();
   }
 

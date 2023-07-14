@@ -46,7 +46,8 @@ public class MineCellsBlockEntities {
   );
   public static final BlockEntityType<BarrierControllerBlockEntity> BARRIER_CONTROLLER = register(
     "barrier_controller", BarrierControllerBlockEntity::new,
-    MineCellsBlocks.BOSS_BARRIER_CONTROLLER, MineCellsBlocks.PLAYER_BARRIER_CONTROLLER
+    MineCellsBlocks.BOSS_BARRIER_CONTROLLER, MineCellsBlocks.BOSS_ENTRY_BARRIER_CONTROLLER,
+    MineCellsBlocks.PLAYER_BARRIER_CONTROLLER
   );
 
   public static void init() {}
