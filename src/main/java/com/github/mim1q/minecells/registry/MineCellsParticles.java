@@ -20,6 +20,7 @@ public class MineCellsParticles {
   public static final DefaultParticleType CHARGE = FabricParticleTypes.simple();
   public static final DefaultParticleType FLY = FabricParticleTypes.simple();
   public static final ColoredParticleType SPECKLE = ColoredParticleType.create();
+  public static final ColoredParticleType FALLING_LEAF = ColoredParticleType.create();
 
   public static void init() {
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
@@ -28,6 +29,7 @@ public class MineCellsParticles {
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("charge"), CHARGE);
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("fly"), FLY);
     Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("speckle"), SPECKLE);
+    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("falling_leaf"), FALLING_LEAF);
   }
 
   public static void initClient() {
@@ -44,5 +46,6 @@ public class MineCellsParticles {
     ParticleFactoryRegistry.getInstance().register(CHARGE, ChargeParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(FLY, FlyParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(SPECKLE, ColoredParticle.createFactory(SpeckleParticle::new));
+    ParticleFactoryRegistry.getInstance().register(FALLING_LEAF, ColoredParticle.createFactory(FallingLeafParticle::new));
   }
 }

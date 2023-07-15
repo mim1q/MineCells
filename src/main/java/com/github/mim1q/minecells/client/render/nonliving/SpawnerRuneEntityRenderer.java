@@ -29,7 +29,7 @@ public class SpawnerRuneEntityRenderer extends EntityRenderer<SpawnerRuneEntity>
     matrices.translate(0.0D, 1.25D + yOffset, 0.0D);
     var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     matrices.multiply(dispatcher.getRotation());
-    var consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(TEXTURE));
+    var consumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
     RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 200);
     matrices.pop();
   }

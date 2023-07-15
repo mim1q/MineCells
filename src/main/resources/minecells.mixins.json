@@ -22,6 +22,7 @@
     "world.WorldMixin"
   ],
   "client": [
+    "client.BackgroundRendererMixin",
     "client.BipedEntityModelMixin",
     "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
