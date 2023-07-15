@@ -5,7 +5,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class PromenadeDimensionEffects extends DimensionEffects {
   public PromenadeDimensionEffects() {
-    super(110.0F, true, SkyType.NORMAL, false, true);
+    super(110.0F, true, SkyType.NORMAL, false, false);
   }
 
   @Override
