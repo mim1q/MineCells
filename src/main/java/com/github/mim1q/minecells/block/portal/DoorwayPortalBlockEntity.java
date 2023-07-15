@@ -41,6 +41,16 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return clientVisited;
   }
 
+  public void updateClientVisited() {
+    if (world != null && world.isClient) {
+      var player =  (PlayerEntityAccessor) MinecraftClient.getInstance().player;
+      if (player == null) return;
+      clientVisited = player.getCurrentMineCellsPlayerData().hasVisitedDimension(
+        ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
+      );
+    }
+  }
+
   public MutableText getLabel() {
     return Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
   }
@@ -108,13 +118,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   @Override
   public void readNbt(NbtCompound nbt) {
     upstream = nbt.getBoolean("upstream");
-    if (world != null && world.isClient) {
-      var player =  (PlayerEntityAccessor) MinecraftClient.getInstance().player;
-      if (player == null) return;
-      clientVisited = player.getCurrentMineCellsPlayerData().hasVisitedDimension(
-        ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
-      );
-    }
+    updateClientVisited();
   }
 
   @Override

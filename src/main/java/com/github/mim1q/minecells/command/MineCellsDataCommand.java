@@ -46,6 +46,11 @@ public class MineCellsDataCommand {
           .executes(MineCellsDataCommand::clearPlayerData)
         )
     );
+
+    dispatcher.register(
+      literal("minecells:wipe_data").requires(source -> source.hasPermissionLevel(2))
+        .executes(MineCellsDataCommand::wipeData)
+    );
   }
 
   private static int syncPlayerData(CommandContext<ServerCommandSource> ctx) {
@@ -100,6 +105,14 @@ public class MineCellsDataCommand {
     } catch (CommandSyntaxException e) {
       return 1;
     }
+    return 0;
+  }
+
+  private static int wipeData(CommandContext<ServerCommandSource> ctx) {
+    var world = ctx.getSource().getWorld();
+    var player = ctx.getSource().getPlayer();
+    if (world == null || player == null) return 1;
+    MineCellsData.get(world).wipe(world, player);
     return 0;
   }
 

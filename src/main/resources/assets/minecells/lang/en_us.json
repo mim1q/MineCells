@@ -161,6 +161,18 @@
   "chat.minecells.version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
   "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
   "chat.minecells.version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
+  "chat.minecells.stuck_message": [
+    "\n",
+    "It seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint."
+  ],
+  "chat.minecells.wipe_try": [
+    "\n",
+    { "text": "WARNING: ", "color": "#FF1111" },
+    "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"
+  ],
+  "chat.minecells.wipe_success": [
+    "All Mine Cells data has been wiped."
+  ],
 
   "_comment.minecells.004": "====================================== ADVANCEMENTS ======================================",
 

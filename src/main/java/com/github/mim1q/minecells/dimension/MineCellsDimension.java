@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.MathUtils;
-import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -13,7 +12,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -72,9 +70,9 @@ public enum MineCellsDimension {
     } else {
       teleportPos = getTeleportPosition(player.getBlockPos(), world);
     }
-    world.getServer().execute(() ->
-      FabricDimensions.teleport(player, destination, new TeleportTarget(teleportPos, Vec3d.ZERO, yaw, 0F))
-    );
+    world.getServer().execute(() -> {
+      player.teleport(destination, teleportPos.getX(), teleportPos.getY(), teleportPos.getZ(), yaw, 0F);
+    });
   }
 
   public ServerWorld getWorld(ServerWorld world) {

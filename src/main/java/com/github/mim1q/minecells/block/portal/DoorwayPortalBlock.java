@@ -8,6 +8,8 @@ import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -115,6 +117,16 @@ public class DoorwayPortalBlock extends BlockWithEntity {
         (random.nextDouble() * 0.02 + 0.03) * direction.getOffsetZ()
       );
     }
+  }
+
+  @Nullable
+  @Override
+  public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+    return (entityWorld, entityPos, entityState, entity) -> {
+      if (entityWorld.getTime() % 100 == 0 && entity instanceof DoorwayPortalBlockEntity doorway) {
+        doorway.updateClientVisited();
+      }
+    };
   }
 
   @Override

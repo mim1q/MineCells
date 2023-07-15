@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.world.state;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
@@ -7,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
@@ -15,10 +17,29 @@ import java.util.*;
 
 public class MineCellsData extends PersistentState {
   public final Map<Integer, RunData> runs = new HashMap<>();
+  private PlayerEntity wipeScheduledPlayer = null;
 
   @Override
   public void markDirty() {
     super.markDirty();
+  }
+
+  public void wipe(ServerWorld world, ServerPlayerEntity player) {
+    if (player.hasPermissionLevel(2)) {
+      if (wipeScheduledPlayer == player) {
+        runs.clear();
+        markDirty();
+        world.getPlayers().forEach(p -> {
+          syncCurrentPlayerData(player, world);
+          MineCells.DIMENSION_GRAPH.saveStuckPlayer(p);
+        });
+        wipeScheduledPlayer = null;
+        player.sendMessage(Text.translatable("chat.minecells.wipe_success"));
+      } else {
+        wipeScheduledPlayer = player;
+        player.sendMessage(Text.translatable("chat.minecells.wipe_try"));
+      }
+    }
   }
 
   public static MineCellsData fromNbt(NbtCompound nbt) {
