@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
@@ -12,6 +13,9 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -32,6 +36,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class DoorwayPortalBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
@@ -160,6 +166,19 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
     MineCellsBlocks.DOORWAY_FRAME.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+    var stacks = super.getDroppedStacks(state, builder);
+    var blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
+    for (var stack : stacks) {
+      if (stack.isOf(MineCellsItems.PRISON_DOORWAY) && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
+        doorway.setStackNbt(stack);
+      }
+    }
+    return stacks;
   }
 
   public enum DoorwayType {

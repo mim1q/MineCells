@@ -3,12 +3,13 @@ package com.github.mim1q.minecells.block.portal;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
-import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -19,8 +20,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.TeleportTarget;
 import org.jetbrains.annotations.Nullable;
 
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
@@ -28,6 +27,7 @@ import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 public class DoorwayPortalBlockEntity extends BlockEntity {
   private boolean upstream = false;
   private boolean clientVisited = false;
+  private BlockPos posOverride = null;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.DOORWAY, pos, state);
@@ -43,16 +43,26 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public void updateClientVisited() {
     if (world != null && world.isClient) {
-      var player =  (PlayerEntityAccessor) MinecraftClient.getInstance().player;
+      var player = MinecraftClient.getInstance().player;
       if (player == null) return;
-      clientVisited = player.getCurrentMineCellsPlayerData().hasVisitedDimension(
-        ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
-      );
+      clientVisited = ((PlayerEntityAccessor) player).getMineCellsData()
+        .get(posOverride == null ? player.getBlockPos() : posOverride)
+        .hasVisitedDimension(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension);
     }
   }
 
   public MutableText getLabel() {
     return Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
+  }
+
+  @Override
+  public void setStackNbt(ItemStack stack) {
+    super.setStackNbt(stack);
+    stack.getOrCreateSubNbt("BlockEntityTag").putLong(
+      "posOverride",
+      posOverride == null ? new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024)).asLong() : posOverride.asLong()
+    );
+    System.out.println(stack.getNbt());
   }
 
   public boolean canPlayerEnter(PlayerEntity player) {
@@ -67,28 +77,26 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, MineCellsDimension targetDimension) {
     if (isDownstream()) {
       if (targetDimension == MineCellsDimension.OVERWORLD) {
-        var data = MineCellsData.getPlayerData(player, world).getPortalData(MineCellsDimension.PRISONERS_QUARTERS, MineCellsDimension.OVERWORLD);
-        world.getServer().execute(() -> data.ifPresent(portalData -> FabricDimensions.teleport(
-          player,
-          world.getServer().getOverworld(),
-          new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, targetDimension.yaw, 0F)
-        )));
+        var data = MineCellsData.getPlayerData(player, world, posOverride).getPortalData(MineCellsDimension.PRISONERS_QUARTERS, MineCellsDimension.OVERWORLD);
+        world.getServer().execute(() -> data.ifPresent(portalData -> {
+          var pos = portalData.toPos();
+          player.teleport(world.getServer().getOverworld(), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYaw(), player.getPitch());
+        }));
       } else {
-        MineCellsData.getPlayerData(player, world).addPortalData(
+        MineCellsData.getPlayerData(player, world, posOverride).addPortalData(
           MineCellsDimension.of(world),
           targetDimension,
           pos.add(getCachedState().get(FACING).getVector()),
           new BlockPos(targetDimension.getTeleportPosition(pos, world))
         );
-        targetDimension.teleportPlayer(player, world);
+        targetDimension.teleportPlayer(player, world, posOverride);
       }
     } else {
-      var data = MineCellsData.getPlayerData(player, world).getPortalData(MineCellsDimension.of(world), targetDimension);
-      world.getServer().execute(() -> data.ifPresent(portalData -> FabricDimensions.teleport(
-        player,
-        targetDimension.getWorld(world),
-        new TeleportTarget(Vec3d.ofCenter(portalData.toPos()), Vec3d.ZERO, 0F, 0F)
-      )));
+      var data = MineCellsData.getPlayerData(player, world, posOverride).getPortalData(MineCellsDimension.of(world), targetDimension);
+      world.getServer().execute(() -> data.ifPresent(portalData -> {
+        var pos = portalData.toPos();
+        player.teleport(targetDimension.getWorld(world), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYaw(), player.getPitch());
+      }));
     }
   }
 
@@ -119,10 +127,16 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   public void readNbt(NbtCompound nbt) {
     upstream = nbt.getBoolean("upstream");
     updateClientVisited();
+    if (nbt.contains("posOverride")) {
+      posOverride = BlockPos.fromLong(nbt.getLong("posOverride"));
+    }
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
     nbt.putBoolean("upstream", upstream);
+    if (posOverride != null) {
+      nbt.putLong("posOverride", posOverride.asLong());
+    }
   }
 }

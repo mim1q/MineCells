@@ -73,10 +73,12 @@ public class MineCellsDataCommand {
     } catch (CommandSyntaxException e) {
       return 1;
     }
-    var data = MineCellsData.getPlayerData(player, ctx.getSource().getWorld());
-    MineCellsData.get(ctx.getSource().getWorld()).markDirty();
-    data.portals.clear();
-    data.activatedSpawnerRunes.clear();
+    var data = MineCellsData.get(ctx.getSource().getWorld());
+    data.runs.forEach((k, v) -> {
+      v.players.remove(player.getUuid());
+      data.markDirty();
+      MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
+    });
     MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
     MineCells.DIMENSION_GRAPH.saveStuckPlayer(player);
     ctx.getSource().sendFeedback(Text.literal("Mine Cells data cleared for player " + player.getName().getString()), false);

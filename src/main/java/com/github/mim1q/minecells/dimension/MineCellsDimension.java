@@ -58,7 +58,7 @@ public enum MineCellsDimension {
     return Vec3d.ofCenter(tpPos);
   }
 
-  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world) {
+  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, BlockPos posOverride) {
     var destination = getWorld(world);
     Vec3d teleportPos;
     if (this == OVERWORLD) {
@@ -68,7 +68,7 @@ public enum MineCellsDimension {
         teleportPos = Vec3d.ofCenter(world.getSpawnPos());
       }
     } else {
-      teleportPos = getTeleportPosition(player.getBlockPos(), world);
+      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world);
     }
     world.getServer().execute(() -> {
       player.teleport(destination, teleportPos.getX(), teleportPos.getY(), teleportPos.getZ(), yaw, 0F);

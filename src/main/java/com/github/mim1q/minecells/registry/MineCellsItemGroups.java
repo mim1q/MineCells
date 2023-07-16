@@ -34,6 +34,7 @@ public class MineCellsItemGroups {
       stacks.addAll(MineCellsBlocks.ORANGE_WILTED_LEAVES.getStacks());
       stacks.addAll(MineCellsBlocks.RED_WILTED_LEAVES.getStacks());
       stacks.addAll(List.of(
+        Stack(MineCellsBlocks.RED_PUTRID_SAPLING),
         Stack(MineCellsBlocks.CRATE),
         Stack(MineCellsBlocks.SMALL_CRATE),
         Stack(MineCellsBlocks.BRITTLE_BARREL),
@@ -67,6 +68,7 @@ public class MineCellsItemGroups {
         Stack(MineCellsItems.MONSTERS_EYE),
         Stack(MineCellsItems.HEALTH_FLASK),
         Stack(MineCellsItems.BLANK_RUNE),
+        Stack(MineCellsItems.RESET_RUNE),
         Stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE),
         Stack(MineCellsItems.VINE_RUNE),
         Stack(MineCellsItems.ASSASSINS_DAGGER),

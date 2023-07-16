@@ -9,7 +9,7 @@ object ModItemModels {
     listOf(
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
       "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism", "prison_doorway",
-      "block/red_putrid_sapling"
+      "block/red_putrid_sapling", "reset_rune"
     ).forEach {
       if (it.startsWith("block/")) {
         add(CommonModelPresets.generatedItemModel("minecells:${it.removePrefix("block/")}", "block"))

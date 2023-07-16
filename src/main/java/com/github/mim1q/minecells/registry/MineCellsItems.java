@@ -1,10 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.item.BiomeBannerItem;
-import com.github.mim1q.minecells.item.DoorwayItem;
-import com.github.mim1q.minecells.item.HealthFlaskItem;
-import com.github.mim1q.minecells.item.SpawnerRuneItem;
+import com.github.mim1q.minecells.item.*;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -34,6 +31,11 @@ public class MineCellsItems {
   public static final Item VINE_RUNE = register(
     new Item(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1).maxDamage(8)),
     "vine_rune"
+  );
+
+  public static final Item RESET_RUNE = register(
+    new ResetRuneItem(new FabricItemSettings().group(MineCellsItemGroups.MINECELLS).maxCount(1)),
+    "reset_rune"
   );
 
   public static final Item GUTS = register(

@@ -50,7 +50,7 @@ public class SpawnerRuneEntity extends Entity {
       var d = data.playerDistance();
       for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(this.getPos(), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player)) {
-          MineCellsData.getPlayerData(player, (ServerWorld) world).addActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
+          MineCellsData.getPlayerData(player, (ServerWorld) world, null).addActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
           MineCellsData.syncCurrentPlayerData(player, (ServerWorld) world);
           spawnEntities();
           break;

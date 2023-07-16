@@ -5,7 +5,6 @@ import datagen.custom.CustomPresets
 import datagen.custom.ModItemModels
 import datagen.custom.ModTemplatePools
 import tada.lib.generator.ResourceGenerator
-import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
 import tada.lib.presets.common.CommonDropPresets
 import tada.lib.presets.common.CommonModelPresets
@@ -30,7 +29,7 @@ fun main(args: Array<String>) {
     add(BlockSets.basicWoodSet("minecells:putrid"))
     add(CustomBlockSets.leaves("minecells:wilted"))
     add(CustomBlockSets.leaves("minecells:orange_wilted"))
-    add(CustomBlockSets.leaves("minecells:red_wilted"))
+    add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
     // Torches
@@ -47,7 +46,9 @@ fun main(args: Array<String>) {
     }
     add(CommonModelPresets.pillarBlock("minecells:crate"))
     add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
-    listOf("conjunctivius_box", "beam_placer", "doorway_frame").forEach {
+    listOf("conjunctivius_box", "beam_placer", "doorway_frame", "solid_barrier_rune", "conditional_barrier",
+      "boss_barrier_controller", "boss_entry_barrier_controller", "player_barrier_controller"
+    ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }
     listOf("overworld", "prison", "promenade", "insufferable_crypt").forEach {
@@ -58,6 +59,7 @@ fun main(args: Array<String>) {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
     }
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
+    add(CustomPresets.customRecipes())
     // Fluids
     listOf("sewage", "ancient_sewage").forEach {
       add(it, BlockState.createSingle("minecraft:block/water"))
@@ -70,7 +72,7 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "biome_banner", "prison_doorway"
+      "big_chain", "broken_cage", "biome_banner", "prison_doorway", "red_putrid_sapling"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }
@@ -94,10 +96,10 @@ fun main(args: Array<String>) {
   }
   generator.generate()
 
-  LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {
-    automaticallyGenerateBlockEntries(generator)
-    generateMissingLangEntries()
-  }
+//  LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {
+//    automaticallyGenerateBlockEntries(generator)
+//    generateMissingLangEntries()
+//  }
 }
 
 

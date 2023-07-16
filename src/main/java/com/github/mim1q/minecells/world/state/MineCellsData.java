@@ -99,8 +99,8 @@ public class MineCellsData extends PersistentState {
     return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(MineCellsData::fromNbt, MineCellsData::new, "MineCellsData");
   }
 
-  public static PlayerData getPlayerData(ServerPlayerEntity player, ServerWorld world) {
-    return get(world).getRun(player.getBlockPos()).getPlayerData(player);
+  public static PlayerData getPlayerData(ServerPlayerEntity player, ServerWorld world, BlockPos posOverride) {
+    return get(world).getRun(posOverride == null ? player.getBlockPos() : posOverride).getPlayerData(player);
   }
 
   public RunData getRun(int x, int z) {
