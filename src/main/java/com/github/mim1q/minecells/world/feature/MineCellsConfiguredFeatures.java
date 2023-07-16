@@ -16,6 +16,11 @@ public class MineCellsConfiguredFeatures {
     new ConfiguredFeature<>(Feature.TREE, MineCellsFeatureConfigs.PROMENADE_TREE_CONFIG)
   );
 
+  public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> PROMENADE_TREE_SAPLING = createConfiguredFeature(
+    MineCells.createId("promenade_tree_sapling"),
+    new ConfiguredFeature<>(Feature.TREE, MineCellsFeatureConfigs.PROMENADE_TREE_SAPLING_CONFIG)
+  );
+
   public static final RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> PROMENADE_SHRUB = createConfiguredFeature(
     MineCells.createId("promenade_shrub"),
     new ConfiguredFeature<>(Feature.TREE, MineCellsFeatureConfigs.PROMENADE_SHRUB_CONFIG)

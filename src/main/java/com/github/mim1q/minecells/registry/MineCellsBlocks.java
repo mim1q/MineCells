@@ -9,12 +9,17 @@ import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import com.github.mim1q.minecells.registry.featureset.*;
+import com.github.mim1q.minecells.world.feature.MineCellsConfiguredFeatures;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 public class MineCellsBlocks {
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
@@ -42,6 +47,16 @@ public class MineCellsBlocks {
   );
   public static final LeavesSet ORANGE_WILTED_LEAVES = new LeavesSet(MineCells.createId("orange_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves));
   public static final LeavesSet RED_WILTED_LEAVES = new LeavesSet(MineCells.createId("red_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves));
+
+  public static final SaplingBlock RED_PUTRID_SAPLING = registerBlockWithItem(
+    new SaplingBlock(new SaplingGenerator() {
+      @Override
+      protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
+        return MineCellsConfiguredFeatures.PROMENADE_TREE_SAPLING;
+      }
+    }, FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).nonOpaque()),
+    "red_putrid_sapling"
+  );
 
   // ----------------------------
 
@@ -87,8 +102,8 @@ public class MineCellsBlocks {
 
   // Barriers
   public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
-  public static final Block SOLID_BARRIER = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
-  public static final Block CONDITIONAL_BARRIER = registerBlockWithItem(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
+  public static final Block SOLID_BARRIER = registerBlock(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
+  public static final Block CONDITIONAL_BARRIER = registerBlock(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
   public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
   public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
   public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::playerPredicate), "player_barrier_controller");

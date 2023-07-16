@@ -23,8 +23,8 @@ import java.util.function.BiConsumer;
 public interface PromenadeTreeHelper {
   BlockState TRUNK_BLOCK = MineCellsBlocks.PUTRID_WOOD.log.getDefaultState();
 
-  default void placeBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos origin, Direction direction) {
-    if (random.nextFloat() < 0.025F) {
+  default void placeBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos origin, Direction direction, boolean decorations) {
+    if (decorations && random.nextFloat() < 0.025F) {
       placeFlag(replacer, origin, direction);
       return;
     }
@@ -37,9 +37,9 @@ public interface PromenadeTreeHelper {
       replacer.accept(origin, TRUNK_BLOCK);
     }
     if (random.nextFloat() < 0.5F) {
-      Block chain = random.nextFloat() < 0.33F ? MineCellsBlocks.BIG_CHAIN : Blocks.CHAIN;
       int length = 3 + random.nextInt(8);
-      if (canPlaceChain(world, origin.down(), length + 2)) {
+      if (decorations && canPlaceChain(world, origin.down(), length + 2)) {
+        Block chain = random.nextFloat() < 0.33F ? MineCellsBlocks.BIG_CHAIN : Blocks.CHAIN;
         placeChain(replacer, random, origin.down(), length, chain.getDefaultState());
         if (big) {
           BlockPos pos = origin.add(direction.getOpposite().getVector());

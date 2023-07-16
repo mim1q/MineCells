@@ -197,7 +197,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.PRISON_TORCH,
       MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.SPAWNER_RUNE,
-      MineCellsBlocks.WILTED_GRASS_BLOCK
+      MineCellsBlocks.WILTED_GRASS_BLOCK,
+      MineCellsBlocks.RED_PUTRID_SAPLING
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
