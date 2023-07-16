@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -18,11 +19,8 @@ import java.util.*;
 public class MineCellsData extends PersistentState {
   public final Map<Integer, RunData> runs = new HashMap<>();
   private PlayerEntity wipeScheduledPlayer = null;
-
-  @Override
-  public void markDirty() {
-    super.markDirty();
-  }
+  private String lastMineCellsVersion = null;
+  private String mineCellsVersion = null;
 
   public void wipe(ServerWorld world, ServerPlayerEntity player) {
     if (player.hasPermissionLevel(2)) {
@@ -30,7 +28,7 @@ public class MineCellsData extends PersistentState {
         runs.clear();
         markDirty();
         world.getPlayers().forEach(p -> {
-          syncCurrentPlayerData(player, world);
+          syncCurrentPlayerData(p, world);
           MineCells.DIMENSION_GRAPH.saveStuckPlayer(p);
         });
         wipeScheduledPlayer = null;
@@ -44,18 +42,57 @@ public class MineCellsData extends PersistentState {
 
   public static MineCellsData fromNbt(NbtCompound nbt) {
     var data = new MineCellsData();
-    for (var id : nbt.getKeys()) {
-      data.runs.put(Integer.parseInt(id), new RunData(nbt.getCompound(id), data));
+    if (nbt.contains("mineCellsVersion")) {
+      data.lastMineCellsVersion = nbt.getString("mineCellsVersion");
+    }
+    FabricLoader.getInstance().getModContainer(MineCells.MOD_ID).ifPresent(
+      mod -> {
+        var fullVersion = mod.getMetadata().getVersion().getFriendlyString();
+        data.mineCellsVersion = fullVersion.substring(0, fullVersion.lastIndexOf('.'));
+      }
+    );
+    if (nbt.contains("runs")) {
+      var entryNbt = nbt.getCompound("runs");
+      for (var id : entryNbt.getKeys()) {
+        data.runs.put(data.runs.size(), new RunData(entryNbt.getCompound(id), data));
+      }
     }
     return data;
   }
 
   @Override
   public NbtCompound writeNbt(NbtCompound nbt) {
+    var entryNbt = new NbtCompound();
     for (var entry : runs.entrySet()) {
-      nbt.put(entry.getKey().toString(), entry.getValue().writeNbt(new NbtCompound()));
+      entryNbt.put(entry.getKey().toString(), entry.getValue().writeNbt(new NbtCompound()));
+    }
+    nbt.put("runs", entryNbt);
+    if (mineCellsVersion != null) {
+      nbt.putString("mineCellsVersion", mineCellsVersion);
     }
     return nbt;
+  }
+
+  public void wipeIfVersionMismatched(ServerWorld world) {
+    if (
+      lastMineCellsVersion != null
+      && mineCellsVersion != null
+      && !mineCellsVersion.equals(lastMineCellsVersion)
+      && MineCells.COMMON_CONFIG.autoWipeData
+    ) {
+      MineCells.LOGGER.warn("Mine Cells version changed from " + lastMineCellsVersion + " to " + mineCellsVersion + "!");
+      MineCells.LOGGER.warn("Mine Cells data will be wiped!");
+      runs.clear();
+      lastMineCellsVersion = mineCellsVersion;
+      markDirty();
+      world.getPlayers().forEach(p -> {
+        syncCurrentPlayerData(p, world);
+        MineCells.DIMENSION_GRAPH.saveStuckPlayer(p);
+        if (p.hasPermissionLevel(2) || world.getServer().isSingleplayer()) {
+          p.sendMessage(Text.translatable("chat.minecells.wipe_success"));
+        }
+      });
+    }
   }
 
   public static MineCellsData get(ServerWorld world) {

@@ -22,8 +22,11 @@ public class CommonConfig implements Config {
   public Entities entities = new Entities();
   public Items items = new Items();
 
-  @Comment("Whether the entry door to boss rooms should remain unlocked")
+  @Comment(" Whether the entry door to boss rooms should remain unlocked")
   public boolean unlockedBossEntry = false;
+
+  @Comment(" Whether the Mine Cells data should automatically get wiped after major updates")
+  public boolean autoWipeData = true;
 
   @Override
   public void save() {

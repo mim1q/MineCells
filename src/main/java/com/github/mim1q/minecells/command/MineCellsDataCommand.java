@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.command;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
@@ -77,6 +78,7 @@ public class MineCellsDataCommand {
     data.portals.clear();
     data.activatedSpawnerRunes.clear();
     MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
+    MineCells.DIMENSION_GRAPH.saveStuckPlayer(player);
     ctx.getSource().sendFeedback(Text.literal("Mine Cells data cleared for player " + player.getName().getString()), false);
     return 0;
   }

@@ -28,7 +28,9 @@ public class PlayerSpecificMineCellsData {
 
   public PlayerSpecificMineCellsData(NbtCompound nbt) {
     var builder = new ImmutableMap.Builder<String, MineCellsData.PlayerData>();
-    nbt.getKeys().forEach(k -> builder.put(k, new MineCellsData.PlayerData(nbt.getCompound(k), null)));
+    if (nbt != null) {
+      nbt.getKeys().forEach(k -> builder.put(k, new MineCellsData.PlayerData(nbt.getCompound(k), null)));
+    }
     map = builder.build();
   }
 

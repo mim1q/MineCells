@@ -234,6 +234,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
       if (
         MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
         && sourcePos.equals(pos.subtract(state.get(FACING).getVector()))
+        && !world.getBlockState(sourcePos).isSideSolidFullSquare(world, sourcePos, state.get(FACING))
       ) {
         onBroken(world, pos, state);
         world.breakBlock(pos, true);

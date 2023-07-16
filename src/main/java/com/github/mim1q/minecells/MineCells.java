@@ -15,6 +15,7 @@ import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.world.ServerWorld;
@@ -60,6 +61,11 @@ public class MineCells implements ModInitializer {
     ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> ((PlayerEntityAccessor)newPlayer).setMineCellsData(
       new PlayerSpecificMineCellsData(MineCellsData.get((ServerWorld) oldPlayer.world), newPlayer)
     ));
+    ServerWorldEvents.LOAD.register(((server, world) -> {
+      var data = MineCellsData.get(world);
+      data.markDirty();
+      data.wipeIfVersionMismatched(world);
+    }));
   }
 
   public static Identifier createId(String path) {
