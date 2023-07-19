@@ -5,6 +5,7 @@ import datagen.custom.CustomPresets
 import datagen.custom.ModItemModels
 import datagen.custom.ModTemplatePools
 import tada.lib.generator.ResourceGenerator
+import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
 import tada.lib.presets.common.CommonDropPresets
 import tada.lib.presets.common.CommonModelPresets
@@ -96,10 +97,10 @@ fun main(args: Array<String>) {
   }
   generator.generate()
 
-//  LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {
-//    automaticallyGenerateBlockEntries(generator)
-//    generateMissingLangEntries()
-//  }
+  LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {
+    automaticallyGenerateBlockEntries(generator)
+    generateMissingLangEntries()
+  }
 }
 
 

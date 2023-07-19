@@ -21,6 +21,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class DoorwayItem extends AliasedBlockItem {
+  private static final String TOOLTIP_VISITED = "item.minecells.prison_doorway.visited";
+  private static final String TOOLTIP_NOT_VISITED = "item.minecells.prison_doorway.not_visited";
+  private static final String TOOLTIP_BOUND = "item.minecells.prison_doorway.bound";
+  private static final String TOOLTIP_NOT_BOUND = "item.minecells.prison_doorway.not_bound";
+
+
   public DoorwayItem(Settings settings) {
     super(MineCellsBlocks.PROMENADE_DOORWAY, settings);
   }
@@ -99,9 +105,9 @@ public class DoorwayItem extends AliasedBlockItem {
       var z = Math.round(entity.getPos().z / 1024F) * 1024;
       var area = "[x: " + x + ", z: " + z + "]";
       var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(MineCellsDimension.PRISONERS_QUARTERS)
-        ? "You have visited the Prisoners' Quarters in this area "
-        : "You haven't visited the Prisoners' Quarters in this area yet ";
-      player.sendMessage(Text.literal(message + area), true);
+        ? TOOLTIP_VISITED
+        : TOOLTIP_NOT_VISITED;
+      player.sendMessage(Text.translatable(message, area), true);
     }
   }
 
@@ -118,9 +124,9 @@ public class DoorwayItem extends AliasedBlockItem {
       var x = posOverride.getX();
       var z = posOverride.getZ();
       var area = "[x: " + x + ", z: " + z + "]";
-      tooltip.add(Text.literal("Bound area: " + area).formatted(Formatting.GREEN));
+      tooltip.add(Text.translatable(TOOLTIP_BOUND, area).formatted(Formatting.GREEN));
     } else {
-      tooltip.add(Text.literal("No area bound").formatted(Formatting.DARK_GRAY));
+      tooltip.add(Text.translatable(TOOLTIP_NOT_BOUND).formatted(Formatting.DARK_GRAY));
     }
   }
 }

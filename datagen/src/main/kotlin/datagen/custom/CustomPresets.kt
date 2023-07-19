@@ -80,5 +80,13 @@ object CustomPresets {
       ingredient("minecells:monsters_eye")
       ingredient("minecells:monsters_eye")
     })
+    add("prison_doorway", CraftingRecipe.shaped("minecells:prison_doorway") {
+      pattern("BBB")
+      pattern("BIB")
+      pattern("BTB")
+      key("B", "minecells:prison_bricks")
+      key("I", "minecraft:iron_bars")
+      key("T", "minecells:prison_torch")
+    })
   }
 }
