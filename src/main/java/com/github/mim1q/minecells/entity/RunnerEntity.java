@@ -66,7 +66,7 @@ public class RunnerEntity extends MineCellsEntity {
       s.cooldownSetter = (cooldown) -> this.teleportCooldown = cooldown;
       s.cooldownGetter = () -> this.teleportCooldown;
       s.stateSetter = this::switchTeleportState;
-      s.defaultCooldown = 40;
+      s.defaultCooldown = 100;
       s.actionTick = 20;
       s.length = 30;
     }, null));
@@ -132,7 +132,7 @@ public class RunnerEntity extends MineCellsEntity {
     protected Entity target;
 
     public RunnerTimedAttackGoal(RunnerEntity entity, Consumer<TimedActionSettings> settingsConsumer) {
-      super(entity, settingsConsumer, null);
+      super(entity, settingsConsumer, (runner) -> runner.teleportCooldown < 80);
     }
 
     @Override

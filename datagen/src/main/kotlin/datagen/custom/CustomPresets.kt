@@ -3,10 +3,12 @@ package datagen.custom
 import tada.lib.presets.Preset
 import tada.lib.presets.common.CommonDropPresets
 import tada.lib.presets.common.CommonModelPresets
+import tada.lib.presets.common.CommonRecipePresets
 import tada.lib.resources.blockstate.BlockState
 import tada.lib.resources.blockstate.BlockStateModel
 import tada.lib.resources.blockstate.BlockStateModel.Rotation
 import tada.lib.resources.model.ParentedModel
+import tada.lib.resources.recipe.CraftingRecipe
 import tada.lib.util.Id
 
 object CustomPresets {
@@ -47,5 +49,44 @@ object CustomPresets {
     add(name, BlockState.createSingle("$ns:block/$name"))
     add(CommonModelPresets.itemBlockModel(id))
     add(CommonDropPresets.silkTouchDrop(id, stoneId, id))
+  }
+
+  fun doorway(id: String) = Preset {
+    val (ns, name) = Id(id)
+    add("${name}_doorway", ParentedModel.block("minecells:block/template/doorway").texture("0", "$ns:block/doorway/$name"))
+    add("${name}_doorway", BlockState.create {
+      variant("facing=north", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.NONE))
+      variant("facing=east", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_90))
+      variant("facing=south", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_180))
+      variant("facing=west", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_270))
+    })
+  }
+
+  fun customRecipes() = Preset {
+    add(CommonRecipePresets.packed3x3("minecells:putrid_planks", "minecells:putrid_board_block", 9))
+    add("putrid_boards", CraftingRecipe.shaped("minecells:putrid_boards", 12) {
+      pattern("XXX")
+      pattern("XXX")
+      key("X", "minecells:putrid_board_block")
+    })
+    add("reset_rune", CraftingRecipe.shapeless("minecells:reset_rune", 1) {
+      ingredient("minecells:blank_rune")
+      ingredient("minecraft:clock")
+      ingredient("minecraft:emerald")
+      ingredient("minecraft:emerald")
+      ingredient("minecraft:emerald")
+      ingredient("minecraft:emerald")
+      ingredient("minecells:monsters_eye")
+      ingredient("minecells:monsters_eye")
+      ingredient("minecells:monsters_eye")
+    })
+    add("prison_doorway", CraftingRecipe.shaped("minecells:prison_doorway") {
+      pattern("BBB")
+      pattern("BIB")
+      pattern("BTB")
+      key("B", "minecells:prison_bricks")
+      key("I", "minecraft:iron_bars")
+      key("T", "minecells:prison_torch")
+    })
   }
 }

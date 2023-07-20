@@ -12,19 +12,15 @@ public class AnimationProperty {
   private float duration = 10.0F;
   private EasingFunction easingFunction;
 
-  public AnimationProperty(float value, EasingType easingType) {
+  public AnimationProperty(float value, EasingFunction easingFunction) {
     this.value = value;
     this.lastValue = value;
     this.targetValue = value;
-    this.easingFunction = EasingType.getFunction(easingType);
+    this.easingFunction = easingFunction;
   }
 
   public AnimationProperty(float value) {
-    this(value, EasingType.IN_OUT_QUAD);
-  }
-
-  public void setupTransitionTo(float targetValue, float duration, EasingType easingType) {
-    setupTransitionTo(targetValue, duration, EasingType.getFunction(easingType));
+    this(value, MathUtils::easeInOutQuad);
   }
 
   public void setupTransitionTo(float targetValue, float duration, EasingFunction easingFunction) {
@@ -58,19 +54,8 @@ public class AnimationProperty {
     return this.value;
   }
 
+  @FunctionalInterface
   public interface EasingFunction {
     float ease(float start, float end, float delta);
-  }
-
-  public enum EasingType {
-    LINEAR,
-    IN_OUT_QUAD;
-
-    public static EasingFunction getFunction(EasingType type) {
-      return switch (type) {
-        case LINEAR -> MathUtils::lerp;
-        case IN_OUT_QUAD -> MathUtils::easeInOutQuad;
-      };
-    }
   }
 }

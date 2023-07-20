@@ -11,6 +11,7 @@ import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarr
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
 import com.github.mim1q.minecells.registry.*;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
@@ -46,7 +47,7 @@ import java.util.function.Consumer;
 
 public class ConjunctiviusEntity extends MineCellsBossEntity {
 
-  public final AnimationProperty spikeOffset = new AnimationProperty(5.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty spikeOffset = new AnimationProperty(5.0F, MathUtils::easeInOutQuad);
 
   public static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   public static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

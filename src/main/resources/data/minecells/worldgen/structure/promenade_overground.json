@@ -1,0 +1,13 @@
+{
+  "type": "minecells:promenade_overground",
+  "biomes": [
+    "minecells:promenade"
+  ],
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_thin",
+  "start_height": {
+    "absolute": 0
+  },
+  "project_start_to_heightmap": "MOTION_BLOCKING_NO_LEAVES"
+}

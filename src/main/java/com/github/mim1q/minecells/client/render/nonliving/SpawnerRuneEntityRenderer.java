@@ -21,12 +21,15 @@ public class SpawnerRuneEntityRenderer extends EntityRenderer<SpawnerRuneEntity>
 
   @Override
   public void render(SpawnerRuneEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    if (!entity.isVisible) {
+      return;
+    }
     matrices.push();
     var yOffset = MathHelper.sin(0.1F * (entity.age + tickDelta)) * 0.15F;
     matrices.translate(0.0D, 1.25D + yOffset, 0.0D);
     var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     matrices.multiply(dispatcher.getRotation());
-    var consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(TEXTURE));
+    var consumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
     RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 200);
     matrices.pop();
   }

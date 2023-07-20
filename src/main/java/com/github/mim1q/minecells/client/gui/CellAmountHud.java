@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.gui;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -23,7 +24,7 @@ public class CellAmountHud {
   private int lastChange = 0;
   private int cellAmount = 0;
   private int lastAmount = 0;
-  private final AnimationProperty offset = new AnimationProperty(20.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  private final AnimationProperty offset = new AnimationProperty(20.0F, MathUtils::easeInOutQuad);
 
   public CellAmountHud(MinecraftClient client) {
     this.client = client;

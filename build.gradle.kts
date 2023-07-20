@@ -6,6 +6,7 @@ plugins {
   id("fabric-loom") version Versions.loom
   id("com.modrinth.minotaur") version Versions.minotaur
   id("com.matthewprenger.cursegradle") version Versions.cursegradle
+  id("io.github.p03w.machete") version "2.0.1"
 }
 
 java {
@@ -23,9 +24,10 @@ version = ModData.version
 
 repositories {
   mavenCentral()
-  maven(url = "https://jitpack.io")
-  maven(url = "https://maven.shedaniel.me/")
-  maven(url = "https://maven.terraformersmc.com/releases/")
+  maven("https://jitpack.io")
+  maven("https://maven.shedaniel.me/")
+  maven("https://maven.terraformersmc.com/releases/")
+  maven("https://maven.wispforest.io")
 }
 
 dependencies {
@@ -43,6 +45,8 @@ dependencies {
   annotationProcessor("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
   include("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
 
+  modImplementation("io.wispforest:owo-lib:${Versions.owoLib}")
+  include("io.wispforest:owo-sentinel:${Versions.owoLib}")
 }
 
 @Suppress("UnstableApiUsage")

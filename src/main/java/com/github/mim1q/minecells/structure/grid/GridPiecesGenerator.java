@@ -68,5 +68,28 @@ public class GridPiecesGenerator {
     protected final void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
       addTerrainFitRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
+
+    public static RoomGridGenerator single(Identifier roomId) {
+      return single(roomId, Vec3i.ZERO);
+    }
+
+    public static RoomGridGenerator single(Identifier roomId, Vec3i offset) {
+      return new Single(roomId, offset);
+    }
+
+    public static final class Single extends RoomGridGenerator {
+      private final Identifier roomId;
+      private final Vec3i offset;
+
+      Single(Identifier roomId, Vec3i offset) {
+        this.roomId = roomId;
+        this.offset = offset;
+      }
+
+      @Override
+      protected void addRooms(Random random) {
+        addRoom(Vec3i.ZERO, BlockRotation.random(random), roomId, offset);
+      }
+    }
   }
 }

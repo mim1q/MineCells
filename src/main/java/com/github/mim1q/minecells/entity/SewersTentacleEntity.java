@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.google.common.collect.HashMultimap;
@@ -38,9 +39,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class SewersTentacleEntity extends MineCellsEntity {
-  public final AnimationProperty belowGround = new AnimationProperty(-2.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
-  public final AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
-  public final AnimationProperty wobbleOffset = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty belowGround = new AnimationProperty(-2.0F, MathUtils::easeInOutQuad);
+  public final AnimationProperty wobble = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
+  public final AnimationProperty wobbleOffset = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
 
   private static final TrackedData<Integer> VARIANT = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Boolean> BURIED = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

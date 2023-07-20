@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedShootGoal;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ScorpionSpitEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
@@ -33,8 +34,8 @@ import net.minecraft.world.World;
 
 public class ScorpionEntity extends MineCellsEntity {
 
-  public AnimationProperty buriedProgress = new AnimationProperty(1.0F, AnimationProperty.EasingType.LINEAR);
-  public AnimationProperty swingProgress = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public AnimationProperty buriedProgress = new AnimationProperty(1.0F, MathUtils::lerp);
+  public AnimationProperty swingProgress = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
   protected int shootCooldown = 0;
 
   public static final TrackedData<Boolean> SLEEPING = DataTracker.registerData(ScorpionEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

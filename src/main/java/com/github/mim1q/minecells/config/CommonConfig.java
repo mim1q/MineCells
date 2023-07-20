@@ -8,7 +8,6 @@ import net.minecraft.util.math.MathHelper;
 import java.util.List;
 
 public class CommonConfig implements Config {
-
   @Override
   public String getName() {
     return "minecells-common";
@@ -22,6 +21,12 @@ public class CommonConfig implements Config {
   public Elevator elevator = new Elevator();
   public Entities entities = new Entities();
   public Items items = new Items();
+
+  @Comment(" Whether the entry door to boss rooms should remain unlocked")
+  public boolean unlockedBossEntry = false;
+
+  @Comment(" Whether the Mine Cells data should automatically get wiped after major updates")
+  public boolean autoWipeData = true;
 
   @Override
   public void save() {

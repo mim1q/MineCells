@@ -2,23 +2,31 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.*;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.DoorwayType;
+import com.github.mim1q.minecells.block.portal.TeleporterBlock;
 import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import com.github.mim1q.minecells.registry.featureset.*;
+import com.github.mim1q.minecells.world.feature.MineCellsConfiguredFeatures;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 public class MineCellsBlocks {
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block CELL_FORGE = registerBlockWithItem(new CellForgeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)), "cell_forge");
   public static final Block BIG_CHAIN = registerBlockWithItem(new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)), "big_chain");
   public static final Block HARDSTONE = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "hardstone");
-  public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK)), "wilted_grass_block");
+  public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "wilted_grass_block");
 
   // Block sets
   public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
@@ -37,8 +45,18 @@ public class MineCellsBlocks {
     MineCellsBlocks::defaultItemSettings,
     () -> FabricBlockSettings.of(Material.LEAVES).sounds(BlockSoundGroup.GRASS).nonOpaque().strength(0.2F)
   );
-  public static final LeavesSet ORANGE_WILTED_LEAVES = new LeavesSet(MineCells.createId("orange_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves));
-  public static final LeavesSet RED_WILTED_LEAVES = new LeavesSet(MineCells.createId("red_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves));
+  public static final LeavesSet ORANGE_WILTED_LEAVES = new LeavesSet(MineCells.createId("orange_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.ORANGE));
+  public static final LeavesSet RED_WILTED_LEAVES = new LeavesSet(MineCells.createId("red_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.RED));
+
+  public static final SaplingBlock RED_PUTRID_SAPLING = registerBlockWithItem(
+    new SaplingBlock(new SaplingGenerator() {
+      @Override
+      protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
+        return MineCellsConfiguredFeatures.PROMENADE_TREE_SAPLING;
+      }
+    }, FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).nonOpaque()),
+    "red_putrid_sapling"
+  );
 
   // ----------------------------
 
@@ -79,16 +97,32 @@ public class MineCellsBlocks {
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS), "conjunctivius_box");
   public static final Block BEAM_PLACER = registerBlock(new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "beam_placer");
   public static final Block SPAWNER_RUNE = registerBlock(new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision().nonOpaque().ticksRandomly()), "spawner_rune");
-  public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().ticksRandomly()), "barrier_rune");
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
+
+  // Barriers
+  public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
+  public static final Block SOLID_BARRIER = registerBlock(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
+  public static final Block CONDITIONAL_BARRIER = registerBlock(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
+  public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
+  public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
+  public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::playerPredicate), "player_barrier_controller");
+
+  // Portals
+  public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
+  public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "teleporter_frame");
+  public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.of(Material.PORTAL).nonOpaque().strength(50F, 1200F)), "doorway_frame");
+  public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
+  public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
+  public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
+  public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
 
   public static void init() {
     Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registry.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
   }
 
-  public static Block registerBlock(Block block, String id) {
+  public static  <T extends Block> T registerBlock(T block, String id) {
     Registry.register(Registry.BLOCK, MineCells.createId(id), block);
     return block;
   }

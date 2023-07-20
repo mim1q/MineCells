@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "minecells:overworld_portal",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 20,
+    "separation": 8,
+    "frequency": 0.75,
+    "salt": 2043237655
+  }
+}

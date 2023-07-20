@@ -6,10 +6,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeEffects;
-import net.minecraft.world.biome.GenerationSettings;
-import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 
@@ -80,10 +77,11 @@ public class MineCellsBiomes {
       .effects(new BiomeEffects.Builder()
         .waterColor(0x61D8FF)
         .waterFogColor(0x61D8FF)
-        .fogColor(0x91E8F2)
-        .skyColor(0x91E8F2)
+        .fogColor(0x67E8FA)
+        .skyColor(0x67E8FA)
         .grassColor(0x3C8787)
         .foliageColor(0x33797F)
+        .particleConfig(new BiomeParticleConfig(MineCellsParticles.FALLING_LEAF.get(0xC5161F), 0.001F))
         .build())
       .spawnSettings(spawnSettings)
       .generationSettings(generationSettings.build())

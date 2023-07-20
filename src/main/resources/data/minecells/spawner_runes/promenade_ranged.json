@@ -1,0 +1,14 @@
+{
+  "cooldown": 60.0,
+  "spawnDistance": 0.0,
+  "playerDistance": 16.0,
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "weight": 2, "entity": "minecells:grenadier" },
+        { "weight": 1, "entity": "minecells:mutated_bat" }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.block.RunicVinePlantBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +25,7 @@ public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
 
   private int usedTicks = 0;
   private int blocksAbove = 0;
-  public final AnimationProperty wobble = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  public final AnimationProperty wobble = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
 
   public RunicVinePlantBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.RUNIC_VINE_PLANT, pos, state);

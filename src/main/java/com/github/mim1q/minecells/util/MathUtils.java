@@ -40,47 +40,23 @@ public class MathUtils {
     return MathHelper.lerp(delta, a, b);
   }
 
+  // https://easings.net/#easeOutBounce
+  public static float easeOutBounce(float a, float b, float delta) {
+    var n1 = 7.5625F;
+    var d1 = 2.75F;
+
+    if (delta < 1F / d1) {
+      return lerp(a, b, n1 * delta * delta);
+    } else if (delta < 2F / d1) {
+      return lerp(a, b, n1 * (delta -= 1.5F / d1) * delta + 0.75F);
+    } else if (delta < 2.5F / d1) {
+      return lerp(a, b, n1 * (delta -= 2.25F / d1) * delta + 0.9375F);
+    }
+    return lerp(a, b, n1 * (delta -= 2.625F / d1) * delta + 0.984375F);
+  }
+
   public static float radians(float degrees) {
     return degrees * RADIANS_PER_DEGREE;
-  }
-
-  // Thank you, GolamMazid Sajib!
-  // https://stackoverflow.com/a/61231766
-  public static Vec3i getSpiralPosition(int i) {
-    i += 1;
-    int k = (int) Math.ceil((Math.sqrt(i) - 1) / 2);
-    int t = 2 * k + 1;
-    int m = t * t;
-    t -= 1;
-    if (i >= m - t) {
-      return new Vec3i(k - (m - i), 0, -k);
-    }
-    m -= t;
-    if (i >= m - t) {
-      return new Vec3i(-k, 0, -k + (m - i));
-    }
-    m -= t;
-    if (i >= m - t) {
-      return new Vec3i(-k + (m - i), 0, k);
-    }
-    return new Vec3i(k, 0, k - (m - i - t));
-  }
-
-  // Thank you, MBo!
-  // https://stackoverflow.com/a/9971465/20281585
-  public static int getSpiralIndex(int x, int z) {
-    if (z * z >= x * x) {
-      int p = 4 * z * z - z - x;
-      if (z < x) {
-        return p - 2 * (z - x);
-      }
-      return p;
-    }
-    int p = 4 * x * x - z - x;
-    if (z < x) {
-      return p + 2 * (z - x);
-    }
-    return p;
   }
 
   public static Vec3i getClosestMultiplePosition(Vec3i pos, int multiple) {

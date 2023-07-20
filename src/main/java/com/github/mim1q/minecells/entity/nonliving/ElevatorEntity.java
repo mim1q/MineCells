@@ -324,16 +324,12 @@ public class ElevatorEntity extends Entity {
       new Vec3i(-2, 0, 0),
       new Vec3i(0, 0, -2),
       new Vec3i(0, 0, 2),
-      new Vec3i(2, 0, 0),
-      new Vec3i(-2, 1, 0),
-      new Vec3i(0, 1, -2),
-      new Vec3i(0, 1, 2),
-      new Vec3i(2, 1, 0)
+      new Vec3i(2, 0, 0)
     };
 
     BlockPos pos = new BlockPos(this.getBlockX(), y, this.getBlockZ());
     for (Vec3i offset : offsets) {
-      if (this.world.getBlockState(pos.add(offset)).getStrongRedstonePower(world, pos, Direction.UP) > 0) {
+      if (world.getReceivedRedstonePower(pos.add(offset)) > 0) {
         return true;
       }
     }

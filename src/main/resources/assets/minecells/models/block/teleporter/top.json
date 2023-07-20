@@ -1,0 +1,24 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "minecells:block/teleporter",
+		"particle": "minecells:block/prison_stone"
+	},
+	"elements": [
+		{
+			"name": "main_6",
+			"from": [-12.01, 5.99, 2.99],
+			"to": [12.01, 16.01, 13.01],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 24, 0]},
+			"faces": {
+				"north": {"uv": [1.25, 3.75, 4.25, 5], "texture": "#0"},
+				"east": {"uv": [0, 3.75, 1.25, 5], "texture": "#0"},
+				"south": {"uv": [5.5, 3.75, 8.5, 5], "texture": "#0"},
+				"west": {"uv": [4.25, 3.75, 5.5, 5], "texture": "#0"},
+				"up": {"uv": [4.25, 3.75, 1.25, 2.5], "texture": "#0"},
+				"down": {"uv": [7.25, 2.5, 4.25, 3.75], "texture": "#0"}
+			}
+		}
+	]
+}

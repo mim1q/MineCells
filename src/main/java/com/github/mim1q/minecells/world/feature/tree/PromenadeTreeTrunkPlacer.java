@@ -60,13 +60,13 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       }
       // Generate branch
       int h = random.nextBetween(6, height - 3);
-      placeBranch(world, replacer, random, startPos.up(h), dir);
+      placeBranch(world, replacer, random, startPos.up(h), dir, !config.ignoreVines);
       int minH = h + 3;
       while (h < height - 8) {
         h = random.nextBetween(minH, height - 3);
-        placeBranch(world, replacer, random, startPos.up(h), dir);
+        placeBranch(world, replacer, random, startPos.up(h), dir, !config.ignoreVines);
         if (!broken && h > height - 10) {
-          generateLeaves(world, replacer, random, startPos.up(h + 2).add(dir.getVector().multiply(3)), 3);
+          generateLeaves(world, replacer, random, startPos.up(h).add(dir.getVector().multiply(3)), 3 + random.nextInt(2));
         }
         minH = h + 3;
       }
@@ -75,10 +75,25 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       nodes.add(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
     }
     if (!broken) {
-      int additionalRadius = random.nextInt(2);
-      generateLeaves(world, replacer, random, startPos.up(height), 3 + additionalRadius);
-      generateLeaves(world, replacer, random, startPos.up(height - 6), 3 + additionalRadius);
-      generateLeaves(world, replacer, random, startPos.up(height - 10), 1 + additionalRadius);
+      generateLeaves(world, replacer, random, startPos.up(height - 2), 5 + random.nextInt(3));
+      if (random.nextFloat() > 0.8F) {
+        generateLeaves(
+          world,
+          replacer,
+          random,
+          startPos.add(random.nextInt(4) - 2, height - 5 - random.nextInt(3), random.nextInt(4) - 2),
+          4 + random.nextInt(4)
+        );
+      }
+      if (random.nextFloat() > 0.5F) {
+        generateLeaves(
+          world,
+          replacer,
+          random,
+          startPos.add(random.nextInt(2) - 1, height - 9 - random.nextInt(4), random.nextInt(2) - 1),
+          2 + random.nextInt(3)
+        );
+      }
 
       var dirs = Direction.Type.HORIZONTAL.getShuffled(random);
       if (random.nextFloat() < 0.75F) {
@@ -97,25 +112,33 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       pos = pos.add(dir.getVector()).up();
       replacer.accept(pos, TRUNK_BLOCK);
     }
-    generateLeaves(world, replacer, random, pos.up(2), 4);
+    generateLeaves(world, replacer, random, pos, 4 + random.nextInt(2));
   }
 
   public void generateLeaves(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos startPos, int radius) {
+    for (int i = 1; i <= 3; i++) {
+      if (radius > 5) {
+        replacer.accept(startPos.east(i), TRUNK_BLOCK);
+        replacer.accept(startPos.west(i), TRUNK_BLOCK);
+        replacer.accept(startPos.north(i), TRUNK_BLOCK);
+        replacer.accept(startPos.south(i), TRUNK_BLOCK);
+      }
+    }
     BlockStatePredicate isAir = BlockStatePredicate.forBlock(Blocks.AIR);
-    for (int y = -radius; y <= radius; y++) {
+    for (int y = -2; y <= radius / 2; y++) {
       for (int x = -radius; x <= radius; x++) {
         for (int z = -radius; z <= radius; z++) {
           BlockPos pos = startPos.add(x, y, z);
-          double distance = pos.getSquaredDistance(startPos);
-          if (distance > radius * radius) {
+          BlockPos distPos = startPos.add(x, y * 2, z);
+          double distance = (distPos.getManhattanDistance(startPos) + Math.sqrt(distPos.getSquaredDistance(startPos))) / 2.0;
+          if (distance >= radius) {
             continue;
           }
-          double chance = (distance) / (radius * radius);
-          if (random.nextFloat() < chance) {
+          if (distance >= radius - 1 && random.nextFloat() < 0.5F) {
             continue;
           }
           if (world.testBlockState(pos, isAir)) {
-            replacer.accept(pos, MineCellsBlocks.RED_WILTED_LEAVES.leaves.getDefaultState().with(Properties.PERSISTENT, true));
+            replacer.accept(pos, MineCellsBlocks.RED_WILTED_LEAVES.leaves.getDefaultState());
           }
         }
       }

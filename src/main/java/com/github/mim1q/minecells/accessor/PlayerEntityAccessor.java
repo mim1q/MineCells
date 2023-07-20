@@ -1,16 +1,14 @@
 package com.github.mim1q.minecells.accessor;
 
-import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
+import com.github.mim1q.minecells.world.state.MineCellsData;
+import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 
 public interface PlayerEntityAccessor {
   int getCells();
   void setCells(int amount);
-  void setKingdomPortalCooldown(int cooldown);
-  int getKingdomPortalCooldown();
-  boolean canUseKingdomPortal();
-  MineCellsPortalData getMineCellsPortalData();
-  void setLastDimensionTranslationKey(String key);
-  String getLastDimensionTranslationKey();
+  PlayerSpecificMineCellsData getMineCellsData();
+  MineCellsData.PlayerData getCurrentMineCellsPlayerData();
+  void setMineCellsData(PlayerSpecificMineCellsData data);
   void addBalancedBladeStack();
   int getBalancedBladeStacks();
   void setInvincibilityFrames(int frames);

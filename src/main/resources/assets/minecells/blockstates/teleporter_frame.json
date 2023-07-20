@@ -1,0 +1,81 @@
+{
+  "variants": {
+    "type=bottom,facing=north": {
+      "model": "minecells:block/teleporter/bottom"
+    },
+    "type=bottom,facing=east": {
+      "model": "minecells:block/teleporter/bottom",
+      "y": 90
+    },
+    "type=bottom,facing=south": {
+      "model": "minecells:block/teleporter/middle"
+    },
+    "type=bottom,facing=west": {
+      "model": "minecells:block/teleporter/middle"
+    },
+    "type=top,facing=north": {
+      "model": "minecells:block/teleporter/top"
+    },
+    "type=top,facing=east": {
+      "model": "minecells:block/teleporter/top",
+      "y": 90
+    },
+    "type=top,facing=south": {
+      "model": "minecells:block/teleporter/middle"
+    },
+    "type=top,facing=west": {
+      "model": "minecells:block/teleporter/middle"
+    },
+    "type=corner_lower,facing=north": {
+      "model": "minecells:block/teleporter/corner_lower"
+    },
+    "type=corner_lower,facing=east": {
+      "model": "minecells:block/teleporter/corner_lower",
+      "y": 90
+    },
+    "type=corner_lower,facing=south": {
+      "model": "minecells:block/teleporter/corner_lower",
+      "y": 180
+    },
+    "type=corner_lower,facing=west": {
+      "model": "minecells:block/teleporter/corner_lower",
+      "y": 270
+    },
+    "type=corner_upper,facing=north": {
+      "model": "minecells:block/teleporter/corner_upper"
+    },
+    "type=corner_upper,facing=east": {
+      "model": "minecells:block/teleporter/corner_upper",
+      "y": 90
+    },
+    "type=corner_upper,facing=south": {
+      "model": "minecells:block/teleporter/corner_upper",
+      "y": 180
+    },
+    "type=corner_upper,facing=west": {
+      "model": "minecells:block/teleporter/corner_upper",
+      "y": 270
+    },
+    "type=side_lower,facing=north": {
+      "model": "minecells:block/teleporter/side_lower"
+    },
+    "type=side_lower,facing=east": {
+      "model": "minecells:block/teleporter/side_lower",
+      "y": 90
+    },
+    "type=side_lower,facing=south": {
+      "model": "minecells:block/teleporter/side_lower",
+      "y": 180
+    },
+    "type=side_lower,facing=west": {
+      "model": "minecells:block/teleporter/side_lower",
+      "y": 270
+    },
+    "type=side_upper": {
+      "model": "minecells:block/teleporter/middle"
+    },
+    "type=middle": {
+      "model": "minecells:block/teleporter/middle"
+    }
+  }
+}

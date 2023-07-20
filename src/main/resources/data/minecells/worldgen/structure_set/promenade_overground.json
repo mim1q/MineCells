@@ -1,0 +1,29 @@
+{
+  "structures": [
+    {
+      "structure": "minecells:promenade_overground",
+      "weight": 12
+    },
+    {
+      "structure": "minecells:promenade_pit",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecells:better_random_spread",
+    "spacing": 1,
+    "separation": 0,
+    "frequency": 0.45,
+    "salt": 2043237625,
+    "exclusion_zones": [
+      {
+        "other_set": "minecells:promenade_underground",
+        "chunk_count": 1
+      },
+      {
+        "other_set": "minecells:promenade_spawn",
+        "chunk_count": 1
+      }
+    ]
+  }
+}

@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity.nonliving;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -30,7 +31,7 @@ public class TentacleWeaponEntity extends Entity {
   private Vec3d ownerVelocity = null;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  private final AnimationProperty length = new AnimationProperty(0.0F, AnimationProperty.EasingType.IN_OUT_QUAD);
+  private final AnimationProperty length = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
 
   public TentacleWeaponEntity(EntityType<TentacleWeaponEntity> type, World world) {
     super(type, world);

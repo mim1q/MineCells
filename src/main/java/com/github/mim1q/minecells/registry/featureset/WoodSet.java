@@ -30,8 +30,8 @@ public class WoodSet extends FeatureSet {
   public final FenceGateBlock fenceGate = registerBlockWithItem(name + "_fence_gate", new FenceGateBlock(defaultBlockSettings()));
   public final WoodenButtonBlock button = registerBlockWithItem(name + "_button", new WoodenButtonBlock(defaultBlockSettings().noCollision()));
   public final PressurePlateBlock pressurePlate = registerBlockWithItem(name + "_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, defaultBlockSettings().noCollision()));
-  public final SignBlock sign = registerBlock(name + "_sign", new SignBlock(defaultBlockSettings(), signType));
-  public final WallSignBlock wallSign = registerBlock(name + "_wall_sign", new WallSignBlock(defaultBlockSettings(), signType));
+  public final SignBlock sign = registerBlock(name + "_sign", new SignBlock(defaultBlockSettings().nonOpaque().noCollision(), signType));
+  public final WallSignBlock wallSign = registerBlock(name + "_wall_sign", new WallSignBlock(defaultBlockSettings().nonOpaque().noCollision(), signType));
   public final SignItem signItem = registerItem(name + "_sign", new SignItem(defaultItemSettings().maxCount(16), sign, wallSign));
 
   private final List<ItemStack> stacks = Stream.of(

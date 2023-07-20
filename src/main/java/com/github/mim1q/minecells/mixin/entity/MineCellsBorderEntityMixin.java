@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.MineCellsBorderEntity;
-import com.github.mim1q.minecells.dimension.MineCellsDimensions;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandOutput;
@@ -40,7 +40,7 @@ public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike
 
   @Inject(method = "tick", at = @At("HEAD"))
   public void minecells$updateBorderOnTick(CallbackInfo ci) {
-    if (MineCellsDimensions.isMineCellsDimension(world)) {
+    if (MineCellsDimension.isMineCellsDimension(world)) {
       if (age % 20 == 0) {
         var pos = MathUtils.getClosestMultiplePosition(getBlockPos(), 1024);
         minecellsBorder.setCenter(pos.getX() + 0.5D, pos.getZ() + 0.5D);
@@ -53,6 +53,7 @@ public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike
   }
 
   // IntelliJ believes this won't compile, but it does.
+  @SuppressWarnings("InvalidInjectorMethodSignature")
   @ModifyVariable(
     method = "adjustMovementForCollisions(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Lnet/minecraft/world/World;Ljava/util/List;)Lnet/minecraft/util/math/Vec3d;",
     at = @At("STORE")
@@ -65,7 +66,7 @@ public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike
     World world,
     List<VoxelShape> collisions
   ) {
-    if (entity != null && MineCellsDimensions.isMineCellsDimension(world)) {
+    if (entity != null && MineCellsDimension.isMineCellsDimension(world)) {
       return ((MineCellsBorderEntityMixin)(Object)entity).minecellsBorder;
     }
     return original;

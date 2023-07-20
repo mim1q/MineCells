@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
     add(BlockSets.basicWoodSet("minecells:putrid"))
     add(CustomBlockSets.leaves("minecells:wilted"))
     add(CustomBlockSets.leaves("minecells:orange_wilted"))
-    add(CustomBlockSets.leaves("minecells:red_wilted"))
+    add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
     // Torches
@@ -46,14 +46,21 @@ fun main(args: Array<String>) {
       add(CommonModelPresets.cubeAllBlock("minecells:$it"))
     }
     add(CommonModelPresets.pillarBlock("minecells:crate"))
-    listOf("conjunctivius_box", "beam_placer").forEach {
-      add(it, BlockState.createSingle("minecraft:block/air"))
+    add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
+    listOf("conjunctivius_box", "beam_placer", "doorway_frame", "solid_barrier_rune", "conditional_barrier",
+      "boss_barrier_controller", "boss_entry_barrier_controller", "player_barrier_controller"
+    ).forEach {
+      add(it, BlockState.createSingle("minecells:block/invisible_stone"))
+    }
+    listOf("overworld", "prison", "promenade", "insufferable_crypt").forEach {
+      add(CustomPresets.doorway("minecells:$it"))
     }
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))
     listOf("runic_vine", "runic_vine_top").forEach {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
     }
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
+    add(CustomPresets.customRecipes())
     // Fluids
     listOf("sewage", "ancient_sewage").forEach {
       add(it, BlockState.createSingle("minecraft:block/water"))
@@ -66,7 +73,7 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "biome_banner"
+      "big_chain", "broken_cage", "biome_banner", "prison_doorway", "red_putrid_sapling"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }
@@ -81,7 +88,7 @@ fun main(args: Array<String>) {
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage"
+      "minecells:broken_cage", "minecells:prison_doorway"
     )
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",

@@ -31,7 +31,7 @@ object CustomBlockSets {
     add(CommonRecipePresets.packed2x2("${ns}:${name}_bricks", "${ns}:small_${name}_bricks", 4))
   }
 
-  fun leaves(id: String) = Preset {
+  fun leaves(id: String, saplingId: String? = null) = Preset {
     val (ns, name) = Id(id)
     add("${name}_leaves", ParentedModel.block("minecraft:block/leaves").texture("all", "${ns}:block/${name}_leaves"))
     add("${name}_hanging_leaves", ParentedModel.block("minecells:block/hanging_leaves").texture("0", "${ns}:block/${name}_hanging_leaves"))
@@ -39,9 +39,16 @@ object CustomBlockSets {
       .texture("base", "${ns}:block/${name}_wall_leaves")
       .texture("detail", "${ns}:block/${name}_wall_leaves_detail")
     )
+    if (saplingId != null) {
+      val (sNs, sName) = Id(saplingId)
+      add(sName, ParentedModel.block("minecraft:block/cross").texture("cross", "$sNs:block/$sName"))
+      add(sName, BlockState.createSingle("$sNs:block/$sName"))
+      TagManager.add("blocks/saplings", "$sNs:$sName")
+      TagManager.add("items/saplings", "$sNs:$sName")
+    }
     listOf("leaves", "hanging_leaves", "wall_leaves").forEach {
       add(CommonModelPresets.itemBlockModel("$ns:${name}_$it"))
-      add(CommonDropPresets.leavesDrop("$ns:${name}_$it"))
+      add(CommonDropPresets.leavesDrop("$ns:${name}_$it", saplingId))
     }
     add("${name}_leaves", BlockState.createSingle("$ns:block/${name}_leaves"))
     add("${name}_hanging_leaves", BlockState.create {
@@ -60,5 +67,6 @@ object CustomBlockSets {
     })
 
     TagManager.add("blocks/leaves", "$ns:${name}_leaves")
+    TagManager.add("items/leaves", "$ns:${name}_leaves")
   }
 }

@@ -17,16 +17,20 @@
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
     "network.CustomPayloadS2CPacketMixin",
+    "world.ChunkGeneratorMixin",
     "world.TrunkPlacerTypeInvoker",
     "world.WorldMixin"
   ],
   "client": [
+    "client.BackgroundRendererMixin",
     "client.BipedEntityModelMixin",
     "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
-    "entity.LivingEntityClientMixin"
+    "entity.LivingEntityClientMixin",
+    "entity.player.ClientPlayerEntityMixin",
+    "item.CompassItemMixin"
   ],
   "server": [],
   "injectors": {

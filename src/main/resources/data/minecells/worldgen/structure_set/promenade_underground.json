@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "minecells:promenade_underground",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecells:inside_grid",
+    "salt": 2043237423,
+    "min_distance": 6,
+    "max_distance": 24,
+    "max_count": 10,
+    "separation": 8,
+    "locate_offset": [7, 0, 10]
+  }
+}

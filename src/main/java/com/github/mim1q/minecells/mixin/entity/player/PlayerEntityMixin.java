@@ -7,6 +7,8 @@ import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.world.state.MineCellsData;
+import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -39,12 +41,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   @Shadow public abstract int getXpToDrop();
 
   private static final TrackedData<Integer> CELL_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-  private static final TrackedData<String> LAST_DIMENSION_TRANSLATION_KEY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.STRING);
   private int kingdomPortalCooldown = 0;
   private final MineCellsPortalData mineCellsPortalData = new MineCellsPortalData(this);
   private int balancedBladeStacks = 0;
   private int balancedBladeTimer = 0;
   private int minecells$invincibilityFrames = 0;
+  private PlayerSpecificMineCellsData mineCellsPlayerData = new PlayerSpecificMineCellsData(new NbtCompound());
 
   protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -53,7 +55,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   @Inject(method = "initDataTracker", at = @At("TAIL"))
   public void initDataTracker(CallbackInfo ci) {
     this.dataTracker.startTracking(CELL_AMOUNT, 0);
-    this.dataTracker.startTracking(LAST_DIMENSION_TRANSLATION_KEY, "dimension.minecraft.overworld");
   }
 
   public int getCells() {
@@ -77,6 +78,21 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     if (minecells$invincibilityFrames > 0) {
       minecells$invincibilityFrames--;
     }
+  }
+
+  @Override
+  public PlayerSpecificMineCellsData getMineCellsData() {
+    return mineCellsPlayerData;
+  }
+
+  @Override
+  public MineCellsData.PlayerData getCurrentMineCellsPlayerData() {
+    return mineCellsPlayerData.get(this.getBlockPos());
+  }
+
+  @Override
+  public void setMineCellsData(PlayerSpecificMineCellsData data) {
+    mineCellsPlayerData = data;
   }
 
   @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
@@ -132,18 +148,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     this.mineCellsPortalData.fromNbt(nbt.getCompound("mineCellsPortalData"));
   }
 
-  public void setKingdomPortalCooldown(int cooldown) {
-    kingdomPortalCooldown = cooldown;
-  }
-
-  public int getKingdomPortalCooldown() {
-    return kingdomPortalCooldown;
-  }
-
-  public boolean canUseKingdomPortal() {
-    return kingdomPortalCooldown == 0;
-  }
-
   @Override
   protected void drop(DamageSource source) {
     super.drop(source);
@@ -151,21 +155,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     if (amount > 0) {
       CellEntity.spawn(this.world, this.getPos(), amount);
     }
-  }
-
-  @Override
-  public MineCellsPortalData getMineCellsPortalData() {
-    return this.mineCellsPortalData;
-  }
-
-  @Override
-  public void setLastDimensionTranslationKey(String key) {
-    this.dataTracker.set(LAST_DIMENSION_TRANSLATION_KEY, key);
-  }
-
-  @Override
-  public String getLastDimensionTranslationKey() {
-    return this.dataTracker.get(LAST_DIMENSION_TRANSLATION_KEY);
   }
 
   @Override

@@ -59,7 +59,7 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
 
   @Override
   public boolean shouldContinue() {
-    return (this.ticks < this.lengthTicks || !this.entity.isOnGround()) && this.target.isAlive();
+    return (this.target != null && this.ticks < this.lengthTicks || !this.entity.isOnGround()) && this.target.isAlive();
   }
 
   @Override
