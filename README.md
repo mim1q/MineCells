@@ -1,92 +1,65 @@
-![Mine Cells by Mim1q](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/header.jpg)
+<img src="https://mim1q.dev/minecells/img/project/logo.png" alt="Mine Cells logo" width="100%"/><a href="https://modrinth.com/mod/fabric-api"><img src="https://mim1q.dev/minecells/img/project/fabric.png" alt="Requires Fabric API" width="30%"/></a><a href="https://modrinth.com/mod/owo-lib"><img src="https://mim1q.dev/minecells/img/project/owo.png" alt="Requires owo-lib" width="20%"/></a><a href="https://ko-fi.com/mim1q"><img src="https://mim1q.dev/minecells/img/project/kofi.png" alt="Support me on Ko-Fi" width="20%"/></a><a href="https://discord.gg/6TjQbSjbuB"><img src="https://mim1q.dev/minecells/img/project/discord.png" alt="Join my Discord" width="30%"/></a>
 
 <center>
+<br>
 
-[![Requires Fabric API](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/fabric-api.png)](https://modrinth.com/mod/fabric-api)
-[![Support me on Ko-Fi](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/ko-fi.png)](https://ko-fi.com/mim1q)
-[![Join my Discord](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/discord.png)](https://discord.gg/6TjQbSjbuB)
-[![Buy Dead Cells](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/dead-cells.png)](https://store.steampowered.com/app/588650/Dead_Cells/)
+Mine Cells is a Minecraft mod that adds content from [Dead Cells by Motion Twin](https://store.steampowered.com/app/588650/Dead_Cells/).  
+Visit [the wiki](https://mim1q.dev/minecells) for a guide on how to get started and all the info you need!
 
+**Links:**  
+[Fabric API](https://modrinth.com/mod/fabric-api) |
+[owo-lib](https://modrinth.com/mod/owo-lib) |
+[Ko-Fi](https://ko-fi.com/mim1q) |
+[Discord](https://discord.gg/6TjQbSjbuB) |
+[Read the Wiki](https://mim1q.dev/minecells)
+
+## 3 new areas with structures to explore...
+<img alt="Dimensions Screenshot" src="https://mim1q.dev/minecells/img/project/gallery1.jpg" width="75%" />
+
+## Many new mobs and a boss...
+<img alt="Mobs Screenshot" src="https://mim1q.dev/minecells/img/project/gallery2.jpg" width="75%" />
+
+## Lots of new weapons, blocks and game mechanics...
+<img alt="Weapons Screenshot" src="https://mim1q.dev/minecells/img/project/gallery3.jpg" width="75%" />
+
+...and much more to come!
 </center>
 
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+## Frequently Asked Questions
 
-![Overview](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/overview.png)
+### How do I do ... in Mine Cells?
 
-## Starting out
+Every question you have should be answered in [the wiki](https://mim1q.dev/minecells)! There's a search bar if you need to look something up.
+If you have trouble finding it, [join my Discord](https://discord.gg/6TjQbSjbuB) so I can help you out.  
+All existing crafting recipes are available through mods such as REI and are not shown here.
 
-### To start your adventure with Mine Cells, find a portal structure.
+### Forge? Port to old version?
 
-![Mine Cells Portal](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/portal.jpg)
+No, **I will not make mods for Forge**. I am fully commited to being a Fabric mod developer.
+I probably won't port any of my mods to outdated Minecraft versions, either.
 
-The portal will activate for you automatically if you've already acquired diamonds in the world.
+### I got lost in one of Mine Cells's dimensions, what can I do?
 
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+Use a compass to guide you back to the entrance. Compasses sometimes spawn in chests in the Promenade.
 
-## Mobs
+### Can I use this mod in my modpack / showcase video?
 
-Mine Cells features **new monsters** which attempt to faithfully recreate the look and feel of the original game.
+You can use this mod in your modpacks and videos! Asking for consent beforehand is appreciated, but not necessary.
+I would be grateful if you sent me the video link so I can check it out!
 
-Keep in mind - most of these are **not yet available in survival mode**. You can summon all of them using creative spawn eggs.
+### Will you add ... to this mod?
 
-![Mine Cells Mobs](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/mobs.jpg)
+This mod aims to add most of the content from Dead Cells (except the Castlevania DLC) to Minecraft. If it is present in Dead
+Cells, it'll probably be added to this mod, sooner or later. Some unique tweaks and additions were made in order to make the
+content work in the environment of Minecraft without straying too far from the source material.
 
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
+### Is this mod compatible with ...?
 
-## Blocks
+This mod should be compatible with most other mods. There might be some bugs that make it crash when other mods are present,
+but I'm trying to remove them as soon as they're known. If you encounter such a bug make sure to
+[create an issue on Github](https://github.com/mim1q/MineCells/issues) or ask for help on my Discord!
 
-Mine Cells adds many **new blocks**, some of which are craftable. Others are only obtainable in Mine Cells' dimensions.  
-(With some exceptions which are, for now, only obtainable in creative mode or through commands.)
+<br>
 
-![Mine Cells Blocks](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/blocks.jpg)
+<a href="https://billing.kinetichosting.net/aff.php?aff=245"><img alt="Kinetic Hosting Affiliate Link" src="https://raw.githubusercontent.com/mim1q/ModPageAssets/main/badges/affiliate.png" /></a>
 
-## Bosses
-
-Mine Cells introduces one new boss - **The Conjunctivius**. You can find her lair in the Prison structure / dimension.
-
-![Conjunctivius](https://raw.githubusercontent.com/mim1q/MineCells/main/projectPageAssets/conjunctivius.jpg)
-
-She drops some Emeralds, Diamonds, Gold Ingots and a lot of XP.  
-Conjunctivius' drop will change to something more useful in the future. The location of her lair will also be changed.
-
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
-
-![Questions and Answers](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/qna.png)
-
-### Q: Can I use this mod in my modpack?
-**A**: Yes, but please include a link to this mod page and credit me as the author. Asking for permission beforehand is also appreciated!
-
-### Q: Can I present this mod in my showcase video?
-**A**: Yes! But you should ask me about it before creating the video, as there may be some interesting updates right around the corner.
-
-### Q: Will you add X feature?
-**A**: If it's in the original Dead Cells game, it will probably get added at some point, in one way or 
-another. Feel free to [join my Discord](https://discord.gg/6TjQbSjbuB) and tell me which features you'd 
-like to see the most!
-
-### Q: Is this mod compatible with X mod?
-**A**: If you want me to test whether a mod is compatible with Mine Cells, let me know on [Discord](https://discord.gg/6TjQbSjbuB). 
-I'll check it out and update this page with the results.  
-I have plans to implement compatibility with Better Combat in the future.
-
-### Q: Forge / backport?
-**A**: A Forge version of this mod is not planned. Backporting to older versions of Minecraft is also not planned, for now.
-
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
-
-![Disclaimer](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/disclaimer.png)
-
-### Mine Cells is in not yet in a finished state.
-It is playable in survival mode - and I hope it's fun to play! But do expect many features to be unbalanced,
-missing or outright broken. 
-
-### Dead Cells content and materials are the intellectual property of their respective owners.
-I am not in affiliated with the developers in any way. This is just a passion project I made to connect two of my favorite games.
-
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)
-
-![Links](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/sections/links.png)
-
-### [CurseForge](https://www.curseforge.com/minecraft/mc-mods/minecells) | [Modrinth](https://modrinth.com/mod/minecells) | [GitHub](https://github.com/mim1q/MineCells) | [Ko-Fi](https://ko-fi.com/mim1q) | [Discord](https://discord.gg/6TjQbSjbuB)
-
-![Chain separator](https://raw.githubusercontent.com/mim1q/ModPageAssets/main/separators/chain.png)

@@ -247,5 +247,8 @@
   "block.minecells.conditional_barrier": "Bariera",
   "block.minecells.boss_barrier_controller": "Bariera",
   "block.minecells.boss_entry_barrier_controller": "Bariera",
-  "block.minecells.player_barrier_controller": "Bariera"
+  "block.minecells.player_barrier_controller": "Bariera",
+  "itemGroup.minecells.minecells.button.wiki": "Przeczytaj Wiki",
+  "itemGroup.minecells.minecells.button.discord": "Dołącz do Discorda",
+  "itemGroup.minecells.minecells.button.kofi": "Wesprzyj mnie na Ko-Fi"
 }

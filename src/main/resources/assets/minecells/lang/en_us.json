@@ -19,6 +19,10 @@
   "_comment.minecells.002": "=================================== BLOCKS AND ITEMS =====================================",
 
   "itemGroup.minecells.minecells": "Mine Cells",
+  "itemGroup.minecells.minecells.button.wiki": "Read the Wiki",
+  "itemGroup.minecells.minecells.button.discord": "Join Mim1q's Discord",
+  "itemGroup.minecells.minecells.button.kofi": "Support my mods on Ko-Fi",
+
 
   "block.minecells.putrid_boards": "Putrid Boards",
   "block.minecells.small_crate": "Small Crate",
