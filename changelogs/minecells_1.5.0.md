@@ -3,6 +3,8 @@
 ## **IMPORTANT**
 
 - Make sure to reset the dimensions of Mine Cells! Follow the guide [here](https://mim1q.dev/minecells/updating/)
+- This version has been tested by myself but there may be unknown game-breaking bugs!  
+  Proceed with caution and please report any bugs and crashes you see either on Github or through my Discord.
 
 ## Portal overhaul
 
@@ -18,6 +20,7 @@
 - Prison Stone Pressure Plate, Prison Stone Button,
 - Putrid Pressure Plate, Putrid Button, Putrid Sign
 - Added the missing recipes for Putrid Boards
+- Elevators can now be powered with hidden redstone (from below or from the side)
 
 ## Dimensions
 

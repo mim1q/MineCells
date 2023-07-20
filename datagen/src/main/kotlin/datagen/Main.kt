@@ -37,6 +37,8 @@ fun main(args: Array<String>) {
     val torches = listOf("prison", "promenade")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
     // Other
+    add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
+    add(CommonDropPresets.simpleDrop("minecells:kingdom_portal_core", "minecells:prison_doorway"))
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
     add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone"))
     add(CustomPresets.corpse("minecells:corpse"))

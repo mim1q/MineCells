@@ -178,13 +178,6 @@ public class MineCellsItems {
     ), "health_flask"
   );
 
-  public static final SpawnerRuneItem SPAWNER_RUNE = register(
-    new SpawnerRuneItem(new FabricItemSettings()
-      .maxCount(1)
-      .group(MineCellsItemGroups.MINECELLS)
-    ), "spawner_rune"
-  );
-
   public static final DoorwayItem PRISON_DOORWAY = register(
     new DoorwayItem(new FabricItemSettings()
       .maxCount(1)
