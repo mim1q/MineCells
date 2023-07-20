@@ -23,7 +23,7 @@ public class MineCellsData extends PersistentState {
   private String mineCellsVersion = null;
 
   public void wipe(ServerWorld world, ServerPlayerEntity player) {
-    if (player.hasPermissionLevel(2)) {
+    if (player.hasPermissionLevel(2) || world.getServer().isSingleplayer()) {
       if (wipeScheduledPlayer == player) {
         runs.clear();
         markDirty();

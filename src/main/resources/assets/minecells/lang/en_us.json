@@ -62,6 +62,13 @@
   "item.minecells.blank_rune": "Blank Rune",
   "item.minecells.conjunctivius_respawn_rune": "Conjunctivius Respawn Rune",
   "item.minecells.vine_rune": "Vine Rune",
+  "item.minecells.reset_rune": "Reset Rune",
+  "item.minecells.reset_rune.tooltip": "Reset the Spawner Runes in a dimension",
+  "item.minecells.prison_doorway": "Prisoners' Quarters Doorway",
+  "item.minecells.prison_doorway.visited": "Prisoners' Quarters already visited in area: %s",
+  "item.minecells.prison_doorway.not_visited": "Prisoners' Quarters not yet visited in area: %s",
+  "item.minecells.prison_doorway.bound": "Bound area: %s",
+  "item.minecells.prison_doorway.not_bound": "Area not bound",
 
   "_comment.minecells.003": "======================================== WEAPONS =========================================",
 
@@ -117,6 +124,7 @@
   "entity.minecells.cell": "Cell",
   "entity.minecells.big_grenade": "Big Grenade",
   "entity.minecells.disgusting_worm_egg": "Disgusting Worm Egg",
+  "entity.minecells.spawner_rune": "Spawner Rune",
 
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
@@ -161,18 +169,13 @@
   "chat.minecells.version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
   "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
   "chat.minecells.version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
-  "chat.minecells.stuck_message": [
-    "\n",
-    "It seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint."
-  ],
+  "chat.minecells.stuck_message": "\nIt seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint.",
   "chat.minecells.wipe_try": [
     "\n",
     { "text": "WARNING: ", "color": "#FF1111" },
     "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"
   ],
-  "chat.minecells.wipe_success": [
-    "All Mine Cells data has been wiped."
-  ],
+  "chat.minecells.wipe_success": "All Mine Cells data has been wiped.",
 
   "_comment.minecells.004": "====================================== ADVANCEMENTS ======================================",
 
@@ -193,7 +196,7 @@
   "advancements.minecells.vine_rune": "Jack and the beanstalk",
   "advancements.minecells.vine_rune.description": "Obtain a Vine Rune",
 
-  "_comment.minecells.005": "================================== FROM PYTHON AUTOLANG ==================================",
+  "_comment.minecells.005": "================================== FROM AUTOLANG ========================================",
 
   "block.minecells.putrid_planks": "Putrid Planks",
   "block.minecells.putrid_log": "Putrid Log",
@@ -259,5 +262,16 @@
   "block.minecells.runic_vine_plant": "Runic Vine Plant",
   "block.minecells.return_stone": "Return Stone",
   "block.minecells.sewage": "Sewage",
-  "block.minecells.ancient_sewage": "Ancient Sewage"
+  "block.minecells.ancient_sewage": "Ancient Sewage",
+  "block.minecells.doorway_frame": "Doorway Frame",
+  "block.minecells.overworld_doorway": "Overworld Doorway",
+  "block.minecells.prison_doorway": "Prison Doorway",
+  "block.minecells.promenade_doorway": "Promenade Doorway",
+  "block.minecells.insufferable_crypt_doorway": "Insufferable Crypt Doorway",
+  "block.minecells.red_putrid_sapling": "Red Putrid Sapling",
+  "block.minecells.solid_barrier_rune": "Solid Barrier Rune",
+  "block.minecells.conditional_barrier": "Conditional Barrier",
+  "block.minecells.boss_barrier_controller": "Boss Barrier Controller",
+  "block.minecells.boss_entry_barrier_controller": "Boss Entry Barrier Controller",
+  "block.minecells.player_barrier_controller": "Player Barrier Controller"
 }

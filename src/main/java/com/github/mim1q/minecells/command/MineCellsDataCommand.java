@@ -49,7 +49,7 @@ public class MineCellsDataCommand {
     );
 
     dispatcher.register(
-      literal("minecells:wipe_data").requires(source -> source.hasPermissionLevel(2))
+      literal("minecells:wipe_data").requires(source -> source.hasPermissionLevel(2) || source.getServer().isSingleplayer())
         .executes(MineCellsDataCommand::wipeData)
     );
   }
