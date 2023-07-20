@@ -22,6 +22,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
@@ -51,8 +54,17 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     }
   }
 
-  public MutableText getLabel() {
-    return Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
+  public List<MutableText> getLabel() {
+    var result = new ArrayList<MutableText>();
+    var text = Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
+    if (!hasClientVisited()) {
+      text.append(Text.literal("*"));
+    }
+    result.add(text);
+    if (posOverride != null) {
+      result.add(Text.literal("[x: " + posOverride.getX() + ", z: " + posOverride.getZ() + "]"));
+    }
+    return result;
   }
 
   @Override
