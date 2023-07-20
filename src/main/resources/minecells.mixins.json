@@ -16,7 +16,6 @@
     "entity.player.ServerPlayerEntityMixin",
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
-    "network.CustomPayloadS2CPacketMixin",
     "world.ChunkGeneratorMixin",
     "world.TrunkPlacerTypeInvoker",
     "world.WorldMixin"

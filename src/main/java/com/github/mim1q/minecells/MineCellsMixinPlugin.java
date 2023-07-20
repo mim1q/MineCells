@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells;
 
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -14,7 +13,7 @@ import java.util.function.Supplier;
 public class MineCellsMixinPlugin implements IMixinConfigPlugin {
 
   private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-    "com.github.mim1q.minecells.mixin.network.CustomPayloadS2CPacketMixin", () -> !FabricLoader.getInstance().isModLoaded("immersive_portals")
+    // "com.github.mim1q.minecells.mixin.network.CustomPayloadS2CPacketMixin", () -> !FabricLoader.getInstance().isModLoaded("immersive_portals")
   );
 
   @Override
