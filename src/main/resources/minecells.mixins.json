@@ -6,7 +6,9 @@
   "mixins": [
     "block.entity.BlockEntityTypeMixin",
     "client.SlotAccessor",
+    "compat.lithium.LithiumEntityCollisionsMixin",
     "entity.EntityMixin",
+    "entity.BorderEntityCollisionMixin",
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
     "entity.MineCellsBorderEntityMixin",

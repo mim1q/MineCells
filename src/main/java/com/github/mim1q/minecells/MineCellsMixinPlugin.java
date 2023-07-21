@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells;
 
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -11,9 +12,16 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 public class MineCellsMixinPlugin implements IMixinConfigPlugin {
+  private static Supplier<Boolean> disableWhenModLoaded(String id) {
+    return () -> !FabricLoader.getInstance().isModLoaded(id);
+  }
 
-  private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-    // "com.github.mim1q.minecells.mixin.network.CustomPayloadS2CPacketMixin", () -> !FabricLoader.getInstance().isModLoaded("immersive_portals")
+  private static Map.Entry<String, Supplier<Boolean>> mixin(String name, Supplier<Boolean> condition) {
+    return Map.entry("com.github.mim1q.minecells.mixin." + name, condition);
+  }
+
+  private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.ofEntries(
+    mixin("entity.BorderEntityCollisionMixin", disableWhenModLoaded("lithium"))
   );
 
   @Override

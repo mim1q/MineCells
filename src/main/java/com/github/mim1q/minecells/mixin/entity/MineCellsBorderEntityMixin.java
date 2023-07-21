@@ -7,22 +7,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.entity.EntityLike;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(Entity.class)
 public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike, CommandOutput, MineCellsBorderEntity {
@@ -31,6 +25,7 @@ public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike
   @Shadow public World world;
   @Shadow public abstract void stopRiding();
 
+  @Unique
   private final WorldBorder minecellsBorder = new WorldBorder();
 
   @Override
@@ -50,26 +45,6 @@ public abstract class MineCellsBorderEntityMixin implements Nameable, EntityLike
         stopRiding();
       }
     }
-  }
-
-  // IntelliJ believes this won't compile, but it does.
-  @SuppressWarnings("InvalidInjectorMethodSignature")
-  @ModifyVariable(
-    method = "adjustMovementForCollisions(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Lnet/minecraft/world/World;Ljava/util/List;)Lnet/minecraft/util/math/Vec3d;",
-    at = @At("STORE")
-  )
-  private static WorldBorder minecells$modifyWorldBorderWhenAdjustingMovement(
-    WorldBorder original,
-    @Nullable Entity entity,
-    Vec3d movement,
-    Box entityBoundingBox,
-    World world,
-    List<VoxelShape> collisions
-  ) {
-    if (entity != null && MineCellsDimension.isMineCellsDimension(world)) {
-      return ((MineCellsBorderEntityMixin)(Object)entity).minecellsBorder;
-    }
-    return original;
   }
 
   @Inject(method = "startRiding(Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
