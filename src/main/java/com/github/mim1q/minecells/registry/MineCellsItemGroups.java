@@ -103,9 +103,6 @@ public class MineCellsItemGroups {
   public static ItemGroup MINECELLS_DEVELOPMENT = null;
 
   public static void init() {
-    MINECELLS.addButton(ItemGroupButton.link(Icon.of(Items.BOOK), "wiki", "https://mim1q.dev/minecells"));
-    MINECELLS.addButton(ItemGroupButton.link(Icon.of(DISCORD_ICON, 0, 0, 16, 16), "discord", "https://discord.gg/6TjQbSjbuB"));
-    MINECELLS.addButton(ItemGroupButton.link(Icon.of(KOFI_ICON, 0, 0, 16, 16), "kofi", "https://ko-fi.com/mim1q"));
     MINECELLS.tabs.add(MINECELLS_TAB);
     MINECELLS.initialize();
     if (MineCells.COMMON_CONFIG.items.enableDevelopmentTab) {
@@ -121,5 +118,11 @@ public class MineCellsItemGroups {
           stack(MineCellsBlocks.BARRIER_RUNE)
         ))).build();
     }
+  }
+
+  public static void initClient() {
+    MINECELLS.addButton(ItemGroupButton.link(Icon.of(Items.BOOK), "wiki", "https://mim1q.dev/minecells"));
+    MINECELLS.addButton(ItemGroupButton.link(Icon.of(DISCORD_ICON, 0, 0, 16, 16), "discord", "https://discord.gg/6TjQbSjbuB"));
+    MINECELLS.addButton(ItemGroupButton.link(Icon.of(KOFI_ICON, 0, 0, 16, 16), "kofi", "https://ko-fi.com/mim1q"));
   }
 }

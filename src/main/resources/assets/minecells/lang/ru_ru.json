@@ -1,6 +1,4 @@
 {
-  "itemGroup.minecells.eggs": "Mine Cells: Яйца Призыва",
-
   "item.minecells.shocker_spawn_egg": "Яйцо Призыва: Шокер",
   "item.minecells.leaping_zombie_spawn_egg": "Яйцо Призыва: Прыгун",
   "item.minecells.grenadier_spawn_egg": "Яйцо Призыва: Гренадёр",
@@ -15,9 +13,6 @@
   "item.minecells.rancid_rat_spawn_egg": "Яйцо Призыва: Прогоклая Крыса",
   "item.minecells.runner_spawn_egg": "Яйцо Призыва: Бегун",
   "item.minecells.scorpion_spawn_egg": "Яйцо Призыва: Скорпион",
-  
-  "itemGroup.minecells.blocks_and_items": "Mine Cells: Блоки и Предметы",
-
   "block.minecells.putrid_log": "Гнилое Бревно",
   "block.minecells.putrid_wood": "Гнилое Дерево",
   "block.minecells.stripped_putrid_log": "Обработанное Гнилое Бревно",
@@ -28,7 +23,6 @@
   "block.minecells.brittle_barrel": "Хрупкая Бочка",
   "block.minecells.hardstone": "Твёрдый Камень",
   "block.minecells.elevator_assembler": "Лифтовая Основа",
-  "block.minecells.kingdom_portal_filler": "Рамка Портала",
   "block.minecells.cell_forge": "Камерная Кузня",
   "block.minecells.chain_pile": "Цепная Свая",
   "block.minecells.chain_pile_block": "Блок Цепной Сваи",
@@ -64,23 +58,11 @@
   "item.minecells.health_flask.tooltip": "Востанавливает %s ХП. Рассеивает Кровотечение и Отравление.",
   "item.minecells.blank_rune": "Пустая Руна",
   "item.minecells.conjunctivius_respawn_rune": "Руна Воскрешения Конъюнктивиуса",
-
-  "itemGroup.minecells.weapons": "Mine Cells: Оружие",
-
   "item.minecells.assassins_dagger": "Кинжал Ассасина",
-  "item.minecells.assassins_dagger.tooltip": "Наносит %s урона в спину",
   "item.minecells.blood_sword": "Кровавый Меч",
-  "item.minecells.blood_sword.tooltip1": "Применяет %s к врагам",
-  "item.minecells.blood_sword.tooltip2": "[%ss cooldown]",
   "item.minecells.cursed_sword": "Проклятый Меч",
-  "item.minecells.cursed_sword.tooltip1": "Да будет проклят обладатель",
-  "item.minecells.cursed_sword.tooltip2": "И лишь смертью исцелён.",
   "item.minecells.tentacle": "Тентакли Конъюнктивиуса",
-  "item.minecells.tentacle.tooltip1": "ПКМ для взмаха",
-  "item.minecells.tentacle.tooltip2": "[%ss cooldown]",
   "item.minecells.hattoris_katana": "Катана Хаттори",
-  "item.minecells.hattoris_katana.tooltip1": "Зажмите ПКМ для зарядки",
-  "item.minecells.hattoris_katana.tooltip2": "[%ss cooldown]",
 
   "entity.minecells.shocker": "Шокер",
   "entity.minecells.leaping_zombie": "Прыгун",
@@ -139,9 +121,6 @@
   "chat.minecells.version_mismatch.link": "\n\nНажми сюда для помощи в обновлении",
   "chat.minecells.version_mismatch.prison": " - Перезагрузите \"minecells:prison\" измерение",
   "chat.minecells.version_mismatch.insufferable_crypt": " - Перезагрузите \"minecells:insufferable_crypt\" измерение",
-
-  "comment.minecells.001": "================================== FROM PYTHON AUTOLANG ===================================",
-
   "block.minecells.corpse": "Труп",
   "block.minecells.hanged_corpse": "Висельник",
   "block.minecells.hanged_rotting_corpse": "Гниющий Висельник",
