@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.nonliving.TentacleWeaponEntityModel;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -35,15 +36,19 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     float yRot = (float) Math.atan2(normalized.getX(), normalized.getZ());
     matrices.multiply(new Quaternion(Vec3f.POSITIVE_Y, -yRot, false));
     matrices.multiply(new Quaternion(Vec3f.POSITIVE_X, -xRot, false));
-    renderTentacle(matrices, vertexConsumers, light, length);
+    renderTentacle(matrices, vertexConsumers, light, length * 0.33F, 1F);
+    renderTentacle(matrices, vertexConsumers, light, length * 0.66F, 0.8F);
+    renderTentacle(matrices, vertexConsumers, light, length, 0.6F);
+    renderTentacle(matrices, vertexConsumers, light, length * 1.33F, 0.4F);
     matrices.pop();
 
     super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
   }
 
-  public void renderTentacle(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float length) {
+  public void renderTentacle(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float length, float scale) {
     matrices.push();
-    matrices.scale(1.0F, 1.0F, length * 10.0F);
+    var size = MathUtils.easeInOutQuad(1.1F, 0.75F, length) * scale;
+    matrices.scale(size, size, length * 15F);
     this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }

@@ -55,6 +55,10 @@ public class MathUtils {
     return lerp(a, b, n1 * (delta -= 2.625F / d1) * delta + 0.984375F);
   }
 
+  public static float easeOutQuad(float a, float b, float delta) {
+    return lerp(a, b, 1 - (1 - delta) * (1 - delta));
+  }
+
   public static float radians(float degrees) {
     return degrees * RADIANS_PER_DEGREE;
   }
