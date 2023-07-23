@@ -46,6 +46,9 @@ public class MineCellsDimensionGraph {
   }
 
   public void saveStuckPlayer(ServerPlayerEntity player) {
+    if (!MineCellsDimension.isMineCellsDimension(player.getWorld())) {
+      return;
+    }
     var stuck = !canTraverseToOverworld(
       MineCellsDimension.of(player.getWorld()), (from, to) -> ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData().getPortalData(from, to).isPresent()
     );
