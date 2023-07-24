@@ -61,7 +61,8 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       text.append(Text.literal("*"));
     }
     result.add(text);
-    if (posOverride != null) {
+    var normalPos = MathUtils.getClosestMultiplePosition(this.getPos(), 1024);
+    if (posOverride != null && (posOverride.getX() != normalPos.getX() || posOverride.getZ() != normalPos.getZ())) {
       result.add(Text.literal("[x: " + posOverride.getX() + ", z: " + posOverride.getZ() + "]"));
     }
     return result;
