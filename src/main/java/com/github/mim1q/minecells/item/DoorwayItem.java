@@ -25,6 +25,7 @@ public class DoorwayItem extends AliasedBlockItem {
   private static final String TOOLTIP_NOT_VISITED = "item.minecells.prison_doorway.not_visited";
   private static final String TOOLTIP_BOUND = "item.minecells.prison_doorway.bound";
   private static final String TOOLTIP_NOT_BOUND = "item.minecells.prison_doorway.not_bound";
+  private static final String DESCRIPTION = "item.minecells.prison_doorway.description";
 
 
   public DoorwayItem(Settings settings) {
@@ -119,6 +120,7 @@ public class DoorwayItem extends AliasedBlockItem {
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     super.appendTooltip(stack, world, tooltip, context);
+    tooltip.add(Text.translatable(DESCRIPTION).formatted(Formatting.DARK_GRAY));
     if (stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride")) {
       var posOverride = BlockPos.fromLong(stack.getOrCreateSubNbt("BlockEntityTag").getLong("posOverride"));
       var x = posOverride.getX();

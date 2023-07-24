@@ -250,5 +250,7 @@
   "block.minecells.player_barrier_controller": "Bariera",
   "itemGroup.minecells.minecells.button.wiki": "Przeczytaj Wiki",
   "itemGroup.minecells.minecells.button.discord": "Dołącz do Discorda",
-  "itemGroup.minecells.minecells.button.kofi": "Wesprzyj mnie na Ko-Fi"
+  "itemGroup.minecells.minecells.button.kofi": "Wesprzyj mnie na Ko-Fi",
+  "block.minecells.kingdom_portal_core": "ZNISZCZ MNIE!",
+  "item.minecells.prison_doorway.description": "Postaw przy pustej ścianie 3x3"
 }
