@@ -20,7 +20,8 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -43,22 +44,22 @@ public class SpawnerRuneEntity extends Entity {
 
   @Override
   public void tick() {
-    if (!world.isClient && age % 10 == 0 && data != null) {
+    if (!getWorld().isClient && age % 10 == 0 && data != null) {
       var d = data.playerDistance();
-      for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(this.getPos(), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
+      for (var player : getWorld().getEntitiesByClass(ServerPlayerEntity.class, Box.of(this.getPos(), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player)) {
-          MineCellsData.getPlayerData(player, (ServerWorld) world, null).addActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
-          MineCellsData.syncCurrentPlayerData(player, (ServerWorld) world);
+          MineCellsData.getPlayerData(player, (ServerWorld) getWorld(), null).addActivatedSpawnerRune(MineCellsDimension.of(getWorld()), getBlockPos());
+          MineCellsData.syncCurrentPlayerData(player, (ServerWorld) getWorld());
           spawnEntities(player);
           break;
         }
       }
     }
-    if (world.isClient && age % 5 == 0) {
+    if (getWorld().isClient && age % 5 == 0) {
       var visible = canClientPlayerActivate();
       if (isVisible != visible) {
         ParticleUtils.addInBox(
-          (ClientWorld) world,
+          (ClientWorld) getWorld(),
           MineCellsParticles.SPECKLE.get(0xFF6A00),
           this.getBoundingBox().offset(0.0, 1.25, 0.0),
           5,
@@ -74,7 +75,7 @@ public class SpawnerRuneEntity extends Entity {
     if (dimensionData == null) {
       return false;
     }
-    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
+    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(getWorld()), getBlockPos());
   }
 
   private boolean canClientPlayerActivate() {
@@ -84,13 +85,13 @@ public class SpawnerRuneEntity extends Entity {
     if (dimensionData == null) {
       return false;
     }
-    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), getBlockPos());
+    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(getWorld()), getBlockPos());
   }
 
   private void spawnEntities(PlayerEntity spawningPlayer) {
     var entities = data.getSelectedEntities(random);
     for (var entityType : entities) {
-      var entity = spawnEntity((ServerWorld) world, entityType, findPos(world, getBlockPos(), data.spawnDistance()), getBlockPos());
+      var entity = spawnEntity((ServerWorld) getWorld(), entityType, findPos(getWorld(), getBlockPos(), data.spawnDistance()), getBlockPos());
       if (entity instanceof HostileEntity hostile) {
         hostile.setTarget(spawningPlayer);
       }
@@ -118,7 +119,7 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   private static Entity spawnEntity(ServerWorld world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
-    Entity spawnedEntity = type.create(world, null, null, null, pos, SpawnReason.NATURAL, false, false);
+    Entity spawnedEntity = type.create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity != null) {
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
         for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
@@ -146,12 +147,12 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   public void setDataId(Identifier id) {
-    if (world.isClient) return;
+    if (getWorld().isClient) return;
     var newData = MineCells.SPAWNER_RUNE_DATA.get(id);
     if (newData == null) {
       MineCells.LOGGER.warn("Tried to load unknown spawner rune data with id: " + id
         + " at pos " + getBlockPos().toShortString()
-        + " in dimension " + world.getRegistryKey().getValue().toString()
+        + " in dimension " + getWorld().getRegistryKey().getValue().toString()
       );
       return;
     }
@@ -160,7 +161,7 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   @Override
-  public Packet<?> createSpawnPacket() {
+  public Packet<ClientPlayPacketListener> createSpawnPacket() {
     return new EntitySpawnS2CPacket(this);
   }
 }

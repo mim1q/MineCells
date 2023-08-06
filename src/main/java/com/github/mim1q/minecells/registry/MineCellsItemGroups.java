@@ -6,11 +6,12 @@ import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
 import io.wispforest.owo.itemgroup.gui.ItemGroupTab;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class MineCellsItemGroups {
     return new ItemStack(item);
   }
 
-  private static void mineCellsStacks(DefaultedList<ItemStack> stacks) {
+  private static void mineCellsStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {
     stacks.add(stack(MineCellsItems.PRISON_DOORWAY));
     stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());
@@ -88,7 +89,7 @@ public class MineCellsItemGroups {
   }
 
   public static final OwoItemGroup MINECELLS = OwoItemGroup
-    .builder(MineCells.createId("minecells"), MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE::getDefaultStack)
+    .builder(MineCells.createId("minecells"), () -> Icon.of(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE))
     .displaySingleTab()
     .build();
 
@@ -106,23 +107,27 @@ public class MineCellsItemGroups {
     MINECELLS.tabs.add(MINECELLS_TAB);
     MINECELLS.initialize();
     if (MineCells.COMMON_CONFIG.items.enableDevelopmentTab) {
-      MINECELLS_DEVELOPMENT = FabricItemGroupBuilder.create(MineCells.createId("development"))
-        .icon(() -> new ItemStack(Blocks.BARRIER))
-        .appendItems(stacks -> stacks.addAll(List.of(
-          stack(Items.DEBUG_STICK),
-          stack(Items.WOODEN_AXE),
-          stack(Items.JIGSAW),
-          stack(Items.STRUCTURE_BLOCK),
-          stack(Items.STRUCTURE_VOID),
-          stack(Items.BARRIER),
-          stack(MineCellsBlocks.BARRIER_RUNE)
-        ))).build();
+      MINECELLS_DEVELOPMENT = new ItemGroup.Builder(null,-1)
+        .icon(Items.BARRIER::getDefaultStack)
+        .displayName(Text.translatable("minecells.itemGroup.development"))
+        .entries((ctx, stacks) -> {
+          stacks.addAll(List.of(
+            stack(Items.DEBUG_STICK),
+            stack(Items.WOODEN_AXE),
+            stack(Items.JIGSAW),
+            stack(Items.STRUCTURE_BLOCK),
+            stack(Items.STRUCTURE_VOID),
+            stack(Items.BARRIER),
+            stack(MineCellsBlocks.BARRIER_RUNE)
+          ));
+        })
+        .build();
     }
   }
 
   public static void initClient() {
-    MINECELLS.addButton(ItemGroupButton.link(Icon.of(Items.BOOK), "wiki", "https://mim1q.dev/minecells"));
-    MINECELLS.addButton(ItemGroupButton.link(Icon.of(DISCORD_ICON, 0, 0, 16, 16), "discord", "https://discord.gg/6TjQbSjbuB"));
-    MINECELLS.addButton(ItemGroupButton.link(Icon.of(KOFI_ICON, 0, 0, 16, 16), "kofi", "https://ko-fi.com/mim1q"));
+    MINECELLS.addButton(ItemGroupButton.link(MINECELLS, Icon.of(Items.BOOK), "wiki", "https://mim1q.dev/minecells"));
+    MINECELLS.addButton(ItemGroupButton.link(MINECELLS, Icon.of(DISCORD_ICON, 0, 0, 16, 16), "discord", "https://discord.gg/6TjQbSjbuB"));
+    MINECELLS.addButton(ItemGroupButton.link(MINECELLS, Icon.of(KOFI_ICON, 0, 0, 16, 16), "kofi", "https://ko-fi.com/mim1q"));
   }
 }

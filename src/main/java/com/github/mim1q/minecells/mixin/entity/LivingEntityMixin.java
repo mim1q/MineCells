@@ -21,6 +21,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -68,7 +69,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @Inject(method = "tick()V", at = @At("HEAD"))
   public void tick(CallbackInfo ci) {
-    if (!this.world.isClient()) {
+    if (!getWorld().isClient()) {
       if (
         this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD)
         || this.getOffHandStack().isOf(MineCellsItems.CURSED_SWORD)
@@ -89,7 +90,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
       return source;
     }
     if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
-      return MineCellsDamageSource.CURSED;
+      return MineCellsDamageSource.CURSED.get(getWorld());
     }
     return source;
   }
@@ -100,7 +101,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
       return amount;
     }
     if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
-      world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
+      getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
       this.setHealth(0.5f);
       return 10.0f;
     }
@@ -109,7 +110,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
 
   @Inject(method = "damage", at = @At("HEAD"))
   private void minecells$injectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-    if (source != DamageSource.FREEZE) {
+    if (!source.isIn(DamageTypeTags.IS_FREEZING)) {
       this.removeStatusEffect(MineCellsStatusEffects.FROZEN);
     }
   }
@@ -138,7 +139,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   }
 
   private boolean checkIfInSewageAndUpdate() {
-    List<BlockState> states = this.world.getStatesInBoxIfLoaded(this.getBoundingBox()).toList();
+    List<BlockState> states = getWorld().getStatesInBoxIfLoaded(this.getBoundingBox()).toList();
     for (BlockState state : states) {
       boolean isAncientSewage = state.getBlock() == MineCellsBlocks.ANCIENT_SEWAGE;
       if (state.getBlock() == MineCellsBlocks.SEWAGE || isAncientSewage) {
@@ -202,14 +203,14 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     float chance = this.droppedCellChance * MineCells.COMMON_CONFIG.entities.cellDropChanceModifier;
     for (int i = 0; i < this.droppedCellAmount; i++) {
       if (this.random.nextFloat() < chance) {
-        CellEntity.spawn(this.world, this.getPos(), 1);
+        CellEntity.spawn(getWorld(), this.getPos(), 1);
       }
     }
   }
 
   @SuppressWarnings("deprecation")
   protected boolean canDropCells() {
-    if (!this.world.getGameRules().getBoolean(MineCellsGameRules.MOBS_DROP_CELLS)) {
+    if (!getWorld().getGameRules().getBoolean(MineCellsGameRules.MOBS_DROP_CELLS)) {
       return false;
     }
     if (MineCells.COMMON_CONFIG.entities.allMobsDropCells || this.getLootTable().getNamespace().equals("minecells")) {

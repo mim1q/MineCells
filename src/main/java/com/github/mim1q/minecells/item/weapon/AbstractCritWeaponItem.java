@@ -47,8 +47,8 @@ public abstract class AbstractCritWeaponItem extends ToolItem implements Vanisha
 
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
     if (this.canCrit(stack, target, attacker)) {
-      attacker.world.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-      for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) target.world, target.getPos(), 30.0D)) {
+      attacker.getWorld().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+      for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) target.getWorld(), target.getPos(), 30.0D)) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeDouble(target.getX());
         buf.writeDouble(target.getY() + 1.5D);

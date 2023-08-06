@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -22,7 +23,7 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     Codec.INT.fieldOf("cells").forGetter(CellForgeRecipe::getCells),
     ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::getOutput),
     Identifier.CODEC.optionalFieldOf("advancement").forGetter(CellForgeRecipe::getRequiredAdvancement),
-    Codec.INT.optionalFieldOf("priority").forGetter(CellForgeRecipe::getPriority)
+    Codec.INT.optionalFieldOf("priority", 0).forGetter(CellForgeRecipe::getPriority)
   ).apply(instance, CellForgeRecipe::new));
 
   private Identifier id = null;
@@ -32,12 +33,12 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
   private final Optional<Identifier> requiredAdvancement;
   private final int priority;
 
-  public CellForgeRecipe(List<ItemStack> ingredients, int cells, ItemStack output, Optional<Identifier> requiredAdvancement, Optional<Integer> priority) {
+  public CellForgeRecipe(List<ItemStack> ingredients, int cells, ItemStack output, Optional<Identifier> requiredAdvancement, int priority) {
     this.ingredients = ingredients;
     this.cells = cells;
     this.output = output;
     this.requiredAdvancement = requiredAdvancement;
-    this.priority = priority.orElse(0);
+    this.priority = priority;
   }
 
   public CellForgeRecipe withId(Identifier id) {
@@ -50,7 +51,7 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     for (int i = 0; i < ingredients.size(); i++) {
       ItemStack ingredient = ingredients.get(i);
       ItemStack stack = inventory.getStack(i);
-      if (!(ingredient.isItemEqualIgnoreDamage(stack) && ingredient.getCount() == stack.getCount())) {
+      if (!(ingredient.isOf(stack.getItem()) && ingredient.getCount() == stack.getCount())) {
         return false;
       }
     }
@@ -58,14 +59,22 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
   }
 
   @Override
-  public ItemStack craft(CellForgeInventory inventory) {
-    inventory.clear();
-    return this.output;
+  public ItemStack craft(CellForgeInventory inventory, DynamicRegistryManager registryManager) {
+    return null;
   }
 
   @Override
   public boolean fits(int width, int height) {
     return false;
+  }
+
+  public ItemStack getOutput() {
+    return output;
+  }
+
+  @Override
+  public ItemStack getOutput(DynamicRegistryManager registryManager) {
+    return output;
   }
 
   public List<ItemStack> getInput() {
@@ -76,20 +85,11 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     return cells;
   }
 
-  @Override
-  public ItemStack getOutput() {
-    return this.output;
-  }
-
   public Optional<Identifier> getRequiredAdvancement() {
     return requiredAdvancement;
   }
 
-  public Optional<Integer> getPriority() {
-    return Optional.of(priority);
-  }
-
-  public int getPriorityInt() {
+  public int getPriority() {
     return priority;
   }
 

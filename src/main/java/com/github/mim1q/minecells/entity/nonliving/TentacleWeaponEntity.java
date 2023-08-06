@@ -7,13 +7,13 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -71,7 +71,7 @@ public class TentacleWeaponEntity extends Entity {
       this.targetPos = this.targetPos.add(this.getVehicle().getVelocity().multiply(0.25D));
     }
 
-    if (world.isClient) {
+    if (getWorld().isClient) {
       this.tickClient();
     } else {
       this.tickServer();
@@ -108,7 +108,7 @@ public class TentacleWeaponEntity extends Entity {
         this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D).add(0.0D, 0.075D, 0.0D);
         if (collision.getType() == HitResult.Type.ENTITY) {
           Entity entity = ((EntityHitResult) collision).getEntity();
-          entity.damage(DamageSource.player(this.owner), 1.0F);
+          entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);
         }
       }
     }
@@ -119,7 +119,7 @@ public class TentacleWeaponEntity extends Entity {
     if (pos == null) {
       return BlockHitResult.createMissed(Vec3d.ZERO, null, null);
     }
-    var entity = this.world.getOtherEntities(
+    var entity = getWorld().getOtherEntities(
       this,
       Box.of(pos, 1.0D, 1.0D, 1.0D),
       e -> e != this.owner && e != this
@@ -127,12 +127,12 @@ public class TentacleWeaponEntity extends Entity {
     if (entity.isPresent()) {
       return new EntityHitResult(entity.get());
     }
-    if (this.world.getBlockState(this.getBlockPos()).isSolidBlock(this.world, this.getBlockPos())) {
+    if (getWorld().getBlockState(this.getBlockPos()).isSolidBlock(getWorld(), this.getBlockPos())) {
       return new BlockHitResult(pos, null, this.getBlockPos(), false);
     }
     Vec3d minPos = this.getEndPos(this.getLength(0.0F));
     Vec3d maxPos = this.getEndPos(this.getLength(1.0F));
-    return this.world.raycast(new RaycastContext(minPos, maxPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
+    return getWorld().raycast(new RaycastContext(minPos, maxPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
   }
 
   private void pullOwner() {
@@ -184,7 +184,7 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   @Override
-  public Packet<?> createSpawnPacket() {
+  public Packet<ClientPlayPacketListener> createSpawnPacket() {
     return new EntitySpawnS2CPacket(this);
   }
 

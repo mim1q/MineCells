@@ -3,11 +3,12 @@ package com.github.mim1q.minecells.particle.colored;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public record ColoredParticleEffect(ParticleType<?> type, int color) implements ParticleEffect {
   @SuppressWarnings("deprecation")
@@ -23,10 +24,13 @@ public record ColoredParticleEffect(ParticleType<?> type, int color) implements 
   };
 
   public static Codec<ColoredParticleEffect> createCodec(ParticleType<ColoredParticleEffect> type) {
-    return Codec.INT.xmap(
-      (color) -> new ColoredParticleEffect(type, color),
-      (effect) -> effect.color
-    );
+    return RecordCodecBuilder.create(instance -> instance.group(
+      Codec.INT.fieldOf("color").forGetter(ColoredParticleEffect::getColor)
+    ).apply(instance, color -> new ColoredParticleEffect(type, color)));
+//    return Codec.INT.xmap(
+//      (color) -> new ColoredParticleEffect(type, color),
+//      (effect) -> effect.color
+//    );
   }
 
   @Override
@@ -41,8 +45,8 @@ public record ColoredParticleEffect(ParticleType<?> type, int color) implements 
 
   @Override
   public String asString() {
-    Identifier id = Registry.PARTICLE_TYPE.getId(this.type());
-    return "" + id + this.color;
+    Identifier id = Registries.PARTICLE_TYPE.getId(this.type());
+    return String.valueOf(id) + this.color;
   }
 
   public int getColor() {

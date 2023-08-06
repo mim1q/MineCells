@@ -9,7 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -66,7 +66,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
       return null;
     }
     if (ctx.getSide() == Direction.DOWN) {
-      return getDefaultState().with(FACING, ctx.getPlayerFacing()).with(CENTERED, true);
+      return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing()).with(CENTERED, true);
     }
     Vec3i offset = ctx.getSide().getOpposite().getVector();
     BlockState state0 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down());
@@ -80,7 +80,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   @Override
   @SuppressWarnings("deprecation")
-  public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+  public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
     return List.of(MineCellsItems.BIOME_BANNER.stackOf(state.get(PATTERN)));
   }
 
@@ -114,7 +114,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
   }
 
   @Override
-  public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+  public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
     return true;
   }
 

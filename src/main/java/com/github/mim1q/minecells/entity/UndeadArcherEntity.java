@@ -64,7 +64,7 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
   @Override
   public void tick() {
     super.tick();
-    if (world.isClient()) {
+    if (getWorld().isClient()) {
       clientTick();
     }
   }
@@ -169,13 +169,13 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     @Override
     public void shoot(LivingEntity target) {
       super.shoot(target);
-      PersistentProjectileEntity persistentProjectileEntity = new ArrowEntity(this.entity.world, this.entity);
+      PersistentProjectileEntity persistentProjectileEntity = new ArrowEntity(this.entity.getWorld(), this.entity);
       double d = target.getX() - this.entity.getX();
       double e = target.getBodyY(0.33D) - persistentProjectileEntity.getY();
       double f = target.getZ() - this.entity.getZ();
       double g = Math.sqrt(d * d + f * f);
       persistentProjectileEntity.setVelocity(d, e + g * 0.2D, f, 1.6F, 1.0F);
-      this.entity.world.spawnEntity(persistentProjectileEntity);
+      this.entity.getWorld().spawnEntity(persistentProjectileEntity);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   public void tick() {
     this.updateRotation();
     super.tick();
-    if (!this.world.isClient() && this.world.getBlockCollisions(this, this.getBoundingBox()).iterator().hasNext()) {
+    if (!getWorld().isClient() && getWorld().getBlockCollisions(this, this.getBoundingBox()).iterator().hasNext()) {
       this.kill();
     }
   }

@@ -2,18 +2,17 @@ package com.github.mim1q.minecells.world.placement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryElementCodec;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.StructureSet;
 import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.util.dynamic.RegistryElementCodec;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.ChunkRandom;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.gen.chunk.placement.SpreadType;
-import net.minecraft.world.gen.noise.NoiseConfig;
+import net.minecraft.world.gen.chunk.placement.StructurePlacementCalculator;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,19 +52,19 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
   }
 
   @Override
-  public boolean shouldGenerate(ChunkGenerator chunkGenerator, NoiseConfig noiseConfig, long seed, int chunkX, int chunkZ) {
-    var result = super.shouldGenerate(chunkGenerator, noiseConfig, seed, chunkX, chunkZ);
+  public boolean shouldGenerate(StructurePlacementCalculator calculator, int chunkX, int chunkZ) {
+    var result = super.shouldGenerate(calculator, chunkX, chunkZ);
     ChunkRandom chunkRandom = new ChunkRandom(new CheckedRandom(0L));
-    chunkRandom.setCarverSeed(seed + getSalt(), chunkX, chunkZ);
+    chunkRandom.setCarverSeed(calculator.getStructureSeed() + getSalt(), chunkX, chunkZ);
     return result
       && chunkRandom.nextFloat() <= actualFrequency
-      && exclusionZones.stream().noneMatch(zone -> zone.shouldExclude(chunkGenerator, noiseConfig, seed, chunkX, chunkZ));
+      && exclusionZones.stream().noneMatch(zone -> zone.shouldExclude(calculator, chunkX, chunkZ));
   }
 
   private static class BetterExclusionZone {
     public static final Codec<BetterExclusionZone> CODEC = RecordCodecBuilder.create(
       instance -> instance.group(
-        RegistryElementCodec.of(Registry.STRUCTURE_SET_KEY, StructureSet.CODEC, false).fieldOf("other_set").forGetter(it -> it.otherSet),
+        RegistryElementCodec.of(RegistryKeys.STRUCTURE_SET, StructureSet.CODEC, false).fieldOf("other_set").forGetter(it -> it.otherSet),
         Codec.intRange(1, 32).fieldOf("chunk_count").forGetter(it -> it.chunkCount)
       ).apply(instance, BetterExclusionZone::new)
     );
@@ -78,8 +77,8 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
       this.chunkCount = i;
     }
 
-    boolean shouldExclude(ChunkGenerator chunkGenerator, NoiseConfig noiseConfig, long seed, int x, int z) {
-      return chunkGenerator.shouldStructureGenerateInRange(this.otherSet, noiseConfig, seed, x, z, this.chunkCount);
+    boolean shouldExclude(StructurePlacementCalculator calculator, int x, int z) {
+      return calculator.canGenerate(this.otherSet, x, z, this.chunkCount);
     }
   }
 }

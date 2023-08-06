@@ -10,8 +10,9 @@ import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.encryption.PlayerPublicKey;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -19,7 +20,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
   @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
-  @Shadow public abstract ServerWorld getWorld();
+  @Shadow public abstract ServerWorld getServerWorld();
   @Shadow public abstract RegistryKey<World> getSpawnPointDimension();
   @Shadow public abstract @Nullable BlockPos getSpawnPointPosition();
   @Shadow public abstract float getSpawnAngle();
@@ -41,8 +41,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
   @Shadow public abstract boolean isSpectator();
   @Shadow public abstract void sendMessage(Text message);
 
-  public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey) {
-    super(world, pos, yaw, gameProfile, publicKey);
+  public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile) {
+    super(world, pos, yaw, gameProfile);
   }
 
   @Inject(method = "attack", at = @At("RETURN"))
@@ -54,8 +54,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
   public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
     if (
       this.age < 60
-      && source == DamageSource.IN_WALL
-      && this.world.getGameRules().getBoolean(MineCellsGameRules.SUFFOCATION_FIX)
+      && source.isOf(DamageTypes.IN_WALL)
+      && getWorld().getGameRules().getBoolean(MineCellsGameRules.SUFFOCATION_FIX)
       && !this.isCreative()
       && !this.isSpectator()
       && MineCellsDimension.isMineCellsDimension(this.getWorld())
@@ -94,7 +94,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Inject(method = "onSpawn", at = @At("HEAD"))
   void minecells$injectOnSpawn(CallbackInfo ci) {
-    MineCellsData.syncCurrentPlayerData((ServerPlayerEntity)(Object) this, this.getWorld());
+    MineCellsData.syncCurrentPlayerData((ServerPlayerEntity)(Object) this, this.getServerWorld());
     MineCells.DIMENSION_GRAPH.saveStuckPlayer((ServerPlayerEntity)(Object) this);
   }
 }

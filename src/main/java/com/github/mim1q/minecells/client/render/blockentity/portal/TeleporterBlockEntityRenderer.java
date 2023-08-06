@@ -13,7 +13,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.Vec3f;
 
 public class TeleporterBlockEntityRenderer implements BlockEntityRenderer<TeleporterBlockEntity> {
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/teleporter_core.png");
@@ -30,7 +29,7 @@ public class TeleporterBlockEntityRenderer implements BlockEntityRenderer<Telepo
     matrices.push();
     matrices.scale(-1.0F, -1.0F, 1.0F);
     matrices.translate(-0.5F, -0.5F, 0.5F);
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(dir.asRotation()));
+    matrices.multiply(dir.getRotationQuaternion());
     matrices.translate(-0.5F, -1.5F, 0.0F);
     model.render(matrices, vertices, light, overlay, 0xFFFBED, 0xFF7C00);
     matrices.pop();

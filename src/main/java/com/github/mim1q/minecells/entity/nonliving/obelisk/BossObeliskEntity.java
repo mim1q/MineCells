@@ -32,8 +32,8 @@ public abstract class BossObeliskEntity extends ObeliskEntity {
   @Override
   public ActionResult interact(PlayerEntity user, Hand hand) {
     var result =  super.interact(user, hand);
-    if (!world.isClient && world.getServer() != null && result == ActionResult.SUCCESS) {
-      var advancement = world.getServer().getAdvancementLoader().get(MineCells.createId("respawn_boss"));
+    if (!getWorld().isClient && getServer() != null && result == ActionResult.SUCCESS) {
+      var advancement = getServer().getAdvancementLoader().get(MineCells.createId("respawn_boss"));
       ((ServerPlayerEntity)user).getAdvancementTracker().grantCriterion(advancement, "obelisk_used");
     }
     return result;

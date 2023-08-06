@@ -9,16 +9,14 @@ import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import com.github.mim1q.minecells.registry.featureset.*;
-import com.github.mim1q.minecells.world.feature.MineCellsConfiguredFeatures;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.item.BlockItem;
+import net.minecraft.registry.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 public class MineCellsBlocks {
@@ -43,20 +41,12 @@ public class MineCellsBlocks {
   public static final LeavesSet WILTED_LEAVES = new LeavesSet(
     MineCells.createId("wilted"),
     MineCellsBlocks::defaultItemSettings,
-    () -> FabricBlockSettings.of(Material.LEAVES).sounds(BlockSoundGroup.GRASS).nonOpaque().strength(0.2F)
+    () -> FabricBlockSettings.copyOf(Blocks.OAK_LEAVES).sounds(BlockSoundGroup.GRASS).nonOpaque().strength(0.2F)
   );
   public static final LeavesSet ORANGE_WILTED_LEAVES = new LeavesSet(MineCells.createId("orange_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.ORANGE));
   public static final LeavesSet RED_WILTED_LEAVES = new LeavesSet(MineCells.createId("red_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.RED));
 
-  public static final SaplingBlock RED_PUTRID_SAPLING = registerBlockWithItem(
-    new SaplingBlock(new SaplingGenerator() {
-      @Override
-      protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
-        return MineCellsConfiguredFeatures.PROMENADE_TREE_SAPLING;
-      }
-    }, FabricBlockSettings.copyOf(Blocks.OAK_SAPLING).nonOpaque()),
-    "red_putrid_sapling"
-  );
+  public static final SaplingBlock RED_PUTRID_SAPLING = registerSapling("red_putrid_sapling", "promenade_tree_sapling");
 
   // ----------------------------
 
@@ -74,19 +64,19 @@ public class MineCellsBlocks {
   public static final Block CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false), "cage");
   public static final Block BROKEN_CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), true), "broken_cage");
   public static final Block SPIKES = registerBlockWithItem(new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)), "spikes");
-  public static final Block HANGED_SKELETON = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.of(Material.STONE).strength(0.5F).sounds(BlockSoundGroup.BONE)), "hanged_skeleton");
+  public static final Block HANGED_SKELETON = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).strength(0.5F).sounds(BlockSoundGroup.BONE)), "hanged_skeleton");
   public static final Block SKELETON = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_SKELETON).dropsLike(HANGED_SKELETON), HANGED_SKELETON), "skeleton");
-  public static final Block HANGED_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.5F).sounds(BlockSoundGroup.MUD).ticksRandomly()), "hanged_corpse");
+  public static final Block HANGED_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).strength(0.5F).sounds(BlockSoundGroup.MUD).ticksRandomly()), "hanged_corpse");
   public static final Block CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_CORPSE).ticksRandomly(), HANGED_CORPSE), "corpse");
   public static final Block HANGED_ROTTING_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).ticksRandomly()), "hanged_rotting_corpse");
   public static final Block ROTTING_CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE).ticksRandomly(), HANGED_ROTTING_CORPSE), "rotting_corpse");
   public static final Block KING_STATUE = registerBlockWithItem(new DecorativeStatueBlock(FabricBlockSettings.copy(Blocks.STONE).nonOpaque().noCollision()), "king_statue");
   public static final Block FLAG_POLE = registerBlockWithItem(new FlagPoleBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)), "flag_pole");
   public static final Block BIOME_BANNER = registerBlock(new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)), "biome_banner");
-  public static final Block ALCHEMY_EQUIPMENT_0 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offsetType(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_0");
+  public static final Block ALCHEMY_EQUIPMENT_0 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_0");
   public static final Block ALCHEMY_EQUIPMENT_1 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS)), "alchemy_equipment_1");
-  public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offsetType(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
-  public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.of(Material.METAL).breakInstantly().luminance(15).emissiveLighting((s, w, p) -> true).ticksRandomly().noCollision()), "prison_torch");
+  public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
+  public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).breakInstantly().luminance(15).emissiveLighting((s, w, p) -> true).ticksRandomly().noCollision()), "prison_torch");
   public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "promenade_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.DIRT)), "kingdom_portal_core");
@@ -106,33 +96,46 @@ public class MineCellsBlocks {
   // Portals
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "teleporter_frame");
-  public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.of(Material.PORTAL).nonOpaque().strength(50F, 1200F)), "doorway_frame");
+  public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(Blocks.NETHER_PORTAL).nonOpaque().strength(50F, 1200F)), "doorway_frame");
   public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
   public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
   public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
   public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
 
   public static void init() {
-    Registry.register(Registry.BLOCK, MineCells.createId("sewage"), SEWAGE);
-    Registry.register(Registry.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
+    Registry.register(Registries.BLOCK, MineCells.createId("sewage"), SEWAGE);
+    Registry.register(Registries.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
   }
 
   public static  <T extends Block> T registerBlock(T block, String id) {
-    Registry.register(Registry.BLOCK, MineCells.createId(id), block);
+    Registry.register(Registries.BLOCK, MineCells.createId(id), block);
     return block;
   }
 
   public static <T extends Block> T registerBlockWithItem(T block, String id) {
     registerBlock(block, id);
     Registry.register(
-      Registry.ITEM,
+      Registries.ITEM,
       MineCells.createId(id), 
-      new BlockItem(block, new FabricItemSettings().group(MineCellsItemGroups.MINECELLS))
+      new BlockItem(block, new FabricItemSettings())
     );
     return block;
   }
 
+  private static SaplingBlock registerSapling(String id, String key) {
+    var registryKey = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, MineCells.createId(key));
+    return registerBlockWithItem(new SaplingBlock(
+      new SaplingGenerator() {
+        @Override
+        protected RegistryKey<ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
+          return registryKey;
+        }
+      },
+      FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)
+    ), id);
+  }
+
   private static FabricItemSettings defaultItemSettings() {
-    return new FabricItemSettings().group(MineCellsItemGroups.MINECELLS);
+    return new FabricItemSettings();
   }
 }

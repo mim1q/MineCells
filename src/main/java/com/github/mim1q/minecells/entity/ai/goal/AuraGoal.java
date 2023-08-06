@@ -28,7 +28,7 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
 
   @Override
   public boolean canStart() {
-    PlayerEntity closestPlayer = this.entity.world.getClosestPlayer(this.entity, this.radius - 1.0D);
+    PlayerEntity closestPlayer = this.entity.getWorld().getClosestPlayer(this.entity, this.radius - 1.0D);
     return this.entity.getAuraCooldown() == 0
       && closestPlayer != null
       && this.entity.canSee(closestPlayer)
@@ -68,13 +68,13 @@ public class AuraGoal<E extends MineCellsEntity & IAuraEntity> extends Goal {
   }
 
   protected void damage() {
-    List<Entity> playersInRange = this.entity.world.getOtherEntities(
+    List<Entity> playersInRange = this.entity.getWorld().getOtherEntities(
       this.entity,
       this.entity.getBoundingBox().expand(this.radius),
       (e) -> e instanceof PlayerEntity && this.entity.distanceTo(e) <= this.radius
     );
     for (Entity player : playersInRange) {
-      player.damage(MineCellsDamageSource.aura(this.entity), this.entity.getAuraDamage());
+      player.damage(MineCellsDamageSource.AURA.get(this.entity.getWorld(), this.entity), this.entity.getAuraDamage());
     }
   }
 }

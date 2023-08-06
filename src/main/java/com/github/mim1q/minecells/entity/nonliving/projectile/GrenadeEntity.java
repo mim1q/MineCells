@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -55,7 +54,7 @@ public class GrenadeEntity extends ProjectileEntity {
       this.setVelocity(this.getVelocity().multiply(0.7D, 0.0D, 0.7D));
       this.setFuse(fuse);
     }
-    if (!this.world.isClient) {
+    if (!getWorld().isClient) {
       if (fuse <= 0) {
         this.explode();
         this.discard();
@@ -67,7 +66,7 @@ public class GrenadeEntity extends ProjectileEntity {
 
   public void explode() {
     MineCellsExplosion.explode(
-      (ServerWorld) this.world,
+      (ServerWorld) getWorld(),
       (LivingEntity) this.getOwner(),
       this.getPos(),
       this.damage,
@@ -93,13 +92,5 @@ public class GrenadeEntity extends ProjectileEntity {
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
     nbt.putInt("fuse", this.getFuse());
-  }
-
-  public static class GrenadeDamageSource extends DamageSource {
-
-    protected GrenadeDamageSource() {
-      super("minecells.grenade");
-      this.setExplosive();
-    }
   }
 }

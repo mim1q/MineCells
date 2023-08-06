@@ -41,7 +41,7 @@ public class ShootGoal<E extends MineCellsEntity & IShootEntity> extends Goal {
     this.entity.setShootCharging(true);
     this.ticks = 0;
 
-    if (!this.entity.world.isClient() && this.entity.getShootChargeSoundEvent() != null) {
+    if (!this.entity.getWorld().isClient() && this.entity.getShootChargeSoundEvent() != null) {
       this.entity.playSound(this.entity.getShootChargeSoundEvent(), 1.0F, 1.0f);
     }
   }
@@ -62,7 +62,7 @@ public class ShootGoal<E extends MineCellsEntity & IShootEntity> extends Goal {
   public void tick() {
     if (this.target != null) {
       this.entity.getLookControl().lookAt(target);
-      if (this.ticks == this.actionTick && !this.entity.world.isClient()) {
+      if (this.ticks == this.actionTick && !this.entity.getWorld().isClient()) {
         if (this.entity.getShootReleaseSoundEvent() != null) {
           this.entity.playSound(this.entity.getShootReleaseSoundEvent(), 1.0F, 1.0f);
         }

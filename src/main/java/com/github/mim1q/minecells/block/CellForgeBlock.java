@@ -1,16 +1,13 @@
 package com.github.mim1q.minecells.block;
 
-import com.github.mim1q.minecells.client.gui.screen.CellForgeScreenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
@@ -43,7 +40,7 @@ public class CellForgeBlock extends Block {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    return this.getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+    return this.getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite());
   }
 
   @Override
@@ -65,10 +62,7 @@ public class CellForgeBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-    return new SimpleNamedScreenHandlerFactory(
-      (i, inventory, player) -> new CellForgeScreenHandler(i, inventory, pos),
-      Text.translatable(CELL_FORGE_TITLE_KEY)
-    );
+    return null;
   }
 
   @Override

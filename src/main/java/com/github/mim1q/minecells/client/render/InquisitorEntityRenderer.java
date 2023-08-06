@@ -14,9 +14,10 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity, InquisitorEntityModel> {
 
@@ -35,19 +36,19 @@ public class InquisitorEntityRenderer extends MobEntityRenderer<InquisitorEntity
     if (entity.isAlive()) {
       float offset = entity.armUpProgress.getValue() * 0.3F;
       VertexConsumer vertexConsumer = bufferIn.getBuffer(ORB_LAYER);
-      renderOrb(stack, vertexConsumer, entity.headYaw, entity.age, new Vec3f(-0.25F, 2.25F, 0.0F));
-      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + offset, 0.4F + offset));
-      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vec3f(0.6F, 1.0F + offset, -0.4F - offset));
+      renderOrb(stack, vertexConsumer, entity.headYaw, entity.age, new Vector3f(-0.25F, 2.25F, 0.0F));
+      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vector3f(0.6F, 1.0F + offset, 0.4F + offset));
+      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vector3f(0.6F, 1.0F + offset, -0.4F - offset));
     }
   }
 
-  public void renderOrb(MatrixStack matrixStack, VertexConsumer vertexConsumer, float yaw, int age, Vec3f offset) {
+  public void renderOrb(MatrixStack matrixStack, VertexConsumer vertexConsumer, float yaw, int age, Vector3f offset) {
     matrixStack.push();
     offset = MathUtils.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
-    matrixStack.translate(offset.getX(), offset.getY() + MathHelper.sin((float) age * MathHelper.PI / 45.0F) * 0.1F, offset.getZ());
+    matrixStack.translate(offset.x(), offset.y() + MathHelper.sin((float) age * MathHelper.PI / 45.0F) * 0.1F, offset.z());
     matrixStack.scale(0.375F, 0.375F, 0.375F);
     matrixStack.multiply(this.dispatcher.getRotation());
-    matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+    matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     MatrixStack.Entry entry = matrixStack.peek();
     Matrix4f matrix4f = entry.getPositionMatrix();
     Matrix3f matrix3f = entry.getNormalMatrix();

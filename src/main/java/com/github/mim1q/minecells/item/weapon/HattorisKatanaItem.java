@@ -84,7 +84,7 @@ public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
 
   private Vec3d getHitPos(PlayerEntity player, Vec3d start, Vec3d direction, double distance) {
     Vec3d end = start.add(direction.multiply(distance));
-    HitResult hit1 = player.world.raycast(new RaycastContext(
+    HitResult hit1 = player.getWorld().raycast(new RaycastContext(
       start,
       end,
       RaycastContext.ShapeType.COLLIDER,
@@ -92,7 +92,7 @@ public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
       player
     ));
 
-    HitResult hit2 = player.world.raycast(new RaycastContext(
+    HitResult hit2 = player.getWorld().raycast(new RaycastContext(
       start.add(0.0D, 1.0D, 0.0D),
       end.add(0.0D, 1.0D, 0.0D),
       RaycastContext.ShapeType.COLLIDER,
@@ -120,7 +120,7 @@ public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
     for (Vec3d pos : increments) {
       world.getOtherEntities(user, Box.of(pos, 1.5D, 1.5D, 1.5D)).forEach(entity -> {
         if (entity instanceof LivingEntity && !entities.contains(entity)) {
-          entity.damage(MineCellsDamageSource.katana(user), damage);
+          entity.damage(MineCellsDamageSource.KATANA.get(world, user), damage);
           Vec3d direction = pos.subtract(entity.getPos()).normalize();
           ((LivingEntity) entity).takeKnockback(0.5F, direction.getX(), direction.getZ());
           entities.add((LivingEntity) entity);

@@ -20,7 +20,7 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
-    if (!this.world.isClient()) {
+    if (!getWorld().isClient()) {
       this.bossBar.setPercent(this.getHealth() / this.getMaxHealth());
     }
   }

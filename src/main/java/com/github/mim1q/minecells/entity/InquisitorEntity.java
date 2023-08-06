@@ -52,7 +52,7 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       if (this.isShootCharging() || this.isShootReleasing()) {
         this.armUpProgress.setupTransitionTo(1.0F, 10.0F);
       } else {
@@ -165,12 +165,12 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
       Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(1.0D);
 
-      MagicOrbEntity orb = new MagicOrbEntity(MineCellsEntities.MAGIC_ORB, this.entity.world);
+      MagicOrbEntity orb = new MagicOrbEntity(MineCellsEntities.MAGIC_ORB, this.entity.getWorld());
       orb.setPosition(entityPos);
       orb.setVelocity(vel);
       orb.setOwner(this.entity);
 
-      this.entity.world.spawnEntity(orb);
+      this.entity.getWorld().spawnEntity(orb);
     }
   }
 }

@@ -2,6 +2,11 @@ package com.github.mim1q.minecells.structure.grid;
 
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.StructureContext;
 import net.minecraft.structure.StructurePiece;
@@ -14,10 +19,6 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -36,7 +37,7 @@ public class GridPiece extends StructurePiece {
   public GridPiece(Structure.Context context, Identifier poolId, BlockPos pos, BlockRotation rotation, int size) {
     super(MineCellsStructures.GRID_PIECE, 0, BlockBox.create(pos, pos.add(size, size, size)));
     this.manager = context.structureTemplateManager();
-    StructurePool pool = context.dynamicRegistryManager().get(Registry.STRUCTURE_POOL_KEY).get(poolId);
+    StructurePool pool = context.dynamicRegistryManager().get(RegistryKeys.TEMPLATE_POOL).get(poolId);
     if (pool == null) {
       throw new RuntimeException("Pool not found: " + poolId);
     }
@@ -71,8 +72,8 @@ public class GridPiece extends StructurePiece {
   public void generate(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox chunkBox, ChunkPos chunkPos, BlockPos pivot) {
     BlockPos startingPos = this.getStartingPos();
     NoiseConfig config = world.getChunkManager() instanceof ServerChunkManager ? ((ServerChunkManager) world.getChunkManager()).getNoiseConfig() : null;
-    Registry<StructurePool> poolRegistry = registryManager.get(Registry.STRUCTURE_POOL_KEY);
-    var optPoolEntry = poolRegistry.getEntry(RegistryKey.of(Registry.STRUCTURE_POOL_KEY, this.template));
+    Registry<StructurePool> poolRegistry = registryManager.get(RegistryKeys.TEMPLATE_POOL);
+    var optPoolEntry = poolRegistry.getEntry(RegistryKey.of(RegistryKeys.TEMPLATE_POOL, this.template));
     if (optPoolEntry.isEmpty()) {
       return;
     }

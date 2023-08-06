@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:tree",
+  "config": {
+    "ignore_vines": true,
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size"
+    },
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": { "Name": "minecraft:dirt" }
+    },
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": { "Name": "minecells:putrid_log" }
+    },
+    "trunk_placer": {
+      "type": "minecells:promenade_shrub",
+      "base_height": 1,
+      "height_rand_a": 0,
+      "height_rand_b": 0
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": { "Name": "minecells:wilted_leaves" }
+    },
+    "foliage_placer": {
+      "type": "minecraft:bush_foliage_placer",
+      "radius": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 2
+        }
+      },
+      "offset": 0,
+      "height": 2
+    },
+    "decorators": []
+  }
+}

@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.client.gui.screen.CellForgeScreen;
 import com.github.mim1q.minecells.client.render.*;
-import com.github.mim1q.minecells.client.render.blockentity.*;
+import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
+import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
@@ -32,7 +34,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -151,8 +152,6 @@ public class MineCellsRenderers {
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
-
-    HandledScreens.register(MineCellsScreenHandlerTypes.CELL_FORGE, CellForgeScreen::new);
   }
 
   public static void initBlocks() {

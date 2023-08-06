@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -21,7 +21,7 @@ public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.Dyna
   }
 
   @Override
-  public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+  public void render(ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     NbtCompound nbt = stack.getNbt();
     String name = nbt == null ? "king_crest" : nbt.getString("pattern");
     VertexConsumer consumer = vertexConsumers.getBuffer(model.getLayer(MineCells.createId("textures/blockentity/banner/" + name + ".png")));
@@ -33,7 +33,7 @@ public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.Dyna
     float y = -2.25F;
     float z = -1.0F;
 
-    if (mode == ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND || mode == ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND) {
+    if (mode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND || mode == ModelTransformationMode.THIRD_PERSON_RIGHT_HAND) {
       y = -1.25F;
     }
 

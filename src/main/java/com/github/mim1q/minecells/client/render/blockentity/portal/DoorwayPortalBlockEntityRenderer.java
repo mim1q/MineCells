@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.render.blockentity.portal;
 
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -10,8 +11,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(entity.getTexture()));
     matrices.push();
     matrices.translate(0.5, 0.25, 0.5);
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - entity.getRotation()));
+    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F - entity.getRotation())));
     matrices.translate(0.0, 0.0, 0.49);
     RenderUtils.drawBillboard(vertices, matrices, 0xF000F0, 1.5F, 2.5F, 40F/64, 64F/64, 8F/64,48F/64, 255);
     var barsProgress = entity.canPlayerEnter(MinecraftClient.getInstance().player) ? 0.25F : 1.0F;
@@ -54,7 +55,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
       float h = -textRenderer.getWidth(line) / 2.0F;
       int color = 0xFFFFFFFF;
       int background = 0x80000000;
-      textRenderer.draw(line, h, y, color, false, matrix4f, vertexConsumers, false, background, 0xF000F0);
+      textRenderer.draw(line, h, y, color, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, background, 0xF000F0);
       y += 10;
     }
     matrices.pop();

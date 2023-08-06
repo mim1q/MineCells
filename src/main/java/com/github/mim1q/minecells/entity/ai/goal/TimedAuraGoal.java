@@ -26,9 +26,9 @@ public class TimedAuraGoal<E extends LivingEntity> extends TimedActionGoal<E> {
   @Override
   protected void release() {
     Box box = Box.of(this.entity.getPos().add(0.0D, this.entity.getHeight() * 0.5D, 0.0D), this.radius * 2.0F, this.radius * 2.0F, this.radius * 2.0F);
-    for (PlayerEntity player : this.entity.world.getPlayers(TargetPredicate.DEFAULT, this.entity, box)) {
+    for (PlayerEntity player : this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT, this.entity, box)) {
       if (player.distanceTo(this.entity) <= this.radius) {
-        player.damage(MineCellsDamageSource.aura(this.entity), this.damage);
+        player.damage(MineCellsDamageSource.AURA.get(player.getWorld(), this.entity), this.damage);
       }
     }
   }

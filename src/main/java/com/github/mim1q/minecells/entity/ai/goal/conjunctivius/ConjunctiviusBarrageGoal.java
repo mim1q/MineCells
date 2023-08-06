@@ -88,7 +88,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
             (entity.getRandom().nextDouble() - 0.5D) * 2.0D + 2.0D,
             (entity.getRandom().nextDouble() - 0.5D) * 2.0D
           );
-          ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
+          ConjunctiviusProjectileEntity.spawn(entity.getWorld(), entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
         }
       }
     }
@@ -109,7 +109,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
             (entity.getRandom().nextDouble() - 0.5D) * 10.0D + 3.0D,
             (entity.getRandom().nextDouble() - 0.5D) * 10.0D
           );
-          ConjunctiviusProjectileEntity.spawn(entity.world, entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
+          ConjunctiviusProjectileEntity.spawn(entity.getWorld(), entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
         }
       }
     }

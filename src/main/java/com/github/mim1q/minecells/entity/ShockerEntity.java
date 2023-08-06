@@ -17,6 +17,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
@@ -56,15 +57,15 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
   }
 
   private void handleStates() {
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
       if (this.isAuraCharging()) {
         for (int i = 0; i < 10; i++) {
-          ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.CHARGE, pos, Vec3d.ZERO);
+          ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.CHARGE, pos, Vec3d.ZERO);
         }
       } else if (this.isAuraReleasing()) {
-        ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 100, 9.5D, 0.01D);
-        ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
+        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 100, 9.5D, 0.01D);
+        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
       }
     }
   }
@@ -82,10 +83,10 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
   @Override
   public boolean damage(DamageSource source, float amount) {
-    if (source.isFire() || source.isMagic()) {
+    if (source.isIn(DamageTypeTags.IS_FIRE) || source.isIn(DamageTypeTags.WITCH_RESISTANT_TO)) {
       return false;
     }
-    if (source.isProjectile()) {
+    if (source.isIn(DamageTypeTags.IS_PROJECTILE)) {
       amount = amount * 0.2F;
     }
     return super.damage(source, amount);

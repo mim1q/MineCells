@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.entity.interfaces.ILeapEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
@@ -52,7 +51,7 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
     this.ticks = 0;
     this.alreadyAttacked.clear();
 
-    if (!this.entity.world.isClient() && this.entity.getLeapChargeSoundEvent() != null) {
+    if (!this.entity.getWorld().isClient() && this.entity.getLeapChargeSoundEvent() != null) {
       this.entity.playSound(this.entity.getLeapChargeSoundEvent(), 1.0F, 1.0F);
     }
   }
@@ -96,15 +95,15 @@ public class LeapGoal<E extends MineCellsEntity & ILeapEntity> extends Goal {
       vel = vel.normalize().multiply(3.0D);
     }
     this.entity.setVelocity(vel);
-    if (!this.entity.world.isClient() && this.entity.getLeapReleaseSoundEvent() != null) {
+    if (!this.entity.getWorld().isClient() && this.entity.getLeapReleaseSoundEvent() != null) {
       this.entity.playSound(this.entity.getLeapReleaseSoundEvent(), 1.0F, 1.0F);
     }
   }
 
   public void attack() {
-    List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.33D), e -> !this.alreadyAttacked.contains(e.getUuid()));
+    List<PlayerEntity> players = this.entity.getWorld().getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.33D), e -> !this.alreadyAttacked.contains(e.getUuid()));
     for (PlayerEntity player : players) {
-      player.damage(DamageSource.mob(this.entity), this.entity.getLeapDamage());
+      player.damage(entity.getDamageSources().mobAttack(this.entity), this.entity.getLeapDamage());
       this.alreadyAttacked.add(player.getUuid());
     }
   }

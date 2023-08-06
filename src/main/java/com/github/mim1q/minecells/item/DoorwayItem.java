@@ -44,7 +44,7 @@ public class DoorwayItem extends AliasedBlockItem {
       || world.getBlockState(pos.down(2)).isOpaqueFullCube(world, pos)
     ) {
       var side = context.getSide().getAxis().isVertical()
-        ? context.getPlayerFacing().getOpposite()
+        ? context.getHorizontalPlayerFacing().getOpposite()
         : context.getSide();
       var dy = world.getBlockState(pos.down()).isOpaqueFullCube(world, pos) ? 1 : 0;
       var x = side.getAxis() == Direction.Axis.X ? 0 : 1;
@@ -71,7 +71,7 @@ public class DoorwayItem extends AliasedBlockItem {
   @Override
   protected boolean place(ItemPlacementContext context, BlockState state) {
     var direction = context.getSide().getAxis().isVertical()
-      ? context.getPlayerFacing().getOpposite()
+      ? context.getHorizontalPlayerFacing().getOpposite()
       : context.getSide();
     var world = context.getWorld();
     var pos = context.getBlockPos();

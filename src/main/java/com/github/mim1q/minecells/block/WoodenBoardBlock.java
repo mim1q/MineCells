@@ -42,7 +42,7 @@ public class WoodenBoardBlock extends Block {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    Direction facing = ctx.getPlayerFacing().getOpposite();
+    Direction facing = ctx.getHorizontalPlayerFacing().getOpposite();
     BlockState stateBelow = ctx.getWorld().getBlockState(ctx.getBlockPos().down());
     if (ctx.getSide() == Direction.UP && stateBelow.isOf(this)) {
       facing = stateBelow.get(FACING);

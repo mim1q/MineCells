@@ -12,8 +12,8 @@ public class MineCellsBlockEntity extends BlockEntity {
 
   @Override
   public void markDirty() {
-    if (this.world != null) {
-      world.markDirty(this.getPos());
+    if (getWorld() != null) {
+      getWorld().markDirty(this.getPos());
     }
   }
 }

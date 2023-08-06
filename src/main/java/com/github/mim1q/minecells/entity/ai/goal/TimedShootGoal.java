@@ -45,7 +45,7 @@ public class TimedShootGoal<E extends HostileEntity> extends TimedActionGoal<E> 
         this.entity.getPos(),
         this.target.getPos().add(0.0D, this.target.getHeight() * 0.5D, 0.0D)
       );
-      this.entity.world.spawnEntity(projectile);
+      this.entity.getWorld().spawnEntity(projectile);
     }
   }
 

@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
-import com.github.mim1q.minecells.entity.nonliving.projectile.GrenadeEntity;
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -45,7 +45,7 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   public void tick() {
     super.tick();
-    if (!this.world.isClient) {
+    if (!getWorld().isClient) {
       this.decrementCooldowns();
     }
   }
@@ -73,7 +73,7 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   public boolean isInvulnerableTo(DamageSource damageSource) {
-    if (damageSource instanceof GrenadeEntity.GrenadeDamageSource) {
+    if (damageSource.isOf(MineCellsDamageSource.GRENADE.key)) {
       return true;
     }
     return super.isInvulnerableTo(damageSource);

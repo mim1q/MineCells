@@ -21,7 +21,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -57,7 +58,7 @@ public abstract class ObeliskEntity extends Entity {
   @Override
   public void tick() {
     super.tick();
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       this.clientTick();
     } else {
       this.serverTick();
@@ -105,7 +106,7 @@ public abstract class ObeliskEntity extends Entity {
 
   protected void spawnRiseParticles() {
     ParticleUtils.addInBox(
-      (ClientWorld) this.world,
+      (ClientWorld) getWorld(),
       new BlockStateParticleEffect(ParticleTypes.BLOCK, MineCellsBlocks.PRISON_COBBLESTONE.block.getDefaultState()),
       Box.of(this.getPos(), 2.5D, 0.25D, 2.0D),
       50,
@@ -126,7 +127,7 @@ public abstract class ObeliskEntity extends Entity {
     }
     ItemStack stack = user.getStackInHand(hand);
     if (stack.isOf(this.getActivationItem())) {
-      if (!this.world.isClient) {
+      if (!getWorld().isClient) {
         this.playSound(MineCellsSounds.OBELISK, 1.0F, 1.0F);
         this.activatedTicks = 0;
         stack.setCount(stack.getCount() - 1);
@@ -147,7 +148,7 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   protected boolean isEntityPresent() {
-    for (Entity e : this.world.getOtherEntities(this, this.getBox())) {
+    for (Entity e : getWorld().getOtherEntities(this, this.getBox())) {
       if (e.getType() == this.getEntityType()) {
         return true;
       }
@@ -203,7 +204,7 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   @Override
-  public Packet<?> createSpawnPacket() {
+  public Packet<ClientPlayPacketListener> createSpawnPacket() {
     return new EntitySpawnS2CPacket(this);
   }
 }

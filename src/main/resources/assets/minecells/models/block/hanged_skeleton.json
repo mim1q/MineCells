@@ -2,7 +2,7 @@
 	"parent": "minecraft:block/block",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "entity/skeleton/skeleton",
+		"0": "minecells:block/skeleton",
 		"2": "minecells:block/hanged_skeleton_chain",
 		"particle": "block/bone_block_side"
 	},

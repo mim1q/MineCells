@@ -67,6 +67,6 @@ public class TargetRandomPlayerGoal<E extends HostileEntity> extends Goal {
 
   protected List<PlayerEntity> getTargetablePlayers() {
     double range = this.entity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE) * 2.0D;
-    return this.entity.world.getPlayers(TargetPredicate.DEFAULT, this.entity, Box.of(this.entity.getPos(), range, range, range).expand(2.0D));
+    return this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT, this.entity, Box.of(this.entity.getPos(), range, range, range).expand(2.0D));
   }
 }

@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.DecorativeStatueBlock;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -11,7 +12,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
 
 public class DecorativeStatueBlockEntityRenderer implements BlockEntityRenderer<DecorativeStatueBlockEntity> {
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/statue/king.png");
@@ -29,7 +30,7 @@ public class DecorativeStatueBlockEntityRenderer implements BlockEntityRenderer<
     matrices.push();
     matrices.scale(1.0F, -1.0F, -1.0F);
     matrices.translate(0.5F, -1.5F, -0.5F);
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F + rotation));
+    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180.0F + rotation)));
     this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }

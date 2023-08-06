@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
-import com.github.mim1q.minecells.util.TextUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -41,8 +40,8 @@ public class PhaserItem extends Item implements WeaponWithAbility {
     }
     Vec3d targetPos = target.getPos().add(target.getRotationVec(0.0F).multiply(-1.0D, 0.0D, -1.0D).multiply(0.5D + target.getWidth()));
     if (
-      world.getBlockState(new BlockPos(targetPos)).isOpaque()
-      || world.getBlockState(new BlockPos(targetPos).up()).isOpaque()
+      world.getBlockState(BlockPos.ofFloored(targetPos)).isOpaque()
+      || world.getBlockState(BlockPos.ofFloored(targetPos).up()).isOpaque()
     ) {
       return false;
     }

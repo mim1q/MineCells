@@ -4,6 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.mojang.logging.LogUtils;
 import net.minecraft.block.JigsawBlock;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.*;
 import net.minecraft.structure.pool.EmptyPoolElement;
 import net.minecraft.structure.pool.StructurePool;
@@ -15,9 +19,6 @@ import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.HeightLimitView;
@@ -32,7 +33,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 
-// Most of this code is copied from Mojang's StructurePoolBasedGenerator, modified to work in Mine Cells's use case
+// Most of this code is adapted from Mojang's StructurePoolBasedGenerator, modified to work in Mine Cells's use case
 
 @SuppressWarnings({"OptionalUsedAsFieldOrParameterType"})
 public class MineCellsStructurePoolBasedGenerator {
@@ -55,7 +56,7 @@ public class MineCellsStructurePoolBasedGenerator {
     StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
     HeightLimitView heightLimitView = context.world();
     ChunkRandom chunkRandom = context.random();
-    Registry<StructurePool> registry = dynamicRegistryManager.get(Registry.STRUCTURE_POOL_KEY);
+    Registry<StructurePool> registry = dynamicRegistryManager.get(RegistryKeys.TEMPLATE_POOL);
     StructurePool structurePool2 = structurePool.value();
     StructurePoolElement structurePoolElement = structurePool2.getRandomElement(chunkRandom);
     if (structurePoolElement == EmptyPoolElement.INSTANCE) {
@@ -106,9 +107,9 @@ public class MineCellsStructurePoolBasedGenerator {
     Optional<BlockPos> optional = Optional.empty();
 
     for (StructureTemplate.StructureBlockInfo structureBlockInfo : list) {
-      Identifier identifier = Identifier.tryParse(structureBlockInfo.nbt.getString("name"));
+      Identifier identifier = Identifier.tryParse(structureBlockInfo.nbt().getString("name"));
       if (id.equals(identifier)) {
-        optional = Optional.of(structureBlockInfo.pos);
+        optional = Optional.of(structureBlockInfo.pos());
         break;
       }
     }
@@ -186,17 +187,16 @@ public class MineCellsStructurePoolBasedGenerator {
       label93:
       while(var15.hasNext()) {
         StructureTemplate.StructureBlockInfo structureBlockInfo = var15.next();
-        Direction direction = JigsawBlock.getFacing(structureBlockInfo.state);
-        BlockPos blockPos2 = structureBlockInfo.pos;
+        Direction direction = JigsawBlock.getFacing(structureBlockInfo.state());
+        BlockPos blockPos2 = structureBlockInfo.pos();
         BlockPos blockPos3 = blockPos2.offset(direction);
         int j = blockPos2.getY() - i;
         int k = -1;
-        Identifier identifier = new Identifier(structureBlockInfo.nbt.getString("pool"));
+        Identifier identifier = new Identifier(structureBlockInfo.nbt().getString("pool"));
         Optional<StructurePool> optional = this.registry.getOrEmpty(identifier);
         if (optional.isPresent() && (optional.get().getElementCount() != 0 || Objects.equals(identifier, StructurePools.EMPTY.getValue()))) {
-          Identifier identifier2 = optional.get().getTerminatorsId();
-          Optional<StructurePool> optional2 = this.registry.getOrEmpty(identifier2);
-          if (optional2.isPresent() && (optional2.get().getElementCount() != 0 || Objects.equals(identifier2, StructurePools.EMPTY.getValue()))) {
+          RegistryEntry<StructurePool> fallback = optional.get().getFallback();
+          if ((fallback.value().getElementCount() != 0 || Objects.equals(fallback.getKey().get().getValue(), StructurePools.EMPTY.getValue()))) {
             boolean bl2 = blockBox.contains(blockPos3);
             MutableObject<VoxelShape> mutableObject2;
             if (bl2) {
@@ -213,7 +213,7 @@ public class MineCellsStructurePoolBasedGenerator {
               list.addAll(optional.get().getElementIndicesInRandomOrder(this.random));
             }
 
-            list.addAll(optional2.get().getElementIndicesInRandomOrder(this.random));
+            list.addAll(fallback.value().getElementIndicesInRandomOrder(this.random));
 
             for (StructurePoolElement structurePoolElement2 : list) {
               if (structurePoolElement2 == EmptyPoolElement.INSTANCE) {
@@ -247,14 +247,14 @@ public class MineCellsStructurePoolBasedGenerator {
                     structureBlockInfo2 = var36.next();
                   } while (!JigsawBlock.attachmentMatches(structureBlockInfo, structureBlockInfo2));
 
-                  BlockPos blockPos4 = structureBlockInfo2.pos;
+                  BlockPos blockPos4 = structureBlockInfo2.pos();
                   BlockPos blockPos5 = blockPos3.subtract(blockPos4);
                   BlockBox blockBox3 = structurePoolElement2.getBoundingBox(this.structureTemplateManager, blockPos5, blockRotation2);
                   int m = blockBox3.getMinY();
                   projection2 = structurePoolElement2.getProjection();
                   bl3 = projection2 == StructurePool.Projection.RIGID;
                   n = blockPos4.getY();
-                  o = j - n + JigsawBlock.getFacing(structureBlockInfo.state).getOffsetY();
+                  o = j - n + JigsawBlock.getFacing(structureBlockInfo.state()).getOffsetY();
                   if (bl && bl3) {
                     p = i + o;
                   } else {
@@ -303,7 +303,7 @@ public class MineCellsStructurePoolBasedGenerator {
               }
             }
           } else {
-            LOGGER.warn("Empty or non-existent fallback pool: {}", identifier2);
+            LOGGER.warn("Empty or non-existent fallback pool: {}", fallback.getKey().get());
           }
         } else {
           LOGGER.warn("Empty or non-existent pool: {}", identifier);

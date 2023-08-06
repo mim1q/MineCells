@@ -3,10 +3,10 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -22,14 +22,7 @@ public class WallLeavesBlock extends Block {
   public static final VoxelShape SHAPE_BOTTOM = Block.createCuboidShape(0, 0, 0, 16, 4, 16);
 
   public WallLeavesBlock(Settings settings) {
-    super(settings.offsetType(blockState -> {
-        Direction dir = blockState.get(DIRECTION);
-        if (dir == Direction.DOWN) {
-          return OffsetType.XZ;
-        }
-        return OffsetType.XYZ;
-      })
-    );
+    super(settings);
   }
 
   @Override

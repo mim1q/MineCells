@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.render.blockentity;
 import com.github.mim1q.minecells.block.BiomeBannerBlock;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -14,8 +15,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
+import org.joml.Quaternionf;
 
 public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<BiomeBannerBlockEntity> {
 
@@ -31,7 +32,7 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
     Direction dir = entity.getCachedState().get(BiomeBannerBlock.FACING);
     boolean centered = entity.getCachedState().get(BiomeBannerBlock.CENTERED);
     matrices.translate(0.5F, 1.0F, 0.5F);
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-dir.asRotation()));
+    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(-dir.asRotation())));
     matrices.translate(0.0F, 0.0F, -0.4375F);
     matrices.scale(1.0F, -1.0F, -1.0F);
     World world = entity.getWorld();

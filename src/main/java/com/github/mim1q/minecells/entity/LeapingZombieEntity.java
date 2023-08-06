@@ -42,7 +42,7 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
   @Override
   public void tick() {
     super.tick();
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       clientTick();
     } else {
       this.decrementCooldown(LEAP_COOLDOWN);

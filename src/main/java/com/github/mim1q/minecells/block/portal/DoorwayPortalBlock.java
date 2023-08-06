@@ -14,7 +14,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -170,7 +170,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
 
   @Override
   @SuppressWarnings("deprecation")
-  public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+  public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
     var stacks = super.getDroppedStacks(state, builder);
     var blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
     for (var stack : stacks) {

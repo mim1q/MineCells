@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.entity.ai.goal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
@@ -98,7 +97,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     Vec3d norm = diff.normalize();
     for (float i = 0; i < diff.length(); i += 0.1F) {
       Vec3d particlePos = entityPos.add(norm.multiply(i));
-      if (entity.world instanceof ServerWorld serverWorld && entity.getRandom().nextFloat() < 0.1F) {
+      if (entity.getWorld() instanceof ServerWorld serverWorld && entity.getRandom().nextFloat() < 0.1F) {
         serverWorld.spawnParticles(particle, particlePos.x, particlePos.y, particlePos.z, 1, 0.1D, 0.1D, 0.1D, 0.01D);
       }
     }
@@ -113,10 +112,10 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
     entity.setVelocity(direction.multiply(speed));
     distanceTravelled += speed;
-    List<Entity> entitiesInRange = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(margin));
+    List<Entity> entitiesInRange = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(margin));
     for (Entity e : entitiesInRange) {
       if (e instanceof LivingEntity && !(e instanceof HostileEntity) && !attackedIds.contains(e.getId())) {
-        e.damage(DamageSource.mob(entity), damage);
+        e.damage(entity.getDamageSources().mobAttack(entity), damage);
         attackedIds.add(e.getId());
       }
     }

@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.MathUtils;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -9,8 +11,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
@@ -35,7 +35,7 @@ public enum MineCellsDimension {
   public final float yaw;
 
   MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize, float yaw) {
-    this.key = RegistryKey.of(Registry.WORLD_KEY, id);
+    this.key = RegistryKey.of(RegistryKeys.WORLD, id);
     this.id = id;
     this.translationKey = (id.toTranslationKey("dimension"));
     this.spawnOffset = new Vec3i(offsetX, offsetY, offsetZ);

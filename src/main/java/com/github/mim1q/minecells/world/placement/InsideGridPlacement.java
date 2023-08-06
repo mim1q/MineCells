@@ -11,10 +11,9 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.placement.StructurePlacement;
+import net.minecraft.world.gen.chunk.placement.StructurePlacementCalculator;
 import net.minecraft.world.gen.chunk.placement.StructurePlacementType;
-import net.minecraft.world.gen.noise.NoiseConfig;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,10 +62,10 @@ public class InsideGridPlacement extends StructurePlacement {
   }
 
   @Override
-  protected boolean isStartChunk(ChunkGenerator chunkGenerator, NoiseConfig noiseConfig, long seed, int chunkX, int chunkZ) {
+  protected boolean isStartChunk(StructurePlacementCalculator calculator, int chunkX, int chunkZ) {
     var center = MathUtils.getClosestMultiplePosition(new Vec3i(chunkX, 0, chunkZ), gridSize);
     var centerChunkPos = new ChunkPos(center.getX(), center.getZ());
-    return getStartChunks(centerChunkPos, seed).contains(new ChunkPos(chunkX, chunkZ));
+    return getStartChunks(centerChunkPos, calculator.getStructureSeed()).contains(new ChunkPos(chunkX, chunkZ));
   }
 
   protected List<ChunkPos> getStartChunks(ChunkPos center, long seed) {

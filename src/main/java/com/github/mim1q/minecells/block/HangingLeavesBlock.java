@@ -2,8 +2,8 @@ package com.github.mim1q.minecells.block;
 
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -15,7 +15,7 @@ public class HangingLeavesBlock extends HorizontalFacingBlock {
   public static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 6.0D, 2.0D, 14.0D, 16.0D, 14.0D);
 
   public HangingLeavesBlock(Settings settings) {
-    super(settings.offsetType(Block.OffsetType.XZ));
+    super(settings.offset(Block.OffsetType.XZ));
   }
 
   @Override
@@ -46,7 +46,7 @@ public class HangingLeavesBlock extends HorizontalFacingBlock {
     }
     return this.getDefaultState().with(
       HorizontalFacingBlock.FACING,
-      ctx.getPlayerFacing()
+      ctx.getHorizontalPlayerFacing()
     );
   }
 

@@ -74,9 +74,9 @@ public class ShieldbearerEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.dataTracker.get(DASH_CHARGING) && this.world.isClient()) {
+    if (this.dataTracker.get(DASH_CHARGING) && getWorld().isClient()) {
       for (int i = 0; i < 5; i++) {
-        ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.CHARGE, this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D), Vec3d.ZERO);
       }
     }
     this.dashCooldown = Math.max(0, --this.dashCooldown);

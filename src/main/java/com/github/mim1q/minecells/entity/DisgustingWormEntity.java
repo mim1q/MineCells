@@ -40,11 +40,11 @@ public class DisgustingWormEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
-    if (!this.world.isClient() && this.isAttacking()) {
+    if (!getWorld().isClient() && this.isAttacking()) {
       if (this.soundCountdown > 0) {
         this.soundCountdown--;
       } else {
-        this.world.playSound(null, getX(), getY(), getZ(), MineCellsSounds.DISGUSTING_WORM_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F);
+        getWorld().playSound(null, getX(), getY(), getZ(), MineCellsSounds.DISGUSTING_WORM_ATTACK, SoundCategory.HOSTILE, 1.0F, 1.0F);
         this.soundCountdown = 60 + this.random.nextInt(100);
       }
     }
@@ -55,12 +55,12 @@ public class DisgustingWormEntity extends MineCellsEntity {
     for (int i = 0; i < 6; i++) {
       Vec3d velocity = new Vec3d(this.random.nextDouble() - 0.5D, 0.7D + this.random.nextDouble() * 0.5D, this.random.nextDouble() - 0.5D).multiply(0.3D);
 
-      DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(MineCellsEntities.DISGUSTING_WORM_EGG, this.world);
+      DisgustingWormEggEntity grenade = new DisgustingWormEggEntity(MineCellsEntities.DISGUSTING_WORM_EGG, getWorld());
       grenade.setPosition(this.getPos());
       grenade.shoot(velocity);
       grenade.setFuse(15 + i * 5 + this.random.nextInt(5));
 
-      this.world.spawnEntity(grenade);
+      getWorld().spawnEntity(grenade);
     }
   }
 

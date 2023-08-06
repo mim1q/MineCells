@@ -26,8 +26,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -100,7 +101,7 @@ public class ElevatorEntity extends Entity {
     super.tick();
     double nextY = this.getY() + this.getVelocity().y;
 
-    if (!this.world.isClient()) {
+    if (!getWorld().isClient()) {
       float modifiedAcceleration = this.isGoingUp() ? this.acceleration : -this.acceleration;
       this.setVelocityModifier(MathHelper.clamp(modifiedAcceleration + this.getVelocityModifier(), -1.0F, 1.0F));
       this.setVelocity(0.0D, this.maxSpeed * this.getVelocityModifier(), 0.0D);
@@ -135,15 +136,15 @@ public class ElevatorEntity extends Entity {
     } else {
       if (wasMoving && !isMoving() && !this.isGoingUp()) {
         BlockPos pos = new BlockPos(this.getBlockX(), this.getMinY() - 1, this.getBlockZ());
-        BlockState state = this.world.getBlockState(pos);
+        BlockState state = this.getEntityWorld().getBlockState(pos);
         ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, state);
         if (!state.isAir() && nextY < this.getMinY()) {
           for (int i = 0; i < 20; i++) {
             double rx = this.random.nextDouble() - 0.5D;
             double rz = this.random.nextDouble() - 0.5D;
             Vec3d vel = new Vec3d(rx, 0.1D, rz).normalize();
-            ParticleUtils.addParticle((ClientWorld) this.world, particle, this.getPos().add(vel), vel.multiply(10.0D));
-            ParticleUtils.addParticle((ClientWorld) this.world, ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
+            ParticleUtils.addParticle((ClientWorld) getWorld(), particle, this.getPos().add(vel), vel.multiply(10.0D));
+            ParticleUtils.addParticle((ClientWorld) getWorld(), ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
           }
         }
       }
@@ -162,7 +163,7 @@ public class ElevatorEntity extends Entity {
     this.setPosition(this.getX(), clampedY, this.getZ());
 
     if (this.isMoving()) {
-      if (this.world.isClient()) {
+      if (getWorld().isClient()) {
         double z = this.isRotated() ? 1.0D : 0.0D;
         double x = 1.0D - z;
         this.spawnMovementParticles(new Vec3d(-x, 0.0D, -z));
@@ -184,8 +185,8 @@ public class ElevatorEntity extends Entity {
       pos0 = this.getBlockPos().south();
       pos1 = this.getBlockPos().north();
     }
-    BlockState state0 = this.world.getBlockState(pos0);
-    BlockState state1 = this.world.getBlockState(pos1);
+    BlockState state0 = getWorld().getBlockState(pos0);
+    BlockState state1 = getWorld().getBlockState(pos1);
 
     if (state0.getBlock() instanceof ChainBlock && state1.getBlock() instanceof ChainBlock) {
       return state0.get(ChainBlock.AXIS) != Direction.Axis.Y && state1.get(ChainBlock.AXIS) != Direction.Axis.Y;
@@ -205,7 +206,7 @@ public class ElevatorEntity extends Entity {
 
   @Override
   public void kill() {
-    if (!this.world.isClient()) {
+    if (!getWorld().isClient()) {
       ItemStack[] items = {
         new ItemStack(Blocks.CHAIN, this.random.nextInt(3) + 2),
         new ItemStack(MineCellsBlocks.PUTRID_WOOD.planks, 1),
@@ -213,8 +214,8 @@ public class ElevatorEntity extends Entity {
       };
 
       for (ItemStack itemStack : items) {
-        ItemEntity entity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), itemStack);
-        this.world.spawnEntity(entity);
+        ItemEntity entity = new ItemEntity(getWorld(), this.getX(), this.getY(), this.getZ(), itemStack);
+        getWorld().spawnEntity(entity);
       }
       this.playSound(SoundEvents.BLOCK_WOOD_BREAK, 1.0F, 1.0F);
       PacketByteBuf buf = PacketByteBufs.create();
@@ -239,7 +240,7 @@ public class ElevatorEntity extends Entity {
     for (int i = 0; i < 5; i++) {
       double rx = (this.random.nextDouble() - 0.5D) * 0.5D;
       double rz = (this.random.nextDouble() - 0.5D) * 0.5D;
-      ParticleUtils.addParticle((ClientWorld) this.world,
+      ParticleUtils.addParticle((ClientWorld) getWorld(),
         ParticleTypes.ELECTRIC_SPARK,
         this.getPos().add(offset),
         new Vec3d(rx, this.isGoingUp() ? -1.0D : 1.0D, rz));
@@ -256,7 +257,7 @@ public class ElevatorEntity extends Entity {
   }
 
   public void addPassengers() {
-    List<LivingEntity> entities = this.world.getEntitiesByClass(
+    List<LivingEntity> entities = getWorld().getEntitiesByClass(
       LivingEntity.class,
       this.getBoundingBox().expand(0.0D, 0.5D, 0.0D),
       this::canBePassenger);
@@ -277,7 +278,7 @@ public class ElevatorEntity extends Entity {
   }
 
   public void handleEntitiesBelow() {
-    List<LivingEntity> entities = this.world.getEntitiesByClass(
+    List<LivingEntity> entities = getWorld().getEntitiesByClass(
       LivingEntity.class,
       this.getBoundingBox().offset(0.0D, -1.0D, 0.0D),
       e -> !this.hitEntities.contains(e));
@@ -289,18 +290,18 @@ public class ElevatorEntity extends Entity {
           .normalize()
           .multiply(3.0D, 0.0D, 3.0D)
           .add(0.0D, 0.5D, 0.0D));
-        e.damage(MineCellsDamageSource.ELEVATOR, this.damage);
+        e.damage(MineCellsDamageSource.ELEVATOR.get(getWorld(), null), this.damage);
         this.hitEntities.add(e);
       }
     }
 
     if (
       entities.size() > 0
-      && !this.world.isClient
+      && !getWorld().isClient
       && this.getFirstPassenger() instanceof ServerPlayerEntity player
-      && this.world.getServer() != null
+      && getWorld().getServer() != null
     ) {
-      var advancement = world.getServer().getAdvancementLoader().get(MineCells.createId("elevator"));
+      var advancement = getWorld().getServer().getAdvancementLoader().get(MineCells.createId("elevator"));
       player.getAdvancementTracker().grantCriterion(advancement, "entity_squashed");
     }
   }
@@ -329,7 +330,7 @@ public class ElevatorEntity extends Entity {
 
     BlockPos pos = new BlockPos(this.getBlockX(), y, this.getBlockZ());
     for (Vec3i offset : offsets) {
-      if (world.getReceivedRedstonePower(pos.add(offset)) > 0) {
+      if (getWorld().getReceivedRedstonePower(pos.add(offset)) > 0) {
         return true;
       }
     }
@@ -385,8 +386,8 @@ public class ElevatorEntity extends Entity {
 
   public boolean startMoving(boolean isGoingUp, boolean fromRedstone) {
     if ((!this.isMoving() || fromRedstone)
-      && validateShaft(this.world, this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated())) {
-      if (!this.world.isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
+      && validateShaft(getWorld(), this.getBlockX(), this.getBlockZ(), this.getMinY(), this.getMaxY(), this.isRotated())) {
+      if (!getWorld().isClient() && (this.stoppedTicks > 5 || fromRedstone)) {
         this.setGoingUp(isGoingUp);
         if (!this.isMoving() && this.stoppedTicks > 5) {
           this.setVelocityModifier(0.0F);
@@ -407,7 +408,7 @@ public class ElevatorEntity extends Entity {
   @Override
   public ActionResult interact(PlayerEntity player, Hand hand) {
     boolean result = startMoving(!this.isGoingUp(), false);
-    if (result && !this.world.isClient()) {
+    if (result && !getWorld().isClient()) {
       this.addPassengers();
     }
     return result ? ActionResult.SUCCESS : ActionResult.FAIL;
@@ -420,8 +421,8 @@ public class ElevatorEntity extends Entity {
   }
 
   @Override
-  public void updatePassengerPosition(Entity passenger) {
-    passenger.setPosition(passenger.prevX, this.getY() + 0.5D, passenger.prevZ);
+  public void updatePassengerPosition(Entity passenger, Entity.PositionUpdater positionUpdater) {
+    positionUpdater.accept(passenger, passenger.prevX, this.getY() + 0.5D, passenger.prevZ);
   }
 
   @Override
@@ -531,7 +532,7 @@ public class ElevatorEntity extends Entity {
   }
 
   @Override
-  public Packet<?> createSpawnPacket() {
+  public Packet<ClientPlayPacketListener> createSpawnPacket() {
     return new EntitySpawnS2CPacket(this);
   }
 }

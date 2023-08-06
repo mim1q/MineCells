@@ -25,7 +25,6 @@
   "client": [
     "client.BackgroundRendererMixin",
     "client.BipedEntityModelMixin",
-    "client.InventoryScreenMixin",
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",

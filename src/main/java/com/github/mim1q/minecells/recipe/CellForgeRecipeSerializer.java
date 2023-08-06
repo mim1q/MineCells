@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.recipe;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.util.Identifier;
@@ -17,12 +18,12 @@ public class CellForgeRecipeSerializer implements RecipeSerializer<CellForgeReci
   @Override
   @SuppressWarnings("deprecation")
   public CellForgeRecipe read(Identifier id, PacketByteBuf buf) {
-    return buf.decode(CellForgeRecipe.CODEC).withId(id);
+    return buf.decode(NbtOps.INSTANCE, CellForgeRecipe.CODEC).withId(id);
   }
 
   @Override
   @SuppressWarnings("deprecation")
   public void write(PacketByteBuf buf, CellForgeRecipe recipe) {
-    buf.encode(CellForgeRecipe.CODEC, recipe);
+    buf.encode(NbtOps.INSTANCE, CellForgeRecipe.CODEC, recipe);
   }
 }

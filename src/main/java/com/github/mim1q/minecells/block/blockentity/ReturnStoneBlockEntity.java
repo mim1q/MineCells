@@ -7,9 +7,12 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -17,9 +20,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntryList;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -63,8 +63,8 @@ public class ReturnStoneBlockEntity extends MineCellsBlockEntity {
 
   public void teleportPlayer(ServerWorld world, BlockPos pos, PlayerEntity player) {
     if (structure != null && !structure.getPath().isBlank()) {
-      var key = RegistryKey.of(Registry.STRUCTURE_KEY, structure);
-      var structureRegistry = world.getRegistryManager().get(Registry.STRUCTURE_KEY);
+      var key = RegistryKey.of(RegistryKeys.STRUCTURE, structure);
+      var structureRegistry = world.getRegistryManager().get(RegistryKeys.STRUCTURE);
       var found = world.getChunkManager().getChunkGenerator().locateStructure(
         world,
         RegistryEntryList.of(structureRegistry.entryOf(key)),
