@@ -1,5 +1,6 @@
 {
   "itemGroup.minecells.minecells": "Mine Cells",
+  "itemGroup.minecells.minecells.tab.minecells": "Mine Cells",
   "itemGroup.minecells.minecells.button.wiki": "Read the Wiki",
   "itemGroup.minecells.minecells.button.discord": "Join Mim1q's Discord",
   "itemGroup.minecells.minecells.button.kofi": "Support my mods on Ko-Fi",
@@ -43,8 +44,8 @@
   "effect.minecells.assassins_strength": "Assassination",
   "effect.minecells.stunned": "Stunned",
   "effect.minecells.frozen": "Frozen",
-  "death.attack.minecells.elevator.player": "%s squashed %s",
-  "death.attack.minecells.cursed.player": "%s succumbed to a curse",
+  "death.attack.minecells.elevator.player": "%1$s got squashed by %2$s",
+  "death.attack.minecells.cursed.player": "%1$s succumbed to a curse",
   "dimension.minecells.promenade": "Promenade of The Condemned",
   "travelerstitles.minecraft.overworld": "Overworld",
   "travelerstitles.minecells.prison": "Prisoners' Quarters",
