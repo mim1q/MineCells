@@ -48,6 +48,7 @@ public class MineCells implements ModInitializer {
     MineCellsParticles.init();
     MineCellsStructures.init();
     MineCellsPlacerTypes.init();
+    MineCellsStructureProcessorTypes.init();
     MineCellsFeatures.init();
     MineCellsStructurePlacementTypes.init();
     MineCellsPlacementModifiers.init();

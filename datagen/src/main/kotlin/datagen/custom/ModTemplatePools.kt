@@ -75,10 +75,10 @@ object ModTemplatePools {
     add(Presets.indexed("minecells:promenade/doorway", 2, 1, 1, 1, 1, processors = proc))
     add(Presets.prefixed("minecells:promenade/doorway_decoration", "banners" to 1, "torches" to 2, "minecraft:empty" to 4, processors = proc))
     // Walls
-    add(Presets.single("minecells:promenade/border_wall/bottom"))
-    add(Presets.single("minecells:promenade/border_wall/middle"))
-    add(Presets.single("minecells:promenade/border_wall/top"))
-    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1))
+    add(Presets.single("minecells:promenade/border_wall/bottom", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/middle", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/top", processors = proc))
+    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = proc))
   }
 
   fun insufferableCrypt() = Preset {

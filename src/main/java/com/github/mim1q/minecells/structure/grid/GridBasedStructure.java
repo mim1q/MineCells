@@ -26,15 +26,24 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridBasedStructure extends Structure {
+  private static boolean awayFromWallsPredicate(Structure.Context ctx) {
+    var x = MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64));
+    var z = MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().z, 64));
+    return x != 32 && x != 31 && z != 32 && z != 31;
+  }
+
   public static final Codec<GridBasedStructure> PRISON_CODEC = createGridBasedStructureCodec(
     PrisonGridGenerator::new, () -> MineCellsStructures.PRISON
   );
   public static final Codec<GridBasedStructure> PROMENADE_OVERGROUND_CODEC = createGridBasedStructureCodec(
-    () -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings")), () -> MineCellsStructures.PROMENADE_OVERGROUND
+    () -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings")),
+    () -> MineCellsStructures.PROMENADE_OVERGROUND,
+    GridBasedStructure::awayFromWallsPredicate
   );
   public static final Codec<GridBasedStructure> PROMENADE_PIT_CODEC = createGridBasedStructureCodec(
     () -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings/pit"), new Vec3i(0, -23, 0)),
-    () -> MineCellsStructures.PROMENADE_PIT
+    () -> MineCellsStructures.PROMENADE_PIT,
+    GridBasedStructure::awayFromWallsPredicate
   );
   public static final Codec<GridBasedStructure> PROMENADE_UNDERGROUND_CODEC = createGridBasedStructureCodec(
     PromenadeUndergroundGridGenerator::new, () -> MineCellsStructures.PROMENADE_UNDERGROUND

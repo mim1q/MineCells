@@ -33,6 +33,7 @@ public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerato
   private void addColumn(Vec3i pos, BlockRotation rotation, Vec3i blockOffset) {
     this.addTerrainFitRoom(pos, rotation, BOTTOM, blockOffset);
     this.addTerrainFitRoom(pos.up(), rotation, MIDDLE, blockOffset);
-    this.addTerrainFitRoom(pos.up(2), rotation, TOP, blockOffset);
+    this.addTerrainFitRoom(pos.up(2), rotation, MIDDLE, blockOffset);
+    this.addTerrainFitRoom(pos.up(3), rotation, TOP, blockOffset);
   }
 }
