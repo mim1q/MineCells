@@ -33,6 +33,7 @@ fun main(args: Array<String>) {
     add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
+    add(BlockSets.basicStoneSet("minecells:cracked_prison_brick", baseSuffix = "s"))
     // Torches
     val torches = listOf("prison", "promenade")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }

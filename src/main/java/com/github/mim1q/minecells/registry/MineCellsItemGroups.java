@@ -28,6 +28,7 @@ public class MineCellsItemGroups {
     stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.CRACKED_PRISON_BRICKS.getStacks());
     stacks.addAll(MineCellsBlocks.SMALL_PRISON_BRICKS.getStacks());
     stacks.add(stack(MineCellsBlocks.WILTED_GRASS_BLOCK));
     stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());

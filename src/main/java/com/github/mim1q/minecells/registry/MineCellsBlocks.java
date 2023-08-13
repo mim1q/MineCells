@@ -32,6 +32,7 @@ public class MineCellsBlocks {
   public static final StoneSet PRISON_COBBLESTONE = new StoneSet(MineCells.createId("prison_cobblestone"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.COBBLESTONE));
   public static final StoneSet PRISON_BRICKS = new StoneSet(MineCells.createId("prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet SMALL_PRISON_BRICKS = new StoneSet(MineCells.createId("small_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet CRACKED_PRISON_BRICKS = new StoneSet(MineCells.createId("cracked_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
 
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");
