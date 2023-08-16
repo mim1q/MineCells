@@ -11,6 +11,7 @@ public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerato
   private static final Identifier TOP = MineCells.createId("promenade/border_wall/top");
   private static final Identifier MIDDLE = MineCells.createId("promenade/border_wall/middle");
   private static final Identifier BOTTOM = MineCells.createId("promenade/border_wall/bottom");
+  private static final Identifier UNDERGROUND = MineCells.createId("promenade/border_wall/underground");
 
   private final boolean zAxis;
 
@@ -21,7 +22,7 @@ public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerato
   @Override
   protected void addRooms(Random random) {
     var rotation = zAxis ? BlockRotation.CLOCKWISE_90 : BlockRotation.NONE;
-    var offset = zAxis ? new Vec3i(-7, -6, 0) : new Vec3i(0, -6, -7);
+    var offset = zAxis ? new Vec3i(-7, -4, 0) : new Vec3i(0, -4, -7);
     for (int i = -7; i <= 8; i++) {
       var x = zAxis ? 0 : i;
       var z = zAxis ? i : 0;
@@ -31,6 +32,9 @@ public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerato
   }
 
   private void addColumn(Vec3i pos, BlockRotation rotation, Vec3i blockOffset) {
+    this.addTerrainFitRoom(pos.down(3), rotation, UNDERGROUND, blockOffset);
+    this.addTerrainFitRoom(pos.down(2), rotation, UNDERGROUND, blockOffset);
+    this.addTerrainFitRoom(pos.down(), rotation, UNDERGROUND, blockOffset);
     this.addTerrainFitRoom(pos, rotation, BOTTOM, blockOffset);
     this.addTerrainFitRoom(pos.up(), rotation, MIDDLE, blockOffset);
     this.addTerrainFitRoom(pos.up(2), rotation, MIDDLE, blockOffset);

@@ -17,11 +17,19 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public final class MineCellsEntities {
+  public static final Set<SpawnEggItem> SPAWN_EGGS = new HashSet<>();
+
   public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = registerEntity("leaping_zombie", SpawnGroup.MONSTER, LeapingZombieEntity::new, 0.75F, 1.9F);
   public static final EntityType<ShockerEntity> SHOCKER = registerEntity("shocker", SpawnGroup.MONSTER, ShockerEntity::new, 0.9F, 3.0F);
   public static final EntityType<GrenadierEntity> GRENADIER = registerEntity("grenadier", SpawnGroup.MONSTER, GrenadierEntity::new, 0.8F, 1.9F);
@@ -83,11 +91,13 @@ public final class MineCellsEntities {
   }
 
   private static SpawnEggItem registerSpawnEgg(EntityType<? extends MobEntity> type, int primaryColor, int secondaryColor) {
-    return Registry.register(
+    var egg = Registry.register(
       Registries.ITEM,
       MineCells.createId(EntityType.getId(type).getPath() + "_spawn_egg"),
       new SpawnEggItem(type, primaryColor, secondaryColor, new FabricItemSettings())
     );
+    SPAWN_EGGS.add(egg);
+    return egg;
   }
 
   private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup spawnGroup, EntityType.EntityFactory<T> factory, EntityDimensions dimensions) {
@@ -100,5 +110,9 @@ public final class MineCellsEntities {
 
   private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup spawnGroup, EntityType.EntityFactory<T> factory, float width, float height) {
     return registerEntity(name, spawnGroup, factory, EntityDimensions.fixed(width, height));
+  }
+
+  public static Set<ItemStack> getSpawnEggStacks() {
+    return SPAWN_EGGS.stream().map(Item::getDefaultStack).collect(Collectors.toSet());
   }
 }
