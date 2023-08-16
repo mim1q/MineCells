@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.FlyEntity;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -33,14 +34,23 @@ public class FlyEntityModel<T extends FlyEntity> extends EntityModel<T> {
   public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
     leftWing[0].roll = (float) Math.sin(animationProgress * 0.5F) * 0.75F;
     leftWing[1].roll = (float) Math.sin(animationProgress * 0.5F - 0.8F);
-    rightWing[0].roll = -leftWing[0].roll;
-    rightWing[1].roll = -leftWing[1].roll;
     body.pivotY = (float) Math.sin(animationProgress * 0.5F + 1.5F) * 2.0F;
 
     entity.bite.update(animationProgress);
     var bite = entity.bite.getValue();
+
     biteTooth.yScale = bite;
     biteTooth.zScale = bite;
+    biteTooth.pitch = MathUtils.radians((1 - bite) * 160F);
+    rightTooth.roll = MathUtils.radians(bite * 20F);
+    leftTooth.roll = -rightTooth.roll;
+    leftWing[0].roll = MathUtils.lerp(leftWing[0].roll, MathUtils.radians(-60F), bite * 0.75F);
+    leftWing[1].roll = MathUtils.lerp(leftWing[0].roll, MathUtils.radians(-30F), bite * 0.25F);
+    body.pivotY = MathUtils.lerp(body.pivotY, (float) Math.sin(animationProgress * 2F), bite * 0.75F);
+    body.pitch = bite * -0.5F;
+
+    rightWing[0].roll = -leftWing[0].roll;
+    rightWing[1].roll = -leftWing[1].roll;
   }
 
   @Override

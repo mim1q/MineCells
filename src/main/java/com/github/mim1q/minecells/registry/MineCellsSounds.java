@@ -42,6 +42,10 @@ public final class MineCellsSounds {
   public static final SoundEvent SCORPION_CHARGE = register("scorpion.charge");
   // Sewers Tentacle
   public static final SoundEvent SEWERS_TENTACLE_DEATH = register("sewers_tentacle.death");
+  // Flies
+  public static final SoundEvent FLY_CHARGE = register("fly.charge");
+  public static final SoundEvent FLY_FLY = register("fly.fly");
+  public static final SoundEvent FLY_RELEASE = register("fly.release");
   // Conjunctivius
   public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash_charge");
   public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash_release");
