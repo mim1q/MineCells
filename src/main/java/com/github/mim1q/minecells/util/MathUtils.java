@@ -56,6 +56,14 @@ public class MathUtils {
     return lerp(a, b, n1 * (delta -= 2.625F / d1) * delta + 0.984375F);
   }
 
+  // https://easings.net/#easeOutBack
+  public static float easeOutBack(float a, float b, float delta) {
+    var c1 = 1.70158F;
+    var c3 = c1 + 1;
+
+    return lerp(a, b, 1 + c3 * (float) Math.pow(delta - 1, 3) + c1 * (float) Math.pow(delta - 1, 2));
+  }
+
   public static float easeOutQuad(float a, float b, float delta) {
     return lerp(a, b, 1 - (1 - delta) * (1 - delta));
   }

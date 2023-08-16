@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
-import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal.State;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.block.BlockState;
@@ -86,14 +86,14 @@ public class MineCellsEntity extends HostileEntity {
     }
   }
 
-  protected TimedActionGoal.State getStateFromTrackedData(TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
+  protected State getStateFromTrackedData(TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
     if (this.dataTracker.get(charging)) {
-      return TimedActionGoal.State.CHARGE;
+      return State.CHARGE;
     }
     if (this.dataTracker.get(releasing)) {
-      return TimedActionGoal.State.RELEASE;
+      return State.RELEASE;
     }
-    return TimedActionGoal.State.IDLE;
+    return State.IDLE;
   }
 
   protected void decrementCooldowns() {
@@ -117,6 +117,13 @@ public class MineCellsEntity extends HostileEntity {
     super.readCustomDataFromNbt(nbt);
     if (nbt.contains("spawnRunePos")) {
       spawnRunePos = BlockPos.fromLong(nbt.getLong("spawnRunePos"));
+    }
+  }
+
+  protected void handleStateChange(State state, boolean value, TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
+    switch (state) {
+      case CHARGE -> this.dataTracker.set(charging, value);
+      case RELEASE -> this.dataTracker.set(releasing, value);
     }
   }
 }

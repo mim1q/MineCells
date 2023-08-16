@@ -23,12 +23,11 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class MineCellsEntities {
-  public static final Set<SpawnEggItem> SPAWN_EGGS = new HashSet<>();
+  public static final List<SpawnEggItem> SPAWN_EGGS = new ArrayList<>();
 
   public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = registerEntity("leaping_zombie", SpawnGroup.MONSTER, LeapingZombieEntity::new, 0.75F, 1.9F);
   public static final EntityType<ShockerEntity> SHOCKER = registerEntity("shocker", SpawnGroup.MONSTER, ShockerEntity::new, 0.9F, 3.0F);
@@ -44,6 +43,7 @@ public final class MineCellsEntities {
   public static final EntityType<RancidRatEntity> RANCID_RAT = registerEntity("rancid_rat", SpawnGroup.MONSTER, RancidRatEntity::new, 0.5F, 0.75F);
   public static final EntityType<RunnerEntity> RUNNER = registerEntity("runner", SpawnGroup.MONSTER, RunnerEntity::new,0.8F, 2.1F);
   public static final EntityType<ScorpionEntity> SCORPION = registerEntity("scorpion", SpawnGroup.MONSTER, ScorpionEntity::new, 0.8F, 1.5F);
+  public static final EntityType<FlyEntity> BUZZCUTTER = registerEntity("buzzcutter", SpawnGroup.MONSTER, FlyEntity::new, 0.75F, 0.75F);
   public static final EntityType<ConjunctiviusEntity> CONJUNCTIVIUS = registerEntity("conjunctivius", SpawnGroup.MONSTER, ConjunctiviusEntity::new, 5.0F, 5.0F);
   public static final EntityType<GrenadeEntity> GRENADE = registerEntity("grenade", SpawnGroup.MISC, GrenadeEntity::new, 0.5F, 0.5F);
   public static final EntityType<BigGrenadeEntity> BIG_GRENADE = registerEntity("big_grenade", SpawnGroup.MISC, BigGrenadeEntity::new, 0.75F, 0.75F);
@@ -71,6 +71,7 @@ public final class MineCellsEntities {
   public static final SpawnEggItem RANCID_RAT_SPAWN_EGG = registerSpawnEgg(RANCID_RAT, 0x68607C, 0xF17E5D);
   public static final SpawnEggItem RUNNER_SPAWN_EGG = registerSpawnEgg(RUNNER, 0xE43E2C, 0xF9F9F9);
   public static final SpawnEggItem SCORPION_SPAWN_EGG = registerSpawnEgg(SCORPION, 0x6DBCD5, 0x4B3A5B);
+  public static final SpawnEggItem BUZZCUTTER_SPAWN_EGG = registerSpawnEgg(BUZZCUTTER, 0xEB1F51, 0xFFC826);
 
   public static void init() {
     FabricDefaultAttributeRegistry.register(LEAPING_ZOMBIE, LeapingZombieEntity.createLeapingZombieAttributes());
@@ -87,6 +88,7 @@ public final class MineCellsEntities {
     FabricDefaultAttributeRegistry.register(RANCID_RAT, RancidRatEntity.createRancidRatAttributes());
     FabricDefaultAttributeRegistry.register(RUNNER, RunnerEntity.createRunnerAttributes());
     FabricDefaultAttributeRegistry.register(SCORPION, ScorpionEntity.createScorpionAttributes());
+    FabricDefaultAttributeRegistry.register(BUZZCUTTER, FlyEntity.createFlyAttributes());
     FabricDefaultAttributeRegistry.register(CONJUNCTIVIUS, ConjunctiviusEntity.createConjunctiviusAttributes());
   }
 
@@ -112,7 +114,7 @@ public final class MineCellsEntities {
     return registerEntity(name, spawnGroup, factory, EntityDimensions.fixed(width, height));
   }
 
-  public static Set<ItemStack> getSpawnEggStacks() {
-    return SPAWN_EGGS.stream().map(Item::getDefaultStack).collect(Collectors.toSet());
+  public static List<ItemStack> getSpawnEggStacks() {
+    return SPAWN_EGGS.stream().map(Item::getDefaultStack).toList();
   }
 }
