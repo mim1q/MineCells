@@ -30,7 +30,7 @@ object ModItemModels {
   fun spawnEggs() = Preset {
     listOf(
       "leaping_zombie", "shocker", "grenadier", "disgusting_worm", "inquisitor", "kamikaze", "protector", "undead_archer",
-      "shieldbearer", "mutated_bat", "sewers_tentacle", "rancid_rat", "runner", "scorpion", "buzzcutter"
+      "shieldbearer", "mutated_bat", "sewers_tentacle", "rancid_rat", "runner", "scorpion", "buzzcutter", "sweeper"
     ).forEach {
       add("${it}_spawn_egg", ParentedModel.item("minecraft:item/template_spawn_egg"))
     }

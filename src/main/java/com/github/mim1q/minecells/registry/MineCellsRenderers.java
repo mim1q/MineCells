@@ -58,6 +58,7 @@ public class MineCellsRenderers {
   public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(MineCells.createId("runner"), "main");
   public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
   public static final EntityModelLayer FLY_LAYER = registerLayer("fly", FlyEntityModel::getTexturedModelData);
+  public static final EntityModelLayer SWEEPER_LAYER = registerLayer("sweeper", SweeperEntityModel::getTexturedModelData);
 
   public static final EntityModelLayer CONJUNCTIVIUS_MAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
@@ -137,6 +138,7 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.RUNNER, RunnerEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.SCORPION, ScorpionEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.BUZZCUTTER, ctx -> new FlyEntityRenderer<>(ctx, "buzzcutter"));
+    EntityRendererRegistry.register(MineCellsEntities.SWEEPER, SweeperEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS, ConjunctiviusEntityRenderer::new);
 
     EntityRendererRegistry.register(MineCellsEntities.GRENADE, GrenadeEntityRenderer::new);

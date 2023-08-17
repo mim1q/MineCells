@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.util.animation;
 
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 
@@ -34,5 +35,17 @@ public class AnimationUtils {
     part.pitch = MathHelper.lerp(delta, part.pitch, pitch * RADIANS_PER_DEGREE);
     part.yaw = MathHelper.lerp(delta, part.yaw, yaw * RADIANS_PER_DEGREE);
     part.roll = MathHelper.lerp(delta, part.roll, roll * RADIANS_PER_DEGREE);
+  }
+
+  public static float wobble(float progress, float speed, float scale, float offset) {
+    return (float) Math.sin(MathUtils.radians(offset) + progress * speed) * MathUtils.radians(scale);
+  }
+
+  public static float wobble(float progress, float speed, float scale) {
+    return wobble(progress, speed, scale, 0);
+  }
+
+  public static float wobble(float progress, float speed) {
+    return wobble(progress, speed, 1F);
   }
 }
