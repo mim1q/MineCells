@@ -99,7 +99,7 @@ public final class MineCellsEntities {
     var egg = Registry.register(
       Registries.ITEM,
       MineCells.createId(EntityType.getId(type).getPath() + "_spawn_egg"),
-      new SpawnEggItem(type, primaryColor, secondaryColor, new FabricItemSettings())
+      new SpawnEggItem(type, 0xFFFFFF, 0xFFFFFF, new FabricItemSettings())
     );
     SPAWN_EGGS.add(egg);
     return egg;

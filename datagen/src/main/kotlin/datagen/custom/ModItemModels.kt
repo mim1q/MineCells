@@ -32,7 +32,11 @@ object ModItemModels {
       "leaping_zombie", "shocker", "grenadier", "disgusting_worm", "inquisitor", "kamikaze", "protector", "undead_archer",
       "shieldbearer", "mutated_bat", "sewers_tentacle", "rancid_rat", "runner", "scorpion", "buzzcutter", "sweeper"
     ).forEach {
-      add("${it}_spawn_egg", ParentedModel.item("minecraft:item/template_spawn_egg"))
+      add(
+        "${it}_spawn_egg",
+        ParentedModel.item("minecraft:item/generated")
+          .texture("layer0", "minecells:item/spawn_eggs/$it")
+      )
     }
   }
 
