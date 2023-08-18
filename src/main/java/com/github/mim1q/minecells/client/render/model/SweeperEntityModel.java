@@ -37,21 +37,43 @@ public class SweeperEntityModel extends EntityModel<SweeperEntity> {
 
   @Override
   public void setAngles(SweeperEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    this.lowerTorso.pitch = radians(10F) + wobble(animationProgress, 0.1F, 5F);
-    this.upperTorso.pitch = radians(10F) + wobble(animationProgress, 0.1F, 5F, -15F);
-    this.lowerTorso.roll = radians(-10F + limbDistance * 35F);
-    this.upperTorso.roll = radians(5F + limbDistance * 25F);
+    lowerTorso.pitch = radians(10F) + wobble(animationProgress, 0.1F, 5F);
+    upperTorso.pitch = radians(10F) + wobble(animationProgress, 0.1F, 5F, -15F);
+    lowerTorso.roll = radians(-10F + limbDistance * 35F);
+    upperTorso.roll = radians(5F + limbDistance * 25F);
 
-    this.neck.pitch = radians(headPitch) - upperTorso.pitch - lowerTorso.pitch;
-    this.head.yaw = radians(headYaw);
+    neck.pitch = radians(headPitch) - upperTorso.pitch - lowerTorso.pitch;
+    head.yaw = radians(headYaw);
 
-    this.leftArm.pitch = (float) Math.sin(limbAngle * 0.5F) * limbDistance - wobble(animationProgress, 0.1F, 15F, -30F) - radians(20F);
-    this.rightArm.pitch = radians(35F) - lowerTorso.pitch - upperTorso.pitch * 0.75F;
-    this.rightArm.roll = radians(15F - limbDistance * 50F);
-    this.rightArm.yaw = radians(limbDistance * -15F);
-    this.rightLeg.pitch = (float) Math.sin(limbAngle * 0.5) * limbDistance;
-    this.leftArm.roll = radians(limbDistance * -45F);
-    this.leftLeg.pitch = -this.rightLeg.pitch;
+    leftArm.pitch = (float) Math.sin(limbAngle * 0.5F) * limbDistance - wobble(animationProgress, 0.1F, 15F, -30F) - radians(20F);
+    rightArm.pitch = radians(30F) - (lowerTorso.pitch + upperTorso.pitch) * 0.65F;
+    rightArm.roll = radians(15F - limbDistance * 50F);
+    rightArm.yaw = -radians(limbDistance * 15F);
+    rightLeg.pitch = (float) Math.sin(limbAngle * 0.5) * limbDistance;
+    leftArm.roll = -radians(limbDistance * 45F);
+    leftLeg.pitch = -this.rightLeg.pitch;
+
+    // Sweeping charge
+
+    entity.sweepCharge.update(animationProgress);
+    var charge = entity.sweepCharge.getValue();
+    upperTorso.yaw = radians(30F * charge);
+    rightArm.roll += radians(40F * charge);
+    rightArm.yaw += radians(20F * charge);
+    torsoWrapper.roll = -radians(20F * charge);
+    leftArm.roll -= radians(60F * charge);
+    leftArm.pitch -= radians(20F * charge);
+
+    entity.sweepRelease.update(animationProgress);
+    var release = entity.sweepRelease.getValue();
+    upperTorso.yaw = lerp(upperTorso.yaw, radians(-15F), release);
+    lowerTorso.yaw = lerp(upperTorso.yaw, radians(-15F), release);
+    upperTorso.pitch += radians(10F * release);
+    lowerTorso.roll += radians(10F * release);
+    upperTorso.roll += radians(10F * release);
+    rightArm.pitch -= radians(90F * release);
+    rightArm.yaw -= radians(30F * release);
+    rightArm.roll += radians(15F * release);
   }
 
   @Override

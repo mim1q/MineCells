@@ -55,6 +55,16 @@ public class MineCellsBlocks {
   public static final Block RUNIC_VINE_PLANT = registerBlock(new RunicVinePlantBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).sounds(BlockSoundGroup.WET_GRASS).luminance(8).nonOpaque().ticksRandomly()), "runic_vine_plant");
   public static final Block RUNIC_VINE_STONE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "runic_vine_stone");
 
+  // Shockwaves
+
+  public static final Block SHOCKWAVE_FLAME = registerBlock(new ShockwaveBlock(
+    FabricBlockSettings
+      .copyOf(Blocks.FIRE)
+      .luminance(0)
+      .emissiveLighting(Blocks::always)
+      .noBlockBreakParticles()
+  ), "shockwave_flame");
+
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   public static final Block CRATE = registerBlockWithItem(new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)), "crate");

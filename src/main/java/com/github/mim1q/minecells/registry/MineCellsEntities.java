@@ -3,10 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
-import com.github.mim1q.minecells.entity.nonliving.CellEntity;
-import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
-import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
+import com.github.mim1q.minecells.entity.nonliving.*;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ConjunctiviusObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -57,6 +54,7 @@ public final class MineCellsEntities {
   public static final EntityType<TentacleWeaponEntity> TENTACLE_WEAPON = registerEntity("tentacle_weapon", SpawnGroup.MISC, TentacleWeaponEntity::new, 0.1F, 0.1F);
   public static final EntityType<ConjunctiviusObeliskEntity> CONJUNCTIVIUS_OBELISK = registerEntity("conjunctivius_obelisk", SpawnGroup.MISC, ConjunctiviusObeliskEntity::new, EntityDimensions.changing(1.75F, 2.5F)  );
   public static final EntityType<SpawnerRuneEntity> SPAWNER_RUNE = registerEntity("spawner_rune", SpawnGroup.MISC, SpawnerRuneEntity::new, EntityDimensions.changing(0.5F, 0.5F)  );
+  public static final EntityType<ShockwavePlacer> SHOCKWAVE_PLACER = registerEntity("shockwave_placer", SpawnGroup.MISC, ShockwavePlacer::new, 0.1F, 0.1F);
 
   public static final SpawnEggItem LEAPING_ZOMBIE_SPAWN_EGG = registerSpawnEgg(LEAPING_ZOMBIE, 0x5B7B53, 0x8DBB4E);
   public static final SpawnEggItem SHOCKER_SPAWN_EGG = registerSpawnEgg(SHOCKER, 0x2B5369, 0x5FBED1);

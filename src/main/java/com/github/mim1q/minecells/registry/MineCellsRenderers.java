@@ -37,11 +37,18 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
   private static boolean dynamicItemRenderersRegistered = false;
+
+  private static <T extends Entity> EntityRenderer<T> invisibleRenderer(Context ctx)  {
+    return new EntityRenderer<>(ctx) { @Override public Identifier getTexture(Entity entity) { return null; }};
+  }
 
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
   public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(MineCells.createId("shocker"), "main");
@@ -153,6 +160,7 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ObeliskEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SHOCKWAVE_PLACER, MineCellsRenderers::invisibleRenderer);
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
@@ -199,7 +207,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.PRISON_TORCH,
       MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.WILTED_GRASS_BLOCK,
-      MineCellsBlocks.RED_PUTRID_SAPLING
+      MineCellsBlocks.RED_PUTRID_SAPLING,
+      MineCellsBlocks.SHOCKWAVE_FLAME
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),

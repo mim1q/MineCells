@@ -1,11 +1,15 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal;
 import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -16,8 +20,15 @@ import net.minecraft.world.World;
 import static com.github.mim1q.minecells.util.MathUtils.radians;
 
 public class SweeperEntity extends MineCellsEntity {
+  private int sweepCooldown = 0;
   private Vec3d gauntletPosition = this.getPos();
   private static final Vec3d GAUNTLET_OFFSET = new Vec3d(-0.75D, 0.2D, -0.9D);
+
+  public final AnimationProperty sweepCharge = new AnimationProperty(0F);
+  public final AnimationProperty sweepRelease = new AnimationProperty(0F, MathUtils::easeOutBack);
+
+  private static final TrackedData<Boolean> SWEEP_CHARGING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Boolean> SWEEP_RELEASING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
   public SweeperEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -27,16 +38,50 @@ public class SweeperEntity extends MineCellsEntity {
   @Override
   protected void initGoals() {
     super.initGoals();
-    goalSelector.add(0, new MeleeAttackGoal(this, 1.0D, false));
+//    goalSelector.add(0, new MeleeAttackGoal(this, 1.0D, false));
+
+    goalSelector.add(0, new ShockwaveGoal<>(
+      this,
+      settings -> {
+        settings.cooldownGetter = () -> sweepCooldown;
+        settings.cooldownSetter = (cooldown) -> sweepCooldown = cooldown;
+        settings.defaultCooldown = 30;
+        settings.stateSetter = (state, value) -> this.handleStateChange(state, value, SWEEP_CHARGING, SWEEP_RELEASING);
+        settings.actionTick = 20;
+        settings.length = 40;
+      },
+      null
+    ));
+  }
+
+  @Override
+  protected void initDataTracker() {
+    super.initDataTracker();
+    dataTracker.startTracking(SWEEP_CHARGING, false);
+    dataTracker.startTracking(SWEEP_RELEASING, false);
   }
 
   @Override
   public void tick() {
     super.tick();
+
+    this.sweepCooldown--;
+
     if (getWorld().isClient) {
       var lastGauntletPosition = gauntletPosition;
       gauntletPosition = getPos().add(MathUtils.vectorRotateY(GAUNTLET_OFFSET, radians(this.getBodyYaw())));
       spawnGauntletParticles(lastGauntletPosition.squaredDistanceTo(gauntletPosition) > 0.0001D);
+
+      if (dataTracker.get(SWEEP_CHARGING)) {
+        sweepCharge.setupTransitionTo(1F, 10F);
+      } else {
+        sweepCharge.setupTransitionTo(0F, 8F);
+      }
+      if (dataTracker.get(SWEEP_RELEASING)) {
+        sweepRelease.setupTransitionTo(1F, 15F, MathUtils::easeOutBack);
+      } else {
+        sweepRelease.setupTransitionTo(0F, 20F, MathUtils::easeInOutQuad);
+      }
     }
   }
 
