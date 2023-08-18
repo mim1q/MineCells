@@ -2,7 +2,6 @@ package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.ClientConfig;
 import com.github.mim1q.minecells.network.ClientPacketHandler;
-import com.github.mim1q.minecells.registry.MineCellsItemGroups;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import draylar.omegaconfig.OmegaConfig;
@@ -22,6 +21,5 @@ public class MineCellsClient implements ClientModInitializer {
     MineCellsRenderers.initBlocks();
     ClientPacketHandler.init();
     MineCellsParticles.initClient();
-    MineCellsItemGroups.initClient();
   }
 }

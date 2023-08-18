@@ -19,7 +19,9 @@
   "_comment.minecells.002": "=================================== BLOCKS AND ITEMS =====================================",
 
   "itemGroup.minecells.minecells": "Mine Cells",
-  "itemGroup.minecells.minecells.tab.minecells": "Mine Cells",
+  "itemGroup.minecells.minecells.tab.general": "General",
+  "itemGroup.minecells.minecells.tab.combat": "Combat",
+  "itemGroup.minecells.minecells.tab.spawn_eggs": "Spawn Eggs",
   "itemGroup.minecells.minecells.button.wiki": "Read the Wiki",
   "itemGroup.minecells.minecells.button.discord": "Join Mim1q's Discord",
   "itemGroup.minecells.minecells.button.kofi": "Support my mods on Ko-Fi",

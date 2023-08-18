@@ -23,8 +23,8 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class MineCellsEntities {
   public static final List<SpawnEggItem> SPAWN_EGGS = new ArrayList<>();
