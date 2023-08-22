@@ -1,44 +1,57 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.network.s2c.ShockwaveParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ShockwavePlacer extends Entity {
+  private static final double STEPS_PER_POS = 2;
+
   private final Map<Integer, Set<BlockPos>> positions; // age mapped to positions
   private int maxAge;
   private BlockState block;
   @Nullable private UUID ownerUuid;
+  private float damage;
+  private int blockAge = 20;
 
   private ShockwavePlacer(
     EntityType<?> type,
     World world,
     Map<Integer, Set<BlockPos>> positions,
     BlockState block,
-    @Nullable UUID ownerUuid
+    @Nullable UUID ownerUuid,
+    float damage
   ) {
     super(type, world);
     this.positions = positions;
-    this.maxAge = positions.keySet().stream().max(Integer::compareTo).orElse(5);
+    this.maxAge = positions.keySet().stream().max(Integer::compareTo).orElse(5) + blockAge;
     this.block = block;
     this.ownerUuid = ownerUuid;
+    this.damage = damage;
   }
 
   public ShockwavePlacer(EntityType<?> type, World world) {
-    this(type, world, new HashMap<>(), Blocks.FIRE.getDefaultState(), null);
+    this(type, world, new HashMap<>(), Blocks.FIRE.getDefaultState(), null, 0);
   }
 
   public static ShockwavePlacer createLine(
@@ -47,55 +60,59 @@ public class ShockwavePlacer extends Entity {
     Vec3d endPos,
     float interval,
     BlockState block,
-    @Nullable UUID ownerUuid
+    @Nullable UUID ownerUuid,
+    float damage
   ) {
     var map = new HashMap<Integer, Set<BlockPos>>();
     var diff = endPos.subtract(startPos);
-    var length = diff.length();
-    var accumulatedLength = 0.0;
-    var step = diff.normalize().multiply(0.5);
+    var stepLength = 1 / STEPS_PER_POS;
+    var step = diff.normalize().multiply(stepLength);
     var pos = startPos;
 
-    for (var i = 1; accumulatedLength <= length + 2.0; i++) {
+    var accumulatedLength = 0;
+    for (var i = 1; accumulatedLength <= diff.length() + 2; i++) {
       var set = new HashSet<BlockPos>();
-      set.add(BlockPos.ofFloored(pos));
-      pos = pos.add(step);
-      set.add(BlockPos.ofFloored(pos));
-      pos = pos.add(step);
-      map.put((int)(i * interval), set);
-      accumulatedLength += 1.0;
+      for (var j = 0; j < STEPS_PER_POS; j++) {
+        set.add(BlockPos.ofFloored(pos));
+        pos = pos.add(step);
+      }
+      var index = (int) (i * interval);
+      if (map.containsKey(index)) {
+        map.get(index).addAll(set);
+      } else {
+        map.put((int) (i * interval), set);
+      }
+      accumulatedLength += 1;
     }
 
-    return new ShockwavePlacer(
-      MineCellsEntities.SHOCKWAVE_PLACER,
-      world,
-      map,
-      block,
-      ownerUuid
-    );
+    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage);
   }
 
   @Override
   public void tick() {
     super.tick();
-    if (getWorld().isClient) return;
+    if (getWorld().isClient()) return;
 
-    if (this.age > this.maxAge) {
-      this.remove(RemovalReason.DISCARDED);
-    }
-    var posList = positions.get(this.age);
+    var posList = positions.get(age);
     if (posList != null) {
       for (var pos : posList) {
         var placedPos = tryPlace(pos);
         if (placedPos != null) {
           getWorld().scheduleBlockTick(placedPos, block.getBlock(), 20);
+          PlayerLookup
+            .tracking((ServerWorld) getWorld(), placedPos)
+            .forEach(player -> ShockwaveParticlesS2CPacket.send(player, block.getBlock(), placedPos, false));
+          damageEntities(placedPos);
         }
       }
     }
+
+    if (age > maxAge) {
+      this.remove(RemovalReason.DISCARDED);
+    }
   }
 
-  private BlockPos tryPlace(BlockPos position)
-  {
+  private BlockPos tryPlace(BlockPos position) {
     var positions = new BlockPos[]{position, position.up(), position.down()};
     for (var pos : positions) {
       if (block.canPlaceAt(getWorld(), pos)) {
@@ -104,6 +121,21 @@ public class ShockwavePlacer extends Entity {
       }
     }
     return null;
+  }
+
+  private Box getDamageBox(BlockPos position) {
+    return new Box(position)
+      .expand(0.25, 0, 0.25)
+      .offset(0, -0.25, 0);
+  }
+
+  private void damageEntities(BlockPos position) {
+    var isPlayer = getWorld().getPlayerByUuid(ownerUuid) != null;
+    Predicate<LivingEntity> predicate = isPlayer ? e -> e.getUuid() != ownerUuid : e -> !(e instanceof HostileEntity);
+    var entities = getWorld().getEntitiesByClass(LivingEntity.class, getDamageBox(position), predicate);
+    for (var entity : entities) {
+      entity.damage(getWorld().getDamageSources().onFire(), damage);
+    }
   }
 
   @Override
@@ -136,6 +168,7 @@ public class ShockwavePlacer extends Entity {
     if (nbt.containsUuid("ownerUuid")) {
       ownerUuid = nbt.getUuid("ownerUuid");
     }
+    damage = nbt.getFloat("damage");
   }
 
   @Override
@@ -153,5 +186,6 @@ public class ShockwavePlacer extends Entity {
     if (ownerUuid != null) {
       nbt.putUuid("ownerUuid", ownerUuid);
     }
+    nbt.putFloat("damage", damage);
   }
 }

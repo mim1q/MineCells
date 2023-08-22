@@ -26,9 +26,10 @@ public class ShockwaveGoal<E extends HostileEntity> extends TimedActionGoal<E> {
       entity.getWorld(),
       entity.getPos().add(offset),
       entity.getTarget().getPos(),
-      1F,
+      0.75F,
       MineCellsBlocks.SHOCKWAVE_FLAME.getDefaultState(),
-      entity.getUuid()
+      entity.getUuid(),
+      1F
     );
     entity.getWorld().spawnEntity(placer);
   }

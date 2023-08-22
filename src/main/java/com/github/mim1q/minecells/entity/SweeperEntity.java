@@ -45,7 +45,8 @@ public class SweeperEntity extends MineCellsEntity {
       settings -> {
         settings.cooldownGetter = () -> sweepCooldown;
         settings.cooldownSetter = (cooldown) -> sweepCooldown = cooldown;
-        settings.defaultCooldown = 30;
+        settings.defaultCooldown = 20;
+        settings.chance = 0.05F;
         settings.stateSetter = (state, value) -> this.handleStateChange(state, value, SWEEP_CHARGING, SWEEP_RELEASING);
         settings.actionTick = 20;
         settings.length = 40;
