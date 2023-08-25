@@ -39,9 +39,9 @@ public class ShockwaveBlock extends Block {
       world,
       Vec3d.ofBottomCenter(pos),
       ParticleTypes.FLAME,
-      10,
+      2,
       1.0,
-      0.05
+      0.02
     );
   }
 
@@ -50,9 +50,9 @@ public class ShockwaveBlock extends Block {
       world,
       Vec3d.ofBottomCenter(pos),
       ParticleTypes.FLAME,
-      3,
+      2,
       0.7,
-      0.1
+      0.05
     );
     ParticleUtils.addAura(
       world,

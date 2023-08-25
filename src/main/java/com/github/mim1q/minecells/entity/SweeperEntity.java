@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal;
+import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.control.MoveControl;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -12,6 +14,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
@@ -40,6 +43,8 @@ public class SweeperEntity extends MineCellsEntity {
     super.initGoals();
 //    goalSelector.add(0, new MeleeAttackGoal(this, 1.0D, false));
 
+    goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0, false, 5.0));
+    goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16));
     goalSelector.add(0, new ShockwaveGoal<>(
       this,
       settings -> {

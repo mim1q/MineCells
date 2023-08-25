@@ -32,7 +32,7 @@ public class ShockwavePlacer extends Entity {
   private BlockState block;
   @Nullable private UUID ownerUuid;
   private float damage;
-  private int blockAge = 20;
+  private int blockAge;
 
   private ShockwavePlacer(
     EntityType<?> type,
@@ -40,52 +40,20 @@ public class ShockwavePlacer extends Entity {
     Map<Integer, Set<BlockPos>> positions,
     BlockState block,
     @Nullable UUID ownerUuid,
-    float damage
+    float damage,
+    int blockAge
   ) {
     super(type, world);
     this.positions = positions;
-    this.maxAge = positions.keySet().stream().max(Integer::compareTo).orElse(5) + blockAge;
+    this.maxAge = positions.keySet().stream().max(Integer::compareTo).orElse(5);
     this.block = block;
     this.ownerUuid = ownerUuid;
     this.damage = damage;
+    this.blockAge = blockAge;
   }
 
   public ShockwavePlacer(EntityType<?> type, World world) {
-    this(type, world, new HashMap<>(), Blocks.FIRE.getDefaultState(), null, 0);
-  }
-
-  public static ShockwavePlacer createLine(
-    World world,
-    Vec3d startPos,
-    Vec3d endPos,
-    float interval,
-    BlockState block,
-    @Nullable UUID ownerUuid,
-    float damage
-  ) {
-    var map = new HashMap<Integer, Set<BlockPos>>();
-    var diff = endPos.subtract(startPos);
-    var stepLength = 1 / STEPS_PER_POS;
-    var step = diff.normalize().multiply(stepLength);
-    var pos = startPos;
-
-    var accumulatedLength = 0;
-    for (var i = 1; accumulatedLength <= diff.length() + 2; i++) {
-      var set = new HashSet<BlockPos>();
-      for (var j = 0; j < STEPS_PER_POS; j++) {
-        set.add(BlockPos.ofFloored(pos));
-        pos = pos.add(step);
-      }
-      var index = (int) (i * interval);
-      if (map.containsKey(index)) {
-        map.get(index).addAll(set);
-      } else {
-        map.put((int) (i * interval), set);
-      }
-      accumulatedLength += 1;
-    }
-
-    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage);
+    this(type, world, new HashMap<>(), Blocks.FIRE.getDefaultState(), null, 0, 20);
   }
 
   @Override
@@ -98,7 +66,7 @@ public class ShockwavePlacer extends Entity {
       for (var pos : posList) {
         var placedPos = tryPlace(pos);
         if (placedPos != null) {
-          getWorld().scheduleBlockTick(placedPos, block.getBlock(), 20);
+          getWorld().scheduleBlockTick(placedPos, block.getBlock(), 5);
           PlayerLookup
             .tracking((ServerWorld) getWorld(), placedPos)
             .forEach(player -> ShockwaveParticlesS2CPacket.send(player, block.getBlock(), placedPos, false));
@@ -125,7 +93,7 @@ public class ShockwavePlacer extends Entity {
 
   private Box getDamageBox(BlockPos position) {
     return new Box(position)
-      .expand(0.25, 0, 0.25)
+      .expand(0.1, 0.0, 0.1)
       .offset(0, -0.25, 0);
   }
 
@@ -169,6 +137,7 @@ public class ShockwavePlacer extends Entity {
       ownerUuid = nbt.getUuid("ownerUuid");
     }
     damage = nbt.getFloat("damage");
+    blockAge = nbt.getInt("blockAge");
   }
 
   @Override
@@ -187,5 +156,67 @@ public class ShockwavePlacer extends Entity {
       nbt.putUuid("ownerUuid", ownerUuid);
     }
     nbt.putFloat("damage", damage);
+    nbt.putFloat("blockAge", blockAge);
+  }
+
+  public static ShockwavePlacer createLine(
+    World world,
+    Vec3d startPos,
+    Vec3d endPos,
+    float interval,
+    BlockState block,
+    @Nullable UUID ownerUuid,
+    float damage
+  ) {
+    var map = new HashMap<Integer, Set<BlockPos>>();
+    var diff = endPos.subtract(startPos);
+    var stepLength = 1 / STEPS_PER_POS;
+    var step = diff.normalize().multiply(stepLength);
+    var pos = startPos;
+
+    var accumulatedLength = 0;
+    for (var i = 1; accumulatedLength <= diff.length() + 2; i++) {
+      var set = new HashSet<BlockPos>();
+      for (var j = 0; j < STEPS_PER_POS; j++) {
+        set.add(BlockPos.ofFloored(pos));
+        pos = pos.add(step);
+      }
+      var index = (int) (i * interval);
+      if (map.containsKey(index)) {
+        map.get(index).addAll(set);
+      } else {
+        map.put((int) (i * interval), set);
+      }
+      accumulatedLength += 1;
+    }
+
+    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval * 2);
+  }
+
+  public static ShockwavePlacer createCircle(
+    World world,
+    Vec3d origin,
+    int radius,
+    float interval,
+    BlockState block,
+    @Nullable UUID ownerUuid,
+    float damage
+  ) {
+    var map = new HashMap<Integer, Set<BlockPos>>();
+    for (var i = 1; i < radius; i++) {
+      var set = new HashSet<BlockPos>();
+      for (var angle = 0; angle < i * 8; angle++) {
+        var x = (float) Math.cos(angle * Math.PI / (i * 4)) * i;
+        var z = (float) Math.sin(angle * Math.PI / (i * 4)) * i;
+        set.add(BlockPos.ofFloored(origin).add(new BlockPos(Math.round(x), 0, Math.round(z))));
+      }
+      var index = (int) (i * interval);
+      if (map.containsKey(index)) {
+        map.get(index).addAll(set);
+      } else {
+        map.put((int) (i * interval), set);
+      }
+    }
+    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval * 2);
   }
 }
