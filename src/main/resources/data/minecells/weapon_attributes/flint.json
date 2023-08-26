@@ -12,8 +12,7 @@
         "upswing": 0.35,
         "animation": "bettercombat:two_handed_slam",
         "swing_sound": {
-          "id": "bettercombat:hammer_slam",
-          "randomness": 0
+          "id": "minecells:weapon.hit_floor"
         }
       }
     ]

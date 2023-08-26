@@ -42,16 +42,15 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
 
   @Override
   public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+    if (world.isClient()) return;
+
     var tick = (3600 * 20) - remainingUseTicks;
     if (user.isPlayer()) {
-      PlayerEntity player = (PlayerEntity) user;
+      var player = (PlayerEntity) user;
       player.getItemCooldownManager().set(this, tick >= 20 ? getAbilityCooldown(stack) : 20);
-    } else {
-      return;
-    }
-    if (tick < 20 || world.isClient()) {
-      return;
-    }
+    } else return;
+
+    if (tick < 20) return;
 
     var offset = MathUtils.vectorRotateY(new Vec3d(1.0, 0.0, 0.0), MathUtils.radians(user.getYaw()));
     user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20, 0, false, false, false));
@@ -65,7 +64,6 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
       getAbilityDamage(stack)
     );
     world.spawnEntity(placer);
-    var flintHand = user.getStackInHand(Hand.MAIN_HAND).isOf(this) ? Hand.MAIN_HAND : Hand.OFF_HAND;
     world.getEntitiesByClass(LivingEntity.class, Box.of(user.getPos(), 3.0, 2.0, 3.0), e -> e != user).forEach(entity -> {
       entity.damage(world.getDamageSources().playerAttack((PlayerEntity) user), getAbilityDamage(stack) * 2);
       if (entity.squaredDistanceTo(user) < 4.0) {
@@ -73,9 +71,10 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
         entity.takeKnockback(0.5, knockback.x, knockback.z);
       }
     });
+    var flintHand = user.getStackInHand(Hand.MAIN_HAND).isOf(this) ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    user.swingHand(flintHand, true);
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.FLINT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.HIT_FLOOR, SoundCategory.PLAYERS, 1.0F, 1.0F);
-    user.swingHand(flintHand);
   }
 
   @Override

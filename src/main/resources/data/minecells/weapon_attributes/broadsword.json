@@ -12,7 +12,7 @@
         "upswing": 0.5,
         "animation": "bettercombat:two_handed_slash_horizontal_right",
         "swing_sound": {
-          "id": "bettercombat:claymore_swing"
+          "id": "minecells:weapon.swipe"
         }
       },
       {
@@ -22,7 +22,7 @@
         "upswing": 0.5,
         "animation": "bettercombat:two_handed_slash_horizontal_left",
         "swing_sound": {
-          "id": "bettercombat:claymore_swing"
+          "id": "minecells:weapon.swipe"
         }
       },
       {
@@ -32,7 +32,7 @@
         "upswing": 0.35,
         "animation": "bettercombat:two_handed_slam",
         "swing_sound": {
-          "id": "bettercombat:claymore_slam",
+          "id": "minecells:weapon.hit_floor",
           "randomness": 0
         }
       }
