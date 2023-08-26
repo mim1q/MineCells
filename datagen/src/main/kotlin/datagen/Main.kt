@@ -73,6 +73,7 @@ fun main(args: Array<String>) {
     add(ModItemModels.handheld())
     add(ModItemModels.spawnEggs())
     add(ModItemModels.blockModels())
+    add("flint", ParentedModel.item("minecells:item/balanced_blade").texture("layer0", "minecells:item/flint"))
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",

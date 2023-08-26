@@ -63,6 +63,7 @@ public class MineCellsBlocks {
       .luminance(0)
       .emissiveLighting(Blocks::always)
       .noBlockBreakParticles()
+      .sounds(BlockSoundGroup.INTENTIONALLY_EMPTY)
   ), "shockwave_flame");
 
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
-import com.github.mim1q.minecells.network.s2c.ShockwaveParticlesS2CPacket;
+import com.github.mim1q.minecells.network.s2c.ShockwaveClientEventS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.mojang.datafixers.util.Pair;
@@ -66,10 +66,10 @@ public class ShockwavePlacer extends Entity {
       for (var pos : posList) {
         var placedPos = tryPlace(pos);
         if (placedPos != null) {
-          getWorld().scheduleBlockTick(placedPos, block.getBlock(), 5);
+          getWorld().scheduleBlockTick(placedPos, block.getBlock(), blockAge);
           PlayerLookup
             .tracking((ServerWorld) getWorld(), placedPos)
-            .forEach(player -> ShockwaveParticlesS2CPacket.send(player, block.getBlock(), placedPos, false));
+            .forEach(player -> ShockwaveClientEventS2CPacket.send(player, block.getBlock(), placedPos, false));
           damageEntities(placedPos);
         }
       }
@@ -190,7 +190,7 @@ public class ShockwavePlacer extends Entity {
       accumulatedLength += 1;
     }
 
-    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval * 2);
+    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval + 10);
   }
 
   public static ShockwavePlacer createCircle(

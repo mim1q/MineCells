@@ -95,6 +95,7 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.HATTORIS_KATANA),
       stack(MineCellsItems.TENTACLE),
       stack(MineCellsItems.FROST_BLAST),
+      stack(MineCellsItems.FLINT),
       stack(MineCellsItems.PHASER)
     ));
   }
@@ -144,6 +145,7 @@ public class MineCellsItemGroups {
       group.addButton(linkButton(Icon.of(DISCORD_ICON, 0, 0, 16, 16), "discord", "https://discord.gg/6TjQbSjbuB"));
       group.addButton(linkButton(Icon.of(KOFI_ICON, 0, 0, 16, 16), "kofi", "https://ko-fi.com/mim1q"));
     })
+    .displaySingleTab()
     .build();
 
   public static void init() {

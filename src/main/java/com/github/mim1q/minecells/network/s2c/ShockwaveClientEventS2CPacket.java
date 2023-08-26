@@ -14,10 +14,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public class ShockwaveParticlesS2CPacket extends PacketByteBuf {
-  public static final Identifier ID = MineCells.createId("shockwave_particles");
+public class ShockwaveClientEventS2CPacket extends PacketByteBuf {
+  public static final Identifier ID = MineCells.createId("shockwave_client_event");
 
-  public ShockwaveParticlesS2CPacket(Block block, BlockPos postiion, boolean end) {
+  public ShockwaveClientEventS2CPacket(Block block, BlockPos postiion, boolean end) {
     super(Unpooled.buffer());
     writeInt(Registries.BLOCK.getRawId(block));
     writeBlockPos(postiion);
@@ -39,16 +39,16 @@ public class ShockwaveParticlesS2CPacket extends PacketByteBuf {
         block.get().value() instanceof ShockwaveBlock shockwaveBlock
       ) {
         if (end) {
-          shockwaveBlock.spawnShockwaveEndParticles(world, blockPos);
+          shockwaveBlock.onClientEndShockwave(world, blockPos);
         } else {
-          shockwaveBlock.spawnShockwaveStartParticles(world, blockPos);
+          shockwaveBlock.onClientStartShockwave(world, blockPos);
         }
       }
     });
   }
 
   public static void send(ServerPlayerEntity player, Block block, BlockPos pos, boolean end) {
-    var packet = new ShockwaveParticlesS2CPacket(block, pos, end);
+    var packet = new ShockwaveClientEventS2CPacket(block, pos, end);
     ServerPlayNetworking.send(player, ID, packet);
   }
 }

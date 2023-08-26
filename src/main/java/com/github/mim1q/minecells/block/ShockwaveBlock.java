@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.block;
 
-import com.github.mim1q.minecells.network.s2c.ShockwaveParticlesS2CPacket;
+import com.github.mim1q.minecells.network.s2c.ShockwaveClientEventS2CPacket;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Block;
@@ -8,6 +8,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -23,7 +25,7 @@ public class ShockwaveBlock extends Block {
   @SuppressWarnings("deprecation")
   public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     super.scheduledTick(state, world, pos, random);
-    PlayerLookup.tracking(world, pos).forEach(player -> ShockwaveParticlesS2CPacket.send(player, this, pos,true));
+    PlayerLookup.tracking(world, pos).forEach(player -> ShockwaveClientEventS2CPacket.send(player, this, pos,true));
     world.breakBlock(pos, false);
   }
 
@@ -34,7 +36,8 @@ public class ShockwaveBlock extends Block {
     return world.getBlockState(pos).isReplaceable() && downState.isSideSolidFullSquare(world, pos.down(), Direction.UP);
   }
 
-  public void spawnShockwaveStartParticles(ClientWorld world, BlockPos pos) {
+  public void onClientStartShockwave(ClientWorld world, BlockPos pos) {
+    world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.2f, 1.0f, true);
     ParticleUtils.addAura(
       world,
       Vec3d.ofBottomCenter(pos),
@@ -45,7 +48,8 @@ public class ShockwaveBlock extends Block {
     );
   }
 
-  public void spawnShockwaveEndParticles(ClientWorld world, BlockPos pos) {
+  public void onClientEndShockwave(ClientWorld world, BlockPos pos) {
+    world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.2f, 1.0f, true);
     ParticleUtils.addAura(
       world,
       Vec3d.ofBottomCenter(pos),

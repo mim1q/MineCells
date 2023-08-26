@@ -165,6 +165,14 @@ public class MineCellsItems {
     ), "frost_blast"
   );
 
+  public static final Item FLINT = register(new FlintItem(5, -3.1F,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(1000)
+      .rarity(Rarity.EPIC)
+    ), "flint"
+  );
+
   // Skills
   public static final PhaserItem PHASER = register(new PhaserItem(
     new FabricItemSettings()
