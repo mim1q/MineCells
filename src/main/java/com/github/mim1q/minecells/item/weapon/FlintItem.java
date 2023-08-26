@@ -8,15 +8,19 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -42,23 +46,36 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
     if (user.isPlayer()) {
       PlayerEntity player = (PlayerEntity) user;
       player.getItemCooldownManager().set(this, tick >= 20 ? getAbilityCooldown(stack) : 20);
+    } else {
+      return;
     }
-    if (tick < 20) {
+    if (tick < 20 || world.isClient()) {
       return;
     }
 
+    var offset = MathUtils.vectorRotateY(new Vec3d(1.0, 0.0, 0.0), MathUtils.radians(user.getYaw()));
+    user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20, 0, false, false, false));
     var placer = ShockwavePlacer.createLine(
       world,
       user.getPos(),
-      user.getPos()
-        .add(MathUtils.vectorRotateY(new Vec3d(10.0, 0.0, 0.0), MathUtils.radians(user.getYaw()))),
+      user.getPos().add(offset.multiply(10)),
       1.5F,
-      MineCellsBlocks.SHOCKWAVE_FLAME.getDefaultState(),
+      MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER.getDefaultState(),
       user.getUuid(),
-      10.0F
+      getAbilityDamage(stack)
     );
     world.spawnEntity(placer);
-    user.swingHand(Hand.MAIN_HAND);
+    var flintHand = user.getStackInHand(Hand.MAIN_HAND).isOf(this) ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    world.getEntitiesByClass(LivingEntity.class, Box.of(user.getPos(), 3.0, 2.0, 3.0), e -> e != user).forEach(entity -> {
+      entity.damage(world.getDamageSources().playerAttack((PlayerEntity) user), getAbilityDamage(stack) * 2);
+      if (entity.squaredDistanceTo(user) < 4.0) {
+        var knockback = user.getPos().subtract(entity.getPos()).normalize();
+        entity.takeKnockback(0.5, knockback.x, knockback.z);
+      }
+    });
+    world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.FLINT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+    world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.HIT_FLOOR, SoundCategory.PLAYERS, 1.0F, 1.0F);
+    user.swingHand(flintHand);
   }
 
   @Override
@@ -78,13 +95,13 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
 
   @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-    user.playSound(MineCellsSounds.CHARGE, 1.0F, 1.0F);
+    world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.FLINT_CHARGE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     return ItemUsage.consumeHeldItem(world, user, hand);
   }
 
   @Override
   public float getBaseAbilityDamage(ItemStack stack) {
-    return 10;
+    return 3;
   }
 
   @Override

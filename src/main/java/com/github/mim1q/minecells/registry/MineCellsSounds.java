@@ -62,6 +62,7 @@ public final class MineCellsSounds {
   public static final SoundEvent BOW_CHARGE = register("weapon.bow.charge");
   public static final SoundEvent BOW_RELEASE = register("weapon.bow.release");
   public static final SoundEvent SWIPE = register("weapon.swipe");
+  public static final SoundEvent HIT_FLOOR = register("weapon.hit_floor");
 
   public static final SoundEvent TENTACLE_CHARGE = register("weapon.tentacle.charge");
   public static final SoundEvent TENTACLE_RELEASE = register("weapon.tentacle.release");
@@ -70,6 +71,9 @@ public final class MineCellsSounds {
   public static final SoundEvent KATANA_RELEASE = register("weapon.katana.release");
 
   public static final SoundEvent FROST_BLAST = register("weapon.frost_blast.release");
+
+  public static final SoundEvent FLINT_CHARGE = register("weapon.flint.charge");
+  public static final SoundEvent FLINT_RELEASE = register("weapon.flint.release");
 
   //Blocks
   public static final SoundEvent PORTAL_ACTIVATE = register("portal.activate");
