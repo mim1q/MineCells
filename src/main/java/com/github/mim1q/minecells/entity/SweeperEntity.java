@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
@@ -41,20 +43,28 @@ public class SweeperEntity extends MineCellsEntity {
   @Override
   protected void initGoals() {
     super.initGoals();
-//    goalSelector.add(0, new MeleeAttackGoal(this, 1.0D, false));
-
     goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0, false, 5.0));
     goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16));
     goalSelector.add(0, new ShockwaveGoal<>(
       this,
       settings -> {
-        settings.cooldownGetter = () -> sweepCooldown;
+        settings.cooldownGetter = () -> {
+          if (this.getTarget() != null && this.squaredDistanceTo(this.getTarget()) < 9.0) {
+            return sweepCooldown - 20;
+          }
+          return sweepCooldown;
+        };
         settings.cooldownSetter = (cooldown) -> sweepCooldown = cooldown;
-        settings.defaultCooldown = 20;
-        settings.chance = 0.05F;
+        settings.defaultCooldown = 40;
+        settings.chance = 0.1F;
         settings.stateSetter = (state, value) -> this.handleStateChange(state, value, SWEEP_CHARGING, SWEEP_RELEASING);
         settings.actionTick = 20;
         settings.length = 40;
+        settings.chargeSound = MineCellsSounds.SWEEPER_CHARGE;
+        settings.releaseSound = MineCellsSounds.SWEEPER_RELEASE;
+        settings.shockwaveBlock = MineCellsBlocks.SHOCKWAVE_FLAME;
+        settings.shockwaveDamage = 6.0F;
+        settings.shockwaveInterval = 0.75F;
       },
       null
     ));

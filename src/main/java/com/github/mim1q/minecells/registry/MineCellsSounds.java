@@ -46,6 +46,9 @@ public final class MineCellsSounds {
   public static final SoundEvent FLY_CHARGE = register("fly.charge");
   public static final SoundEvent FLY_FLY = register("fly.fly");
   public static final SoundEvent FLY_RELEASE = register("fly.release");
+  // Sweeper
+  public static final SoundEvent SWEEPER_CHARGE = register("sweeper.charge");
+  public static final SoundEvent SWEEPER_RELEASE = register("sweeper.release");
   // Conjunctivius
   public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash_charge");
   public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash_release");

@@ -57,14 +57,20 @@ public class MineCellsBlocks {
 
   // Shockwaves
 
-  public static final Block SHOCKWAVE_FLAME = registerBlock(new ShockwaveBlock(
+  public static final Block SHOCKWAVE_FLAME = registerBlock(new ShockwaveBlock.ShockwaveFlame(
     FabricBlockSettings
       .copyOf(Blocks.FIRE)
       .luminance(0)
       .emissiveLighting(Blocks::always)
       .noBlockBreakParticles()
-      .sounds(BlockSoundGroup.INTENTIONALLY_EMPTY)
+      .sounds(BlockSoundGroup.INTENTIONALLY_EMPTY),
+    false
   ), "shockwave_flame");
+
+  public static final Block SHOCKWAVE_FLAME_PLAYER = registerBlock(new ShockwaveBlock.ShockwaveFlame(
+    FabricBlockSettings.copyOf(SHOCKWAVE_FLAME),
+    true
+  ), "shockwave_flame_player");
 
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -208,7 +208,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.WILTED_GRASS_BLOCK,
       MineCellsBlocks.RED_PUTRID_SAPLING,
-      MineCellsBlocks.SHOCKWAVE_FLAME
+      MineCellsBlocks.SHOCKWAVE_FLAME,
+      MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),

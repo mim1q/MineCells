@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.entity.ai.goal;
 import com.github.mim1q.minecells.entity.nonliving.ShockwavePlacer;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.MathUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.math.Vec3d;
 
@@ -13,8 +15,23 @@ import java.util.function.Predicate;
 import static com.github.mim1q.minecells.util.MathUtils.radians;
 
 public class ShockwaveGoal<E extends HostileEntity> extends TimedActionGoal<E> {
+  private final BlockState shockwaveBlock;
+  private final float shockwaveDamage;
+  private final int shockwaveRadius;
+  private final ShockwaveType shockwaveType;
+  private final float shockwaveInterval;
+
+  private ShockwaveGoal(E entity, ShockwaveGoalSettings settings, Predicate<E> predicate) {
+    super(entity, settings, predicate);
+    this.shockwaveBlock = settings.shockwaveBlock.getDefaultState();
+    this.shockwaveDamage = settings.shockwaveDamage;
+    this.shockwaveRadius = settings.shockwaveRadius;
+    this.shockwaveType = settings.shockwaveType;
+    this.shockwaveInterval = settings.shockwaveInterval;
+  }
+
   public ShockwaveGoal(E entity, Consumer<ShockwaveGoalSettings> settingsConsumer, Predicate<E> predicate) {
-    super(entity, ShockwaveGoalSettings.edit(new ShockwaveGoalSettings(), settingsConsumer), predicate);
+    this(entity, ShockwaveGoalSettings.edit(new ShockwaveGoalSettings(), settingsConsumer), predicate);
     setControls(EnumSet.of(Control.LOOK, Control.MOVE));
   }
 
@@ -22,15 +39,28 @@ public class ShockwaveGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected void runAction() {
     if (entity.getTarget() == null) return;
     var offset = MathUtils.vectorRotateY(new Vec3d(-0.75D, 0.2D, -0.9D), radians(entity.bodyYaw));
-    var placer = ShockwavePlacer.createLine(
-      entity.getWorld(),
-      entity.getPos().add(offset),
-      entity.getTarget().getPos(),
-      0.75F,
-      MineCellsBlocks.SHOCKWAVE_FLAME.getDefaultState(),
-      entity.getUuid(),
-      1F
-    );
+    ShockwavePlacer placer;
+    if (shockwaveType == ShockwaveType.LINE) {
+      placer = ShockwavePlacer.createLine(
+        entity.getWorld(),
+        entity.getPos().add(offset),
+        entity.getTarget().getPos(),
+        shockwaveInterval,
+        shockwaveBlock,
+        entity.getUuid(),
+        shockwaveDamage
+      );
+    } else {
+      placer = ShockwavePlacer.createCircle(
+        entity.getWorld(),
+        entity.getPos().add(offset),
+        shockwaveRadius,
+        shockwaveInterval,
+        shockwaveBlock,
+        entity.getUuid(),
+        shockwaveDamage
+      );
+    }
     entity.getWorld().spawnEntity(placer);
   }
 
@@ -51,6 +81,15 @@ public class ShockwaveGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   }
 
   public static class ShockwaveGoalSettings extends TimedActionGoal.TimedActionSettings {
+    public Block shockwaveBlock = MineCellsBlocks.SHOCKWAVE_FLAME;
+    public int shockwaveRadius = 12;
+    public ShockwaveType shockwaveType = ShockwaveType.LINE;
+    public float shockwaveDamage = 6F;
+    public float shockwaveInterval = 1F;
+  }
 
+  enum ShockwaveType {
+    LINE,
+    CIRCLE
   }
 }

@@ -217,6 +217,6 @@ public class ShockwavePlacer extends Entity {
         map.put((int) (i * interval), set);
       }
     }
-    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval * 2);
+    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval + 2);
   }
 }
