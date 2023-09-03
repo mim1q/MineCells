@@ -18,7 +18,7 @@
   
   "_comment.minecells.002": "=================================== BLOCKS AND ITEMS =====================================",
 
-  "itemGroup.minecells.minecells": "Mine Cells",
+  "itemGroup.minecells.minecells": [{"text": "Mine Cells", "color": "#46D4FF"}],
   "itemGroup.minecells.minecells.tab.general": "General",
   "itemGroup.minecells.minecells.tab.combat": "Combat",
   "itemGroup.minecells.minecells.tab.spawn_eggs": "Spawn Eggs",
@@ -98,6 +98,8 @@
   "item.minecells.frost_blast.description": "Freeze enemies in front of you",
   "item.minecells.nutcracker": "Nutcracker",
   "item.minecells.nutcracker.description": "Deals critical damage (+%sHP)\nto Frozen and Stunned enemies",
+  "item.minecells.flint": "The Flint",
+  "item.minecells.flint.description": "Send a shockwave in front of you",
   "item.minecells.phaser": "Phaser",
   "item.minecells.phaser.description": "Teleport to a nearby enemy,\nstunning it briefly.\nYour next attack deals\nadditional damage",
 
@@ -280,5 +282,9 @@
   "block.minecells.conditional_barrier": "Conditional Barrier",
   "block.minecells.boss_barrier_controller": "Boss Barrier Controller",
   "block.minecells.boss_entry_barrier_controller": "Boss Entry Barrier Controller",
-  "block.minecells.player_barrier_controller": "Player Barrier Controller"
+  "block.minecells.player_barrier_controller": "Player Barrier Controller",
+  "block.minecells.cracked_prison_bricks": "Cracked Prison Bricks",
+  "block.minecells.cracked_prison_brick_stairs": "Cracked Prison Brick Stairs",
+  "block.minecells.cracked_prison_brick_slab": "Cracked Prison Brick Slab",
+  "block.minecells.cracked_prison_brick_wall": "Cracked Prison Brick Wall"
 }

@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,12 +18,16 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class FlintItem extends SwordItem implements WeaponWithAbility {
   public FlintItem(int attackDamage, float attackSpeed, Settings settings) {
@@ -75,6 +80,8 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
     user.swingHand(flintHand, true);
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.FLINT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.HIT_FLOOR, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+    stack.damage(2, user, p -> p.sendToolBreakStatus(flintHand));
   }
 
   @Override
@@ -96,6 +103,12 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.FLINT_CHARGE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     return ItemUsage.consumeHeldItem(world, user, hand);
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    fillTooltip(tooltip, true, "item.minecells.flint.description", stack);
   }
 
   @Override
