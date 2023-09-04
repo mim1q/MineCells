@@ -72,6 +72,10 @@ public class MathUtils {
     return degrees * RADIANS_PER_DEGREE;
   }
 
+  public static int getClosestMultiple(int value, int multiple) {
+    return Math.round(value / (float) multiple) * multiple;
+  }
+
   public static Vec3i getClosestMultiplePosition(Vec3i pos, int multiple) {
     int x = pos.getX();
     int z = pos.getZ();

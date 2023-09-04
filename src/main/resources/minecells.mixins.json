@@ -7,8 +7,8 @@
     "block.entity.BlockEntityTypeMixin",
     "client.SlotAccessor",
     "compat.lithium.LithiumEntityCollisionsMixin",
-    "entity.EntityMixin",
     "entity.BorderEntityCollisionMixin",
+    "entity.EntityMixin",
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
     "entity.MineCellsBorderEntityMixin",
@@ -19,6 +19,7 @@
     "item.BlockItemMixin",
     "item.MilkBucketItemMixin",
     "world.ChunkGeneratorMixin",
+    "world.DensityFunctionTypesMixin",
     "world.TrunkPlacerTypeInvoker",
     "world.WorldMixin"
   ],
