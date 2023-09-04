@@ -86,6 +86,7 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.FROST_BLAST),
       stack(MineCellsItems.PHASER)
     ));
+    stacks.addAll(MineCellsEntities.SPAWN_EGGS.stream().map(ItemStack::new).toList());
   }
 
   public static final OwoItemGroup MINECELLS = OwoItemGroup

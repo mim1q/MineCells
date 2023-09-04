@@ -21,7 +21,12 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class MineCellsEntities {
+  public static final List<SpawnEggItem> SPAWN_EGGS = new ArrayList<>();
+
   public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = registerEntity("leaping_zombie", SpawnGroup.MONSTER, LeapingZombieEntity::new, 0.75F, 1.9F);
   public static final EntityType<ShockerEntity> SHOCKER = registerEntity("shocker", SpawnGroup.MONSTER, ShockerEntity::new, 0.9F, 3.0F);
   public static final EntityType<GrenadierEntity> GRENADIER = registerEntity("grenadier", SpawnGroup.MONSTER, GrenadierEntity::new, 0.8F, 1.9F);
@@ -83,11 +88,13 @@ public final class MineCellsEntities {
   }
 
   private static SpawnEggItem registerSpawnEgg(EntityType<? extends MobEntity> type, int primaryColor, int secondaryColor) {
-    return Registry.register(
+    var egg = Registry.register(
       Registries.ITEM,
       MineCells.createId(EntityType.getId(type).getPath() + "_spawn_egg"),
       new SpawnEggItem(type, primaryColor, secondaryColor, new FabricItemSettings())
     );
+    SPAWN_EGGS.add(egg);
+    return egg;
   }
 
   private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup spawnGroup, EntityType.EntityFactory<T> factory, EntityDimensions dimensions) {
