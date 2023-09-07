@@ -5,7 +5,7 @@
     "settings": "minecells:ramparts",
     "biome_source": {
       "type": "minecraft:fixed",
-      "biome": "minecraft:plains"
+      "biome": "minecells:ramparts"
     }
   }
 }

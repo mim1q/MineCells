@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:add",
+  "argument1": {
+    "type": "minecraft:add",
+    "argument1": {
+      "type": "minecraft:y_clamped_gradient",
+      "from_y": 25,
+      "to_y": 140,
+      "from_value": 1.1,
+      "to_value": -1.1
+    },
+    "argument2": {
+      "type": "minecraft:mul",
+      "argument1": {
+        "type": "minecraft:noise",
+        "noise": "minecraft:surface_secondary",
+        "xz_scale": 1.0,
+        "y_scale": 0.0
+      },
+      "argument2": 0.3
+    }
+  },
+  "argument2": {
+    "type": "minecells:ring",
+    "min_radius": 300,
+    "max_radius": 2048,
+    "blend_radius": 250,
+    "from_value": 0.0,
+    "to_value": -1.3,
+    "grid_size": 1024,
+    "offset_x": 200,
+    "offset_z": 350,
+    "offset_grid": false
+  }
+}
