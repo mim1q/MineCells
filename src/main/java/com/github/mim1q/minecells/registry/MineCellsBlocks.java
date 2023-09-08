@@ -70,7 +70,7 @@ public class MineCellsBlocks {
   public static final Block CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_CORPSE).ticksRandomly(), HANGED_CORPSE), "corpse");
   public static final Block HANGED_ROTTING_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).ticksRandomly()), "hanged_rotting_corpse");
   public static final Block ROTTING_CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE).ticksRandomly(), HANGED_ROTTING_CORPSE), "rotting_corpse");
-  public static final Block KING_STATUE = registerBlockWithItem(new DecorativeStatueBlock(FabricBlockSettings.copy(Blocks.STONE).nonOpaque().noCollision()), "king_statue");
+  public static final Block KING_STATUE = registerBlockWithItem(new DecorativeStatueBlock(FabricBlockSettings.copy(Blocks.STONE_BUTTON).nonOpaque().noCollision().hardness(5.0F)), "king_statue");
   public static final Block FLAG_POLE = registerBlockWithItem(new FlagPoleBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)), "flag_pole");
   public static final Block BIOME_BANNER = registerBlock(new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)), "biome_banner");
   public static final Block ALCHEMY_EQUIPMENT_0 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_0");
