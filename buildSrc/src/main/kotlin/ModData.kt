@@ -3,6 +3,6 @@ object ModData {
   const val id = "minecells"
   const val version = "1.5.5"
   const val versionType = "release"
-  val mcVersions = listOf("1.20", "1.20.1")
+  val mcVersions = listOf("1.20.1", "1.20")
   val dependencies = listOf("fabric-api", "owo-lib")
 }
