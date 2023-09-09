@@ -1,9 +1,6 @@
 package com.github.mim1q.minecells.world.feature.tree;
 
-import com.github.mim1q.minecells.block.BiomeBannerBlock;
-import com.github.mim1q.minecells.block.CageBlock;
-import com.github.mim1q.minecells.block.FlagPoleBlock;
-import com.github.mim1q.minecells.block.SkeletonDecorationBlock;
+import com.github.mim1q.minecells.block.*;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -53,6 +50,9 @@ public interface PromenadeTreeHelper {
   default void placeRoot(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, BlockPos origin, int height) {
     origin = origin.up(height);
     for (int i = height; i > -3; i--) {
+      if (!world.testBlockState(origin, state -> state.isIn(MineCellsBlockTags.TREE_ROOT_REPLACEABLE))) {
+        continue;
+      }
       BlockPos[] positions = { origin.north(), origin.south(), origin.east(), origin.west() };
       boolean shouldPlace = false;
       for (BlockPos pos : positions) {
