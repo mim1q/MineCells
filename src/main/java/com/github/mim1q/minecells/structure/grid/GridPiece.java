@@ -86,7 +86,7 @@ public class GridPiece extends StructurePiece {
       structureAccessor,
       config,
       random,
-      (int)world.getSeed(),
+      (int)world.getSeed() + this.pos.hashCode(),
       poolEntry,
       8,
       startingPos,

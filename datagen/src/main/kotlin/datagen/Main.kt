@@ -89,6 +89,7 @@ fun main(args: Array<String>) {
     add(ModTemplatePools.prisonersQuarters())
     add(ModTemplatePools.promenadeOfTheCondemned())
     add(ModTemplatePools.insufferableCrypt())
+    add(ModTemplatePools.ramparts())
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",

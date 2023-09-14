@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGen
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PromenadeUndergroundGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PromenadeWallGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
@@ -59,6 +60,9 @@ public class GridBasedStructure extends Structure {
     () -> MineCellsStructures.PROMENADE_WALL_Z,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64)) == 32
         && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
+  );
+  public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createGridBasedStructureCodec(
+    RampartsGridGenerator::new, () -> MineCellsStructures.RAMPARTS
   );
 
   public static Codec<GridBasedStructure> createGridBasedStructureCodec(

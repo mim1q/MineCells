@@ -21,6 +21,7 @@ public class MineCellsStructures {
   public static final StructureType<GridBasedStructure> PROMENADE_PIT  = registerStructure("promenade_pit", GridBasedStructure.PROMENADE_PIT_CODEC);
   public static final StructureType<GridBasedStructure> PROMENADE_WALL_X = registerStructure("promenade_wall_x", GridBasedStructure.PROMENADE_WALL_X_CODEC);
   public static final StructureType<GridBasedStructure> PROMENADE_WALL_Z = registerStructure("promenade_wall_z", GridBasedStructure.PROMENADE_WALL_Z_CODEC);
+  public static final StructureType<GridBasedStructure> RAMPARTS = registerStructure("ramparts", GridBasedStructure.RAMPARTS_CODEC);
 
   // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");

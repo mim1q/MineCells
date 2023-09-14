@@ -88,4 +88,16 @@ object ModTemplatePools {
     add(Presets.single("minecells:insufferable_crypt/elevator_shaft", processors))
     add(Presets.single("minecells:insufferable_crypt/boss_room", processors))
   }
+
+  fun ramparts() = Preset {
+    val processors = "minecells:promenade"
+
+    add(Presets.prefixed(
+      "minecells:promenade/wall_segment",
+      "0" to 32, "1" to 4, "2" to 1,
+      id = "minecells:ramparts/wall_segment",
+      processors = processors
+    ))
+    add(Presets.single("minecells:ramparts/base/straight", processors))
+  }
 }
