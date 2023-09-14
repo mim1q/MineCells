@@ -19,7 +19,7 @@
           {
             "condition": "minecraft:location_check",
             "predicate": {
-              "structure": "minecells:portal"
+              "structure": "minecells:overworld_portal"
             }
           }
         ]
