@@ -190,7 +190,9 @@ public class ShockwavePlacer extends Entity {
       accumulatedLength += 1;
     }
 
-    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval + 10);
+    var placer = new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval + 10);
+    placer.setPosition(startPos);
+    return placer;
   }
 
   public static ShockwavePlacer createCircle(
@@ -217,6 +219,8 @@ public class ShockwavePlacer extends Entity {
         map.put((int) (i * interval), set);
       }
     }
-    return new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval + 2);
+    var placer = new ShockwavePlacer(MineCellsEntities.SHOCKWAVE_PLACER, world, map, block, ownerUuid, damage, (int) interval + 2);
+    placer.setPosition(origin);
+    return placer;
   }
 }
