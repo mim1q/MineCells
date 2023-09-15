@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.BiomeBannerBlock;
+import com.github.mim1q.minecells.block.BiomeBannerBlock.BannerPattern;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
@@ -61,15 +61,17 @@ public class MineCellsItemGroups {
       stack(MineCellsBlocks.BROKEN_CAGE),
       stack(MineCellsBlocks.SPIKES),
       stack(MineCellsBlocks.FLAG_POLE),
-      MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.KING_CREST),
-      MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.TORN_KING_CREST),
-      MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.PROMENADE),
-      MineCellsItems.BIOME_BANNER.stackOf(BiomeBannerBlock.BannerPattern.INSUFFERABLE_CRYPT),
+      MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.KING_CREST),
+      MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.TORN_KING_CREST),
+      MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.PROMENADE),
+      MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.INSUFFERABLE_CRYPT),
+      MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.RAMPARTS),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_0),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_1),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_2),
       stack(MineCellsBlocks.PRISON_TORCH),
       stack(MineCellsBlocks.PROMENADE_TORCH),
+      stack(MineCellsBlocks.RAMPARTS_TORCH),
       stack(MineCellsItems.SEWAGE_BUCKET),
       stack(MineCellsItems.ANCIENT_SEWAGE_BUCKET),
       stack(MineCellsItems.ELEVATOR_MECHANISM),

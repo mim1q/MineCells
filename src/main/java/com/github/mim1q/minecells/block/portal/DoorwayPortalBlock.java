@@ -185,7 +185,8 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     OVERWORLD(MineCellsDimension.OVERWORLD, 0x8EF96D),
     PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0xC1FCC4),
     PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7),
-    INSUFFERABLE_CRYPT(MineCellsDimension.INSUFFERABLE_CRYPT, 0xFF4CF4);
+    INSUFFERABLE_CRYPT(MineCellsDimension.INSUFFERABLE_CRYPT, 0xFF4CF4),
+    RAMPARTS(MineCellsDimension.RAMPARTS, 0xFFC540);
 
     public final MineCellsDimension dimension;
     public final Identifier texture;

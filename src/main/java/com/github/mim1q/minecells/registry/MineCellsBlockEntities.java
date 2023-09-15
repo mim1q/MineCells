@@ -35,7 +35,7 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<DoorwayPortalBlockEntity> DOORWAY = register(
     "doorway", DoorwayPortalBlockEntity::new,
     MineCellsBlocks.OVERWORLD_DOORWAY, MineCellsBlocks.PRISON_DOORWAY, MineCellsBlocks.PROMENADE_DOORWAY,
-    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY
+    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY,  MineCellsBlocks.RAMPARTS_DOORWAY
   );
   public static final BlockEntityType<BarrierControllerBlockEntity> BARRIER_CONTROLLER = register(
     "barrier_controller", BarrierControllerBlockEntity::new,

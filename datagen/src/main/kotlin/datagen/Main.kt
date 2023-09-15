@@ -35,7 +35,7 @@ fun main(args: Array<String>) {
     add(CustomBlockSets.stoneFamily("minecells:prison"))
     add(BlockSets.basicStoneSet("minecells:cracked_prison_brick", baseSuffix = "s"))
     // Torches
-    val torches = listOf("prison", "promenade")
+    val torches = listOf("prison", "promenade", "ramparts")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
     // Other
     add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }
-    listOf("overworld", "prison", "promenade", "insufferable_crypt").forEach {
+    listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts").forEach {
       add(CustomPresets.doorway("minecells:$it"))
     }
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))

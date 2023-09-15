@@ -206,6 +206,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.PUTRID_WOOD.door,
       MineCellsBlocks.PRISON_TORCH,
       MineCellsBlocks.PROMENADE_TORCH,
+      MineCellsBlocks.RAMPARTS_TORCH,
       MineCellsBlocks.WILTED_GRASS_BLOCK,
       MineCellsBlocks.RED_PUTRID_SAPLING,
       MineCellsBlocks.SHOCKWAVE_FLAME,

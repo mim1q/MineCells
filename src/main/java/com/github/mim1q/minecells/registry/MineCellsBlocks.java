@@ -96,6 +96,7 @@ public class MineCellsBlocks {
   public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
   public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).breakInstantly().luminance(15).emissiveLighting((s, w, p) -> true).ticksRandomly().noCollision()), "prison_torch");
   public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "promenade_torch");
+  public static final ColoredTorchBlock RAMPARTS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PROMENADE_TORCH)), "ramparts_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.DIRT)), "kingdom_portal_core");
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS), "conjunctivius_box");
@@ -119,6 +120,7 @@ public class MineCellsBlocks {
   public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
   public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
   public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
+  public static final DoorwayPortalBlock RAMPARTS_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME), DoorwayType.RAMPARTS), "ramparts_doorway");
 
   public static void init() {
     Registry.register(Registries.BLOCK, MineCells.createId("sewage"), SEWAGE);

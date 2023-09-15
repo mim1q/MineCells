@@ -21,10 +21,15 @@ public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 3, 1024.0),
-  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0);
+  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
+  RAMPARTS(MineCells.createId("ramparts"), 6, 220, -6, 384.0);
 
   private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
     PROMENADE_OF_THE_CONDEMNED
+  );
+
+  private static final Set<MineCellsDimension> TALL_DIMENSIONS = Set.of(
+    RAMPARTS
   );
 
   public final RegistryKey<World> key;
