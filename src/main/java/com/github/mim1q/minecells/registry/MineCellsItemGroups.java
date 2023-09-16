@@ -66,6 +66,7 @@ public class MineCellsItemGroups {
       MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.PROMENADE),
       MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.INSUFFERABLE_CRYPT),
       MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.RAMPARTS),
+      MineCellsItems.BIOME_BANNER.stackOf(BannerPattern.BLACK_BRIDGE),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_0),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_1),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_2),
