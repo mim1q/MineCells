@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
@@ -95,9 +96,23 @@ public final class MineCellsSounds {
   public static final SoundEvent CURSE_DEATH = register("curse_death");
   public static final SoundEvent OBELISK = register("obelisk");
 
+  // Music
+  // This is not added to the assets by default and has to be included in a custom Resource Pack to be played.
+  public static final MusicSound PRISONERS_QUARTERS = registerMusic("music.prisoners_quarters");
+  public static final MusicSound PROMENADE = registerMusic("music.promenade");
+  public static final MusicSound RAMPARTS = registerMusic("music.ramparts");
+  public static final MusicSound INSUFFERABLE_CRYPT = registerMusic("music.insufferable_crypt");
+  public static final MusicSound BLACK_BRIDGE = registerMusic("music.black_bridge");
+
   public static SoundEvent register(String name) {
     Identifier id = MineCells.createId(name);
     return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+  }
+
+  public static MusicSound registerMusic(String name) {
+    var id = MineCells.createId(name);
+    var sound = Registry.registerReference(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+    return new MusicSound(sound, 0, 0, true);
   }
 
   public static void init() { }
