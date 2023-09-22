@@ -17,6 +17,8 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -88,10 +90,10 @@ public class SpawnerRuneEntity extends Entity {
     return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(getWorld()), getBlockPos());
   }
 
-  private void spawnEntities(PlayerEntity spawningPlayer) {
+  private void spawnEntities(ServerPlayerEntity spawningPlayer) {
     var entities = data.getSelectedEntities(random);
     for (var entityType : entities) {
-      var entity = spawnEntity((ServerWorld) getWorld(), entityType, findPos(getWorld(), getBlockPos(), data.spawnDistance()), getBlockPos());
+      var entity = spawnEntity(spawningPlayer, (ServerWorld) getWorld(), entityType, findPos(getWorld(), getBlockPos(), data.spawnDistance()), getBlockPos());
       if (entity instanceof HostileEntity hostile) {
         hostile.setTarget(spawningPlayer);
       }
@@ -118,13 +120,15 @@ public class SpawnerRuneEntity extends Entity {
     return pos;
   }
 
-  private static Entity spawnEntity(ServerWorld world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
+  private static Entity spawnEntity(ServerPlayerEntity spawningPlayer, ServerWorld world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
     Entity spawnedEntity = type.create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity != null) {
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
         for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
           ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(mcEntity.getBoundingBox().expand(0.5D)));
         }
+        mcEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20, 10, false, false, false));
+        mcEntity.setTarget(spawningPlayer);
       }
       world.spawnEntity(spawnedEntity);
       return spawnedEntity;

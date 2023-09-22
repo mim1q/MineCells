@@ -22,6 +22,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -34,46 +35,51 @@ public class GridBasedStructure extends Structure {
   }
 
   public static final Codec<GridBasedStructure> PRISON_CODEC = createGridBasedStructureCodec(
-    PrisonGridGenerator::new, () -> MineCellsStructures.PRISON
+    ctx -> new PrisonGridGenerator(), () -> MineCellsStructures.PRISON
   );
   public static final Codec<GridBasedStructure> PROMENADE_OVERGROUND_CODEC = createGridBasedStructureCodec(
-    () -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings")),
+    ctx -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings")),
     () -> MineCellsStructures.PROMENADE_OVERGROUND,
     GridBasedStructure::awayFromWallsPredicate
   );
   public static final Codec<GridBasedStructure> PROMENADE_PIT_CODEC = createGridBasedStructureCodec(
-    () -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings/pit"), new Vec3i(0, -23, 0)),
+    ctx -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings/pit"), new Vec3i(0, -23, 0)),
     () -> MineCellsStructures.PROMENADE_PIT,
     GridBasedStructure::awayFromWallsPredicate
   );
   public static final Codec<GridBasedStructure> PROMENADE_UNDERGROUND_CODEC = createGridBasedStructureCodec(
-    PromenadeUndergroundGridGenerator::new, () -> MineCellsStructures.PROMENADE_UNDERGROUND
+    ctx -> new PromenadeUndergroundGridGenerator(), () -> MineCellsStructures.PROMENADE_UNDERGROUND
   );
   public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
-    () -> new PromenadeWallGenerator(false),
+    ctx -> new PromenadeWallGenerator(false),
     () -> MineCellsStructures.PROMENADE_WALL_X,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().z, 64)) == 32
         && MathHelper.floorMod(ctx.chunkPos().x, 16) == 0
   );
   public static final Codec<GridBasedStructure> PROMENADE_WALL_Z_CODEC = createGridBasedStructureCodec(
-    () -> new PromenadeWallGenerator(true),
+    ctx -> new PromenadeWallGenerator(true),
     () -> MineCellsStructures.PROMENADE_WALL_Z,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64)) == 32
         && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
   public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createGridBasedStructureCodec(
-    RampartsGridGenerator::new, () -> MineCellsStructures.RAMPARTS
+    ctx -> new RampartsGridGenerator(false, ctx), () -> MineCellsStructures.RAMPARTS,
+    ctx -> MathHelper.floorMod(ctx.chunkPos().x, 64) == 60 && MathHelper.floorMod(ctx.chunkPos().z, 64) == 54
+  );
+  public static final Codec<GridBasedStructure> RAMPARTS_SECOND_CODEC = createGridBasedStructureCodec(
+    ctx -> new RampartsGridGenerator(true, ctx), () -> MineCellsStructures.RAMPARTS_SECOND,
+    ctx -> MathHelper.floorMod(ctx.chunkPos().x, 64) == 60 && MathHelper.floorMod(ctx.chunkPos().z, 64) == 6
   );
 
   public static Codec<GridBasedStructure> createGridBasedStructureCodec(
-    Supplier<RoomGridGenerator> generatorProvider,
+    Function<Context, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier
   ) {
     return createGridBasedStructureCodec(generatorProvider, typeSupplier, ctx -> true);
   }
 
   public static Codec<GridBasedStructure> createGridBasedStructureCodec(
-    Supplier<RoomGridGenerator> generatorProvider,
+    Function<Context, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier,
     Predicate<Structure.Context> spawnPredicate
   ) {
@@ -86,7 +92,7 @@ public class GridBasedStructure extends Structure {
     )).codec();
   }
 
-  private final Supplier<RoomGridGenerator> generatorProvider;
+  private final Function<Context, RoomGridGenerator> generatorProvider;
   private List<GridPiece> pieces = new ArrayList<>();
   private final HeightProvider heightProvider;
   private final Optional<Heightmap.Type> projectStartToHeightmap;
@@ -97,7 +103,7 @@ public class GridBasedStructure extends Structure {
     Config config,
     HeightProvider heightProvider,
     Optional<Heightmap.Type> projectStartToHeightmap,
-    Supplier<RoomGridGenerator> generatorProvider,
+    Function<Context, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier,
     Predicate<Structure.Context> spawnPredicate
   ) {
@@ -141,7 +147,7 @@ public class GridBasedStructure extends Structure {
   }
 
   protected RoomGridGenerator getGenerator(Structure.Context context) {
-    return this.generatorProvider.get();
+    return this.generatorProvider.apply(context);
   }
 
   public HeightProvider getHeightProvider() {

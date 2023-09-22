@@ -7,7 +7,7 @@
       "argument1": {
         "type": "minecraft:y_clamped_gradient",
         "from_y": 15,
-        "to_y": 250,
+        "to_y": 300,
         "from_value": 1.1,
         "to_value": -1.1
       },
@@ -24,7 +24,7 @@
     },
     "argument2": {
       "type": "minecells:ring",
-      "min_radius": 300,
+      "min_radius": 320,
       "max_radius": 2048,
       "blend_radius": 80,
       "from_value": -1.0,

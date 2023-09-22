@@ -1,0 +1,14 @@
+{
+  "cooldown": 60.0,
+  "spawnDistance": 0.0,
+  "playerDistance": 12.0,
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "weight": 2, "entity": "minecells:shieldbearer" },
+        { "weight": 1, "entity": "minecells:sweeper" }
+      ]
+    }
+  ]
+}
