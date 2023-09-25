@@ -26,6 +26,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import java.util.function.BiConsumer;
+
 public class MineCellsEntity extends HostileEntity {
   public BlockPos spawnRunePos = null;
 
@@ -45,8 +47,10 @@ public class MineCellsEntity extends HostileEntity {
   @Override
   public void tick() {
     super.tick();
-    if (!getWorld().isClient) {
-      this.decrementCooldowns();
+    if (getWorld().isClient) {
+      processAnimations();
+    } else {
+      decrementCooldowns();
     }
   }
 
@@ -96,8 +100,9 @@ public class MineCellsEntity extends HostileEntity {
     return State.IDLE;
   }
 
-  protected void decrementCooldowns() {
-  }
+  protected void decrementCooldowns() {  }
+
+  protected void processAnimations() {  }
 
   @Override
   protected SoundEvent getDeathSound() {
@@ -125,5 +130,9 @@ public class MineCellsEntity extends HostileEntity {
       case CHARGE -> this.dataTracker.set(charging, value);
       case RELEASE -> this.dataTracker.set(releasing, value);
     }
+  }
+
+  protected BiConsumer<State, Boolean> handleStateChange(TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
+    return (state, value) -> this.handleStateChange(state, value, charging, releasing);
   }
 }

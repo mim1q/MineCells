@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }
-    listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts").forEach {
+    listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts", "black_bridge").forEach {
       add(CustomPresets.doorway("minecells:$it"))
     }
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))

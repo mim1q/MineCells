@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.util.animation;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
+import org.joml.Math;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -38,7 +39,7 @@ public class AnimationUtils {
   }
 
   public static float wobble(float progress, float speed, float scale, float offset) {
-    return (float) Math.sin(MathUtils.radians(offset) + progress * speed) * MathUtils.radians(scale);
+    return Math.sin(MathUtils.radians(offset) + progress * speed) * MathUtils.radians(scale);
   }
 
   public static float wobble(float progress, float speed, float scale) {

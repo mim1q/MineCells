@@ -88,7 +88,7 @@ public class ShockwaveGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     public float shockwaveInterval = 1F;
   }
 
-  enum ShockwaveType {
+  public enum ShockwaveType {
     LINE,
     CIRCLE
   }

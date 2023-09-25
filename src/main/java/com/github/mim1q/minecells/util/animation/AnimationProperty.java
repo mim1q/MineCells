@@ -54,6 +54,10 @@ public class AnimationProperty {
     return this.value;
   }
 
+  public boolean isPlaying() {
+    return (time - lastTime) < duration;
+  }
+
   @FunctionalInterface
   public interface EasingFunction {
     float ease(float start, float end, float delta);

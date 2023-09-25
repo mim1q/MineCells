@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
+import com.github.mim1q.minecells.entity.boss.ConciergeEntity;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.*;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ConjunctiviusObeliskEntity;
@@ -43,6 +44,7 @@ public final class MineCellsEntities {
   public static final EntityType<FlyEntity> BUZZCUTTER = registerEntity("buzzcutter", SpawnGroup.MONSTER, FlyEntity::new, 0.75F, 0.75F);
   public static final EntityType<SweeperEntity> SWEEPER = registerEntity("sweeper", SpawnGroup.MONSTER, SweeperEntity::new, 0.9F, 1.6F);
   public static final EntityType<ConjunctiviusEntity> CONJUNCTIVIUS = registerEntity("conjunctivius", SpawnGroup.MONSTER, ConjunctiviusEntity::new, 5.0F, 5.0F);
+  public static final EntityType<ConciergeEntity> CONCIERGE = registerEntity("concierge", SpawnGroup.MONSTER, ConciergeEntity::new, 1.8F, 3.5F);
   public static final EntityType<GrenadeEntity> GRENADE = registerEntity("grenade", SpawnGroup.MISC, GrenadeEntity::new, 0.5F, 0.5F);
   public static final EntityType<BigGrenadeEntity> BIG_GRENADE = registerEntity("big_grenade", SpawnGroup.MISC, BigGrenadeEntity::new, 0.75F, 0.75F);
   public static final EntityType<DisgustingWormEggEntity> DISGUSTING_WORM_EGG = registerEntity("disgusting_worm_egg", SpawnGroup.MISC, DisgustingWormEggEntity::new, 0.375F, 0.375F);
@@ -91,6 +93,7 @@ public final class MineCellsEntities {
     FabricDefaultAttributeRegistry.register(BUZZCUTTER, FlyEntity.createFlyAttributes());
     FabricDefaultAttributeRegistry.register(SWEEPER, SweeperEntity.createSweeperAttributes());
     FabricDefaultAttributeRegistry.register(CONJUNCTIVIUS, ConjunctiviusEntity.createConjunctiviusAttributes());
+    FabricDefaultAttributeRegistry.register(CONCIERGE, ConciergeEntity.createConciergeAttributes());
   }
 
   private static SpawnEggItem registerSpawnEgg(EntityType<? extends MobEntity> type, int primaryColor, int secondaryColor) {

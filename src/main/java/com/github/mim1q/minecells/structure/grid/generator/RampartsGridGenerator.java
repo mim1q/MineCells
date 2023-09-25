@@ -25,16 +25,16 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
   private static final int BASE_HEIGHT = 14;
 
   private final boolean secondPart;
-  private final Vec3i sectionPos;
+  private final long seed;
 
   public RampartsGridGenerator(boolean secondPart, Structure.Context context) {
     this.secondPart = secondPart;
-    this.sectionPos = MathUtils.getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024);
+    this.seed = MathUtils.getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024).hashCode() + context.seed();
   }
 
   @Override
   protected void addRooms(Random random) {
-    random.setSeed(sectionPos.hashCode());
+    random.setSeed(seed);
     var sectionPos = addSection(random, new Vec3i(0, BASE_HEIGHT + 1, -7), 5, true);
     for (int i = 0; i < 5; i++) {
       var length = 4 + random.nextInt(2);
