@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.entity.boss;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
-import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;

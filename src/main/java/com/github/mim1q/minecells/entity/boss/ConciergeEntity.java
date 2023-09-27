@@ -5,20 +5,20 @@ import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal.ShockwaveType;
 import com.github.mim1q.minecells.entity.ai.goal.TargetRandomPlayerGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -36,8 +36,10 @@ public class ConciergeEntity extends MineCellsBossEntity {
   private int shockwaveCooldown = 0;
   private int sharedCooldown = 100;
 
-  public AnimationProperty leapAnimation = new AnimationProperty(0.0F);
-  public AnimationProperty shockwaveAnimation = new AnimationProperty(0.0F);
+  public AnimationProperty leapChargeAnimation = new AnimationProperty(0.0F, MathUtils::easeOutQuad);
+  public AnimationProperty leapReleaseAnimation = new AnimationProperty(0.0F);
+  public AnimationProperty waveChargeAnimation = new AnimationProperty(0.0F);
+  public AnimationProperty waveReleaseAnimation = new AnimationProperty(0.0F);
 
   public ConciergeEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -59,6 +61,11 @@ public class ConciergeEntity extends MineCellsBossEntity {
       settings.chargeSound = MineCellsSounds.CONCIERGE_LEAP_CHARGE;
       settings.landSound = MineCellsSounds.CONCIERGE_LEAP_LAND;
       settings.chance = 0.05F;
+      settings.alignTick = 20;
+      settings.actionTick = 40;
+      settings.length = 60;
+      settings.margin = 1.0;
+      settings.particle = MineCellsParticles.SPECKLE.get(0xFF4000);
     }, null));
 
     goalSelector.add(0, new ShockwaveGoal<>(this, settings -> {
@@ -75,6 +82,8 @@ public class ConciergeEntity extends MineCellsBossEntity {
       settings.chargeSound = MineCellsSounds.CONCIERGE_SHOCKWAVE_CHARGE;
       settings.releaseSound = MineCellsSounds.CONCIERGE_SHOCKWAVE_RELEASE;
       settings.chance = 0.05F;
+      settings.length = 50;
+      settings.actionTick = 30;
     }, null));
 
     targetSelector.add(0, new TargetRandomPlayerGoal<>(this));
@@ -99,21 +108,30 @@ public class ConciergeEntity extends MineCellsBossEntity {
   protected void decrementCooldowns() {
     leapCooldown--;
     shockwaveCooldown--;
-    sharedCooldown--;
+    if (sharedCooldown > 0) sharedCooldown--;
   }
 
   @Override
   protected void processAnimations() {
-    if (dataTracker.get(LEAP_CHARGING)) {
-      leapAnimation.setupTransitionTo(1F, 20F);
-    } else {
-      leapAnimation.setupTransitionTo(0F, 20F);
-    }
-    if (dataTracker.get(SHOCKWAVE_CHARGING)) {
-      shockwaveAnimation.setupTransitionTo(1F, 20F);
-    } else {
-      shockwaveAnimation.setupTransitionTo(0F, 20F);
-    }
+    if (dataTracker.get(LEAP_CHARGING))
+      leapChargeAnimation.setupTransitionTo(1F, 8F);
+    else
+      leapChargeAnimation.setupTransitionTo(0F, 3F);
+
+    if (dataTracker.get(LEAP_RELEASING))
+      leapReleaseAnimation.setupTransitionTo(1F, 12F);
+    else
+      leapReleaseAnimation.setupTransitionTo(0F, 20F);
+
+    if (dataTracker.get(SHOCKWAVE_CHARGING))
+      waveChargeAnimation.setupTransitionTo(1F, 10F);
+    else
+      waveChargeAnimation.setupTransitionTo(0F, 30F);
+
+    if (dataTracker.get(SHOCKWAVE_RELEASING))
+      waveReleaseAnimation.setupTransitionTo(1F, 10F, MathUtils::easeOutBack);
+    else
+      waveReleaseAnimation.setupTransitionTo(0F, 20F);
   }
 
   @Override

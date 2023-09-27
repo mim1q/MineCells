@@ -1,10 +1,10 @@
 package com.github.mim1q.minecells.util.animation;
 
-import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Math;
 
+import static com.github.mim1q.minecells.util.MathUtils.radians;
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
 public class AnimationUtils {
@@ -39,7 +39,7 @@ public class AnimationUtils {
   }
 
   public static float wobble(float progress, float speed, float scale, float offset) {
-    return Math.sin(MathUtils.radians(offset) + progress * speed) * MathUtils.radians(scale);
+    return Math.sin(radians(offset) + progress * speed) * radians(scale);
   }
 
   public static float wobble(float progress, float speed, float scale) {
@@ -48,5 +48,17 @@ public class AnimationUtils {
 
   public static float wobble(float progress, float speed) {
     return wobble(progress, speed, 1F);
+  }
+
+  public static void lerpAngles(ModelPart bone, Float pitchDeg, Float yawDeg, Float rollDeg, float delta) {
+    if (pitchDeg != null) bone.pitch = MathHelper.lerp(delta, bone.pitch, radians(pitchDeg));
+    if (yawDeg != null) bone.yaw = MathHelper.lerp(delta, bone.yaw, radians(yawDeg));
+    if (rollDeg != null) bone.roll = MathHelper.lerp(delta, bone.roll, radians(rollDeg));
+  }
+
+  public static void lerpAngles(ModelPart bone, float pitchDeg, float yawDeg, float rollDeg, float delta) {
+    bone.pitch = MathHelper.lerp(delta, bone.pitch, radians(pitchDeg));
+    bone.yaw = MathHelper.lerp(delta, bone.yaw, radians(yawDeg));
+    bone.roll = MathHelper.lerp(delta, bone.roll, radians(rollDeg));
   }
 }

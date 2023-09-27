@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import static java.lang.Math.max;
+
 public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   private final float speed;
   protected final float damage;
@@ -110,7 +112,10 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void runAction() {
-    entity.addVelocity(0.0, 0.5, 0.0);
+    if (!onGround) {
+      var velY = max(0.6, targetDistance * 0.01);
+      entity.addVelocity(0.0, velY, 0.0);
+    }
   }
 
   @Override
@@ -120,7 +125,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
         entity.playSound(landSound, 1.0F, 1.0F);
         hasLanded = true;
       }
-      entity.setVelocity(entity.getVelocity().multiply(0.8D));
+      entity.setVelocity(entity.getVelocity().multiply(0.8D, 1.0D, 0.8D));
       return;
     }
 
