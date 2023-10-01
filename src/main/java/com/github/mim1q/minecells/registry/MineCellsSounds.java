@@ -64,6 +64,10 @@ public final class MineCellsSounds {
   public static final SoundEvent CONCIERGE_LEAP_LAND = register("concierge.leap_land");
   public static final SoundEvent CONCIERGE_SHOCKWAVE_CHARGE = register("concierge.shockwave_charge");
   public static final SoundEvent CONCIERGE_SHOCKWAVE_RELEASE = register("concierge.shockwave_release");
+  public static final SoundEvent CONCIERGE_AURA_CHARGE = register("concierge.aura_charge");
+  public static final SoundEvent CONCIERGE_AURA_RELEASE = register("concierge.aura_release");
+  public static final SoundEvent CONCIERGE_PUNCH_CHARGE = register("concierge.punch_charge");
+  public static final SoundEvent CONCIERGE_PUNCH_RELEASE = register("concierge.punch_release");
   // Weapons
   public static final SoundEvent BOW_CHARGE = register("weapon.bow.charge");
   public static final SoundEvent BOW_RELEASE = register("weapon.bow.release");

@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static java.lang.Math.max;
+import static org.joml.Math.clamp;
 
 public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   private final float speed;
@@ -24,6 +25,9 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected final double margin;
   protected final boolean onGround;
   protected final int alignTick;
+  protected final double minDistance;
+  protected final double overshoot;
+  protected final double maxDistance;
   protected final ParticleEffect particle;
   protected final SoundEvent landSound;
 
@@ -45,6 +49,9 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     alignTick = settings.alignTick;
     particle = settings.particle;
     landSound = settings.landSound;
+    minDistance = settings.minDistance;
+    overshoot = settings.overshoot;
+    maxDistance = settings.maxDistance;
     setControls(EnumSet.of(Control.MOVE, Control.LOOK));
   }
 
@@ -80,7 +87,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
       targetPos = target.getPos().add(0.0D, target.getHeight() * 0.5D, 0.0D);
       Vec3d diff = targetPos.subtract(entity.getPos()).multiply(1.0D, 0.0D, 1.0D);
       direction = diff.normalize();
-      targetDistance = diff.length();
+      targetDistance = clamp(minDistance, maxDistance, diff.length() + overshoot);
       if (rotate) {
         lookAtTarget();
       }
@@ -160,6 +167,9 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     public double margin = 0.0D;
     public boolean onGround = false;
     public int alignTick = 0;
+    public double minDistance = 0.0;
+    public double overshoot = 0.0;
+    public double maxDistance = 128.0;
     public ParticleEffect particle = null;
     public SoundEvent landSound = null;
   }

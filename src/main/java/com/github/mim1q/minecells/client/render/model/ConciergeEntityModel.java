@@ -115,6 +115,32 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
     lerpAngles(torsoUpper, 15, -20, 0, shockwaveRelease);
     lerpAngles(rightArm, -90, -30, 60, shockwaveRelease);
     lerpAngles(leftArm, 40, 0, 0, shockwaveRelease);
+
+    // punch charge
+    var punchCharge = entity.punchChargeAnimation.update(animationProgress);
+    lerpAngles(torsoLower, 0, 15, 0, punchCharge);
+    lerpAngles(torsoUpper, -10, 10, 0, punchCharge);
+    lerpAngles(rightArm, -45, 0, 30, punchCharge);
+    rightArm.pivotY -= 4 * punchCharge;
+    rightArm.pivotZ += 4 * punchCharge;
+    rightLeg.pivotZ += 2 * punchCharge;
+    leftLeg.pivotZ -= 2 * punchCharge;
+    neck.yaw -= radians(10F) * punchCharge;
+    neck.pitch += radians(15F) * punchCharge;
+
+    // punch release
+    var punchRelease = entity.punchReleaseAnimation.update(animationProgress);
+    lerpAngles(torsoLower, 20, -10, 0, punchRelease);
+    torsoLower.pivotY += 3 * punchRelease;
+    lerpAngles(torsoUpper, 15, -10, 0, punchRelease);
+    lerpAngles(rightArm, -80, 0, -10, punchRelease);
+    rightArm.pivotY += 2 * punchRelease;
+    rightArm.pivotZ -= 4 * punchRelease;
+    lerpAngles(leftArm, 20, 0, -20, punchRelease);
+    rightLeg.pivotZ -= 2 * punchRelease;
+    lerpAngles(leftLeg, 25, 0, 0, punchRelease);
+    leftLeg.pivotY += 2 * punchRelease;
+    leftLeg.pivotZ += 2 * punchRelease;
   }
 
   @Override
