@@ -5,10 +5,12 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 import static com.github.mim1q.minecells.util.MathUtils.radians;
 import static com.github.mim1q.minecells.util.animation.AnimationUtils.lerpAngles;
 import static com.github.mim1q.minecells.util.animation.AnimationUtils.wobble;
+import static net.minecraft.util.math.MathHelper.EPSILON;
 import static org.joml.Math.*;
 
 public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
@@ -39,108 +41,131 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
     root.traverse().forEach(ModelPart::resetTransform);
 
     var idleProgress = 1 - limbDistance;
+    animateIdle(animationProgress, idleProgress);
+    if (limbDistance > EPSILON) animateWalk(limbAngle, limbDistance);
+    animateHead(headYaw, headPitch);
 
-    // idle
-    torsoUpper.pitch = wobble(animationProgress, 0.1F, 5F * idleProgress);
-    torsoLower.pitch = radians(-5F) + wobble(animationProgress, 0.1F, 3F * idleProgress, 15F);
-    rightArm.pitch = radians(-30F) + wobble(animationProgress, 0.1F, -10F * idleProgress, 30F);
+    var leapCharge = entity.leapChargeAnimation.update(animationProgress);
+    if (leapCharge > EPSILON) animateLeapCharge(leapCharge);
+
+    var leapRelease = entity.leapReleaseAnimation.update(animationProgress);
+    if (leapRelease > EPSILON) animateLeapRelease(leapRelease);
+
+    var shockwaveCharge = entity.waveChargeAnimation.update(animationProgress);
+    if (shockwaveCharge > EPSILON) animateShockwaveCharge(shockwaveCharge);
+
+    var shockwaveRelease = entity.waveReleaseAnimation.update(animationProgress);
+    if (shockwaveRelease > EPSILON) animateShockwaveRelease(shockwaveRelease);
+
+    var punchCharge = entity.punchChargeAnimation.update(animationProgress);
+    if (punchCharge > EPSILON) animatePunchCharge(punchCharge);
+
+    var punchRelease = entity.punchReleaseAnimation.update(animationProgress);
+    if (punchRelease > EPSILON) animatePunchRelease(punchRelease);
+  }
+
+  private void animateIdle(float animationProgress, float delta) {
+    torsoUpper.pitch = radians(35F) + wobble(animationProgress, 0.1F, 5F * delta);
+    torsoLower.pitch = radians(-5F) + wobble(animationProgress, 0.1F, 3F * delta, 15F);
+    rightArm.pitch = radians(-30F) + wobble(animationProgress, 0.1F, -10F * delta, 30F);
     leftArm.pitch = rightArm.pitch;
     rightArm.yaw = radians(15F);
     leftArm.yaw = radians(-15F);
+  }
 
-    // walking
+  private void animateWalk(float limbAngle, float limbDistance) {
     rightArm.pitch -= wobble(limbAngle, -0.5F, 90F * limbDistance, -20F);
     leftArm.pitch -= wobble(limbAngle, 0.5F, 90F * limbDistance, -20F);
     rightLeg.pitch = wobble(limbAngle, -0.5F, 60F * limbDistance);
-    rightLeg.pivotY = 2.0F - max(0, sin(limbAngle * 0.5F + radians(80F))) * 4 * limbDistance;
+    rightLeg.pivotY -= max(0, sin(limbAngle * 0.5F + radians(80F))) * 4 * limbDistance;
     leftLeg.pitch = wobble(limbAngle, 0.5F, 60F * limbDistance);
-    leftLeg.pivotY = 2.0F - max(0, sin(limbAngle * 0.5F - radians(100F))) * 4 * limbDistance;
+    leftLeg.pivotY -= max(0, sin(limbAngle * 0.5F - radians(100F))) * 4 * limbDistance;
     torsoLower.pitch += wobble(limbAngle, 1F, 10F * limbDistance);
     torsoLower.yaw = wobble(limbAngle, 0.5F, 20F * limbDistance);
-    torsoLower.pivotY = 3.0F + abs(sin(limbAngle * 0.5F + radians(180F))) * 3 * limbDistance;
-    torsoUpper.pitch += radians(35F) + wobble(limbAngle, 1F, 10F * limbDistance);
+    torsoLower.pivotY += abs(sin(limbAngle * 0.5F + radians(180F))) * 3 * limbDistance;
+    torsoUpper.pitch += wobble(limbAngle, 1F, 10F * limbDistance);
     torsoUpper.yaw = wobble(limbAngle, 0.5F, 20F * limbDistance, 15F);
     torsoUpper.roll = wobble(limbAngle, 0.5F, 10F * limbDistance, 30F);
+  }
 
-    // head movement
+  private void animateHead(float headYaw, float headPitch) {
     neck.pitch = -0.8F * (torsoLower.pitch + torsoUpper.pitch);
     neck.yaw = -0.9F * torsoUpper.yaw;
     head.yaw = radians(headYaw);
     head.pitch = radians(headPitch);
+  }
 
-    // leap charge
-    var leapCharge = entity.leapChargeAnimation.update(animationProgress);
+  private void animateLeapCharge(float delta) {
+    lerpAngles(torsoLower, 30, 0, 20, delta);
+    torsoLower.pivotY += 7 * delta;
+    lerpAngles(torsoUpper, 30, 0, -10, delta);
+    lerpAngles(leftArm, -60, 0, -30, delta);
+    lerpAngles(rightArm, -30, 0, 20, delta);
+    rightArm.pivotY -= 2 * delta;
+    lerpAngles(rightLeg, 15, 0, 0, delta);
+    rightLeg.pivotZ -= 10 * delta;
+    lerpAngles(leftLeg, 60, 20, 10, delta);
+    leftLeg.pivotY += 8 * delta;
+    leftLeg.pivotZ -= 10 * delta;
+    head.pitch += radians(20) * delta;
+  }
 
-    lerpAngles(torsoLower, 30, 0, 20, leapCharge);
-    torsoLower.pivotY += 7 * leapCharge;
-    lerpAngles(torsoUpper, 30, 0, -10, leapCharge);
-    lerpAngles(leftArm, -60, 0, -30, leapCharge);
-    lerpAngles(rightArm, -30, 0, 20, leapCharge);
-    rightArm.pivotY -= 2 * leapCharge;
-    lerpAngles(rightLeg, 15, 0, 0, leapCharge);
-    rightLeg.pivotZ -= 10 * leapCharge;
-    lerpAngles(leftLeg, 60, 20, 10, leapCharge);
-    leftLeg.pivotY += 8 * leapCharge;
-    leftLeg.pivotZ -= 10 * leapCharge;
-    head.pitch += radians(20) * leapCharge;
+  private void animateLeapRelease(float delta) {
+    var leapReleaseLimbs = 1 - delta * 0.5;
 
-    // leap release
-    var leapRelease = entity.leapReleaseAnimation.update(animationProgress);
-    var leapReleaseLimbs = 1 - leapRelease * 0.5;
-
-    torsoLower.pitch += radians(5) * leapRelease;
-    torsoUpper.pitch -= radians(5) * leapRelease;
-    leftArm.roll -= radians(25) * leapRelease;
-    rightArm.roll += radians(25) * leapRelease;
-    head.pitch += radians(40) * leapRelease;
+    torsoLower.pitch += radians(5) * delta;
+    torsoUpper.pitch -= radians(5) * delta;
+    leftArm.roll -= radians(25) * delta;
+    rightArm.roll += radians(25) * delta;
+    head.pitch += radians(40) * delta;
     rightLeg.pitch *= leapReleaseLimbs;
     leftLeg.pitch *= leapReleaseLimbs;
     leftArm.pitch *= leapReleaseLimbs;
     rightArm.pitch *= leapReleaseLimbs;
+  }
 
-    // shockwave charge
-    var shockwaveCharge = entity.waveChargeAnimation.update(animationProgress);
-    lerpAngles(torsoLower, -10, 30, -25, shockwaveCharge);
-    torsoLower.pivotY += 2 * shockwaveCharge;
-    lerpAngles(torsoUpper, -15, 10, -25, shockwaveCharge);
-    torsoUpper.pivotY += 3 * shockwaveCharge;
-    lerpAngles(rightArm, 0, 20, 60, shockwaveCharge);
-    lerpAngles(leftArm, 15, 0, 0, shockwaveCharge);
-    leftLeg.pivotZ -= 3 * shockwaveCharge;
-    lerpAngles(neck, 0, -45, 30, shockwaveCharge);
+  private void animateShockwaveCharge(float delta) {
+    lerpAngles(torsoLower, -10, 30, -25, delta);
+    torsoLower.pivotY += 2 * delta;
+    lerpAngles(torsoUpper, -15, 10, -25, delta);
+    torsoUpper.pivotY += 3 * delta;
+    lerpAngles(rightArm, 0, 20, 60, delta);
+    lerpAngles(leftArm, 15, 0, 0, delta);
+    leftLeg.pivotZ -= 3 * delta;
+    lerpAngles(neck, 0, -45, 30, delta);
+  }
 
-    // shockwave release
-    var shockwaveRelease = entity.waveReleaseAnimation.update(animationProgress);
-    lerpAngles(torsoLower, 0, 15, 0, shockwaveRelease);
-    lerpAngles(torsoUpper, 15, -20, 0, shockwaveRelease);
-    lerpAngles(rightArm, -90, -30, 60, shockwaveRelease);
-    lerpAngles(leftArm, 40, 0, 0, shockwaveRelease);
+  private void animateShockwaveRelease(float delta) {
+    lerpAngles(torsoLower, 0, 15, 0, delta);
+    lerpAngles(torsoUpper, 15, -20, 0, delta);
+    lerpAngles(rightArm, -90, -30, 60, delta);
+    lerpAngles(leftArm, 40, 0, 0, delta);
+  }
 
-    // punch charge
-    var punchCharge = entity.punchChargeAnimation.update(animationProgress);
-    lerpAngles(torsoLower, 0, 15, 0, punchCharge);
-    lerpAngles(torsoUpper, -10, 10, 0, punchCharge);
-    lerpAngles(rightArm, -45, 0, 30, punchCharge);
-    rightArm.pivotY -= 4 * punchCharge;
-    rightArm.pivotZ += 4 * punchCharge;
-    rightLeg.pivotZ += 2 * punchCharge;
-    leftLeg.pivotZ -= 2 * punchCharge;
-    neck.yaw -= radians(10F) * punchCharge;
-    neck.pitch += radians(15F) * punchCharge;
+  private void animatePunchCharge(float delta) {
+    lerpAngles(torsoLower, 0, 15, 0, delta);
+    lerpAngles(torsoUpper, -10, 10, 0, delta);
+    lerpAngles(rightArm, -45, 0, 30, delta);
+    rightArm.pivotY -= 4 * delta;
+    rightArm.pivotZ += 4 * delta;
+    rightLeg.pivotZ += 2 * delta;
+    leftLeg.pivotZ -= 2 * delta;
+    neck.yaw -= radians(10F) * delta;
+    neck.pitch += radians(15F) * delta;
+  }
 
-    // punch release
-    var punchRelease = entity.punchReleaseAnimation.update(animationProgress);
-    lerpAngles(torsoLower, 20, -10, 0, punchRelease);
-    torsoLower.pivotY += 3 * punchRelease;
-    lerpAngles(torsoUpper, 15, -10, 0, punchRelease);
-    lerpAngles(rightArm, -80, 0, -10, punchRelease);
-    rightArm.pivotY += 2 * punchRelease;
-    rightArm.pivotZ -= 4 * punchRelease;
-    lerpAngles(leftArm, 20, 0, -20, punchRelease);
-    rightLeg.pivotZ -= 2 * punchRelease;
-    lerpAngles(leftLeg, 25, 0, 0, punchRelease);
-    leftLeg.pivotY += 2 * punchRelease;
-    leftLeg.pivotZ += 2 * punchRelease;
+  private void animatePunchRelease(float delta) {
+    lerpAngles(torsoLower, 20, -10, 0, delta);
+    torsoLower.pivotY += 3 * delta;
+    lerpAngles(torsoUpper, 15, -10, 0, delta);
+    lerpAngles(rightArm, -80, 0, -10, delta);
+    rightArm.pivotY += 2 * delta;
+    rightArm.pivotZ -= 4 * delta;
+    lerpAngles(leftArm, 20, 0, -20, delta);
+    rightLeg.pivotZ -= 2 * delta;
+    lerpAngles(leftLeg, 25, 0, 0, delta);
+    leftLeg.pivotY += 2 * delta;
+    leftLeg.pivotZ += 2 * delta;
   }
 
   @Override
