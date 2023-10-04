@@ -48,9 +48,17 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
     return original;
   }
 
-  @ModifyArg(method = "renderWorldBorder", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V"), index = 3)
+  @ModifyArg(
+    method = "renderWorldBorder",
+    at = @At(
+      value = "INVOKE",
+      target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V",
+      ordinal = 0
+    ),
+    index = 3
+  )
   private float minecells$modifyRenderWorldBorderOpacity(float original) {
-    if (MineCellsDimension.isMineCellsDimension(world)) {
+    if (world != null && MineCellsDimension.isMineCellsDimension(world)) {
       var player = MinecraftClient.getInstance().player;
       if (player == null) return original;
       return Math.max(0.0F, (float)(16.0F - renderedBorder.getDistanceInsideBorder(player)) / 16.0F);
