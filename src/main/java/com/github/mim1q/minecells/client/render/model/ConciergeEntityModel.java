@@ -1,19 +1,21 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.boss.ConciergeEntity;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 
 import static com.github.mim1q.minecells.util.MathUtils.radians;
-import static com.github.mim1q.minecells.util.animation.AnimationUtils.lerpAngles;
-import static com.github.mim1q.minecells.util.animation.AnimationUtils.wobble;
+import static com.github.mim1q.minecells.util.animation.AnimationUtils.*;
 import static net.minecraft.util.math.MathHelper.EPSILON;
 import static org.joml.Math.*;
 
 public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
+  private boolean entityAlive = true;
+
   private final ModelPart root;
   private final ModelPart torsoLower;
   private final ModelPart torsoUpper;
@@ -38,6 +40,7 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
 
   @Override
   public void setAngles(ConciergeEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+    entityAlive = entity.isAlive();
     root.traverse().forEach(ModelPart::resetTransform);
 
     var idleProgress = 1 - limbDistance;
@@ -45,23 +48,14 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
     if (limbDistance > EPSILON) animateWalk(limbAngle, limbDistance);
     animateHead(headYaw, headPitch);
 
-    var leapCharge = entity.leapChargeAnimation.update(animationProgress);
-    if (leapCharge > EPSILON) animateLeapCharge(leapCharge);
-
-    var leapRelease = entity.leapReleaseAnimation.update(animationProgress);
-    if (leapRelease > EPSILON) animateLeapRelease(leapRelease);
-
-    var shockwaveCharge = entity.waveChargeAnimation.update(animationProgress);
-    if (shockwaveCharge > EPSILON) animateShockwaveCharge(shockwaveCharge);
-
-    var shockwaveRelease = entity.waveReleaseAnimation.update(animationProgress);
-    if (shockwaveRelease > EPSILON) animateShockwaveRelease(shockwaveRelease);
-
-    var punchCharge = entity.punchChargeAnimation.update(animationProgress);
-    if (punchCharge > EPSILON) animatePunchCharge(punchCharge);
-
-    var punchRelease = entity.punchReleaseAnimation.update(animationProgress);
-    if (punchRelease > EPSILON) animatePunchRelease(punchRelease);
+    animate(entity.leapChargeAnimation,   this::animateLeapCharge,       animationProgress);
+    animate(entity.leapReleaseAnimation,  this::animateLeapRelease,      animationProgress);
+    animate(entity.waveChargeAnimation,   this::animateShockwaveCharge,  animationProgress);
+    animate(entity.waveReleaseAnimation,  this::animateShockwaveRelease, animationProgress);
+    animate(entity.punchChargeAnimation,  this::animatePunchCharge,      animationProgress);
+    animate(entity.punchReleaseAnimation, this::animatePunchRelease,     animationProgress);
+    animate(entity.deathStartAnimation,   this::animateDeathStart,       animationProgress);
+    animate(entity.deathFallAnimation,    this::animateDeathFall,        animationProgress);
   }
 
   private void animateIdle(float animationProgress, float delta) {
@@ -168,9 +162,41 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
     leftLeg.pivotZ += 2 * delta;
   }
 
+  private void animateDeathStart(float delta) {
+    var bounceDelta = MathUtils.easeOutBounce(0, 1, delta);
+    var spedUpDelta = MathUtils.easeInOutQuad(0, 1, min(1, delta * 2));
+    lerpAngles(torsoLower, -10, 0, 0, delta);
+    torsoLower.pivotY += 17 * bounceDelta;
+    lerpAngles(torsoUpper, 40, 0, 0, bounceDelta);
+    lerpAngles(leftArm, -50, 0, -15, delta);
+    lerpAngles(rightArm, -50, 0, 15, delta);
+    lerpAngles(leftLeg, 85, 15, 0, spedUpDelta);
+    leftLeg.pivotY += 17 * bounceDelta;
+    leftLeg.pivotZ -= 4 * delta;
+    lerpAngles(rightLeg, 85, -15, 0, spedUpDelta);
+    rightLeg.pivotY += 17 * bounceDelta;
+    rightLeg.pivotZ -= 4 * delta;
+  }
+
+  private void animateDeathFall(float delta) {
+    var bounceDelta = MathUtils.easeOutBounce(0, 1, delta);
+    var spedUpDelta = MathUtils.easeInOutQuad(0, 1, min(1, delta * 2.5F));
+    lerpAngles(torsoLower, 80, 0, 0, bounceDelta);
+    torsoLower.pivotZ -= 2 * delta;
+    lerpAngles(torsoUpper, 10, 0, 0, bounceDelta);
+    lerpAngles(leftArm, -5, 0, -40, spedUpDelta);
+    lerpAngles(rightArm, -5, 0, 40, spedUpDelta);
+    lerpAngles(head, -10, 110, 10, bounceDelta);
+    lerpAngles(neck, 0, 0, 0, delta);
+    head.pivotX += 2 * spedUpDelta;
+    head.pivotY -= 5 * spedUpDelta;
+    head.pivotZ += 1 * spedUpDelta;
+  }
+
   @Override
   public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    var overlayUv = entityAlive ? overlay : OverlayTexture.DEFAULT_UV;
+    this.root.render(matrices, vertices, light, overlayUv, red, green, blue, alpha);
   }
 
   public static TexturedModelData getTexturedModelData() {

@@ -4,7 +4,10 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Math;
 
+import java.util.function.Consumer;
+
 import static com.github.mim1q.minecells.util.MathUtils.radians;
+import static net.minecraft.util.math.MathHelper.EPSILON;
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
 public class AnimationUtils {
@@ -60,5 +63,10 @@ public class AnimationUtils {
     bone.pitch = MathHelper.lerp(delta, bone.pitch, radians(pitchDeg));
     bone.yaw = MathHelper.lerp(delta, bone.yaw, radians(yawDeg));
     bone.roll = MathHelper.lerp(delta, bone.roll, radians(rollDeg));
+  }
+
+  public static void animate(AnimationProperty animation, Consumer<Float> animationPlayer, float animationProgress) {
+    var delta = animation.update(animationProgress);
+    if (delta > EPSILON) animationPlayer.accept(delta);
   }
 }

@@ -19,7 +19,17 @@ public class ConciergeEntityRenderer extends LivingEntityRenderer<ConciergeEntit
   }
 
   @Override
+  protected float getLyingAngle(ConciergeEntity entity) {
+    return 0F;
+  }
+
+  @Override
   public Identifier getTexture(ConciergeEntity entity) {
     return TEXTURE;
+  }
+
+  @Override
+  protected boolean hasLabel(ConciergeEntity livingEntity) {
+    return false;
   }
 }

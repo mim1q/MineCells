@@ -11,9 +11,7 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.github.mim1q.minecells.util.animation.AnimationProperty.EasingFunction;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -23,6 +21,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -58,6 +57,8 @@ public class ConciergeEntity extends MineCellsBossEntity {
   public AnimationProperty waveReleaseAnimation = new AnimationProperty(0.0F);
   public AnimationProperty punchChargeAnimation = new AnimationProperty(0.0F);
   public AnimationProperty punchReleaseAnimation = new AnimationProperty(0.0F);
+  public AnimationProperty deathStartAnimation = new AnimationProperty(0.0F);
+  public AnimationProperty deathFallAnimation = new AnimationProperty(0.0F);
 
   public ConciergeEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -172,6 +173,26 @@ public class ConciergeEntity extends MineCellsBossEntity {
         ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
       }
     }
+  }
+
+  @Override
+  protected void updatePostDeath() {
+    ++this.deathTime;
+    if (this.getWorld().isClient()) {
+      deathStartAnimation.setupTransitionTo(1, 30);
+      if (this.deathTime >= 60) {
+        deathFallAnimation.setupTransitionTo(1, 60);
+      }
+      if (this.deathTime >= 155) {
+        getWorld().addParticle(ParticleTypes.EXPLOSION_EMITTER, getX(), getY() - 1.0, getZ(), 0.0D, 0.0D, 0.0D);
+      }
+    } else if (this.deathTime >= 160 && !this.isRemoved()) {
+      playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 0.8F, 0.9F);
+      this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_DEATH_PARTICLES);
+      this.remove(Entity.RemovalReason.KILLED);
+    }
+    if (this.deathTime == 15) playSound(MineCellsSounds.CONCIERGE_LEAP_LAND, 0.8F, 1.1F);
+    if (this.deathTime == 85) playSound(MineCellsSounds.CONCIERGE_LEAP_LAND, 1F, 0.1F);
   }
 
   @Override
