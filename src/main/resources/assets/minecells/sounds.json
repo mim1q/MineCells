@@ -42,6 +42,8 @@
   "concierge.aura_release": { "sounds": [ "minecells:concierge/aura_release" ]},
   "concierge.punch_charge": { "sounds": [ "minecells:concierge/punch_charge" ]},
   "concierge.punch_release": { "sounds": [ "minecells:concierge/punch_release" ]},
+  "concierge.shout": { "sounds": [ "minecells:concierge/shout" ]},
+  "concierge.step": { "sounds": [ "minecells:concierge/step" ]},
   "weapon.bow.charge": { "sounds": [ "minecells:weapon/bow/charge" ]},
   "weapon.bow.release": { "sounds": [ "minecells:weapon/bow/release" ]},
   "weapon.swipe": { "sounds": [ "minecells:weapon/swipe/swipe_0", "minecells:weapon/swipe/swipe_1", "minecells:weapon/swipe/swipe_2" ]},
