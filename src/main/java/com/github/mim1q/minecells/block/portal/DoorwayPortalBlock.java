@@ -152,6 +152,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
     super.onStateReplaced(state, world, pos, newState, moved);
     if (world.isClient()) return;
+    if (newState.getBlock() instanceof DoorwayPortalBlock) return;
     var facing = state.get(FACING);
     var x = facing.rotateYClockwise().getOffsetX();
     var z = facing.rotateYClockwise().getOffsetZ();
@@ -237,15 +238,6 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, BlockMirror mirror) {
       return state.with(FACING, mirror.apply(state.get(FACING)));
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView blockView, BlockPos pos) {
-      if (blockView instanceof World world && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
-        return super.calcBlockBreakingDelta(state, player, blockView, pos);
-      }
-      return 0F;
     }
 
     @Override

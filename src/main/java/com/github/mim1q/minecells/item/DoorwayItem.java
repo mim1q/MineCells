@@ -27,7 +27,6 @@ public class DoorwayItem extends AliasedBlockItem {
   private static final String TOOLTIP_NOT_BOUND = "item.minecells.prison_doorway.not_bound";
   private static final String DESCRIPTION = "item.minecells.prison_doorway.description";
 
-
   public DoorwayItem(Settings settings) {
     super(MineCellsBlocks.PROMENADE_DOORWAY, settings);
   }
@@ -70,6 +69,9 @@ public class DoorwayItem extends AliasedBlockItem {
 
   @Override
   protected boolean place(ItemPlacementContext context, BlockState state) {
+    var frameBlock = (context.getPlayer() != null && context.getPlayer().isCreative())
+      ? MineCellsBlocks.UNBREAKABLE_DOORWAY_FRAME
+      : MineCellsBlocks.DOORWAY_FRAME;
     var direction = context.getSide().getAxis().isVertical()
       ? context.getHorizontalPlayerFacing().getOpposite()
       : context.getSide();
@@ -78,16 +80,16 @@ public class DoorwayItem extends AliasedBlockItem {
     var dy = world.getBlockState(pos.down()).isOpaqueFullCube(world, pos) ? 0 : -1;
     var rightVec = direction.rotateYCounterclockwise().getVector();
     var leftVec = direction.rotateYClockwise().getVector();
-    world.setBlockState(pos.add(0, dy, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
+    world.setBlockState(pos.add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
     world.setBlockState(pos.add(0, dy + 1, 0), MineCellsBlocks.PRISON_DOORWAY.getDefaultState().with(DoorwayPortalBlock.FACING, direction));
     writeNbtToBlockEntity(world, context.getPlayer(), pos.add(0, dy + 1, 0), context.getStack());
-    world.setBlockState(pos.add(0, dy + 2, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy, 0),  MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy + 1, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy + 2, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.TOP_LEFT, direction));
-    world.setBlockState(pos.add(rightVec).add(0, dy, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
-    world.setBlockState(pos.add(rightVec).add(0, dy + 1, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
-    world.setBlockState(pos.add(rightVec).add(0, dy + 2, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.TOP_RIGHT, direction));
+    world.setBlockState(pos.add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy, 0),  frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_LEFT, direction));
+    world.setBlockState(pos.add(rightVec).add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
+    world.setBlockState(pos.add(rightVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
+    world.setBlockState(pos.add(rightVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_RIGHT, direction));
     return true;
   }
 
