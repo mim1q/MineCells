@@ -50,7 +50,7 @@ fun main(args: Array<String>) {
     }
     add(CommonModelPresets.pillarBlock("minecells:crate"))
     add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
-    listOf("conjunctivius_box", "beam_placer", "doorway_frame", "solid_barrier_rune", "conditional_barrier",
+    listOf("conjunctivius_box", "beam_placer", "doorway_frame", "unbreakable_doorway_frame", "solid_barrier_rune", "conditional_barrier",
       "boss_barrier_controller", "boss_entry_barrier_controller", "player_barrier_controller"
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
@@ -93,7 +93,7 @@ fun main(args: Array<String>) {
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage", "minecells:prison_doorway"
+      "minecells:broken_cage", "minecells:doorway_frame"
     )
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",

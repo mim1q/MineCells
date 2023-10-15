@@ -10,10 +10,12 @@ import java.util.function.Consumer;
 
 public class ConciergePunchGoal extends TimedActionGoal<ConciergeEntity> {
   private final float damage;
+  private final double knockback;
 
   protected ConciergePunchGoal(ConciergeEntity entity, ConciergePunchSettings settings) {
     super(entity, settings, null);
     this.damage = settings.damage;
+    this.knockback = settings.knockback;
     this.setControls(EnumSet.of(Control.MOVE));
   }
 
@@ -25,7 +27,8 @@ public class ConciergePunchGoal extends TimedActionGoal<ConciergeEntity> {
   public boolean canStart() {
     return super.canStart()
         && entity.getTarget() != null
-        && entity.getTarget().distanceTo(entity) <= 3.0;
+        && entity.getTarget().distanceTo(entity) <= 3.0
+        && entity.canAttack();
   }
 
   @Override
@@ -35,12 +38,13 @@ public class ConciergePunchGoal extends TimedActionGoal<ConciergeEntity> {
     for (var target : entity.getWorld().getOtherEntities(entity, punchBox)) {
       if (target instanceof LivingEntity livingTarget) {
         target.damage(entity.getDamageSources().mobAttack(entity), damage);
-        livingTarget.takeKnockback(5.0, entity.getX() - target.getX(), entity.getZ() - target.getZ());
+        livingTarget.takeKnockback(knockback, entity.getX() - target.getX(), entity.getZ() - target.getZ());
       }
     }
   }
 
   public static class ConciergePunchSettings extends TimedActionSettings {
     public float damage = 10.0F;
+    public double knockback = 1.0;
   }
 }
