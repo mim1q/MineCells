@@ -32,7 +32,7 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
   @Override
   public void playSound(SoundEvent sound, float volume, float pitch) {
     if (getWorld().isClient) {
-      super.playSound(sound, volume, pitch);
+      getWorld().playSound(getX(), getY(), getZ(), sound, SoundCategory.HOSTILE, volume, pitch, false);
       return;
     }
     for (ServerPlayerEntity player : this.bossBar.getPlayers()) {

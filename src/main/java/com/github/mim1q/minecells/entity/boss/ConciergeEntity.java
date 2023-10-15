@@ -6,27 +6,35 @@ import com.github.mim1q.minecells.entity.ai.goal.concierge.ConciergePunchGoal;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.github.mim1q.minecells.util.animation.AnimationProperty.EasingFunction;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.Set;
 
 import static net.minecraft.entity.data.TrackedDataHandlerRegistry.BOOLEAN;
 
@@ -43,6 +51,8 @@ public class ConciergeEntity extends MineCellsBossEntity {
   private static final TrackedData<Boolean> PUNCH_CHARGING = DataTracker.registerData(ConciergeEntity.class, BOOLEAN);
   private static final TrackedData<Boolean> PUNCH_RELEASING = DataTracker.registerData(ConciergeEntity.class, BOOLEAN);
 
+  private static final TrackedData<Boolean> SCREAMING = DataTracker.registerData(ConciergeEntity.class, BOOLEAN);
+
   private int leapCooldown = 0;
   private int shockwaveCooldown = 0;
   private int auraCooldown = 0;
@@ -50,6 +60,11 @@ public class ConciergeEntity extends MineCellsBossEntity {
   private int sharedCooldown = 100;
 
   private BlockPos spawnPos = null;
+  private int stage = 0;
+  private int stageTimer = 0;
+
+  private boolean canAttack = false;
+  private boolean goalsInit = false;
 
   public AnimationProperty leapChargeAnimation = new AnimationProperty(0.0F, MathUtils::easeOutQuad);
   public AnimationProperty leapReleaseAnimation = new AnimationProperty(0.0F);
@@ -59,6 +74,12 @@ public class ConciergeEntity extends MineCellsBossEntity {
   public AnimationProperty punchReleaseAnimation = new AnimationProperty(0.0F);
   public AnimationProperty deathStartAnimation = new AnimationProperty(0.0F);
   public AnimationProperty deathFallAnimation = new AnimationProperty(0.0F);
+  public AnimationProperty screamAnimation = new AnimationProperty(0.0F);
+
+  private final Set<AnimationProperty> aliveAnimations = Set.of(
+    leapChargeAnimation, leapReleaseAnimation, waveChargeAnimation, waveReleaseAnimation, punchChargeAnimation,
+    punchReleaseAnimation, screamAnimation
+  );
 
   public ConciergeEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -66,54 +87,60 @@ public class ConciergeEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
+    goalsInit = true;
     goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 32.0F));
-    goalSelector.add(3, new WalkTowardsTargetGoal(this, 1.0, false, 2.0));
+    goalSelector.add(3, new WalkTowardsTargetGoal(this, 1.0 + stage * 0.1, false, 2.0));
 
     goalSelector.add(0, new TimedDashGoal<>(this, settings -> {
       settings.onGround = false;
       settings.cooldownGetter = () -> leapCooldown + sharedCooldown;
       settings.cooldownSetter = cooldown -> {
-        leapCooldown = getAdjustedCooldown(cooldown);
-        sharedCooldown = getAdjustedCooldown(100);
+        leapCooldown = getStageAdjustedValue(8 * 20, 6 * 20, 4 * 20, 3 * 20);
+        sharedCooldown = getStageAdjustedValue(100, 80, 60, 20);
       };
       settings.defaultCooldown = 8 * 20;
       settings.stateSetter = handleStateChange(LEAP_CHARGING, LEAP_RELEASING);
       settings.chargeSound = MineCellsSounds.CONCIERGE_LEAP_CHARGE;
       settings.landSound = MineCellsSounds.CONCIERGE_LEAP_LAND;
       settings.chance = 0.3F;
-      settings.alignTick = 35;
-      settings.actionTick = 40;
+      settings.alignTick = getStageAdjustedValue(30, 35, 30, 28);
+      settings.actionTick = getStageAdjustedValue(40, 40, 35, 30);
       settings.minDistance = 5.0;
       settings.overshoot = 1.5;
       settings.length = 60;
       settings.margin = 1.0;
+      settings.damage = 10.0F;
       settings.particle = MineCellsParticles.SPECKLE.get(0xFF4000);
-    }, e -> e.getTarget() != null && e.distanceTo(e.getTarget()) > 8 || getHealth() / getMaxHealth() <= 0.25));
+    }, e -> e.canAttack()
+         && e.getTarget() != null
+         && e.distanceTo(e.getTarget()) > 8 || getHealth() / getMaxHealth() <= 0.25)
+    );
 
     goalSelector.add(0, new ShockwaveGoal<>(this, settings -> {
       settings.cooldownGetter = () -> shockwaveCooldown + sharedCooldown;
       settings.cooldownSetter = cooldown -> {
-        shockwaveCooldown = getAdjustedCooldown(cooldown);
-        sharedCooldown = getAdjustedCooldown(100);
+        shockwaveCooldown = getStageAdjustedValue(10 * 20, 9 * 20, 8 * 20, 6 * 20);
+        sharedCooldown = getStageAdjustedValue(100, 80, 60, 40);
       };
       settings.defaultCooldown = 8 * 20;
       settings.stateSetter = handleStateChange(SHOCKWAVE_CHARGING, SHOCKWAVE_RELEASING);
       settings.shockwaveBlock = MineCellsBlocks.SHOCKWAVE_FLAME;
       settings.shockwaveRadius = 20;
-      settings.shockwaveInterval = 2;
+      settings.shockwaveInterval = getStageAdjustedValue(2.5F, 2.0F, 1.5F, 1.0F);
       settings.shockwaveType = ShockwaveType.CIRCLE;
       settings.chargeSound = MineCellsSounds.CONCIERGE_SHOCKWAVE_CHARGE;
       settings.releaseSound = MineCellsSounds.CONCIERGE_SHOCKWAVE_RELEASE;
       settings.chance = 0.2F;
       settings.length = 50;
+      settings.shockwaveDamage = 6.0F;
       settings.actionTick = 30;
-    }, null));
+    }, ConciergeEntity::canAttack));
 
     goalSelector.add(0, new TimedAuraGoal<>(this, settings -> {
       settings.cooldownGetter = () -> auraCooldown + sharedCooldown;
       settings.cooldownSetter = cooldown -> {
-        auraCooldown = getAdjustedCooldown(cooldown);
-        sharedCooldown = getAdjustedCooldown(40);
+        auraCooldown = getStageAdjustedValue(30 * 20, 20 * 20, 10 * 20, 5 * 20);
+        sharedCooldown = getStageAdjustedValue(40, 40, 40, 20);
       };
       settings.defaultCooldown = 30 * 20;
       settings.stateSetter = handleStateChange(AURA_CHARGING, AURA_RELEASING);
@@ -128,7 +155,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
 
     goalSelector.add(0, new ConciergePunchGoal(this, settings -> {
       settings.cooldownGetter = () -> punchCooldown;
-      settings.cooldownSetter = cooldown -> punchCooldown = getAdjustedCooldown(cooldown);
+      settings.cooldownSetter = cooldown -> punchCooldown = getStageAdjustedValue(80, 60, 30, 10);
       settings.defaultCooldown = 4 * 20;
       settings.stateSetter = handleStateChange(PUNCH_CHARGING, PUNCH_RELEASING);
       settings.chargeSound = MineCellsSounds.CONCIERGE_PUNCH_CHARGE;
@@ -136,6 +163,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       settings.length = 30;
       settings.actionTick = 20;
       settings.damage = 10.0F;
+      settings.knockback = getStageAdjustedValue(1.5, 2.5, 3.5, 5.0);
     }));
 
     targetSelector.add(0, new TargetRandomPlayerGoal<>(this));
@@ -152,6 +180,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
     dataTracker.startTracking(AURA_RELEASING, false);
     dataTracker.startTracking(PUNCH_CHARGING, false);
     dataTracker.startTracking(PUNCH_RELEASING, false);
+    dataTracker.startTracking(SCREAMING, false);
   }
 
   @Nullable
@@ -172,13 +201,44 @@ public class ConciergeEntity extends MineCellsBossEntity {
         ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 40, 4.0D, 0.01D);
         ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
       }
+    } else {
+      stageTimer++;
+      if (stage == 0 && !this.bossBar.getPlayers().isEmpty()) setStage(1);
+      if (stage == 1 && getHealth() / getMaxHealth() <= 0.75 && canChangeStage()) setStage(2);
+      if (stage == 2 && getHealth() / getMaxHealth() <= 0.50 && canChangeStage()) setStage(3);
+      if (stage == 3 && getHealth() / getMaxHealth() <= 0.25 && canChangeStage()) setStage(4);
+      dataTracker.set(SCREAMING, stageTimer <= 60);
+      canAttack = true;
+      if (stageTimer <= 80) {
+        getNavigation().stop();
+        canAttack = false;
+      } else if (!goalsInit && isAlive()) {
+        this.initGoals();
+      }
     }
+  }
+
+  private void setStage(int stage) {
+    if (this.stage == stage) return;
+    this.stage = stage;
+    this.stageTimer = 0;
+    clearGoals();
+    addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.PROTECTED, 100, 0, false, false, false));
+    playSound(MineCellsSounds.CONCIERGE_SHOUT, 1F, 1F);
+  }
+
+  private void clearGoals() {
+    this.goalsInit = false;
+    goalSelector.getGoals().forEach(PrioritizedGoal::stop);
+    goalSelector.clear(Objects::nonNull);
   }
 
   @Override
   protected void updatePostDeath() {
+    setStage(5);
     ++this.deathTime;
     if (this.getWorld().isClient()) {
+      aliveAnimations.forEach(animation -> animation.setupTransitionTo(0, 5, MathHelper::lerp));
       deathStartAnimation.setupTransitionTo(1, 30);
       if (this.deathTime >= 60) {
         deathFallAnimation.setupTransitionTo(1, 60);
@@ -206,12 +266,24 @@ public class ConciergeEntity extends MineCellsBossEntity {
 
   @Override
   protected void processAnimations() {
+    if (isDead()) return;
+
     setupTransition(LEAP_CHARGING, leapChargeAnimation, 8F, 3F, MathUtils::lerp);
     setupTransition(LEAP_RELEASING, leapReleaseAnimation, 12F, 20F, MathUtils::lerp);
     setupTransition(SHOCKWAVE_CHARGING, waveChargeAnimation, 10F, 30F, MathUtils::lerp);
     setupTransition(SHOCKWAVE_RELEASING, waveReleaseAnimation, 10F, 20F, MathUtils::easeOutBack);
     setupTransition(PUNCH_CHARGING, punchChargeAnimation, 10F, 3F, MathUtils::easeOutQuad);
     setupTransition(PUNCH_RELEASING, punchReleaseAnimation, 10F, 6F, MathUtils::easeOutBack);
+    setupTransition(SCREAMING, screamAnimation, 5F, 20F, MathUtils::easeOutQuad);
+  }
+
+  private boolean canChangeStage() {
+    return !dataTracker.get(LEAP_CHARGING)
+        && !dataTracker.get(LEAP_RELEASING)
+        && !dataTracker.get(SHOCKWAVE_CHARGING)
+        && !dataTracker.get(SHOCKWAVE_RELEASING)
+        && !dataTracker.get(PUNCH_CHARGING)
+        && !dataTracker.get(PUNCH_RELEASING);
   }
 
   private void setupTransition(
@@ -234,18 +306,23 @@ public class ConciergeEntity extends MineCellsBossEntity {
     limbAnimator.setSpeed(0.5F);
   }
 
-  private int getAdjustedCooldown(int cooldown) {
-    var healthPercent = getHealth() / getMaxHealth();
-    if (healthPercent > 0.75) {
-      return cooldown;
-    }
-    if (healthPercent > 0.5) {
-      return (int) (cooldown * 0.75);
-    }
-    if (healthPercent > 0.25) {
-      return cooldown / 2;
-    }
-    return cooldown / 4;
+  public boolean canAttack() {
+    return canAttack && !isDead();
+  }
+
+  private <T> T getStageAdjustedValue(T value100, T value75, T value50, T value25) {
+    return switch (stage) {
+      case 2 -> value75;
+      case 3 -> value50;
+      case 4 -> value25;
+      default -> value100;
+    };
+  }
+
+  @Override
+  protected void playStepSound(BlockPos pos, BlockState state) {
+    super.playStepSound(pos, state);
+    playSound(MineCellsSounds.CONCIERGE_STEP, 0.8F, random.nextFloat() * 0.2F + 0.8F);
   }
 
   @Override
@@ -259,6 +336,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
     if (spawnPos != null) {
       nbt.putLong("spawnPos", spawnPos.asLong());
     }
+    nbt.putInt("stage", stage);
   }
 
   @Override
@@ -272,12 +350,15 @@ public class ConciergeEntity extends MineCellsBossEntity {
     if (nbt.contains("spawnPos")) {
       spawnPos = BlockPos.fromLong(nbt.getLong("spawnPos"));
     }
+    setStage(nbt.getInt("stage"));
   }
 
   public static DefaultAttributeContainer.Builder createConciergeAttributes() {
     return createHostileAttributes()
-      .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0D)
+      .add(EntityAttributes.GENERIC_MAX_HEALTH, 300.0D)
+      .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
       .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.18D)
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
   }
 }
