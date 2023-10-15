@@ -6,11 +6,13 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SideShapeType;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -42,7 +44,11 @@ public abstract class ShockwaveBlock extends Block {
     var posState = world.getBlockState(pos);
     return posState.isReplaceable()
       && posState.getFluidState().isEmpty()
-      && (downState.isSideSolidFullSquare(world, pos.down(), Direction.UP) || downState.isFullCube(world, pos.down()));
+      && (
+        downState.isSideSolid(world, pos.down(), Direction.UP, SideShapeType.CENTER)
+        || downState.isFullCube(world, pos.down())
+        || downState.isIn(BlockTags.STAIRS)
+      );
   }
 
   public abstract void onClientStartShockwave(ClientWorld world, BlockPos pos);
