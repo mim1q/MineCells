@@ -56,6 +56,7 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
     animate(entity.punchReleaseAnimation, this::animatePunchRelease,     animationProgress);
     animate(entity.deathStartAnimation,   this::animateDeathStart,       animationProgress);
     animate(entity.deathFallAnimation,    this::animateDeathFall,        animationProgress);
+    animate(entity.screamAnimation, delta -> animateShout(delta, animationProgress), animationProgress);
   }
 
   private void animateIdle(float animationProgress, float delta) {
@@ -191,6 +192,17 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
     head.pivotX += 2 * spedUpDelta;
     head.pivotY -= 5 * spedUpDelta;
     head.pivotZ += 1 * spedUpDelta;
+  }
+
+  private void animateShout(float delta, float animationProgress) {
+    var torsoYaw = 5 * sin(animationProgress * 0.2F - 0.1F);
+    var upperTorsoYaw = 10 * sin(animationProgress * 0.2F);
+    lerpAngles(torsoLower, 30, torsoYaw, 0, delta);
+    lerpAngles(torsoUpper, -10, upperTorsoYaw, 0, delta);
+    lerpAngles(rightArm, 25, 0, 25, delta);
+    lerpAngles(leftArm, 25, 0, -25, delta);
+    head.yaw += radians(3) * sin(animationProgress * 6) * delta;
+    head.pitch += radians(2) * sin(animationProgress * 4) * delta;
   }
 
   @Override
