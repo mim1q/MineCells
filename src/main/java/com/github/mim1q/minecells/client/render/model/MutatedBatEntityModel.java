@@ -83,7 +83,7 @@ public class MutatedBatEntityModel extends EntityModel<MutatedBatEntity> {
     this.root.pitch = headPitch * RADIANS_PER_DEGREE;
     this.root.yaw = headYaw * RADIANS_PER_DEGREE;
 
-    this.root.pivotY = 23.0F;
+    this.root.pivotY = 18.0F;
     this.root.pivotY += MathHelper.sin(animationProgress * 0.5F - 1.5F) * 2.0F;
 
     this.leftWing.roll = -MathHelper.PI * 0.25F - (float) Math.sin(animationProgress * 0.5F) * 0.5F;

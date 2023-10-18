@@ -36,7 +36,7 @@ public final class MineCellsEntities {
   public static final EntityType<ProtectorEntity> PROTECTOR = registerEntity("protector", SpawnGroup.MONSTER, ProtectorEntity::new, 0.75F, 1.9F);
   public static final EntityType<UndeadArcherEntity> UNDEAD_ARCHER = registerEntity("undead_archer", SpawnGroup.MONSTER, UndeadArcherEntity::new, 0.75F, 1.9F);
   public static final EntityType<ShieldbearerEntity> SHIELDBEARER = registerEntity("shieldbearer", SpawnGroup.MONSTER, ShieldbearerEntity::new, 0.75F, 1.9F);
-  public static final EntityType<MutatedBatEntity> MUTATED_BAT = registerEntity("mutated_bat", SpawnGroup.MONSTER, MutatedBatEntity::new, 0.5F, 0.5F);
+  public static final EntityType<MutatedBatEntity> MUTATED_BAT = registerEntity("mutated_bat", SpawnGroup.MONSTER, MutatedBatEntity::new, 0.9F, 0.9F);
   public static final EntityType<SewersTentacleEntity> SEWERS_TENTACLE = registerEntity("sewers_tentacle", SpawnGroup.MONSTER, SewersTentacleEntity::new, EntityDimensions.changing(0.75F, 2.25F));
   public static final EntityType<RancidRatEntity> RANCID_RAT = registerEntity("rancid_rat", SpawnGroup.MONSTER, RancidRatEntity::new, 0.5F, 0.75F);
   public static final EntityType<RunnerEntity> RUNNER = registerEntity("runner", SpawnGroup.MONSTER, RunnerEntity::new,0.8F, 2.1F);
