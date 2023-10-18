@@ -57,18 +57,21 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
 
     if (tick < 20) return;
 
-    var offset = MathUtils.vectorRotateY(new Vec3d(1.0, 0.0, 0.0), MathUtils.radians(user.getYaw()));
     user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20, 0, false, false, false));
-    var placer = ShockwavePlacer.createLine(
-      world,
-      user.getPos(),
-      user.getPos().add(offset.multiply(10)),
-      1.5F,
-      MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER.getDefaultState(),
-      user.getUuid(),
-      getAbilityDamage(stack)
-    );
-    world.spawnEntity(placer);
+
+    List.of(-3F, 3F).forEach(degOffset -> {
+      var offset = MathUtils.vectorRotateY(new Vec3d(1.0, 0.0, 0.0), MathUtils.radians(user.getYaw() + degOffset));
+      var placer = ShockwavePlacer.createLine(
+        world,
+        user.getPos(),
+        user.getPos().add(offset.multiply(12)),
+        1.5F,
+        MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER.getDefaultState(),
+        user.getUuid(),
+        getAbilityDamage(stack)
+      );
+      world.spawnEntity(placer);
+    });
     world.getEntitiesByClass(LivingEntity.class, Box.of(user.getPos(), 3.0, 2.0, 3.0), e -> e != user).forEach(entity -> {
       entity.damage(world.getDamageSources().playerAttack((PlayerEntity) user), getAbilityDamage(stack) * 2);
       if (entity.squaredDistanceTo(user) < 4.0) {
