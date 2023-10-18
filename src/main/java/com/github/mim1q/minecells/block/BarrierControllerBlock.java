@@ -53,7 +53,7 @@ public class BarrierControllerBlock extends ConditionalBarrierBlock implements B
     if (nearestPlayer == null) return false;
     var noBossAround = world.getEntitiesByClass(
       MineCellsBossEntity.class,
-      Box.of(Vec3d.of(pos), 64, 64, 64),
+      Box.of(Vec3d.of(pos), 128, 64, 128),
       EntityPredicates.VALID_ENTITY
     ).isEmpty();
     var behindDoorPos = nearestPlayer.getPos()
