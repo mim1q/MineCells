@@ -1,0 +1,16 @@
+{
+  "type": "minecells:big_jigsaw",
+  "biomes": [
+    "minecells:black_bridge"
+  ],
+  "step": "underground_structures",
+  "start_pool": "minecells:black_bridge/bottom0",
+  "spawn_overrides": {},
+  "size": 8,
+  "terrain_adaptation": "none",
+  "start_height": {
+    "absolute": 34
+  },
+  "max_distance_from_center": 120,
+  "use_expansion_hack": true
+}

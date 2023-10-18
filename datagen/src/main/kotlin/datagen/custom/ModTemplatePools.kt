@@ -101,4 +101,14 @@ object ModTemplatePools {
     add(Presets.indexed("minecells:ramparts/top_elevator", 1, processors=processors))
     add(Presets.indexed("minecells:ramparts/underground", 1, processors=processors))
   }
+
+  fun blackBridge() = Preset {
+    val processors = "minecells:promenade"
+
+    listOf("bottom", "top").forEach { half ->
+      for (i in 0..3) {
+        add(Presets.single("minecells:black_bridge/$half$i", processors))
+      }
+    }
+  }
 }
