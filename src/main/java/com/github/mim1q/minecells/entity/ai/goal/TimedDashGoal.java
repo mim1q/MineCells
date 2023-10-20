@@ -129,7 +129,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected void release() {
     if (shouldSlowDown()) {
       if (landSound != null && !hasLanded) {
-        entity.playSound(landSound, 1.0F, 1.0F);
+        playSound(landSound);
         hasLanded = true;
       }
       entity.setVelocity(entity.getVelocity().multiply(0.8D, 1.0D, 0.8D));
@@ -151,8 +151,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   public void stop() {
     super.stop();
     if (!hasLanded) {
-      entity.playSound(landSound, 1.0F, 1.0F);
-      hasLanded = true;
+      playSound(landSound);
     }
   }
 
