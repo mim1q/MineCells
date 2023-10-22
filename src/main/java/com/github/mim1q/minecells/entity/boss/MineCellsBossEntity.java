@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.boss;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
@@ -35,13 +36,16 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
       getWorld().playSound(getX(), getY(), getZ(), sound, SoundCategory.HOSTILE, volume, pitch, false);
       return;
     }
-    for (ServerPlayerEntity player : this.bossBar.getPlayers()) {
+    PlayerLookup.tracking(this).forEach(player -> {
+      var diff = this.getPos().subtract(player.getPos()).normalize();
       var packet = new PlaySoundS2CPacket(
         RegistryEntry.of(sound),
-        SoundCategory.HOSTILE, player.getX(), player.getY(), player.getZ(), volume, pitch, getRandom().nextLong()
+        SoundCategory.HOSTILE,
+        player.getX() + diff.getX(), player.getY() + diff.getY(), player.getZ() + diff.getZ(),
+        volume, pitch, getRandom().nextLong()
       );
       player.networkHandler.sendPacket(packet);
-    }
+    });
   }
 
   @Override

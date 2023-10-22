@@ -32,6 +32,11 @@ public class MineCellsItems {
     "conjunctivius_respawn_rune"
   );
 
+  public static final Item CONCIERGE_RESPAWN_RUNE = register(
+    new Item(new FabricItemSettings().maxCount(1)),
+    "concierge_respawn_rune"
+  );
+
   public static final Item VINE_RUNE = register(
     new Item(new FabricItemSettings().maxCount(1).maxDamage(8)),
     "vine_rune"
@@ -179,21 +184,18 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(32)
       .rarity(Rarity.COMMON)
-      
     ), "phaser"
   );
 
   public static final Item HEALTH_FLASK = register(
     new HealthFlaskItem(new FabricItemSettings()
       .maxCount(16)
-      
     ), "health_flask"
   );
 
   public static final DoorwayItem PRISON_DOORWAY = register(
     new DoorwayItem(new FabricItemSettings()
       .maxCount(1)
-      
     ), "prison_doorway"
   );
 
@@ -202,6 +204,9 @@ public class MineCellsItems {
       (player, world, hand, pos, direction) -> {
         ItemStack stack = player.getStackInHand(player.getActiveHand());
         if (stack.isOf(CROWBAR) && world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
+          if (world.getBlockState(pos.down()).isIn(BlockTags.WOODEN_DOORS)) {
+            world.breakBlock(pos.down(), false, player);
+          }
           world.breakBlock(pos, false, player);
           stack.getOrCreateNbt().putLong("lastDoorBreakTime", world.getTime());
           return ActionResult.SUCCESS;
