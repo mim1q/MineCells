@@ -82,6 +82,7 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.BLANK_RUNE),
       stack(MineCellsItems.RESET_RUNE),
       stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE),
+      stack(MineCellsItems.CONCIERGE_RESPAWN_RUNE),
       stack(MineCellsItems.VINE_RUNE)
     ));
   }
