@@ -38,8 +38,9 @@ public class MonsterBoxBlock extends SetupBlock {
     HostileEntity e = (HostileEntity) entityType.create(world);
     if (e != null) {
       e.setPersistent();
-      e.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+      e.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
       e.initialize((ServerWorldAccess) world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);
+      e.resetPosition();
       world.spawnEntity(e);
       return true;
     }

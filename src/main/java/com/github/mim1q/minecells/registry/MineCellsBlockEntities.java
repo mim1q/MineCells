@@ -15,7 +15,8 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<SetupBlockEntity> SETUP_BLOCK_ENTITY = register(
     "setup_block_entity",
     SetupBlockEntity::new,
-    MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER
+    MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER,
+    MineCellsBlocks.CONCIERGE_BOX
   );
   public static final BlockEntityType<BiomeBannerBlockEntity> BIOME_BANNER_BLOCK_ENTITY = register(
     "biome_banner", BiomeBannerBlockEntity::new, MineCellsBlocks.BIOME_BANNER
