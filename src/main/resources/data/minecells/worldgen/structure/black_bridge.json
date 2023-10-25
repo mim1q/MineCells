@@ -3,7 +3,7 @@
   "biomes": [
     "minecells:black_bridge"
   ],
-  "step": "underground_structures",
+  "step": "surface_structures",
   "start_pool": "minecells:black_bridge/bottom0",
   "spawn_overrides": {},
   "size": 8,
