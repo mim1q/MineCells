@@ -27,8 +27,11 @@ public class DoorwayItem extends AliasedBlockItem {
   private static final String TOOLTIP_NOT_BOUND = "item.minecells.prison_doorway.not_bound";
   private static final String DESCRIPTION = "item.minecells.prison_doorway.description";
 
-  public DoorwayItem(Settings settings) {
-    super(MineCellsBlocks.PROMENADE_DOORWAY, settings);
+  private final DoorwayPortalBlock doorwayBlock;
+
+  public DoorwayItem(Settings settings, DoorwayPortalBlock doorwayBlock) {
+    super(doorwayBlock, settings);
+    this.doorwayBlock = doorwayBlock;
   }
 
   @Override
@@ -81,7 +84,7 @@ public class DoorwayItem extends AliasedBlockItem {
     var rightVec = direction.rotateYCounterclockwise().getVector();
     var leftVec = direction.rotateYClockwise().getVector();
     world.setBlockState(pos.add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
-    world.setBlockState(pos.add(0, dy + 1, 0), MineCellsBlocks.PRISON_DOORWAY.getDefaultState().with(DoorwayPortalBlock.FACING, direction));
+    world.setBlockState(pos.add(0, dy + 1, 0), doorwayBlock.getDefaultState().with(DoorwayPortalBlock.FACING, direction));
     writeNbtToBlockEntity(world, context.getPlayer(), pos.add(0, dy + 1, 0), context.getStack());
     world.setBlockState(pos.add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
     world.setBlockState(pos.add(leftVec).add(0, dy, 0),  frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));

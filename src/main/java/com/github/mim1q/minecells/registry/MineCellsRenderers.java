@@ -257,6 +257,10 @@ public class MineCellsRenderers {
       MineCellsBlocks.WILTED_GRASS_BLOCK
     );
 
+    for (var entry : MineCellsItems.DOORWAY_COLORS.entrySet()) {
+      ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 1 ? entry.getValue() : 0xFFFFFF, entry.getKey());
+    }
+
     // I've accepted this code just like it is
     // What really matters is on the inside (and that it somehow works)
     LivingEntityFeatureRendererRegistrationCallback.EVENT.register(

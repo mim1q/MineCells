@@ -39,7 +39,6 @@ fun main(args: Array<String>) {
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
     // Other
     add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
-    add(CommonDropPresets.simpleDrop("minecells:kingdom_portal_core", "minecells:prison_doorway"))
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
     add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone"))
     add(CustomPresets.corpse("minecells:corpse"))
@@ -58,6 +57,7 @@ fun main(args: Array<String>) {
     }
     listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts", "black_bridge").forEach {
       add(CustomPresets.doorway("minecells:$it"))
+      add("${it}_doorway", ParentedModel.item("minecells:item/doorway"))
     }
     add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))
     listOf("runic_vine", "runic_vine_top").forEach {

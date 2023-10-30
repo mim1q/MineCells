@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
@@ -16,7 +17,12 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class MineCellsItems {
+  public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
+
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
     "elevator_mechanism"
@@ -193,11 +199,11 @@ public class MineCellsItems {
     ), "health_flask"
   );
 
-  public static final DoorwayItem PRISON_DOORWAY = register(
-    new DoorwayItem(new FabricItemSettings()
-      .maxCount(1)
-    ), "prison_doorway"
-  );
+  public static final DoorwayItem PRISON_DOORWAY = registerDoorwayItem(MineCellsBlocks.PRISON_DOORWAY);
+  public static final DoorwayItem PROMENADE_DOORWAY = registerDoorwayItem(MineCellsBlocks.PROMENADE_DOORWAY);
+  public static final DoorwayItem RAMPARTS_DOORWAY = registerDoorwayItem(MineCellsBlocks.RAMPARTS_DOORWAY);
+  public static final DoorwayItem INSUFFERABLE_CRYPT_DOORWAY = registerDoorwayItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
+  public static final DoorwayItem BLACK_BRIDGE_DOORWAY = registerDoorwayItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
 
   public static void init() {
     AttackBlockCallback.EVENT.register(
@@ -218,6 +224,15 @@ public class MineCellsItems {
 
   public static <E extends Item> E register(E item, String name) {
     Registry.register(Registries.ITEM, MineCells.createId(name), item);
+    return item;
+  }
+
+  public static DoorwayItem registerDoorwayItem(DoorwayPortalBlock doorway) {
+    var item = register(
+      new DoorwayItem(new FabricItemSettings().maxCount(1), doorway),
+      doorway.type.dimension.key.getValue().getPath() + "_doorway"
+    );
+    DOORWAY_COLORS.put(item, doorway.type.color);
     return item;
   }
 }

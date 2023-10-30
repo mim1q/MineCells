@@ -194,6 +194,9 @@ public class ConciergeEntity extends MineCellsBossEntity {
   @Override
   public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
     spawnPos = this.getBlockPos();
+    setYaw(180F);
+    setBodyYaw(180F);
+    prevYaw = prevBodyYaw = prevHeadYaw = 180F;
     return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
   }
 
@@ -220,6 +223,10 @@ public class ConciergeEntity extends MineCellsBossEntity {
       canAttack = true;
       if (stageTimer <= 80) {
         getNavigation().stop();
+        var nearestPlayer = getWorld().getClosestPlayer(this, 100);
+        if (nearestPlayer != null) {
+          getLookControl().lookAt(nearestPlayer, 360F, 360F);
+        }
         canAttack = false;
       } else if (!goalsInit && isAlive()) {
         this.initGoals();

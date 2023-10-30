@@ -8,7 +8,7 @@ object ModItemModels {
   fun generated() = Preset {
     listOf(
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
-      "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism", "prison_doorway",
+      "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
       "block/red_putrid_sapling", "reset_rune", "concierge_respawn_rune"
     ).forEach {
       if (it.startsWith("block/")) {
