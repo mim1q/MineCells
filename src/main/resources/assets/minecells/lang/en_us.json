@@ -122,6 +122,7 @@
   "entity.minecells.runner": "Runner",
   "entity.minecells.scorpion": "Scorpion",
   "entity.minecells.conjunctivius": "Conjunctivius",
+  "entity.minecells.concierge": "Concierge",
 
   "entity.minecells.elevator": "Elevator (Right Click to Activate)",
   "entity.minecells.conjunctivius_obelisk": "Conjunctivius Spawn Obelisk",
@@ -144,7 +145,7 @@
   "effect.minecells.stunned": "Stunned",
   "effect.minecells.frozen": "Frozen",
 
-  "death.attack.minecells.grenade": "%1$s was blown up by %2$s",
+  "death.attack.minecells.grenade": "%s was blown up by %s",
   "death.attack.minecells.aura": "%1$s didn't respect %2$s's boundaries",
   "death.attack.minecells.backstab": "%1$s was backstabbed by %2$s",
   "death.attack.minecells.elevator": "%1$s turned into a pancake",
@@ -158,15 +159,21 @@
   "dimension.minecells.prison": "Prisoners' Quarters",
   "dimension.minecells.insufferable_crypt": "Insufferable Crypt",
   "dimension.minecells.promenade": "Promenade of The Condemned",
+  "dimension.minecells.ramparts": "Ramparts",
+  "dimension.minecells.black_bridge": "Black Bridge",
 
   "travelerstitles.minecraft.overworld": "Overworld",
   "travelerstitles.minecells.prison": "Prisoners' Quarters",
   "travelerstitles.minecells.insufferable_crypt": "Insufferable Crypt",
   "travelerstitles.minecells.promenade": "Promenade of The Condemned",
+  "travelerstitles.minecells.ramparts": "Ramparts",
+  "travelerstitles.minecells.black_bridge": "Black Bridge",
 
   "biome.minecells.prison": "Prisoners' Quarters",
   "biome.minecells.insufferable_crypt": "Insufferable Crypt",
   "biome.minecells.promenade": "Promenade of The Condemned",
+  "biome.minecells.ramparts": "Ramparts",
+  "biome.minecells.black_bridge": "Black Bridge",
 
   "gui.minecells.cell_forge.title": "Cell Forge",
   "gui.minecells.cell_forge.forge": "Forge",
