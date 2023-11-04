@@ -28,7 +28,7 @@ public enum MineCellsDimension {
   PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 3, 1024.0),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
-  RAMPARTS(MineCells.createId("ramparts"), 6, 220, -6, 384.0),
+  RAMPARTS(MineCells.createId("ramparts"), -71, 263, -259, 384.0),
   BLACK_BRIDGE(MineCells.createId("black_bridge"), 6, 100, 6, 384.0);
 
   private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
@@ -127,11 +127,11 @@ public enum MineCellsDimension {
     return Arrays.stream(values()).filter(value -> value.id.equals(id)).findFirst().orElse(null);
   }
 
-  public static int getFallResetHeight(World world) {
-    if (!isMineCellsDimension(world)) return Integer.MIN_VALUE;
+  public static Double getFallResetHeight(World world) {
+    if (!isMineCellsDimension(world)) return null;
     return switch (of(world)) {
-      case RAMPARTS -> 180;
-      default -> Integer.MIN_VALUE;
+      case RAMPARTS -> 180.0;
+      default -> null;
     };
   }
 

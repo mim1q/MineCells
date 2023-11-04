@@ -9,6 +9,7 @@
     "client.SlotAccessor",
     "compat.lithium.LithiumEntityCollisionsMixin",
     "entity.BorderEntityCollisionMixin",
+    "entity.EntityFallResetMixin",
     "entity.EntityMixin",
     "entity.LivingEntityInvoker",
     "entity.LivingEntityMixin",
