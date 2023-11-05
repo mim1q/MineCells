@@ -49,7 +49,7 @@ public class BarrierControllerBlock extends ConditionalBarrierBlock implements B
   }
 
   public static boolean bossPredicate(World world, BlockPos pos, BlockState state) {
-    var nearestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 6, false);
+    var nearestPlayer = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 4, false);
     if (nearestPlayer == null) return false;
     var noBossAround = world.getEntitiesByClass(
       MineCellsBossEntity.class,

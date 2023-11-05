@@ -78,7 +78,7 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "biome_banner", "prison_doorway", "red_putrid_sapling"
+      "big_chain", "broken_cage", "biome_banner", "red_putrid_sapling"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }

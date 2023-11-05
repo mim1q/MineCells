@@ -60,6 +60,7 @@ object CustomPresets {
       variant("facing=south", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_180))
       variant("facing=west", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_270))
     })
+    add(CommonDropPresets.simpleDrop("${name}_doorway"))
   }
 
   fun customRecipes() = Preset {

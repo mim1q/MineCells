@@ -88,7 +88,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
   @Unique
   private BlockPos minecells$getResetToPos() {
     BlockPos resetToPos = null;
-    if (lastSolidBlock != null) {
+    if (lastSolidBlock != null && lastSolidBlock.isWithinDistance(getBlockPos().withY(lastSolidBlock.getY()), 32)) {
       resetToPos = lastSolidBlock.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, lastSolidBlock.getX(), lastSolidBlock.getZ()));
     }
     if (resetToPos == null || resetToPos.getY() < fallResetY) {
