@@ -103,6 +103,7 @@ public class DoorwayItem extends AliasedBlockItem {
       && selected
       && entity instanceof ServerPlayerEntity player
       && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
+      && entity.age % 10 == 0
     ) {
       if (stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride")) {
         return;
@@ -110,10 +111,10 @@ public class DoorwayItem extends AliasedBlockItem {
       var x = Math.round(entity.getPos().x / 1024F) * 1024;
       var z = Math.round(entity.getPos().z / 1024F) * 1024;
       var area = "[x: " + x + ", z: " + z + "]";
-      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(MineCellsDimension.PRISONERS_QUARTERS)
+      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(doorwayBlock.type.dimension)
         ? TOOLTIP_VISITED
         : TOOLTIP_NOT_VISITED;
-      player.sendMessage(Text.translatable(message, area), true);
+      player.sendMessage(Text.translatable(message, Text.translatable(doorwayBlock.type.dimension.translationKey), area), true);
     }
   }
 

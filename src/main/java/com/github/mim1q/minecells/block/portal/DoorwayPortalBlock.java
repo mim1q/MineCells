@@ -2,9 +2,9 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
@@ -175,7 +175,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     var stacks = super.getDroppedStacks(state, builder);
     var blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
     for (var stack : stacks) {
-      if (stack.isOf(MineCellsItems.PRISON_DOORWAY) && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
+      if (stack.getItem() instanceof DoorwayItem && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
         doorway.setStackNbt(stack);
       }
     }

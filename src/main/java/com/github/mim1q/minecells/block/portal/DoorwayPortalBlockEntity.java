@@ -54,16 +54,16 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     }
   }
 
-  public List<MutableText> getLabel() {
+  public List<MutableText> getLabel(boolean showPosition) {
     var result = new ArrayList<MutableText>();
     var text = Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
     if (!hasClientVisited()) {
       text.append(Text.literal("*"));
     }
     result.add(text);
-    var normalPos = MathUtils.getClosestMultiplePosition(this.getPos(), 1024);
-    if (posOverride != null && (posOverride.getX() != normalPos.getX() || posOverride.getZ() != normalPos.getZ())) {
-      result.add(Text.literal("[x: " + posOverride.getX() + ", z: " + posOverride.getZ() + "]"));
+    if (showPosition) {
+      var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
+      result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
     }
     return result;
   }
