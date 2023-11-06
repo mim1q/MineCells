@@ -184,6 +184,14 @@ public class MineCellsItems {
     ), "flint"
   );
 
+  public static final Item SPITE_SWORD = register(new SpiteSwordItem(4, -2.5f,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(1200)
+      .rarity(Rarity.UNCOMMON)
+    ), "spite_sword"
+  );
+
   // Skills
   public static final PhaserItem PHASER = register(new PhaserItem(
     new FabricItemSettings()

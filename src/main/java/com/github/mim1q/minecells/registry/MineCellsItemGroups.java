@@ -99,6 +99,7 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.HATTORIS_KATANA),
       stack(MineCellsItems.TENTACLE),
       stack(MineCellsItems.FROST_BLAST),
+      stack(MineCellsItems.SPITE_SWORD),
       stack(MineCellsItems.FLINT),
       stack(MineCellsItems.PHASER)
     ));

@@ -72,8 +72,8 @@
   "item.minecells.reset_rune.tooltip": "Reset the Spawner Runes in a dimension",
   "item.minecells.prison_doorway": "Prisoners' Quarters Doorway",
   "item.minecells.prison_doorway.description": "Place against an empty 3x3 wall",
-  "item.minecells.prison_doorway.visited": "Prisoners' Quarters already visited near area: %s",
-  "item.minecells.prison_doorway.not_visited": "Prisoners' Quarters not yet visited near area: %s",
+  "item.minecells.prison_doorway.visited": "%s already visited near area: %s",
+  "item.minecells.prison_doorway.not_visited": "%s not yet visited near area: %s",
   "item.minecells.prison_doorway.bound": "Bound coordinates: %s",
   "item.minecells.prison_doorway.not_bound": "Coordinates not bound",
 
@@ -100,6 +100,8 @@
   "item.minecells.nutcracker.description": "Deals critical damage (+%sHP)\nto Frozen and Stunned enemies",
   "item.minecells.flint": "The Flint",
   "item.minecells.flint.description": "Send a shockwave in front of you",
+  "item.minecells.spite_sword": "Spite Sword",
+  "item.minecells.spite_sword.description": "Deals critical damage (+%sHP)\nIf you've recently taken damage",
   "item.minecells.phaser": "Phaser",
   "item.minecells.phaser.description": "Teleport to a nearby enemy,\nstunning it briefly.\nYour next attack deals\nadditional damage",
 

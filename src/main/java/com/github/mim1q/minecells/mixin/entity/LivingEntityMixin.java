@@ -7,8 +7,10 @@ import com.github.mim1q.minecells.effect.MineCellsStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import com.github.mim1q.minecells.registry.*;
-import net.minecraft.block.BlockState;
+import com.github.mim1q.minecells.registry.MineCellsGameRules;
+import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,13 +20,11 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,13 +34,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
 
-  protected int ticksInSewage = 0;
   protected int droppedCellAmount = 1;
   protected float droppedCellChance = 0.75F;
 
@@ -54,6 +52,8 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Shadow public abstract Identifier getLootTable();
   @Shadow public abstract ItemStack getOffHandStack();
   @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
+
+  @Shadow private long lastDamageTime;
 
   @SuppressWarnings("WrongEntityDataParameterClass")
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -75,11 +75,6 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
         || this.getOffHandStack().isOf(MineCellsItems.CURSED_SWORD)
       ) {
         this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.CURSED, 210, 0, false, false, true));
-      }
-      if (this.checkIfInSewageAndUpdate()) {
-        this.ticksInSewage++;
-      } else {
-        this.ticksInSewage = 0;
       }
     }
   }
@@ -138,37 +133,14 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     return false;
   }
 
-  private boolean checkIfInSewageAndUpdate() {
-    List<BlockState> states = getWorld().getStatesInBoxIfLoaded(this.getBoundingBox()).toList();
-    for (BlockState state : states) {
-      boolean isAncientSewage = state.getBlock() == MineCellsBlocks.ANCIENT_SEWAGE;
-      if (state.getBlock() == MineCellsBlocks.SEWAGE || isAncientSewage) {
-        if (this.ticksInSewage % (isAncientSewage ? 10 : 20) == 0) {
-          ((LivingEntity)(Object)this).addStatusEffect(new StatusEffectInstance(
-            StatusEffects.POISON,
-            40,
-            isAncientSewage ? 1 : 0)
-          );
-        }
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  protected void onSwimmingStart() {
-    if (!this.checkIfInSewageAndUpdate()) {
-      super.onSwimmingStart();
-    } else {
-      this.emitGameEvent(GameEvent.SPLASH);
-    }
-  }
-
-
   @Override
   protected boolean canStartRiding(Entity entity) {
     return entity instanceof ElevatorEntity || super.canStartRiding(entity);
+  }
+
+  @Override
+  public long getLastDamageTime() {
+    return lastDamageTime;
   }
 
   public boolean getMineCellsFlag(MineCellsEffectFlags flag) {
