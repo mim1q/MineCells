@@ -118,6 +118,7 @@ public class MineCellsBlocks {
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "teleporter_frame");
   public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(Blocks.NETHER_PORTAL).nonOpaque().strength(10F, 1200F)), "doorway_frame");
   public static final DoorwayPortalBlock.Frame UNBREAKABLE_DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F)), "unbreakable_doorway_frame");
+  public static final RiftBlock RIFT = registerBlock(new RiftBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "rift");
 
   public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
   public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");

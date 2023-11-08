@@ -43,6 +43,10 @@ public class MineCellsBlockEntities {
     MineCellsBlocks.BOSS_BARRIER_CONTROLLER, MineCellsBlocks.BOSS_ENTRY_BARRIER_CONTROLLER,
     MineCellsBlocks.PLAYER_BARRIER_CONTROLLER
   );
+  public static final BlockEntityType<RiftBlockEntity> RIFT = register(
+    "rift", RiftBlockEntity::new,
+    MineCellsBlocks.RIFT
+  );
 
   public static void init() {}
 

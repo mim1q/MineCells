@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockE
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
+import com.github.mim1q.minecells.client.render.blockentity.portal.RiftBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -235,6 +236,7 @@ public class MineCellsRenderers {
 
     BlockEntityRendererFactories.register(MineCellsBlockEntities.TELEPORTER, TeleporterBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.RIFT, RiftBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

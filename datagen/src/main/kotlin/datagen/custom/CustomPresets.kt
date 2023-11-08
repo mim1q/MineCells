@@ -60,7 +60,9 @@ object CustomPresets {
       variant("facing=south", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_180))
       variant("facing=west", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_270))
     })
-    add(CommonDropPresets.simpleDrop("${id}_doorway"))
+    if (name != "overworld") {
+      add(CommonDropPresets.simpleDrop("${id}_doorway"))
+    }
   }
 
   fun customRecipes() = Preset {
