@@ -147,7 +147,7 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ObeliskEntityRenderer::new);
-    EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneRenderer.Entity::new);
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
@@ -217,6 +217,8 @@ public class MineCellsRenderers {
 
     BlockEntityRendererFactories.register(MineCellsBlockEntities.TELEPORTER, TeleporterBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
+
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.SPAWNER_RUNE, SpawnerRuneRenderer.BlockEntity::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,

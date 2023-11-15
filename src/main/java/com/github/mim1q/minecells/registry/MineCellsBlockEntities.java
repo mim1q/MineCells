@@ -41,6 +41,9 @@ public class MineCellsBlockEntities {
     MineCellsBlocks.BOSS_BARRIER_CONTROLLER, MineCellsBlocks.BOSS_ENTRY_BARRIER_CONTROLLER,
     MineCellsBlocks.PLAYER_BARRIER_CONTROLLER
   );
+  public static final BlockEntityType<SpawnerRuneBlockEntity> SPAWNER_RUNE = register(
+    "spawner_rune", SpawnerRuneBlockEntity::new, MineCellsBlocks.SPAWNER_RUNE
+  );
 
   public static void init() {}
 
