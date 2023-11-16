@@ -12,6 +12,7 @@ import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -47,7 +48,7 @@ public class SpawnerRuneCommand {
     }
     if (spawnerRune == null) return 1;
     spawnerRune.setPosition(pos);
-    spawnerRune.setDataId(id);
+    spawnerRune.controller.setDataId(world, new BlockPos(pos), id);
     world.spawnEntity(spawnerRune);
     return 0;
   }

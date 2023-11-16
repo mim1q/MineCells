@@ -36,6 +36,7 @@ public interface SpawnerRuneRenderer {
 
     @Override
     public void render(SpawnerRuneEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+      if (!entity.controller.isVisible()) return;
       SpawnerRuneRenderer.render(matrices, entity.getWorld().getTime() + tickDelta, vertexConsumers);
     }
 
@@ -51,7 +52,7 @@ public interface SpawnerRuneRenderer {
     @Override
     public void render(SpawnerRuneBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
       var world = entity.getWorld();
-      if (world == null) return;
+      if (world == null || !entity.controller.isVisible()) return;
       matrices.push();
       matrices.translate(0.5, 0.0, 0.5);
       SpawnerRuneRenderer.render(matrices, entity.getWorld().getTime() + tickDelta, vertexConsumers);

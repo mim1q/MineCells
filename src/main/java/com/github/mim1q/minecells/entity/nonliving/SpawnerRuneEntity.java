@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneController;
-import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData;
+import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -12,9 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class SpawnerRuneEntity extends Entity {
-  private Identifier dataId = MineCells.createId("unknown");
-  private SpawnerRuneData data = null;
-  private final SpawnerRuneController controller = new SpawnerRuneController();
+  public final SpawnerRuneController controller = new SpawnerRuneController();
 
   public SpawnerRuneEntity(EntityType<?> type, World world) {
     super(type, world);
@@ -22,13 +20,23 @@ public class SpawnerRuneEntity extends Entity {
 
   @Override
   public void tick() {
-    if (age % 10 == 0) {
-      controller.tick(data, getBlockPos(), world);
+    if (age % 10 == 0 && !world.isClient()) {
+      if (world.getBlockState(getBlockPos()).isAir()) {
+        world.setBlockState(getBlockPos(), MineCellsBlocks.SPAWNER_RUNE.getDefaultState());
+        this.discard();
+        var blockEntity = world.getBlockEntity(getBlockPos(), MineCellsBlockEntities.SPAWNER_RUNE);
+        blockEntity.ifPresent(
+          it -> {
+            it.controller.setDataId(getWorld(), getBlockPos(), controller.getDataId());
+            it.markDirty();
+          }
+        );
+        return;
+      } else if (world.getBlockState(getBlockPos()).isOf(MineCellsBlocks.SPAWNER_RUNE)) {
+        discard();
+      }
+      controller.tick(getBlockPos(), world);
     }
-  }
-
-  public boolean isVisible() {
-    return controller.isVisible();
   }
 
   @Override
@@ -37,26 +45,12 @@ public class SpawnerRuneEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-    setDataId(Identifier.tryParse(nbt.getString("dataId")));
+    controller.setDataId(getWorld(), getBlockPos(), Identifier.tryParse(nbt.getString("dataId")));
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-    nbt.putString("dataId", dataId.toString());
-  }
-
-  public void setDataId(Identifier id) {
-    if (world.isClient) return;
-    var newData = MineCells.SPAWNER_RUNE_DATA.get(id);
-    if (newData == null) {
-      MineCells.LOGGER.warn("Tried to load unknown spawner rune data with id: " + id
-        + " at pos " + getBlockPos().toShortString()
-        + " in dimension " + world.getRegistryKey().getValue().toString()
-      );
-      return;
-    }
-    this.dataId = id;
-    this.data = MineCells.SPAWNER_RUNE_DATA.get(id);
+    nbt.putString("dataId", controller.getDataId().toString());
   }
 
   @Override

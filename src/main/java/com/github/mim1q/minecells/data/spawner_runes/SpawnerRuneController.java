@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.data.spawner_runes;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -27,9 +29,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class SpawnerRuneController {
+
+  private Identifier dataId = MineCells.createId("unknown");
+  private SpawnerRuneData data = null;
   private boolean isVisible = false;
 
-  public void tick(SpawnerRuneData data, BlockPos pos, World world) {
+  public void tick(BlockPos pos, World world) {
     if (!world.isClient && data != null) {
       var d = data.playerDistance();
       for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(Vec3d.ofCenter(pos), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
@@ -121,5 +126,23 @@ public class SpawnerRuneController {
       y++;
     }
     return pos;
+  }
+
+  public void setDataId(World world, BlockPos pos, Identifier id) {
+    if (world == null || world.isClient) return;
+    var newData = MineCells.SPAWNER_RUNE_DATA.get(id);
+    if (newData == null) {
+      MineCells.LOGGER.warn("Tried to load unknown spawner rune data with id: " + id
+        + " at pos " + pos.toShortString()
+        + " in dimension " + world.getRegistryKey().getValue().toString()
+      );
+      return;
+    }
+    this.dataId = id;
+    this.data = MineCells.SPAWNER_RUNE_DATA.get(id);
+  }
+
+  public Identifier getDataId() {
+    return dataId;
   }
 }
