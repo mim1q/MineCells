@@ -35,7 +35,6 @@ public class SpawnerRuneEntity extends Entity {
             it.markDirty();
           }
         );
-        return;
       } else if (world.getBlockState(getBlockPos()).isOf(MineCellsBlocks.SPAWNER_RUNE)) {
         discard();
       }
@@ -53,7 +52,9 @@ public class SpawnerRuneEntity extends Entity {
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-    nbt.putString("dataId", controller.getDataId().toString());
+    if (controller.getDataId() != null) {
+      nbt.putString("dataId", controller.getDataId().toString());
+    }
   }
 
   @Override

@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 
 public class SpawnerRuneController {
 
-  private Identifier dataId = MineCells.createId("unknown");
+  private Identifier dataId = null;
   private SpawnerRuneData data = null;
   private boolean isVisible = false;
 
@@ -133,17 +133,17 @@ public class SpawnerRuneController {
   }
 
   public void setDataId(World world, BlockPos pos, Identifier id) {
-    if (world == null || world.isClient) return;
     var newData = MineCells.SPAWNER_RUNE_DATA.get(id);
+    this.dataId = id;
+    this.data = MineCells.SPAWNER_RUNE_DATA.get(id);
+
+    if (world == null || world.isClient) return;
     if (newData == null) {
       MineCells.LOGGER.warn("Tried to load unknown spawner rune data with id: " + id
         + " at pos " + pos.toShortString()
         + " in dimension " + world.getRegistryKey().getValue().toString()
       );
-      return;
     }
-    this.dataId = id;
-    this.data = MineCells.SPAWNER_RUNE_DATA.get(id);
   }
 
   public Identifier getDataId() {

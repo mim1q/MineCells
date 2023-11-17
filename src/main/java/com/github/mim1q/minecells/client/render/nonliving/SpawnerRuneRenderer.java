@@ -20,7 +20,7 @@ public interface SpawnerRuneRenderer {
 
   private static void render(MatrixStack matrices, float age, VertexConsumerProvider vertices) {
     matrices.push();
-    var yOffset = 0.5 + MathHelper.sin(0.1F * age) * 0.15F;
+    var yOffset = 0.5 + Math.sin(0.1F * age) * 0.15F;
     matrices.translate(0.0D, yOffset, 0.0D);
     var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     matrices.multiply(dispatcher.getRotation());

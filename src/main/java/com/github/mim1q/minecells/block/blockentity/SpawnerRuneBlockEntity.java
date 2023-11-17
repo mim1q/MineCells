@@ -34,17 +34,8 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   @Override
   protected void writeNbt(NbtCompound nbt) {
     super.writeNbt(nbt);
-    nbt.putString("dataId", controller.getDataId().toString());
-  }
-
-  @Nullable
-  @Override
-  public Packet<ClientPlayPacketListener> toUpdatePacket() {
-    return BlockEntityUpdateS2CPacket.create(this);
-  }
-
-  @Override
-  public NbtCompound toInitialChunkDataNbt() {
-    return createNbt();
+    if (controller.getDataId() != null) {
+      nbt.putString("dataId", controller.getDataId().toString());
+    }
   }
 }
