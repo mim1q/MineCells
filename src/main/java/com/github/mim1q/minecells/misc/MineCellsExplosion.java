@@ -1,12 +1,12 @@
 package com.github.mim1q.minecells.misc;
 
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
@@ -23,7 +23,7 @@ import java.util.List;
 public class MineCellsExplosion {
 
   public static void explode(ServerWorld world, LivingEntity causingEntity, Vec3d position, float power, float radius) {
-    world.playSound(null, new BlockPos(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 1.0f, 1.0f);
+    world.playSound(null, BlockPos.ofFloored(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 1.0f, 1.0f);
     damageEntities(world, causingEntity, position, power, radius);
 
     PacketByteBuf buf = PacketByteBufs.create();
@@ -31,7 +31,7 @@ public class MineCellsExplosion {
     buf.writeDouble(position.y);
     buf.writeDouble(position.z);
     buf.writeDouble(radius);
-    for (ServerPlayerEntity player : PlayerLookup.tracking(world, new BlockPos(position))) {
+    for (ServerPlayerEntity player : PlayerLookup.tracking(world, BlockPos.ofFloored(position))) {
       ServerPlayNetworking.send(player, PacketIdentifiers.EXPLOSION, buf);
     }
   }
@@ -50,7 +50,7 @@ public class MineCellsExplosion {
       float distance = MathHelper.sqrt((float) entity.squaredDistanceTo(pos));
       if (distance <= radius) {
         float damage = power * getDamagePercentage(distance, radius);
-        entity.damage(DamageSource.explosion(causingEntity), damage);
+        entity.damage(MineCellsDamageSource.GRENADE.get(world, causingEntity), damage);
       }
     }
   }

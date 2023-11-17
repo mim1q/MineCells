@@ -17,6 +17,6 @@ public class ConjunctiviusTargetGoal extends TargetRandomPlayerGoal<Conjunctiviu
   @Override
   protected List<PlayerEntity> getTargetablePlayers() {
     Box box = Box.from(this.entity.getRoomBox().expand(1));
-    return this.entity.world.getPlayers(TargetPredicate.DEFAULT.ignoreVisibility(), this.entity, box);
+    return this.entity.getWorld().getPlayers(TargetPredicate.DEFAULT.ignoreVisibility(), this.entity, box);
   }
 }

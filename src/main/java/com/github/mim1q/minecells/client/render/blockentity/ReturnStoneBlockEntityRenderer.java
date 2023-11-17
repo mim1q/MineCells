@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.render.blockentity;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.ReturnStoneBlock;
 import com.github.mim1q.minecells.block.blockentity.ReturnStoneBlockEntity;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -15,9 +16,9 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<ReturnStoneBlockEntity> {
   private static final String TEXT_KEY = "block.minecells.return_stone.title";
@@ -43,7 +44,7 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
 
   private void renderArrow(MatrixStack matrices, VertexConsumerProvider vertexConsumers, float rotation) {
     matrices.push();
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotation));
+    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(rotation)));
     VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityShadow(TEXTURE));
     matrices.translate(0.0F, 0.5F / 16F, 5.01F / 16F);
     Matrix3f m3f = matrices.peek().getNormalMatrix();
@@ -85,7 +86,7 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
       false,
       matrices.peek().getPositionMatrix(),
       vertexConsumers,
-      false,
+      TextRenderer.TextLayerType.NORMAL,
       0x80000000,
       LightmapTextureManager.MAX_LIGHT_COORDINATE
     );

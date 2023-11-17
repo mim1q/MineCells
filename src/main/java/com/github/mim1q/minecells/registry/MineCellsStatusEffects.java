@@ -6,7 +6,8 @@ import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 
 public class MineCellsStatusEffects {
@@ -34,6 +35,6 @@ public class MineCellsStatusEffects {
   public static void init() { }
 
   public static StatusEffect register(StatusEffect effect, String name) {
-    return Registry.register(Registry.STATUS_EFFECT, MineCells.createId(name), effect);
+    return Registry.register(Registries.STATUS_EFFECT, MineCells.createId(name), effect);
   }
 }

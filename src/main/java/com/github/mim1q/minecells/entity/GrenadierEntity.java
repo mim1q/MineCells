@@ -61,7 +61,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
   @Override
   public void tick() {
     super.tick();
-    if (world.isClient()) {
+    if (getWorld().isClient()) {
       clientTick();
     } else {
       serverTick();
@@ -172,11 +172,11 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
       Vec3d delta = targetPos.subtract(entityPos).multiply(0.035D).add(0.0D, 0.5D, 0.0D);
 
-      GrenadeEntity grenade = new GrenadeEntity(MineCellsEntities.GRENADE, this.entity.world);
+      GrenadeEntity grenade = new GrenadeEntity(MineCellsEntities.GRENADE, this.entity.getWorld());
       grenade.setPosition(entityPos.add(0.0D, 1.5D, 0.0D));
       grenade.shoot(delta);
 
-      this.entity.world.spawnEntity(grenade);
+      this.entity.getWorld().spawnEntity(grenade);
     }
   }
 }

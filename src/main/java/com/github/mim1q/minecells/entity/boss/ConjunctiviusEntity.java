@@ -33,6 +33,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.*;
@@ -83,7 +84,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
     this.moveControl = new ConjunctiviusMoveControl(this);
-    this.navigation = new BirdNavigation(this, this.world);
+    this.navigation = new BirdNavigation(this, getWorld());
     this.setNoGravity(true);
     this.ignoreCameraFrustum = true;
     this.experiencePoints = 5000;
@@ -94,6 +95,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.prevYaw = 180.0F;
     this.headYaw = 180.0F;
     this.prevHeadYaw = 180.0F;
+    this.bossBar.setVisible(false);
   }
 
   @Nullable
@@ -191,7 +193,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       if (this.getDashState() != TimedActionGoal.State.IDLE || this.getAuraState() == TimedActionGoal.State.RELEASE) {
         this.spikeOffset.setupTransitionTo(0.0F, 10.0F);
       } else {
@@ -199,19 +201,19 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
       this.spawnParticles();
     } else {
-      for (Entity e : this.world.getOtherEntities(this, this.getBoundingBox().expand(0.25D))) {
+      for (Entity e : getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25D))) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
           this.tryAttack(livingEntity);
           this.knockback(livingEntity);
         }
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
-        if (this.world.getBlockState(blockPos).isIn(MineCellsBlockTags.CONJUNCTIVIUS_BREAKABLE)) {
-          this.world.breakBlock(blockPos, true);
+        if (getWorld().getBlockState(blockPos).isIn(MineCellsBlockTags.CONJUNCTIVIUS_BREAKABLE)) {
+          getWorld().breakBlock(blockPos, true);
         }
       });
 
-      if (!this.world.getBlockState(this.getBlockPos().down(2)).isAir()) {
+      if (!getWorld().getBlockState(this.getBlockPos().down(2)).isAir()) {
         this.move(MovementType.SELF, new Vec3d(0.0D, 0.1D, 0.0D));
       }
       this.bodyYaw = this.spawnRot;
@@ -220,14 +222,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
       if (this.age % 20 == 0) {
         // Handle bossbar visibility
-        boolean closestPlayerNearby = this.world.getClosestPlayer(this, 32.0D) != null;
-        List<PlayerEntity> playersInArea = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
+        boolean closestPlayerNearby = getWorld().getClosestPlayer(this, 32.0D) != null;
+        List<PlayerEntity> playersInArea = getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
         this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
 
         this.switchStages(this.getStage());
 
         if (!this.isInFullStage()) {
-          var tentacles = world.getEntitiesByClass(SewersTentacleEntity.class, Box.from(roomBox.expand(10)), Objects::nonNull);
+          var tentacles = getWorld().getEntitiesByClass(SewersTentacleEntity.class, Box.from(roomBox.expand(10)), Objects::nonNull);
           if (this.stageTicks > 30 && tentacles.isEmpty() && this.getStage() != 0) {
             this.setStage(this.getStage() + 1);
           } else if (this.getStage() != 0) {
@@ -247,10 +249,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void updatePostDeath() {
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       int interval = this.deathTime >= 55 ? 1 : 10;
       if (this.deathTime % interval == 0) {
-        this.world.addParticle(ParticleTypes.EXPLOSION_EMITTER, this.getX(), this.getY() + 2.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
+        getWorld().addParticle(ParticleTypes.EXPLOSION_EMITTER, this.getX(), this.getY() + 2.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
       }
     } else {
       if (this.deathTime == 1) {
@@ -267,18 +269,18 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   @Override
   public void onDeath(DamageSource damageSource) {
     super.onDeath(damageSource);
-    if (this.world.isClient || this.world.getServer() == null) {
+    if (getWorld().isClient || getWorld().getServer() == null) {
       return;
     }
 
-    var server = this.world.getServer();
+    var server = getWorld().getServer();
     var advancement = server.getAdvancementLoader().get(MineCells.createId("conjunctivius"));
 
     if (advancement == null) {
       return;
     }
 
-    this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.getRoomBox().expand(10))).forEach(
+    getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.getRoomBox().expand(10))).forEach(
       player -> ((ServerPlayerEntity)player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
     );
   }
@@ -306,14 +308,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   protected void spawnTentacles() {
-    int playerAmount = this.world.getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size();
+    int playerAmount = getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(4.0D)).size();
     for (int i = 0; i < 2 + 2 * playerAmount; i++) {
-      SewersTentacleEntity tentacle = MineCellsEntities.SEWERS_TENTACLE.create(this.world);
+      SewersTentacleEntity tentacle = MineCellsEntities.SEWERS_TENTACLE.create(getWorld());
       if (tentacle != null) {
         tentacle.setVariant(this.getStage() == 1 ? 0 : this.getStage() == 3 ? 1 : 2);
         tentacle.setPosition(this.getTentaclePos());
         tentacle.setSpawnedByBoss(true);
-        this.world.spawnEntity(tentacle);
+        getWorld().spawnEntity(tentacle);
       }
     }
   }
@@ -330,10 +332,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   protected void spawnParticles() {
     Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
     if (this.getAuraState() == TimedActionGoal.State.CHARGE) {
-      ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 2, 7.5D, -0.01D);
+      ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 2, 7.5D, -0.01D);
     } else if (this.getAuraState() == TimedActionGoal.State.RELEASE) {
-      ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 50, 7.0D, 0.01D);
-      ParticleUtils.addAura((ClientWorld) this.world, pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
+      ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 50, 7.0D, 0.01D);
+      ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
     }
 
     int stage = this.getStage();
@@ -361,7 +363,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     double length = diff.length();
     for (int i = 0; i < length; i++) {
       Vec3d pos = this.getPos().add(offset).add(diff.multiply(i / length));
-      this.world.addParticle(particle, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
+      getWorld().addParticle(particle, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
     }
   }
 
@@ -374,7 +376,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public boolean damage(DamageSource source, float amount) {
-    if (source.isProjectile()) {
+    if (source.isIn(DamageTypeTags.IS_PROJECTILE)) {
       return super.damage(source, amount * 0.5F);
     }
     return super.damage(source, amount);
@@ -599,7 +601,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       Box box = this.entity.getBoundingBox().withMinY(this.entity.getY() - 1.0D);
       for(int i = 1; i < steps; ++i) {
         box = box.offset(direction);
-        if (!this.entity.world.isSpaceEmpty(this.entity, box)) {
+        if (!this.entity.getWorld().isSpaceEmpty(this.entity, box)) {
           return false;
         }
       }

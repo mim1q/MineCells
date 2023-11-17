@@ -21,11 +21,11 @@ public class BigGrenadeEntity extends GrenadeEntity {
     for (int i = 0; i < 3; i++) {
       Vec3d velocity = new Vec3d(this.random.nextDouble() - 0.5D, this.random.nextDouble(), this.random.nextDouble() - 0.5D).multiply(0.7D);
 
-      GrenadeEntity grenade = new GrenadeEntity(MineCellsEntities.GRENADE, this.world);
+      GrenadeEntity grenade = new GrenadeEntity(MineCellsEntities.GRENADE, getWorld());
       grenade.setPosition(this.getPos());
       grenade.shoot(velocity);
 
-      this.world.spawnEntity(grenade);
+      getWorld().spawnEntity(grenade);
     }
   }
 }

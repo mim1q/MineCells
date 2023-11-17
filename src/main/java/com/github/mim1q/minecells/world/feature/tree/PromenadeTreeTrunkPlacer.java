@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.block.AbstractBlock.AbstractBlockState;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.predicate.block.BlockStatePredicate;
@@ -39,7 +40,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       height = height * 2 / 3;
     }
     for (int i = 1; i < height; i++) {
-      if (!world.testBlockState(startPos.up(i), state -> state.getMaterial().isReplaceable())) {
+      if (!world.testBlockState(startPos.up(i), AbstractBlockState::isReplaceable)) {
         return nodes;
       }
     }

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.nonliving.projectile;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.projectile.MagicOrbEntity;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -10,9 +11,9 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
 
@@ -29,7 +30,7 @@ public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
     matrixStack.translate(0.0F, 0.25F, 0.0F);
     matrixStack.scale(0.5F, 0.5F, 0.5F);
     matrixStack.multiply(this.dispatcher.getRotation());
-    matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+    matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     MatrixStack.Entry entry = matrixStack.peek();
     Matrix4f matrix4f = entry.getPositionMatrix();
     Matrix3f matrix3f = entry.getNormalMatrix();

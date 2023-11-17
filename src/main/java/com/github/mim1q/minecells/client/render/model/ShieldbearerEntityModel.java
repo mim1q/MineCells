@@ -8,8 +8,8 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -152,7 +152,7 @@ public class ShieldbearerEntityModel extends EntityModel<ShieldbearerEntity> imp
   @Override
   public void setArmAngle(Arm arm, MatrixStack matrices) {
     matrices.translate(0.3F, 0.6F, -0.3F);
-    Vec3f rot = new Vec3f(90.0F, 0.0F, 90.0F);
-    matrices.multiply(Quaternion.fromEulerXyzDegrees(rot));
+    Vector3f rot = new Vector3f(90.0F, 0.0F, 90.0F);
+    matrices.multiply(new Quaternionf().rotationXYZ(rot.x, rot.y, rot.z));
   }
 }

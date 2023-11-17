@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecells:item/doorway_frame",
+    "layer1": "minecells:item/doorway_glow"
+  }
+}

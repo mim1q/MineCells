@@ -57,7 +57,9 @@ public class BarrierRuneBlock extends BarrierBlock {
   @SuppressWarnings("deprecation")
   @Override
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return context.isHolding(this.asItem()) ? VoxelShapes.fullCube() : VoxelShapes.empty();
+    var item = this.asItem();
+    if (item == Blocks.AIR.asItem()) return VoxelShapes.empty();
+    return context.isHolding(item) ? VoxelShapes.fullCube() : VoxelShapes.empty();
   }
 
   @Nullable

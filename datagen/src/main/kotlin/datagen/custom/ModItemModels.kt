@@ -8,8 +8,8 @@ object ModItemModels {
   fun generated() = Preset {
     listOf(
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
-      "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism", "prison_doorway",
-      "block/red_putrid_sapling", "reset_rune"
+      "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
+      "block/red_putrid_sapling", "reset_rune", "concierge_respawn_rune"
     ).forEach {
       if (it.startsWith("block/")) {
         add(CommonModelPresets.generatedItemModel("minecells:${it.removePrefix("block/")}", "block"))
@@ -30,9 +30,13 @@ object ModItemModels {
   fun spawnEggs() = Preset {
     listOf(
       "leaping_zombie", "shocker", "grenadier", "disgusting_worm", "inquisitor", "kamikaze", "protector", "undead_archer",
-      "shieldbearer", "mutated_bat", "sewers_tentacle", "rancid_rat", "runner", "scorpion",
+      "shieldbearer", "mutated_bat", "sewers_tentacle", "rancid_rat", "runner", "scorpion", "buzzcutter", "sweeper"
     ).forEach {
-      add("${it}_spawn_egg", ParentedModel.item("minecraft:item/template_spawn_egg"))
+      add(
+        "${it}_spawn_egg",
+        ParentedModel.item("minecraft:item/generated")
+          .texture("layer0", "minecells:item/spawn_eggs/$it")
+      )
     }
   }
 

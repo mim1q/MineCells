@@ -5,7 +5,6 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +25,7 @@ public class MagicOrbEntity extends ProjectileEntity {
   public void tick() {
     super.tick();
     this.move(MovementType.SELF, this.getVelocity());
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       this.spawnParticles();
     } else {
       if (this.age > 2000) {
@@ -43,14 +42,14 @@ public class MagicOrbEntity extends ProjectileEntity {
   protected void spawnParticles() {
     var particle = MineCellsParticles.SPECKLE.get(0xFFAAFF);
     if (this.age == 1) {
-      ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), particle, 15, 0.0D, 0.5D);
+      ParticleUtils.addAura((ClientWorld) getWorld(), this.getPos().add(0.0D, 0.25D, 0.0D), particle, 15, 0.0D, 0.5D);
     }
-    ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), particle, 3, 0.5D, 0.0D);
-    ParticleUtils.addAura((ClientWorld) this.world, this.getPos().add(0.0D, 0.25D, 0.0D), particle, 3, 0.0D, 0.0D);
+    ParticleUtils.addAura((ClientWorld) getWorld(), this.getPos().add(0.0D, 0.25D, 0.0D), particle, 3, 0.5D, 0.0D);
+    ParticleUtils.addAura((ClientWorld) getWorld(), this.getPos().add(0.0D, 0.25D, 0.0D), particle, 3, 0.0D, 0.0D);
   }
 
   protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
-    return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()).expand(0.1D), this::canHit);
+    return ProjectileUtil.getEntityCollision(getWorld(), this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()).expand(0.1D), this::canHit);
   }
 
   @Override
@@ -59,8 +58,8 @@ public class MagicOrbEntity extends ProjectileEntity {
 
     if (entity instanceof PlayerEntity) {
       DamageSource damageSource = this.getOwner() == null
-        ? DamageSource.MAGIC
-        : DamageSource.mobProjectile(this, (LivingEntity) this.getOwner());
+        ? getDamageSources().magic()
+        : getDamageSources().indirectMagic(this, this.getOwner());
       entity.damage(damageSource, this.getDamage());
       this.kill();
     }

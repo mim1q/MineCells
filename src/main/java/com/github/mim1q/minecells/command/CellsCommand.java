@@ -52,7 +52,7 @@ public class CellsCommand {
     ServerPlayerEntity player = EntityArgumentType.getPlayer(ctx, "player");
     int cells = IntegerArgumentType.getInteger(ctx, "amount");
     ((PlayerEntityAccessor) player).setCells(cells);
-    ctx.getSource().sendFeedback(Text.of("Set " + player.getName().getString() + "'s cells to " + cells), false);
+    ctx.getSource().sendFeedback(() -> Text.of("Set " + player.getName().getString() + "'s cells to " + cells), false);
     return 1;
   }
 
@@ -61,7 +61,7 @@ public class CellsCommand {
     PlayerEntityAccessor accessor = (PlayerEntityAccessor) player;
     int cells = IntegerArgumentType.getInteger(ctx, "amount");
     accessor.setCells(accessor.getCells() + cells);
-    ctx.getSource().sendFeedback(Text.of("Gave " + cells + " cells to " + player.getName().getString()), false);
+    ctx.getSource().sendFeedback(() -> Text.of("Gave " + cells + " cells to " + player.getName().getString()), false);
     return 1;
   }
 
@@ -75,14 +75,14 @@ public class CellsCommand {
       return 0;
     }
     accessor.setCells(currentCells - cells);
-    ctx.getSource().sendFeedback(Text.of("Took " + cells + " cells from " + player.getName().getString()), false);
+    ctx.getSource().sendFeedback(() -> Text.of("Took " + cells + " cells from " + player.getName().getString()), false);
     return 1;
   }
 
   public static int getCells(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
     ServerPlayerEntity player = EntityArgumentType.getPlayer(ctx, "player");
     int cells = ((PlayerEntityAccessor) player).getCells();
-    ctx.getSource().sendFeedback(Text.of(player.getName().getString() + " has " + cells + " cells"), false);
+    ctx.getSource().sendFeedback(() -> Text.of(player.getName().getString() + " has " + cells + " cells"), false);
     return 1;
   }
 }

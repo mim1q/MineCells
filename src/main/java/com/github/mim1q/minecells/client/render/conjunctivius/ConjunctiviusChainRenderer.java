@@ -16,7 +16,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Vector3f;
 
 public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
 
@@ -36,30 +36,30 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     VertexConsumer vertices = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
     int stage = entity.getStage();
     if (stage < 2) {
-      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getRightAnchor()), entity.getYaw(), new Vec3f(2.2F, 0.85F, 0.0F));
+      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getRightAnchor()), entity.getYaw(), new Vector3f(2.2F, 0.85F, 0.0F));
     }
     if (stage < 4) {
-      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getLeftAnchor()), entity.getYaw(), new Vec3f(-2.2F, 0.85F, 0.0F));
+      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getLeftAnchor()), entity.getYaw(), new Vector3f(-2.2F, 0.85F, 0.0F));
     }
     if (stage < 6) {
-      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getTopAnchor().up()), entity.getYaw(), new Vec3f(0.0F, -1.75F, 0.0F));
+      renderChain(matrices, vertices, light, startPos, Vec3d.ofBottomCenter(entity.getTopAnchor().up()), entity.getYaw(), new Vector3f(0.0F, -1.75F, 0.0F));
     }
   }
 
-  protected void renderChain(MatrixStack matrices, VertexConsumer vertices, int light, Vec3d startPos, Vec3d targetPos, float headYaw, Vec3f offset) {
+  protected void renderChain(MatrixStack matrices, VertexConsumer vertices, int light, Vec3d startPos, Vec3d targetPos, float headYaw, Vector3f offset) {
     matrices.push();
     matrices.scale(0.75F, 0.75F, 0.75F);
-    startPos = startPos.add(0.0D, -offset.getY() * 2.0D + 3.0D, 0.01D);
+    startPos = startPos.add(0.0D, -offset.y * 2.0D + 3.0D, 0.01D);
     Vec3d direction = targetPos.subtract(startPos);
     direction = direction.rotateY(MathUtils.radians(headYaw));
-    direction = direction.add(-offset.getX() * 1.5D, 0.0D, 0.0D);
+    direction = direction.add(-offset.x * 1.5D, 0.0D, 0.0D);
 
     float rx = (float) -Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
     float ry = (float) -Math.atan2(direction.x, direction.z);
     MathUtils.PosRotScale posRotScale = MathUtils.PosRotScale.ofRadians(
       offset,
-      new Vec3f(rx, ry, 0.0F),
-      new Vec3f(1.0F, 1.0F, 1.0F)
+      new Vector3f(rx, ry, 0.0F),
+      new Vector3f(1.0F, 1.0F, 1.0F)
     );
     posRotScale.apply(matrices);
     int count = (int)(direction.length());

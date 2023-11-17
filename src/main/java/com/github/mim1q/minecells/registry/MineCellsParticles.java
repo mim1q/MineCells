@@ -5,12 +5,11 @@ import com.github.mim1q.minecells.particle.*;
 import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.particle.colored.ColoredParticleType;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class MineCellsParticles {
 
@@ -23,23 +22,16 @@ public class MineCellsParticles {
   public static final ColoredParticleType FALLING_LEAF = ColoredParticleType.create();
 
   public static void init() {
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("explosion"), EXPLOSION);
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("protector"), PROTECTOR);
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("charge"), CHARGE);
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("fly"), FLY);
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("speckle"), SPECKLE);
-    Registry.register(Registry.PARTICLE_TYPE, MineCells.createId("falling_leaf"), FALLING_LEAF);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("explosion"), EXPLOSION);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("protector"), PROTECTOR);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("charge"), CHARGE);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("fly"), FLY);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("speckle"), SPECKLE);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("falling_leaf"), FALLING_LEAF);
   }
 
   public static void initClient() {
-    ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
-      registry.register(MineCells.createId("particle/aura"));
-      registry.register(MineCells.createId("particle/explosion"));
-      registry.register(MineCells.createId("particle/protector"));
-      registry.register(MineCells.createId("particle/fly"));
-    });
-
     ParticleFactoryRegistry.getInstance().register(AURA, FlameParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(EXPLOSION, ExplosionParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(PROTECTOR, ProtectorParticle.Factory::new);

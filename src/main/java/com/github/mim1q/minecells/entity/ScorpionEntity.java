@@ -58,7 +58,7 @@ public class ScorpionEntity extends MineCellsEntity {
   }
 
   protected void initGoalsLate() {
-    this.goalSelector.clear();
+    this.goalSelector.clear(x -> true);
     super.initGoals();
 
     this.goalSelector.add(1, new MeleeAttackGoal(this, 1.2D, true));
@@ -67,7 +67,7 @@ public class ScorpionEntity extends MineCellsEntity {
       s.cooldownGetter = () -> this.shootCooldown;
       s.stateSetter = this::handleShootState;
       s.projectileCreator = (pos, targetPos) -> {
-        ScorpionSpitEntity entity = new ScorpionSpitEntity(MineCellsEntities.SCORPION_SPIT, this.world);
+        ScorpionSpitEntity entity = new ScorpionSpitEntity(MineCellsEntities.SCORPION_SPIT, getWorld());
         pos = pos.add(0.0D, 0.25D, 0.0D);
         entity.setPosition(pos);
         entity.setVelocity(targetPos.subtract(pos).normalize().multiply(0.8D));
@@ -89,7 +89,7 @@ public class ScorpionEntity extends MineCellsEntity {
       this.playSound(MineCellsSounds.RISE, 1.0F, 1.0F);
       this.initGoalsLate();
     }
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       if (!this.isSleeping()) {
         this.buriedProgress.setupTransitionTo(0.0F, 20);
       }
@@ -112,7 +112,7 @@ public class ScorpionEntity extends MineCellsEntity {
     if (target instanceof LivingEntity livingEntity) {
       StatusEffectInstance effectInstance = new StatusEffectInstance(
         StatusEffects.POISON,
-        100 + 20 * this.world.getDifficulty().getId() - 1,
+        100 + 20 * getWorld().getDifficulty().getId() - 1,
         0
       );
       livingEntity.addStatusEffect(effectInstance);
@@ -120,11 +120,11 @@ public class ScorpionEntity extends MineCellsEntity {
   }
 
   public void spawnUnburyingParticles() {
-    BlockState blockState = this.world.getBlockState(new BlockPos(this.getPos().subtract(0.0F, 0.01F, 0.0F)));
+    BlockState blockState = getWorld().getBlockState(BlockPos.ofFloored(this.getPos().subtract(0.0F, 0.01F, 0.0F)));
     if (blockState != null && blockState.isOpaque()) {
       ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState);
       ParticleUtils.addInBox(
-        (ClientWorld) this.world,
+        (ClientWorld) getWorld(),
         particle,
         Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),
         5,

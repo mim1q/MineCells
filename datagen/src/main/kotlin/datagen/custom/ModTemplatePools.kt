@@ -74,6 +74,12 @@ object ModTemplatePools {
     // Doorways
     add(Presets.indexed("minecells:promenade/doorway", 2, 1, 1, 1, 1, processors = proc))
     add(Presets.prefixed("minecells:promenade/doorway_decoration", "banners" to 1, "torches" to 2, "minecraft:empty" to 4, processors = proc))
+    // Walls
+    add(Presets.single("minecells:promenade/border_wall/underground", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/bottom", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/middle", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/top", processors = proc))
+    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = proc))
   }
 
   fun insufferableCrypt() = Preset {
@@ -81,5 +87,28 @@ object ModTemplatePools {
     add(Presets.single("minecells:insufferable_crypt/spawn", processors))
     add(Presets.single("minecells:insufferable_crypt/elevator_shaft", processors))
     add(Presets.single("minecells:insufferable_crypt/boss_room", processors))
+  }
+
+  fun ramparts() = Preset {
+    val processors = "minecells:promenade"
+
+    add(Presets.single("minecells:ramparts/spawn", processors))
+    add(Presets.single("minecells:ramparts/base", processors))
+    add(Presets.single("minecells:ramparts/base_corner", processors))
+    add(Presets.single("minecells:ramparts/base_bottom", processors))
+    add(Presets.indexed("minecells:ramparts/top", 1, processors=processors))
+    add(Presets.indexed("minecells:ramparts/top_corner", 1, processors=processors))
+    add(Presets.indexed("minecells:ramparts/top_elevator", 1, processors=processors))
+    add(Presets.indexed("minecells:ramparts/underground", 1, processors=processors))
+  }
+
+  fun blackBridge() = Preset {
+    val processors = "minecells:promenade"
+
+    listOf("bottom", "top").forEach { half ->
+      for (i in 0..3) {
+        add(Presets.single("minecells:black_bridge/$half$i", processors))
+      }
+    }
   }
 }

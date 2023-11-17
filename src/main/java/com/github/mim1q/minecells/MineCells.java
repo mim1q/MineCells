@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.dimension.MineCellsDimensionGraph;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
+import com.github.mim1q.minecells.world.feature.MineCellsFeatures;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacementModifiers;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
@@ -42,12 +43,12 @@ public class MineCells implements ModInitializer {
     MineCellsBlockEntities.init();
     MineCellsFluids.init();
     MineCellsItems.init();
-    MineCellsItemGroups.init();
     MineCellsStatusEffects.init();
     MineCellsParticles.init();
-    MineCellsBiomes.init();
     MineCellsStructures.init();
     MineCellsPlacerTypes.init();
+    MineCellsStructureProcessorTypes.init();
+    MineCellsFeatures.init();
     MineCellsStructurePlacementTypes.init();
     MineCellsPlacementModifiers.init();
     MineCellsPointOfInterestTypes.init();
@@ -59,7 +60,7 @@ public class MineCells implements ModInitializer {
 
     ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(SPAWNER_RUNE_DATA);
     ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> ((PlayerEntityAccessor)newPlayer).setMineCellsData(
-      new PlayerSpecificMineCellsData(MineCellsData.get((ServerWorld) oldPlayer.world), newPlayer)
+      new PlayerSpecificMineCellsData(MineCellsData.get((ServerWorld) oldPlayer.getWorld()), newPlayer)
     ));
     ServerWorldEvents.LOAD.register(((server, world) -> {
       var data = MineCellsData.get(world);

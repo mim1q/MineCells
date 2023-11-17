@@ -12,7 +12,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
 
@@ -34,7 +34,7 @@ public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
   public void render(ElevatorEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
     matrices.push();
     if (entity.isRotated()) {
-      matrices.multiply(Quaternion.fromEulerYxz(MathHelper.HALF_PI, 0.0F, 0.0F));
+      matrices.multiply(new Quaternionf().rotationYXZ(MathHelper.HALF_PI, 0.0F, 0.0F));
     }
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(LAYER);
     this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);

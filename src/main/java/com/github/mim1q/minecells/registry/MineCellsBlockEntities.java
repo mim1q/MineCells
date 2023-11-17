@@ -8,13 +8,15 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class MineCellsBlockEntities {
   public static final BlockEntityType<SetupBlockEntity> SETUP_BLOCK_ENTITY = register(
     "setup_block_entity",
     SetupBlockEntity::new,
-    MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER
+    MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER,
+    MineCellsBlocks.CONCIERGE_BOX
   );
   public static final BlockEntityType<BiomeBannerBlockEntity> BIOME_BANNER_BLOCK_ENTITY = register(
     "biome_banner", BiomeBannerBlockEntity::new, MineCellsBlocks.BIOME_BANNER
@@ -34,7 +36,7 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<DoorwayPortalBlockEntity> DOORWAY = register(
     "doorway", DoorwayPortalBlockEntity::new,
     MineCellsBlocks.OVERWORLD_DOORWAY, MineCellsBlocks.PRISON_DOORWAY, MineCellsBlocks.PROMENADE_DOORWAY,
-    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY
+    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY,  MineCellsBlocks.RAMPARTS_DOORWAY
   );
   public static final BlockEntityType<BarrierControllerBlockEntity> BARRIER_CONTROLLER = register(
     "barrier_controller", BarrierControllerBlockEntity::new,
@@ -43,6 +45,9 @@ public class MineCellsBlockEntities {
   );
   public static final BlockEntityType<SpawnerRuneBlockEntity> SPAWNER_RUNE = register(
     "spawner_rune", SpawnerRuneBlockEntity::new, MineCellsBlocks.SPAWNER_RUNE
+  );
+  public static final BlockEntityType<RiftBlockEntity> RIFT = register(
+    "rift", RiftBlockEntity::new, MineCellsBlocks.RIFT
   );
 
   public static void init() {}
@@ -53,7 +58,7 @@ public class MineCellsBlockEntities {
     Block... blocks
   ) {
     return Registry.register(
-      Registry.BLOCK_ENTITY_TYPE,
+      Registries.BLOCK_ENTITY_TYPE,
       MineCells.createId(id),
       FabricBlockEntityTypeBuilder.create(factory).addBlocks(blocks).build()
     );

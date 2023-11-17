@@ -3,10 +3,10 @@ package com.github.mim1q.minecells.data.spawner_runes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,13 +74,13 @@ public record SpawnerRuneData(
 
     private Entry(int weight, String entityType) {
       this.weight = weight;
-      this.entityType = entityType == null ? null : Registry.ENTITY_TYPE.get(Identifier.tryParse(entityType));
+      this.entityType = entityType == null ? null : Registries.ENTITY_TYPE.get(Identifier.tryParse(entityType));
     }
 
     private static final Codec<Entry> CODEC = RecordCodecBuilder.create(instance ->
       instance.group(
         Codec.INT.optionalFieldOf("weight", 1).forGetter(e -> e.weight),
-        Codec.STRING.optionalFieldOf("entity", null).forGetter(e -> Registry.ENTITY_TYPE.getId(e.entityType).toString())
+        Codec.STRING.optionalFieldOf("entity", null).forGetter(e -> Registries.ENTITY_TYPE.getId(e.entityType).toString())
       ).apply(instance, Entry::new)
     );
   }

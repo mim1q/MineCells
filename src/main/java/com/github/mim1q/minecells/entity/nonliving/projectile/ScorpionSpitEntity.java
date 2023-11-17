@@ -5,7 +5,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -30,7 +29,7 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
   @Override
   public void tick() {
     super.tick();
-    if (!this.world.isClient() && this.horizontalCollision || this.verticalCollision) {
+    if (!getWorld().isClient() && this.horizontalCollision || this.verticalCollision) {
       this.kill();
     }
   }
@@ -41,14 +40,14 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
 
     if (entity instanceof PlayerEntity playerEntity) {
       DamageSource damageSource = this.getOwner() == null
-        ? DamageSource.MAGIC
-        : DamageSource.mob((LivingEntity) this.getOwner()
+        ? getDamageSources().magic()
+        : getDamageSources().indirectMagic(this, this.getOwner()
       );
       entity.damage(damageSource, 8.0F);
       playerEntity.addStatusEffect(new StatusEffectInstance(
         StatusEffects.POISON,
-        60 + 20 * (this.world.getDifficulty().getId() - 1),
-        this.world.getDifficulty() == Difficulty.HARD ? 1 : 0
+        60 + 20 * (getWorld().getDifficulty().getId() - 1),
+        getWorld().getDifficulty() == Difficulty.HARD ? 1 : 0
       ));
       this.kill();
     }
@@ -56,6 +55,6 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
 
   @Override
   protected void spawnParticles() {
-    ParticleUtils.addParticle((ClientWorld) this.world, PARTICLE, this.getPos().add(0.0F, 0.25F, 0.0F), Vec3d.ZERO);
+    ParticleUtils.addParticle((ClientWorld) getWorld(), PARTICLE, this.getPos().add(0.0F, 0.25F, 0.0F), Vec3d.ZERO);
   }
 }

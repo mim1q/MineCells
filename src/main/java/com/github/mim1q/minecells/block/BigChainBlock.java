@@ -9,6 +9,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -31,9 +32,9 @@ public class BigChainBlock extends ChainBlock {
 
   protected BlockState getHangingState(BlockState state, WorldAccess world, BlockPos pos) {
     BlockState stateBelow = world.getBlockState(pos.down());
-    boolean chainBelow = stateBelow.getBlock() instanceof BigChainBlock && stateBelow.get(AXIS) == Direction.Axis.Y;
+    boolean chainBelow = stateBelow.getBlock() instanceof BigChainBlock && stateBelow.get(AXIS) == Axis.Y;
     boolean cageBelow = stateBelow.getBlock() instanceof CageBlock && stateBelow.get(CageBlock.FLIPPED);
-    boolean vertical = state.get(AXIS) == Direction.Axis.Y;
+    boolean vertical = state.get(AXIS) == Axis.Y;
     boolean solidBelow = stateBelow.isSideSolidFullSquare(world, pos.down(), Direction.UP);
     boolean hanging = vertical && !(chainBelow || solidBelow || cageBelow);
     return state.with(HANGING, hanging);
@@ -69,5 +70,11 @@ public class BigChainBlock extends ChainBlock {
       case Z -> createCuboidShape(5.0D, 5.0D, 0.0D, 11.0D, 11.0D, 16.0D);
       default -> createCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 16.0D, 11.0D);
     };
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return state.get(AXIS) == Axis.Y ? VoxelShapes.empty() : super.getCollisionShape(state, world, pos, context);
   }
 }

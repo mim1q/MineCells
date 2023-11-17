@@ -11,8 +11,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -54,16 +54,16 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     }
   }
 
-  public List<MutableText> getLabel() {
+  public List<MutableText> getLabel(boolean showPosition) {
     var result = new ArrayList<MutableText>();
     var text = Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
     if (!hasClientVisited()) {
       text.append(Text.literal("*"));
     }
     result.add(text);
-    var normalPos = MathUtils.getClosestMultiplePosition(this.getPos(), 1024);
-    if (posOverride != null && (posOverride.getX() != normalPos.getX() || posOverride.getZ() != normalPos.getZ())) {
-      result.add(Text.literal("[x: " + posOverride.getX() + ", z: " + posOverride.getZ() + "]"));
+    if (showPosition) {
+      var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
+      result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
     }
     return result;
   }
@@ -75,15 +75,22 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       "posOverride",
       posOverride == null ? new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024)).asLong() : posOverride.asLong()
     );
-    System.out.println(stack.getNbt());
   }
 
   public boolean canPlayerEnter(PlayerEntity player) {
-    if (isDownstream()) return true;
     if (player == null || world == null) return false;
-    return ((PlayerEntityAccessor)player).getMineCellsData().get(this.pos).getPortalData(
+    var targetDimension = ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension;
+    var mineCellsData = ((PlayerEntityAccessor)player).getMineCellsData().get(this.pos);
+    if (isDownstream()) {
+      if (MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
+        if (targetDimension == MineCellsDimension.PRISONERS_QUARTERS) return true;
+        return mineCellsData.hasVisitedDimension(targetDimension);
+      }
+      return true;
+    }
+    return mineCellsData.getPortalData(
       MineCellsDimension.of(world),
-      ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
+      targetDimension
     ).isPresent();
   }
 
@@ -100,7 +107,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
           MineCellsDimension.of(world),
           targetDimension,
           pos.add(getCachedState().get(FACING).getVector()),
-          new BlockPos(targetDimension.getTeleportPosition(pos, world))
+          BlockPos.ofFloored(targetDimension.getTeleportPosition(pos, world))
         );
         targetDimension.teleportPlayer(player, world, posOverride);
       }

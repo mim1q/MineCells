@@ -51,7 +51,7 @@ public class SkeletonDecorationBlock extends Block {
   }
 
   @Override
-  public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+  public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
     return true;
   }
 
@@ -60,10 +60,10 @@ public class SkeletonDecorationBlock extends Block {
   public BlockState getPlacementState(ItemPlacementContext ctx) {
     if (ctx.getSide() == Direction.DOWN) {
       if (this.hangingBlock != null && ctx.getWorld().getBlockState(ctx.getBlockPos().add(ctx.getSide().getOpposite().getVector())).getBlock() instanceof ChainBlock) {
-        return this.hangingBlock.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.hangingBlock.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
       }
     } else if (ctx.getWorld().getBlockState(ctx.getBlockPos().down()).isSolidBlock(ctx.getWorld(), ctx.getBlockPos().down())) {
-      return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+      return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     return null;
   }

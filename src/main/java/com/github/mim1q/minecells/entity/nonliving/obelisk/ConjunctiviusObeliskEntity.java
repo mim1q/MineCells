@@ -43,8 +43,8 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
       return;
     }
     boss.setPos(this.getX(), this.getY() + 10, this.getZ());
-    boss.initialize((ServerWorldAccess) this.getWorld(), this.world.getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
-    this.world.spawnEntity(boss);
+    boss.initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
+    getWorld().spawnEntity(boss);
   }
 
   @Override
@@ -54,10 +54,10 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
       float yOff = this.random.nextFloat() * 10.0F;
       float xOff = this.random.nextFloat() - 0.5F;
       float zOff = this.random.nextFloat() - 0.5F;
-      ParticleUtils.addParticle((ClientWorld) this.world, particle, this.getPos().add(xOff, yOff, zOff), new Vec3d(0.0D, 0.2D, 0.0D));
+      ParticleUtils.addParticle((ClientWorld) getWorld(), particle, this.getPos().add(xOff, yOff, zOff), new Vec3d(0.0D, 0.2D, 0.0D));
     }
     if (activatedTicks >= 38) {
-      ParticleUtils.addParticle((ClientWorld) this.world, ParticleTypes.EXPLOSION_EMITTER, this.getPos().add(0.0D, 12.5D, 0.0D), Vec3d.ZERO);
+      ParticleUtils.addParticle((ClientWorld) getWorld(), ParticleTypes.EXPLOSION_EMITTER, this.getPos().add(0.0D, 12.5D, 0.0D), Vec3d.ZERO);
     }
   }
 }

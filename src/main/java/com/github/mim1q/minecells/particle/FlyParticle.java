@@ -17,7 +17,7 @@ public class FlyParticle extends SpriteBillboardParticle {
   @Override
   public void tick() {
     super.tick();
-    if (this.world.getRandom().nextFloat() < 0.25F) {
+    if (world.getRandom().nextFloat() < 0.25F) {
       randomizeVelocity();
     }
     if (this.age <= 5) {
@@ -29,8 +29,8 @@ public class FlyParticle extends SpriteBillboardParticle {
   }
 
   private void randomizeVelocity() {
-    this.velocityX = this.world.getRandom().nextFloat() * 0.1F - 0.05F;
-    this.velocityZ = this.world.getRandom().nextFloat() * 0.1F - 0.05F;
+    this.velocityX = world.getRandom().nextFloat() * 0.1F - 0.05F;
+    this.velocityZ = world.getRandom().nextFloat() * 0.1F - 0.05F;
   }
 
   @Override

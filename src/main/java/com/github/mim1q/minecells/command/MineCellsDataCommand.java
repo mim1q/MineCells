@@ -62,7 +62,7 @@ public class MineCellsDataCommand {
       return 1;
     }
     MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
-    ctx.getSource().sendFeedback(Text.literal("Mine Cells data synchronized for player " + player.getName().getString()), false);
+    ctx.getSource().sendFeedback(() -> Text.literal("Mine Cells data synchronized for player " + player.getName().getString()), false);
     return 0;
   }
 
@@ -81,7 +81,7 @@ public class MineCellsDataCommand {
     });
     MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
     MineCells.DIMENSION_GRAPH.saveStuckPlayer(player);
-    ctx.getSource().sendFeedback(Text.literal("Mine Cells data cleared for player " + player.getName().getString()), false);
+    ctx.getSource().sendFeedback(() -> Text.literal("Mine Cells data cleared for player " + player.getName().getString()), false);
     return 0;
   }
 
@@ -97,7 +97,7 @@ public class MineCellsDataCommand {
   }
 
   private static int printClientPlayerData(CommandContext<ServerCommandSource> ctx) {
-    ctx.getSource().sendFeedback(Text.literal("Not implemented"), false);
+    ctx.getSource().sendFeedback(() -> Text.literal("Not implemented"), false);
     return 0;
   }
 

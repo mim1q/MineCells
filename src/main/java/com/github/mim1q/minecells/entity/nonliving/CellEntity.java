@@ -11,7 +11,8 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -50,9 +51,9 @@ public class CellEntity extends Entity {
     this.prevX = this.getX();
     this.prevY = this.getY();
     this.prevZ = this.getZ();
-    if (!this.world.isClient()) {
+    if (!getWorld().isClient()) {
       if (this.age % 20 == 1) {
-        this.target = this.world.getClosestPlayer(this, 10.0D);
+        this.target = getWorld().getClosestPlayer(this, 10.0D);
       }
       if (this.target != null && this.target.isAlive() && this.target.distanceTo(this) <= 10.0D) {
         double distance = this.target.distanceTo(this);
@@ -100,7 +101,7 @@ public class CellEntity extends Entity {
   }
 
   @Override
-  public Packet<?> createSpawnPacket() {
+  public Packet<ClientPlayPacketListener> createSpawnPacket() {
     return new EntitySpawnS2CPacket(this);
   }
 }

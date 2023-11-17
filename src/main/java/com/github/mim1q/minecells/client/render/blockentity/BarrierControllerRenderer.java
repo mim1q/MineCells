@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
-import com.github.mim1q.minecells.block.ConditionalBarrierBlock;
+import com.github.mim1q.minecells.block.BarrierControllerBlock;
 import com.github.mim1q.minecells.block.blockentity.BarrierControllerBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import com.github.mim1q.minecells.util.MathUtils;
@@ -12,7 +12,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
 
 public class BarrierControllerRenderer implements BlockEntityRenderer<BarrierControllerBlockEntity> {
   private final Identifier TEXTURE = new Identifier("minecells", "textures/blockentity/big_door.png");
@@ -26,10 +26,11 @@ public class BarrierControllerRenderer implements BlockEntityRenderer<BarrierCon
   @Override
   public void render(BarrierControllerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     var vertices = vertexConsumers.getBuffer(model.getLayer(TEXTURE));
+    var dir = entity.getCachedState().get(BarrierControllerBlock.FACING);
     entity.openProgress.update(entity.getWorld() == null ? 0 : entity.getWorld().getTime() + tickDelta);
     matrices.push();
     matrices.translate(0.5F, 0F, 0.5F);
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180F - entity.getCachedState().get(ConditionalBarrierBlock.FACING).asRotation()));
+    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(dir.asRotation())));
     model.setAngles(entity.openProgress.getValue());
     model.render(matrices, vertices, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();

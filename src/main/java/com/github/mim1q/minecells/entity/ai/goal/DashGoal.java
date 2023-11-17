@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
@@ -59,7 +58,7 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
     this.distanceTravelled = 0;
     this.alreadyAttacked.clear();
 
-    if (!this.entity.world.isClient() && this.entity.getDashChargeSoundEvent() != null) {
+    if (!this.entity.getWorld().isClient() && this.entity.getDashChargeSoundEvent() != null) {
       this.entity.playSound(this.entity.getDashChargeSoundEvent(), 1.0F, 1.0F);
     }
   }
@@ -116,9 +115,9 @@ public class DashGoal<E extends MineCellsEntity & IDashEntity> extends Goal {
   }
 
   public void attack() {
-    List<PlayerEntity> players = this.entity.world.getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.33D), e -> !this.alreadyAttacked.contains(e));
+    List<PlayerEntity> players = this.entity.getWorld().getEntitiesByClass(PlayerEntity.class, this.entity.getBoundingBox().expand(0.33D), e -> !this.alreadyAttacked.contains(e));
     for (PlayerEntity player : players) {
-      player.damage(DamageSource.mob(this.entity), this.entity.getDashDamage());
+      player.damage(entity.getDamageSources().mobAttack(this.entity), this.entity.getDashDamage());
       this.alreadyAttacked.add(player);
     }
   }

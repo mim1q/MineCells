@@ -15,7 +15,7 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
 
   @Override
   public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-    entity.damage(MineCellsDamageSource.BLEEDING, 1.0F);
+    entity.damage(MineCellsDamageSource.BLEEDING.get(entity.getWorld(), null), 1.0F);
   }
 
   @Override

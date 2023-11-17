@@ -11,8 +11,8 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponEntity> {
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/tentacle_weapon.png");
@@ -31,11 +31,10 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     matrices.push();
     matrices.scale(-1.0F, -1.0F, 1.0F);
     float length = entity.getLength(tickDelta);
-    Vec3f normalized = new Vec3f(entity.getEndPos(Math.max(1.0F, length)).subtract(entity.getCameraPosVec(tickDelta)).normalize());
-    float xRot = (float) Math.asin(-normalized.getY());
-    float yRot = (float) Math.atan2(normalized.getX(), normalized.getZ());
-    matrices.multiply(new Quaternion(Vec3f.POSITIVE_Y, -yRot, false));
-    matrices.multiply(new Quaternion(Vec3f.POSITIVE_X, -xRot, false));
+    Vector3f normalized = entity.getEndPos(Math.max(1.0F, length)).subtract(entity.getCameraPosVec(tickDelta)).normalize().toVector3f();
+    float xRot = (float) Math.asin(-normalized.y());
+    float yRot = (float) Math.atan2(normalized.x(), normalized.z());
+    matrices.multiply(new Quaternionf().rotationYXZ(-yRot, -xRot, 0.0F));
     renderTentacle(matrices, vertexConsumers, light, length * 0.3F, 1F);
     renderTentacle(matrices, vertexConsumers, light, length * 0.6F, 0.8F);
     renderTentacle(matrices, vertexConsumers, light, length * 0.9F, 0.6F);

@@ -6,8 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -32,11 +33,11 @@ abstract class FeatureSet {
   protected Identifier id(String name) { return new Identifier(namespace, name); }
 
   protected <I extends Item> I registerItem(String name, I item) {
-    return Registry.register(Registry.ITEM, id(name), item);
+    return Registry.register(Registries.ITEM, id(name), item);
   }
 
   protected <B extends Block> B registerBlock(String name, B block) {
-    return Registry.register(Registry.BLOCK, id(name), block);
+    return Registry.register(Registries.BLOCK, id(name), block);
   }
 
   protected <B extends Block> B registerBlockWithItem(String name, B block) {

@@ -19,6 +19,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -27,6 +28,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -62,7 +64,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   public SewersTentacleEntity(EntityType<SewersTentacleEntity> entityType, World world) {
     super(entityType, world);
-    this.stepHeight = 0.5F;
+    this.setStepHeight(0.5F);
     this.updateAttributeModifiers();
   }
 
@@ -101,11 +103,11 @@ public class SewersTentacleEntity extends MineCellsEntity {
   private void switchDashState(TimedActionGoal.State state, boolean value) {
     if (state == TimedActionGoal.State.CHARGE && value) {
       setBuried(false);
-      stepHeight = 0.0F;
+      this.setStepHeight(0.0F);
     }
     if (state == TimedActionGoal.State.RELEASE && !value) {
       setBuried(true);
-      stepHeight = 1.0F;
+      this.setStepHeight(1.0F);
     }
     switch (state) {
       case CHARGE -> this.dataTracker.set(DASH_CHARGING, value);
@@ -133,7 +135,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       this.spawnMovingParticles();
       if (this.isAlive()) {
         if (this.isBuried()) {
@@ -168,11 +170,11 @@ public class SewersTentacleEntity extends MineCellsEntity {
   }
 
   protected void spawnMovingParticles() {
-    BlockState blockState = this.world.getBlockState(new BlockPos(this.getPos().subtract(0.0F, 0.01F, 0.0F)));
+    BlockState blockState = getWorld().getBlockState(BlockPos.ofFloored(this.getPos().subtract(0.0F, 0.01F, 0.0F)));
     if (blockState != null && blockState.isOpaque()) {
       ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState);
       ParticleUtils.addInBox(
-        (ClientWorld) this.world,
+        (ClientWorld) getWorld(),
         particle,
         Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),
         this.isBuried() ? 10 : 5,
@@ -183,10 +185,10 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   @Override
   public boolean isInvulnerableTo(DamageSource damageSource) {
-    if (damageSource.isExplosive() || damageSource.isOutOfWorld() || damageSource.isSourceCreativePlayer()) {
+    if (damageSource.isIn(DamageTypeTags.IS_EXPLOSION) || damageSource.isOf(DamageTypes.OUT_OF_WORLD) || damageSource.isSourceCreativePlayer()) {
       return false;
     }
-    if ((this.isBuried() && this.buriedTicks > 20) || damageSource == DamageSource.IN_WALL) {
+    if ((this.isBuried() && this.buriedTicks > 20) || damageSource.isOf(DamageTypes.IN_WALL)) {
       return true;
     }
     return super.isInvulnerableTo(damageSource);
@@ -287,7 +289,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
       if (attacking) {
         if (ticks > 15) {
           ((SewersTentacleEntity) this.mob).setBuried(false);
-          for (PlayerEntity player : this.mob.world.getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(0.75D, 0.0D, 0.75D))) {
+          for (PlayerEntity player : this.mob.getWorld().getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(0.75D, 0.0D, 0.75D))) {
             this.attack(player, player.squaredDistanceTo(this.mob));
           }
           if (ticks > 80) {
@@ -317,7 +319,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
     protected void attack(LivingEntity target, double squaredDistance) {
       if (this.attacking) {
         float damage = (float) this.mob.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        target.damage(DamageSource.mob(this.mob), damage);
+        target.damage(target.getDamageSources().mobAttack(this.mob), damage);
         Vec3d diffNorm = this.mob.getPos().subtract(target.getPos()).normalize();
         target.takeKnockback(1.0D, diffNorm.x, diffNorm.z);
       }

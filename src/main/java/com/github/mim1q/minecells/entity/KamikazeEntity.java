@@ -73,7 +73,7 @@ public class KamikazeEntity extends MineCellsEntity {
   @Override
   public void tick() {
     super.tick();
-    if (this.world.isClient()) {
+    if (getWorld().isClient()) {
       clientTick();
     } else {
       serverTick();
@@ -92,15 +92,15 @@ public class KamikazeEntity extends MineCellsEntity {
     int fuse = this.getFuse();
     if (fuse == 0 && this.isAlive()) {
       this.explode();
-      this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.KAMIKAZE_DEATH, SoundCategory.HOSTILE, 1.0F, 1.0F);
+      getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.KAMIKAZE_DEATH, SoundCategory.HOSTILE, 1.0F, 1.0F);
       this.discard();
     }
     this.setFuse(fuse - 1);
   }
 
   public void explode() {
-    if (!this.world.isClient()) {
-      MineCellsExplosion.explode((ServerWorld) this.world, this, this.getPos(), 20.0F, 6.0F);
+    if (!getWorld().isClient()) {
+      MineCellsExplosion.explode((ServerWorld) getWorld(), this, this.getPos(), 20.0F, 6.0F);
     }
   }
 
@@ -202,7 +202,7 @@ public class KamikazeEntity extends MineCellsEntity {
     @Override
     public void start() {
       this.entity.setSleeping(false);
-      this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_WAKE, SoundCategory.HOSTILE, 1.0F, 1.0F);
+      this.entity.getWorld().playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_WAKE, SoundCategory.HOSTILE, 1.0F, 1.0F);
     }
 
     @Override
@@ -218,7 +218,7 @@ public class KamikazeEntity extends MineCellsEntity {
         this.entity.getLookControl().lookAt(target);
         if (this.entity.distanceTo(target) <= this.distance && this.entity.getFuse() < 0) {
           this.entity.setFuse(30);
-          this.entity.world.playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_CHARGE, SoundCategory.HOSTILE, 1.0F, 1.0F);
+          this.entity.getWorld().playSound(null, this.entity.getX(), this.entity.getY(), this.entity.getZ(), MineCellsSounds.KAMIKAZE_CHARGE, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
       }
     }

@@ -62,7 +62,7 @@ public class ReturnStoneBlock extends Block implements BlockEntityProvider {
   @Nullable
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+    return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
   }
 
   @Override

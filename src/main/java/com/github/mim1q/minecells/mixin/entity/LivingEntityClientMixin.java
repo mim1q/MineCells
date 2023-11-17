@@ -28,7 +28,7 @@ public abstract class LivingEntityClientMixin extends Entity {
 
   @Inject(method = "tick", at = @At("HEAD"))
   private void minecells$spawnEffectParticles(CallbackInfo ci) {
-    if (!world.isClient || this.getRandom().nextFloat() < 0.2F) {
+    if (!getWorld().isClient || this.getRandom().nextFloat() < 0.2F) {
       return;
     }
     LivingEntityAccessor accessor = ((LivingEntityAccessor)this);
@@ -40,7 +40,7 @@ public abstract class LivingEntityClientMixin extends Entity {
 
     if (particle != null) {
       ParticleUtils.addInBox(
-        (ClientWorld) this.world,
+        (ClientWorld) getWorld(),
         particle,
         this.getBoundingBox().expand(0.1D),
         1,

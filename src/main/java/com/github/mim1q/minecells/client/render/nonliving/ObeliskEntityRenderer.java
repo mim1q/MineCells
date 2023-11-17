@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.nonliving.ObeliskEntityModel;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ObeliskEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -12,16 +13,16 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
 
 public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
-  public static final Identifier TEXTURE = MineCells.createId("textures/entity/obelisk/conjunctivius.png");
-  public static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/obelisk/conjunctivius_glow.png");
+  private final Identifier texture;
   private final ObeliskEntityModel model;
 
-  public ObeliskEntityRenderer(EntityRendererFactory.Context ctx) {
+  public ObeliskEntityRenderer(EntityRendererFactory.Context ctx, String texture) {
     super(ctx);
     this.model = new ObeliskEntityModel(ctx.getPart(MineCellsRenderers.OBELISK_LAYER));
+    this.texture = MineCells.createId("textures/entity/obelisk/" + texture + ".png");
   }
 
   @Override
@@ -30,19 +31,19 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
     matrices.push();
     matrices.scale(1.0F, -1.0F, -1.0F);
     matrices.translate(0.0F, -1.5F, 0.0F);
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(yaw));
+    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(yaw)));
     float animationProgress = entity.age + tickDelta;
     this.model.setAngles(entity, 0.0F, 0.0F, animationProgress, 0.0F, 0.0F);
-    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture));
     this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-    VertexConsumer glowVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(GLOW_TEXTURE));
-    entity.glow.update(animationProgress);
-    this.model.render(matrices, glowVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, entity.glow.getValue() * 0.75F);
+    VertexConsumer glowVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture));
+    var glow = entity.glow.update(animationProgress);
+    this.model.renderGlow(matrices, glowVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, glow);
     matrices.pop();
   }
 
   @Override
   public Identifier getTexture(ObeliskEntity entity) {
-    return TEXTURE;
+    return texture;
   }
 }

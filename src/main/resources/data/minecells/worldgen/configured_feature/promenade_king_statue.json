@@ -1,0 +1,7 @@
+{
+  "type": "minecells:jigsaw",
+  "config": {
+    "template_pool": "minecells:promenade/king_statue",
+    "start": "decoration"
+  }
+}

@@ -27,9 +27,11 @@ public class DoorwayItem extends AliasedBlockItem {
   private static final String TOOLTIP_NOT_BOUND = "item.minecells.prison_doorway.not_bound";
   private static final String DESCRIPTION = "item.minecells.prison_doorway.description";
 
+  private final DoorwayPortalBlock doorwayBlock;
 
-  public DoorwayItem(Settings settings) {
-    super(MineCellsBlocks.PROMENADE_DOORWAY, settings);
+  public DoorwayItem(Settings settings, DoorwayPortalBlock doorwayBlock) {
+    super(doorwayBlock, settings);
+    this.doorwayBlock = doorwayBlock;
   }
 
   @Override
@@ -44,7 +46,7 @@ public class DoorwayItem extends AliasedBlockItem {
       || world.getBlockState(pos.down(2)).isOpaqueFullCube(world, pos)
     ) {
       var side = context.getSide().getAxis().isVertical()
-        ? context.getPlayerFacing().getOpposite()
+        ? context.getHorizontalPlayerFacing().getOpposite()
         : context.getSide();
       var dy = world.getBlockState(pos.down()).isOpaqueFullCube(world, pos) ? 1 : 0;
       var x = side.getAxis() == Direction.Axis.X ? 0 : 1;
@@ -70,24 +72,27 @@ public class DoorwayItem extends AliasedBlockItem {
 
   @Override
   protected boolean place(ItemPlacementContext context, BlockState state) {
+    var frameBlock = (context.getPlayer() != null && context.getPlayer().isCreative())
+      ? MineCellsBlocks.UNBREAKABLE_DOORWAY_FRAME
+      : MineCellsBlocks.DOORWAY_FRAME;
     var direction = context.getSide().getAxis().isVertical()
-      ? context.getPlayerFacing().getOpposite()
+      ? context.getHorizontalPlayerFacing().getOpposite()
       : context.getSide();
     var world = context.getWorld();
     var pos = context.getBlockPos();
     var dy = world.getBlockState(pos.down()).isOpaqueFullCube(world, pos) ? 0 : -1;
     var rightVec = direction.rotateYCounterclockwise().getVector();
     var leftVec = direction.rotateYClockwise().getVector();
-    world.setBlockState(pos.add(0, dy, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
-    world.setBlockState(pos.add(0, dy + 1, 0), MineCellsBlocks.PRISON_DOORWAY.getDefaultState().with(DoorwayPortalBlock.FACING, direction));
+    world.setBlockState(pos.add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
+    world.setBlockState(pos.add(0, dy + 1, 0), doorwayBlock.getDefaultState().with(DoorwayPortalBlock.FACING, direction));
     writeNbtToBlockEntity(world, context.getPlayer(), pos.add(0, dy + 1, 0), context.getStack());
-    world.setBlockState(pos.add(0, dy + 2, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy, 0),  MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy + 1, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy + 2, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.TOP_LEFT, direction));
-    world.setBlockState(pos.add(rightVec).add(0, dy, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
-    world.setBlockState(pos.add(rightVec).add(0, dy + 1, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
-    world.setBlockState(pos.add(rightVec).add(0, dy + 2, 0), MineCellsBlocks.DOORWAY_FRAME.getState(DoorwayPortalBlock.Frame.FillerType.TOP_RIGHT, direction));
+    world.setBlockState(pos.add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy, 0),  frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_LEFT, direction));
+    world.setBlockState(pos.add(rightVec).add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
+    world.setBlockState(pos.add(rightVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
+    world.setBlockState(pos.add(rightVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_RIGHT, direction));
     return true;
   }
 
@@ -98,6 +103,7 @@ public class DoorwayItem extends AliasedBlockItem {
       && selected
       && entity instanceof ServerPlayerEntity player
       && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
+      && entity.age % 10 == 0
     ) {
       if (stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride")) {
         return;
@@ -105,10 +111,10 @@ public class DoorwayItem extends AliasedBlockItem {
       var x = Math.round(entity.getPos().x / 1024F) * 1024;
       var z = Math.round(entity.getPos().z / 1024F) * 1024;
       var area = "[x: " + x + ", z: " + z + "]";
-      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(MineCellsDimension.PRISONERS_QUARTERS)
+      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(doorwayBlock.type.dimension)
         ? TOOLTIP_VISITED
         : TOOLTIP_NOT_VISITED;
-      player.sendMessage(Text.translatable(message, area), true);
+      player.sendMessage(Text.translatable(message, Text.translatable(doorwayBlock.type.dimension.translationKey), area), true);
     }
   }
 

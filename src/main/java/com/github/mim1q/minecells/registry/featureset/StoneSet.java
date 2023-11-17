@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class StoneSet extends FeatureSet {
+  public final BlockSetType blockSetType;
   public final Block block;
   public final StairsBlock stairs;
   public final SlabBlock slab = registerBlockWithItem(name + "_slab", new SlabBlock(defaultBlockSettings().nonOpaque()));
@@ -20,6 +21,7 @@ public class StoneSet extends FeatureSet {
 
   public StoneSet(Identifier identifier, String baseSuffix, Supplier<FabricItemSettings> defaultItemSettings, Supplier<FabricBlockSettings> defaultBlockSettings) {
     super(identifier, defaultItemSettings, defaultBlockSettings);
+    blockSetType = new BlockSetType(identifier.getPath());
     block = registerBlockWithItem(name + baseSuffix, new Block(defaultBlockSettings()));
     stairs = registerBlockWithItem(name + "_stairs", new StairsBlock(block.getDefaultState(), defaultBlockSettings()));
     stacks = Stream.of(

@@ -23,7 +23,7 @@ object CustomPresets {
       variant("facing=west, standing=false", BlockStateModel("$ns:block/${name}_torch", yRot = Rotation.CW_270))
       variant("standing=true", BlockStateModel("$ns:block/${name}_torch_standing", yRot = Rotation.NONE))
     })
-    add("${name}_torch", ParentedModel.item("$ns:block/${name}_torch_standing"))
+    add("${name}_torch", ParentedModel.item("minecells:block/template/colored_torch_inventory").texture("flame", Id(texture).toString()))
     add(CommonDropPresets.simpleDrop("$ns:${name}_torch"))
   }
 
@@ -60,6 +60,9 @@ object CustomPresets {
       variant("facing=south", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_180))
       variant("facing=west", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_270))
     })
+    if (name != "overworld") {
+      add(CommonDropPresets.simpleDrop("${id}_doorway"))
+    }
   }
 
   fun customRecipes() = Preset {

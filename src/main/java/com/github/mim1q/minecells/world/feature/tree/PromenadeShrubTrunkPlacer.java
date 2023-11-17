@@ -26,6 +26,7 @@ public class PromenadeShrubTrunkPlacer extends TrunkPlacer {
 
   @Override
   public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
+    replacer.accept(startPos, config.trunkProvider.get(random, startPos));
     return List.of(new FoliagePlacer.TreeNode(startPos.up(), 0, false));
   }
 

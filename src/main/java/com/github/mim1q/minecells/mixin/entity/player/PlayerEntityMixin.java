@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.entity.nonliving.CellEntity;
-import com.github.mim1q.minecells.entity.player.MineCellsPortalData;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.world.state.MineCellsData;
@@ -42,7 +41,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
 
   private static final TrackedData<Integer> CELL_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private int kingdomPortalCooldown = 0;
-  private final MineCellsPortalData mineCellsPortalData = new MineCellsPortalData(this);
   private int balancedBladeStacks = 0;
   private int balancedBladeTimer = 0;
   private int minecells$invincibilityFrames = 0;
@@ -114,7 +112,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         && critWeapon.canCrit(stack, livingTarget, this)
     ) {
       if (critWeapon.shouldPlayCritSound(stack, livingTarget, this)) {
-        this.world.playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
       }
       return original + critWeapon.getAdditionalCritDamage(stack, livingTarget, this);
     }
@@ -137,7 +135,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   protected void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     nbt.putInt("cells", this.getCells());
     nbt.putInt("kingdomPortalCooldown", kingdomPortalCooldown);
-    nbt.put("mineCellsPortalData", this.mineCellsPortalData.toNbt());
 
   }
 
@@ -145,7 +142,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   protected void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
     this.setCells(nbt.getInt("cells"));
     kingdomPortalCooldown = nbt.getInt("kingdomPortalCooldown");
-    this.mineCellsPortalData.fromNbt(nbt.getCompound("mineCellsPortalData"));
   }
 
   @Override
@@ -153,7 +149,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     super.drop(source);
     int amount = this.getCells() / 2;
     if (amount > 0) {
-      CellEntity.spawn(this.world, this.getPos(), amount);
+      CellEntity.spawn(getWorld(), this.getPos(), amount);
     }
   }
 

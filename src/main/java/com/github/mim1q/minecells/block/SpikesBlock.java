@@ -54,7 +54,7 @@ public class SpikesBlock extends Block {
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, false, false, true));
       livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 0, false, false, true));
       if (livingEntity.age % 10 == 0) {
-        livingEntity.damage(MineCellsDamageSource.BLEEDING, 1.0F);
+        livingEntity.damage(MineCellsDamageSource.BLEEDING.get(world, null), 1.0F);
       }
       if (world.getRandom().nextFloat() < 0.01) {
         world.setBlockState(pos, state.with(BLOODY, true));
@@ -63,7 +63,7 @@ public class SpikesBlock extends Block {
   }
 
   @Override
-  public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+  public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
     return true;
   }
 

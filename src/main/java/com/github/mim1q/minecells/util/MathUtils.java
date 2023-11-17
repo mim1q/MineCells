@@ -3,8 +3,9 @@ package com.github.mim1q.minecells.util;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.math.Vec3i;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import static net.minecraft.util.math.MathHelper.RADIANS_PER_DEGREE;
 
@@ -15,10 +16,10 @@ public class MathUtils {
     return new Vec3d(x, vector.y, z);
   }
 
-  public static Vec3f vectorRotateY(Vec3f vector, float theta) {
-    float z = vector.getZ() * MathHelper.sin(theta) + vector.getX() * MathHelper.cos(theta);
-    float x = vector.getZ() * MathHelper.cos(theta) - vector.getX() * MathHelper.sin(theta);
-    return new Vec3f(x, vector.getY(), z);
+  public static Vector3f vectorRotateY(Vector3f vector, float theta) {
+    float z = vector.z() * MathHelper.sin(theta) + vector.x() * MathHelper.cos(theta);
+    float x = vector.z() * MathHelper.cos(theta) - vector.x() * MathHelper.sin(theta);
+    return new Vector3f(x, vector.y(), z);
   }
 
   public static Vec3d lerp(Vec3d v0, Vec3d v1, float delta) {
@@ -55,12 +56,24 @@ public class MathUtils {
     return lerp(a, b, n1 * (delta -= 2.625F / d1) * delta + 0.984375F);
   }
 
+  // https://easings.net/#easeOutBack
+  public static float easeOutBack(float a, float b, float delta) {
+    var c1 = 1.70158F;
+    var c3 = c1 + 1;
+
+    return lerp(a, b, 1 + c3 * (float) Math.pow(delta - 1, 3) + c1 * (float) Math.pow(delta - 1, 2));
+  }
+
   public static float easeOutQuad(float a, float b, float delta) {
     return lerp(a, b, 1 - (1 - delta) * (1 - delta));
   }
 
   public static float radians(float degrees) {
     return degrees * RADIANS_PER_DEGREE;
+  }
+
+  public static int getClosestMultiple(int value, int multiple) {
+    return Math.round(value / (float) multiple) * multiple;
   }
 
   public static Vec3i getClosestMultiplePosition(Vec3i pos, int multiple) {
@@ -74,52 +87,48 @@ public class MathUtils {
   }
 
   public static class PosRotScale {
-    private final Vec3f pos;
-    private final Vec3f rot;
-    private final Vec3f scale;
+    private final Vector3f pos;
+    private final Vector3f rot;
+    private final Vector3f scale;
 
-    private PosRotScale(Vec3f pos, Vec3f rot, Vec3f scale) {
+    private PosRotScale(Vector3f pos, Vector3f rot, Vector3f scale) {
       this.pos = pos;
       this.rot = rot;
       this.scale = scale;
     }
 
     public static PosRotScale ofRadians(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
-      return ofRadians(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
+      return ofRadians(new Vector3f(px, py, pz), new Vector3f(rx, ry, rz), new Vector3f(sx, sy, sz));
     }
 
-    public static PosRotScale ofDegrees(Vec3f pos, Vec3f rot, Vec3f scale) {
-      rot.scale(RADIANS_PER_DEGREE);
+    public static PosRotScale ofDegrees(Vector3f pos, Vector3f rot, Vector3f scale) {
+      rot.mul(RADIANS_PER_DEGREE);
       return ofRadians(pos, rot, scale);
     }
 
     public static PosRotScale ofDegrees(float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz) {
-      return ofDegrees(new Vec3f(px, py, pz), new Vec3f(rx, ry, rz), new Vec3f(sx, sy, sz));
+      return ofDegrees(new Vector3f(px, py, pz), new Vector3f(rx, ry, rz), new Vector3f(sx, sy, sz));
     }
 
-    public static PosRotScale ofRadians(Vec3f pos, Vec3f rot, Vec3f scale) {
+    public static PosRotScale ofRadians(Vector3f pos, Vector3f rot, Vector3f scale) {
       return new PosRotScale(pos, rot, scale);
     }
 
     public void apply(MatrixStack matrices) {
-      matrices.translate(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
-
-      matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(this.getRot().getZ()));
-      matrices.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(this.getRot().getY()));
-      matrices.multiply(Vec3f.POSITIVE_X.getRadialQuaternion(this.getRot().getX()));
-
-      matrices.scale(this.getScale().getX(), this.getScale().getY(), this.getScale().getZ());
+      matrices.translate(this.getPos().x, this.getPos().y, this.getPos().z);
+      matrices.multiply(new Quaternionf().rotationZYX(this.getRot().z, this.getRot().y, this.getRot().x));
+      matrices.scale(this.getScale().x, this.getScale().y, this.getScale().z);
     }
 
-    public Vec3f getPos() {
+    public Vector3f getPos() {
       return this.pos;
     }
 
-    public Vec3f getRot() {
+    public Vector3f getRot() {
       return this.rot;
     }
 
-    public Vec3f getScale() {
+    public Vector3f getScale() {
       return this.scale;
     }
   }

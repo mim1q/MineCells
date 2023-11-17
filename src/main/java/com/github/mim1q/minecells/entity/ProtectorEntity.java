@@ -52,14 +52,14 @@ public class ProtectorEntity extends MineCellsEntity {
   @Override
   public void tick() {
     if (this.isActive()) {
-      List<Entity> entities = this.world.getOtherEntities(
+      List<Entity> entities = getWorld().getOtherEntities(
         this,
         Box.of(this.getPos(), 15.0D, 15.0D, 15.0D),
         entity -> ProtectorEntity.canProtect(entity) && entity.distanceTo(this) < 7.5D
       );
       this.trackedEntities = entities;
 
-      if (!this.world.isClient()) {
+      if (!getWorld().isClient()) {
         if (this.stateTicks == 1 || this.stateTicks % 20 == 0) {
           this.playSound(MineCellsSounds.BUZZ, 0.25F, 1.0F);
         }
@@ -72,10 +72,10 @@ public class ProtectorEntity extends MineCellsEntity {
           ((LivingEntity) e).addStatusEffect(effect);
         }
       } else if (!this.trackedEntities.isEmpty()) {
-        ParticleUtils.addParticle((ClientWorld) this.world, MineCellsParticles.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
       }
     }
-    if (!this.world.isClient) {
+    if (!getWorld().isClient) {
       if (!this.isActive() && this.stateTicks > 100) {
         this.setActive(true);
         this.stateTicks = 0;

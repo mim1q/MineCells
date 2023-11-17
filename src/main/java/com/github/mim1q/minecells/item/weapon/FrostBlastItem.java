@@ -8,14 +8,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -38,7 +37,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     stack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
     user.playSound(MineCellsSounds.FROST_BLAST, 1.0F, 1.1F);
-    if (user.world.isClient()) {
+    if (user.getWorld().isClient()) {
       for (int i = 0; i < 20; i++) {
         Vec3d pos = user.getPos().add(0.0D, 1.25D, 0.0D);
         Vec3d vel = Vec3d.fromPolar(
@@ -65,7 +64,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
     }
     for (LivingEntity entity : entities) {
       applyFreeze(entity);
-      entity.damage(DamageSource.FREEZE, getAbilityDamage(stack));
+      entity.damage(world.getDamageSources().freeze(), getAbilityDamage(stack));
     }
     return stack;
   }

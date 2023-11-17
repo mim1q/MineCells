@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.block.setupblocks;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
 
 public class ElevatorAssemblerBlock extends SetupBlock {
   public ElevatorAssemblerBlock() {
-    super(Settings.of(Material.WOOD).hardness(0.5F));
+    super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).hardness(0.5F));
   }
 
   @Override
