@@ -109,8 +109,7 @@ public enum MineCellsDimension {
   }
 
   public static boolean isMineCellsDimension(World world) {
-    if (world == null || world.getRegistryKey() == OVERWORLD.key) return false;
-    return Arrays.stream(values()).anyMatch(dimension -> dimension.key == world.getRegistryKey());
+    return world != null && world.getRegistryKey().getValue().getNamespace().equals("minecells");
   }
 
   public static String getTranslationKey(RegistryKey<World> dimension) {

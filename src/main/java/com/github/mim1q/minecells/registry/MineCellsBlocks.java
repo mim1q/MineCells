@@ -105,6 +105,8 @@ public class MineCellsBlocks {
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
 
+  public static final SpawnerRuneBlock SPAWNER_RUNE = registerBlock(new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().nonOpaque()), "spawner_rune");
+
   // Barriers
   public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
   public static final Block SOLID_BARRIER = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");

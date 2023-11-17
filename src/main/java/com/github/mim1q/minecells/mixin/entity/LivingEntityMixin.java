@@ -27,6 +27,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -38,7 +39,7 @@ import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
-
+  
   protected int droppedCellAmount = 1;
   protected float droppedCellChance = 0.75F;
 
@@ -52,9 +53,9 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Shadow public abstract Identifier getLootTable();
   @Shadow public abstract ItemStack getOffHandStack();
   @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
-
   @Shadow private long lastDamageTime;
 
+  @Unique
   @SuppressWarnings("WrongEntityDataParameterClass")
   private static final TrackedData<Integer> MINECELLS_FLAGS = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
