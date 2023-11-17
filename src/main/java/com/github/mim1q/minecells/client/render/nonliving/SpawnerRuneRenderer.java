@@ -13,7 +13,6 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 
 public interface SpawnerRuneRenderer {
   Identifier TEXTURE = MineCells.createId("textures/entity/spawner_rune.png");
