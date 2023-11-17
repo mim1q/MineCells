@@ -35,6 +35,7 @@ public class SpawnerRuneBlock extends BlockWithEntity {
         entity.setPosition(Vec3d.ofBottomCenter(pos));
         world.spawnEntity(entity);
         entity.controller.setDataId(world, pos, blockEntity.get().controller.getDataId());
+        entity.controller.setVisible(blockEntity.get().controller.isVisible());
       }
     }
     super.onStateReplaced(state, world, pos, newState, moved);

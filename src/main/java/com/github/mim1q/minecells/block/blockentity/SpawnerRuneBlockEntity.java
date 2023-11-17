@@ -20,7 +20,7 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   }
 
   public void tick(World world, BlockPos pos, BlockState state) {
-    if (world.getTime() % 5 == 0) {
+    if (world.getTime() % 10 == 0) {
       controller.tick(pos, world);
     }
   }

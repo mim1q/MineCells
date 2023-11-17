@@ -52,8 +52,8 @@ public class SpawnerRuneController {
         ParticleUtils.addInBox(
           (ClientWorld) world,
           MineCellsParticles.SPECKLE.get(0xFF6A00),
-          Box.of(Vec3d.ofCenter(pos), 0.5, 0.5, 0.5).offset(0.0, 1.25, 0.0),
-          5,
+          Box.of(Vec3d.ofCenter(pos), 0.5, 0.5, 0.5),
+          15,
           new Vec3d(-0.2D, -0.2D, -0.2D).multiply(world.getRandom().nextDouble() * 0.5D + 0.5D)
         );
         isVisible = visible;
@@ -63,6 +63,10 @@ public class SpawnerRuneController {
 
   public boolean isVisible() {
     return isVisible;
+  }
+
+  public void setVisible(boolean visible) {
+    isVisible = visible;
   }
 
   private void spawnEntities(SpawnerRuneData data, BlockPos pos, PlayerEntity spawningPlayer) {

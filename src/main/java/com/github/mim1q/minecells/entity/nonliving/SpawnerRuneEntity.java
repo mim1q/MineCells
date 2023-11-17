@@ -20,7 +20,10 @@ public class SpawnerRuneEntity extends Entity {
 
   @Override
   public void tick() {
-    if (age % 10 == 0 && !world.isClient()) {
+    if (age % 10 == 0) {
+      controller.tick(getBlockPos(), world);
+      if (world.isClient()) return;
+
       if (world.getBlockState(getBlockPos()).isAir()) {
         world.setBlockState(getBlockPos(), MineCellsBlocks.SPAWNER_RUNE.getDefaultState());
         this.discard();
@@ -28,6 +31,7 @@ public class SpawnerRuneEntity extends Entity {
         blockEntity.ifPresent(
           it -> {
             it.controller.setDataId(getWorld(), getBlockPos(), controller.getDataId());
+            it.controller.setVisible(this.controller.isVisible());
             it.markDirty();
           }
         );
@@ -35,7 +39,6 @@ public class SpawnerRuneEntity extends Entity {
       } else if (world.getBlockState(getBlockPos()).isOf(MineCellsBlocks.SPAWNER_RUNE)) {
         discard();
       }
-      controller.tick(getBlockPos(), world);
     }
   }
 
