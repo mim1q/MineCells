@@ -56,6 +56,14 @@ public class BigChainBlock extends ChainBlock {
     builder.add(HANGING);
   }
 
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return state.get(AXIS) == Direction.Axis.Y
+      ? VoxelShapes.empty()
+      : super.getCollisionShape(state, world, pos, context);
+  }
+
   public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
     return switch (state.get(AXIS)) {
       case X -> createCuboidShape(0.0D, 5.0D, 5.0D, 16.0D, 11.0D, 11.0D);

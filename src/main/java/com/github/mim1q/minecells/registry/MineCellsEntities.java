@@ -55,9 +55,9 @@ public final class MineCellsEntities {
   public static final EntityType<ElevatorEntity> ELEVATOR = registerEntity("elevator", SpawnGroup.MISC, ElevatorEntity::new, 2.0F, 0.5F);
   public static final EntityType<CellEntity> CELL = registerEntity("cell", SpawnGroup.MISC, CellEntity::new, 0.5F, 0.5F);
   public static final EntityType<TentacleWeaponEntity> TENTACLE_WEAPON = registerEntity("tentacle_weapon", SpawnGroup.MISC, TentacleWeaponEntity::new, 0.1F, 0.1F);
+  public static final EntityType<SpawnerRuneEntity> SPAWNER_RUNE = registerEntity("spawner_rune", SpawnGroup.MISC, SpawnerRuneEntity::new, EntityDimensions.changing(1.0F, 1.0F));
   public static final EntityType<ConjunctiviusObeliskEntity> CONJUNCTIVIUS_OBELISK = registerEntity("conjunctivius_obelisk", SpawnGroup.MISC, ConjunctiviusObeliskEntity::new, EntityDimensions.changing(1.75F, 2.5F));
   public static final EntityType<ConciergeObeliskEntity> CONCIERGE_OBELISK = registerEntity("concierge_obelisk", SpawnGroup.MISC, ConciergeObeliskEntity::new, EntityDimensions.changing(1.75F, 2.5F));
-  public static final EntityType<SpawnerRuneEntity> SPAWNER_RUNE = registerEntity("spawner_rune", SpawnGroup.MISC, SpawnerRuneEntity::new, EntityDimensions.changing(0.5F, 0.5F)  );
   public static final EntityType<ShockwavePlacer> SHOCKWAVE_PLACER = registerEntity("shockwave_placer", SpawnGroup.MISC, ShockwavePlacer::new, 0.1F, 0.1F);
 
   public static final SpawnEggItem LEAPING_ZOMBIE_SPAWN_EGG = registerSpawnEgg(LEAPING_ZOMBIE, 0x5B7B53, 0x8DBB4E);
