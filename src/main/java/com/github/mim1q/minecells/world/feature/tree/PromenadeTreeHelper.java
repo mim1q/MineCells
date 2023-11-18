@@ -78,7 +78,7 @@ public interface PromenadeTreeHelper {
     replacer.accept(origin.down(), MineCellsBlocks.BIOME_BANNER.getDefaultState()
       .with(BiomeBannerBlock.PATTERN, BiomeBannerBlock.BannerPattern.PROMENADE)
       .with(BiomeBannerBlock.FACING, direction.rotateYClockwise())
-      .with(BiomeBannerBlock.CENTERED, true)
+      .with(BiomeBannerBlock.PLACEMENT, BiomeBannerBlock.Placement.CENTERED)
     );
   }
 

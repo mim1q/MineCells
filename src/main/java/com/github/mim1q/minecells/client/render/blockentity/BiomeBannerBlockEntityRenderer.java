@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
 import com.github.mim1q.minecells.block.BiomeBannerBlock;
+import com.github.mim1q.minecells.block.BiomeBannerBlock.Placement;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import com.github.mim1q.minecells.util.MathUtils;
@@ -13,14 +14,12 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import org.joml.Math;
 import org.joml.Quaternionf;
 
 public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<BiomeBannerBlockEntity> {
-
   private final BiomeBannerBlockEntityModel model;
+
   public BiomeBannerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
     EntityModelLoader loader = ctx.getLayerRenderDispatcher();
     this.model = new BiomeBannerBlockEntityModel(loader.getModelPart(MineCellsRenderers.BIOME_BANNER_LAYER));
@@ -28,32 +27,51 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
 
   @Override
   public void render(BiomeBannerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-    matrices.push();
-    Direction dir = entity.getCachedState().get(BiomeBannerBlock.FACING);
-    boolean centered = entity.getCachedState().get(BiomeBannerBlock.CENTERED);
-    matrices.translate(0.5F, 1.0F, 0.5F);
-    matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(-dir.asRotation())));
-    matrices.translate(0.0F, 0.0F, -0.4375F);
-    matrices.scale(1.0F, -1.0F, -1.0F);
-    World world = entity.getWorld();
-    float x = entity.getPos().getX();
-    float z = entity.getPos().getZ();
-    float offset = 0.5F * (x + z) * (x + z + 1) + z;
-    model.setCentered(centered);
+    var dir = entity.getCachedState().get(BiomeBannerBlock.FACING);
+    var placement = entity.getCachedState().get(BiomeBannerBlock.PLACEMENT);
+    var world = entity.getWorld();
+    var offset = entity.getPos().hashCode();
+    var strength = placement == Placement.HORIZONTAL ? 0.5F : 0.2F;
     if (world != null && entity.getCachedState().get(BiomeBannerBlock.WAVING)) {
       float time = world.getTime() + tickDelta;
       model.wave(
-        (time * 0.1F) % (2.0F * MathHelper.PI),
+        time * 0.1F,
         offset % 100,
-        centered ? 0.125F : 0.075F,
-        true
+        strength,
+        false
       );
     } else {
       model.resetAngles();
     }
+
+    matrices.push();
+
+    var offsetZ = 0F;
+    switch (placement) {
+      case SIDE:
+        offsetZ = -7 / 16F;
+      case CENTERED:
+        matrices.translate(0.5F, 15 / 16F, 0.5F);
+        matrices.scale(-1F, -1F, 1F);
+        matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(dir.asRotation())));
+        matrices.translate(0F, 0F, offsetZ);
+        break;
+      case HORIZONTAL:
+        matrices.translate(0.5F, 0.5F, 0.5F);
+        matrices.scale(-1F, -1F, 1F);
+        matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(90F)));
+        matrices.multiply(new Quaternionf().rotationX(MathUtils.radians(90F + dir.asRotation())));
+        matrices.translate(0F, -13 / 16F, 0F);
+    }
+
     Identifier texture = entity.getCachedState().get(BiomeBannerBlock.PATTERN).getTexture();
     model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(texture)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
+  }
+
+  @Override
+  public boolean rendersOutsideBoundingBox(BiomeBannerBlockEntity blockEntity) {
+    return true;
   }
 
   public static class BiomeBannerBlockEntityModel extends Model {
@@ -128,14 +146,9 @@ public class BiomeBannerBlockEntityRenderer implements BlockEntityRenderer<Biome
       return TexturedModelData.of(modelData, 64, 64);
     }
 
-    public void setCentered(boolean centered) {
-      this.main.pivotZ = centered ? -7.0F : 0.0F;
-      this.main.pivotY = centered ? 1.0F : 0.0F;
-    }
-
     public void wave(float animationProgress, float offset, float strength, boolean tapered) {
       for (int i = 0; i < this.segments.length; i++) {
-        this.segments[i].pitch = MathHelper.sin(animationProgress - i + offset) * strength * (tapered ? i : 1.0F);
+        this.segments[i].pitch = Math.sin(animationProgress - i + offset) * strength * (tapered ? i : 1.0F);
       }
     }
 

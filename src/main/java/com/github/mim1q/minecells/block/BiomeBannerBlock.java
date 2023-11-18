@@ -4,12 +4,16 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.BiomeBannerBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.util.ModelUtils;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -19,7 +23,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -33,10 +36,11 @@ public class BiomeBannerBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   public static final BooleanProperty WAVING = BooleanProperty.of("waving");
   public static final EnumProperty<BannerPattern> PATTERN = EnumProperty.of("pattern", BannerPattern.class);
-  public static final BooleanProperty CENTERED = BooleanProperty.of("centered");
+  public static final EnumProperty<Placement> PLACEMENT = EnumProperty.of("placement", Placement.class);
 
   public static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 14.0D, 16.0D, 16.0D, 16.0D);
   public static final VoxelShape CENTERED_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 7.0D, 16.0D, 16.0D, 9.0D);
+  public static final VoxelShape HORIZONTAL_SHAPE = createCuboidShape(7.0, 0.0, 0.0, 8.0, 16.0, 16.0);
 
   public BiomeBannerBlock(Settings settings) {
     super(settings);
@@ -44,7 +48,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
       .with(FACING, Direction.NORTH)
       .with(WAVING, true)
       .with(PATTERN, BannerPattern.KING_CREST)
-      .with(CENTERED, false)
+      .with(PLACEMENT, Placement.SIDE)
     );
   }
 
@@ -56,7 +60,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-    builder.add(FACING, WAVING, PATTERN, CENTERED);
+    builder.add(FACING, WAVING, PATTERN, PLACEMENT);
   }
 
   @Nullable
@@ -66,16 +70,20 @@ public class BiomeBannerBlock extends BlockWithEntity {
       return null;
     }
     if (ctx.getSide() == Direction.DOWN) {
-      return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing()).with(CENTERED, true);
+      return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing()).with(PLACEMENT, Placement.CENTERED);
     }
-    Vec3i offset = ctx.getSide().getOpposite().getVector();
-    BlockState state0 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down());
-    BlockState state1 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down(2));
-    BlockState resultState = getDefaultState().with(FACING, ctx.getSide());
-    if (state0.isAir() && state1.isAir()) {
-      return resultState.with(WAVING, true);
+    if (ctx.getWorld().getBlockState(BlockPos.ofFloored(ctx.getHitPos())).isIn(BlockTags.FENCES)) {
+      return getDefaultState()
+        .with(FACING, ctx.getHorizontalPlayerFacing())
+        .with(WAVING, true)
+        .with(PLACEMENT, Placement.HORIZONTAL);
     }
-    return resultState.with(WAVING, false);
+    var offset = ctx.getSide().getOpposite().getVector();
+    var state0 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down());
+    var state1 = ctx.getWorld().getBlockState(ctx.getBlockPos().add(offset).down(2));
+    return getDefaultState()
+      .with(FACING, ctx.getSide())
+      .with(WAVING, state0.isAir() && state1.isAir());
   }
 
   @Override
@@ -105,12 +113,7 @@ public class BiomeBannerBlock extends BlockWithEntity {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), state.get(CENTERED) ? CENTERED_SHAPE : SHAPE);
-  }
-
-  @Override
-  public BlockRenderType getRenderType(BlockState state) {
-    return BlockRenderType.INVISIBLE;
+    return ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), state.get(PLACEMENT) == Placement.CENTERED ? CENTERED_SHAPE : SHAPE);
   }
 
   @Override
@@ -148,6 +151,23 @@ public class BiomeBannerBlock extends BlockWithEntity {
 
     public Identifier getTexture() {
       return this.texture;
+    }
+  }
+
+  public enum Placement implements StringIdentifiable {
+    SIDE("side"),
+    CENTERED("centered"),
+    HORIZONTAL("horizontal");
+
+    private final String name;
+
+    Placement(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String asString() {
+      return this.name;
     }
   }
 }
