@@ -103,7 +103,6 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.FLINT),
       stack(MineCellsItems.PHASER)
     ));
-    stacks.addAll(MineCellsEntities.SPAWN_EGGS.stream().map(ItemStack::new).toList());
   }
 
   private static void spawnEggStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {

@@ -99,7 +99,7 @@ public class SpawnerRuneController {
   }
 
   private static Entity spawnEntity(ServerWorld world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
-    Entity spawnedEntity = type.create(world, null, null, null, pos, SpawnReason.NATURAL, false, false);
+    Entity spawnedEntity = type.create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity != null) {
       if (spawnedEntity instanceof MineCellsEntity mcEntity) {
         for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {

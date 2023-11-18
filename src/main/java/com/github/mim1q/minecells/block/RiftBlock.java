@@ -16,6 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -44,7 +45,11 @@ public class RiftBlock extends BlockWithEntity {
   @Override
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-    if (entity instanceof ServerPlayerEntity player && world instanceof ServerWorld serverWorld) {
+    if (
+      entity instanceof ServerPlayerEntity player
+      && world instanceof ServerWorld serverWorld
+      && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
+    ) {
       var teleportPos = getPlayerTeleportPosition(player, serverWorld);
       serverWorld.getServer().execute(() -> {
         player.teleport(world.getServer().getOverworld(), teleportPos.getX(), teleportPos.getY(), teleportPos.getZ(), 0F, 0F);

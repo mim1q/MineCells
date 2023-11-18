@@ -71,10 +71,4 @@ public class BigChainBlock extends ChainBlock {
       default -> createCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 16.0D, 11.0D);
     };
   }
-
-  @Override
-  @SuppressWarnings("deprecation")
-  public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return state.get(AXIS) == Axis.Y ? VoxelShapes.empty() : super.getCollisionShape(state, world, pos, context);
-  }
 }

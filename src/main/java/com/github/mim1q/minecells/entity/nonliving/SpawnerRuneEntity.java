@@ -6,9 +6,6 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -22,13 +19,13 @@ public class SpawnerRuneEntity extends Entity {
   @Override
   public void tick() {
     if (age % 10 == 0) {
-      controller.tick(getBlockPos(), world);
-      if (world.isClient()) return;
+      controller.tick(getBlockPos(), getWorld());
+      if (getWorld().isClient()) return;
 
-      if (world.getBlockState(getBlockPos()).isAir()) {
-        world.setBlockState(getBlockPos(), MineCellsBlocks.SPAWNER_RUNE.getDefaultState());
+      if (getWorld().getBlockState(getBlockPos()).isAir()) {
+        getWorld().setBlockState(getBlockPos(), MineCellsBlocks.SPAWNER_RUNE.getDefaultState());
         this.discard();
-        var blockEntity = world.getBlockEntity(getBlockPos(), MineCellsBlockEntities.SPAWNER_RUNE);
+        var blockEntity = getWorld().getBlockEntity(getBlockPos(), MineCellsBlockEntities.SPAWNER_RUNE);
         blockEntity.ifPresent(
           it -> {
             it.controller.setDataId(getWorld(), getBlockPos(), controller.getDataId());
@@ -36,7 +33,7 @@ public class SpawnerRuneEntity extends Entity {
             it.markDirty();
           }
         );
-      } else if (world.getBlockState(getBlockPos()).isOf(MineCellsBlocks.SPAWNER_RUNE)) {
+      } else if (getWorld().getBlockState(getBlockPos()).isOf(MineCellsBlocks.SPAWNER_RUNE)) {
         discard();
       }
     }
@@ -56,10 +53,5 @@ public class SpawnerRuneEntity extends Entity {
     if (controller.getDataId() != null) {
       nbt.putString("dataId", controller.getDataId().toString());
     }
-  }
-
-  @Override
-  public Packet<ClientPlayPacketListener> createSpawnPacket() {
-    return new EntitySpawnS2CPacket(this);
   }
 }

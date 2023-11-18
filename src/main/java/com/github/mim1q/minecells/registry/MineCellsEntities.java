@@ -22,11 +22,12 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class MineCellsEntities {
-  public static final List<SpawnEggItem> SPAWN_EGGS = new ArrayList<>();
+  public static final Set<SpawnEggItem> SPAWN_EGGS = new HashSet<>();
 
   public static final EntityType<LeapingZombieEntity> LEAPING_ZOMBIE = registerEntity("leaping_zombie", SpawnGroup.MONSTER, LeapingZombieEntity::new, 0.75F, 1.9F);
   public static final EntityType<ShockerEntity> SHOCKER = registerEntity("shocker", SpawnGroup.MONSTER, ShockerEntity::new, 0.9F, 3.0F);
