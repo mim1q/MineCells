@@ -28,12 +28,24 @@
   },
   "spawn_costs": {},
   "features": [
-    ["minecells:promenade_shrub"],
-    ["minecells:promenade_chains"],
-    ["minecells:promenade_king_statue"],
-    ["minecells:promenade_gallows"],
-    ["minecells:promenade_tree"],
-    ["minecraft:patch_tall_grass"],
-    ["minecraft:patch_grass_taiga"]
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecells:promenade_shrub",
+      "minecells:promenade_chains",
+      "minecells:promenade_king_statue",
+      "minecells:promenade_gallows",
+      "minecells:promenade_tree",
+      "minecraft:patch_tall_grass",
+      "minecraft:patch_grass_taiga"
+    ],
+    []
   ]
 }

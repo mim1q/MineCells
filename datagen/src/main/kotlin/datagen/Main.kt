@@ -78,7 +78,8 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "biome_banner", "red_putrid_sapling"
+      "big_chain", "broken_cage", "biome_banner", "prison_doorway", "red_putrid_sapling", "king_statue",
+      "putrid_board_block"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }
@@ -95,11 +96,14 @@ fun main(args: Array<String>) {
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage", "minecells:doorway_frame"
+      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue"
     )
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",
       "minecells:small_crate", "minecells:brittle_barrel", "minecells:biome_banner"
+    )
+    TagManager.add("minecells:blocks/tree_root_replaceable",
+      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block"
     )
   }
   generator.generate()

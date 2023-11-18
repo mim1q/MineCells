@@ -45,7 +45,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       }
     }
 
-    for (int i = -3; i < height; i++) {
+    for (int i = 0; i < height; i++) {
       replacer.accept(startPos.up(i), TRUNK_BLOCK);
     }
     for (Direction dir : Properties.HORIZONTAL_FACING.getValues()) {

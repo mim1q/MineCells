@@ -17,6 +17,7 @@
         "offset": [0, -1, 0],
         "tag": "minecraft:dirt"
       }
-    }
+    },
+    { "type": "minecells:exclude_chunk_multiples", "multiple": 32 }
   ]
 }

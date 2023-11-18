@@ -1,19 +1,22 @@
 package com.github.mim1q.minecells.registry.featureset;
 
+import com.github.mim1q.minecells.MineCells;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SignItem;
 import net.minecraft.util.Identifier;
+
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class WoodSet extends FeatureSet {
   public final BlockSetType blockSetType = new BlockSetType(name);
-  public final WoodType woodType = new WoodType(name, blockSetType);
+  public final WoodType woodType = new WoodTypeBuilder().register(MineCells.createId(name), blockSetType);
 
   public final Block planks = registerBlockWithItem(name + "_planks", new Block(defaultBlockSettings()));
   public final PillarBlock log = registerBlockWithItem(name + "_log", new PillarBlock(defaultBlockSettings()));

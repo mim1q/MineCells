@@ -85,7 +85,7 @@ val secrets = Secrets(secretsFile)
 val remapJar = tasks.getByName("remapJar") as RemapJarTask
 val newVersionName = "${ModData.id}-${ModData.mcVersions[0]}-${ModData.version}"
 val newChangelog = try {
-  rootProject.file("changelogs/${ModData.id}_${ModData.version}.md").readText()
+  rootProject.file("changelogs/${ModData.mcVersions[0]}-${ModData.version}.md").readText()
 } catch (_: FileNotFoundException) {
   println("No changelog found")
   ""
