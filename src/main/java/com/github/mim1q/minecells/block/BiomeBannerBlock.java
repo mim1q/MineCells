@@ -122,7 +122,9 @@ public class BiomeBannerBlock extends BlockWithEntity {
     PROMENADE("promenade_of_the_condemned"),
     KING_CREST("king_crest"),
     TORN_KING_CREST("torn_king_crest"),
-    INSUFFERABLE_CRYPT("insufferable_crypt");
+    INSUFFERABLE_CRYPT("insufferable_crypt"),
+    RAMPARTS("ramparts"),
+    BLACK_BRIDGE("black_bridge"),;
 
     private final String name;
     private final Identifier texture;

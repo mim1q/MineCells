@@ -11,4 +11,5 @@ public interface LivingEntityAccessor {
   default boolean shouldActFrozen() {
     return getMineCellsFlag(MineCellsEffectFlags.FROZEN) || getMineCellsFlag(MineCellsEffectFlags.STUNNED);
   }
+  long getLastDamageTime();
 }

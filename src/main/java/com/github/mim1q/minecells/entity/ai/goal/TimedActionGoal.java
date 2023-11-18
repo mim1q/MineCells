@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class TimedActionGoal<E extends LivingEntity> extends Goal {
+public abstract class TimedActionGoal<E extends LivingEntity> extends Goal {
   protected final E entity;
   protected final Supplier<Integer> cooldownGetter;
   protected final Consumer<Integer> cooldownSetter;
@@ -129,9 +129,9 @@ public class TimedActionGoal<E extends LivingEntity> extends Goal {
   }
 
   public static class TimedActionSettings {
-    public Supplier<Integer> cooldownGetter;
-    public Consumer<Integer> cooldownSetter;
-    public BiConsumer<State, Boolean> stateSetter;
+    public Supplier<Integer> cooldownGetter = () -> 0;
+    public Consumer<Integer> cooldownSetter = cooldown -> {};
+    public BiConsumer<State, Boolean> stateSetter = (state, value) -> {};
     public int defaultCooldown = 100;
     public int actionTick = 10;
     public int length = 20;

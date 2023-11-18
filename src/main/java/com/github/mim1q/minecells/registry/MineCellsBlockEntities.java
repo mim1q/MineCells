@@ -15,7 +15,8 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<SetupBlockEntity> SETUP_BLOCK_ENTITY = register(
     "setup_block_entity",
     SetupBlockEntity::new,
-    MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER
+    MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER,
+    MineCellsBlocks.CONCIERGE_BOX
   );
   public static final BlockEntityType<BiomeBannerBlockEntity> BIOME_BANNER_BLOCK_ENTITY = register(
     "biome_banner", BiomeBannerBlockEntity::new, MineCellsBlocks.BIOME_BANNER
@@ -35,12 +36,16 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<DoorwayPortalBlockEntity> DOORWAY = register(
     "doorway", DoorwayPortalBlockEntity::new,
     MineCellsBlocks.OVERWORLD_DOORWAY, MineCellsBlocks.PRISON_DOORWAY, MineCellsBlocks.PROMENADE_DOORWAY,
-    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY
+    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY,  MineCellsBlocks.RAMPARTS_DOORWAY
   );
   public static final BlockEntityType<BarrierControllerBlockEntity> BARRIER_CONTROLLER = register(
     "barrier_controller", BarrierControllerBlockEntity::new,
     MineCellsBlocks.BOSS_BARRIER_CONTROLLER, MineCellsBlocks.BOSS_ENTRY_BARRIER_CONTROLLER,
     MineCellsBlocks.PLAYER_BARRIER_CONTROLLER
+  );
+  public static final BlockEntityType<RiftBlockEntity> RIFT = register(
+    "rift", RiftBlockEntity::new,
+    MineCellsBlocks.RIFT
   );
 
   public static void init() {}

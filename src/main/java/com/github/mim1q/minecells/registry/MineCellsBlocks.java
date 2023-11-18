@@ -33,6 +33,7 @@ public class MineCellsBlocks {
   public static final StoneSet PRISON_COBBLESTONE = new StoneSet(MineCells.createId("prison_cobblestone"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.COBBLESTONE));
   public static final StoneSet PRISON_BRICKS = new StoneSet(MineCells.createId("prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet SMALL_PRISON_BRICKS = new StoneSet(MineCells.createId("small_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet CRACKED_PRISON_BRICKS = new StoneSet(MineCells.createId("cracked_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
 
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");
@@ -54,6 +55,23 @@ public class MineCellsBlocks {
   public static final Block RUNIC_VINE = registerBlock(new RunicVineBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)), "runic_vine");
   public static final Block RUNIC_VINE_PLANT = registerBlock(new RunicVinePlantBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).sounds(BlockSoundGroup.WET_GRASS).luminance(8).nonOpaque().ticksRandomly()), "runic_vine_plant");
   public static final Block RUNIC_VINE_STONE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "runic_vine_stone");
+
+  // Shockwaves
+
+  public static final Block SHOCKWAVE_FLAME = registerBlock(new ShockwaveBlock.ShockwaveFlame(
+    FabricBlockSettings
+      .copyOf(Blocks.FIRE)
+      .luminance(0)
+      .emissiveLighting(Blocks::always)
+      .noBlockBreakParticles()
+      .sounds(BlockSoundGroup.INTENTIONALLY_EMPTY),
+    false
+  ), "shockwave_flame");
+
+  public static final Block SHOCKWAVE_FLAME_PLAYER = registerBlock(new ShockwaveBlock.ShockwaveFlame(
+    FabricBlockSettings.copyOf(SHOCKWAVE_FLAME),
+    true
+  ), "shockwave_flame_player");
 
   // Decoration - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -79,16 +97,18 @@ public class MineCellsBlocks {
   public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
   public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(Blocks.TORCH).breakInstantly().luminance(15).emissiveLighting((s, w, p) -> true).ticksRandomly().noCollision()), "prison_torch");
   public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "promenade_torch");
+  public static final ColoredTorchBlock RAMPARTS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PROMENADE_TORCH)), "ramparts_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.DIRT)), "kingdom_portal_core");
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS), "conjunctivius_box");
+  public static final Block CONCIERGE_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONCIERGE), "concierge_box");
   public static final Block BEAM_PLACER = registerBlock(new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "beam_placer");
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
 
   // Barriers
   public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
-  public static final Block SOLID_BARRIER = registerBlock(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
+  public static final Block SOLID_BARRIER = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
   public static final Block CONDITIONAL_BARRIER = registerBlock(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
   public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
   public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
@@ -97,12 +117,17 @@ public class MineCellsBlocks {
   // Portals
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "teleporter_frame");
-  public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.create().nonOpaque().strength(50F, 1200F).pistonBehavior(PistonBehavior.BLOCK)), "doorway_frame");
-  public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F), DoorwayType.OVERWORLD), "overworld_doorway");
-  public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(OVERWORLD_DOORWAY), DoorwayType.PRISON), "prison_doorway");
-  public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(OVERWORLD_DOORWAY), DoorwayType.PROMENADE), "promenade_doorway");
-  public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(OVERWORLD_DOORWAY), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
+  public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(Blocks.NETHER_PORTAL).nonOpaque().strength(10F, 1200F).pistonBehavior(PistonBehavior.BLOCK)), "doorway_frame");
+  public static final DoorwayPortalBlock.Frame UNBREAKABLE_DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F)), "unbreakable_doorway_frame");
+  public static final RiftBlock RIFT = registerBlock(new RiftBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "rift");
 
+  public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
+  public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
+  public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
+  public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
+  public static final DoorwayPortalBlock RAMPARTS_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.RAMPARTS), "ramparts_doorway");
+  public static final DoorwayPortalBlock BLACK_BRIDGE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.BLACK_BRIDGE), "black_bridge_doorway");
+  
   public static void init() {
     Registry.register(Registries.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registries.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
@@ -16,7 +17,12 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class MineCellsItems {
+  public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
+
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
     "elevator_mechanism"
@@ -30,6 +36,11 @@ public class MineCellsItems {
   public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = register(
     new Item(new FabricItemSettings().maxCount(1)),
     "conjunctivius_respawn_rune"
+  );
+
+  public static final Item CONCIERGE_RESPAWN_RUNE = register(
+    new Item(new FabricItemSettings().maxCount(1)),
+    "concierge_respawn_rune"
   );
 
   public static final Item VINE_RUNE = register(
@@ -165,35 +176,51 @@ public class MineCellsItems {
     ), "frost_blast"
   );
 
+  public static final Item FLINT = register(new FlintItem(5, -3.1F,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(1000)
+      .rarity(Rarity.EPIC)
+    ), "flint"
+  );
+
+  public static final Item SPITE_SWORD = register(new SpiteSwordItem(4, -2.5f,
+    new FabricItemSettings()
+      .maxCount(1)
+      .maxDamage(1200)
+      .rarity(Rarity.UNCOMMON)
+    ), "spite_sword"
+  );
+
   // Skills
   public static final PhaserItem PHASER = register(new PhaserItem(
     new FabricItemSettings()
       .maxCount(1)
       .maxDamage(32)
       .rarity(Rarity.COMMON)
-      
     ), "phaser"
   );
 
   public static final Item HEALTH_FLASK = register(
     new HealthFlaskItem(new FabricItemSettings()
       .maxCount(16)
-      
     ), "health_flask"
   );
 
-  public static final DoorwayItem PRISON_DOORWAY = register(
-    new DoorwayItem(new FabricItemSettings()
-      .maxCount(1)
-      
-    ), "prison_doorway"
-  );
+  public static final DoorwayItem PRISON_DOORWAY = registerDoorwayItem(MineCellsBlocks.PRISON_DOORWAY);
+  public static final DoorwayItem PROMENADE_DOORWAY = registerDoorwayItem(MineCellsBlocks.PROMENADE_DOORWAY);
+  public static final DoorwayItem RAMPARTS_DOORWAY = registerDoorwayItem(MineCellsBlocks.RAMPARTS_DOORWAY);
+  public static final DoorwayItem INSUFFERABLE_CRYPT_DOORWAY = registerDoorwayItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
+  public static final DoorwayItem BLACK_BRIDGE_DOORWAY = registerDoorwayItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
 
   public static void init() {
     AttackBlockCallback.EVENT.register(
       (player, world, hand, pos, direction) -> {
         ItemStack stack = player.getStackInHand(player.getActiveHand());
         if (stack.isOf(CROWBAR) && world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
+          if (world.getBlockState(pos.down()).isIn(BlockTags.WOODEN_DOORS)) {
+            world.breakBlock(pos.down(), false, player);
+          }
           world.breakBlock(pos, false, player);
           stack.getOrCreateNbt().putLong("lastDoorBreakTime", world.getTime());
           return ActionResult.SUCCESS;
@@ -205,6 +232,15 @@ public class MineCellsItems {
 
   public static <E extends Item> E register(E item, String name) {
     Registry.register(Registries.ITEM, MineCells.createId(name), item);
+    return item;
+  }
+
+  public static DoorwayItem registerDoorwayItem(DoorwayPortalBlock doorway) {
+    var item = register(
+      new DoorwayItem(new FabricItemSettings().maxCount(1), doorway),
+      doorway.type.dimension.key.getValue().getPath() + "_doorway"
+    );
+    DOORWAY_COLORS.put(item, doorway.type.color);
     return item;
   }
 }

@@ -7,7 +7,7 @@ object Versions {
   const val loom = "1.1-SNAPSHOT"
   const val omegaConfig = "1.2.3-1.18.1"
   const val mixinExtras = "0.1.1"
-  const val owoLib = "0.11.1+1.20"
+  const val owoLib = "0.11.2-pre.14+1.20"
 
   // Publishing
   const val cursegradle = "1.4.0"

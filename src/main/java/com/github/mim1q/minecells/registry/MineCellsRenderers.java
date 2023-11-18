@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockE
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
+import com.github.mim1q.minecells.client.render.blockentity.portal.RiftBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -37,11 +38,18 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
   private static boolean dynamicItemRenderersRegistered = false;
+
+  private static <T extends Entity> EntityRenderer<T> invisibleRenderer(Context ctx)  {
+    return new EntityRenderer<>(ctx) { @Override public Identifier getTexture(Entity entity) { return null; }};
+  }
 
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
   public static final EntityModelLayer SHOCKER_LAYER = new EntityModelLayer(MineCells.createId("shocker"), "main");
@@ -57,12 +65,16 @@ public class MineCellsRenderers {
   public static final EntityModelLayer RANCID_RAT_LAYER = new EntityModelLayer(MineCells.createId("rancid_rat"), "main");
   public static final EntityModelLayer RUNNER_LAYER = new EntityModelLayer(MineCells.createId("runner"), "main");
   public static final EntityModelLayer SCORPION_LAYER = new EntityModelLayer(MineCells.createId("scorpion"), "main");
+  public static final EntityModelLayer FLY_LAYER = registerLayer("fly", FlyEntityModel::getTexturedModelData);
+  public static final EntityModelLayer SWEEPER_LAYER = registerLayer("sweeper", SweeperEntityModel::getTexturedModelData);
 
   public static final EntityModelLayer CONJUNCTIVIUS_MAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "main");
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
   public static final EntityModelLayer CONJUNCTIVIUS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "tentacle");
   public static final EntityModelLayer CONJUNCTIVIUS_SPIKE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "spike");
   public static final EntityModelLayer CONJUNCTIVIUS_CHAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "chain");
+
+  public static final EntityModelLayer CONCIERGE_LAYER = registerLayer("concierge", ConciergeEntityModel::getTexturedModelData);
 
   public static final EntityModelLayer GRENADE_LAYER = new EntityModelLayer(MineCells.createId("grenade"), "main");
   public static final EntityModelLayer BIG_GRENADE_LAYER = new EntityModelLayer(MineCells.createId("big_grenade"), "main");
@@ -135,7 +147,10 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.RANCID_RAT, RancidRatEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.RUNNER, RunnerEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.SCORPION, ScorpionEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.BUZZCUTTER, ctx -> new FlyEntityRenderer<>(ctx, "buzzcutter"));
+    EntityRendererRegistry.register(MineCellsEntities.SWEEPER, SweeperEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS, ConjunctiviusEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CONCIERGE, ConciergeEntityRenderer::new);
 
     EntityRendererRegistry.register(MineCellsEntities.GRENADE, GrenadeEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.BIG_GRENADE, BigGrenadeEntityRenderer::new);
@@ -147,8 +162,10 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
-    EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ObeliskEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "conjunctivius"));
+    EntityRendererRegistry.register(MineCellsEntities.CONCIERGE_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "concierge"));
     EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.SHOCKWAVE_PLACER, MineCellsRenderers::invisibleRenderer);
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
@@ -194,8 +211,11 @@ public class MineCellsRenderers {
       MineCellsBlocks.PUTRID_WOOD.door,
       MineCellsBlocks.PRISON_TORCH,
       MineCellsBlocks.PROMENADE_TORCH,
+      MineCellsBlocks.RAMPARTS_TORCH,
       MineCellsBlocks.WILTED_GRASS_BLOCK,
-      MineCellsBlocks.RED_PUTRID_SAPLING
+      MineCellsBlocks.RED_PUTRID_SAPLING,
+      MineCellsBlocks.SHOCKWAVE_FLAME,
+      MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
@@ -216,6 +236,7 @@ public class MineCellsRenderers {
 
     BlockEntityRendererFactories.register(MineCellsBlockEntities.TELEPORTER, TeleporterBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.RIFT, RiftBlockEntityRenderer::new);
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,
@@ -237,6 +258,10 @@ public class MineCellsRenderers {
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.WILTED_GRASS_BLOCK
     );
+
+    for (var entry : MineCellsItems.DOORWAY_COLORS.entrySet()) {
+      ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 1 ? entry.getValue() : 0xFFFFFF, entry.getKey());
+    }
 
     // I've accepted this code just like it is
     // What really matters is on the inside (and that it somehow works)

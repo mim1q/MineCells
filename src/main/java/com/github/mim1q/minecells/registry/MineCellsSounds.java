@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
@@ -42,6 +43,13 @@ public final class MineCellsSounds {
   public static final SoundEvent SCORPION_CHARGE = register("scorpion.charge");
   // Sewers Tentacle
   public static final SoundEvent SEWERS_TENTACLE_DEATH = register("sewers_tentacle.death");
+  // Flies
+  public static final SoundEvent FLY_CHARGE = register("fly.charge");
+  public static final SoundEvent FLY_FLY = register("fly.fly");
+  public static final SoundEvent FLY_RELEASE = register("fly.release");
+  // Sweeper
+  public static final SoundEvent SWEEPER_CHARGE = register("sweeper.charge");
+  public static final SoundEvent SWEEPER_RELEASE = register("sweeper.release");
   // Conjunctivius
   public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash_charge");
   public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash_release");
@@ -51,10 +59,22 @@ public final class MineCellsSounds {
   public static final SoundEvent CONJUNCTIVIUS_SHOT = register("conjunctivius.shot");
   public static final SoundEvent CONJUNCTIVIUS_SHOUT = register("conjunctivius.shout");
   public static final SoundEvent CONJUNCTIVIUS_MOVE = register("conjunctivius.move");
+  // Concierge
+  public static final SoundEvent CONCIERGE_LEAP_CHARGE = register("concierge.leap_charge");
+  public static final SoundEvent CONCIERGE_LEAP_LAND = register("concierge.leap_land");
+  public static final SoundEvent CONCIERGE_SHOCKWAVE_CHARGE = register("concierge.shockwave_charge");
+  public static final SoundEvent CONCIERGE_SHOCKWAVE_RELEASE = register("concierge.shockwave_release");
+  public static final SoundEvent CONCIERGE_AURA_CHARGE = register("concierge.aura_charge");
+  public static final SoundEvent CONCIERGE_AURA_RELEASE = register("concierge.aura_release");
+  public static final SoundEvent CONCIERGE_PUNCH_CHARGE = register("concierge.punch_charge");
+  public static final SoundEvent CONCIERGE_PUNCH_RELEASE = register("concierge.punch_release");
+  public static final SoundEvent CONCIERGE_SHOUT = register("concierge.shout");
+  public static final SoundEvent CONCIERGE_STEP = register("concierge.step");
   // Weapons
   public static final SoundEvent BOW_CHARGE = register("weapon.bow.charge");
   public static final SoundEvent BOW_RELEASE = register("weapon.bow.release");
   public static final SoundEvent SWIPE = register("weapon.swipe");
+  public static final SoundEvent HIT_FLOOR = register("weapon.hit_floor");
 
   public static final SoundEvent TENTACLE_CHARGE = register("weapon.tentacle.charge");
   public static final SoundEvent TENTACLE_RELEASE = register("weapon.tentacle.release");
@@ -63,6 +83,9 @@ public final class MineCellsSounds {
   public static final SoundEvent KATANA_RELEASE = register("weapon.katana.release");
 
   public static final SoundEvent FROST_BLAST = register("weapon.frost_blast.release");
+
+  public static final SoundEvent FLINT_CHARGE = register("weapon.flint.charge");
+  public static final SoundEvent FLINT_RELEASE = register("weapon.flint.release");
 
   //Blocks
   public static final SoundEvent PORTAL_ACTIVATE = register("portal.activate");
@@ -84,9 +107,23 @@ public final class MineCellsSounds {
   public static final SoundEvent CURSE_DEATH = register("curse_death");
   public static final SoundEvent OBELISK = register("obelisk");
 
+  // Music
+  // This is not added to the assets by default and has to be included in a custom Resource Pack to be played.
+  public static final MusicSound PRISONERS_QUARTERS = registerMusic("music.prisoners_quarters");
+  public static final MusicSound PROMENADE = registerMusic("music.promenade");
+  public static final MusicSound RAMPARTS = registerMusic("music.ramparts");
+  public static final MusicSound INSUFFERABLE_CRYPT = registerMusic("music.insufferable_crypt");
+  public static final MusicSound BLACK_BRIDGE = registerMusic("music.black_bridge");
+
   public static SoundEvent register(String name) {
     Identifier id = MineCells.createId(name);
     return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+  }
+
+  public static MusicSound registerMusic(String name) {
+    var id = MineCells.createId(name);
+    var sound = Registry.registerReference(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+    return new MusicSound(sound, 0, 0, true);
   }
 
   public static void init() { }

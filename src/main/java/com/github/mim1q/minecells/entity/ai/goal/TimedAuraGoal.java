@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Box;
 
 import java.util.function.Consumer;
@@ -12,11 +13,13 @@ import java.util.function.Predicate;
 public class TimedAuraGoal<E extends LivingEntity> extends TimedActionGoal<E> {
   private final double radius;
   private final float damage;
+  private final SoundEvent endSound;
 
   protected TimedAuraGoal(E entity, TimedAuraSettings settings, Predicate<E> predicate) {
     super(entity, settings, predicate);
     this.radius = settings.radius;
     this.damage = settings.damage;
+    this.endSound = settings.endSound;
   }
 
   public TimedAuraGoal(E entity, Consumer<TimedAuraSettings> settingsConsumer, Predicate<E> predicate) {
@@ -33,8 +36,15 @@ public class TimedAuraGoal<E extends LivingEntity> extends TimedActionGoal<E> {
     }
   }
 
+  @Override
+  public void stop() {
+    super.stop();
+    playSound(endSound);
+  }
+
   public static class TimedAuraSettings extends TimedActionSettings {
     public double radius = 10.0D;
     public float damage = 10.0F;
+    public SoundEvent endSound = null;
   }
 }
