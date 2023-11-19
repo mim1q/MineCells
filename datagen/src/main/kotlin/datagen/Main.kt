@@ -65,8 +65,8 @@ fun main(args: Array<String>) {
     }
     // Flags
     listOf(
-      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "large_red_ribbon",
-      "red_ribbon"
+      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt",
+      "large_red_ribbon", "red_ribbon"
     ).forEach {
       add(CustomPresets.flag("minecells:${it}_flag"))
     }

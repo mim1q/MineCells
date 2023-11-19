@@ -33,7 +33,7 @@ public class FlagBlock extends BlockWithEntity {
 
   public static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 14.0D, 16.0D, 16.0D, 16.0D);
   public static final VoxelShape CENTERED_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 7.0D, 16.0D, 16.0D, 9.0D);
-  public static final VoxelShape HORIZONTAL_SHAPE = createCuboidShape(7.0, 0.0, 0.0, 8.0, 16.0, 16.0);
+  public static final VoxelShape HORIZONTAL_SHAPE = createCuboidShape(7.0, 0.0, 0.0, 9.0, 16.0, 16.0);
 
   public final Identifier texture;
   public final boolean large;
@@ -67,7 +67,9 @@ public class FlagBlock extends BlockWithEntity {
       return null;
     }
     if (ctx.getSide() == Direction.DOWN) {
-      return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing()).with(PLACEMENT, Placement.CENTERED);
+      return getDefaultState()
+        .with(FACING, ctx.getHorizontalPlayerFacing().getOpposite())
+        .with(PLACEMENT, Placement.CENTERED);
     }
     if (ctx.getWorld().getBlockState(BlockPos.ofFloored(ctx.getHitPos())).isIn(BlockTags.FENCES)) {
       return getDefaultState()

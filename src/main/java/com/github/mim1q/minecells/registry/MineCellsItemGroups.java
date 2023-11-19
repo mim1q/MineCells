@@ -59,14 +59,10 @@ public class MineCellsItemGroups {
       stack(MineCellsBlocks.CAGE),
       stack(MineCellsBlocks.BROKEN_CAGE),
       stack(MineCellsBlocks.SPIKES),
-      stack(MineCellsBlocks.FLAG_POLE),
-      stack(MineCellsBlocks.KINGS_CREST_FLAG),
-      stack(MineCellsBlocks.TORN_KINGS_CREST_FLAG),
-      stack(MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG),
-      stack(MineCellsBlocks.RAMPARTS_FLAG),
-      stack(MineCellsBlocks.BLACK_BRIDGE_FLAG),
-      stack(MineCellsBlocks.RED_RIBBON_FLAG),
-      stack(MineCellsBlocks.LARGE_RED_RIBBON_FLAG),
+      stack(MineCellsBlocks.FLAG_POLE)
+    ));
+    stacks.addAll(MineCellsBlocks.FLAG_BLOCKS.stream().map(it -> it.asItem().getDefaultStack()).toList());
+    stacks.addAll(List.of(
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_0),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_1),
       stack(MineCellsBlocks.ALCHEMY_EQUIPMENT_2),

@@ -23,11 +23,11 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MineCellsBlocks {
-  public static final Set<FlagBlock> FLAG_BLOCKS = new HashSet<>();
+  public static final List<FlagBlock> FLAG_BLOCKS = new ArrayList<>();
 
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block CELL_FORGE = registerBlockWithItem(new CellForgeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)), "cell_forge");
@@ -118,6 +118,7 @@ public class MineCellsBlocks {
   public static final FlagBlock TORN_KINGS_CREST_FLAG = registerFlag("torn_kings_crest", false);
   public static final FlagBlock PROMENADE_OF_THE_CONDEMNED_FLAG = registerFlag("promenade_of_the_condemned", false);
   public static final FlagBlock RAMPARTS_FLAG = registerFlag("ramparts", false);
+  public static final FlagBlock INSUFFERABLE_CRYPT_FLAG = registerFlag("insufferable_crypt", false);
   public static final FlagBlock BLACK_BRIDGE_FLAG = registerFlag("black_bridge", false);
   public static final FlagBlock RED_RIBBON_FLAG = registerFlag("red_ribbon", false);
   public static final FlagBlock LARGE_RED_RIBBON_FLAG = registerFlag("large_red_ribbon", true);

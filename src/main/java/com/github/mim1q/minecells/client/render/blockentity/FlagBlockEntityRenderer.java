@@ -30,6 +30,11 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
   }
 
   @Override
+  public int getRenderDistance() {
+    return 256;
+  }
+
+  @Override
   public void render(FlagBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     var block = entity.getCachedState().getBlock();
     if (!(block instanceof FlagBlock)) {
