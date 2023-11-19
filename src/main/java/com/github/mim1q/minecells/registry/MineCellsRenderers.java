@@ -4,7 +4,8 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
-import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.FlagBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.FlagBlockEntityRenderer.BiomeBannerBlockEntityModel;
 import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
@@ -87,7 +88,9 @@ public class MineCellsRenderers {
 
   public static final EntityModelLayer BIG_DOOR_BARRIER_LAYER = registerLayer("barrier_controller", "big_door", BarrierControllerModel::getBigDoorTexturedModelData);
 
-  public static final EntityModelLayer BIOME_BANNER_LAYER = new EntityModelLayer(MineCells.createId("biome_banner"), "main");
+  public static final EntityModelLayer FLAG_LAYER = registerLayer("flag", () -> BiomeBannerBlockEntityModel.getTexturedModelData(false));
+  public static final EntityModelLayer FLAG_LARGE_LAYER = registerLayer("flag", "large", () -> BiomeBannerBlockEntityModel.getTexturedModelData(true));
+
   public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
   public static final EntityModelLayer TELEPORTER_LAYER = registerLayer("teleporter", TeleporterModel::getTexturedModelData);
 
@@ -226,10 +229,9 @@ public class MineCellsRenderers {
 
     BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE);
 
-    EntityModelLayerRegistry.registerModelLayer(BIOME_BANNER_LAYER, BiomeBannerBlockEntityRenderer.BiomeBannerBlockEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(KING_STATUE_LAYER, KingStatueModel::getTexturedModelData);
 
-    BlockEntityRendererFactories.register(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, BiomeBannerBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.FLAG_BLOCK_ENTITY, FlagBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
@@ -272,11 +274,13 @@ public class MineCellsRenderers {
     LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
       ((entityType, entityRenderer, registrationHelper, context) -> {
         if (!dynamicItemRenderersRegistered) {
-          BuiltinItemRendererRegistry.INSTANCE.register(
-            MineCellsItems.BIOME_BANNER,
-            new BiomeBannerItemRenderer(context.getModelLoader())
-          );
-          dynamicItemRenderersRegistered = true;
+          for (var flag : MineCellsBlocks.FLAG_BLOCKS) {
+            BuiltinItemRendererRegistry.INSTANCE.register(
+              flag,
+              new BiomeBannerItemRenderer(context.getModelLoader(), flag)
+            );
+            dynamicItemRenderersRegistered = true;
+          }
         }
       })
     );

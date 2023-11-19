@@ -4,8 +4,8 @@ import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
-public class BiomeBannerBlockEntity extends MineCellsBlockEntity {
-  public BiomeBannerBlockEntity(BlockPos pos, BlockState state) {
-    super(MineCellsBlockEntities.BIOME_BANNER_BLOCK_ENTITY, pos, state);
+public class FlagBlockEntity extends MineCellsBlockEntity {
+  public FlagBlockEntity(BlockPos pos, BlockState state) {
+    super(MineCellsBlockEntities.FLAG_BLOCK_ENTITY, pos, state);
   }
 }

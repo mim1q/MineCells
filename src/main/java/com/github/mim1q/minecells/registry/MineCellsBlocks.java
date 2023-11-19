@@ -15,12 +15,20 @@ import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.item.BlockItem;
-import net.minecraft.registry.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MineCellsBlocks {
+  public static final Set<FlagBlock> FLAG_BLOCKS = new HashSet<>();
+
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block CELL_FORGE = registerBlockWithItem(new CellForgeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)), "cell_forge");
   public static final Block BIG_CHAIN = registerBlockWithItem(new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)), "big_chain");
@@ -91,7 +99,6 @@ public class MineCellsBlocks {
   public static final Block ROTTING_CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE).ticksRandomly(), HANGED_ROTTING_CORPSE), "rotting_corpse");
   public static final Block KING_STATUE = registerBlockWithItem(new DecorativeStatueBlock(FabricBlockSettings.create().solid().nonOpaque().noCollision().hardness(5.0F)), "king_statue");
   public static final Block FLAG_POLE = registerBlockWithItem(new FlagPoleBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)), "flag_pole");
-  public static final Block BIOME_BANNER = registerBlock(new BiomeBannerBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER)), "biome_banner");
   public static final Block ALCHEMY_EQUIPMENT_0 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_0");
   public static final Block ALCHEMY_EQUIPMENT_1 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS)), "alchemy_equipment_1");
   public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
@@ -105,6 +112,15 @@ public class MineCellsBlocks {
   public static final Block BEAM_PLACER = registerBlock(new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "beam_placer");
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
+
+  // Flags
+  public static final FlagBlock KINGS_CREST_FLAG = registerFlag("kings_crest", false);
+  public static final FlagBlock TORN_KINGS_CREST_FLAG = registerFlag("torn_kings_crest", false);
+  public static final FlagBlock PROMENADE_OF_THE_CONDEMNED_FLAG = registerFlag("promenade_of_the_condemned", false);
+  public static final FlagBlock RAMPARTS_FLAG = registerFlag("ramparts", false);
+  public static final FlagBlock BLACK_BRIDGE_FLAG = registerFlag("black_bridge", false);
+  public static final FlagBlock RED_RIBBON_FLAG = registerFlag("red_ribbon", false);
+  public static final FlagBlock LARGE_RED_RIBBON_FLAG = registerFlag("large_red_ribbon", true);
 
   public static final SpawnerRuneBlock SPAWNER_RUNE = registerBlock(new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().nonOpaque()), "spawner_rune");
 
@@ -161,6 +177,15 @@ public class MineCellsBlocks {
       },
       FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)
     ), id);
+  }
+
+  private static FlagBlock registerFlag(String name, boolean large) {
+    var flag =  registerBlockWithItem(
+      new FlagBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER), name, large),
+      name + "_flag"
+    );
+    FLAG_BLOCKS.add(flag);
+    return flag;
   }
 
   private static FabricItemSettings defaultItemSettings() {

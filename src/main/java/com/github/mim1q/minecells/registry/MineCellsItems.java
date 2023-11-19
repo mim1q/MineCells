@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
-import com.github.mim1q.minecells.item.BiomeBannerItem;
 import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.ResetRuneItem;
@@ -61,11 +60,6 @@ public class MineCellsItems {
   public static final Item MONSTERS_EYE = register(
     new Item(new FabricItemSettings().food(FoodComponents.COOKED_BEEF)),
     "monsters_eye"
-  );
-
-  public static final BiomeBannerItem BIOME_BANNER = register(
-    new BiomeBannerItem(new FabricItemSettings()),
-    "biome_banner"
   );
 
   public static final Item SEWAGE_BUCKET = register(

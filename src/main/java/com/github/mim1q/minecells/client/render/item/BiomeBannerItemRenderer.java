@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.client.render.item;
 
-import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.client.render.blockentity.BiomeBannerBlockEntityRenderer.BiomeBannerBlockEntityModel;
+import com.github.mim1q.minecells.block.FlagBlock;
+import com.github.mim1q.minecells.client.render.blockentity.FlagBlockEntityRenderer.BiomeBannerBlockEntityModel;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.render.VertexConsumer;
@@ -10,27 +10,27 @@ import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 
 public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
-
   private final BiomeBannerBlockEntityModel model;
+  private final FlagBlock flagBlock;
 
-  public BiomeBannerItemRenderer(EntityModelLoader loader) {
-    this.model = new BiomeBannerBlockEntityModel(loader.getModelPart(MineCellsRenderers.BIOME_BANNER_LAYER));
+  public BiomeBannerItemRenderer(EntityModelLoader loader, FlagBlock flagBlock) {
+    this.flagBlock = flagBlock;
+    this.model = new BiomeBannerBlockEntityModel(
+      loader.getModelPart(flagBlock.large ? MineCellsRenderers.FLAG_LARGE_LAYER : MineCellsRenderers.FLAG_LAYER)
+    );
   }
 
   @Override
   public void render(ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-    NbtCompound nbt = stack.getNbt();
-    String name = nbt == null ? "king_crest" : nbt.getString("pattern");
-    VertexConsumer consumer = vertexConsumers.getBuffer(model.getLayer(MineCells.createId("textures/blockentity/banner/" + name + ".png")));
+    VertexConsumer consumer = vertexConsumers.getBuffer(model.getLayer(flagBlock.texture));
 
     matrices.push();
 
-    float scale = 0.45F;
-    float x = 1.15F;
-    float y = -2.25F;
+    float scale = 0.4F;
+    float x = 1.2F;
+    float y = -2.5F;
     float z = -1.0F;
 
     if (mode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND || mode == ModelTransformationMode.THIRD_PERSON_RIGHT_HAND) {
@@ -39,8 +39,9 @@ public class BiomeBannerItemRenderer implements BuiltinItemRendererRegistry.Dyna
 
     matrices.scale(scale, -scale, -scale);
     matrices.translate(x, y, z);
-    this.model.render(matrices, consumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-
+    model.setupLargeItemModel();
+    model.render(matrices, consumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    model.resetSegments();
     matrices.pop();
   }
 }

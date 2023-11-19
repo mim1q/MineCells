@@ -9,6 +9,7 @@ import tada.lib.resources.blockstate.BlockStateModel
 import tada.lib.resources.blockstate.BlockStateModel.Rotation
 import tada.lib.resources.model.ParentedModel
 import tada.lib.resources.recipe.CraftingRecipe
+import tada.lib.tags.TagManager
 import tada.lib.util.Id
 
 object CustomPresets {
@@ -63,6 +64,14 @@ object CustomPresets {
     if (name != "overworld") {
       add(CommonDropPresets.simpleDrop("${id}_doorway"))
     }
+  }
+
+  fun flag(id: String) = Preset {
+    val (_, name) = Id(id)
+    add(name, BlockState.createSingle("minecraft:block/white_wool"))
+    add(name, ParentedModel.item("minecraft:builtin/entity").postProcess { addProperty("gui_light", "front") })
+    add(CommonDropPresets.simpleDrop(id))
+    TagManager.add("minecraft:mineable/axe", id)
   }
 
   fun customRecipes() = Preset {

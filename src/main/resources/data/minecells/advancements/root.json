@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:biome_banner"
+      "item": "minecells:kings_crest_flag"
     },
     "title": {
       "translate": "advancements.minecells.root"

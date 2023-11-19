@@ -18,8 +18,8 @@ public class MineCellsBlockEntities {
     MineCellsBlocks.ELEVATOR_ASSEMBLER, MineCellsBlocks.CONJUNCTIVIUS_BOX, MineCellsBlocks.BEAM_PLACER,
     MineCellsBlocks.CONCIERGE_BOX
   );
-  public static final BlockEntityType<BiomeBannerBlockEntity> BIOME_BANNER_BLOCK_ENTITY = register(
-    "biome_banner", BiomeBannerBlockEntity::new, MineCellsBlocks.BIOME_BANNER
+  public static final BlockEntityType<FlagBlockEntity> FLAG_BLOCK_ENTITY = register(
+    "biome_banner", FlagBlockEntity::new, MineCellsBlocks.FLAG_BLOCKS.toArray(new Block[0])
   );
   public static final BlockEntityType<DecorativeStatueBlockEntity> DECORATIVE_STATUE_BLOCK_ENTITY = register(
     "decorative_statue", DecorativeStatueBlockEntity::new, MineCellsBlocks.KING_STATUE

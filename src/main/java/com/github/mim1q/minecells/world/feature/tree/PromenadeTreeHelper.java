@@ -75,10 +75,9 @@ public interface PromenadeTreeHelper {
     replacer.accept(origin, pole.with(FlagPoleBlock.CONNECTING, true));
     origin = origin.add(offset);
     replacer.accept(origin, pole.with(FlagPoleBlock.CONNECTING, false));
-    replacer.accept(origin.down(), MineCellsBlocks.BIOME_BANNER.getDefaultState()
-      .with(BiomeBannerBlock.PATTERN, BiomeBannerBlock.BannerPattern.PROMENADE)
-      .with(BiomeBannerBlock.FACING, direction.rotateYClockwise())
-      .with(BiomeBannerBlock.PLACEMENT, BiomeBannerBlock.Placement.CENTERED)
+    replacer.accept(origin.down(), MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG.getDefaultState()
+      .with(FlagBlock.FACING, direction.rotateYClockwise())
+      .with(FlagBlock.PLACEMENT, FlagBlock.Placement.CENTERED)
     );
   }
 
