@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -70,6 +71,14 @@ public abstract class ShockwaveBlock extends Block {
       var fireImmune = entity.isFireImmune() || (entity instanceof LivingEntity living && living.hasStatusEffect(StatusEffects.FIRE_RESISTANCE));
       if (canApply && !fireImmune && new Box(pos).offset(0.0, -0.75, 0.0).intersects(entity.getBoundingBox())) {
         entity.setOnFireFor(4);
+      }
+    }
+
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+      super.scheduledTick(state, world, pos, random);
+      if (random.nextFloat() < 0.1F && world.getBlockState(pos.down()).isBurnable()) {
+        world.setBlockState(pos, Blocks.FIRE.getDefaultState());
       }
     }
 

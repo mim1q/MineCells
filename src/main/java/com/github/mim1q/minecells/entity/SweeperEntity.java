@@ -23,6 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import static com.github.mim1q.minecells.util.MathUtils.radians;
+import static java.lang.Math.abs;
 
 public class SweeperEntity extends MineCellsEntity {
   private int sweepCooldown = 0;
@@ -66,7 +67,7 @@ public class SweeperEntity extends MineCellsEntity {
         settings.shockwaveDamage = 6.0F;
         settings.shockwaveInterval = 0.75F;
       },
-      null
+      e -> e.getTarget() != null && abs(e.getTarget().getY() - e.getY()) < 2.0
     ));
   }
 

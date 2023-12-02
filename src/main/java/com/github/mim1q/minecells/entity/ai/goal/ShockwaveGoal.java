@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
@@ -44,7 +45,7 @@ public class ShockwaveGoal<E extends HostileEntity> extends TimedActionGoal<E> {
       placer = ShockwavePlacer.createLine(
         entity.getWorld(),
         entity.getPos().add(offset),
-        entity.getTarget().getPos(),
+        entity.getTarget().getPos().withAxis(Direction.Axis.Y, entity.getPos().y),
         shockwaveInterval,
         shockwaveBlock,
         entity.getUuid(),

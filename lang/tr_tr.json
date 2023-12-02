@@ -1,7 +1,4 @@
 {
-  "itemGroup.minecells.minecells.tab.general": "General",
-  "itemGroup.minecells.minecells.tab.combat": "Combat",
-  "itemGroup.minecells.minecells.tab.spawn_eggs": "Spawn Eggs",
   "item.minecells.flint": "The Flint",
   "item.minecells.flint.description": "Send a shockwave in front of you",
   "item.minecells.spite_sword": "Spite Sword",
@@ -12,9 +9,5 @@
   "travelerstitles.minecells.ramparts": "Ramparts",
   "travelerstitles.minecells.black_bridge": "Black Bridge",
   "biome.minecells.ramparts": "Ramparts",
-  "biome.minecells.black_bridge": "Black Bridge",
-  "block.minecells.cracked_prison_bricks": "Cracked Prison Bricks",
-  "block.minecells.cracked_prison_brick_stairs": "Cracked Prison Brick Stairs",
-  "block.minecells.cracked_prison_brick_slab": "Cracked Prison Brick Slab",
-  "block.minecells.cracked_prison_brick_wall": "Cracked Prison Brick Wall"
+  "biome.minecells.black_bridge": "Black Bridge"
 }

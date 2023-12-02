@@ -93,13 +93,23 @@ object ModTemplatePools {
     val processors = "minecells:promenade"
 
     add(Presets.single("minecells:ramparts/spawn", processors))
+    add(Presets.single("minecells:ramparts/spawn_end", processors))
     add(Presets.single("minecells:ramparts/base", processors))
-    add(Presets.single("minecells:ramparts/base_corner", processors))
-    add(Presets.single("minecells:ramparts/base_bottom", processors))
-    add(Presets.indexed("minecells:ramparts/top", 1, processors=processors))
-    add(Presets.indexed("minecells:ramparts/top_corner", 1, processors=processors))
-    add(Presets.indexed("minecells:ramparts/top_elevator", 1, processors=processors))
-    add(Presets.indexed("minecells:ramparts/underground", 1, processors=processors))
+    add(Presets.single("minecells:ramparts/bottom", processors))
+    add(Presets.single("minecells:ramparts/bottom_end", processors))
+    add(Presets.single("minecells:ramparts/end", processors))
+    add(Presets.indexed("minecells:ramparts/pole", 1, 1, 2, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/elevator_shaft", 4, 1, 4, 2, processors = processors))
+    add(Presets.prefixed("minecells:ramparts/top",
+      "flat" to 6,
+      "floating_platforms" to 2,
+      "room" to 3,
+      "shooting_range" to 2,
+      "two_sweepers" to 1,
+      "wooden_over_spikes" to 2,
+      "wooden_platform" to 3,
+      processors = processors
+    ))
   }
 
   fun blackBridge() = Preset {

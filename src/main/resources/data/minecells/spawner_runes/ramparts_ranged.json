@@ -1,14 +1,20 @@
 {
   "cooldown": 60.0,
-  "spawnDistance": 1.0,
-  "playerDistance": 24.0,
+  "spawnDistance": 4.0,
+  "playerDistance": 32.0,
   "pools": [
     {
-      "rolls": 1,
+      "rolls":  {
+        "type": "uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 2
+        }
+      },
       "entries": [
-        { "weight": 4, "entity": "minecells:inquisitor" },
+        { "weight": 2, "entity": "minecells:inquisitor" },
         { "weight": 2, "entity": "minecells:undead_archer" },
-        { "weight": 1, "entity": "minecells:buzzcutter" }
+        { "weight": 4, "entity": "minecells:buzzcutter" }
       ]
     }
   ]
