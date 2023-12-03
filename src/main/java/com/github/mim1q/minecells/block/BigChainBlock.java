@@ -18,11 +18,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class BigChainBlock extends ChainBlock {
 
-  public static BooleanProperty HANGING = BooleanProperty.of("hanging");
+  public static BooleanProperty CONNECTED = BooleanProperty.of("connected");
 
   public BigChainBlock(Settings settings) {
     super(settings);
-    setDefaultState(getDefaultState().with(HANGING, false));
+    setDefaultState(getDefaultState().with(CONNECTED, false));
   }
 
   @Override
@@ -31,13 +31,13 @@ public class BigChainBlock extends ChainBlock {
   }
 
   protected BlockState getHangingState(BlockState state, WorldAccess world, BlockPos pos) {
+    if (state.get(AXIS).isHorizontal()) {
+      return state;
+    }
     BlockState stateBelow = world.getBlockState(pos.down());
-    boolean chainBelow = stateBelow.getBlock() instanceof BigChainBlock && stateBelow.get(AXIS) == Axis.Y;
     boolean cageBelow = stateBelow.getBlock() instanceof CageBlock && stateBelow.get(CageBlock.FLIPPED);
-    boolean vertical = state.get(AXIS) == Axis.Y;
     boolean solidBelow = stateBelow.isSideSolidFullSquare(world, pos.down(), Direction.UP);
-    boolean hanging = vertical && !(chainBelow || solidBelow || cageBelow);
-    return state.with(HANGING, hanging);
+    return state.with(CONNECTED, cageBelow || solidBelow);
   }
 
   @Nullable
@@ -53,7 +53,7 @@ public class BigChainBlock extends ChainBlock {
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
-    builder.add(HANGING);
+    builder.add(CONNECTED);
   }
 
   @Override

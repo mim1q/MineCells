@@ -17,6 +17,16 @@
 			}
 		},
 		{
+			"from": [4, 0, 8],
+			"to": [12, 8, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [8, 0, 16, 8], "texture": "#all"},
+				"south": {"uv": [8, 0, 16, 8], "texture": "#all"}
+			}
+		},
+		{
 			"from": [8, 0, 4],
 			"to": [8, 16, 12],
 			"shade": false,
