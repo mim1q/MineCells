@@ -4,8 +4,6 @@ import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -28,7 +26,6 @@ import java.util.List;
 
 public class ProtectorEntity extends MineCellsEntity {
 
-  @Environment(EnvType.SERVER)
   protected int stateTicks = 0;
   public List<Entity> trackedEntities = new ArrayList<>();
 
