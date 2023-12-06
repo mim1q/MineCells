@@ -50,7 +50,7 @@ fun main(args: Array<String>) {
     add(CommonModelPresets.pillarBlock("minecells:crate"))
     add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
     listOf("conjunctivius_box", "beam_placer", "doorway_frame", "solid_barrier_rune", "conditional_barrier",
-      "boss_barrier_controller", "boss_entry_barrier_controller", "player_barrier_controller"
+      "boss_barrier_controller", "boss_entry_barrier_controller", "player_barrier_controller", "spawner_rune"
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }

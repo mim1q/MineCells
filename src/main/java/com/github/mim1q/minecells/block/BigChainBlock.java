@@ -10,6 +10,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +23,6 @@ public class BigChainBlock extends ChainBlock {
     super(settings);
     setDefaultState(getDefaultState().with(HANGING, false));
   }
-
 
   @Override
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
@@ -53,6 +53,14 @@ public class BigChainBlock extends ChainBlock {
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(HANGING);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    return state.get(AXIS) == Direction.Axis.Y
+      ? VoxelShapes.empty()
+      : super.getCollisionShape(state, world, pos, context);
   }
 
   public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
