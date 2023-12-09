@@ -20,6 +20,15 @@
           "location_predicate": { "predicate_type": "minecraft:always_true" },
           "input_predicate": {
             "predicate_type": "minecraft:random_block_match",
+            "block": "minecraft:iron_bars",
+            "probability": 0.3
+          },
+          "output_state": { "Name": "minecraft:air" }
+        },
+        {
+          "location_predicate": { "predicate_type": "minecraft:always_true" },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
             "block": "minecells:prison_cobblestone",
             "probability": 0.25
           },

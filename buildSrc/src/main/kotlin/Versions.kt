@@ -1,7 +1,7 @@
 object Versions {
   const val minecraft = "1.20.1"
   // Fabric
-  const val fabricLoader = "0.14.22"
+  const val fabricLoader = "0.15.0"
   const val fabricApi = "0.86.1+1.20.1"
   const val yarn = "1.20.1+build.10"
   const val loom = "1.1-SNAPSHOT"

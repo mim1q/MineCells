@@ -12,9 +12,9 @@
         }
       },
       "entries": [
-        { "weight": 3, "entity": "minecells:shieldbearer" },
-        { "weight": 3, "entity": "minecells:inquisitor" },
-        { "weight": 2, "entity": "minecells:buzzcutter" }
+        { "weight": 1, "entity": "minecells:shieldbearer" },
+        { "weight": 2, "entity": "minecells:inquisitor" },
+        { "weight": 3, "entity": "minecells:buzzcutter" }
       ]
     }
   ]

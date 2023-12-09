@@ -98,7 +98,10 @@ object ModTemplatePools {
     add(Presets.single("minecells:ramparts/bottom", processors))
     add(Presets.single("minecells:ramparts/bottom_end", processors))
     add(Presets.single("minecells:ramparts/end", processors))
-    add(Presets.indexed("minecells:ramparts/pole", 1, 1, 2, 1, processors = processors))
+    add(Presets.prefixed(
+      "minecells:ramparts/pole",
+      "0" to 1, "1" to 1, "2" to 2, "3" to 1, "minecraft:empty" to 4
+    ))
     add(Presets.indexed("minecells:ramparts/elevator_shaft", 4, 1, 4, 2, processors = processors))
     add(Presets.prefixed("minecells:ramparts/top",
       "flat" to 6,
@@ -108,6 +111,25 @@ object ModTemplatePools {
       "two_sweepers" to 1,
       "wooden_over_spikes" to 2,
       "wooden_platform" to 3,
+      processors = processors
+    ))
+    add(Presets.indexed("minecells:ramparts/top_entry", 1, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_entry", 1, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_exit", 1, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_end", 1, processors = processors))
+    add(Presets.prefixed("minecells:ramparts/secret_room",
+      "0" to 1,
+      "1" to 1,
+      "minecraft:empty" to 20,
+      processors = processors
+    ))
+    add(Presets.prefixed("minecells:ramparts/room",
+      "corridor" to 7,
+      "stacked_corridor" to 5,
+      "corridor_with_alcove" to 5,
+      "stacked_corridor" to 5,
+      "gated_corridor" to 3,
+      "wooden_see_through" to 2,
       processors = processors
     ))
   }
