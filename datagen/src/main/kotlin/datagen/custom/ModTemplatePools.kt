@@ -120,7 +120,7 @@ object ModTemplatePools {
     add(Presets.prefixed("minecells:ramparts/secret_room",
       "0" to 1,
       "1" to 1,
-      "minecraft:empty" to 20,
+      "empty" to 20,
       processors = processors
     ))
     add(Presets.prefixed("minecells:ramparts/room",

@@ -99,31 +99,33 @@ public class ConciergeEntity extends MineCellsBossEntity {
     goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 32.0F));
     goalSelector.add(3, new WalkTowardsTargetGoal(this, 1.0 + stage * 0.15, false, 2.0));
 
-    goalSelector.add(0, new TimedDashGoal<>(this, settings -> {
-      settings.onGround = false;
-      settings.cooldownGetter = () -> leapCooldown + sharedCooldown;
-      settings.cooldownSetter = cooldown -> {
-        leapCooldown = getStageAdjustedValue(8 * 20, 6 * 20, 4 * 20);
-        sharedCooldown = getStageAdjustedValue(80, 60, 20);
-      };
-      settings.defaultCooldown = 8 * 20;
-      settings.stateSetter = handleStateChange(LEAP_CHARGING, LEAP_RELEASING);
-      settings.chargeSound = MineCellsSounds.CONCIERGE_LEAP_CHARGE;
-      settings.landSound = MineCellsSounds.CONCIERGE_LEAP_LAND;
-      settings.chance = 0.3F;
-      settings.alignTick = getStageAdjustedValue(30, 30, 25);
-      settings.actionTick = getStageAdjustedValue(40, 35, 25);
-      settings.speed = 1.25F;
-      settings.minDistance = 5.0;
-      settings.overshoot = 1.5;
-      settings.length = 60;
-      settings.margin = 1.0;
-      settings.damage = 10.0F;
-      settings.particle = MineCellsParticles.SPECKLE.get(0xFF4000);
-    }, e -> e.canAttack()
-         && e.getTarget() != null
-         && e.distanceTo(e.getTarget()) > 8 || stage == 3)
-    );
+    if (stage > 1) {
+      goalSelector.add(0, new TimedDashGoal<>(this, settings -> {
+          settings.onGround = false;
+          settings.cooldownGetter = () -> leapCooldown + sharedCooldown;
+          settings.cooldownSetter = cooldown -> {
+            leapCooldown = getStageAdjustedValue(8 * 20, 6 * 20, 4 * 20);
+            sharedCooldown = getStageAdjustedValue(80, 60, 20);
+          };
+          settings.defaultCooldown = 8 * 20;
+          settings.stateSetter = handleStateChange(LEAP_CHARGING, LEAP_RELEASING);
+          settings.chargeSound = MineCellsSounds.CONCIERGE_LEAP_CHARGE;
+          settings.landSound = MineCellsSounds.CONCIERGE_LEAP_LAND;
+          settings.chance = 0.3F;
+          settings.alignTick = getStageAdjustedValue(30, 30, 25);
+          settings.actionTick = getStageAdjustedValue(40, 35, 25);
+          settings.speed = 1.25F;
+          settings.minDistance = 5.0;
+          settings.overshoot = 1.5;
+          settings.length = 60;
+          settings.margin = 1.0;
+          settings.damage = 10.0F;
+          settings.particle = MineCellsParticles.SPECKLE.get(0xFF4000);
+        }, e -> e.canAttack()
+          && e.getTarget() != null
+          && e.distanceTo(e.getTarget()) > 8 || stage == 3)
+      );
+    }
 
     goalSelector.add(0, new ShockwaveGoal<>(this, settings -> {
       settings.cooldownGetter = () -> shockwaveCooldown + sharedCooldown;
@@ -297,11 +299,11 @@ public class ConciergeEntity extends MineCellsBossEntity {
 
   private boolean canChangeStage() {
     return !dataTracker.get(LEAP_CHARGING)
-        && !dataTracker.get(LEAP_RELEASING)
-        && !dataTracker.get(SHOCKWAVE_CHARGING)
-        && !dataTracker.get(SHOCKWAVE_RELEASING)
-        && !dataTracker.get(PUNCH_CHARGING)
-        && !dataTracker.get(PUNCH_RELEASING);
+      && !dataTracker.get(LEAP_RELEASING)
+      && !dataTracker.get(SHOCKWAVE_CHARGING)
+      && !dataTracker.get(SHOCKWAVE_RELEASING)
+      && !dataTracker.get(PUNCH_CHARGING)
+      && !dataTracker.get(PUNCH_RELEASING);
   }
 
   private void setupTransition(
@@ -335,7 +337,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
   }
 
   @SafeVarargs
-  private <T> T getStageAdjustedValue(T ...stages) {
+  private <T> T getStageAdjustedValue(T... stages) {
     return stages[min(stage, stages.length - 1)];
   }
 

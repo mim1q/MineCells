@@ -26,10 +26,10 @@ import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
-  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 3, 1024.0),
+  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 11, 1024.0, 90F),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
   RAMPARTS(MineCells.createId("ramparts"), -71, 263, -259, 384.0),
-  BLACK_BRIDGE(MineCells.createId("black_bridge"), 6, 100, 6, 384.0);
+  BLACK_BRIDGE(MineCells.createId("black_bridge"), 32, 100, 6, 384.0);
 
   private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
     PROMENADE_OF_THE_CONDEMNED
@@ -146,7 +146,7 @@ public enum MineCellsDimension {
 
   public boolean canMusicStart(ClientPlayerEntity player) {
     return switch (this) {
-      case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor)player).getMineCellsFlag(DISARMED);
+      case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor) player).getMineCellsFlag(DISARMED);
       default -> true;
     };
   }
