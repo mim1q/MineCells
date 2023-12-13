@@ -137,7 +137,7 @@ public class MineCellsBlocks {
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "teleporter_frame");
   public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(Blocks.NETHER_PORTAL).nonOpaque().strength(10F, 1200F).pistonBehavior(PistonBehavior.BLOCK)), "doorway_frame");
-  public static final DoorwayPortalBlock.Frame UNBREAKABLE_DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F)), "unbreakable_doorway_frame");
+  public static final DoorwayPortalBlock.Frame UNBREAKABLE_DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F).solid()), "unbreakable_doorway_frame");
   public static final RiftBlock RIFT = registerBlock(new RiftBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "rift");
 
   public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
@@ -146,13 +146,13 @@ public class MineCellsBlocks {
   public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
   public static final DoorwayPortalBlock RAMPARTS_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.RAMPARTS), "ramparts_doorway");
   public static final DoorwayPortalBlock BLACK_BRIDGE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.BLACK_BRIDGE), "black_bridge_doorway");
-  
+
   public static void init() {
     Registry.register(Registries.BLOCK, MineCells.createId("sewage"), SEWAGE);
     Registry.register(Registries.BLOCK, MineCells.createId("ancient_sewage"), ANCIENT_SEWAGE);
   }
 
-  public static  <T extends Block> T registerBlock(T block, String id) {
+  public static <T extends Block> T registerBlock(T block, String id) {
     Registry.register(Registries.BLOCK, MineCells.createId(id), block);
     return block;
   }
@@ -161,7 +161,7 @@ public class MineCellsBlocks {
     registerBlock(block, id);
     Registry.register(
       Registries.ITEM,
-      MineCells.createId(id), 
+      MineCells.createId(id),
       new BlockItem(block, new FabricItemSettings())
     );
     return block;
@@ -181,7 +181,7 @@ public class MineCellsBlocks {
   }
 
   private static FlagBlock registerFlag(String name, boolean large) {
-    var flag =  registerBlockWithItem(
+    var flag = registerBlockWithItem(
       new FlagBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER), name, large),
       name + "_flag"
     );
