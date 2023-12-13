@@ -34,7 +34,7 @@ public abstract class ShockwaveBlock extends Block {
   @SuppressWarnings("deprecation")
   public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     super.scheduledTick(state, world, pos, random);
-    PlayerLookup.tracking(world, pos).forEach(player -> ShockwaveClientEventS2CPacket.send(player, this, pos,true));
+    PlayerLookup.tracking(world, pos).forEach(player -> ShockwaveClientEventS2CPacket.send(player, this, pos, true));
     world.breakBlock(pos, false);
   }
 
@@ -46,13 +46,14 @@ public abstract class ShockwaveBlock extends Block {
     return posState.isReplaceable()
       && posState.getFluidState().isEmpty()
       && (
-        downState.isSideSolid(world, pos.down(), Direction.UP, SideShapeType.CENTER)
+      downState.isSideSolid(world, pos.down(), Direction.UP, SideShapeType.CENTER)
         || downState.isFullCube(world, pos.down())
         || downState.isIn(BlockTags.STAIRS)
-      );
+    );
   }
 
   public abstract void onClientStartShockwave(ClientWorld world, BlockPos pos);
+
   public abstract void onClientEndShockwave(ClientWorld world, BlockPos pos);
 
   public static class ShockwaveFlame extends ShockwaveBlock {
@@ -93,6 +94,17 @@ public abstract class ShockwaveBlock extends Block {
         1.0,
         0.02
       );
+      for (int i = 0; i < 2; i++) {
+        world.addParticle(
+          ParticleTypes.FLAME,
+          pos.getX() + world.getRandom().nextFloat(),
+          pos.getY() + world.getRandom().nextFloat(),
+          pos.getZ() + world.getRandom().nextFloat(),
+          0.0,
+          0.1 + world.getRandom().nextFloat() * 0.2,
+          0.0
+        );
+      }
     }
 
     @Override

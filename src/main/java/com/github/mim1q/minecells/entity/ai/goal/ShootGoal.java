@@ -48,7 +48,7 @@ public class ShootGoal<E extends MineCellsEntity & IShootEntity> extends Goal {
 
   @Override
   public boolean shouldContinue() {
-    return (this.ticks < this.lengthTicks && this.target.isAlive() && this.target != null);
+    return (this.ticks < this.lengthTicks && this.target != null && this.target.isAlive());
   }
 
   @Override

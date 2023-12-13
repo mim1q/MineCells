@@ -65,9 +65,12 @@ public class SweeperEntity extends MineCellsEntity {
         settings.releaseSound = MineCellsSounds.SWEEPER_RELEASE;
         settings.shockwaveBlock = MineCellsBlocks.SHOCKWAVE_FLAME;
         settings.shockwaveDamage = 6.0F;
-        settings.shockwaveInterval = 0.75F;
+        settings.shockwaveInterval = 1F;
       },
-      e -> e.getTarget() != null && abs(e.getTarget().getY() - e.getY()) < 2.0
+      e -> e.getTarget() != null
+        && abs(e.getTarget().getY() - e.getY()) < 2.0
+        && e.navigation.getCurrentPath() != null
+        && e.navigation.getCurrentPath().reachesTarget()
     ));
   }
 
