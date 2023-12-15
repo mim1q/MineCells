@@ -20,10 +20,9 @@ fun main(args: Array<String>) {
   }
   val path = Path.of(args[0]).toAbsolutePath()
   val helperLangPath = Path.of(args[2]).toAbsolutePath()
-  println(
-    "Running datagen script." +
-    "\n  Output directory: $path" +
-    "\n  Generated language helper directory: $helperLangPath"
+  println("Running datagen script."
+    + "\n  Output directory: $path"
+    + "\n  Generated language helper directory: $helperLangPath"
   )
   val generator = ResourceGenerator.create("minecells", path).apply {
     // Wood
@@ -112,6 +111,9 @@ fun main(args: Array<String>) {
     )
     TagManager.add("minecells:blocks/tree_root_replaceable",
       "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block"
+    )
+    TagManager.add("minecells:items/discard_in_high_dimensions",
+      "minecraft:stick", "minecells:red_putrid_sapling"
     )
   }
   generator.generate()

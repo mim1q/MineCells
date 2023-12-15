@@ -2,8 +2,10 @@ package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.FallResetHeightEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.item.MineCellsItemTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -62,6 +64,10 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
 
   @Shadow
   public int age;
+
+  @Shadow
+  public abstract void discard();
+
   @Unique
   private Double fallResetY = 0.0;
   @Unique
@@ -100,6 +106,11 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
     if (getY() < fallResetY) {
       if (this.getType() == EntityType.ITEM) {
         if (age % 20 != 0) {
+          return;
+        }
+        //noinspection DataFlowIssue
+        if (((ItemEntity) (Object) this).getStack().isIn(MineCellsItemTags.DISCARD_IN_HIGH_DIMENSIONS)) {
+          this.discard();
           return;
         }
         var nearestPlayer = getWorld().getClosestPlayer(getX(), getY(), getZ(), 180.0, false);
