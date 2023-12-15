@@ -3,9 +3,9 @@ import net.fabricmc.loom.task.RemapJarTask
 import java.io.FileNotFoundException
 
 plugins {
-  id("fabric-loom") version Versions.loom
-  id("com.modrinth.minotaur") version Versions.minotaur
-  id("com.matthewprenger.cursegradle") version Versions.cursegradle
+  id("fabric-loom") version Versions.LOOM
+  id("com.modrinth.minotaur") version Versions.MINOTAUR
+  id("com.matthewprenger.cursegradle") version Versions.CURSEGRADLE
   id("io.github.p03w.machete") version "2.0.1"
 }
 
@@ -31,22 +31,18 @@ repositories {
 }
 
 dependencies {
-  minecraft("com.mojang:minecraft:${Versions.minecraft}")
+  minecraft("com.mojang:minecraft:${Versions.MINECRAFT}")
 
-  mappings("net.fabricmc:yarn:${Versions.yarn}:v2")
+  mappings("net.fabricmc:yarn:${Versions.YARN}:v2")
 
-  modImplementation("net.fabricmc:fabric-loader:${Versions.fabricLoader}")
-  modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.fabricApi}")
+  modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
+  modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
 
-  include("com.github.Draylar.omega-config:omega-config-base:${Versions.omegaConfig}")
-  modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.omegaConfig}")
+  include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
+  modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
 
-  implementation("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
-  annotationProcessor("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
-  include("com.github.LlamaLad7:MixinExtras:${Versions.mixinExtras}")
-
-  modImplementation("io.wispforest:owo-lib:${Versions.owoLib}")
-  include("io.wispforest:owo-sentinel:${Versions.owoLib}")
+  modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
+  include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
 }
 
 @Suppress("UnstableApiUsage")
