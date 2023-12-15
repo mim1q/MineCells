@@ -29,7 +29,7 @@ public enum MineCellsDimension {
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 11, 1024.0, 90F),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
   RAMPARTS(MineCells.createId("ramparts"), -71, 263, -259, 384.0),
-  BLACK_BRIDGE(MineCells.createId("black_bridge"), 32, 100, 6, 384.0);
+  BLACK_BRIDGE(MineCells.createId("black_bridge"), 32, 70, 11, 384.0);
 
   private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
     PROMENADE_OF_THE_CONDEMNED

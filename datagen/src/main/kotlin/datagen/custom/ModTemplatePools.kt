@@ -115,7 +115,7 @@ object ModTemplatePools {
     ))
     add(Presets.indexed("minecells:ramparts/top_entry", 1, 1, processors = processors))
     add(Presets.indexed("minecells:ramparts/room_entry", 1, 1, processors = processors))
-    add(Presets.indexed("minecells:ramparts/room_exit", 1, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_exit", 1, processors = processors))
     add(Presets.indexed("minecells:ramparts/room_end", 1, processors = processors))
     add(Presets.prefixed("minecells:ramparts/secret_room",
       "0" to 1,
@@ -132,6 +132,26 @@ object ModTemplatePools {
       "wooden_see_through" to 2,
       processors = processors
     ))
+
+    // Towers
+    add(Presets.indexed("minecells:ramparts/tower/room", 3, 3, 3, 1, 2, processors = processors))
+    add(Presets.indexed("minecells:ramparts/tower/top", 1, 1, processors = processors))
+    add(Presets.single("minecells:ramparts/tower/bottom", processors = processors))
+    add(Presets.single("minecells:ramparts/tower/base", processors = processors))
+    add(Presets.single("minecells:ramparts/end_tower/entrance", processors = processors))
+    add(Presets.single("minecells:ramparts/end_tower/elevator_shaft", processors = processors))
+    add(Presets.single("minecells:ramparts/end_tower/exit", processors = processors))
+    add(Presets.prefixed("minecells:ramparts/tower/entry_room",
+      "double" to 3,
+      "double_bookshelves" to 2,
+      "ranged_platforms" to 2,
+      "minecells:ramparts/tower/room/3" to 1,
+      processors = processors
+    ))
+
+    // Platforms
+    add(Presets.prefixed("minecells:ramparts/platform", "bridge" to 1, "broken_bridge" to 1, "islands" to 1, processors = processors))
+    add(Presets.prefixed("minecells:ramparts/platform_up", "bridge" to 1, "islands" to 1, processors = processors))
   }
 
   fun blackBridge() = Preset {

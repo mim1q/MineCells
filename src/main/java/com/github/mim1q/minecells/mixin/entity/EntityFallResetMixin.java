@@ -2,10 +2,10 @@ package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.accessor.FallResetHeightEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -24,18 +24,44 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityFallResetMixin implements FallResetHeightEntityAccessor {
-  @Shadow public abstract double getY();
-  @Shadow public abstract World getWorld();
-  @Shadow public abstract ChunkPos getChunkPos();
-  @Shadow public abstract BlockPos getBlockPos();
-  @Shadow public abstract void teleport(double destX, double destY, double destZ);
-  @Shadow protected abstract void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition);
-  @Shadow public float fallDistance;
+  @Shadow
+  public abstract double getY();
 
-  @Shadow public abstract boolean damage(DamageSource source, float amount);
+  @Shadow
+  public abstract World getWorld();
 
-  @Shadow public abstract void setVelocity(Vec3d velocity);
+  @Shadow
+  public abstract ChunkPos getChunkPos();
 
+  @Shadow
+  public abstract BlockPos getBlockPos();
+
+  @Shadow
+  public abstract void teleport(double destX, double destY, double destZ);
+
+  @Shadow
+  public float fallDistance;
+
+  @Shadow
+  public abstract boolean damage(DamageSource source, float amount);
+
+  @Shadow
+  public abstract void setVelocity(Vec3d velocity);
+
+  @Shadow
+  public abstract EntityType<?> getType();
+
+  @Shadow
+  public abstract double getX();
+
+  @Shadow
+  public abstract float getYaw(float tickDelta);
+
+  @Shadow
+  public abstract double getZ();
+
+  @Shadow
+  public int age;
   @Unique
   private Double fallResetY = 0.0;
   @Unique
@@ -55,7 +81,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
   )
   private void minecells$injectMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
     var result = cir.getReturnValue();
-    ((EntityFallResetMixin)(Object)result).fallResetY = MineCellsDimension.getFallResetHeight(destination);
+    ((EntityFallResetMixin) (Object) result).fallResetY = MineCellsDimension.getFallResetHeight(destination);
   }
 
   @Inject(
@@ -65,13 +91,30 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
   private void minecells$injectTick(CallbackInfo ci) {
     if (
       getWorld().isClient
-      || fallResetY == null
-      || (((Entity)(Object)this) instanceof PlayerEntity player && (
-          player.isCreative() || player.isSpectator())
+        || fallResetY == null
+        || (((Entity) (Object) this) instanceof PlayerEntity player && (
+        player.isCreative() || player.isSpectator())
       )) {
       return;
     }
     if (getY() < fallResetY) {
+      if (this.getType() == EntityType.ITEM) {
+        if (age % 20 != 0) {
+          return;
+        }
+        var nearestPlayer = getWorld().getClosestPlayer(getX(), getY(), getZ(), 180.0, false);
+        if (nearestPlayer == null) {
+          return;
+        }
+        this.teleport(nearestPlayer.getX(), nearestPlayer.getY(), nearestPlayer.getZ());
+        this.setVelocity(Vec3d.ZERO);
+        fallDistance = 0.0f;
+        return;
+      }
+      if ((Entity) (Object) this instanceof HostileEntity) {
+        damage(getWorld().getDamageSources().fall(), 100.0F);
+        return;
+      }
       var tpPos = minecells$getResetToPos();
       this.teleport(tpPos.getX() + 0.5, tpPos.getY() + 0.5, tpPos.getZ() + 0.5);
       this.setVelocity(Vec3d.ZERO);
@@ -79,7 +122,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
       damage(getWorld().getDamageSources().fall(), 5.0F);
     } else if (
       getY() > fallResetY + 5
-      && getWorld().getBlockState(getBlockPos().down()).isSolidBlock(getWorld(), getBlockPos())
+        && getWorld().getBlockState(getBlockPos().down()).isSolidBlock(getWorld(), getBlockPos())
     ) {
       lastSolidBlock = getBlockPos();
     }

@@ -10,8 +10,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.structure.Structure;
 
-import static net.minecraft.util.BlockRotation.CLOCKWISE_180;
-import static net.minecraft.util.BlockRotation.NONE;
+import static net.minecraft.util.BlockRotation.*;
 
 public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
   private static final Identifier BASE = MineCells.createId("ramparts/base");
@@ -27,8 +26,20 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
   private static final Identifier SPAWN = MineCells.createId("ramparts/spawn");
   private static final Identifier SPAWN_END = MineCells.createId("ramparts/spawn_end");
 
+  private static final Identifier TOWER_BOTTOM = MineCells.createId("ramparts/tower/bottom");
+  private static final Identifier TOWER_BASE = MineCells.createId("ramparts/tower/base");
+  private static final Identifier TOWER_ROOM = MineCells.createId("ramparts/tower/room");
+  private static final Identifier TOWER_ENTRY_ROOM = MineCells.createId("ramparts/tower/entry_room");
+  private static final Identifier TOWER_TOP = MineCells.createId("ramparts/tower/top");
+  private static final Identifier END_TOWER_ENTRANCE = MineCells.createId("ramparts/end_tower/entrance");
+  private static final Identifier END_TOWER_ELEVATOR_SHAFT = MineCells.createId("ramparts/end_tower/elevator_shaft");
+  private static final Identifier END_TOWER_EXIT = MineCells.createId("ramparts/end_tower/exit");
+
+  private static final Identifier PLATFORM = MineCells.createId("ramparts/platform");
+  private static final Identifier PLATFORM_UP = MineCells.createId("ramparts/platform_up");
+
   private static final int LOWER_BASE_HEIGHT = 4;
-  private static final int BASE_HEIGHT = 14;
+  private static final int BASE_HEIGHT = 13;
 
   private final boolean secondPart;
   private final long seed;
@@ -41,20 +52,66 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
   @Override
   protected void addRooms(Random random) {
     random.setSeed(seed);
-    addWall(0, -8, 6, true);
-    addWall(1, -1, 5, false);
+
+    var turns = new boolean[]{random.nextBoolean(), random.nextBoolean(), random.nextBoolean(), random.nextBoolean()};
+    if ((turns[0] && turns[1] && turns[2] && turns[3])
+      || (!turns[0] && !turns[1] && !turns[2] && !turns[3])
+    ) {
+      turns[random.nextInt(4)] ^= true;
+    }
+    addWall(0, -8, BASE_HEIGHT, 3, true);
+
+    int x = 0;
+    int z = -6;
+    int height = BASE_HEIGHT;
+    for (int i = 0; i < 4; ++i) {
+      var up = random.nextBoolean();
+
+      x += turns[i] ? 2 : -2;
+      var rot = turns[i] ? COUNTERCLOCKWISE_90 : CLOCKWISE_90;
+      var length = 4 + random.nextInt(4);
+      addRoom(new Vec3i(x - rot.rotate(Direction.SOUTH).getOffsetX(), height - 1, z + 1), rot, up ? PLATFORM_UP : PLATFORM);
+
+      if (up) height += 1;
+      addWall(x, z, height, length, false);
+
+      var sideTowers = new boolean[]{random.nextFloat() < 0.75, random.nextFloat() < 0.75};
+      if (!sideTowers[0] && !sideTowers[1]) {
+        sideTowers[random.nextInt(2)] = true;
+      }
+
+      if (sideTowers[0]) {
+        var nextRight = i != 3 && turns[i + 1];
+        var prevRight = turns[i];
+        var startZ = z + (prevRight ? 2 : 1);
+        var addedZ = length - (nextRight ? 2 : 1);
+        addTower(x - 2, height, startZ + random.nextInt(addedZ), random, CLOCKWISE_90);
+      }
+
+      if (sideTowers[1]) {
+        var nextLeft = i != 3 && !turns[i + 1];
+        var prevLeft = !turns[i];
+        var startZ = z + (prevLeft ? 2 : 1);
+        var addedZ = length - (nextLeft ? 2 : 1);
+        addTower(x + 2, height, startZ + random.nextInt(addedZ), random, COUNTERCLOCKWISE_90);
+      }
+      z += length - 1;
+    }
+
+    addRoom(new Vec3i(x, height - 1, z + 2), NONE, PLATFORM_UP);
+    addEndTower(x, height + 1, z + 3);
   }
 
-  private void addWall(int x, int z, int length, boolean spawn) {
+  private void addWall(int x, int z, int height, int length, boolean spawn) {
     var rooms = (length >= 4 && !spawn);
-    addColumn(x, z, 0, 0, BOTTOM_END, null, spawn ? SPAWN_END : END, NONE, NONE);
+    addColumn(x, z, 0, height, 0, BOTTOM_END, null, spawn ? SPAWN_END : END, NONE, NONE);
     if (spawn) {
-      addColumn(x, z, 1, 0, BOTTOM, null, SPAWN, NONE, NONE);
+      addColumn(x, z, 1, height, 0, BOTTOM, null, SPAWN, NONE, NONE);
     }
     for (int i = spawn ? 2 : 1; i <= length; ++i) {
       addColumn(
-        x, z, i,
-        (rooms && i > 1 && i < length) ? 2 : 0,
+        x, z, i, height,
+        (rooms && i > 1 && i < length) ? 1 : 0,
         BOTTOM,
         (rooms && i == 1) ? TOP_ENTRY : TOP,
         (rooms && i > 1 && i < length) ? null : BOTTOM,
@@ -63,9 +120,9 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
       );
     }
     if (rooms) {
-      addDungeonRooms(x, BASE_HEIGHT - 1, z + 1, length, 3, NONE);
+      addDungeonRooms(x, height - 1, z + 1, length, 2, NONE);
     }
-    addColumn(x, z, length + 1, 0, BOTTOM_END, null, END, CLOCKWISE_180, NONE);
+    addColumn(x, z, length + 1, height, 0, BOTTOM_END, null, END, CLOCKWISE_180, NONE);
   }
 
   private void addDungeonRooms(
@@ -90,16 +147,55 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
         if (reversed && offset == 0 || !reversed && offset == length - 1) {
           roomType = y == startY - height + 1 ? ROOM_EXIT : ROOM_END;
         }
-
         addRoom(new Vec3i(x, y, z), reversed ? CLOCKWISE_180 : NONE, roomType);
       }
     }
+  }
+
+  private void addTower(
+    int x,
+    int y,
+    int z,
+    Random random,
+    BlockRotation rotation
+  ) {
+    var floating = random.nextBoolean();
+    var height = 2 + random.nextInt(3);
+
+    addRoom(new Vec3i(x - rotation.rotate(Direction.SOUTH).getOffsetX(), y - 1, z), rotation, PLATFORM);
+
+    if (floating) {
+      var underY = random.nextInt(1) + 2;
+      addRoom(new Vec3i(x, y - underY, z), rotation, TOWER_BOTTOM);
+      for (int i = y - underY + 1; i < y; i++) {
+        addRoom(new Vec3i(x, i, z), rotation, TOWER_BASE);
+      }
+    } else for (int i = 0; i < y; i++) {
+      addRoom(new Vec3i(x, i, z), rotation, TOWER_BASE);
+    }
+    for (int i = y; i < y + height; i++) {
+      addRoom(new Vec3i(x, i, z), rotation, i == y ? TOWER_ENTRY_ROOM : TOWER_ROOM);
+    }
+    addRoom(new Vec3i(x, y + height, z), rotation, TOWER_TOP);
+  }
+
+  private void addEndTower(int x, int y, int z) {
+    for (int i = 0; i < 10; i++) {
+      addRoom(new Vec3i(x, i, z), NONE, TOWER_BASE);
+    }
+    addRoom(new Vec3i(x, 10, z), NONE, END_TOWER_EXIT);
+    for (int i = 11; i < y; i++) {
+      addRoom(new Vec3i(x, i, z), NONE, END_TOWER_ELEVATOR_SHAFT);
+    }
+    addRoom(new Vec3i(x, y, z), NONE, END_TOWER_ENTRANCE);
+    addRoom(new Vec3i(x, y + 1, z), NONE, TOWER_TOP);
   }
 
   private void addColumn(
     int startX,
     int startZ,
     int offset,
+    int height,
     int freeY,
     Identifier bottom,
     Identifier top,
@@ -112,14 +208,14 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
     for (int i = 0; i < LOWER_BASE_HEIGHT; i++) {
       addRoom(new Vec3i(x, i, z), rotation, BASE);
     }
-    for (int i = LOWER_BASE_HEIGHT; i <= BASE_HEIGHT - 2 - freeY; i++) {
+    for (int i = LOWER_BASE_HEIGHT; i <= height - 2 - freeY; i++) {
       addRoom(new Vec3i(x, i, z), rotation, bottom);
     }
     if (second != null) {
-      addRoom(new Vec3i(x, BASE_HEIGHT - 1, z), rotation, second);
+      addRoom(new Vec3i(x, height - 1, z), rotation, second);
     }
     if (top != null) {
-      addRoom(new Vec3i(x, BASE_HEIGHT, z), rotation, top);
+      addRoom(new Vec3i(x, height, z), rotation, top);
     }
   }
 
