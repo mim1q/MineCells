@@ -39,7 +39,7 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
   private static final Identifier PLATFORM_UP = MineCells.createId("ramparts/platform_up");
 
   private static final int LOWER_BASE_HEIGHT = 4;
-  private static final int BASE_HEIGHT = 13;
+  private static final int BASE_HEIGHT = 12;
 
   private final boolean secondPart;
   private final long seed;
