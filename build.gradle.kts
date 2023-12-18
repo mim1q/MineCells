@@ -27,7 +27,7 @@ repositories {
   maven("https://jitpack.io")
   maven("https://maven.shedaniel.me/")
   maven("https://maven.terraformersmc.com/releases/")
-  maven("https://maven.wispforest.io")
+  maven("https://maven.wispforest.io/releases/")
 }
 
 dependencies {
