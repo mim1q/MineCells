@@ -17,9 +17,6 @@
     ],
     "main": [
       "com.github.mim1q.minecells.MineCells"
-    ],
-    "preLaunch": [
-      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
     ]
   },
   "mixins": [
