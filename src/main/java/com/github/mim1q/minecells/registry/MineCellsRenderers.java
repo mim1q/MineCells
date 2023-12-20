@@ -9,9 +9,9 @@ import com.github.mim1q.minecells.client.render.blockentity.FlagBlockEntityRende
 import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.portal.RiftBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
-import com.github.mim1q.minecells.client.render.blockentity.portal.RiftBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
 import com.github.mim1q.minecells.client.render.conjunctivius.*;
@@ -27,6 +27,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Disgu
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -48,8 +49,13 @@ import net.minecraft.util.Identifier;
 public class MineCellsRenderers {
   private static boolean dynamicItemRenderersRegistered = false;
 
-  private static <T extends Entity> EntityRenderer<T> invisibleRenderer(Context ctx)  {
-    return new EntityRenderer<>(ctx) { @Override public Identifier getTexture(Entity entity) { return null; }};
+  private static <T extends Entity> EntityRenderer<T> invisibleRenderer(Context ctx) {
+    return new EntityRenderer<>(ctx) {
+      @Override
+      public Identifier getTexture(Entity entity) {
+        return null;
+      }
+    };
   }
 
   public static final EntityModelLayer LEAPING_ZOMBIE_LAYER = new EntityModelLayer(MineCells.createId("leaping_zombie"), "main");
@@ -165,10 +171,10 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.TENTACLE_WEAPON, TentacleWeaponEntityRenderer::new);
-    
+
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "conjunctivius"));
     EntityRendererRegistry.register(MineCellsEntities.CONCIERGE_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "concierge"));
-    
+
     EntityRendererRegistry.register(MineCellsEntities.SHOCKWAVE_PLACER, MineCellsRenderers::invisibleRenderer);
     EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneRenderer.Entity::new);
 
@@ -263,6 +269,13 @@ public class MineCellsRenderers {
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.WILTED_GRASS_BLOCK
+    );
+
+    ColorProviderRegistry.ITEM.register(
+      (stack, tintIndex) -> tintIndex == 1
+        ? ((DimensionalRuneItem) stack.getItem()).portalBlock.type.color
+        : 0xFFFFFF,
+      MineCellsItems.DIMENSIONAL_RUNES.toArray(new DimensionalRuneItem[0])
     );
 
     for (var entry : MineCellsItems.DOORWAY_COLORS.entrySet()) {

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.ResetRuneItem;
@@ -16,11 +17,14 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MineCellsItems {
   public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
+  public static List<DimensionalRuneItem> DIMENSIONAL_RUNES = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
@@ -66,7 +70,7 @@ public class MineCellsItems {
     new BucketItem(MineCellsFluids.STILL_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
-      
+
     ),
     "sewage_bucket"
   );
@@ -75,35 +79,35 @@ public class MineCellsItems {
     new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
-      
+
     ),
     "ancient_sewage_bucket"
   );
 
   // Weapons
   public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(2, -2.1F,
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(1200)
-      
-      .rarity(Rarity.UNCOMMON)
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1200)
+
+        .rarity(Rarity.UNCOMMON)
     ), "assassins_dagger"
   );
 
   public static final Item BLOOD_SWORD = register(new BloodSwordItem(4, -2.4F,
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(1200)
-      .rarity(Rarity.UNCOMMON)
-      
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1200)
+        .rarity(Rarity.UNCOMMON)
+
     ), "blood_sword"
   );
 
   public static final Item CURSED_SWORD = register(new CursedSwordItem(22, -3.0F,
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(600)
-      
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(600)
+
     ), "cursed_sword"
   );
 
@@ -112,7 +116,7 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(800)
       .rarity(Rarity.EPIC)
-      
+
     ), "tentacle"
   );
 
@@ -121,16 +125,16 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(1200)
       .rarity(Rarity.RARE)
-      
+
     ), "hattoris_katana"
   );
 
   public static final Item BROADSWORD = register(new SwordItem(ToolMaterials.IRON, 7, -2.9F,
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(1000)
-      .rarity(Rarity.COMMON)
-      
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1000)
+        .rarity(Rarity.COMMON)
+
     ), "broadsword"
   );
 
@@ -139,7 +143,7 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1200)
         .rarity(Rarity.COMMON)
-        
+
     ), "balanced_blade"
   );
 
@@ -148,7 +152,7 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1100)
         .rarity(Rarity.COMMON)
-        
+
     ), "crowbar"
   );
 
@@ -157,41 +161,41 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1000)
         .rarity(Rarity.COMMON)
-        
+
     ), "nutcracker"
   );
 
   public static final Item FROST_BLAST = register(new FrostBlastItem(
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(32)
-      .rarity(Rarity.COMMON)
-      
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(32)
+        .rarity(Rarity.COMMON)
+
     ), "frost_blast"
   );
 
   public static final Item FLINT = register(new FlintItem(5, -3.1F,
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(1000)
-      .rarity(Rarity.EPIC)
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1000)
+        .rarity(Rarity.EPIC)
     ), "flint"
   );
 
   public static final Item SPITE_SWORD = register(new SpiteSwordItem(4, -2.5f,
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(1200)
-      .rarity(Rarity.UNCOMMON)
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(1200)
+        .rarity(Rarity.UNCOMMON)
     ), "spite_sword"
   );
 
   // Skills
   public static final PhaserItem PHASER = register(new PhaserItem(
-    new FabricItemSettings()
-      .maxCount(1)
-      .maxDamage(32)
-      .rarity(Rarity.COMMON)
+      new FabricItemSettings()
+        .maxCount(1)
+        .maxDamage(32)
+        .rarity(Rarity.COMMON)
     ), "phaser"
   );
 
@@ -201,11 +205,19 @@ public class MineCellsItems {
     ), "health_flask"
   );
 
-  public static final DoorwayItem PRISON_DOORWAY = registerDoorwayItem(MineCellsBlocks.PRISON_DOORWAY);
-  public static final DoorwayItem PROMENADE_DOORWAY = registerDoorwayItem(MineCellsBlocks.PROMENADE_DOORWAY);
-  public static final DoorwayItem RAMPARTS_DOORWAY = registerDoorwayItem(MineCellsBlocks.RAMPARTS_DOORWAY);
-  public static final DoorwayItem INSUFFERABLE_CRYPT_DOORWAY = registerDoorwayItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
-  public static final DoorwayItem BLACK_BRIDGE_DOORWAY = registerDoorwayItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
+  static {
+    registerDoorwayItem(MineCellsBlocks.PRISON_DOORWAY);
+    registerDoorwayItem(MineCellsBlocks.PROMENADE_DOORWAY);
+    registerDoorwayItem(MineCellsBlocks.RAMPARTS_DOORWAY);
+    registerDoorwayItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
+    registerDoorwayItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
+
+    registerDimensionalRuneItem(MineCellsBlocks.PRISON_DOORWAY);
+    registerDimensionalRuneItem(MineCellsBlocks.PROMENADE_DOORWAY);
+    registerDimensionalRuneItem(MineCellsBlocks.RAMPARTS_DOORWAY);
+    registerDimensionalRuneItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
+    registerDimensionalRuneItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
+  }
 
   public static void init() {
     AttackBlockCallback.EVENT.register(
@@ -231,10 +243,19 @@ public class MineCellsItems {
 
   public static DoorwayItem registerDoorwayItem(DoorwayPortalBlock doorway) {
     var item = register(
-      new DoorwayItem(new FabricItemSettings().maxCount(1), doorway),
+      new DoorwayItem(new FabricItemSettings(), doorway),
       doorway.type.dimension.key.getValue().getPath() + "_doorway"
     );
     DOORWAY_COLORS.put(item, doorway.type.color);
+    return item;
+  }
+
+  public static DimensionalRuneItem registerDimensionalRuneItem(DoorwayPortalBlock doorway) {
+    var item = register(
+      new DimensionalRuneItem(new FabricItemSettings(), doorway),
+      doorway.type.dimension.key.getValue().getPath() + "_dimensional_rune"
+    );
+    DIMENSIONAL_RUNES.add(item);
     return item;
   }
 }

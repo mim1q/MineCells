@@ -45,4 +45,10 @@ object ModItemModels {
       add(CommonModelPresets.itemBlockModel("minecells:$it"))
     }
   }
+
+  fun dimensionalRunes() = Preset {
+    Constants.MINECELLS_DIMENSIONS.forEach {
+      add("${it}_dimensional_rune", ParentedModel.item("minecells:item/dimensional_rune"))
+    }
+  }
 }

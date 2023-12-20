@@ -1,9 +1,7 @@
 package datagen
 
-import datagen.custom.CustomBlockSets
-import datagen.custom.CustomPresets
-import datagen.custom.ModItemModels
-import datagen.custom.ModTemplatePools
+import datagen.custom.*
+import datagen.custom.Constants.MINECELLS_DIMENSIONS
 import tada.lib.generator.ResourceGenerator
 import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
@@ -81,6 +79,7 @@ fun main(args: Array<String>) {
     add(ModItemModels.handheld())
     add(ModItemModels.spawnEggs())
     add(ModItemModels.blockModels())
+    add(ModItemModels.dimensionalRunes())
     add("flint", ParentedModel.item("minecells:item/balanced_blade").texture("layer0", "minecells:item/flint"))
     // Block drops
     listOf(
@@ -115,6 +114,10 @@ fun main(args: Array<String>) {
     TagManager.add("minecells:items/discard_in_high_dimensions",
       "minecraft:stick", "minecells:red_putrid_sapling"
     )
+    // Loot Tables for Advancements
+    MINECELLS_DIMENSIONS.forEach {
+      add(CustomHardcodedPresets.advancementDrop(it, "minecells:${it}_dimensional_rune"))
+    }
   }
   generator.generate()
 
