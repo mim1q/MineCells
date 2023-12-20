@@ -3,10 +3,7 @@ package com.github.mim1q.minecells.structure.grid;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.PromenadeUndergroundGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.PromenadeWallGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
@@ -37,6 +34,9 @@ public class GridBasedStructure extends Structure {
   public static final Codec<GridBasedStructure> PRISON_CODEC = createGridBasedStructureCodec(
     ctx -> new PrisonGridGenerator(), () -> MineCellsStructures.PRISON
   );
+  public static final Codec<GridBasedStructure> PROMENADE_SPAWN_CODEC = createGridBasedStructureCodec(
+    ctx -> new PromenadeSpawnGridGenerator(), () -> MineCellsStructures.PROMENADE_SPAWN
+  );
   public static final Codec<GridBasedStructure> PROMENADE_OVERGROUND_CODEC = createGridBasedStructureCodec(
     ctx -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings")),
     () -> MineCellsStructures.PROMENADE_OVERGROUND,
@@ -54,13 +54,13 @@ public class GridBasedStructure extends Structure {
     ctx -> new PromenadeWallGenerator(false),
     () -> MineCellsStructures.PROMENADE_WALL_X,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().z, 64)) == 32
-        && MathHelper.floorMod(ctx.chunkPos().x, 16) == 0
+      && MathHelper.floorMod(ctx.chunkPos().x, 16) == 0
   );
   public static final Codec<GridBasedStructure> PROMENADE_WALL_Z_CODEC = createGridBasedStructureCodec(
     ctx -> new PromenadeWallGenerator(true),
     () -> MineCellsStructures.PROMENADE_WALL_Z,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64)) == 32
-        && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
+      && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
   public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createGridBasedStructureCodec(
     ctx -> new RampartsGridGenerator(false, ctx), () -> MineCellsStructures.RAMPARTS,

@@ -80,6 +80,8 @@ object ModTemplatePools {
     add(Presets.single("minecells:promenade/border_wall/middle", processors = proc))
     add(Presets.single("minecells:promenade/border_wall/top", processors = proc))
     add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = proc))
+    // Ramparts tower
+    add(Presets.single("minecells:promenade/ramparts_tower", proc))
   }
 
   fun insufferableCrypt() = Preset {
