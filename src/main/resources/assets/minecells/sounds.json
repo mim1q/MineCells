@@ -1,335 +1,335 @@
 {
 "leaping_zombie.leap_charge":{
 "sounds":[
+	"minecells:leaping_zombie/leap_charge",
 	{"name":"minecells:leaping_zombie/leap_charge","pitch":0.94},
-	{"name":"minecells:leaping_zombie/leap_charge"},
 	{"name":"minecells:leaping_zombie/leap_charge","pitch":1.08}
 ]},
 "leaping_zombie.leap_release":{
 "sounds":[
+	"minecells:leaping_zombie/leap_release",
 	{"name":"minecells:leaping_zombie/leap_release","pitch":0.94},
-	{"name":"minecells:leaping_zombie/leap_release"},
 	{"name":"minecells:leaping_zombie/leap_release","pitch":1.08}
 ]},
 "leaping_zombie.death":{
 "sounds":[
+	"minecells:leaping_zombie/death",
 	{"name":"minecells:leaping_zombie/death","pitch":0.94},
-	{"name":"minecells:leaping_zombie/death"},
 	{"name":"minecells:leaping_zombie/death","pitch":1.08}
 ]},
 "shocker.charge":{
 "sounds":[
+	"minecells:shocker/charge",
 	{"name":"minecells:shocker/charge","pitch":0.94},
-	{"name":"minecells:shocker/charge"},
 	{"name":"minecells:shocker/charge","pitch":1.08}
 ]},
 "shocker.release":{
 "sounds":[
+	"minecells:shocker/release",
 	{"name":"minecells:shocker/release","pitch":0.94},
-	{"name":"minecells:shocker/release"},
 	{"name":"minecells:shocker/release","pitch":1.08}
 ]},
 "shocker.death":{
 "sounds":[
+	"minecells:shocker/death",
 	{"name":"minecells:shocker/death","pitch":0.94},
-	{"name":"minecells:shocker/death"},
 	{"name":"minecells:shocker/death","pitch":1.08}
 ]},
 "grenadier.charge":{
 "sounds":[
+	"minecells:grenadier/charge",
 	{"name":"minecells:grenadier/charge","pitch":0.94},
-	{"name":"minecells:grenadier/charge"},
 	{"name":"minecells:grenadier/charge","pitch":1.08}
 ]},
 "disgusting_worm.attack":{
 "sounds":[
+	"minecells:disgusting_worm/attack",
 	{"name":"minecells:disgusting_worm/attack","pitch":0.94},
-	{"name":"minecells:disgusting_worm/attack"},
 	{"name":"minecells:disgusting_worm/attack","pitch":1.08}
 ]},
 "disgusting_worm.death":{
 "sounds":[
+	"minecells:disgusting_worm/death",
 	{"name":"minecells:disgusting_worm/death","pitch":0.94},
-	{"name":"minecells:disgusting_worm/death"},
 	{"name":"minecells:disgusting_worm/death","pitch":1.08}
 ]},
 "inquisitor.charge":{
 "sounds":[
+	"minecells:inquisitor/charge",
 	{"name":"minecells:inquisitor/charge","pitch":0.94},
-	{"name":"minecells:inquisitor/charge"},
 	{"name":"minecells:inquisitor/charge","pitch":1.08}
 ]},
 "inquisitor.release":{
 "sounds":[
+	"minecells:inquisitor/release",
 	{"name":"minecells:inquisitor/release","pitch":0.94},
-	{"name":"minecells:inquisitor/release"},
 	{"name":"minecells:inquisitor/release","pitch":1.08}
 ]},
 "kamikaze.wake":{
 "sounds":[
+	"minecells:kamikaze/wake",
 	{"name":"minecells:kamikaze/wake","pitch":0.94},
-	{"name":"minecells:kamikaze/wake"},
 	{"name":"minecells:kamikaze/wake","pitch":1.08}
 ]},
 "kamikaze.charge":{
 "sounds":[
+	"minecells:kamikaze/charge",
 	{"name":"minecells:kamikaze/charge","pitch":0.94},
-	{"name":"minecells:kamikaze/charge"},
 	{"name":"minecells:kamikaze/charge","pitch":1.08}
 ]},
 "kamikaze.death":{
 "sounds":[
+	"minecells:kamikaze/death",
 	{"name":"minecells:kamikaze/death","pitch":0.94},
-	{"name":"minecells:kamikaze/death"},
 	{"name":"minecells:kamikaze/death","pitch":1.08}
 ]},
 "shieldbearer.charge":{
 "sounds":[
+	"minecells:shieldbearer/charge",
 	{"name":"minecells:shieldbearer/charge","pitch":0.94},
-	{"name":"minecells:shieldbearer/charge"},
 	{"name":"minecells:shieldbearer/charge","pitch":1.08}
 ]},
 "shieldbearer.release":{
 "sounds":[
+	"minecells:shieldbearer/release",
 	{"name":"minecells:shieldbearer/release","pitch":0.94},
-	{"name":"minecells:shieldbearer/release"},
 	{"name":"minecells:shieldbearer/release","pitch":1.08}
 ]},
 "mutated_bat.charge":{
 "sounds":[
+	"minecells:mutated_bat/charge",
 	{"name":"minecells:mutated_bat/charge","pitch":0.94},
-	{"name":"minecells:mutated_bat/charge"},
 	{"name":"minecells:mutated_bat/charge","pitch":1.08}
 ]},
 "mutated_bat.release":{
 "sounds":[
+	"minecells:mutated_bat/release",
 	{"name":"minecells:mutated_bat/release","pitch":0.94},
-	{"name":"minecells:mutated_bat/release"},
 	{"name":"minecells:mutated_bat/release","pitch":1.08}
 ]},
 "rancid_rat.charge":{
 "sounds":[
+	"minecells:rancid_rat/charge",
 	{"name":"minecells:rancid_rat/charge","pitch":0.94},
-	{"name":"minecells:rancid_rat/charge"},
 	{"name":"minecells:rancid_rat/charge","pitch":1.08}
 ]},
 "rancid_rat.release":{
 "sounds":[
+	"minecells:rancid_rat/release",
 	{"name":"minecells:rancid_rat/release","pitch":0.94},
-	{"name":"minecells:rancid_rat/release"},
 	{"name":"minecells:rancid_rat/release","pitch":1.08}
 ]},
 "scorpion.charge":{
 "sounds":[
+	"minecells:scorpion/charge_0",
 	{"name":"minecells:scorpion/charge_0","pitch":0.94},
-	{"name":"minecells:scorpion/charge_0"},
 	{"name":"minecells:scorpion/charge_0","pitch":1.08},
+	"minecells:scorpion/charge_1",
 	{"name":"minecells:scorpion/charge_1","pitch":0.94},
-	{"name":"minecells:scorpion/charge_1"},
 	{"name":"minecells:scorpion/charge_1","pitch":1.08}
 ]},
 "sewers_tentacle.death":{
 "sounds":[
+	"minecells:sewers_tentacle/death",
 	{"name":"minecells:sewers_tentacle/death","pitch":0.94},
-	{"name":"minecells:sewers_tentacle/death"},
 	{"name":"minecells:sewers_tentacle/death","pitch":1.08}
 ]},
 "conjunctivius.dash_charge":{
 "sounds":[
+	"minecells:conjunctivius/dash_charge",
 	{"name":"minecells:conjunctivius/dash_charge","pitch":0.94},
-	{"name":"minecells:conjunctivius/dash_charge"},
 	{"name":"minecells:conjunctivius/dash_charge","pitch":1.08}
 ]},
 "conjunctivius.dash_release":{
 "sounds":[
+	"minecells:conjunctivius/dash_release",
 	{"name":"minecells:conjunctivius/dash_release","pitch":0.94},
-	{"name":"minecells:conjunctivius/dash_release"},
 	{"name":"minecells:conjunctivius/dash_release","pitch":1.08}
 ]},
 "conjunctivius.dying":{
 "sounds":[
+	"minecells:conjunctivius/dying",
 	{"name":"minecells:conjunctivius/dying","pitch":0.94},
-	{"name":"minecells:conjunctivius/dying"},
 	{"name":"minecells:conjunctivius/dying","pitch":1.08}
 ]},
 "conjunctivius.death":{
 "sounds":[
+	"minecells:conjunctivius/death",
 	{"name":"minecells:conjunctivius/death","pitch":0.94},
-	{"name":"minecells:conjunctivius/death"},
 	{"name":"minecells:conjunctivius/death","pitch":1.08}
 ]},
 "conjunctivius.hit":{
 "sounds":[
+	"minecells:conjunctivius/hit",
 	{"name":"minecells:conjunctivius/hit","pitch":0.94},
-	{"name":"minecells:conjunctivius/hit"},
 	{"name":"minecells:conjunctivius/hit","pitch":1.08}
 ]},
 "conjunctivius.shot":{
 "sounds":[
+	"minecells:conjunctivius/shot",
 	{"name":"minecells:conjunctivius/shot","pitch":0.94},
-	{"name":"minecells:conjunctivius/shot"},
 	{"name":"minecells:conjunctivius/shot","pitch":1.08}
 ]},
 "conjunctivius.shout":{
 "sounds":[
+	"minecells:conjunctivius/shout",
 	{"name":"minecells:conjunctivius/shout","pitch":0.94},
-	{"name":"minecells:conjunctivius/shout"},
 	{"name":"minecells:conjunctivius/shout","pitch":1.08}
 ]},
 "conjunctivius.move":{
 "sounds":[
+	"minecells:conjunctivius/move",
 	{"name":"minecells:conjunctivius/move","pitch":0.94},
-	{"name":"minecells:conjunctivius/move"},
 	{"name":"minecells:conjunctivius/move","pitch":1.08}
 ]},
 "weapon.bow.charge":{
 "sounds":[
+	"minecells:weapon/bow/charge",
 	{"name":"minecells:weapon/bow/charge","pitch":0.94},
-	{"name":"minecells:weapon/bow/charge"},
 	{"name":"minecells:weapon/bow/charge","pitch":1.08}
 ]},
 "weapon.bow.release":{
 "sounds":[
+	"minecells:weapon/bow/release",
 	{"name":"minecells:weapon/bow/release","pitch":0.94},
-	{"name":"minecells:weapon/bow/release"},
 	{"name":"minecells:weapon/bow/release","pitch":1.08}
 ]},
 "weapon.swipe":{
 "sounds":[
+	"minecells:weapon/swipe/swipe_0",
 	{"name":"minecells:weapon/swipe/swipe_0","pitch":0.94},
-	{"name":"minecells:weapon/swipe/swipe_0"},
 	{"name":"minecells:weapon/swipe/swipe_0","pitch":1.08},
+	"minecells:weapon/swipe/swipe_1",
 	{"name":"minecells:weapon/swipe/swipe_1","pitch":0.94},
-	{"name":"minecells:weapon/swipe/swipe_1"},
 	{"name":"minecells:weapon/swipe/swipe_1","pitch":1.08},
+	"minecells:weapon/swipe/swipe_2",
 	{"name":"minecells:weapon/swipe/swipe_2","pitch":0.94},
-	{"name":"minecells:weapon/swipe/swipe_2"},
 	{"name":"minecells:weapon/swipe/swipe_2","pitch":1.08}
 ]},
 "weapon.tentacle.charge":{
 "sounds":[
+	"minecells:weapon/tentacle/charge",
 	{"name":"minecells:weapon/tentacle/charge","pitch":0.94},
-	{"name":"minecells:weapon/tentacle/charge"},
 	{"name":"minecells:weapon/tentacle/charge","pitch":1.08}
 ]},
 "weapon.tentacle.release":{
 "sounds":[
+	"minecells:weapon/tentacle/release",
 	{"name":"minecells:weapon/tentacle/release","pitch":0.94},
-	{"name":"minecells:weapon/tentacle/release"},
 	{"name":"minecells:weapon/tentacle/release","pitch":1.08}
 ]},
 "weapon.katana.charge":{
 "sounds":[
+	"minecells:weapon/katana/charge",
 	{"name":"minecells:weapon/katana/charge","pitch":0.94},
-	{"name":"minecells:weapon/katana/charge"},
 	{"name":"minecells:weapon/katana/charge","pitch":1.08}
 ]},
 "weapon.katana.release":{
 "sounds":[
+	"minecells:weapon/katana/release",
 	{"name":"minecells:weapon/katana/release","pitch":0.94},
-	{"name":"minecells:weapon/katana/release"},
 	{"name":"minecells:weapon/katana/release","pitch":1.08}
 ]},
 "weapon.frost_blast.release":{
 "sounds":[
+	"minecells:weapon/frost_blast/release",
 	{"name":"minecells:weapon/frost_blast/release","pitch":0.94},
-	{"name":"minecells:weapon/frost_blast/release"},
 	{"name":"minecells:weapon/frost_blast/release","pitch":1.08}
 ]},
 "buzz":{
 "sounds":[
+	"minecells:buzz",
 	{"name":"minecells:buzz","pitch":0.94},
-	{"name":"minecells:buzz"},
 	{"name":"minecells:buzz","pitch":1.08}
 ]},
 "crit":{
 "sounds":[
+	"minecells:crit",
 	{"name":"minecells:crit","pitch":0.94},
-	{"name":"minecells:crit"},
 	{"name":"minecells:crit","pitch":1.08}
 ]},
 "shock":{
 "sounds":[
+	"minecells:shock",
 	{"name":"minecells:shock","pitch":0.94},
-	{"name":"minecells:shock"},
 	{"name":"minecells:shock","pitch":1.08}
 ]},
 "freeze":{
 "sounds":[
+	"minecells:freeze",
 	{"name":"minecells:freeze","pitch":0.94},
-	{"name":"minecells:freeze"},
 	{"name":"minecells:freeze","pitch":1.08}
 ]},
 "explosion":{
 "sounds":[
+	"minecells:explosion",
 	{"name":"minecells:explosion","pitch":0.94},
-	{"name":"minecells:explosion"},
 	{"name":"minecells:explosion","pitch":1.08}
 ]},
 "rise":{
 "sounds":[
+	"minecells:rise",
 	{"name":"minecells:rise","pitch":0.94},
-	{"name":"minecells:rise"},
 	{"name":"minecells:rise","pitch":1.08}
 ]},
 "charge":{
 "sounds":[
+	"minecells:charge",
 	{"name":"minecells:charge","pitch":0.94},
-	{"name":"minecells:charge"},
 	{"name":"minecells:charge","pitch":1.08}
 ]},
 "elevator_start":{
 "sounds":[
+	"minecells:elevator_start",
 	{"name":"minecells:elevator_start","pitch":0.94},
-	{"name":"minecells:elevator_start"},
 	{"name":"minecells:elevator_start","pitch":1.08}
 ]},
 "elevator_stop":{
 "sounds":[
+	"minecells:elevator_stop",
 	{"name":"minecells:elevator_stop","pitch":0.94},
-	{"name":"minecells:elevator_stop"},
 	{"name":"minecells:elevator_stop","pitch":1.08}
 ]},
 "portal.activate":{
 "sounds":[
+	"minecells:portal/activate",
 	{"name":"minecells:portal/activate","pitch":0.94},
-	{"name":"minecells:portal/activate"},
 	{"name":"minecells:portal/activate","pitch":1.08}
 ]},
 "portal.use":{
 "sounds":[
+	"minecells:portal/use",
 	{"name":"minecells:portal/use","pitch":0.94},
-	{"name":"minecells:portal/use","weight":3},
-	{"name":"minecells:portal/use","weight":3,"pitch":1.08}
+	{"name":"minecells:portal/use","pitch":1.08}
 ]},
 "teleport.charge":{
 "sounds":[
+	"minecells:teleport/charge",
 	{"name":"minecells:teleport/charge","pitch":0.94},
-	{"name":"minecells:teleport/charge"},
 	{"name":"minecells:teleport/charge","pitch":1.08}
 ]},
 "teleport.release":{
 "sounds":[
+	"minecells:teleport/release",
 	{"name":"minecells:teleport/release","pitch":0.94},
-	{"name":"minecells:teleport/release"},
 	{"name":"minecells:teleport/release","pitch":1.08}
 ]},
 "cell_absorb":{
 "sounds":[
+	"minecells:cell_absorb",
 	{"name":"minecells:cell_absorb","pitch":0.94},
-	{"name":"minecells:cell_absorb"},
 	{"name":"minecells:cell_absorb","pitch":1.08}
 ]},
 "curse_death":{
 "sounds":[
+	"minecells:curse_death",
 	{"name":"minecells:curse_death","pitch":0.94},
-	{"name":"minecells:curse_death"},
 	{"name":"minecells:curse_death","pitch":1.08}
 ]},
 "obelisk":{
 "sounds":[
+	"minecells:obelisk",
 	{"name":"minecells:obelisk","pitch":0.94},
-	{"name":"minecells:obelisk"},
 	{"name":"minecells:obelisk","pitch":1.08}
 ]}
 }
