@@ -33,8 +33,8 @@ public class ConciergeObeliskEntity extends BossObeliskEntity {
   @Override
   protected void spawnEntity() {
     var boss = new ConciergeEntity(MineCellsEntities.CONCIERGE, getWorld());
-    var pos = getPos().add(getRotationVector().multiply(5.0));
-    boss.refreshPositionAndAngles(pos.x, pos.y + 0.5, pos. z, 0F, 0F);
+    var pos = getPos().add(getRotationVector().multiply(-5.0));
+    boss.refreshPositionAndAngles(pos.x, pos.y + 0.5, pos.z, 0F, 0F);
     boss.initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.NATURAL, null, null);
     getWorld().spawnEntity(boss);
   }

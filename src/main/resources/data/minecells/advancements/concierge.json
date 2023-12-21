@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:flint"
+    },
+    "title": {
+      "translate": "advancements.minecells.concierge"
+    },
+    "description": {
+      "translate": "advancements.minecells.concierge.description"
+    }
+  },
+  "parent": "minecells:black_bridge",
+  "criteria": {
+    "concierge_killed": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

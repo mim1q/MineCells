@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity.boss;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.ai.goal.*;
 import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal.ShockwaveType;
 import com.github.mim1q.minecells.entity.ai.goal.concierge.ConciergePunchGoal;
@@ -27,7 +28,9 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -345,6 +348,25 @@ public class ConciergeEntity extends MineCellsBossEntity {
   protected void playStepSound(BlockPos pos, BlockState state) {
     super.playStepSound(pos, state);
     playSound(MineCellsSounds.CONCIERGE_STEP, 0.8F, random.nextFloat() * 0.2F + 0.8F);
+  }
+
+  @Override
+  public void onDeath(DamageSource damageSource) {
+    super.onDeath(damageSource);
+    if (getWorld().isClient || getWorld().getServer() == null) {
+      return;
+    }
+
+    var server = getWorld().getServer();
+    var advancement = server.getAdvancementLoader().get(MineCells.createId("concierge"));
+
+    if (advancement == null) {
+      return;
+    }
+
+    getWorld().getEntitiesByClass(PlayerEntity.class, Box.of(getPos(), 128, 128, 128), Objects::nonNull).forEach(
+      player -> ((ServerPlayerEntity) player).getAdvancementTracker().grantCriterion(advancement, "concierge_killed")
+    );
   }
 
   @Override

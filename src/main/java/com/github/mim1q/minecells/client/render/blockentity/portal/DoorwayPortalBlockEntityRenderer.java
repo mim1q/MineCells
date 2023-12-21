@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.blockentity.portal;
 
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.block.Block;
@@ -52,6 +53,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
 
   private boolean shouldShowPosition(World world, BlockPos doorwayPos, Block block) {
     if (world == null) return false;
+    if (block == MineCellsBlocks.OVERWORLD_DOORWAY) return false;
     if (MinecraftClient.getInstance().crosshairTarget instanceof BlockHitResult blockHit && blockHit.getType() != HitResult.Type.MISS) {
       var blockHitPos = blockHit.getBlockPos();
       var state = world.getBlockState(blockHit.getBlockPos());

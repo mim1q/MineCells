@@ -116,11 +116,11 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
 
   @Override
   public float getBaseAbilityDamage(ItemStack stack) {
-    return 3;
+    return 16;
   }
 
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
-    return 100;
+    return 80;
   }
 }

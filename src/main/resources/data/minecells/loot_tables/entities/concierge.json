@@ -5,16 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecells:cursed_sword"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecells:tentacle"
+          "name": "minecells:flint"
         }
       ]
     },
