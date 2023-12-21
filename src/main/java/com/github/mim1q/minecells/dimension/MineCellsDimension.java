@@ -26,7 +26,7 @@ import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
-  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 11, 1024.0, 90F),
+  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 2, 1024.0, 90F),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
   RAMPARTS(MineCells.createId("ramparts"), -54, 212, -265, 384.0, 180F),
   BLACK_BRIDGE(MineCells.createId("black_bridge"), 32, 70, 11, 384.0);

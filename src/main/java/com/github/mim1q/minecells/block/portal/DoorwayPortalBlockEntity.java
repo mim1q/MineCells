@@ -37,7 +37,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   public Identifier getTexture() {
-    return ((DoorwayPortalBlock)getCachedState().getBlock()).type.texture;
+    return ((DoorwayPortalBlock) getCachedState().getBlock()).type.texture;
   }
 
   public boolean hasClientVisited() {
@@ -50,13 +50,13 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       if (player == null) return;
       clientVisited = ((PlayerEntityAccessor) player).getMineCellsData()
         .get(posOverride == null ? player.getBlockPos() : posOverride)
-        .hasVisitedDimension(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension);
+        .hasVisitedDimension(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension);
     }
   }
 
   public List<MutableText> getLabel(boolean showPosition) {
     var result = new ArrayList<MutableText>();
-    var text = Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
+    var text = Text.translatable(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension.translationKey);
     if (!hasClientVisited()) {
       text.append(Text.literal("*"));
     }
@@ -79,8 +79,8 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public boolean canPlayerEnter(PlayerEntity player) {
     if (player == null || world == null) return false;
-    var targetDimension = ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension;
-    var mineCellsData = ((PlayerEntityAccessor)player).getMineCellsData().get(this.pos);
+    var targetDimension = ((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension;
+    var mineCellsData = ((PlayerEntityAccessor) player).getMineCellsData().get(this.pos);
     if (isDownstream()) {
       if (MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
         if (targetDimension == MineCellsDimension.PRISONERS_QUARTERS) return true;
@@ -141,6 +141,15 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   @Override
   public Packet<ClientPlayPacketListener> toUpdatePacket() {
     return BlockEntityUpdateS2CPacket.create(this);
+  }
+
+  public BlockPos getPosOverride() {
+    return posOverride;
+  }
+
+  public void setPosOverride(BlockPos posOverride) {
+    this.posOverride = posOverride;
+    markDirty();
   }
 
   @Override
