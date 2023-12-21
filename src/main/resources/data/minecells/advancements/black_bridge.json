@@ -1,16 +1,16 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:wilted_grass_block"
+      "item": "minecells:prison_bricks"
     },
     "title": {
-      "translate": "advancements.minecells.promenade"
+      "translate": "advancements.minecells.black_bridge"
     },
     "description": {
-      "translate": "advancements.minecells.promenade.description"
+      "translate": "advancements.minecells.black_bridge.description"
     }
   },
-  "parent": "minecells:prison",
+  "parent": "minecells:ramparts",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:changed_dimension",
@@ -19,7 +19,7 @@
           {
             "condition": "minecraft:location_check",
             "predicate": {
-              "dimension": "minecells:promenade"
+              "dimension": "minecells:black_bridge"
             }
           }
         ]
@@ -28,7 +28,7 @@
   },
   "rewards": {
     "loot": [
-      "minecells:advancements/promenade"
+      "minecells:advancements/black_bridge"
     ]
   }
 }

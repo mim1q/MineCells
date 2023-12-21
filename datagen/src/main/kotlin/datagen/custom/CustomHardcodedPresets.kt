@@ -12,17 +12,20 @@ object CustomHardcodedPresets {
       name,
       JsonResource(
         json {
-          "pools" {
-            "rolls" to 1
-            "entries" to array[
-              json {
-                "type" to "minecraft:item"
-                "name" to item
-              }
-            ]
-          }
+          "pools" to array[
+            json {
+              "rolls" to 1
+              "entries" to array[
+                json {
+                  "type" to "minecraft:item"
+                  "name" to item
+                }
+              ]
+            }
+          ]
         },
-        "advancements/$name",
+        "loot_tables/advancements",
+        "data"
       )
     )
   }

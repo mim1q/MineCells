@@ -1,16 +1,16 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:wilted_grass_block"
+      "item": "minecells:ramparts_flag"
     },
     "title": {
-      "translate": "advancements.minecells.promenade"
+      "translate": "advancements.minecells.ramparts"
     },
     "description": {
-      "translate": "advancements.minecells.promenade.description"
+      "translate": "advancements.minecells.ramparts.description"
     }
   },
-  "parent": "minecells:prison",
+  "parent": "minecells:promenade",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:changed_dimension",
@@ -19,7 +19,7 @@
           {
             "condition": "minecraft:location_check",
             "predicate": {
-              "dimension": "minecells:promenade"
+              "dimension": "minecells:ramparts"
             }
           }
         ]
@@ -28,7 +28,7 @@
   },
   "rewards": {
     "loot": [
-      "minecells:advancements/promenade"
+      "minecells:advancements/ramparts"
     ]
   }
 }
