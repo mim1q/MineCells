@@ -128,6 +128,36 @@
 	{"name":"minecells:scorpion/charge_1","pitch":0.94},
 	{"name":"minecells:scorpion/charge_1","pitch":1.08}
 ]},
+"fly.charge":{
+"sounds":[
+	"minecells:fly/charge",
+	{"name":"minecells:fly/charge","pitch":0.94},
+	{"name":"minecells:fly/charge","pitch":1.08}
+]},
+"fly.fly":{
+"sounds":[
+	"minecells:fly/fly",
+	{"name":"minecells:fly/fly","pitch":0.94},
+	{"name":"minecells:fly/fly","pitch":1.08}
+]},
+"fly.release":{
+"sounds":[
+	"minecells:fly/release",
+	{"name":"minecells:fly/release","pitch":0.94},
+	{"name":"minecells:fly/release","pitch":1.08}
+]},
+"sweeper.charge":{
+"sounds":[
+	"minecells:sweeper/charge",
+	{"name":"minecells:sweeper/charge","pitch":0.94},
+	{"name":"minecells:sweeper/charge","pitch":1.08}
+]},
+"sweeper.release":{
+"sounds":[
+	"minecells:sweeper/release",
+	{"name":"minecells:sweeper/release","pitch":0.94},
+	{"name":"minecells:sweeper/release","pitch":1.08}
+]},
 "sewers_tentacle.death":{
 "sounds":[
 	"minecells:sewers_tentacle/death",
@@ -182,6 +212,66 @@
 	{"name":"minecells:conjunctivius/move","pitch":0.94},
 	{"name":"minecells:conjunctivius/move","pitch":1.08}
 ]},
+"concierge.leap_charge":{
+"sounds":[
+	"minecells:concierge/leap_charge",
+	{"name":"minecells:concierge/leap_charge","pitch":0.94},
+	{"name":"minecells:concierge/leap_charge","pitch":1.08}
+]},
+"concierge.leap_land":{
+"sounds":[
+	"minecells:concierge/leap_land",
+	{"name":"minecells:concierge/leap_land","pitch":0.94},
+	{"name":"minecells:concierge/leap_land","pitch":1.08}
+]},
+"concierge.shockwave_charge":{
+"sounds":[
+	"minecells:concierge/shockwave_charge",
+	{"name":"minecells:concierge/shockwave_charge","pitch":0.94},
+	{"name":"minecells:concierge/shockwave_charge","pitch":1.08}
+]},
+"concierge.shockwave_release":{
+"sounds":[
+	"minecells:concierge/shockwave_release",
+	{"name":"minecells:concierge/shockwave_release","pitch":0.94},
+	{"name":"minecells:concierge/shockwave_release","pitch":1.08}
+]},
+"concierge.aura_charge":{
+"sounds":[
+	"minecells:concierge/aura_charge",
+	{"name":"minecells:concierge/aura_charge","pitch":0.94},
+	{"name":"minecells:concierge/aura_charge","pitch":1.08}
+]},
+"concierge.aura_release":{
+"sounds":[
+	"minecells:concierge/aura_release",
+	{"name":"minecells:concierge/aura_release","pitch":0.94},
+	{"name":"minecells:concierge/aura_release","pitch":1.08}
+]},
+"concierge.punch_charge":{
+"sounds":[
+	"minecells:concierge/punch_charge",
+	{"name":"minecells:concierge/punch_charge","pitch":0.94},
+	{"name":"minecells:concierge/punch_charge","pitch":1.08}
+]},
+"concierge.punch_release":{
+"sounds":[
+	"minecells:concierge/punch_release",
+	{"name":"minecells:concierge/punch_release","pitch":0.94},
+	{"name":"minecells:concierge/punch_release","pitch":1.08}
+]},
+"concierge.shout":{
+"sounds":[
+	"minecells:concierge/shout",
+	{"name":"minecells:concierge/shout","pitch":0.94},
+	{"name":"minecells:concierge/shout","pitch":1.08}
+]},
+"concierge.step":{
+"sounds":[
+	"minecells:concierge/step",
+	{"name":"minecells:concierge/step","pitch":0.94},
+	{"name":"minecells:concierge/step","pitch":1.08}
+]},
 "weapon.bow.charge":{
 "sounds":[
 	"minecells:weapon/bow/charge",
@@ -235,6 +325,27 @@
 	"minecells:weapon/frost_blast/release",
 	{"name":"minecells:weapon/frost_blast/release","pitch":0.94},
 	{"name":"minecells:weapon/frost_blast/release","pitch":1.08}
+]},
+"weapon.flint.charge":{
+"sounds":[
+	"minecells:weapon/flint/charge",
+	{"name":"minecells:weapon/flint/charge","pitch":0.94},
+	{"name":"minecells:weapon/flint/charge","pitch":1.08}
+]},
+"weapon.flint.release":{
+"sounds":[
+	"minecells:weapon/flint/release",
+	{"name":"minecells:weapon/flint/release","pitch":0.94},
+	{"name":"minecells:weapon/flint/release","pitch":1.08}
+]},
+"weapon.hit_floor":{
+"sounds":[
+	"minecells:weapon/hit_floor/0",
+	{"name":"minecells:weapon/hit_floor/0","pitch":0.94},
+	{"name":"minecells:weapon/hit_floor/0","pitch":1.08},
+	"minecells:weapon/hit_floor/1",
+	{"name":"minecells:weapon/hit_floor/1","pitch":0.94},
+	{"name":"minecells:weapon/hit_floor/1","pitch":1.08}
 ]},
 "buzz":{
 "sounds":[
