@@ -17,6 +17,7 @@ object ModItemModels {
         add(CommonModelPresets.generatedItemModel("minecells:$it"))
       }
     }
+    add("solid_barrier_rune", ParentedModel.item("minecells:item/barrier_rune"))
   }
 
   fun handheld() = Preset {
