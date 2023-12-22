@@ -74,6 +74,14 @@ object ModTemplatePools {
     // Doorways
     add(Presets.indexed("minecells:promenade/doorway", 2, 1, 1, 1, 1, processors = proc))
     add(Presets.prefixed("minecells:promenade/doorway_decoration", "banners" to 1, "torches" to 2, "minecraft:empty" to 4, processors = proc))
+    // Walls
+    add(Presets.single("minecells:promenade/border_wall/underground", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/bottom", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/middle", processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/top", processors = proc))
+    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = proc))
+    // Ramparts tower
+    add(Presets.single("minecells:promenade/ramparts_tower", proc))
   }
 
   fun insufferableCrypt() = Preset {
@@ -81,5 +89,80 @@ object ModTemplatePools {
     add(Presets.single("minecells:insufferable_crypt/spawn", processors))
     add(Presets.single("minecells:insufferable_crypt/elevator_shaft", processors))
     add(Presets.single("minecells:insufferable_crypt/boss_room", processors))
+  }
+
+  fun ramparts() = Preset {
+    val processors = "minecells:promenade"
+
+    add(Presets.single("minecells:ramparts/spawn", processors))
+    add(Presets.single("minecells:ramparts/spawn_end", processors))
+    add(Presets.single("minecells:ramparts/base", processors))
+    add(Presets.single("minecells:ramparts/bottom", processors))
+    add(Presets.single("minecells:ramparts/bottom_end", processors))
+    add(Presets.single("minecells:ramparts/end", processors))
+    add(Presets.prefixed(
+      "minecells:ramparts/pole",
+      "0" to 1, "1" to 1, "2" to 2, "3" to 1, "minecraft:empty" to 4
+    ))
+    add(Presets.indexed("minecells:ramparts/elevator_shaft", 4, 1, 4, 2, processors = processors))
+    add(Presets.prefixed("minecells:ramparts/top",
+      "flat" to 6,
+      "floating_platforms" to 2,
+      "room" to 3,
+      "shooting_range" to 2,
+      "two_sweepers" to 1,
+      "wooden_over_spikes" to 2,
+      "wooden_platform" to 3,
+      processors = processors
+    ))
+    add(Presets.indexed("minecells:ramparts/top_entry", 1, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_entry", 1, 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_exit", 1, processors = processors))
+    add(Presets.indexed("minecells:ramparts/room_end", 1, processors = processors))
+    add(Presets.prefixed("minecells:ramparts/secret_room",
+      "0" to 1,
+      "1" to 1,
+      "empty" to 20,
+      processors = processors
+    ))
+    add(Presets.prefixed("minecells:ramparts/room",
+      "corridor" to 7,
+      "stacked_corridor" to 5,
+      "corridor_with_alcove" to 5,
+      "stacked_corridor" to 5,
+      "gated_corridor" to 3,
+      "wooden_see_through" to 2,
+      processors = processors
+    ))
+
+    // Towers
+    add(Presets.indexed("minecells:ramparts/tower/room", 3, 3, 3, 1, 2, processors = processors))
+    add(Presets.indexed("minecells:ramparts/tower/top", 1, 1, processors = processors))
+    add(Presets.single("minecells:ramparts/tower/bottom", processors = processors))
+    add(Presets.single("minecells:ramparts/tower/base", processors = processors))
+    add(Presets.single("minecells:ramparts/end_tower/entrance", processors = processors))
+    add(Presets.single("minecells:ramparts/end_tower/elevator_shaft", processors = processors))
+    add(Presets.single("minecells:ramparts/end_tower/exit", processors = processors))
+    add(Presets.prefixed("minecells:ramparts/tower/entry_room",
+      "double" to 3,
+      "double_bookshelves" to 2,
+      "ranged_platforms" to 2,
+      "minecells:ramparts/tower/room/3" to 1,
+      processors = processors
+    ))
+
+    // Platforms
+    add(Presets.prefixed("minecells:ramparts/platform", "bridge" to 1, "broken_bridge" to 1, "islands" to 1, processors = processors))
+    add(Presets.prefixed("minecells:ramparts/platform_up", "bridge" to 1, "islands" to 1, processors = processors))
+  }
+
+  fun blackBridge() = Preset {
+    val processors = "minecells:promenade"
+
+    listOf("bottom", "top").forEach { half ->
+      for (i in 0..3) {
+        add(Presets.single("minecells:black_bridge/$half$i", processors))
+      }
+    }
   }
 }

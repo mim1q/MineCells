@@ -151,6 +151,8 @@ public class SewersTentacleEntity extends MineCellsEntity {
           this.wobbleOffset.setupTransitionTo(1.0F, 10.0F);
         }
       }
+    } else if (isSpawnedByBoss() && age > 20 * 3 * 60 && age % 20 == 0) {
+      damage(getWorld().getDamageSources().dryOut(), 5.0F);
     }
     this.dashCooldown--;
     this.buriedTicks = this.isBuried() ? this.buriedTicks + 1 : 0;
@@ -185,7 +187,12 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   @Override
   public boolean isInvulnerableTo(DamageSource damageSource) {
-    if (damageSource.isIn(DamageTypeTags.IS_EXPLOSION) || damageSource.isOf(DamageTypes.OUT_OF_WORLD) || damageSource.isSourceCreativePlayer()) {
+    if (
+      damageSource.isIn(DamageTypeTags.IS_EXPLOSION)
+      || damageSource.isOf(DamageTypes.OUT_OF_WORLD)
+      || damageSource.isSourceCreativePlayer()
+      || damageSource.isOf(DamageTypes.DRY_OUT)
+    ) {
       return false;
     }
     if ((this.isBuried() && this.buriedTicks > 20) || damageSource.isOf(DamageTypes.IN_WALL)) {

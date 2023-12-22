@@ -37,7 +37,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   public Identifier getTexture() {
-    return ((DoorwayPortalBlock)getCachedState().getBlock()).type.texture;
+    return ((DoorwayPortalBlock) getCachedState().getBlock()).type.texture;
   }
 
   public boolean hasClientVisited() {
@@ -50,20 +50,20 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       if (player == null) return;
       clientVisited = ((PlayerEntityAccessor) player).getMineCellsData()
         .get(posOverride == null ? player.getBlockPos() : posOverride)
-        .hasVisitedDimension(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension);
+        .hasVisitedDimension(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension);
     }
   }
 
-  public List<MutableText> getLabel() {
+  public List<MutableText> getLabel(boolean showPosition) {
     var result = new ArrayList<MutableText>();
-    var text = Text.translatable(((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension.translationKey);
+    var text = Text.translatable(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension.translationKey);
     if (!hasClientVisited()) {
       text.append(Text.literal("*"));
     }
     result.add(text);
-    var normalPos = MathUtils.getClosestMultiplePosition(this.getPos(), 1024);
-    if (posOverride != null && (posOverride.getX() != normalPos.getX() || posOverride.getZ() != normalPos.getZ())) {
-      result.add(Text.literal("[x: " + posOverride.getX() + ", z: " + posOverride.getZ() + "]"));
+    if (showPosition) {
+      var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
+      result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
     }
     return result;
   }
@@ -75,15 +75,22 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       "posOverride",
       posOverride == null ? new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024)).asLong() : posOverride.asLong()
     );
-    System.out.println(stack.getNbt());
   }
 
   public boolean canPlayerEnter(PlayerEntity player) {
-    if (isDownstream()) return true;
     if (player == null || world == null) return false;
-    return ((PlayerEntityAccessor)player).getMineCellsData().get(this.pos).getPortalData(
+    var targetDimension = ((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension;
+    var mineCellsData = ((PlayerEntityAccessor) player).getMineCellsData().get(this.pos);
+    if (isDownstream()) {
+      if (MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
+        if (targetDimension == MineCellsDimension.PRISONERS_QUARTERS) return true;
+        return mineCellsData.hasVisitedDimension(targetDimension);
+      }
+      return true;
+    }
+    return mineCellsData.getPortalData(
       MineCellsDimension.of(world),
-      ((DoorwayPortalBlock)getCachedState().getBlock()).type.dimension
+      targetDimension
     ).isPresent();
   }
 
@@ -134,6 +141,15 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   @Override
   public Packet<ClientPlayPacketListener> toUpdatePacket() {
     return BlockEntityUpdateS2CPacket.create(this);
+  }
+
+  public BlockPos getPosOverride() {
+    return posOverride;
+  }
+
+  public void setPosOverride(BlockPos posOverride) {
+    this.posOverride = posOverride;
+    markDirty();
   }
 
   @Override

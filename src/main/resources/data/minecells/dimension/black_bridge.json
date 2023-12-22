@@ -1,0 +1,21 @@
+{
+  "type": "minecells:black_bridge",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "minecells:black_bridge",
+      "lakes": false,
+      "features": true,
+      "layers": [
+        {
+          "block": "minecells:prison_stone",
+          "height": 40
+        },
+        {
+          "block": "minecraft:water",
+          "height": 24
+        }
+      ]
+    }
+  }
+}

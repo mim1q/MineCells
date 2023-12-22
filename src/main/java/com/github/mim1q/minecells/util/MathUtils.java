@@ -56,12 +56,24 @@ public class MathUtils {
     return lerp(a, b, n1 * (delta -= 2.625F / d1) * delta + 0.984375F);
   }
 
+  // https://easings.net/#easeOutBack
+  public static float easeOutBack(float a, float b, float delta) {
+    var c1 = 1.70158F;
+    var c3 = c1 + 1;
+
+    return lerp(a, b, 1 + c3 * (float) Math.pow(delta - 1, 3) + c1 * (float) Math.pow(delta - 1, 2));
+  }
+
   public static float easeOutQuad(float a, float b, float delta) {
     return lerp(a, b, 1 - (1 - delta) * (1 - delta));
   }
 
   public static float radians(float degrees) {
     return degrees * RADIANS_PER_DEGREE;
+  }
+
+  public static int getClosestMultiple(int value, int multiple) {
+    return Math.round(value / (float) multiple) * multiple;
   }
 
   public static Vec3i getClosestMultiplePosition(Vec3i pos, int multiple) {

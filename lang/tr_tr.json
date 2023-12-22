@@ -1,0 +1,13 @@
+{
+  "item.minecells.flint": "The Flint",
+  "item.minecells.flint.description": "Send a shockwave in front of you",
+  "item.minecells.spite_sword": "Spite Sword",
+  "item.minecells.spite_sword.description": "Deals critical damage (+%sHP)\nIf you've recently taken damage",
+  "entity.minecells.concierge": "Concierge",
+  "dimension.minecells.ramparts": "Ramparts",
+  "dimension.minecells.black_bridge": "Black Bridge",
+  "travelerstitles.minecells.ramparts": "Ramparts",
+  "travelerstitles.minecells.black_bridge": "Black Bridge",
+  "biome.minecells.ramparts": "Ramparts",
+  "biome.minecells.black_bridge": "Black Bridge"
+}

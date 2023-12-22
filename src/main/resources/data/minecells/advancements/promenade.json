@@ -25,5 +25,10 @@
         ]
       }
     }
+  },
+  "rewards": {
+    "loot": [
+      "minecells:advancements/promenade"
+    ]
   }
 }

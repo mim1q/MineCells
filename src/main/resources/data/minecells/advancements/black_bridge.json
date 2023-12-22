@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:prison_bricks"
+    },
+    "title": {
+      "translate": "advancements.minecells.black_bridge"
+    },
+    "description": {
+      "translate": "advancements.minecells.black_bridge.description"
+    }
+  },
+  "parent": "minecells:ramparts",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "dimension": "minecells:black_bridge"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "loot": [
+      "minecells:advancements/black_bridge"
+    ]
+  }
+}

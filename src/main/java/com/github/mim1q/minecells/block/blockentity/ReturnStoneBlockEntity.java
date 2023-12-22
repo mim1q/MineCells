@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.block.blockentity;
 
+import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.block.ReturnStoneBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -83,16 +83,18 @@ public class ReturnStoneBlockEntity extends MineCellsBlockEntity {
       return;
     }
 
-    BlockPos topPos;
-    int i = 0;
-    do {
-      if (i > 30) {
-        return;
+    BlockPos targetPos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, pos);
+    for (var offset : BlockPos.iterateOutwards(pos, 30, 0, 30)) {
+      var topPos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, offset);
+      if (world.getBlockState(topPos.down()).isIn(MineCellsBlockTags.RETURN_STONE_TARGETS)) {
+        targetPos = topPos;
+        break;
       }
-      topPos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, pos.west(i));
-      i++;
-    } while (!world.getBlockState(topPos.down()).isOf(MineCellsBlocks.WILTED_GRASS_BLOCK));
-    Vec3d tpPos = Vec3d.ofBottomCenter(topPos);
+    }
+    if (targetPos == null) {
+      return;
+    }
+    Vec3d tpPos = Vec3d.ofBottomCenter(targetPos);
     player.teleport(tpPos.x, tpPos.y, tpPos.z);
     world.playSound(null, player.getBlockPos(), MineCellsSounds.TELEPORT_RELEASE, SoundCategory.BLOCKS, 1F, 1F);
     world.spawnParticles(ReturnStoneBlock.PARTICLE, player.getX(), player.getY() + 1.0, player.getZ(), 30, 0.5, 1.0, 0.5, 0.025);

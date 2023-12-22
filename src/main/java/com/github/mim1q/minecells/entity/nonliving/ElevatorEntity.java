@@ -260,7 +260,8 @@ public class ElevatorEntity extends Entity {
     List<LivingEntity> entities = getWorld().getEntitiesByClass(
       LivingEntity.class,
       this.getBoundingBox().expand(0.0D, 0.5D, 0.0D),
-      this::canBePassenger);
+      this::canBePassenger
+    );
 
     for (LivingEntity e : entities) {
       if (e instanceof PathAwareEntity pathAwareEntity) {
@@ -272,7 +273,7 @@ public class ElevatorEntity extends Entity {
 
   protected boolean canBePassenger(LivingEntity entity) {
     return !this.hitEntities.contains(entity)
-      && entity.getY() > this.getY()
+      && entity.getY() >= this.getY()
       && !entity.isSneaking()
       && !(entity instanceof SewersTentacleEntity);
   }

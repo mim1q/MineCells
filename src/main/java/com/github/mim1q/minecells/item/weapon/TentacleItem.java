@@ -62,6 +62,6 @@ public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAb
 
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
-    return 40;
+    return 20;
   }
 }

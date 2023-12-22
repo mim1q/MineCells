@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:max",
+  "argument1": {
+    "type": "minecraft:max",
+    "argument1": "minecells:ramparts/base",
+    "argument2": "minecells:ramparts/mountains"
+  },
+  "argument2": "minecells:ramparts/promenade"
+}

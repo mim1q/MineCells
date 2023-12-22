@@ -4,6 +4,10 @@ import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
 public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
@@ -49,7 +53,23 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     if (this.ticks > 60) {
       super.tick();
       if (this.ticks % 6 == 0) {
-        this.entity.playSound(MineCellsSounds.CONJUNCTIVIUS_SHOT, 2.0F, 1.0F + this.entity.getRandom().nextFloat() * 0.1F);
+        var serverWorld = ((ServerWorld)this.entity.getWorld());
+        serverWorld.getServer().getPlayerManager().sendToAround(
+          null, entity.getX(), entity.getY(), entity.getZ(), 32.0D, entity.getWorld().getRegistryKey(),
+          new PlaySoundS2CPacket(RegistryEntry.of(MineCellsSounds.CONJUNCTIVIUS_SHOT), SoundCategory.HOSTILE, entity.getX(), entity.getY(), entity.getZ(), 0.25F, 1.0F, 0)
+        );
+
+//        entity.getWorld().playSound(
+//          entity.getX(),
+//          entity.getY(),
+//          entity.getZ(),
+//          MineCellsSounds.CONJUNCTIVIUS_SHOT,
+//          SoundCategory.HOSTILE,
+//          1.0F,
+//          0.9F + this.entity.getRandom().nextFloat() * 0.2F,
+//          false
+//        );
+//        this.entity.playSound(MineCellsSounds.CONJUNCTIVIUS_SHOT, 1.0F, 0.9F + this.entity.getRandom().nextFloat() * 0.2F);
       }
       if (this.ticks % this.interval == 0) {
         this.shoot(this.entity, this.target);

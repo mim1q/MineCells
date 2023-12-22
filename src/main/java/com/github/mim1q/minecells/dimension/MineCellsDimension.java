@@ -1,12 +1,16 @@
 package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.MusicSound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -17,11 +21,15 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 import java.util.Set;
 
+import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
+
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
-  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 3, 1024.0),
-  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0);
+  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 2, 1024.0, 90F),
+  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
+  RAMPARTS(MineCells.createId("ramparts"), -54, 212, -265, 384.0, 180F),
+  BLACK_BRIDGE(MineCells.createId("black_bridge"), 32, 70, 11, 384.0);
 
   private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
     PROMENADE_OF_THE_CONDEMNED
@@ -101,8 +109,7 @@ public enum MineCellsDimension {
   }
 
   public static boolean isMineCellsDimension(World world) {
-    if (world.getRegistryKey() == OVERWORLD.key) return false;
-    return Arrays.stream(values()).anyMatch(dimension -> dimension.key == world.getRegistryKey());
+    return world != null && world.getRegistryKey().getValue().getNamespace().equals("minecells");
   }
 
   public static String getTranslationKey(RegistryKey<World> dimension) {
@@ -117,5 +124,30 @@ public enum MineCellsDimension {
 
   public static MineCellsDimension of(Identifier id) {
     return Arrays.stream(values()).filter(value -> value.id.equals(id)).findFirst().orElse(null);
+  }
+
+  public static Double getFallResetHeight(World world) {
+    if (!isMineCellsDimension(world)) return null;
+    return switch (of(world)) {
+      case RAMPARTS -> 180.0;
+      default -> null;
+    };
+  }
+
+  public MusicSound getMusic() {
+    return switch (this) {
+      case PRISONERS_QUARTERS -> MineCellsSounds.PRISONERS_QUARTERS;
+      case PROMENADE_OF_THE_CONDEMNED -> MineCellsSounds.PROMENADE;
+      case RAMPARTS -> MineCellsSounds.RAMPARTS;
+      case INSUFFERABLE_CRYPT -> MineCellsSounds.INSUFFERABLE_CRYPT;
+      default -> null;
+    };
+  }
+
+  public boolean canMusicStart(ClientPlayerEntity player) {
+    return switch (this) {
+      case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor) player).getMineCellsFlag(DISARMED);
+      default -> true;
+    };
   }
 }

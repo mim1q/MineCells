@@ -34,6 +34,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import static net.minecraft.predicate.entity.EntityPredicates.VALID_LIVING_ENTITY;
+
 public abstract class ObeliskEntity extends Entity {
   private static final EntityDimensions HIDDEN_DIMENSIONS = EntityDimensions.changing(1.75F, 0.0F);
 
@@ -148,7 +150,7 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   protected boolean isEntityPresent() {
-    for (Entity e : getWorld().getOtherEntities(this, this.getBox())) {
+    for (Entity e : getWorld().getOtherEntities(this, this.getBox(), VALID_LIVING_ENTITY)) {
       if (e.getType() == this.getEntityType()) {
         return true;
       }

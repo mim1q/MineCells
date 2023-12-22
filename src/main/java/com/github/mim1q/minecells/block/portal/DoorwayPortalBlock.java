@@ -2,9 +2,9 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
@@ -152,6 +152,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
     super.onStateReplaced(state, world, pos, newState, moved);
     if (world.isClient()) return;
+    if (newState.getBlock() instanceof DoorwayPortalBlock) return;
     var facing = state.get(FACING);
     var x = facing.rotateYClockwise().getOffsetX();
     var z = facing.rotateYClockwise().getOffsetZ();
@@ -174,7 +175,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     var stacks = super.getDroppedStacks(state, builder);
     var blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
     for (var stack : stacks) {
-      if (stack.isOf(MineCellsItems.PRISON_DOORWAY) && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
+      if (stack.getItem() instanceof DoorwayItem && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
         doorway.setStackNbt(stack);
       }
     }
@@ -183,9 +184,11 @@ public class DoorwayPortalBlock extends BlockWithEntity {
 
   public enum DoorwayType {
     OVERWORLD(MineCellsDimension.OVERWORLD, 0x8EF96D),
-    PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0xC1FCC4),
+    PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0x54EF88),
     PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7),
-    INSUFFERABLE_CRYPT(MineCellsDimension.INSUFFERABLE_CRYPT, 0xFF4CF4);
+    INSUFFERABLE_CRYPT(MineCellsDimension.INSUFFERABLE_CRYPT, 0xFF4CF4),
+    RAMPARTS(MineCellsDimension.RAMPARTS, 0xFFC540),
+    BLACK_BRIDGE(MineCellsDimension.BLACK_BRIDGE, 0x623cc9);
 
     public final MineCellsDimension dimension;
     public final Identifier texture;
@@ -236,15 +239,6 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, BlockMirror mirror) {
       return state.with(FACING, mirror.apply(state.get(FACING)));
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView blockView, BlockPos pos) {
-      if (blockView instanceof World world && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
-        return super.calcBlockBreakingDelta(state, player, blockView, pos);
-      }
-      return 0F;
     }
 
     @Override

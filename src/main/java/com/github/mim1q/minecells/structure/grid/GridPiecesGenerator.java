@@ -53,7 +53,7 @@ public class GridPiecesGenerator {
       addRooms(context.random());
       return rooms;
     }
-    protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+    protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
       rooms.add(new RoomData(pos, rotation, poolId, offset, false));
     }
 
@@ -61,7 +61,7 @@ public class GridPiecesGenerator {
       addRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
 
-    protected final void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+    protected void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
       rooms.add(new RoomData(pos, rotation, poolId, offset, true));
     }
 
