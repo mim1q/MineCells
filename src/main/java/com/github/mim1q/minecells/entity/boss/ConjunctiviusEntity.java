@@ -95,6 +95,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.prevYaw = 180.0F;
     this.headYaw = 180.0F;
     this.prevHeadYaw = 180.0F;
+    this.bossBar.setVisible(false);
   }
 
   @Nullable

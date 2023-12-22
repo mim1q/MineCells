@@ -28,7 +28,7 @@ public class MagicOrbEntity extends ProjectileEntity {
     if (getWorld().isClient()) {
       this.spawnParticles();
     } else {
-      if (this.age > 2000) {
+      if (this.age > 300 || this.getVelocity().lengthSquared() < 0.01D) {
         this.discard();
       }
 

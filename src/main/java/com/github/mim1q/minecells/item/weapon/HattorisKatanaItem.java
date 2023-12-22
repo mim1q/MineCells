@@ -63,10 +63,10 @@ public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
         spawnTrailParticles(world, start, hitPos);
       } else {
         stack.damage(1, player, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+        player.teleport(hitPos.x, hitPos.y, hitPos.z);
+        ((PlayerEntityAccessor) player).setInvincibilityFrames(10);
       }
-      player.teleport(hitPos.x, hitPos.y, hitPos.z);
       user.playSound(MineCellsSounds.KATANA_RELEASE, 2.0F, 1.0F);
-      ((PlayerEntityAccessor) player).setInvincibilityFrames(10);
     }
     return super.finishUsing(stack, world, user);
   }

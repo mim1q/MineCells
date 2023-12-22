@@ -41,9 +41,10 @@ public class AnimationProperty {
     return true;
   }
 
-  public void update(float time) {
+  public float update(float time) {
     this.time = time;
     this.value = this.easingFunction.ease(this.lastValue, this.targetValue, this.getProgress());
+    return getValue();
   }
 
   public float getProgress() {

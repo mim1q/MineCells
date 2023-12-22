@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 public class LeavesSet extends FeatureSet {
   public final LeavesBlock leaves = registerBlockWithItem(name + "_leaves", new LeavesBlock(defaultBlockSettings()));
-  public final WallLeavesBlock wallLeaves = registerBlockWithItem(name + "_wall_leaves", new WallLeavesBlock(defaultBlockSettings().noCollision().breakInstantly()));
+  public final WallLeavesBlock wallLeaves = registerBlockWithItem(name + "_wall_leaves", new WallLeavesBlock(defaultBlockSettings().noCollision().replaceable().breakInstantly()));
   public final HangingLeavesBlock hangingLeaves = registerBlockWithItem(name + "_hanging_leaves", new HangingLeavesBlock(defaultBlockSettings().noCollision().breakInstantly()));
 
   private final List<ItemStack> stacks = Stream.of(leaves, wallLeaves, hangingLeaves).map(b -> b.asItem().getDefaultStack()).toList();

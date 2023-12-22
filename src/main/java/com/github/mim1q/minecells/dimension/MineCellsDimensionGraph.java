@@ -26,6 +26,9 @@ public class MineCellsDimensionGraph {
     var insufferableCrypt = add(MineCellsDimension.INSUFFERABLE_CRYPT,
       prisonersQuarters
     );
+    var ramparts = add(MineCellsDimension.RAMPARTS,
+      promenadeOfTheCondemned
+    );
   }
 
   public boolean canTraverseToOverworld(MineCellsDimension dimension, BiPredicate<MineCellsDimension, MineCellsDimension> predicate) {

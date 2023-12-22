@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:small_prison_bricks"
+      "item": "minecraft:iron_bars"
     },
     "title": {
       "translate": "advancements.minecells.prison"

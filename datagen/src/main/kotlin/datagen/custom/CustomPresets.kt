@@ -9,6 +9,8 @@ import tada.lib.resources.blockstate.BlockStateModel
 import tada.lib.resources.blockstate.BlockStateModel.Rotation
 import tada.lib.resources.model.ParentedModel
 import tada.lib.resources.recipe.CraftingRecipe
+import tada.lib.resources.recipe.SmeltingRecipe
+import tada.lib.tags.TagManager
 import tada.lib.util.Id
 
 object CustomPresets {
@@ -23,7 +25,7 @@ object CustomPresets {
       variant("facing=west, standing=false", BlockStateModel("$ns:block/${name}_torch", yRot = Rotation.CW_270))
       variant("standing=true", BlockStateModel("$ns:block/${name}_torch_standing", yRot = Rotation.NONE))
     })
-    add("${name}_torch", ParentedModel.item("$ns:block/${name}_torch_standing"))
+    add("${name}_torch", ParentedModel.item("minecells:block/template/colored_torch_inventory").texture("flame", Id(texture).toString()))
     add(CommonDropPresets.simpleDrop("$ns:${name}_torch"))
   }
 
@@ -60,6 +62,17 @@ object CustomPresets {
       variant("facing=south", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_180))
       variant("facing=west", BlockStateModel("$ns:block/${name}_doorway", yRot = Rotation.CW_270))
     })
+    if (name != "overworld") {
+      add(CommonDropPresets.simpleDrop("${id}_doorway"))
+    }
+  }
+
+  fun flag(id: String) = Preset {
+    val (_, name) = Id(id)
+    add(name, BlockState.createSingle("minecraft:block/white_wool"))
+    add(name, ParentedModel.item("minecraft:builtin/entity").postProcess { addProperty("gui_light", "front") })
+    add(CommonDropPresets.simpleDrop(id))
+    TagManager.add("minecraft:mineable/axe", id)
   }
 
   fun customRecipes() = Preset {
@@ -69,7 +82,7 @@ object CustomPresets {
       pattern("XXX")
       key("X", "minecells:putrid_board_block")
     })
-    add("reset_rune", CraftingRecipe.shapeless("minecells:reset_rune", 1) {
+    add("reset_rune", CraftingRecipe.shapeless("minecells:reset_rune") {
       ingredient("minecells:blank_rune")
       ingredient("minecraft:clock")
       ingredient("minecraft:emerald")
@@ -80,6 +93,17 @@ object CustomPresets {
       ingredient("minecells:monsters_eye")
       ingredient("minecells:monsters_eye")
     })
+    add("concierge_respawn_rune", CraftingRecipe.shapeless("minecells:concierge_respawn_rune") {
+      ingredient("minecraft:flint")
+      ingredient("minecraft:flint_and_steel")
+      ingredient("minecraft:flint")
+      ingredient("minecells:monsters_eye")
+      ingredient("minecells:blank_rune")
+      ingredient("minecells:guts")
+      ingredient("minecraft:iron_ingot")
+      ingredient("minecraft:iron_ingot")
+      ingredient("minecraft:iron_ingot")
+    })
     add("prison_doorway", CraftingRecipe.shaped("minecells:prison_doorway") {
       pattern("BBB")
       pattern("BIB")
@@ -88,5 +112,22 @@ object CustomPresets {
       key("I", "minecraft:iron_bars")
       key("T", "minecells:prison_torch")
     })
+    add("cracked_prison_bricks", SmeltingRecipe.create("minecells:prison_bricks", "minecells:cracked_prison_bricks"))
+    add(dimensionalRuneRecipes())
+  }
+
+  private fun dimensionalRuneRecipes() = Preset {
+    fun add(dimension: String, parent: String?, vararg ingredients: String) = add(
+      "${dimension}_dimensional_rune",
+      CraftingRecipe.shapeless("minecells:${dimension}_dimensional_rune", 1) {
+        ingredient(parent?.let { "minecells:${parent}_dimensional_rune" } ?: "minecells:blank_rune")
+        ingredients.forEach { ingredient(it) }
+      }
+    )
+    add("prison", null, "minecells:prison_torch")
+    add("promenade", "prison", "minecells:promenade_torch")
+    add("insufferable_crypt", "prison", "minecells:monsters_eye")
+    add("ramparts", "prison", "minecells:ramparts_torch")
+    add("black_bridge", "ramparts", "minecraft:flint")
   }
 }

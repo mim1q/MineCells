@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecells:item/dimensional_rune_base",
+    "layer1": "minecells:item/dimensional_rune_glow"
+  }
+}

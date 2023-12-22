@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.command;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.mojang.brigadier.CommandDispatcher;
@@ -12,6 +13,7 @@ import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -43,11 +45,11 @@ public class SpawnerRuneCommand {
     try {
       spawnerRune = MineCellsEntities.SPAWNER_RUNE.create(world);
     } catch (Exception e) {
-      e.printStackTrace();
+      MineCells.LOGGER.error(e);
     }
     if (spawnerRune == null) return 1;
     spawnerRune.setPosition(pos);
-    spawnerRune.setDataId(id);
+    spawnerRune.controller.setDataId(world, BlockPos.ofFloored(pos), id);
     world.spawnEntity(spawnerRune);
     return 0;
   }

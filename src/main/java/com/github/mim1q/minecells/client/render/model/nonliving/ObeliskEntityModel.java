@@ -8,61 +8,44 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class ObeliskEntityModel extends EntityModel<ObeliskEntity> {
 
-  private final ModelPart root;
-  private final ModelPart left;
-  private final ModelPart center;
-  private final ModelPart right;
+  private final ModelPart main;
+  private final ModelPart glowMain;
 
   public ObeliskEntityModel(ModelPart root) {
-    this.root = root;
-    this.left = root.getChild("left");
-    this.center = root.getChild("center");
-    this.right = root.getChild("right");
+    this.main = root.getChild("main");
+    this.glowMain = root.getChild("glowMain");
   }
 
   public static TexturedModelData getTexturedModelData() {
-    ModelData modelData = new ModelData();
-    ModelPartData dRoot = modelData.getRoot();
-
-    dRoot.addChild("center",
-      ModelPartBuilder.create()
-        .uv(96, 80).cuboid(-8.0F, -48.0F, -8.25F, 16.0F, 48.0F, 0.0F)
-        .uv(8, 0).cuboid(0.0F, -48.0F, -8.0F, 8.0F, 16.0F, 16.0F)
-        .uv(0, 0).cuboid(-8.0F, -32.0F, -8.0F, 16.0F, 32.0F, 16.0F),
-      ModelTransform.pivot(0.0F, 24.0F, 0.0F)
-    );
-
-    dRoot.addChild("left",
-      ModelPartBuilder.create()
-        .uv(2, 5).cuboid(8.0F, -12.0F, -8.0F, 4.0F, 12.0F, 4.0F)
-        .uv(48, 48).cuboid(8.0F, -32.0F, -4.0F, 8.0F, 32.0F, 8.0F)
-        .uv(0, 47).cuboid(16.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F)
-        .uv(0, 33).cuboid(8.0F, -12.0F, 4.0F, 4.0F, 12.0F, 4.0F),
-      ModelTransform.pivot(0.0F, 24.0F, 0.0F)
-    );
-
-    dRoot.addChild("right",
-      ModelPartBuilder.create()
-        .uv(64, 0).cuboid(-16.0F, -24.0F, -4.0F, 8.0F, 24.0F, 8.0F)
-        .uv(8, 28).cuboid(-12.0F, -16.0F, -8.0F, 4.0F, 16.0F, 4.0F)
-        .uv(39, 11).cuboid(-20.0F, -8.0F, -2.0F, 4.0F, 8.0F, 4.0F)
-        .uv(64, 30).cuboid(-8.0F, -40.0F, -4.0F, 8.0F, 8.0F, 8.0F)
-        .uv(5, 21).cuboid(-12.0F, -16.0F, 4.0F, 4.0F, 16.0F, 4.0F),
-      ModelTransform.pivot(0.0F, 24.0F, 0.0F)
-    );
-
+    var modelData = new ModelData();
+    var modelPartData = modelData.getRoot();
+    var main = modelPartData.addChild("main", ModelPartBuilder.create().uv(80, 45).cuboid(14.0F, -40.0F, -0.5F, 6.0F, 40.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-7.0F, 24.0F, 0.0F));
+    main.addChild("cube_r1", ModelPartBuilder.create().uv(0, 48).cuboid(0.0F, -12.0F, -5.0F, 10.0F, 12.0F, 8.0F, new Dilation(0.0F)), ModelTransform.of(-6.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
+    main.addChild("cube_r2", ModelPartBuilder.create().uv(38, 38).cuboid(0.0F, -24.0F, -4.0F, 11.0F, 24.0F, 10.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.1745F, 0.0F, -0.1745F));
+    main.addChild("cube_r3", ModelPartBuilder.create().uv(48, 0).cuboid(0.0F, -15.0F, 1.0F, 10.0F, 15.0F, 10.0F, new Dilation(0.0F)), ModelTransform.of(12.0F, 0.0F, -5.0F, -0.1745F, 0.0F, 0.1745F));
+    main.addChild("cube_r4", ModelPartBuilder.create().uv(1, 0).cuboid(1.0F, -36.0F, -12.0F, 11.0F, 36.0F, 12.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 0.0F, 6.0F, 0.0F, 0.0F, 0.0F));
+    var glowMain = modelPartData.addChild("glowMain", ModelPartBuilder.create().uv(104, 45).cuboid(14.0F, -40.0F, -0.5F, 6.0F, 40.0F, 6.0F, new Dilation(0.01F)), ModelTransform.pivot(-7.0F, 24.0F, 0.0F));
+    glowMain.addChild("cube_r5", ModelPartBuilder.create().uv(1, 80).cuboid(1.0F, -36.0F, -12.0F, 11.0F, 36.0F, 12.0F, new Dilation(0.01F)), ModelTransform.of(2.0F, 0.0F, 6.0F, 0.0F, 0.0F, 0.0F));
+    glowMain.addChild("cube_r6", ModelPartBuilder.create().uv(92, 25).cuboid(0.0F, -12.0F, -5.0F, 10.0F, 12.0F, 8.0F, new Dilation(0.01F)), ModelTransform.of(-6.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
+    glowMain.addChild("cube_r7", ModelPartBuilder.create().uv(48, 94).cuboid(0.0F, -24.0F, -4.0F, 11.0F, 24.0F, 10.0F, new Dilation(0.01F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.1745F, 0.0F, -0.1745F));
+    glowMain.addChild("cube_r8", ModelPartBuilder.create().uv(88, 0).cuboid(0.0F, -15.0F, 1.0F, 10.0F, 15.0F, 10.0F, new Dilation(0.01F)), ModelTransform.of(12.0F, 0.0F, -5.0F, -0.1745F, 0.0F, 0.1745F));
     return TexturedModelData.of(modelData, 128, 128);
   }
 
   @Override
   public void setAngles(ObeliskEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    entity.bury.update(animationProgress);
-    float bury = entity.bury.getValue();
-    this.root.pivotY = 0.0F + bury;
+    var bury = entity.bury.update(animationProgress);
+    this.main.pivotY = 24.0F + bury;
+    this.glowMain.pivotY = 24.0F + bury;
   }
 
   @Override
   public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    this.main.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+  }
+
+  public void renderGlow(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+    if (alpha <= 0) return;
+    this.glowMain.render(matrices, vertices, light, overlay, red, green, blue, alpha);
   }
 }

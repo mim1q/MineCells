@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.state.StateManager;
@@ -34,7 +35,7 @@ public class ConditionalBarrierBlock extends HorizontalFacingBlock {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return state.get(OPEN)
+    return state.get(OPEN) || (context instanceof EntityShapeContext entityCtx && entityCtx.getEntity() instanceof SewersTentacleEntity)
       ? VoxelShapes.empty()
       : super.getOutlineShape(state, world, pos, context);
   }

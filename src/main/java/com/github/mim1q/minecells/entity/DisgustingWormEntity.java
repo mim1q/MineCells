@@ -3,8 +3,6 @@ package com.github.mim1q.minecells.entity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.DisgustingWormEggEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -18,7 +16,6 @@ import net.minecraft.world.World;
 
 public class DisgustingWormEntity extends MineCellsEntity {
 
-  @Environment(EnvType.SERVER)
   private int soundCountdown = 0;
 
   public DisgustingWormEntity(EntityType<DisgustingWormEntity> entityType, World world) {

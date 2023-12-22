@@ -20,8 +20,8 @@ public class MineCellsClient implements ClientModInitializer {
     CLIENT_CONFIG.save();
     MineCellsRenderers.init();
     MineCellsRenderers.initBlocks();
+    MineCellsItemGroups.init();
     ClientPacketHandler.init();
     MineCellsParticles.initClient();
-    MineCellsItemGroups.initClient();
   }
 }

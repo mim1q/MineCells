@@ -17,7 +17,6 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.*;
-import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -55,17 +54,17 @@ public class MineCellsStructurePoolBasedGenerator {
     ChunkGenerator chunkGenerator = context.chunkGenerator();
     StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
     HeightLimitView heightLimitView = context.world();
-    ChunkRandom chunkRandom = context.random();
+    Random random = context.random();
     Registry<StructurePool> registry = dynamicRegistryManager.get(RegistryKeys.TEMPLATE_POOL);
     StructurePool structurePool2 = structurePool.value();
-    StructurePoolElement structurePoolElement = structurePool2.getRandomElement(chunkRandom);
+    StructurePoolElement structurePoolElement = structurePool2.getRandomElement(random);
     if (structurePoolElement == EmptyPoolElement.INSTANCE) {
       return Optional.empty();
     } else {
       BlockPos blockPos;
       if (id.isPresent()) {
         Identifier identifier = id.get();
-        Optional<BlockPos> optional = findStartingJigsawPos(structurePoolElement, identifier, pos, rotation, structureTemplateManager, chunkRandom);
+        Optional<BlockPos> optional = findStartingJigsawPos(structurePoolElement, identifier, pos, rotation, structureTemplateManager, random);
         if (optional.isEmpty()) {
           LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, structurePool.getKey().orElseThrow().getValue());
           return Optional.empty();
@@ -94,7 +93,7 @@ public class MineCellsStructurePoolBasedGenerator {
         if (size > 0) {
           Box box = new Box(i - 128, m - 128, j - 128, i + 128 + 1, m + 128 + 1, j + 128 + 1);
           VoxelShape voxelShape = VoxelShapes.combineAndSimplify(VoxelShapes.cuboid(box), VoxelShapes.cuboid(Box.from(blockBox)), BooleanBiFunction.ONLY_FIRST);
-          generate(context.noiseConfig(), size, chunkGenerator, structureTemplateManager, heightLimitView, chunkRandom, registry, poolStructurePiece, list, voxelShape);
+          generate(context.noiseConfig(), size, chunkGenerator, structureTemplateManager, heightLimitView, random, registry, poolStructurePiece, list, voxelShape);
           Objects.requireNonNull(collector);
           list.forEach(collector::addPiece);
         }
@@ -102,7 +101,7 @@ public class MineCellsStructurePoolBasedGenerator {
     }
   }
 
-  private static Optional<BlockPos> findStartingJigsawPos(StructurePoolElement pool, Identifier id, BlockPos pos, BlockRotation rotation, StructureTemplateManager structureManager, ChunkRandom random) {
+  private static Optional<BlockPos> findStartingJigsawPos(StructurePoolElement pool, Identifier id, BlockPos pos, BlockRotation rotation, StructureTemplateManager structureManager, Random random) {
     List<StructureTemplate.StructureBlockInfo> list = pool.getStructureBlockInfos(structureManager, pos, rotation, random);
     Optional<BlockPos> optional = Optional.empty();
 

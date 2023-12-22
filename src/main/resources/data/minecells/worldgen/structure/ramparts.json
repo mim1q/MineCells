@@ -1,0 +1,11 @@
+{
+  "type": "minecells:ramparts",
+  "biomes": [
+    "minecells:ramparts"
+  ],
+  "step": "underground_structures",
+  "spawn_overrides": {},
+  "start_height": {
+    "absolute": 32
+  }
+}
