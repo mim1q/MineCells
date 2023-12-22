@@ -1,6 +1,5 @@
 {
   "_comment.minecells.001": "======================================刷怪蛋========================================",
-
   "item.minecells.shocker_spawn_egg": "电击者刷怪蛋",
   "item.minecells.leaping_zombie_spawn_egg": "跳跃僵尸刷怪蛋",
   "item.minecells.grenadier_spawn_egg": "掷弹兵刷怪蛋",
@@ -15,16 +14,21 @@
   "item.minecells.rancid_rat_spawn_egg": "腐臭老鼠刷怪蛋",
   "item.minecells.runner_spawn_egg": "速魔刷怪蛋",
   "item.minecells.scorpion_spawn_egg": "蝎子刷怪蛋",
-  
+  "item.minecells.sweeper_spawn_egg": "清扫者刷怪蛋",
+  "item.minecells.buzzcutter_spawn_egg": "飞咬虫刷怪蛋",
   "_comment.minecells.002": "===================================方块和物品=====================================",
-
-  "itemGroup.minecells.minecells": "我的细胞",
-  "itemGroup.minecells.minecells.tab.minecells": "我的细胞",
+  "itemGroup.minecells.minecells": [
+    {
+      "text": "我的细胞",
+      "color": "#46D4FF"
+    }
+  ],
+  "itemGroup.minecells.minecells.tab.general": "通用",
+  "itemGroup.minecells.minecells.tab.combat": "战斗类物品",
+  "itemGroup.minecells.minecells.tab.spawn_eggs": "刷怪蛋",
   "itemGroup.minecells.minecells.button.wiki": "阅读Wiki",
   "itemGroup.minecells.minecells.button.discord": "加入Mim1q的Discord频道",
   "itemGroup.minecells.minecells.button.kofi": "在Ko-Fi上支持我的Mods",
-
-
   "block.minecells.putrid_boards": "腐烂木材板",
   "block.minecells.small_crate": "小型板条箱",
   "block.minecells.brittle_barrel": "易碎的桶",
@@ -57,27 +61,107 @@
   "block.minecells.runic_vine_plant.message": "需要藤蔓符文才可激活",
   "block.minecells.prison_box": "囚犯盒",
   "block.minecells.shocker_box": "电击者盒",
-
   "item.minecells.elevator_mechanism": "电梯机构",
   "item.minecells.charged_interdimensional_rune": "无法获得的符文",
   "item.minecells.guts": "内脏",
-  "item.minecells.monsters_eye": "恶魔之眼",
+  "item.minecells.monsters_eye": "怪物眼珠",
   "item.minecells.health_flask": "血瓶",
   "item.minecells.health_flask.tooltip": "回复%s颗红心，并消除流血和中毒效果",
   "item.minecells.blank_rune": "空白符文",
   "item.minecells.conjunctivius_respawn_rune": "肿胀眼魔复活符文",
+  "item.minecells.concierge_respawn_rune": "看守者复活符文",
   "item.minecells.vine_rune": "符文藤蔓",
   "item.minecells.reset_rune": "重置符文",
   "item.minecells.reset_rune.tooltip": "重置标一定范围中的刷怪符文",
-  "item.minecells.prison_doorway": "被囚者的牢房入口",
   "item.minecells.prison_doorway.description": "靠着一堵3x3的空墙放置",
   "item.minecells.prison_doorway.visited": "已经在区域%s附近发现被囚者的牢房",
   "item.minecells.prison_doorway.not_visited": "尚未在区域%s附近发现被囚者的牢房",
   "item.minecells.prison_doorway.bound": "绑定坐标：%s",
   "item.minecells.prison_doorway.not_bound": "坐标未绑定",
-
+  "item.minecells.dimensional_rune.tooltip": "在主世界对入口使用\n以改变它的目的地",
+  "item.minecells.dimensional_rune.only_usable_in_overworld": "你只能在主世界使用此符文",
+  "item.minecells.dimensional_rune.not_visited": "你只能用此符文传送到已探访过的地方",
+  "item.minecells.prison_doorway": [
+    "",
+    {
+      "text": "被囚者的牢房",
+      "color": "#54EF88"
+    },
+    "入口"
+  ],
+  "item.minecells.promenade_doorway": [
+    "",
+    {
+      "text": "有罪者的大道",
+      "color": "#93FFF7"
+    },
+    "入口"
+  ],
+  "item.minecells.insufferable_crypt_doorway": [
+    "",
+    {
+      "text": "作呕地窖",
+      "color": "#FF4CF4"
+    },
+    "入口"
+  ],
+  "item.minecells.ramparts_doorway": [
+    "",
+    {
+      "text": "壁垒",
+      "color": "#FFC540"
+    },
+    "入口"
+  ],
+  "item.minecells.black_bridge_doorway": [
+    "",
+    {
+      "text": "黑色大桥",
+      "color": "#623CC9"
+    },
+    "入口"
+  ],
+  "item.minecells.prison_dimensional_rune": [
+    "",
+    {
+      "text": "被囚者的牢房",
+      "color": "#54EF88"
+    },
+    "维度符文"
+  ],
+  "item.minecells.promenade_dimensional_rune": [
+    "",
+    {
+      "text": "有罪者的大道",
+      "color": "#93FFF7"
+    },
+    "维度符文"
+  ],
+  "item.minecells.insufferable_crypt_dimensional_rune": [
+    "",
+    {
+      "text": "作呕地窖",
+      "color": "#FF4CF4"
+    },
+    "维度符文"
+  ],
+  "item.minecells.ramparts_dimensional_rune": [
+    "",
+    {
+      "text": "壁垒",
+      "color": "#FFC540"
+    },
+    "维度符文"
+  ],
+  "item.minecells.black_bridge_dimensional_rune": [
+    "",
+    {
+      "text": "黑色大桥",
+      "color": "#623CC9"
+    },
+    "维度符文"
+  ],
   "_comment.minecells.003": "========================================武器=========================================",
-
   "item.minecells.assassins_dagger": "刺客匕首",
   "item.minecells.assassins_dagger.description": "背刺时\n造成暴击（+%s点生命值）伤害",
   "item.minecells.blood_sword": "血之刃",
@@ -97,13 +181,15 @@
   "item.minecells.frost_blast.description": "冰冻面前的敌人",
   "item.minecells.nutcracker": "胡桃夹子",
   "item.minecells.nutcracker.description": "在敌人被击晕或冰冻时\n攻击会造成暴击伤害（+%s点生命值）",
+  "item.minecells.flint": "燧石",
+  "item.minecells.flint.description": "Send a shockwave in front of you",
+  "item.minecells.spite_sword": "怨恨之刃",
+  "item.minecells.spite_sword.description": "Deals critical damage (+%sHP)\nIf you've recently taken damage",
   "item.minecells.phaser": "位移",
   "item.minecells.phaser.description": "瞬移至敌人背后\n并短暂眩晕其\n你的下一次攻击\n会造成额外伤害",
-
   "item.minecells.hold": "按",
   "item.minecells.ability_damage": "伤害：%s点生命值",
   "item.minecells.ability_cooldown": "冷却时间：%s",
-
   "entity.minecells.shocker": "电击者",
   "entity.minecells.leaping_zombie": "跳跃僵尸",
   "entity.minecells.grenadier": "掷弹兵",
@@ -118,8 +204,10 @@
   "entity.minecells.rancid_rat": "腐臭老鼠",
   "entity.minecells.runner": "速魔",
   "entity.minecells.scorpion": "蝎子",
+  "entity.minecells.sweeper": "清扫者",
+  "entity.minecells.buzzcutter": "飞咬虫",
   "entity.minecells.conjunctivius": "肿胀眼魔",
-
+  "entity.minecells.concierge": "看守者",
   "entity.minecells.elevator": "电梯（右击激活）",
   "entity.minecells.conjunctivius_obelisk": "肿胀眼魔生成方尖碑",
   "entity.minecells.tentacle_weapon": "肿胀眼魔的触手",
@@ -131,7 +219,6 @@
   "entity.minecells.big_grenade": "大榴弹",
   "entity.minecells.disgusting_worm_egg": "丑陋蠕虫蛋",
   "entity.minecells.spawner_rune": "刷怪符文",
-
   "effect.minecells.electrified": "电击",
   "effect.minecells.protected": "保护",
   "effect.minecells.cursed": "诅咒",
@@ -140,7 +227,6 @@
   "effect.minecells.assassins_strength": "刺杀",
   "effect.minecells.stunned": "眩晕",
   "effect.minecells.frozen": "冻结",
-
   "death.attack.minecells.grenade": "%s被%s炸飞了",
   "death.attack.minecells.aura": "%s未尊重%s的边界",
   "death.attack.minecells.backstab": "%s被%s背刺了",
@@ -150,24 +236,25 @@
   "death.attack.minecells.cursed.player": "%s屈服于诅咒",
   "death.attack.minecells.bleeding": "%s流血致死",
   "death.attack.minecells.katana": "%s被%s切碎了",
-
   "dimension.minecraft.overworld": "主世界",
   "dimension.minecells.prison": "被囚者的牢房",
   "dimension.minecells.insufferable_crypt": "作呕地窖",
   "dimension.minecells.promenade": "有罪者的大道",
-
+  "dimension.minecells.ramparts": "壁垒",
+  "dimension.minecells.black_bridge": "黑色大桥",
   "travelerstitles.minecraft.overworld": "主世界",
   "travelerstitles.minecells.prison": "被囚者的牢房",
   "travelerstitles.minecells.insufferable_crypt": "作呕地窖",
   "travelerstitles.minecells.promenade": "有罪者的大道",
-
+  "travelerstitles.minecells.ramparts": "壁垒",
+  "travelerstitles.minecells.black_bridge": "黑色大桥",
   "biome.minecells.prison": "被囚者的牢房",
   "biome.minecells.insufferable_crypt": "作呕地窖",
   "biome.minecells.promenade": "有罪者的大道",
-
+  "biome.minecells.ramparts": "壁垒",
+  "biome.minecells.black_bridge": "黑色大桥",
   "gui.minecells.cell_forge.title": "细胞锻造所",
   "gui.minecells.cell_forge.forge": "锻造",
-
   "chat.minecells.obelisk_item_message": "需要%s才能激活",
   "chat.minecells.suffocation_fix_message": "你已被传送回重生点!这可能与维度被重置有关，也有可能是你被判定卡在墙内",
   "chat.minecells.version_mismatch": "看起来你已经安装好了我的细胞的新版本！下面是更新Mod之后应该要做的事：\n",
@@ -177,14 +264,15 @@
   "chat.minecells.version_mismatch.promenade": "-重置“minecells:promenade”维度",
   "chat.minecells.stuck_message": "你似乎被困在了我的细胞中的某个维度中，你已被传送至你的出生点。",
   "chat.minecells.wipe_try": [
-    "\n\n单击此处获取我的细胞更新指南",
-    { "text": "警告：", "color": "#FF1111" },
+    "\n",
+    {
+      "text": "警告：",
+      "color": "#FF1111"
+    },
     "此命令将清除所有玩家我的细胞的数据，再次执行指令以继续操作。\n"
   ],
   "chat.minecells.wipe_success": "所有我的细胞的数据已被清除",
-
   "_comment.minecells.004": "======================================成就======================================",
-
   "advancements.minecells.root": "我的细胞",
   "advancements.minecells.root.description": "找到通往被囚者的牢房的传送门",
   "advancements.minecells.prison": "坐牢",
@@ -201,9 +289,13 @@
   "advancements.minecells.elevator.description": "在坐电梯时挤压某个生物",
   "advancements.minecells.vine_rune": "杰克与豆茎",
   "advancements.minecells.vine_rune.description": "获得一个藤蔓符文",
-
+  "advancements.minecells.ramparts": "极目远眺！",
+  "advancements.minecells.ramparts.description": "初次到达壁垒",
+  "advancements.minecells.black_bridge": "终于可以休息一下了……",
+  "advancements.minecells.black_bridge.description": "初次到达黑色大桥",
+  "advancements.minecells.concierge": "碾压",
+  "advancements.minecells.concierge.description": "击败看守者",
   "_comment.minecells.005": "================================== FROM AUTOLANG ========================================",
-
   "block.minecells.putrid_planks": "腐烂木板",
   "block.minecells.putrid_log": "腐烂原木",
   "block.minecells.stripped_putrid_log": "去皮腐烂原木",
@@ -271,13 +363,30 @@
   "block.minecells.ancient_sewage": "古老的污水",
   "block.minecells.doorway_frame": "入口框架",
   "block.minecells.overworld_doorway": "主世界入口",
-  "block.minecells.prison_doorway": "牢房入口",
-  "block.minecells.promenade_doorway": "大道入口",
-  "block.minecells.insufferable_crypt_doorway": "作呕地窖入口",
   "block.minecells.red_putrid_sapling": "红色腐烂树苗",
   "block.minecells.solid_barrier_rune": "实体屏障符文",
   "block.minecells.conditional_barrier": "条件屏障",
   "block.minecells.boss_barrier_controller": "Boss控制屏障",
   "block.minecells.boss_entry_barrier_controller": "Boss实体控制屏障",
-  "block.minecells.player_barrier_controller": "玩家控制屏障"
+  "block.minecells.player_barrier_controller": "玩家控制屏障",
+  "block.minecells.cracked_prison_bricks": "裂纹牢房砖",
+  "block.minecells.cracked_prison_brick_stairs": "裂纹牢房砖楼梯",
+  "block.minecells.cracked_prison_brick_slab": "裂纹牢房砖台阶",
+  "block.minecells.cracked_prison_brick_wall": "裂纹牢房砖墙",
+  "block.minecells.ramparts_torch": "壁垒火把",
+  "block.minecells.concierge_box": "黑色大桥屏障",
+  "block.minecells.unbreakable_doorway_frame": "入口框架",
+  "block.minecells.kings_crest_flag": "王冠旗帜",
+  "block.minecells.torn_kings_crest_flag": "被撕裂的王冠旗帜",
+  "block.minecells.promenade_of_the_condemned_flag": "有罪者的大道旗帜",
+  "block.minecells.ramparts_flag": "壁垒旗帜",
+  "block.minecells.black_bridge_flag": "黑色大桥旗帜",
+  "block.minecells.insufferable_crypt_flag": "作呕地窖旗帜",
+  "block.minecells.large_red_ribbon_flag": "大型红色缎带旗",
+  "block.minecells.red_ribbon_flag": "红色缎带旗",
+  "block.minecells.prison_doorway": "被囚者的牢房入口",
+  "block.minecells.promenade_doorway": "有罪者的大道入口",
+  "block.minecells.insufferable_crypt_doorway": "作呕地窖入口",
+  "block.minecells.ramparts_doorway": "壁垒入口",
+  "block.minecells.black_bridge_doorway": "黑色大桥入口"
 }
