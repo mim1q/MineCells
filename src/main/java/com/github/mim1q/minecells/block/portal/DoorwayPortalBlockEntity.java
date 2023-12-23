@@ -79,8 +79,9 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public boolean canPlayerEnter(PlayerEntity player) {
     if (player == null || world == null) return false;
+    var pos = posOverride == null ? player.getBlockPos() : posOverride;
     var targetDimension = ((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension;
-    var mineCellsData = ((PlayerEntityAccessor) player).getMineCellsData().get(this.pos);
+    var mineCellsData = ((PlayerEntityAccessor) player).getMineCellsData().get(pos);
     if (isDownstream()) {
       if (MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD) {
         if (targetDimension == MineCellsDimension.PRISONERS_QUARTERS) return true;
