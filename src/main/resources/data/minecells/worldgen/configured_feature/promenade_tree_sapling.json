@@ -7,25 +7,34 @@
     },
     "dirt_provider": {
       "type": "minecraft:simple_state_provider",
-      "state": { "Name": "minecraft:dirt" }
+      "state": {
+        "Name": "minecraft:dirt"
+      }
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
-      "state": { "Name": "minecells:putrid_wood" }
+      "state": {
+        "Name": "minecells:putrid_wood",
+        "Properties": {
+          "axis": "y"
+        }
+      }
     },
     "trunk_placer": {
       "type": "minecells:promenade_trunk",
-      "base_height": 20,
-      "height_rand_a": 15,
+      "base_height": 30,
+      "height_rand_a": 20,
       "height_rand_b": 0
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
-      "state": { "Name": "minecells:wilted_leaves" }
+      "state": {
+        "Name": "minecells:red_wilted_leaves"
+      }
     },
     "foliage_placer": {
-      "type": "minecraft:blob_foliage_placer",
-      "radius": 2,
+      "type": "minecells:promenade_foliage_placer",
+      "radius": 0,
       "offset": 0,
       "height": 3
     },
