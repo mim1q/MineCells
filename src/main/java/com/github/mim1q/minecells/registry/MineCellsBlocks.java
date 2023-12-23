@@ -61,7 +61,7 @@ public class MineCellsBlocks {
   // ----------------------------
 
   public static final Block RUNIC_VINE = registerBlock(new RunicVineBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)), "runic_vine");
-  public static final Block RUNIC_VINE_PLANT = registerBlock(new RunicVinePlantBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).sounds(BlockSoundGroup.WET_GRASS).luminance(8).nonOpaque().ticksRandomly()), "runic_vine_plant");
+  public static final Block RUNIC_VINE_PLANT = registerBlock(new RunicVinePlantBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).sounds(BlockSoundGroup.WET_GRASS).luminance(8).nonOpaque().ticksRandomly().solid()), "runic_vine_plant");
   public static final Block RUNIC_VINE_STONE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "runic_vine_stone");
 
   // Shockwaves
@@ -90,7 +90,7 @@ public class MineCellsBlocks {
   public static final Block BRITTLE_BARREL = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BARREL), "brittle_barrel");
   public static final Block CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false), "cage");
   public static final Block BROKEN_CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), true), "broken_cage");
-  public static final Block SPIKES = registerBlockWithItem(new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS)), "spikes");
+  public static final Block SPIKES = registerBlockWithItem(new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).solid()), "spikes");
   public static final Block HANGED_SKELETON = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).strength(0.5F).sounds(BlockSoundGroup.BONE)), "hanged_skeleton");
   public static final Block SKELETON = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_SKELETON).dropsLike(HANGED_SKELETON), HANGED_SKELETON), "skeleton");
   public static final Block HANGED_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).strength(0.5F).sounds(BlockSoundGroup.MUD).ticksRandomly()), "hanged_corpse");
@@ -138,7 +138,7 @@ public class MineCellsBlocks {
   public static final TeleporterBlock.Filler TELEPORTER_FRAME = registerBlock(new TeleporterBlock.Filler(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "teleporter_frame");
   public static final DoorwayPortalBlock.Frame DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(Blocks.NETHER_PORTAL).nonOpaque().strength(10F, 1200F).pistonBehavior(PistonBehavior.BLOCK)), "doorway_frame");
   public static final DoorwayPortalBlock.Frame UNBREAKABLE_DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F).solid()), "unbreakable_doorway_frame");
-  public static final RiftBlock RIFT = registerBlock(new RiftBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "rift");
+  public static final RiftBlock RIFT = registerBlock(new RiftBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).solid()), "rift");
 
   public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
   public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
