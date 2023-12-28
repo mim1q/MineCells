@@ -26,6 +26,7 @@ import static org.joml.Math.sin;
 public class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEntity> {
   private static final Identifier BASE_TEXTURE = MineCells.createId("textures/blockentity/rift/base.png");
   private static final Identifier BACKGROUND_TEXTURE = MineCells.createId("textures/blockentity/rift/background.png");
+  private static final String DESCRIPTION_KEY = "block.minecells.rift.description";
 
   private final TextRenderer textRenderer;
 
@@ -58,11 +59,11 @@ public class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEnt
     var dot = direction.dot(playerVector.toVector3f());
     var backgroundConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(BACKGROUND_TEXTURE));
     var uOffset = sin(dot) * -8f;
-    var yOffset = clamp(-5f, 5f, 1 + player.getLerpedPos(tickDelta).toVector3f().y - (float)blockPos.y) * 2f;
+    var yOffset = clamp(-5f, 5f, 1 + player.getLerpedPos(tickDelta).toVector3f().y - (float) blockPos.y) * 2f;
     var scale = 0.33f;
 
-    drawPartialPortal(backgroundConsumer, matrices, 2, 22,  5, uOffset, yOffset, scale);
-    drawPartialPortal(backgroundConsumer, matrices, 3, 28,  2, uOffset, yOffset, scale);
+    drawPartialPortal(backgroundConsumer, matrices, 2, 22, 5, uOffset, yOffset, scale);
+    drawPartialPortal(backgroundConsumer, matrices, 3, 28, 2, uOffset, yOffset, scale);
     drawPartialPortal(backgroundConsumer, matrices, 4, 30, -2, uOffset, yOffset, scale);
     drawPartialPortal(backgroundConsumer, matrices, 3, 28, -5, uOffset, yOffset, scale);
     drawPartialPortal(backgroundConsumer, matrices, 2, 22, -7, uOffset, yOffset, scale);
@@ -70,7 +71,7 @@ public class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEnt
     matrices.pop();
 
     matrices.push();
-    var text = Text.literal("Return to Overworld");
+    var text = Text.translatable(DESCRIPTION_KEY);
     matrices.translate(0.5, 2.0, 0.5);
     matrices.multiply(MinecraftClient.getInstance().getEntityRenderDispatcher().getRotation());
     matrices.scale(-0.025f, -0.025f, 0.025f);
