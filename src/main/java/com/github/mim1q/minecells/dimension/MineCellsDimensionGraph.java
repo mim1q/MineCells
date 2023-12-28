@@ -9,7 +9,8 @@ import java.util.function.BiPredicate;
 
 public class MineCellsDimensionGraph {
   private final HashMap<MineCellsDimension, Node> dimensionGraph = new HashMap<>();
-  private Node add(MineCellsDimension dimension, Node ...upstreamNodes) {
+
+  private Node add(MineCellsDimension dimension, Node... upstreamNodes) {
     var node = new Node(dimension, upstreamNodes);
     dimensionGraph.put(dimension, node);
     return node;
@@ -29,6 +30,9 @@ public class MineCellsDimensionGraph {
     var ramparts = add(MineCellsDimension.RAMPARTS,
       promenadeOfTheCondemned
     );
+    var blackBridge = add(MineCellsDimension.BLACK_BRIDGE,
+      ramparts
+    );
   }
 
   public boolean canTraverseToOverworld(MineCellsDimension dimension, BiPredicate<MineCellsDimension, MineCellsDimension> predicate) {
@@ -36,7 +40,7 @@ public class MineCellsDimensionGraph {
     return node != null && node.canTraverseToOverworld(predicate);
   }
 
-  private record Node(MineCellsDimension dimension, Node ...upstreamNodes) {
+  private record Node(MineCellsDimension dimension, Node... upstreamNodes) {
     public boolean canTraverseToOverworld(BiPredicate<MineCellsDimension, MineCellsDimension> predicate) {
       if (dimension == MineCellsDimension.OVERWORLD) return true;
       for (var upstream : upstreamNodes) {
