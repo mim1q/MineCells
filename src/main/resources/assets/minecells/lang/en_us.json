@@ -61,6 +61,7 @@
   "block.minecells.runic_vine_plant.message": "Requires Vine Rune to activate",
   "block.minecells.prison_box": "Prison Box",
   "block.minecells.shocker_box": "Shocker Box",
+  "block.minecells.rift.description": "Return to Overworld",
   "item.minecells.elevator_mechanism": "Elevator Mechanism",
   "item.minecells.charged_interdimensional_rune": "Unobtainable Rune",
   "item.minecells.guts": "Guts",
@@ -210,6 +211,7 @@
   "entity.minecells.concierge": "Concierge",
   "entity.minecells.elevator": "Elevator (Right Click to Activate)",
   "entity.minecells.conjunctivius_obelisk": "Conjunctivius Spawn Obelisk",
+  "entity.minecells.concierge_obelisk": "Concierge Spawn Obelisk",
   "entity.minecells.tentacle_weapon": "Tentacle Weapon",
   "entity.minecells.magic_orb": "Magic Orb",
   "entity.minecells.grenade": "Grenade",
@@ -388,5 +390,6 @@
   "block.minecells.promenade_doorway": "Promenade of The Condemned Doorway",
   "block.minecells.insufferable_crypt_doorway": "Insufferable Crypt Doorway",
   "block.minecells.ramparts_doorway": "Ramparts Doorway",
-  "block.minecells.black_bridge_doorway": "Black Bridge Doorway"
+  "block.minecells.black_bridge_doorway": "Black Bridge Doorway",
+  "block.minecells.rift": "Rift"
 }
