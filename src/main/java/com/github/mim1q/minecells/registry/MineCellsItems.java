@@ -222,7 +222,7 @@ public class MineCellsItems {
   public static void init() {
     AttackBlockCallback.EVENT.register(
       (player, world, hand, pos, direction) -> {
-        ItemStack stack = player.getStackInHand(player.getActiveHand());
+        ItemStack stack = player.getStackInHand(hand);
         if (stack.isOf(CROWBAR) && world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
           if (world.getBlockState(pos.down()).isIn(BlockTags.WOODEN_DOORS)) {
             world.breakBlock(pos.down(), false, player);
