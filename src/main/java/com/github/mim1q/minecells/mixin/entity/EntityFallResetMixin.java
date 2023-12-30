@@ -87,6 +87,9 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
   )
   private void minecells$injectMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
     var result = cir.getReturnValue();
+    if (result == null) {
+      return;
+    }
     ((EntityFallResetMixin) (Object) result).fallResetY = MineCellsDimension.getFallResetHeight(destination);
   }
 
