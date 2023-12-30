@@ -1,6 +1,7 @@
 {
   "item.minecells.sweeper_spawn_egg": "Sweeper Spawn Egg",
   "item.minecells.buzzcutter_spawn_egg": "Buzzcutter Spawn Egg",
+  "block.minecells.rift.description": "Return to Overworld",
   "item.minecells.concierge_respawn_rune": "Concierge Respawn Rune",
   "item.minecells.dimensional_rune.tooltip": "Use on a Doorway in the Overworld\nto change its destination",
   "item.minecells.dimensional_rune.only_usable_in_overworld": "You can only use this rune in the Overworld",

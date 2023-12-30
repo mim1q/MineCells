@@ -13,7 +13,6 @@
   "item.minecells.rancid_rat_spawn_egg": "Jajo przyzywające odrażającego szczura",
   "item.minecells.runner_spawn_egg": "Jajo przyzywające gońca",
   "item.minecells.scorpion_spawn_egg": "Jajo przyzywające skorpiona",
-  "itemGroup.minecells.minecells": "Mine Cells",
   "block.minecells.putrid_log": "Zgniły pień",
   "block.minecells.putrid_wood": "Zgniłe drewno",
   "block.minecells.stripped_putrid_log": "Okorowany zgniły pień",
@@ -26,7 +25,6 @@
   "block.minecells.brittle_barrel": "Łamliwa beczka",
   "block.minecells.hardstone": "Twarda skała",
   "block.minecells.elevator_assembler": "Zestaw montażowy windy",
-  "block.minecells.kingdom_portal_filler": "Rama portalu",
   "block.minecells.cell_forge": "Kuźnia na komórki",
   "block.minecells.chain_pile": "Stos łańcuchów",
   "block.minecells.chain_pile_block": "Blok stosu łańcuchów",
@@ -217,7 +215,6 @@
   "block.minecells.wilted_wall_leaves": "Naścienne zwiędłe liście",
   "item.minecells.reset_rune": "Runa resetu",
   "item.minecells.reset_rune.tooltip": "Resetuje runy przyzywające w wymiarze",
-  "item.minecells.prison_doorway": "Drzwi do Kwater więźniów",
   "item.minecells.prison_doorway.visited": "Kwatery więźniów już odwiedzone w obszarze: %s",
   "item.minecells.prison_doorway.not_visited": "Kwatery więźniów jeszcze nieodwiedzone w obszarze: %s",
   "item.minecells.prison_doorway.bound": "Przypisany obszar: %s",
@@ -226,7 +223,10 @@
   "chat.minecells.stuck_message": "\nWygląda na to, że utknąłeś w jednym z wymiarów Mine Cells. Przeteleportowano Cię do punktu odrodzenia.",
   "chat.minecells.wipe_try": [
     "\n",
-    { "text": "UWAGA: ", "color": "#FF1111" },
+    {
+      "text": "UWAGA: ",
+      "color": "#FF1111"
+    },
     "Ta komenda wyczyści dane Mine Cells wszystkich graczy. Wykonaj ponownie aby kontynuować.\n"
   ],
   "chat.minecells.wipe_success": "Wszystkie dane Mine Cells zostały wyczyszczone.",
@@ -252,5 +252,129 @@
   "itemGroup.minecells.minecells.button.discord": "Dołącz do Discorda",
   "itemGroup.minecells.minecells.button.kofi": "Wesprzyj mnie na Ko-Fi",
   "block.minecells.kingdom_portal_core": "ZNISZCZ MNIE!",
-  "item.minecells.prison_doorway.description": "Postaw przy pustej ścianie 3x3"
+  "item.minecells.prison_doorway.description": "Postaw przy pustej ścianie 3x3",
+  "item.minecells.sweeper_spawn_egg": "Jajo przyzywające zamiatacza",
+  "item.minecells.buzzcutter_spawn_egg": "Jajo przyzywające przecinaka",
+  "itemGroup.minecells.minecells.tab.general": "Główne",
+  "itemGroup.minecells.minecells.tab.combat": "Walka",
+  "itemGroup.minecells.minecells.tab.spawn_eggs": "Jaja przyzywające",
+  "block.minecells.rift.description": "Wróć do głównego świata",
+  "item.minecells.concierge_respawn_rune": "Runa odrodzenia Konsjerża",
+  "item.minecells.dimensional_rune.tooltip": "Użyj na Drzwiach do wymiaru\naby zmienić ich cel",
+  "item.minecells.dimensional_rune.only_usable_in_overworld": "Możesz użyć tej runy tylko w głównym świecie",
+  "item.minecells.dimensional_rune.not_visited": "Możesz użyć runy tylko, jeżeli odwiedziłeś ten wymiar w danym obszarze",
+  "item.minecells.prison_doorway": [
+    "Drzwi do ",
+    {
+      "text": "Kwater Więźniów",
+      "color": "#54EF88"
+    }
+  ],
+  "item.minecells.promenade_doorway": [
+    "Drzwi do ",
+    {
+      "text": "Promenady Potępionych",
+      "color": "#93FFF7"
+    }
+  ],
+  "item.minecells.insufferable_crypt_doorway": [
+    "Drzwi do ",
+    {
+      "text": "Utrapionej Krypty",
+      "color": "#FF4CF4"
+    }
+  ],
+  "item.minecells.ramparts_doorway": [
+    "Drzwi do ",
+    {
+      "text": "Murów Obronnych",
+      "color": "#FFC540"
+    }
+  ],
+  "item.minecells.black_bridge_doorway": [
+    "Drzwi do ",
+    {
+      "text": "Czarnego Mostu",
+      "color": "#623CC9"
+    }
+  ],
+  "item.minecells.prison_dimensional_rune": [
+    "Runa wymiaru ",
+    {
+      "text": "Kwater Więźniów",
+      "color": "#54EF88"
+    }
+  ],
+  "item.minecells.promenade_dimensional_rune": [
+    "Runa wymiaru ",
+    {
+      "text": "Promenady Potępionych",
+      "color": "#93FFF7"
+    }
+  ],
+  "item.minecells.insufferable_crypt_dimensional_rune": [
+    "Runa wymiaru ",
+    {
+      "text": "Utrapionej Krypty",
+      "color": "#FF4CF4"
+    }
+  ],
+  "item.minecells.ramparts_dimensional_rune": [
+    "Runa wymiaru ",
+    {
+      "text": "Murów Obronnych",
+      "color": "#FFC540"
+    }
+  ],
+  "item.minecells.black_bridge_dimensional_rune": [
+    "Runa wymiaru ",
+    {
+      "text": "Czarnego Mostu",
+      "color": "#623CC9"
+    }
+  ],
+  "item.minecells.flint": "Krzemień Konsjerża",
+  "item.minecells.flint.description": "Wysyła falę uderzeniową przed Ciebie",
+  "item.minecells.spite_sword": "Ostrze Urazy",
+  "item.minecells.spite_sword.description": "Zadaje krytyczne obrażenia (+%sHP)\nkilka sekund po otrzymaniu obrażeń",
+  "entity.minecells.sweeper": "Zamiatacz",
+  "entity.minecells.buzzcutter": "Przecinak",
+  "entity.minecells.concierge": "Konsjerż",
+  "entity.minecells.concierge_obelisk": "Obelisk odrodzenia Konsjerża",
+  "dimension.minecells.ramparts": "Mury Obronne",
+  "dimension.minecells.black_bridge": "Czarny Most",
+  "travelerstitles.minecells.ramparts": "Mury Obronne",
+  "travelerstitles.minecells.black_bridge": "Czarny Most",
+  "biome.minecells.ramparts": "Mury Obronne",
+  "biome.minecells.black_bridge": "Czarny Most",
+  "advancements.minecells.ramparts": "Pokój z widokiem!",
+  "advancements.minecells.ramparts.description": "Dotrzyj do Murów Obronnych",
+  "advancements.minecells.black_bridge": "W końcu, chwila odpoczynku...",
+  "advancements.minecells.black_bridge.description": "Dotrzyj do Czarnego Mostu",
+  "advancements.minecells.concierge": "Wyparowany",
+  "advancements.minecells.concierge.description": "Pokonaj Konsjerża",
+  "block.minecells.cracked_prison_bricks": "Pęknięte więzienne cegły",
+  "block.minecells.cracked_prison_brick_stairs": "Schody z pękniętych więziennych cegieł",
+  "block.minecells.cracked_prison_brick_slab": "Płyta z pękniętych więziennych cegieł",
+  "block.minecells.cracked_prison_brick_wall": "Mur z pękniętych więziennych cegieł",
+  "block.minecells.ramparts_torch": "Pochodnia murów obronnych",
+  "block.minecells.concierge_box": "Concierge Box",
+  "block.minecells.unbreakable_doorway_frame": "Rama drzwi",
+  "block.minecells.kings_crest_flag": "Flaga królewskiego herbu",
+  "block.minecells.torn_kings_crest_flag": "Rozdarta flaga królewskiego herbu",
+  "block.minecells.promenade_of_the_condemned_flag": "Flaga Promenady Potępionych",
+  "block.minecells.ramparts_flag": "Flaga Murów Obronnych",
+  "block.minecells.black_bridge_flag": "Flaga Czarnego Mostu",
+  "block.minecells.insufferable_crypt_flag": "Flaga Utrapionej Krypty",
+  "block.minecells.large_red_ribbon_flag": "Flaga dużej czerwonej wstęgi",
+  "block.minecells.red_ribbon_flag": "Flaga czerwonej wstęgi",
+  "block.minecells.ramparts_doorway": "Drzwi do Murów Obronnych",
+  "block.minecells.black_bridge_doorway": "Drzwi do Czarnego Mostu",
+  "block.minecells.rift": "Wyrwa",
+  "itemGroup.minecells.minecells": [
+    {
+      "text": "Mine Cells",
+      "color": "#46D4FF"
+    }
+  ]
 }
