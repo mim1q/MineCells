@@ -72,8 +72,8 @@ public class SpawnerRuneController {
   private void spawnEntities(SpawnerRuneData data, BlockPos pos, PlayerEntity spawningPlayer) {
     var world = spawningPlayer.getWorld();
     var entities = data.getSelectedEntities(world.getRandom());
-    for (var entityType : entities) {
-      var entity = spawnEntity((ServerWorld) world, entityType, findPos(world, pos, data.spawnDistance()), pos);
+    for (var entityData : entities) {
+      var entity = spawnEntity((ServerWorld) world, entityData, findPos(world, pos, data.spawnDistance()), pos);
       if (entity instanceof HostileEntity hostile) {
         hostile.setTarget(spawningPlayer);
       }
@@ -98,25 +98,23 @@ public class SpawnerRuneController {
     return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
   }
 
-  private static Entity spawnEntity(ServerWorld world, EntitySpawnData type, BlockPos pos, BlockPos runePos) {
-    Entity spawnedEntity = type.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
-    if (spawnedEntity != null) {
-      if (spawnedEntity instanceof LivingEntity livingEntity) {
-        for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
-          ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(livingEntity.getBoundingBox().expand(0.5D)));
-        }
-        type.attributeOverrides().forEach((attribute, value) -> {
-          var instance = livingEntity.getAttributeInstance(attribute);
-          if (instance != null) {
-            instance.setBaseValue(value);
-          }
-        });
-        livingEntity.setHealth(livingEntity.getMaxHealth());
+  private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos) {
+    Entity spawnedEntity = entityData.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
+    if (spawnedEntity == null) return null;
+    if (spawnedEntity instanceof LivingEntity livingEntity) {
+      for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
+        ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(livingEntity.getBoundingBox().expand(0.5D)));
       }
-      world.spawnEntity(spawnedEntity);
-      return spawnedEntity;
+      entityData.attributeOverrides().forEach((attribute, value) -> {
+        var instance = livingEntity.getAttributeInstance(attribute);
+        if (instance != null) {
+          instance.setBaseValue(value);
+        }
+      });
+      livingEntity.setHealth(livingEntity.getMaxHealth());
     }
-    return null;
+    world.spawnEntity(spawnedEntity);
+    return spawnedEntity;
   }
 
   private static BlockPos findPos(World world, BlockPos pos, float radius) {
