@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.data.spawner_runes;
 
+import com.github.mim1q.minecells.MineCells;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.IntProvider;
@@ -10,6 +12,9 @@ import net.minecraft.util.math.random.Random;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public record SpawnerRuneData(
   float cooldown,
@@ -26,8 +31,8 @@ public record SpawnerRuneData(
     ).apply(instance, SpawnerRuneData::new)
   );
 
-  public List<EntityType<?>> getSelectedEntities(Random random) {
-    var entities = new ArrayList<EntityType<?>>();
+  public List<EntitySpawnData> getSelectedEntities(Random random) {
+    var entities = new ArrayList<EntitySpawnData>();
     for (var pool : pools) {
       entities.addAll(pool.getSelectedEntities(random));
     }
@@ -45,23 +50,23 @@ public record SpawnerRuneData(
       ).apply(instance, Pool::new)
     );
 
-    private List<EntityType<?>> getSelectedEntities(Random random) {
+    private List<EntitySpawnData> getSelectedEntities(Random random) {
       int weightSum = entries.stream().map(e -> e.weight).reduce(Integer::sum).orElse(1);
       var count = rolls.get(random);
-      var entities = new ArrayList<EntityType<?>>();
+      var entities = new ArrayList<EntitySpawnData>();
       for (int i = 0; i < count; i++) {
         entities.add(chooseEntity(weightSum, random));
       }
       return entities;
     }
 
-    private EntityType<?> chooseEntity(int weightSum, Random random) {
+    private EntitySpawnData chooseEntity(int weightSum, Random random) {
       var randomWeight = random.nextInt(weightSum);
 
       for (var entry : entries) {
         randomWeight -= entry.weight;
         if (randomWeight < 0) {
-          return entry.entityType;
+          return new EntitySpawnData(entry.entityType, entry.attributeOverrides);
         }
       }
       return null;
@@ -71,17 +76,44 @@ public record SpawnerRuneData(
   private static class Entry {
     private final int weight;
     private final EntityType<?> entityType;
+    private final Map<String, Double> attributeMap;
+    public final Map<EntityAttribute, Double> attributeOverrides;
 
-    private Entry(int weight, String entityType) {
+    private Entry(int weight, String entityType, Map<String, Double> attributeOverrides) {
       this.weight = weight;
       this.entityType = entityType == null ? null : Registries.ENTITY_TYPE.get(Identifier.tryParse(entityType));
+      this.attributeMap = attributeOverrides;
+      this.attributeOverrides = attributeOverrides
+        .entrySet()
+        .stream()
+        .map(entry -> {
+            var attribute = Registries.ATTRIBUTE.get(Identifier.tryParse(entry.getKey()));
+            if (attribute == null) {
+              MineCells.LOGGER.warn("Unknown attribute in Spawner Rune data: " + entry.getKey());
+              return null;
+            }
+            return Map.entry(
+              attribute,
+              entry.getValue()
+            );
+          }
+        )
+        .filter(Objects::nonNull)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     private static final Codec<Entry> CODEC = RecordCodecBuilder.create(instance ->
       instance.group(
         Codec.INT.optionalFieldOf("weight", 1).forGetter(e -> e.weight),
-        Codec.STRING.optionalFieldOf("entity", null).forGetter(e -> Registries.ENTITY_TYPE.getId(e.entityType).toString())
+        Codec.STRING.optionalFieldOf("entity", null).forGetter(e -> Registries.ENTITY_TYPE.getId(e.entityType).toString()),
+        Codec.unboundedMap(Codec.STRING, Codec.DOUBLE).optionalFieldOf("attributes", Map.of()).forGetter(e -> e.attributeMap)
       ).apply(instance, Entry::new)
     );
+  }
+
+  public record EntitySpawnData(
+    EntityType<?> entityType,
+    Map<EntityAttribute, Double> attributeOverrides
+  ) {
   }
 }

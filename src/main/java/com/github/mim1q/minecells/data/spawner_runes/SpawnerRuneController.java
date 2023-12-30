@@ -2,8 +2,8 @@ package com.github.mim1q.minecells.data.spawner_runes;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
+import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData.EntitySpawnData;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -14,7 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -81,7 +81,7 @@ public class SpawnerRuneController {
   }
 
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
-    var dimensionData = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData();
+    var dimensionData = ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData();
     if (dimensionData == null) {
       return false;
     }
@@ -91,20 +91,27 @@ public class SpawnerRuneController {
   private boolean canClientPlayerActivate(World world, BlockPos pos) {
     var player = MinecraftClient.getInstance().player;
     if (player == null) return false;
-    var dimensionData = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData();
+    var dimensionData = ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData();
     if (dimensionData == null) {
       return false;
     }
     return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
   }
 
-  private static Entity spawnEntity(ServerWorld world, EntityType<?> type, BlockPos pos, BlockPos runePos) {
-    Entity spawnedEntity = type.create(world, null, null, pos, SpawnReason.NATURAL, false, false);
+  private static Entity spawnEntity(ServerWorld world, EntitySpawnData type, BlockPos pos, BlockPos runePos) {
+    Entity spawnedEntity = type.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity != null) {
-      if (spawnedEntity instanceof MineCellsEntity mcEntity) {
+      if (spawnedEntity instanceof LivingEntity livingEntity) {
         for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
-          ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(mcEntity.getBoundingBox().expand(0.5D)));
+          ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(livingEntity.getBoundingBox().expand(0.5D)));
         }
+        type.attributeOverrides().forEach((attribute, value) -> {
+          var instance = livingEntity.getAttributeInstance(attribute);
+          if (instance != null) {
+            instance.setBaseValue(value);
+          }
+        });
+        livingEntity.setHealth(livingEntity.getMaxHealth());
       }
       world.spawnEntity(spawnedEntity);
       return spawnedEntity;
