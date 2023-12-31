@@ -1,6 +1,5 @@
 {
   "_comment.minecells.001": "====================================== Яйца призыва ========================================",
-
   "item.minecells.shocker_spawn_egg": "Яйцо призыва электрошокера",
   "item.minecells.leaping_zombie_spawn_egg": "Яйцо призыва прыгучего зомби",
   "item.minecells.grenadier_spawn_egg": "Яйцо призыва гранатомётчика",
@@ -15,15 +14,21 @@
   "item.minecells.rancid_rat_spawn_egg": "Яйцо призыва мерзкой крысы",
   "item.minecells.runner_spawn_egg": "Яйцо призыва бегуна",
   "item.minecells.scorpion_spawn_egg": "Яйцо призыва скорпиона",
-
+  "item.minecells.sweeper_spawn_egg": "Яйцо призыва метельщика",
+  "item.minecells.buzzcutter_spawn_egg": "Яйцо призыва резальщика",
   "_comment.minecells.002": "=================================== Блоки и предметы =====================================",
-
-  "itemGroup.minecells.minecells": "Mine Cells",
-  "itemGroup.minecells.minecells.tab.minecells": "Mine Cells",
+  "itemGroup.minecells.minecells": [
+    {
+      "text": "Mine Cells",
+      "color": "#46D4FF"
+    }
+  ],
+  "itemGroup.minecells.minecells.tab.general": "Блоки и предметы",
+  "itemGroup.minecells.minecells.tab.combat": "Оружие",
+  "itemGroup.minecells.minecells.tab.spawn_eggs": "Яйца призыва",
   "itemGroup.minecells.minecells.button.wiki": "Путь на Википедию",
   "itemGroup.minecells.minecells.button.discord": "Присоединяйтесь к дискорду Mim1q",
   "itemGroup.minecells.minecells.button.kofi": "А также можете поддержать меня на Ko-Fi! ",
-
   "block.minecells.putrid_boards": "Гнилая планка",
   "block.minecells.small_crate": "Небольшой ящик",
   "block.minecells.brittle_barrel": "Ломкая бочка",
@@ -56,7 +61,7 @@
   "block.minecells.runic_vine_plant.message": "Необходима руна лозы",
   "block.minecells.prison_box": "Поле Тюремных камер",
   "block.minecells.shocker_box": "Поле электрошокера",
-
+  "block.minecells.rift.description": "Вернуться в Верхний мир",
   "item.minecells.elevator_mechanism": "Механизм лифта",
   "item.minecells.charged_interdimensional_rune": "Неполучаемая руна",
   "item.minecells.guts": "Внутренности",
@@ -65,18 +70,89 @@
   "item.minecells.health_flask.tooltip": "Восполняет %s здоровья. Убирает кровотечение и отравление.",
   "item.minecells.blank_rune": "Пустая руна",
   "item.minecells.conjunctivius_respawn_rune": "Руна возрождения Конъюктивиус",
+  "item.minecells.concierge_respawn_rune": "Руна возрождения Привратника",
   "item.minecells.vine_rune": "Руна лозы",
   "item.minecells.reset_rune": "Руна перезагрузки",
   "item.minecells.reset_rune.tooltip": "Восстанавливает все руны призыва в локации",
-  "item.minecells.prison_doorway": "Проход в Тюремные камеры",
   "item.minecells.prison_doorway.description": "Поместите на пустую стену 3х3",
-  "item.minecells.prison_doorway.visited": "Вы уже посетили Тюремные камеры возле: %s",
-  "item.minecells.prison_doorway.not_visited": "Вы ещё не посетили Тюремные камеры возле: %s",
+  "item.minecells.prison_doorway.visited": "Вы уже посетили %s возле: %s",
+  "item.minecells.prison_doorway.not_visited": "Вы ещё не посетили %s возле: %s",
   "item.minecells.prison_doorway.bound": "Привязанные координаты: %s",
   "item.minecells.prison_doorway.not_bound": "Нет привязки к координатам",
-
+  "item.minecells.dimensional_rune.tooltip": "Используйте на проходе в Верхнем мире,\nчтобы изменить место прибытия",
+  "item.minecells.dimensional_rune.only_usable_in_overworld": "Можно использовать только в Верхнем мире",
+  "item.minecells.dimensional_rune.not_visited": "Вы можете создать проход только в посещённые вами измерения",
+  "item.minecells.prison_doorway": [
+    "Проход в ",
+    {
+      "text": "Тюремные камеры",
+      "color": "#54EF88"
+    }
+  ],
+  "item.minecells.promenade_doorway": [
+    "Проход на ",
+    {
+      "text": "Тропу обречённых",
+      "color": "#93FFF7"
+    }
+  ],
+  "item.minecells.insufferable_crypt_doorway": [
+    "Проход в ",
+    {
+      "text": "Невыносимую гробницу",
+      "color": "#FF4CF4"
+    }
+  ],
+  "item.minecells.ramparts_doorway": [
+    "Проход в ",
+    {
+      "text": "Тюремные башни",
+      "color": "#FFC540"
+    }
+  ],
+  "item.minecells.black_bridge_doorway": [
+    "Проход на ",
+    {
+      "text": "Чёрный мост",
+      "color": "#623CC9"
+    }
+  ],
+  "item.minecells.prison_dimensional_rune": [
+    "Руна ",
+    {
+      "text": "Тюремных камер",
+      "color": "#54EF88"
+    }
+  ],
+  "item.minecells.promenade_dimensional_rune": [
+    "Руна ",
+    {
+      "text": "Тропы обречённых",
+      "color": "#93FFF7"
+    }
+  ],
+  "item.minecells.insufferable_crypt_dimensional_rune": [
+    "Руна ",
+    {
+      "text": "Невыносимой гробницы",
+      "color": "#FF4CF4"
+    }
+  ],
+  "item.minecells.ramparts_dimensional_rune": [
+    "Руна ",
+    {
+      "text": "Тюремных башен",
+      "color": "#FFC540"
+    }
+  ],
+  "item.minecells.black_bridge_dimensional_rune": [
+    "Руна ",
+    {
+      "text": "Чёрного моста",
+      "color": "#623CC9"
+    }
+  ],
   "_comment.minecells.003": "======================================== Оружия =========================================",
-
   "item.minecells.assassins_dagger": "Кинжал ассасина",
   "item.minecells.assassins_dagger.description": "Наносит критический удар (+%sHP),\nесли атаковать врага со спины",
   "item.minecells.blood_sword": "Кровавый меч",
@@ -96,13 +172,15 @@
   "item.minecells.frost_blast.description": "Замораживает врагов перед вами",
   "item.minecells.nutcracker": "Щелкунчик",
   "item.minecells.nutcracker.description": "Наносит критический удар (+%sHP),\nесли цель оглушена или заморожена",
+  "item.minecells.flint": "Огниво",
+  "item.minecells.flint.description": "Создаёт пламенный след перед вами",
+  "item.minecells.spite_sword": "Меч воздаяния",
+  "item.minecells.spite_sword.description": "Наносит критический удар (+%sHP),\nесли вам недавно нанесли урон",
   "item.minecells.phaser": "Вспышка",
   "item.minecells.phaser.description": "Телепортирует за ближайшего врага,\nненадолго оглушая его.\nВаш следующий удар\nнанесёт больше урона",
-
   "item.minecells.hold": "Удерживайте ",
   "item.minecells.ability_damage": "Урон: %sHP",
   "item.minecells.ability_cooldown": "Перезарядка: %ss",
-
   "entity.minecells.shocker": "Электрошокер",
   "entity.minecells.leaping_zombie": "Прыгучий зомби",
   "entity.minecells.grenadier": "Гранатомётчик",
@@ -117,10 +195,13 @@
   "entity.minecells.rancid_rat": "Мерзкая крыса",
   "entity.minecells.runner": "Бегун",
   "entity.minecells.scorpion": "Скорпион",
+  "entity.minecells.sweeper": "Метельщик",
+  "entity.minecells.buzzcutter": "Резальщик",
   "entity.minecells.conjunctivius": "Конъюктивиус",
-
+  "entity.minecells.concierge": "Привратник",
   "entity.minecells.elevator": "Лифт (ПКМ для активации)",
   "entity.minecells.conjunctivius_obelisk": "Обелиск призыва Конъюктивиус",
+  "entity.minecells.concierge_obelisk": "Обелиск призыва Привратника",
   "entity.minecells.tentacle_weapon": "Оружие-щупальце",
   "entity.minecells.magic_orb": "Магический заряд",
   "entity.minecells.grenade": "Граната",
@@ -130,7 +211,6 @@
   "entity.minecells.big_grenade": "Большая граната",
   "entity.minecells.disgusting_worm_egg": "Яйцо мерзкого червя",
   "entity.minecells.spawner_rune": "Руна призыва",
-
   "effect.minecells.electrified": "Электризован",
   "effect.minecells.protected": "Под щитом",
   "effect.minecells.cursed": "Проклятие",
@@ -139,7 +219,6 @@
   "effect.minecells.assassins_strength": "Скрытность",
   "effect.minecells.stunned": "Оглушение",
   "effect.minecells.frozen": "Заморозка",
-
   "death.attack.minecells.grenade": "%1$s был взорван %2$s",
   "death.attack.minecells.aura": "%2$s не разделил границы с %1$s",
   "death.attack.minecells.backstab": "%1$s был предан %2$s",
@@ -149,24 +228,25 @@
   "death.attack.minecells.cursed.player": "%1$s предался проклятию",
   "death.attack.minecells.bleeding": "%1$s погиб от нехватки крови",
   "death.attack.minecells.katana": "%1$s был нашинкован %2$s",
-
   "dimension.minecraft.overworld": "Верхний мир",
   "dimension.minecells.prison": "Тюремные камеры",
   "dimension.minecells.insufferable_crypt": "Невыносимая гробница",
   "dimension.minecells.promenade": "Тропа обречённых",
-
+  "dimension.minecells.ramparts": "Тюремные башни",
+  "dimension.minecells.black_bridge": "Чёрный мост",
   "travelerstitles.minecraft.overworld": "Верхний мир",
   "travelerstitles.minecells.prison": "Тюремные камеры",
   "travelerstitles.minecells.insufferable_crypt": "Невыносимая гробница",
   "travelerstitles.minecells.promenade": "Тропа обречённых",
-
+  "travelerstitles.minecells.ramparts": "Тюремные башни",
+  "travelerstitles.minecells.black_bridge": "Чёрный мост",
   "biome.minecells.prison": "Тюремные камеры",
   "biome.minecells.insufferable_crypt": "Невыносимая гробница",
   "biome.minecells.promenade": "Тропа обречённых",
-
+  "biome.minecells.ramparts": "Тюремные башни",
+  "biome.minecells.black_bridge": "Чёрный мост",
   "gui.minecells.cell_forge.title": "Клеточная кузница",
   "gui.minecells.cell_forge.forge": "Кузница",
-
   "chat.minecells.obelisk_item_message": "Для активации необходима %s",
   "chat.minecells.suffocation_fix_message": "Вы были перенесены на точку возрождения! Может быть связано с перезапуском локации, или вы застряли в стене...",
   "chat.minecells.version_mismatch": "Похоже, вы установили новую версию Mine Cells! Вот, что следует сделать после обновления:\n",
@@ -177,13 +257,14 @@
   "chat.minecells.stuck_message": "\nПохоже, вы заплутали в одной из локаций Mine Cells. Вы были перемещены к точке возрождения.",
   "chat.minecells.wipe_try": [
     "\n",
-    { "text": "ВНИМАНИЕ: ", "color": "#FF1111" },
+    {
+      "text": "ВНИМАНИЕ: ",
+      "color": "#FF1111"
+    },
     "Эта команда сотрёт данные Mine Cells для всех игроков. Выполните её снова, чтобы продолжить.\n"
   ],
   "chat.minecells.wipe_success": "Все данные Mine Cells были стёрты.",
-
   "_comment.minecells.004": "====================================== Достижения ======================================",
-
   "advancements.minecells.root": "Mine Cells",
   "advancements.minecells.root.description": "Найдите путь в Тюремные камеры",
   "advancements.minecells.prison": "За решёткой",
@@ -200,9 +281,13 @@
   "advancements.minecells.elevator.description": "Убейте врага лифтом",
   "advancements.minecells.vine_rune": "Джек и бобовый стебель",
   "advancements.minecells.vine_rune.description": "Получите Руну лозы",
-
+  "advancements.minecells.ramparts": "Комната с отличным видом!",
+  "advancements.minecells.ramparts.description": "Вы впервые дошли до Тюремных башен",
+  "advancements.minecells.black_bridge": "Наконец минутка спокойствия...",
+  "advancements.minecells.black_bridge.description": "Вы впервые дошли до Чёрного моста",
+  "advancements.minecells.concierge": "Раскатано",
+  "advancements.minecells.concierge.description": "Победите Привратника",
   "_comment.minecells.005": "================================== FROM AUTOLANG ========================================",
-
   "block.minecells.putrid_planks": "Гнилые доски",
   "block.minecells.putrid_log": "Гнилое бревно",
   "block.minecells.stripped_putrid_log": "Обтёсанное гнилое бревно",
@@ -270,13 +355,31 @@
   "block.minecells.ancient_sewage": "Древние сточные воды",
   "block.minecells.doorway_frame": "Дверная рама",
   "block.minecells.overworld_doorway": "Проход в Верхний мир",
-  "block.minecells.prison_doorway": "Проход в Тюремные камеры",
-  "block.minecells.promenade_doorway": "Проход на Тропу обречённых",
-  "block.minecells.insufferable_crypt_doorway": "Проход в Невыносимую гробницу",
   "block.minecells.red_putrid_sapling": "Гнилой багряный саженец",
   "block.minecells.solid_barrier_rune": "Руна сплошного барьера",
   "block.minecells.conditional_barrier": "Условный барьер",
   "block.minecells.boss_barrier_controller": "Установщик барьера босса",
   "block.minecells.boss_entry_barrier_controller": "Установщик барьера босса при входе",
-  "block.minecells.player_barrier_controller": "Установщик барьера игрока"
+  "block.minecells.player_barrier_controller": "Установщик барьера игрока",
+  "block.minecells.cracked_prison_bricks": "Потрескавшиеся тюремные кирпичи",
+  "block.minecells.cracked_prison_brick_stairs": "Ступеньки из потрескавшегося тюремного кирпича",
+  "block.minecells.cracked_prison_brick_slab": "Плита из потрескавшегося тюремного кирпича",
+  "block.minecells.cracked_prison_brick_wall": "Ограда из потрескавшегося тюремного кирпича",
+  "block.minecells.ramparts_torch": "Факел с башен",
+  "block.minecells.concierge_box": "Поле Привратника",
+  "block.minecells.unbreakable_doorway_frame": "Дверная рама",
+  "block.minecells.kings_crest_flag": "Герб Короля",
+  "block.minecells.torn_kings_crest_flag": "Порванный герб Короля",
+  "block.minecells.promenade_of_the_condemned_flag": "Флаг Тропы обречённых",
+  "block.minecells.ramparts_flag": "Флаг Тюремных башен",
+  "block.minecells.black_bridge_flag": "Флаг Чёрного моста",
+  "block.minecells.insufferable_crypt_flag": "Флаг Невыносимой гробницы",
+  "block.minecells.large_red_ribbon_flag": "Большой красный вымпел",
+  "block.minecells.red_ribbon_flag": "Красный вымпел",
+  "block.minecells.prison_doorway": "Проход в Тюремные камеры",
+  "block.minecells.promenade_doorway": "Проход на Тропу обречённых",
+  "block.minecells.insufferable_crypt_doorway": "Проход в Невыносимую гробницу",
+  "block.minecells.ramparts_doorway": "Проход в Тюремные башни",
+  "block.minecells.black_bridge_doorway": "Проход на Чёрный мост",
+  "block.minecells.rift": "Рифт"
 }
