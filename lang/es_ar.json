@@ -24,16 +24,86 @@
   "item.minecells.dimensional_rune.tooltip": "Use on a Doorway in the Overworld\nto change its destination",
   "item.minecells.dimensional_rune.only_usable_in_overworld": "You can only use this rune in the Overworld",
   "item.minecells.dimensional_rune.not_visited": "You can only use this rune to access an area you have already visited",
-  "item.minecells.prison_doorway": "",
-  "item.minecells.promenade_doorway": "",
-  "item.minecells.insufferable_crypt_doorway": "",
-  "item.minecells.ramparts_doorway": "",
-  "item.minecells.black_bridge_doorway": "",
-  "item.minecells.prison_dimensional_rune": "",
-  "item.minecells.promenade_dimensional_rune": "",
-  "item.minecells.insufferable_crypt_dimensional_rune": "",
-  "item.minecells.ramparts_dimensional_rune": "",
-  "item.minecells.black_bridge_dimensional_rune": "",
+  "item.minecells.prison_doorway": [
+    "",
+    {
+      "text": "Prisoners' Quarters ",
+      "color": "#54EF88"
+    },
+    "Doorway"
+  ],
+  "item.minecells.promenade_doorway": [
+    "",
+    {
+      "text": "Promenade of The Condemned ",
+      "color": "#93FFF7"
+    },
+    "Doorway"
+  ],
+  "item.minecells.insufferable_crypt_doorway": [
+    "",
+    {
+      "text": "Insufferable Crypt ",
+      "color": "#FF4CF4"
+    },
+    "Doorway"
+  ],
+  "item.minecells.ramparts_doorway": [
+    "",
+    {
+      "text": "Ramparts ",
+      "color": "#FFC540"
+    },
+    "Doorway"
+  ],
+  "item.minecells.black_bridge_doorway": [
+    "",
+    {
+      "text": "Black Bridge ",
+      "color": "#623CC9"
+    },
+    "Doorway"
+  ],
+  "item.minecells.prison_dimensional_rune": [
+    "",
+    {
+      "text": "Prisoners' Quarters ",
+      "color": "#54EF88"
+    },
+    "Dimensional Rune"
+  ],
+  "item.minecells.promenade_dimensional_rune": [
+    "",
+    {
+      "text": "Promenade of The Condemned ",
+      "color": "#93FFF7"
+    },
+    "Dimensional Rune"
+  ],
+  "item.minecells.insufferable_crypt_dimensional_rune": [
+    "",
+    {
+      "text": "Insufferable Crypt ",
+      "color": "#FF4CF4"
+    },
+    "Dimensional Rune"
+  ],
+  "item.minecells.ramparts_dimensional_rune": [
+    "",
+    {
+      "text": "Ramparts ",
+      "color": "#FFC540"
+    },
+    "Dimensional Rune"
+  ],
+  "item.minecells.black_bridge_dimensional_rune": [
+    "",
+    {
+      "text": "Black Bridge ",
+      "color": "#623CC9"
+    },
+    "Dimensional Rune"
+  ],
   "item.minecells.assassins_dagger.description": "Deals critical (+%sHP) damage\nwhen hitting enemies in the back",
   "item.minecells.blood_sword.description": "Applies Bleeding to enemies.\nThe effect stacks up to level III",
   "item.minecells.cursed_sword.description": "One hit and you're dead",
@@ -81,7 +151,14 @@
   "biome.minecells.black_bridge": "Black Bridge",
   "chat.minecells.version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
   "chat.minecells.stuck_message": "\nIt seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint.",
-  "chat.minecells.wipe_try": "",
+  "chat.minecells.wipe_try": [
+    "\n",
+    {
+      "text": "WARNING: ",
+      "color": "#FF1111"
+    },
+    "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"
+  ],
   "chat.minecells.wipe_success": "All Mine Cells data has been wiped.",
   "advancements.minecells.root": "Mine Cells",
   "advancements.minecells.root.description": "Find a portal to the Prisoners' Quarters",
