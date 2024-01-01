@@ -220,11 +220,11 @@ public class RampartsGridGenerator extends GridPiecesGenerator.RoomGridGenerator
   }
 
   @Override
-  protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+  protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
     var newPos = pos.add(0, 0, this.secondPart ? -16 : 0);
     if (newPos.getZ() < -8 || newPos.getZ() > 8) {
       return;
     }
-    super.addRoom(newPos, rotation, poolId, offset);
+    super.addRoom(newPos, rotation, poolId, offset, terrainFit);
   }
 }

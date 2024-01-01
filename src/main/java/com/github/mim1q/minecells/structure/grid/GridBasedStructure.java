@@ -1,15 +1,16 @@
 package com.github.mim1q.minecells.structure.grid;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.*;
+import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.PromenadeWallGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
@@ -19,6 +20,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -34,22 +36,13 @@ public class GridBasedStructure extends Structure {
   public static final Codec<GridBasedStructure> PRISON_CODEC = createGridBasedStructureCodec(
     ctx -> new PrisonGridGenerator(), () -> MineCellsStructures.PRISON
   );
-  public static final Codec<GridBasedStructure> PROMENADE_SPAWN_CODEC = createGridBasedStructureCodec(
-    ctx -> new PromenadeSpawnGridGenerator(), () -> MineCellsStructures.PROMENADE_SPAWN
+
+  public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
+    BetterPromenadeGridGenerator::new,
+    () -> MineCellsStructures.PROMENADE,
+    -8, 0, 2, 2
   );
-  public static final Codec<GridBasedStructure> PROMENADE_OVERGROUND_CODEC = createGridBasedStructureCodec(
-    ctx -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings")),
-    () -> MineCellsStructures.PROMENADE_OVERGROUND,
-    GridBasedStructure::awayFromWallsPredicate
-  );
-  public static final Codec<GridBasedStructure> PROMENADE_PIT_CODEC = createGridBasedStructureCodec(
-    ctx -> RoomGridGenerator.single(MineCells.createId("promenade/overground_buildings/pit"), new Vec3i(0, -23, 0)),
-    () -> MineCellsStructures.PROMENADE_PIT,
-    GridBasedStructure::awayFromWallsPredicate
-  );
-  public static final Codec<GridBasedStructure> PROMENADE_UNDERGROUND_CODEC = createGridBasedStructureCodec(
-    ctx -> new PromenadeUndergroundGridGenerator(), () -> MineCellsStructures.PROMENADE_UNDERGROUND
-  );
+
   public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
     ctx -> new PromenadeWallGenerator(false),
     () -> MineCellsStructures.PROMENADE_WALL_X,
@@ -90,6 +83,29 @@ public class GridBasedStructure extends Structure {
         Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(GridBasedStructure::getProjectStartToHeightmap)
       ).apply(instance, (config, heightProvider, projectStartToHeightmap) -> new GridBasedStructure(config, heightProvider, projectStartToHeightmap, generatorProvider, typeSupplier, spawnPredicate))
     )).codec();
+  }
+
+  public static Codec<GridBasedStructure> createMultipartGridBasedStructureCodec(
+    BiFunction<Integer, Integer, RoomGridGenerator> generatorProvider,
+    Supplier<StructureType<?>> typeSupplier,
+    int startX,
+    int startZ,
+    int sizeX,
+    int sizeZ
+  ) {
+    return createGridBasedStructureCodec(
+      (ctx) -> {
+        var x = MathHelper.floorMod(ctx.chunkPos().x - startX - 8, 64) / 16;
+        var z = MathHelper.floorMod(ctx.chunkPos().z - startZ - 8, 64) / 16;
+        return generatorProvider.apply(x, z);
+      },
+      typeSupplier,
+      (ctx) -> {
+        var x = MathHelper.floorMod(ctx.chunkPos().x - startX - 8, 64);
+        var z = MathHelper.floorMod(ctx.chunkPos().z - startZ - 8, 64);
+        return x % 16 == 0 && z % 16 == 0 && (x / 16) < sizeX && (z / 16) < sizeZ;
+      }
+    );
   }
 
   private final Function<Context, RoomGridGenerator> generatorProvider;

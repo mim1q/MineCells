@@ -42,27 +42,34 @@ public class GridPiecesGenerator {
     Identifier poolId,
     Vec3i offset,
     boolean terrainFit
-  ) { }
+  ) {
+  }
 
   public static abstract class RoomGridGenerator {
     private final List<RoomData> rooms = new ArrayList<>();
+
     protected abstract void addRooms(Random random);
 
-    public final List<RoomData> generate(Structure.Context context) {
+    public List<RoomData> generate(Structure.Context context) {
       rooms.clear();
       addRooms(context.random());
       return rooms;
     }
-    protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
-      rooms.add(new RoomData(pos, rotation, poolId, offset, false));
+
+    protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
+      rooms.add(new RoomData(pos, rotation, poolId, offset, terrainFit));
+    }
+
+    protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+      addRoom(pos, rotation, poolId, offset, false);
     }
 
     protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
       addRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
 
-    protected void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
-      rooms.add(new RoomData(pos, rotation, poolId, offset, true));
+    protected final void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
+      addRoom(pos, rotation, poolId, offset, true);
     }
 
     protected final void addTerrainFitRoom(Vec3i pos, BlockRotation rotation, Identifier poolId) {
