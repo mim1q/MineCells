@@ -2,6 +2,7 @@ package datagen
 
 import datagen.custom.*
 import datagen.custom.Constants.MINECELLS_DIMENSIONS
+import tada.lib.generator.BeautifiedJsonFormatter
 import tada.lib.generator.ResourceGenerator
 import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
@@ -22,7 +23,19 @@ fun main(args: Array<String>) {
     + "\n  Output directory: $path"
     + "\n  Generated language helper directory: $helperLangPath"
   )
-  val generator = ResourceGenerator.create("minecells", path).apply {
+
+  val excludedFiles = arrayOf(
+    ".*/assets/minecells/models/block/putrid_fence_(side|post).json",
+    ".*/assets/minecells/blockstates/putrid_fence.json",
+    ".*/assets/minecells/models/item/putrid_fence.json",
+  )
+
+  val generator = ResourceGenerator(
+    "minecells",
+    path,
+    SelectiveFileSaver(*excludedFiles),
+    BeautifiedJsonFormatter
+  ).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
     add(CustomBlockSets.leaves("minecells:wilted"))
