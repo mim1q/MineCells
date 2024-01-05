@@ -16,20 +16,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static java.lang.Math.max;
-import static org.joml.Math.clamp;
+import static net.minecraft.util.math.MathHelper.clamp;
 
 public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
-  private final float speed;
-  protected final float damage;
-  protected final boolean rotate;
-  protected final double margin;
-  protected final boolean onGround;
-  protected final int alignTick;
-  protected final double minDistance;
-  protected final double overshoot;
-  protected final double maxDistance;
-  protected final ParticleEffect particle;
-  protected final SoundEvent landSound;
+  protected final TimedDashSettings settings;
 
   protected Entity target;
   protected Vec3d direction;
@@ -41,28 +31,18 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   public TimedDashGoal(E entity, TimedDashSettings settings, Predicate<E> predicate) {
     super(entity, settings, predicate);
-    damage = settings.damage;
-    speed = settings.speed;
-    rotate = settings.rotate;
-    margin = settings.margin;
-    onGround = settings.onGround;
-    alignTick = settings.alignTick;
-    particle = settings.particle;
-    landSound = settings.landSound;
-    minDistance = settings.minDistance;
-    overshoot = settings.overshoot;
-    maxDistance = settings.maxDistance;
+    this.settings = settings;
     setControls(EnumSet.of(Control.MOVE, Control.LOOK));
   }
 
   public TimedDashGoal(E entity, Consumer<TimedDashSettings> settingsConsumer, Predicate<E> predicate) {
     this(entity, TimedActionSettings.edit(new TimedDashSettings(), settingsConsumer), predicate);
   }
-  
+
   @Override
   public boolean canStart() {
     target = entity.getTarget();
-    return target != null && super.canStart() && (!onGround || entity.getY() >= target.getY());
+    return target != null && super.canStart() && (!settings.onGround || entity.getY() >= target.getY());
   }
 
   @Override
@@ -83,16 +63,16 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void charge() {
-    if (ticks() <= alignTick) {
+    if (ticks() <= settings.alignTick) {
       targetPos = target.getPos().add(0.0D, target.getHeight() * 0.5D, 0.0D);
       Vec3d diff = targetPos.subtract(entity.getPos()).multiply(1.0D, 0.0D, 1.0D);
       direction = diff.normalize();
-      targetDistance = clamp(minDistance, maxDistance, diff.length() + overshoot);
-      if (rotate) {
+      targetDistance = clamp(settings.minDistance, settings.maxDistance, diff.length() + settings.overshoot);
+      if (settings.rotate) {
         lookAtTarget();
       }
     }
-    if (particle != null) {
+    if (settings.particle != null) {
       spawnParticles();
     }
   }
@@ -112,14 +92,14 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     for (float i = 0; i < diff.length(); i += 0.1F) {
       Vec3d particlePos = entityPos.add(norm.multiply(i));
       if (entity.getWorld() instanceof ServerWorld serverWorld && entity.getRandom().nextFloat() < 0.1F) {
-        serverWorld.spawnParticles(particle, particlePos.x, particlePos.y, particlePos.z, 1, 0.1D, 0.1D, 0.1D, 0.01D);
+        serverWorld.spawnParticles(settings.particle, particlePos.x, particlePos.y, particlePos.z, 1, 0.1D, 0.1D, 0.1D, 0.01D);
       }
     }
   }
 
   @Override
   protected void runAction() {
-    if (!onGround) {
+    if (!settings.onGround) {
       var velY = max(0.6, targetDistance * 0.01);
       entity.addVelocity(0.0, velY, 0.0);
     }
@@ -128,20 +108,21 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   @Override
   protected void release() {
     if (shouldSlowDown()) {
-      if (landSound != null && !hasLanded) {
-        playSound(landSound);
+      if (settings.landSound != null && !hasLanded) {
+        playSound(settings.landSound);
+        settings.onLand.run();
         hasLanded = true;
       }
       entity.setVelocity(entity.getVelocity().multiply(0.8D, 1.0D, 0.8D));
       return;
     }
 
-    entity.setVelocity(entity.getVelocity().multiply(0, 1, 0).add(direction.multiply(speed)));
-    distanceTravelled += speed;
-    List<Entity> entitiesInRange = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(margin));
+    entity.setVelocity(entity.getVelocity().multiply(0, 1, 0).add(direction.multiply(settings.speed)));
+    distanceTravelled += settings.speed;
+    List<Entity> entitiesInRange = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(settings.margin));
     for (Entity e : entitiesInRange) {
       if (e instanceof LivingEntity && !(e instanceof HostileEntity) && !attackedIds.contains(e.getId())) {
-        e.damage(entity.getDamageSources().mobAttack(entity), damage);
+        e.damage(entity.getDamageSources().mobAttack(entity), settings.damage);
         attackedIds.add(e.getId());
       }
     }
@@ -151,7 +132,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   public void stop() {
     super.stop();
     if (!hasLanded) {
-      playSound(landSound);
+      playSound(settings.landSound);
     }
   }
 
@@ -171,5 +152,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     public double maxDistance = 128.0;
     public ParticleEffect particle = null;
     public SoundEvent landSound = null;
+    public Runnable onLand = () -> {
+    };
   }
 }
