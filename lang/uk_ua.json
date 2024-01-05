@@ -5,6 +5,8 @@
   "itemGroup.minecells.minecells.tab.combat": "Combat",
   "itemGroup.minecells.minecells.tab.spawn_eggs": "Spawn Eggs",
   "block.minecells.rift.description": "Return to Overworld",
+  "block.minecells.shockwave_flame_player": "Player's Shockwave Flame",
+  "block.minecells.shockwave_flame": "Shockwave Flame",
   "item.minecells.concierge_respawn_rune": "Concierge Respawn Rune",
   "item.minecells.dimensional_rune.tooltip": "Use on a Doorway in the Overworld\nto change its destination",
   "item.minecells.dimensional_rune.only_usable_in_overworld": "You can only use this rune in the Overworld",

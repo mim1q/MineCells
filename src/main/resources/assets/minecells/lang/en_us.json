@@ -62,6 +62,8 @@
   "block.minecells.prison_box": "Prison Box",
   "block.minecells.shocker_box": "Shocker Box",
   "block.minecells.rift.description": "Return to Overworld",
+  "block.minecells.shockwave_flame_player": "Player's Shockwave Flame",
+  "block.minecells.shockwave_flame": "Shockwave Flame",
   "item.minecells.elevator_mechanism": "Elevator Mechanism",
   "item.minecells.charged_interdimensional_rune": "Unobtainable Rune",
   "item.minecells.guts": "Guts",

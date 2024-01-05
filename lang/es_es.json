@@ -12,6 +12,8 @@
   "block.minecells.runic_vine": "Runic Vine",
   "block.minecells.runic_vine_plant.message": "Requires Vine Rune to activate",
   "block.minecells.rift.description": "Return to Overworld",
+  "block.minecells.shockwave_flame_player": "Player's Shockwave Flame",
+  "block.minecells.shockwave_flame": "Shockwave Flame",
   "item.minecells.concierge_respawn_rune": "Concierge Respawn Rune",
   "item.minecells.vine_rune": "Vine Rune",
   "item.minecells.reset_rune": "Reset Rune",
