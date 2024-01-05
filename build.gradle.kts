@@ -28,6 +28,7 @@ repositories {
   maven("https://maven.shedaniel.me/")
   maven("https://maven.terraformersmc.com/releases/")
   maven("https://maven.wispforest.io")
+  mavenLocal()
 }
 
 dependencies {
@@ -43,6 +44,8 @@ dependencies {
 
   modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
+
+  modImplementation(include("dev.mim1q:gimm1q:0.1.+")!!)
 }
 
 @Suppress("UnstableApiUsage")

@@ -12,6 +12,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.github.mim1q.minecells.util.animation.AnimationProperty.EasingFunction;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
@@ -29,6 +30,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -124,6 +126,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
           settings.margin = 1.0;
           settings.damage = 10.0F;
           settings.particle = MineCellsParticles.SPECKLE.get(0xFF4000);
+          settings.onLand = () -> this.shakePlayersAround(4f, 30);
         }, e -> e.canAttack()
           && e.getTarget() != null
           && e.distanceTo(e.getTarget()) > 8 || stage == 3)
@@ -246,6 +249,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
     clearGoals();
     addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.PROTECTED, 100, 0, false, false, false));
     playSound(MineCellsSounds.CONCIERGE_SHOUT, 2F, 1F);
+    shakePlayersAround(3f, 80);
   }
 
   private void clearGoals() {
@@ -268,12 +272,19 @@ public class ConciergeEntity extends MineCellsBossEntity {
         getWorld().addParticle(ParticleTypes.EXPLOSION_EMITTER, getX(), getY() - 1.0, getZ(), 0.0D, 0.0D, 0.0D);
       }
     } else {
-      if (this.deathTime == 15) playSound(MineCellsSounds.CONCIERGE_LEAP_LAND, 0.8F, 1.1F);
-      if (this.deathTime == 85) playSound(MineCellsSounds.CONCIERGE_LEAP_LAND, 1F, 0.1F);
+      if (this.deathTime == 15) {
+        playSound(MineCellsSounds.CONCIERGE_LEAP_LAND, 0.8F, 1.1F);
+        shakePlayersAround(1f, 30);
+      }
+      if (this.deathTime == 85) {
+        playSound(MineCellsSounds.CONCIERGE_LEAP_LAND, 1F, 0.1F);
+        shakePlayersAround(1f, 50);
+      }
       if (this.deathTime >= 160 && !this.isRemoved()) {
         playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 0.8F, 0.9F);
         this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_DEATH_PARTICLES);
         this.remove(Entity.RemovalReason.KILLED);
+        shakePlayersAround(2f, 30);
       }
     }
   }
@@ -347,6 +358,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
   @Override
   protected void playStepSound(BlockPos pos, BlockState state) {
     super.playStepSound(pos, state);
+    shakePlayersAround(0.33F, 5);
     playSound(MineCellsSounds.CONCIERGE_STEP, 0.8F, random.nextFloat() * 0.2F + 0.8F);
   }
 
@@ -366,6 +378,18 @@ public class ConciergeEntity extends MineCellsBossEntity {
 
     getWorld().getEntitiesByClass(PlayerEntity.class, Box.of(getPos(), 128, 128, 128), Objects::nonNull).forEach(
       player -> ((ServerPlayerEntity) player).getAdvancementTracker().grantCriterion(advancement, "concierge_killed")
+    );
+  }
+
+  private void shakePlayersAround(float intensity, int duration) {
+    ScreenShakeUtils.shakeAround(
+      (ServerWorld) getWorld(),
+      getPos(),
+      intensity,
+      duration,
+      10,
+      50,
+      "minecells_concierge"
     );
   }
 

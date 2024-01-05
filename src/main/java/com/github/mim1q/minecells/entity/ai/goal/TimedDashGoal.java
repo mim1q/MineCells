@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static java.lang.Math.max;
-import static net.minecraft.util.math.MathHelper.clamp;
+import static org.joml.Math.clamp;
 
 public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected final TimedDashSettings settings;
@@ -132,6 +132,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   public void stop() {
     super.stop();
     if (!hasLanded) {
+      settings.onLand.run();
       playSound(settings.landSound);
     }
   }
