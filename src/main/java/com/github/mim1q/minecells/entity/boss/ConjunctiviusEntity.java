@@ -14,6 +14,7 @@ import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
@@ -35,7 +36,9 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -161,11 +164,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.chargeSound = MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE;
       s.releaseSound = MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE;
       s.soundVolume = 2.0F;
-      s.speed = 1.0F;
+      s.speed = 2.0F;
       s.damage = 20.0F;
       s.defaultCooldown = 200;
-      s.actionTick = 30;
-      s.alignTick = 26;
+      s.actionTick = 40;
+      s.alignTick = 10;
       s.chance = 0.1F;
       s.length = 70;
       s.rotate = false;
@@ -224,7 +227,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         // Handle bossbar visibility
         boolean closestPlayerNearby = getWorld().getClosestPlayer(this, 32.0D) != null;
         List<PlayerEntity> playersInArea = getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
-        this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
+        this.bossBar.setVisible(closestPlayerNearby && !playersInArea.isEmpty());
 
         this.switchStages(this.getStage());
 
@@ -258,8 +261,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       if (this.deathTime == 1) {
         this.playSound(MineCellsSounds.CONJUNCTIVIUS_DYING, 2.0F, 1.0F);
       }
+      if (deathTime % 2 == 0) {
+        shakePlayersAround(0.5f, 5);
+      }
       if (this.deathTime == 60) {
         this.playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
+        shakePlayersAround(8f, 80);
         this.remove(RemovalReason.KILLED);
       }
     }
@@ -281,7 +288,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
 
     getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.getRoomBox().expand(10))).forEach(
-      player -> ((ServerPlayerEntity)player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
+      player -> ((ServerPlayerEntity) player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
     );
   }
 
@@ -441,6 +448,18 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return stage == 1 || stage == 3 || stage == 5 || stage == 7;
   }
 
+  private void shakePlayersAround(float intensity, int duration) {
+    ScreenShakeUtils.shakeAround(
+      (ServerWorld) getWorld(),
+      this.getPos(),
+      intensity,
+      duration,
+      20.0D,
+      60.0D,
+      "minecells_conjunctivius"
+    );
+  }
+
   public boolean canAttack() {
     return this.isInFullStage() && this.stageTicks > 40;
   }
@@ -448,6 +467,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void setStage(int stage) {
     if (stage != this.getStage()) {
       this.playSound(MineCellsSounds.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
+      shakePlayersAround(2f, 60);
       this.dataTracker.set(STAGE, stage);
       this.addStageGoals(stage);
     }
@@ -494,7 +514,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return false;
   }
 
-  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) { }
+  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
+  }
 
   public void travel(Vec3d movementInput) {
     if (this.canMoveVoluntarily() || this.isLogicalSideForUpdatingMovement()) {
@@ -506,11 +527,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public void setPosition(double x, double y, double z) {
-    BlockBox box = this.getRoomBox();
-    if (box == null) {
+    if (this.getRoomBox() == null) {
       super.setPosition(x, y, z);
       return;
     }
+    var box = this.getRoomBox().expand(-2);
     super.setPosition(
       MathHelper.clamp(x, box.getMinX(), box.getMaxX()),
       MathHelper.clamp(y, box.getMinY(), box.getMaxY()),
@@ -531,15 +552,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
     nbt.putInt("dashCooldown", this.dashCooldown);
-    nbt.putIntArray("spawnPos", new int[] {
-      (int)this.spawnPos.x, (int)this.spawnPos.y, (int)this.spawnPos.z
+    nbt.putIntArray("spawnPos", new int[]{
+      (int) this.spawnPos.x, (int) this.spawnPos.y, (int) this.spawnPos.z
     });
     nbt.putIntArray("roomBox", new int[]{
       this.roomBox.getMinX(), this.roomBox.getMinY(), this.roomBox.getMinZ(),
       this.roomBox.getMaxX(), this.roomBox.getMaxY(), this.roomBox.getMaxZ()
     });
     nbt.putFloat("spawnRot", this.spawnRot);
-    nbt.putIntArray("anchors", new int[] {
+    nbt.putIntArray("anchors", new int[]{
       this.getTopAnchor().getX(), this.getTopAnchor().getY(), this.getTopAnchor().getZ(),
       this.getLeftAnchor().getX(), this.getLeftAnchor().getY(), this.getLeftAnchor().getZ(),
       this.getRightAnchor().getX(), this.getRightAnchor().getY(), this.getRightAnchor().getZ(),
@@ -597,19 +618,20 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
     }
 
-    private boolean willCollide(Vec3d direction, int steps) {
+    public boolean willCollide(Vec3d direction, int steps) {
       Box box = this.entity.getBoundingBox().withMinY(this.entity.getY() - 1.0D);
-      for(int i = 1; i < steps; ++i) {
+      for (int i = 1; i <= steps; ++i) {
         box = box.offset(direction);
         if (!this.entity.getWorld().isSpaceEmpty(this.entity, box)) {
-          return false;
+          return true;
         }
       }
-      return true;
+      return false;
     }
   }
 
   protected static class ConjunctiviusDashGoal extends TimedDashGoal<ConjunctiviusEntity> {
+    private boolean hasCollided = false;
 
     public ConjunctiviusDashGoal(ConjunctiviusEntity entity, Consumer<TimedDashSettings> settings) {
       super(entity, settings, null);
@@ -623,8 +645,19 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
 
     @Override
+    protected void release() {
+      super.release();
+      if (((ConjunctiviusMoveControl) this.entity.moveControl).willCollide(direction, 2) && !this.hasCollided) {
+        hasCollided = true;
+        this.entity.playSound(SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, 1.0f, 0.7f);
+        this.entity.shakePlayersAround(2f, 60);
+      }
+    }
+
+    @Override
     public void stop() {
       super.stop();
+      this.hasCollided = false;
       if (this.entity.getSpawnPos() != null) {
         this.entity.setVelocity(this.entity.getSpawnPos().subtract(this.entity.getPos()).normalize());
       }
