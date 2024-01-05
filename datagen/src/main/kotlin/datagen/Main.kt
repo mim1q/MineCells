@@ -119,6 +119,8 @@ fun main(args: Array<String>) {
     MINECELLS_DIMENSIONS.forEach {
       add(CustomHardcodedPresets.advancementDrop(it, "minecells:${it}_dimensional_rune"))
     }
+    // Sounds
+    mineCellsSounds()
   }
   generator.generate()
 
