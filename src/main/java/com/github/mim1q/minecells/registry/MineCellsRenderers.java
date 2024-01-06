@@ -14,7 +14,10 @@ import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlo
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
-import com.github.mim1q.minecells.client.render.conjunctivius.*;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEntityRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusSpikeRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusTentacleRenderer;
 import com.github.mim1q.minecells.client.render.item.BiomeBannerItemRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -131,7 +134,6 @@ public class MineCellsRenderers {
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_EYE_LAYER, ConjunctiviusEyeRenderer.ConjunctiviusEyeModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_TENTACLE_LAYER, ConjunctiviusTentacleRenderer.ConjunctiviusTentacleModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_SPIKE_LAYER, ConjunctiviusSpikeRenderer.ConjunctiviusSpikeModel::getTexturedModelData);
-    EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_CHAIN_LAYER, ConjunctiviusChainRenderer.ConjunctiviusChainModel::getTexturedModelData);
 
     EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);

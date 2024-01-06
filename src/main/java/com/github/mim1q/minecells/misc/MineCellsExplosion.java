@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.misc;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -20,10 +21,24 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 
+import static org.joml.Math.max;
+import static org.joml.Math.min;
+
 public class MineCellsExplosion {
 
   public static void explode(ServerWorld world, LivingEntity causingEntity, Vec3d position, float power, float radius) {
     world.playSound(null, BlockPos.ofFloored(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 1.0f, 1.0f);
+    var shakeIntensity = min(2f, power / 5f);
+    var shakeDuration = max(5, (int) power / 2);
+    ScreenShakeUtils.shakeAround(
+      world,
+      position,
+      shakeIntensity,
+      shakeDuration,
+      4.0f,
+      8.0f,
+      "minecells_explosion"
+    );
     damageEntities(world, causingEntity, position, power, radius);
 
     PacketByteBuf buf = PacketByteBufs.create();
