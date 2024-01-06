@@ -122,7 +122,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     int minY = startPos.getY() - 10;
     int maxY = startPos.getY() + 9;
     int minZ = startPos.getZ() - 25;
-    int maxZ = startPos.getZ() + 2;
+    int maxZ = startPos.getZ() + 8;
     return new BlockBox(minX, minY, minZ, maxX, maxY, maxZ);
   }
 
@@ -531,7 +531,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       super.setPosition(x, y, z);
       return;
     }
-    var box = this.getRoomBox().expand(-2);
+    var box = this.getRoomBox().expand(-3);
     super.setPosition(
       MathHelper.clamp(x, box.getMinX(), box.getMaxX()),
       MathHelper.clamp(y, box.getMinY(), box.getMaxY()),
