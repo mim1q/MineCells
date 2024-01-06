@@ -106,7 +106,8 @@ public class ConciergeEntity extends MineCellsBossEntity {
 
     if (stage > 1) {
       goalSelector.add(0, new TimedDashGoal<>(this, settings -> {
-          settings.onGround = false;
+          settings.onGround = true;
+          settings.jumpHeight = 0.6;
           settings.cooldownGetter = () -> leapCooldown + sharedCooldown;
           settings.cooldownSetter = cooldown -> {
             leapCooldown = getStageAdjustedValue(8 * 20, 6 * 20, 4 * 20);

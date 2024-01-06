@@ -65,7 +65,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
   protected void charge() {
     if (ticks() <= settings.alignTick) {
       targetPos = target.getPos().add(0.0D, target.getHeight() * 0.5D, 0.0D);
-      Vec3d diff = targetPos.subtract(entity.getPos()).multiply(1.0D, 0.0D, 1.0D);
+      Vec3d diff = targetPos.subtract(entity.getPos()).multiply(1.0D, settings.onGround ? 0.0D : 1.0D, 1.0D);
       direction = diff.normalize();
       targetDistance = clamp(settings.minDistance, settings.maxDistance, diff.length() + settings.overshoot);
       if (settings.rotate) {
@@ -86,7 +86,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   protected void spawnParticles() {
     super.charge();
-    Vec3d entityPos = entity.getPos().add(0.0D, entity.getHeight() * 0.5F, 0.0D);
+    Vec3d entityPos = entity.getPos().add(0.0D, entity.getHeight() * 0.75F, 0.0D);
     Vec3d diff = targetPos.subtract(entityPos);
     Vec3d norm = diff.normalize();
     for (float i = 0; i < diff.length(); i += 0.1F) {
@@ -99,8 +99,8 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
 
   @Override
   protected void runAction() {
-    if (!settings.onGround) {
-      var velY = max(0.6, targetDistance * 0.01);
+    if (settings.onGround) {
+      var velY = max(settings.jumpHeight, targetDistance * settings.jumpHeight * 0.01);
       entity.addVelocity(0.0, velY, 0.0);
     }
   }
@@ -117,7 +117,11 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
       return;
     }
 
-    entity.setVelocity(entity.getVelocity().multiply(0, 1, 0).add(direction.multiply(settings.speed)));
+    entity.setVelocity(
+      entity.getVelocity()
+        .multiply(0, settings.onGround ? 1 : 0, 0)
+        .add(direction.multiply(settings.speed))
+    );
     distanceTravelled += settings.speed;
     List<Entity> entitiesInRange = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(settings.margin));
     for (Entity e : entitiesInRange) {
@@ -147,6 +151,7 @@ public class TimedDashGoal<E extends HostileEntity> extends TimedActionGoal<E> {
     public boolean rotate = true;
     public double margin = 0.0D;
     public boolean onGround = false;
+    public double jumpHeight = 0.0D;
     public int alignTick = 0;
     public double minDistance = 0.0;
     public double overshoot = 0.0;

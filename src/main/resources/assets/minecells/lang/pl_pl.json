@@ -60,6 +60,8 @@
   "block.minecells.prison_box": "Prison Box",
   "block.minecells.conjunctivius_box": "Conjunctivius Box",
   "block.minecells.shocker_box": "Shocker Box",
+  "block.minecells.shockwave_flame_player": "Płomienna fala uderzeniowa gracza",
+  "block.minecells.shockwave_flame": "Płomienna fala uderzeniowa",
   "item.minecells.elevator_mechanism": "Mechanizm windy",
   "item.minecells.charged_interdimensional_rune": "Niedostępna runa",
   "item.minecells.guts": "Flaki",
