@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 
 public final class MineCellsSounds {
   // Leaping Zombie
-  public static final SoundEvent LEAPING_ZOMBIE_CHARGE = register("leaping_zombie.leap_charge");
-  public static final SoundEvent LEAPING_ZOMBIE_RELEASE = register("leaping_zombie.leap_release");
+  public static final SoundEvent LEAPING_ZOMBIE_CHARGE = register("leaping_zombie.leap.charge");
+  public static final SoundEvent LEAPING_ZOMBIE_RELEASE = register("leaping_zombie.leap.release");
   public static final SoundEvent LEAPING_ZOMBIE_DEATH = register("leaping_zombie.death");
   // Shocker
   public static final SoundEvent SHOCKER_DEATH = register("shocker.death");
@@ -51,8 +51,8 @@ public final class MineCellsSounds {
   public static final SoundEvent SWEEPER_CHARGE = register("sweeper.charge");
   public static final SoundEvent SWEEPER_RELEASE = register("sweeper.release");
   // Conjunctivius
-  public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash_charge");
-  public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash_release");
+  public static final SoundEvent CONJUNCTIVIUS_DASH_CHARGE = register("conjunctivius.dash.charge");
+  public static final SoundEvent CONJUNCTIVIUS_DASH_RELEASE = register("conjunctivius.dash.release");
   public static final SoundEvent CONJUNCTIVIUS_DYING = register("conjunctivius.dying");
   public static final SoundEvent CONJUNCTIVIUS_DEATH = register("conjunctivius.death");
   public static final SoundEvent CONJUNCTIVIUS_HIT = register("conjunctivius.hit");
@@ -60,14 +60,14 @@ public final class MineCellsSounds {
   public static final SoundEvent CONJUNCTIVIUS_SHOUT = register("conjunctivius.shout");
   public static final SoundEvent CONJUNCTIVIUS_MOVE = register("conjunctivius.move");
   // Concierge
-  public static final SoundEvent CONCIERGE_LEAP_CHARGE = register("concierge.leap_charge");
-  public static final SoundEvent CONCIERGE_LEAP_LAND = register("concierge.leap_land");
-  public static final SoundEvent CONCIERGE_SHOCKWAVE_CHARGE = register("concierge.shockwave_charge");
-  public static final SoundEvent CONCIERGE_SHOCKWAVE_RELEASE = register("concierge.shockwave_release");
-  public static final SoundEvent CONCIERGE_AURA_CHARGE = register("concierge.aura_charge");
-  public static final SoundEvent CONCIERGE_AURA_RELEASE = register("concierge.aura_release");
-  public static final SoundEvent CONCIERGE_PUNCH_CHARGE = register("concierge.punch_charge");
-  public static final SoundEvent CONCIERGE_PUNCH_RELEASE = register("concierge.punch_release");
+  public static final SoundEvent CONCIERGE_LEAP_CHARGE = register("concierge.leap.charge");
+  public static final SoundEvent CONCIERGE_LEAP_LAND = register("concierge.leap.land");
+  public static final SoundEvent CONCIERGE_SHOCKWAVE_CHARGE = register("concierge.shockwave.charge");
+  public static final SoundEvent CONCIERGE_SHOCKWAVE_RELEASE = register("concierge.shockwave.release");
+  public static final SoundEvent CONCIERGE_AURA_CHARGE = register("concierge.aura.charge");
+  public static final SoundEvent CONCIERGE_AURA_RELEASE = register("concierge.aura.release");
+  public static final SoundEvent CONCIERGE_PUNCH_CHARGE = register("concierge.punch.charge");
+  public static final SoundEvent CONCIERGE_PUNCH_RELEASE = register("concierge.punch.release");
   public static final SoundEvent CONCIERGE_SHOUT = register("concierge.shout");
   public static final SoundEvent CONCIERGE_STEP = register("concierge.step");
   // Weapons
@@ -126,5 +126,6 @@ public final class MineCellsSounds {
     return new MusicSound(sound, 0, 0, true);
   }
 
-  public static void init() { }
+  public static void init() {
+  }
 }
