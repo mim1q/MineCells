@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
@@ -30,6 +31,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Disgu
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
@@ -39,6 +41,7 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
@@ -228,7 +231,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.WILTED_GRASS_BLOCK,
       MineCellsBlocks.RED_PUTRID_SAPLING,
       MineCellsBlocks.SHOCKWAVE_FLAME,
-      MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER
+      MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER,
+      MineCellsBlocks.SLUMBERING_LANTERN
     );
     BlockRenderLayerMap.INSTANCE.putBlocks(
       RenderLayer.getTranslucent(),
@@ -266,6 +270,17 @@ public class MineCellsRenderers {
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getGrassColor(world, pos),
       MineCellsBlocks.WILTED_GRASS_BLOCK
+    );
+
+    ColorProviderRegistry.BLOCK.register(
+      (state, world, pos, tintIndex) -> {
+        var player = MinecraftClient.getInstance().player;
+        if (player != null && ((LivingEntityAccessor) player).getMineCellsFlag(MineCellsEffectFlags.AWAKENED)) {
+          return tintIndex == 0 ? 0xff9944 : 0xffab52;
+        }
+        return tintIndex == 0 ? 0x5cfffd : 0x6eb6ff;
+      },
+      MineCellsBlocks.SLUMBERING_LANTERN
     );
 
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,

@@ -80,6 +80,16 @@ fun main(args: Array<String>) {
     ).forEach {
       add(CustomPresets.flag("minecells:${it}_flag"))
     }
+    // Slumbering / awakened blocks
+    add(
+      "slumbering_lantern",
+      ParentedModel
+        .block("minecells:block/template/colored_cube_overlay")
+        .texture("all", "minecells:block/slumbering_lantern")
+        .texture("overlay", "minecells:block/slumbering_lantern_overlay")
+    )
+    add("slumbering_lantern", BlockState.createSingle("minecells:block/slumbering_lantern"))
+
 
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
     add(CustomPresets.customRecipes())

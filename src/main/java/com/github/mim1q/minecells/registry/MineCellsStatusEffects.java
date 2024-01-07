@@ -31,8 +31,13 @@ public class MineCellsStatusEffects {
       .addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, ASSASSINS_STRENGTH_UUID, 1.25F, Operation.MULTIPLY_TOTAL),
     "assassins_strength"
   );
+  public static final StatusEffect AWAKENED = register(
+    new MineCellsStatusEffect(StatusEffectCategory.NEUTRAL, 0xdb4d00, false, MineCellsEffectFlags.AWAKENED, false),
+    "awakened"
+  );
 
-  public static void init() { }
+  public static void init() {
+  }
 
   public static StatusEffect register(StatusEffect effect, String name) {
     return Registry.register(Registries.STATUS_EFFECT, MineCells.createId(name), effect);
