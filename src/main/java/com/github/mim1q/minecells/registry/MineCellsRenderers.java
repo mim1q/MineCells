@@ -52,6 +52,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Function;
+
 public class MineCellsRenderers {
   private static boolean dynamicItemRenderersRegistered = false;
 
@@ -85,7 +87,6 @@ public class MineCellsRenderers {
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
   public static final EntityModelLayer CONJUNCTIVIUS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "tentacle");
   public static final EntityModelLayer CONJUNCTIVIUS_SPIKE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "spike");
-  public static final EntityModelLayer CONJUNCTIVIUS_CHAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "chain");
 
   public static final EntityModelLayer CONCIERGE_LAYER = registerLayer("concierge", ConciergeEntityModel::getTexturedModelData);
 
@@ -272,14 +273,21 @@ public class MineCellsRenderers {
       MineCellsBlocks.WILTED_GRASS_BLOCK
     );
 
+    Function<Integer, Integer> slumberingColorProvider = (tintIndex) -> {
+      var player = MinecraftClient.getInstance().player;
+      if (player != null && ((LivingEntityAccessor) player).getMineCellsFlag(MineCellsEffectFlags.AWAKENED)) {
+        return tintIndex == 0 ? 0xff842e : 0xffab52;
+      }
+      return tintIndex == 0 ? 0x5cfffd : 0x6eb6ff;
+    };
+
     ColorProviderRegistry.BLOCK.register(
-      (state, world, pos, tintIndex) -> {
-        var player = MinecraftClient.getInstance().player;
-        if (player != null && ((LivingEntityAccessor) player).getMineCellsFlag(MineCellsEffectFlags.AWAKENED)) {
-          return tintIndex == 0 ? 0xff9944 : 0xffab52;
-        }
-        return tintIndex == 0 ? 0x5cfffd : 0x6eb6ff;
-      },
+      (state, world, pos, tintIndex) -> slumberingColorProvider.apply(tintIndex),
+      MineCellsBlocks.SLUMBERING_LANTERN
+    );
+
+    ColorProviderRegistry.ITEM.register(
+      (stack, tintIndex) -> slumberingColorProvider.apply(tintIndex),
       MineCellsBlocks.SLUMBERING_LANTERN
     );
 

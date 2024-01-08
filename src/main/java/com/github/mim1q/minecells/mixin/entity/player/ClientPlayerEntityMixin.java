@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.mixin.entity.player;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.network.c2s.RequestSyncMineCellsPlayerDataC2SPacket;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -37,6 +38,16 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
   private void minecells$tick(CallbackInfo ci) {
     var awakened = ((LivingEntityAccessor) this).getMineCellsFlag(MineCellsEffectFlags.AWAKENED);
     if (awakened != minecells$wasAwakened) {
+      var particlePos = getEyePos().add(getRotationVecClient().multiply(0.2));
+      clientWorld.addParticle(
+        MineCellsParticles.EXPLOSION,
+        particlePos.x,
+        particlePos.y,
+        particlePos.z,
+        0.0D,
+        0.0D,
+        0.0D
+      );
       var worldRenderer = MinecraftClient.getInstance().worldRenderer;
       worldRenderer.reload();
       minecells$wasAwakened = awakened;

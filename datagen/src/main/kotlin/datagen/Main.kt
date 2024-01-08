@@ -89,6 +89,7 @@ fun main(args: Array<String>) {
         .texture("overlay", "minecells:block/slumbering_lantern_overlay")
     )
     add("slumbering_lantern", BlockState.createSingle("minecells:block/slumbering_lantern"))
+    add(CommonModelPresets.itemBlockModel("minecells:slumbering_lantern"))
 
 
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
