@@ -50,7 +50,7 @@ fun main(args: Array<String>) {
     // Other
     add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
-    add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone"))
+    add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone", "minecells:wilted_grass_block"))
     add(CustomPresets.corpse("minecells:corpse"))
     add(CustomPresets.corpse("minecells:rotting_corpse", true))
     add(CustomPresets.corpse("minecells:skeleton"))
