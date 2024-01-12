@@ -47,7 +47,7 @@ public class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEnt
     matrices.translate(0.0f, 0.0f, 0.001f);
 
     var frameConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(BASE_TEXTURE));
-    RenderUtils.drawBillboard(frameConsumer, matrices, 0xf000f0, 1f, 2f, 0.0f, 0.5f, 0f, 1f, 255);
+    RenderUtils.drawBillboard(frameConsumer, matrices, 0xf000f0, 1f, 2f, 0.0f, 0.5f, 0f, 1f, 128);
     matrices.translate(0.0f, 0.0f, -0.002f);
     RenderUtils.drawBillboard(frameConsumer, matrices, 0xf000f0, 1f, 2f, 0.0f, 0.5f, 0f, 1f, 255);
 

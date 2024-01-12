@@ -31,6 +31,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   private boolean upstream = false;
   private boolean clientVisited = false;
   private BlockPos posOverride = null;
+  private List<MutableText> label = null;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.DOORWAY, pos, state);
@@ -38,6 +39,10 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public Identifier getTexture() {
     return ((DoorwayPortalBlock) getCachedState().getBlock()).type.texture;
+  }
+
+  public Identifier getBackgroundTexture() {
+    return ((DoorwayPortalBlock) getCachedState().getBlock()).type.backgroundTexture;
   }
 
   public boolean hasClientVisited() {
@@ -48,23 +53,35 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     if (world != null && world.isClient) {
       var player = MinecraftClient.getInstance().player;
       if (player == null) return;
+      var lastClientVisited = clientVisited;
       clientVisited = ((PlayerEntityAccessor) player).getMineCellsData()
         .get(posOverride == null ? player.getBlockPos() : posOverride)
         .hasVisitedDimension(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension);
+      if (lastClientVisited != clientVisited) {
+        label = null;
+      }
     }
   }
 
-  public List<MutableText> getLabel(boolean showPosition) {
+  public List<MutableText> getLabel() {
+    if (label != null) {
+      return label;
+    }
     var result = new ArrayList<MutableText>();
     var text = Text.translatable(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension.translationKey);
     if (!hasClientVisited()) {
       text.append(Text.literal("*"));
     }
-    result.add(text);
-    if (showPosition) {
-      var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
-      result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
+    var parts = text.getString().split(" ");
+    if (parts.length >= 4) {
+      result.add(Text.literal(parts[0] + " " + parts[1]));
+      result.add(Text.literal(parts[2] + " " + parts[3]));
+    } else {
+      result.add(text);
     }
+    var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
+    result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
+    label = result;
     return result;
   }
 
