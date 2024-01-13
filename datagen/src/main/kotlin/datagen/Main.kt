@@ -44,6 +44,9 @@ fun main(args: Array<String>) {
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
     add(BlockSets.basicStoneSet("minecells:cracked_prison_brick", baseSuffix = "s"))
+    add(BlockSets.basicStoneSet("minecells:bloomrock"))
+    add(BlockSets.basicStoneSet("minecells:bloomrock_tile", baseSuffix = "s"))
+    add(BlockSets.basicStoneSet("minecells:bloomrock_brick", baseSuffix = "s"))
     // Torches
     val torches = listOf("prison", "promenade", "ramparts")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
@@ -51,6 +54,7 @@ fun main(args: Array<String>) {
     add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
     add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone", "minecells:wilted_grass_block"))
+    add(CustomPresets.grassBlock("minecells:bloomrock_wilted_grass_block", "minecells:bloomrock", "minecells:bloomrock_wilted_grass_block", "minecells:wilted_grass_block"))
     add(CustomPresets.corpse("minecells:corpse"))
     add(CustomPresets.corpse("minecells:rotting_corpse", true))
     add(CustomPresets.corpse("minecells:skeleton"))

@@ -34,6 +34,7 @@ public class MineCellsBlocks {
   public static final Block BIG_CHAIN = registerBlockWithItem(new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)), "big_chain");
   public static final Block HARDSTONE = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "hardstone");
   public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "wilted_grass_block");
+  public static final Block BLOOMROCK_WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "bloomrock_wilted_grass_block");
 
   // Block sets
   public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
@@ -42,6 +43,9 @@ public class MineCellsBlocks {
   public static final StoneSet PRISON_BRICKS = new StoneSet(MineCells.createId("prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet SMALL_PRISON_BRICKS = new StoneSet(MineCells.createId("small_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet CRACKED_PRISON_BRICKS = new StoneSet(MineCells.createId("cracked_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet BLOOMROCK = new StoneSet(MineCells.createId("bloomrock"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet BLOOMROCK_TILES = new StoneSet(MineCells.createId("bloomrock_tile"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
 
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");

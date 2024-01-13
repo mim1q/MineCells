@@ -30,12 +30,19 @@ public class MineCellsItemGroups {
   private static void generalStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {
     stacks.addAll(MineCellsItems.DOORWAY_COLORS.keySet().stream().map(MineCellsItemGroups::stack).toList());
     stacks.addAll(MineCellsItems.DIMENSIONAL_RUNES.stream().map(MineCellsItemGroups::stack).toList());
+
     stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_BRICKS.getStacks());
     stacks.addAll(MineCellsBlocks.CRACKED_PRISON_BRICKS.getStacks());
     stacks.addAll(MineCellsBlocks.SMALL_PRISON_BRICKS.getStacks());
     stacks.add(stack(MineCellsBlocks.WILTED_GRASS_BLOCK));
+
+    stacks.addAll(MineCellsBlocks.BLOOMROCK.getStacks());
+    stacks.addAll(MineCellsBlocks.BLOOMROCK_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.BLOOMROCK_TILES.getStacks());
+    stacks.add(stack(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK));
+
     stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());
     stacks.add(stack(MineCellsBlocks.PUTRID_BOARDS));
     stacks.addAll(MineCellsBlocks.PUTRID_BOARD.getStacks());

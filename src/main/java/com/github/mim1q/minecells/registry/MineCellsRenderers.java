@@ -224,6 +224,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.RAMPARTS_TORCH,
       MineCellsBlocks.WILTED_GRASS_BLOCK,
+      MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK,
       MineCellsBlocks.RED_PUTRID_SAPLING,
       MineCellsBlocks.SHOCKWAVE_FLAME,
       MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER
@@ -263,12 +264,12 @@ public class MineCellsRenderers {
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getGrassColor(world, pos),
-      MineCellsBlocks.WILTED_GRASS_BLOCK
+      MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK
     );
 
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
-      MineCellsBlocks.WILTED_GRASS_BLOCK
+      MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK
     );
 
     ColorProviderRegistry.ITEM.register(

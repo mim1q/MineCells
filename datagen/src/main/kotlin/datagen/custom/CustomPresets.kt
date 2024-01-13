@@ -39,16 +39,17 @@ object CustomPresets {
     }
   }
 
-  fun grassBlock(id: String, stoneId: String, sideId: String = stoneId) = Preset {
+  fun grassBlock(id: String, stoneId: String, sideId: String = stoneId, overlayId: String = id) = Preset {
     val (ns, name) = Id(id)
     val (sNs, sName) = Id(stoneId)
     val (sdNs, sdName) = Id(sideId)
+    val (oNs, oName) = Id(overlayId)
     add(name, ParentedModel.block("minecraft:block/grass_block")
       .texture("particle", "$sNs:block/$sName")
       .texture("bottom", "$sNs:block/$sName")
       .texture("side", "$sdNs:block/$sdName")
       .texture("top", "minecraft:block/grass_block_top")
-      .texture("overlay", "$ns:block/${name}_overlay"))
+      .texture("overlay", "$oNs:block/${oName}_overlay"))
     add(name, BlockState.createSingle("$ns:block/$name"))
     add(CommonModelPresets.itemBlockModel(id))
     add(CommonDropPresets.silkTouchDrop(id, stoneId, id))
