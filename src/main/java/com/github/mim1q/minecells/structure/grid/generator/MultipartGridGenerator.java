@@ -29,11 +29,11 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
 
   @Override
   protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
-    int x = pos.getX() - 16 * (xPart / 16) - 8;
-    int z = pos.getZ() - 16 * (zPart / 16) - 8;
-    if (x < -8 || z < -8 || x >= 8 || z >= 8) {
+    int x = pos.getX() - 16 * xPart;
+    int z = pos.getZ() - 16 * zPart;
+    if (x < 0 || z < 0 || x >= 16 || z >= 16) {
       return;
     }
-    super.addRoom(new Vec3i(x, pos.getY(), z), rotation, poolId, offset, terrainFit);
+    super.addRoom(new Vec3i(x - 8, pos.getY(), z - 8), rotation, poolId, offset, terrainFit);
   }
 }
