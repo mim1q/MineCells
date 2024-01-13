@@ -5,7 +5,7 @@
   "ore_veins_enabled": false,
   "legacy_random_source": false,
   "default_block": {
-    "Name": "minecells:prison_stone"
+    "Name": "minecells:bloomrock"
   },
   "default_fluid": {
     "Name": "minecraft:water",
@@ -104,7 +104,7 @@
           "then_run": {
             "type": "minecraft:block",
             "result_state": {
-              "Name": "minecells:wilted_grass_block"
+              "Name": "minecells:bloomrock_wilted_grass_block"
             }
           }
         }
