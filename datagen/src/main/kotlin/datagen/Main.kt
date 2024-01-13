@@ -127,7 +127,8 @@ fun main(args: Array<String>) {
       "minecells:putrid_board_stairs"
     )
     TagManager.add("minecells:blocks/tree_root_replaceable",
-      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block"
+      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block",
+      "minecells:bloomrock_wilted_grass_block"
     )
     TagManager.add("minecells:items/discard_in_high_dimensions",
       "minecraft:stick", "minecells:red_putrid_sapling"
