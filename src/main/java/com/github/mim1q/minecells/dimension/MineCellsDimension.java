@@ -17,6 +17,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -66,7 +67,7 @@ public enum MineCellsDimension {
     return Vec3d.ofCenter(tpPos);
   }
 
-  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, BlockPos posOverride) {
+  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, @Nullable BlockPos posOverride) {
     var destination = getWorld(world);
     Vec3d teleportPos;
     if (this == OVERWORLD) {
