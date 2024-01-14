@@ -47,6 +47,7 @@ fun main(args: Array<String>) {
     add(BlockSets.basicStoneSet("minecells:bloomrock"))
     add(BlockSets.basicStoneSet("minecells:bloomrock_tile", baseSuffix = "s"))
     add(BlockSets.basicStoneSet("minecells:bloomrock_brick", baseSuffix = "s"))
+    add(BlockSets.basicStoneSet("minecells:cracked_bloomrock_brick", baseSuffix = "s"))
     // Torches
     val torches = listOf("prison", "promenade", "ramparts")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }

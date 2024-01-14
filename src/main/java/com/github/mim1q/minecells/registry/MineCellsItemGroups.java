@@ -40,6 +40,7 @@ public class MineCellsItemGroups {
 
     stacks.addAll(MineCellsBlocks.BLOOMROCK.getStacks());
     stacks.addAll(MineCellsBlocks.BLOOMROCK_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS.getStacks());
     stacks.addAll(MineCellsBlocks.BLOOMROCK_TILES.getStacks());
     stacks.add(stack(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK));
 
