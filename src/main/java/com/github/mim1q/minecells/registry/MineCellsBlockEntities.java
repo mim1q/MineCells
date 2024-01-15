@@ -36,7 +36,7 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<DoorwayPortalBlockEntity> DOORWAY = register(
     "doorway", DoorwayPortalBlockEntity::new,
     MineCellsBlocks.OVERWORLD_DOORWAY, MineCellsBlocks.PRISON_DOORWAY, MineCellsBlocks.PROMENADE_DOORWAY,
-    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY,  MineCellsBlocks.RAMPARTS_DOORWAY, MineCellsBlocks.BLACK_BRIDGE_DOORWAY
+    MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY, MineCellsBlocks.RAMPARTS_DOORWAY, MineCellsBlocks.BLACK_BRIDGE_DOORWAY
   );
   public static final BlockEntityType<BarrierControllerBlockEntity> BARRIER_CONTROLLER = register(
     "barrier_controller", BarrierControllerBlockEntity::new,
@@ -49,8 +49,12 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<RiftBlockEntity> RIFT = register(
     "rift", RiftBlockEntity::new, MineCellsBlocks.RIFT
   );
+  public static final BlockEntityType<ArrowSignBlockEntity> ARROW_SIGN = register(
+    "arrow_sign", ArrowSignBlockEntity::new, MineCellsBlocks.ARROW_SIGN
+  );
 
-  public static void init() {}
+  public static void init() {
+  }
 
   private static <T extends BlockEntity> BlockEntityType<T> register(
     String id,

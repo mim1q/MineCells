@@ -51,6 +51,7 @@ public class MineCellsBlocks {
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");
   public static final SimpleSet PUTRID_BOARD = new SimpleSet(MineCells.createId("putrid_board"), "_block", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+  public static final ArrowSignBlock ARROW_SIGN = registerBlockWithItem(new ArrowSignBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque().noCollision()), "arrow_sign");
 
   // Leaves
   public static final LeavesSet WILTED_LEAVES = new LeavesSet(

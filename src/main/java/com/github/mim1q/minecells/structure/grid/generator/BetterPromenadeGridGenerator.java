@@ -1,9 +1,8 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
-import net.minecraft.util.BlockRotation;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
 public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
@@ -15,12 +14,17 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
 
   @Override
   protected void addRooms(Random random) {
-    for (var i = 0; i < 64; ++i) {
-      addTerrainFitRoom(
-        new Vec3i(i, 0, i),
-        BlockRotation.NONE,
-        MAIN
-      );
+    for (var i = 0; i < 24; ++i) {
+      for (var j = 0; j < 24; ++j) {
+        if (i == 0 || i == 23 || j == 0 || j == 23) {
+          addRoom(RoomData.create(i, 0, j, MAIN).terrainFit());
+        }
+      }
+//      addTerrainFitRoom(
+//        new Vec3i(i, 0, i),
+//        BlockRotation.NONE,
+//        MAIN
+//      );
     }
   }
 }
