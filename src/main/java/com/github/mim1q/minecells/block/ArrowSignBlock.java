@@ -12,6 +12,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -54,10 +55,16 @@ public class ArrowSignBlock extends BlockWithEntity {
           arrowSignBlockEntity.setItemStack(itemStack.copy());
           return ActionResult.SUCCESS;
         }
-        arrowSignBlockEntity.cycleVerticalRotation(player.isSneaking() ? -1 : 1);
       }
+      arrowSignBlockEntity.cycleVerticalRotation((player.isSneaking()) ? -1 : 1);
     }
     return ActionResult.SUCCESS;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public BlockState rotate(BlockState state, BlockRotation rotation) {
+    return state.with(ROTATION, floorMod(state.get(ROTATION) + rotation.ordinal() * 4, 16));
   }
 
   @Nullable

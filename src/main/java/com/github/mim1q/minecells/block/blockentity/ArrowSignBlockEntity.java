@@ -34,11 +34,11 @@ public class ArrowSignBlockEntity extends MineCellsBlockEntity {
 
   public void cycleVerticalRotation(int amount) {
     this.verticalRotation += amount;
-    if (this.verticalRotation > 4) {
-      this.verticalRotation = -4;
+    if (this.verticalRotation > 15) {
+      this.verticalRotation = 0;
     }
-    if (this.verticalRotation < -4) {
-      this.verticalRotation = 4;
+    if (this.verticalRotation < 0) {
+      this.verticalRotation = 15;
     }
     markDirty();
     sync();

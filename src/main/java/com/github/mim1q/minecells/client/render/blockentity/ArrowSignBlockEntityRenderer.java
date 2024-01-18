@@ -42,8 +42,18 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
       }
 
       matrices.translate(0f, 1f, 0f);
-      matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(entity.getVerticalRotation() * 22.5F)));
+      var verticalRotation = entity.getVerticalRotation();
+      var verticalRotationDegrees = verticalRotation * 22.5F;
+      var flipRotation = (verticalRotation >= 4 && verticalRotation <= 11);
+      if (flipRotation) verticalRotationDegrees -= 180F;
+
+      matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(verticalRotationDegrees)));
       matrices.translate(0f, -1f, 0f);
+      if (flipRotation) {
+        matrices.translate(0f, 0f, 7 / 16f);
+        matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
+        matrices.translate(0f, 0f, -7 / 16f);
+      }
       root.render(matrices, vertices, light, overlay);
       matrices.push();
       {
