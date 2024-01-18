@@ -8,6 +8,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -20,17 +21,22 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/arrow_sign.png");
   private final ModelPart root;
   private final ItemRenderer itemRenderer;
+  private final BlockRenderManager blockRenderer;
 
   public ArrowSignBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
     root = ctx.getLayerModelPart(MineCellsRenderers.ARROW_SIGN_LAYER);
     itemRenderer = ctx.getItemRenderer();
+    blockRenderer = ctx.getRenderManager();
   }
 
   @Override
   public void render(ArrowSignBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     var state = entity.getCachedState();
+    var chainState = entity.getChainState();
     matrices.push();
     {
+      blockRenderer.renderDamage(chainState, entity.getPos(), entity.getWorld(), matrices, vertexConsumers.getBuffer(RenderLayer.getCutout()));
+
       matrices.scale(1F, -1F, -1F);
       matrices.translate(0.5F, -1.5F, -0.5F);
 
@@ -38,7 +44,7 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
       matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(rotation)));
       var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
       if (state.get(ArrowSignBlock.MIDDLE)) {
-        matrices.translate(0F, -3 / 16f, -7 / 16f);
+        matrices.translate(0F, -3 / 16f, -6 / 16f);
       }
 
       matrices.translate(0f, 1f, 0f);
@@ -50,17 +56,17 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
       matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(verticalRotationDegrees)));
       matrices.translate(0f, -1f, 0f);
       if (flipRotation) {
-        matrices.translate(0f, 0f, 7 / 16f);
+        matrices.translate(0f, 0f, 6 / 16f);
         matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
-        matrices.translate(0f, 0f, -7 / 16f);
+        matrices.translate(0f, 0f, -6 / 16f);
       }
       root.render(matrices, vertices, light, overlay);
       matrices.push();
       {
-        matrices.translate(0F, 1.125F, 5.99f / 16f);
+        matrices.translate(0F, 1.125F, 3.99f / 16f);
         renderIcon(entity, matrices, vertexConsumers, light, overlay);
         matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
-        matrices.translate(0F, 0F, -2.02 / 16f);
+        matrices.translate(0F, 0F, -4.02 / 16f);
         renderIcon(entity, matrices, vertexConsumers, light, overlay);
       }
       matrices.pop();
@@ -82,8 +88,8 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
   public static TexturedModelData getTexturedModelData() {
     var modelData = new ModelData();
     var modelPartData = modelData.getRoot();
-    var bb_main = modelPartData.addChild("bb_main", ModelPartBuilder.create().uv(0, 0).cuboid(-15.5F, -13.0F, 6.0F, 27.0F, 10.0F, 2.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
-    bb_main.addChild("cube_r1", ModelPartBuilder.create().uv(0, 12).cuboid(-5.275F, -5.275F, -1.0F, 7.0F, 7.0F, 2.0F, new Dilation(0.15F)), ModelTransform.of(-8.0F, -8.0F, 7.0F, 0.0F, 0.0F, -0.7854F));
+    var main = modelPartData.addChild("bb_main", ModelPartBuilder.create().uv(0, 0).cuboid(-15.5F, -13.0F, 4.0F, 27.0F, 10.0F, 4.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+    main.addChild("cube_r1", ModelPartBuilder.create().uv(0, 14).cuboid(-5.275F, -5.275F, -3.0F, 7.0F, 7.0F, 4.0F, new Dilation(0.05F)), ModelTransform.of(-8.0F, -8.0F, 7.0F, 0.0F, 0.0F, -0.7854F));
     return TexturedModelData.of(modelData, 64, 64);
   }
 }

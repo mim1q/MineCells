@@ -1,12 +1,12 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.block.blockentity.ArrowSignBlockEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
@@ -16,6 +16,7 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -59,6 +60,47 @@ public class ArrowSignBlock extends BlockWithEntity {
       arrowSignBlockEntity.cycleVerticalRotation((player.isSneaking()) ? -1 : 1);
     }
     return ActionResult.SUCCESS;
+  }
+
+  @Override
+  public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+    super.onPlaced(world, pos, state, placer, itemStack);
+    updateChainState(world, pos, state);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+    super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+    if (sourcePos.equals(pos.up())) {
+      updateChainState(world, pos, state);
+      world.updateNeighbor(pos.down(), this, pos);
+    }
+  }
+
+  private static void updateChainState(World world, BlockPos pos, BlockState state) {
+    if (world.isClient || !state.get(MIDDLE)) {
+      return;
+    }
+    var blockEntity = world.getBlockEntity(pos);
+    if (blockEntity instanceof ArrowSignBlockEntity arrowSignBlockEntity) {
+      var stateAbove = world.getBlockState(pos.up());
+      var blockEntityAbove = world.getBlockEntity(pos.up());
+      if (blockEntityAbove instanceof ArrowSignBlockEntity arrowSignBlockEntityAbove) {
+        stateAbove = arrowSignBlockEntityAbove.getChainState();
+      }
+
+      var stateBelow = world.getBlockState(pos.down());
+
+      var chainAbove = stateAbove.getBlock() instanceof ChainBlock && stateAbove.get(ChainBlock.AXIS) == Axis.Y;
+      var signBelow = stateBelow.getBlock() instanceof ArrowSignBlock && stateBelow.get(MIDDLE);
+
+      if (signBelow) {
+        arrowSignBlockEntity.setChainState(chainAbove ? stateAbove : Blocks.CHAIN.getDefaultState());
+        return;
+      }
+      arrowSignBlockEntity.setChainState(Blocks.AIR.getDefaultState());
+    }
   }
 
   @Override
