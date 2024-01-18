@@ -78,6 +78,7 @@ fun main(args: Array<String>) {
     listOf("runic_vine", "runic_vine_top").forEach {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
     }
+    add("arrow_sign", BlockState.createSingle("minecells:block/putrid_planks"))
     // Flags
     listOf(
       "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt",

@@ -42,9 +42,10 @@ object ModItemModels {
   }
 
   fun blockModels() = Preset {
-    listOf("brittle_barrel", "spikes", "flag_pole", "spawner_rune").forEach {
+    listOf("brittle_barrel", "spikes", "spawner_rune").forEach {
       add(CommonModelPresets.itemBlockModel("minecells:$it"))
     }
+    add("flag_pole", ParentedModel.item("minecells:block/flag_pole_connecting"))
   }
 
   fun dimensionalRunes() = Preset {
