@@ -42,7 +42,7 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
 
       var rotation = state.get(ArrowSignBlock.ROTATION) * 22.5F;
       matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(rotation)));
-      var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
+      var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(TEXTURE));
       if (state.get(ArrowSignBlock.MIDDLE)) {
         matrices.translate(0F, -3 / 16f, -6 / 16f);
       }
@@ -53,14 +53,6 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
       var flipRotation = (verticalRotation >= 4 && verticalRotation <= 11);
       if (flipRotation) verticalRotationDegrees -= 180F;
 
-      matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(verticalRotationDegrees)));
-      matrices.translate(0f, -1f, 0f);
-      if (flipRotation) {
-        matrices.translate(0f, 0f, 6 / 16f);
-        matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
-        matrices.translate(0f, 0f, -6 / 16f);
-      }
-      root.render(matrices, vertices, light, overlay);
       matrices.push();
       {
         matrices.translate(0F, 1.125F, 3.99f / 16f);
@@ -70,6 +62,15 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
         renderIcon(entity, matrices, vertexConsumers, light, overlay);
       }
       matrices.pop();
+
+      matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(verticalRotationDegrees)));
+      matrices.translate(0f, -1f, 0f);
+      if (flipRotation) {
+        matrices.translate(0f, 0f, 6 / 16f);
+        matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
+        matrices.translate(0f, 0f, -6 / 16f);
+      }
+      root.render(matrices, vertices, light, overlay);
     }
     matrices.pop();
   }
@@ -78,8 +79,8 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
     var itemStack = entity.getItemStack();
     if (!itemStack.isEmpty()) {
       matrices.push();
-      matrices.scale(-0.5F, -0.5F, 0.5F);
-      matrices.translate(0.0F, 0.33F, 0.0F);
+      matrices.scale(-0.45F, -0.45F, 0.45F);
+      matrices.translate(0.0F, 2.5F, 0.0F);
       itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, null, 0);
       matrices.pop();
     }

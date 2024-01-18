@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ArrowSignBlockEntity extends MineCellsBlockEntity {
   private ItemStack itemStack = ItemStack.EMPTY;
-  private int verticalRotation = 0;
+  private int verticalRotation = 8;
   private BlockState chainState = Blocks.AIR.getDefaultState();
 
   public ArrowSignBlockEntity(BlockPos pos, BlockState state) {

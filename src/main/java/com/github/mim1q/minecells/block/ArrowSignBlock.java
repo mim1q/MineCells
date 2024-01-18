@@ -72,8 +72,8 @@ public class ArrowSignBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
     super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+    updateChainState(world, pos, state);
     if (sourcePos.equals(pos.up())) {
-      updateChainState(world, pos, state);
       world.updateNeighbor(pos.down(), this, pos);
     }
   }
@@ -93,9 +93,10 @@ public class ArrowSignBlock extends BlockWithEntity {
       var stateBelow = world.getBlockState(pos.down());
 
       var chainAbove = stateAbove.getBlock() instanceof ChainBlock && stateAbove.get(ChainBlock.AXIS) == Axis.Y;
+      var chainBelow = stateBelow.getBlock() instanceof ChainBlock && stateBelow.get(ChainBlock.AXIS) == Axis.Y;
       var signBelow = stateBelow.getBlock() instanceof ArrowSignBlock && stateBelow.get(MIDDLE);
 
-      if (signBelow) {
+      if (signBelow || chainBelow) {
         arrowSignBlockEntity.setChainState(chainAbove ? stateAbove : Blocks.CHAIN.getDefaultState());
         return;
       }
