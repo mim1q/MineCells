@@ -66,7 +66,7 @@ fun main(args: Array<String>) {
     add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
     listOf("conjunctivius_box", "concierge_box", "beam_placer", "doorway_frame", "unbreakable_doorway_frame",
       "solid_barrier_rune", "conditional_barrier", "boss_barrier_controller", "boss_entry_barrier_controller",
-      "player_barrier_controller", "spawner_rune", "rift"
+      "player_barrier_controller", "spawner_rune", "rift", "arrow_sign"
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }
@@ -103,7 +103,7 @@ fun main(args: Array<String>) {
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
       "big_chain", "broken_cage", "prison_doorway", "red_putrid_sapling", "king_statue", "chain_pile",
-      "putrid_board_block"
+      "putrid_board_block", "arrow_sign"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }

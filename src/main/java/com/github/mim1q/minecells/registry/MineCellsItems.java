@@ -205,6 +205,11 @@ public class MineCellsItems {
     ), "health_flask"
   );
 
+  // Simple crafting ingredients
+
+  public static final Item MONSTER_CELL = registerCraftingIngredient("monster_cell");
+  public static final Item BOSS_STEM_CELL = registerCraftingIngredient("boss_stem_cell");
+
   static {
     registerDoorwayItem(MineCellsBlocks.PRISON_DOORWAY);
     registerDoorwayItem(MineCellsBlocks.PROMENADE_DOORWAY);
@@ -239,6 +244,10 @@ public class MineCellsItems {
   public static <E extends Item> E register(E item, String name) {
     Registry.register(Registries.ITEM, MineCells.createId(name), item);
     return item;
+  }
+
+  public static Item registerCraftingIngredient(String name) {
+    return register(new Item(new FabricItemSettings()), name);
   }
 
   public static DoorwayItem registerDoorwayItem(DoorwayPortalBlock doorway) {

@@ -145,7 +145,7 @@ public class MineCellsItemGroups {
   }
 
   public static final OwoItemGroup MINECELLS = OwoItemGroup
-    .builder(MineCells.createId("minecells"), () -> Icon.of(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE))
+    .builder(MineCells.createId("minecells"), () -> Icon.of(MineCellsItems.MONSTER_CELL))
     .customTexture(BACKGROUND)
     .initializer(group -> {
       group.tabs.add(GENERAL_TAB);
