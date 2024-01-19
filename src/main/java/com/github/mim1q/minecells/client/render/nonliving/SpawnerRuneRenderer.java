@@ -24,7 +24,7 @@ public interface SpawnerRuneRenderer {
     var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     matrices.multiply(dispatcher.getRotation());
     var consumer = vertices.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
-    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 200);
+    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 0xC8FFFFFF);
     matrices.pop();
   }
 
@@ -46,7 +46,8 @@ public interface SpawnerRuneRenderer {
   }
 
   final class BlockEntity implements SpawnerRuneRenderer, BlockEntityRenderer<SpawnerRuneBlockEntity> {
-    public BlockEntity(BlockEntityRendererFactory.Context ctx) { }
+    public BlockEntity(BlockEntityRendererFactory.Context ctx) {
+    }
 
     @Override
     public void render(SpawnerRuneBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {

@@ -1,8 +1,11 @@
 package com.github.mim1q.minecells.client.render.blockentity;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.RunicVinePlantBlock;
 import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
+import com.github.mim1q.minecells.client.render.misc.AdvancementHintRenderer;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -20,11 +23,19 @@ public class RunicVinePlantBlockEntityRenderer implements BlockEntityRenderer<Ru
   private final BakedModel model;
   private final BakedModel vineModel;
   private final BlockModelRenderer blockRenderer;
+  private final AdvancementHintRenderer hintRenderer;
 
   public RunicVinePlantBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
-    blockRenderer =  ctx.getRenderManager().getModelRenderer();
+    blockRenderer = ctx.getRenderManager().getModelRenderer();
     model = ctx.getRenderManager().getModel(BLOCK);
     vineModel = ctx.getRenderManager().getModel(VINE_BLOCK);
+
+    this.hintRenderer = new AdvancementHintRenderer(
+      MineCells.createId("vine_rune"),
+      ctx.getItemRenderer(),
+      0xFFF0FFD0,
+      MineCellsItems.VINE_RUNE
+    );
   }
 
   @Override
@@ -45,6 +56,13 @@ public class RunicVinePlantBlockEntityRenderer implements BlockEntityRenderer<Ru
     matrices.translate(-0.51D, 0.0D, -0.5D);
     var consumer2 = vertexConsumers.getBuffer(RenderLayers.getBlockLayer(BLOCK));
     blockRenderer.render(matrices.peek(), consumer2, BLOCK, model, 1.0F, 1.0F, 1.0F, light, overlay);
+    matrices.pop();
+
+    matrices.push();
+    {
+      matrices.translate(0.5f, 1f, 0.5f);
+      hintRenderer.render(matrices, vertexConsumers, time);
+    }
     matrices.pop();
   }
 }

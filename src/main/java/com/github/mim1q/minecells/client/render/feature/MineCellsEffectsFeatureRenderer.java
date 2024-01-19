@@ -63,7 +63,7 @@ public class MineCellsEffectsFeatureRenderer<E extends LivingEntity, M extends E
     matrices.scale(-1F, -1F, 1F);
     matrices.multiply(MinecraftClient.getInstance().getEntityRenderDispatcher().getRotation());
     matrices.translate(offset.getX(), offset.getY(), offset.getZ());
-    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.5F, 0.5F, 255);
+    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.5F, 0.5F, 0xFFFFFFFF);
     matrices.pop();
   }
 }

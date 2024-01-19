@@ -53,9 +53,9 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
     float dx = 5.0F / 16.0F;
     float dy = 3.5F / 16.0F;
     RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -dx, -dy, 0F, 19 / 32F, 17 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0,  dx, -dy, 0F,  9 / 32F, 17 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0,  dx,  dy, 0F,  9 / 32F, 24 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -dx,  dy, 0F, 19 / 32F, 24 / 32F, 255);
+    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, dx, -dy, 0F, 9 / 32F, 17 / 32F, 255);
+    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, dx, dy, 0F, 9 / 32F, 24 / 32F, 255);
+    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -dx, dy, 0F, 19 / 32F, 24 / 32F, 255);
     matrices.pop();
   }
 
@@ -66,7 +66,7 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
     matrices.multiply(dispatcher.getRotation());
     VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
     float d = 7.0F / 16F;
-    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, d, d, 1/32F, 8/32F, 17/32F, 24/32F, 255);
+    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, d, d, 1 / 32F, 8 / 32F, 17 / 32F, 24 / 32F, 0xFFFFFFFF);
     matrices.pop();
   }
 

@@ -31,6 +31,7 @@
     "client.BipedEntityModelMixin",
     "client.LivingEntityRendererMixin",
     "client.WorldRendererMixin",
+    "client.WorldSessionMixin",
     "client.music.MusicTrackerMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
     "entity.LivingEntityClientMixin",

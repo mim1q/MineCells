@@ -46,7 +46,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F - entity.getRotation())));
 
     matrices.translate(0.0, 0.0, 0.48);
-    RenderUtils.drawBillboard(foregroundVertices, matrices, 0xF000F0, 1.5F, 2.5F, 104F / 128, 1F, 0, 40F / 128, 255);
+    RenderUtils.drawBillboard(foregroundVertices, matrices, 0xF000F0, 1.5F, 2.5F, 104F / 128, 1F, 0, 40F / 128, 0xFFFFFFFF);
 
     matrices.translate(0.0, 0.0, 0.01);
     renderBackground(matrices, backgroundVertices, entity);
@@ -56,7 +56,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     var minV = (40 - 40F * barsProgress) / 128;
 
     matrices.translate(0.0, 0.01, -0.25);
-    RenderUtils.drawBillboard(vertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 255);
+    RenderUtils.drawBillboard(vertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 0xFFFFFFFF);
 
     var text = entity.getLabel();
     renderLabel(text, matrices, vertexConsumers, shouldShowPosition(entity.getWorld(), entity.getPos(), entity.getCachedState().getBlock()));
@@ -94,7 +94,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
       1.5F, 2.5F,
       bgCenterU - 24 / 128f, bgCenterU + 24 / 128f,
       bgCenterV - 40 / 128f, bgCenterV + 40 / 128f,
-      255
+      0xFFFFFFFF
     );
   }
 
