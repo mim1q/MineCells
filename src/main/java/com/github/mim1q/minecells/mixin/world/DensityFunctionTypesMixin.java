@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.mixin.world;
 
+import com.github.mim1q.minecells.world.densityfunction.CliffDensityFunction;
 import com.github.mim1q.minecells.world.densityfunction.RingDensityFunction;
 import com.mojang.serialization.Codec;
 import net.minecraft.registry.Registry;
@@ -28,5 +29,6 @@ public abstract class DensityFunctionTypesMixin {
     CallbackInfoReturnable<Codec<? extends DensityFunction>> cir
   ) {
     register(registry, "minecells:ring", RingDensityFunction.CODEC_HOLDER);
+    register(registry, "minecells:cliff", CliffDensityFunction.CODEC_HOLDER);
   }
 }

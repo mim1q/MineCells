@@ -63,14 +63,15 @@ public class GridPiecesGenerator {
 
     public static final class RoomDataBuilder {
       private final Vec3i pos;
-      private BlockRotation rotation;
+      private BlockRotation rotation = BlockRotation.NONE;
       private final Identifier poolId;
-      private Vec3i offset;
-      private boolean terrainFit;
+      private Vec3i offset = Vec3i.ZERO;
+      private boolean terrainFit = false;
       private Vec3i terrainSamplePos;
 
       public RoomDataBuilder(Vec3i pos, Identifier poolId) {
         this.pos = pos;
+        this.terrainSamplePos = pos;
         this.poolId = poolId;
       }
 

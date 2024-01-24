@@ -64,6 +64,10 @@ public class MathUtils {
     return lerp(a, b, 1 + c3 * (float) Math.pow(delta - 1, 3) + c1 * (float) Math.pow(delta - 1, 2));
   }
 
+  public static float easeInQuad(float a, float b, float delta) {
+    return lerp(a, b, delta * delta);
+  }
+
   public static float easeOutQuad(float a, float b, float delta) {
     return lerp(a, b, 1 - (1 - delta) * (1 - delta));
   }
