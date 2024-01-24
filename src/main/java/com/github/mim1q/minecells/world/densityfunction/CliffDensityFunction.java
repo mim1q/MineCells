@@ -44,10 +44,10 @@ public record CliffDensityFunction(
       return 0.0;
     }
     if (offsetNoise.isPresent()) {
-      var sample = offsetNoise.get().sample(pos);
-      dist += (int) (taperWidth / 2 * sample);
+      var sample = offsetNoise.get().sample(pos) * 0.8;
+      dist += (int) (taperWidth * sample);
     }
-    if (y < fromY || y > toY) {
+    if (y <= fromY || y >= toY) {
       return 1.0;
     }
     var heightFraction = (y - fromY) / (double) (toY - fromY);

@@ -52,14 +52,14 @@
       "type": "minecells:cliff",
       "grid_size": 1024,
       "z_axis": true,
-      "width": 64,
+      "width": 256,
       "offset": 512,
       "from_y": 50,
       "to_y": 180,
       "taper_width": 16.0,
       "offset_noise": {
         "type": "minecraft:noise",
-        "noise": "minecraft:surface",
+        "noise": "minecells:promenade/cliff",
         "xz_scale": 1.0,
         "y_scale": 1.0
       }

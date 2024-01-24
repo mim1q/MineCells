@@ -6,7 +6,6 @@
   "step": "surface_structures",
   "spawn_overrides": {},
   "start_height": {
-    "absolute": 0
-  },
-  "project_start_to_heightmap": "MOTION_BLOCKING_NO_LEAVES"
+    "absolute": 48
+  }
 }
