@@ -62,12 +62,12 @@ public class GridPiecesGenerator {
     }
 
     public static final class RoomDataBuilder {
-      private final Vec3i pos;
-      private BlockRotation rotation = BlockRotation.NONE;
-      private final Identifier poolId;
-      private Vec3i offset = Vec3i.ZERO;
-      private boolean terrainFit = false;
-      private Vec3i terrainSamplePos;
+      public final Vec3i pos;
+      public BlockRotation rotation = BlockRotation.NONE;
+      public final Identifier poolId;
+      public Vec3i offset = Vec3i.ZERO;
+      public boolean terrainFit = false;
+      public Vec3i terrainSamplePos;
 
       public RoomDataBuilder(Vec3i pos, Identifier poolId) {
         this.pos = pos;
@@ -117,8 +117,12 @@ public class GridPiecesGenerator {
       return rooms;
     }
 
-    protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
-      rooms.add(new RoomData(pos, rotation, poolId, offset, terrainFit, pos));
+    protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
+      var builder = RoomData.create(pos, poolId).rotation(rotation).offset(offset);
+      if (terrainFit) {
+        builder.terrainFit();
+      }
+      addRoom(builder);
     }
 
     protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset) {
@@ -137,7 +141,7 @@ public class GridPiecesGenerator {
       addTerrainFitRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
 
-    protected final void addRoom(RoomData.RoomDataBuilder builder) {
+    protected void addRoom(RoomData.RoomDataBuilder builder) {
       rooms.add(builder.build());
     }
 

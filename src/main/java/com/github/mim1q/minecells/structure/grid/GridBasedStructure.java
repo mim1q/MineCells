@@ -55,13 +55,10 @@ public class GridBasedStructure extends Structure {
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64)) == 32
       && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
-  public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createGridBasedStructureCodec(
-    ctx -> new RampartsGridGenerator(false, ctx), () -> MineCellsStructures.RAMPARTS,
-    ctx -> MathHelper.floorMod(ctx.chunkPos().x, 64) == 60 && MathHelper.floorMod(ctx.chunkPos().z, 64) == 54
-  );
-  public static final Codec<GridBasedStructure> RAMPARTS_SECOND_CODEC = createGridBasedStructureCodec(
-    ctx -> new RampartsGridGenerator(true, ctx), () -> MineCellsStructures.RAMPARTS_SECOND,
-    ctx -> MathHelper.floorMod(ctx.chunkPos().x, 64) == 60 && MathHelper.floorMod(ctx.chunkPos().z, 64) == 6
+  public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
+    (x, z) -> new RampartsGridGenerator(z),
+    () -> MineCellsStructures.RAMPARTS,
+    -12, -18, 1, 2
   );
 
   public static Codec<GridBasedStructure> createGridBasedStructureCodec(
