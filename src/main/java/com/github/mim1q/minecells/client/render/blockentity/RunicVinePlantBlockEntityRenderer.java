@@ -14,8 +14,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.util.math.MatrixStack;
+import org.joml.Math;
 
 import static com.github.mim1q.minecells.block.RunicVineBlock.TOP;
+import static com.github.mim1q.minecells.util.RenderUtils.getGlobalAnimationProgress;
 
 public class RunicVinePlantBlockEntityRenderer implements BlockEntityRenderer<RunicVinePlantBlockEntity> {
   private static final BlockState BLOCK = MineCellsBlocks.RUNIC_VINE_PLANT.getDefaultState();
@@ -46,10 +48,10 @@ public class RunicVinePlantBlockEntityRenderer implements BlockEntityRenderer<Ru
     if (entity.getCachedState().get(RunicVinePlantBlock.ACTIVATED)) {
       blockRenderer.render(matrices.peek(), consumer, VINE_BLOCK, vineModel, 1.0F, 1.0F, 1.0F, light, overlay);
     }
-    float time = entity.getWorld().getTime() + tickDelta;
+    float time = getGlobalAnimationProgress();
     float wobble = entity.wobble.update(time) * 0.2F;
-    float vScale = 1.25F + (float) Math.sin(time * 0.2F) * 0.075F;
-    float hScale = 1.25F + (float) Math.cos(time * 0.2F) * 0.05F;
+    float vScale = 1.25F + Math.sin(time * 0.2F) * 0.075F;
+    float hScale = 1.25F + Math.cos(time * 0.2F) * 0.05F;
     matrices.translate(0.5D, 0.0D, 0.5D);
     matrices.scale(hScale - wobble, vScale + wobble, hScale - wobble);
     matrices.translate(-0.51D, 0.0D, -0.5D);

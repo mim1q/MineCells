@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.util;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,6 +26,11 @@ public class RenderUtils {
 
     drawBillboard(consumer, matrices, light, -dx, dx, -dy, dy, minU, maxU, minV, maxV, argb);
   }
+
+  public static float getGlobalAnimationProgress() {
+    return MinecraftClient.getInstance().inGameHud.getTicks() + MinecraftClient.getInstance().getTickDelta();
+  }
+
 
   public static void drawBillboard(VertexConsumer consumer, MatrixStack matrices, int light, float minX, float maxX, float minY, float maxY, float minU, float maxU, float minV, float maxV, int argb) {
     Matrix3f m3f = matrices.peek().getNormalMatrix();
