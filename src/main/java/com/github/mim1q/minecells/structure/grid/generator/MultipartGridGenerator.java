@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.structure.grid.generator;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData.RoomDataBuilder;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.structure.Structure;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
   protected void addRoom(RoomDataBuilder builder) {
     int x = builder.pos.getX() - 16 * xPart;
     int z = builder.pos.getZ() - 16 * zPart;
+
+    var terrainSampleX = builder.terrainSamplePos.getX() - 16 * xPart;
+    var terrainSampleZ = builder.terrainSamplePos.getZ() - 16 * zPart;
+
     if (x < 0 || z < 0 || x >= 16 || z >= 16) {
       return;
     }
@@ -39,7 +44,7 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
 
     if (builder.terrainFit) {
       newBuilder.terrainFit();
-      newBuilder.terrainSamplePos = builder.terrainSamplePos;
+      newBuilder.terrainSamplePos = new Vec3i(terrainSampleX - 8, builder.terrainSamplePos.getY(), terrainSampleZ - 8);
     }
     super.addRoom(newBuilder);
   }

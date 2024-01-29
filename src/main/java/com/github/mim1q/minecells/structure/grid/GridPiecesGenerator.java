@@ -28,11 +28,13 @@ public class GridPiecesGenerator {
   }
 
   public static GridPiece getTerrainFitPiece(RoomData data, BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size) {
-    BlockPos pos = startPos.add(data.terrainSamplePos.multiply(size));
-    int heightmapY = projectStartToHeightmap.map(
-      type -> context.chunkGenerator().getHeightOnGround(pos.getX() + size / 2, pos.getZ() + size / 2, type, context.world(), context.noiseConfig())
+    final var pos = startPos.add(data.terrainSamplePos.multiply(size));
+    final var posOffset = data.offset.equals(Vec3i.ZERO) ? new Vec3i(size / 2, 0, size / 2) : data.offset;
+    final var heightmapPos = pos.add(posOffset);
+    final var heightmapY = projectStartToHeightmap.map(
+      type -> context.chunkGenerator().getHeightOnGround(heightmapPos.getX(), heightmapPos.getZ(), type, context.world(), context.noiseConfig())
     ).orElse(0);
-    int heightDiff = heightmapY - startPos.getY();
+    final var heightDiff = heightmapY - startPos.getY();
     return new GridPiece(context, data.poolId, startPos.add(data.pos.multiply(size)).add(data.offset).add(0, heightDiff, 0), data.rotation, size);
   }
 
