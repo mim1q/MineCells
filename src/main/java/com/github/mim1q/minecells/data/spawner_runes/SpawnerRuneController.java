@@ -18,6 +18,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -113,6 +114,8 @@ public class SpawnerRuneController {
       });
       livingEntity.setHealth(livingEntity.getMaxHealth());
     }
+    final var currentEntityNbt = spawnedEntity.writeNbt(new NbtCompound());
+    spawnedEntity.readNbt(currentEntityNbt.copyFrom(entityData.nbt()));
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;
   }
