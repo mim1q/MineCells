@@ -40,7 +40,7 @@ public class GridBasedStructure extends Structure {
   public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
     BetterPromenadeGridGenerator::new,
     () -> MineCellsStructures.PROMENADE,
-    -8, 0, 2, 2
+    -32, -32, 4, 4
   );
 
   public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(

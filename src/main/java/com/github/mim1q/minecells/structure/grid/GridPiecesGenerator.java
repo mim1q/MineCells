@@ -29,8 +29,7 @@ public class GridPiecesGenerator {
 
   public static GridPiece getTerrainFitPiece(RoomData data, BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size) {
     final var pos = startPos.add(data.terrainSamplePos.multiply(size));
-    final var posOffset = data.offset.equals(Vec3i.ZERO) ? new Vec3i(size / 2, 0, size / 2) : data.offset;
-    final var heightmapPos = pos.add(posOffset);
+    final var heightmapPos = pos.add(data.terrainSampleOffset);
     final var heightmapY = projectStartToHeightmap.map(
       type -> context.chunkGenerator().getHeightOnGround(heightmapPos.getX(), heightmapPos.getZ(), type, context.world(), context.noiseConfig())
     ).orElse(0);
@@ -45,14 +44,16 @@ public class GridPiecesGenerator {
     private final Vec3i offset;
     private final boolean terrainFit;
     private final Vec3i terrainSamplePos;
+    private final Vec3i terrainSampleOffset;
 
-    public RoomData(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit, Vec3i terrainSamplePos) {
+    public RoomData(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit, Vec3i terrainSamplePos, Vec3i terrainSampleOffset) {
       this.pos = pos;
       this.rotation = rotation;
       this.poolId = poolId;
       this.offset = offset;
       this.terrainFit = terrainFit;
       this.terrainSamplePos = terrainSamplePos;
+      this.terrainSampleOffset = terrainSampleOffset;
     }
 
     public static RoomDataBuilder create(Vec3i pos, Identifier poolId) {
@@ -70,6 +71,7 @@ public class GridPiecesGenerator {
       public Vec3i offset = Vec3i.ZERO;
       public boolean terrainFit = false;
       public Vec3i terrainSamplePos;
+      public Vec3i terrainSampleOffset = new Vec3i(8, 0, 8);
 
       public RoomDataBuilder(Vec3i pos, Identifier poolId) {
         this.pos = pos;
@@ -87,6 +89,16 @@ public class GridPiecesGenerator {
         return this;
       }
 
+      public RoomDataBuilder offset(int x, int y, int z) {
+        return offset(new Vec3i(x, y, z));
+      }
+
+      public RoomDataBuilder terrainFitOffset(int x, int y, int z) {
+        offset(x, y, z);
+        this.terrainSampleOffset = this.offset;
+        return this;
+      }
+
       public RoomDataBuilder terrainFit() {
         this.terrainFit = true;
         return this;
@@ -98,12 +110,17 @@ public class GridPiecesGenerator {
         return this;
       }
 
+      public RoomDataBuilder terrainSampleOffset(Vec3i terrainSampleOffset) {
+        this.terrainSampleOffset = terrainSampleOffset;
+        return this;
+      }
+
       public RoomDataBuilder terrainFit(int x, int y, int z) {
         return terrainFit(new Vec3i(x, y, z));
       }
 
       public RoomData build() {
-        return new RoomData(pos, rotation, poolId, offset, terrainFit, terrainSamplePos);
+        return new RoomData(pos, rotation, poolId, offset, terrainFit, terrainSamplePos, terrainSampleOffset);
       }
     }
   }
@@ -153,6 +170,14 @@ public class GridPiecesGenerator {
 
     public static RoomGridGenerator single(Identifier roomId, Vec3i offset) {
       return new Single(roomId, offset);
+    }
+
+    protected static RoomData.RoomDataBuilder room(int x, int y, int z, Identifier poolId) {
+      return RoomData.create(x, y, z, poolId);
+    }
+
+    protected static RoomData.RoomDataBuilder room(Vec3i pos, Identifier poolId) {
+      return RoomData.create(pos, poolId);
     }
 
     public static final class Single extends RoomGridGenerator {

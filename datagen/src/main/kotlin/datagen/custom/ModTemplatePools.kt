@@ -86,6 +86,7 @@ object ModTemplatePools {
     val pathProc = "minecells:promenade/path"
     add(Presets.indexed("minecells:promenade/path/straight", 1, 1, 1, processors = pathProc, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/path/turn", 1, 2, processors = pathProc, terrainMatching = true))
+    add(Presets.single("minecells:promenade/path/half", processors = pathProc, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/path/building", 1, processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads", processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads_post", processors = proc))
