@@ -5,10 +5,9 @@ import com.github.mim1q.minecells.client.render.model.MutatedBatEntityModel;
 import com.github.mim1q.minecells.entity.MutatedBatEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class MutatedBatEntityRenderer extends MobEntityRenderer<MutatedBatEntity, MutatedBatEntityModel> {
+public class MutatedBatEntityRenderer extends MineCellsEntityRenderer<MutatedBatEntity, MutatedBatEntityModel> {
 
   public static Identifier TEXTURE = MineCells.createId("textures/entity/mutated_bat.png");
 

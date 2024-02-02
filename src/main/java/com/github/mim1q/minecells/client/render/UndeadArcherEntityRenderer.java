@@ -5,11 +5,10 @@ import com.github.mim1q.minecells.client.render.model.UndeadArcherEntityModel;
 import com.github.mim1q.minecells.entity.UndeadArcherEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.util.Identifier;
 
-public class UndeadArcherEntityRenderer extends MobEntityRenderer<UndeadArcherEntity, UndeadArcherEntityModel> {
+public class UndeadArcherEntityRenderer extends MineCellsEntityRenderer<UndeadArcherEntity, UndeadArcherEntityModel> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/undead_archer.png");
 

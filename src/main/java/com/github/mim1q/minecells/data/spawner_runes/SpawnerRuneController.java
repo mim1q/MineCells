@@ -113,9 +113,13 @@ public class SpawnerRuneController {
         }
       });
       livingEntity.setHealth(livingEntity.getMaxHealth());
+      final var currentEntityNbt = new NbtCompound();
+      livingEntity.writeCustomDataToNbt(currentEntityNbt);
+      for (var entry : entityData.nbt().getKeys()) {
+        currentEntityNbt.put(entry, entityData.nbt().get(entry));
+      }
+      livingEntity.readCustomDataFromNbt(currentEntityNbt);
     }
-    final var currentEntityNbt = spawnedEntity.writeNbt(new NbtCompound());
-    spawnedEntity.readNbt(currentEntityNbt.copyFrom(entityData.nbt()));
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;
   }

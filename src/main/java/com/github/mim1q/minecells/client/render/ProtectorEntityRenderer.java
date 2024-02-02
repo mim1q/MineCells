@@ -12,7 +12,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
@@ -21,7 +20,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class ProtectorEntityRenderer extends MobEntityRenderer<ProtectorEntity, ProtectorEntityModel> {
+public class ProtectorEntityRenderer extends MineCellsEntityRenderer<ProtectorEntity, ProtectorEntityModel> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/protector/protector.png");
   private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/protector/protector_glow.png");

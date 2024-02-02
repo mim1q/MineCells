@@ -5,12 +5,11 @@ import com.github.mim1q.minecells.entity.ShieldbearerEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class ShieldbearerEntityRenderer extends MobEntityRenderer<ShieldbearerEntity, ShieldbearerEntityModel> {
+public class ShieldbearerEntityRenderer extends MineCellsEntityRenderer<ShieldbearerEntity, ShieldbearerEntityModel> {
 
   public static final Identifier TEXTURE = new Identifier("minecells:textures/entity/shieldbearer.png");
 

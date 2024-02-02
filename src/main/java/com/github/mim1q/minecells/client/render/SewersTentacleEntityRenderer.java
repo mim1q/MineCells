@@ -6,11 +6,10 @@ import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class SewersTentacleEntityRenderer extends MobEntityRenderer<SewersTentacleEntity, SewersTentacleEntityModel> {
+public class SewersTentacleEntityRenderer extends MineCellsEntityRenderer<SewersTentacleEntity, SewersTentacleEntityModel> {
 
   private static final Identifier TEXTURE_BLUE = MineCells.createId("textures/entity/sewers_tentacle/blue.png");
   private static final Identifier TEXTURE_RED = MineCells.createId("textures/entity/sewers_tentacle/red.png");

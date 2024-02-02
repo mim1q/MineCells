@@ -6,10 +6,9 @@ import com.github.mim1q.minecells.client.render.model.FlyEntityModel;
 import com.github.mim1q.minecells.entity.FlyEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class FlyEntityRenderer<T extends FlyEntity> extends MobEntityRenderer<T, FlyEntityModel<T>> {
+public class FlyEntityRenderer<T extends FlyEntity> extends MineCellsEntityRenderer<T, FlyEntityModel<T>> {
   private final Identifier texture;
 
   public FlyEntityRenderer(EntityRendererFactory.Context context, String textureName) {
