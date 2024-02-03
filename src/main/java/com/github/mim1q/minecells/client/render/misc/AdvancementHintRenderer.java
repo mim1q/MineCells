@@ -34,11 +34,14 @@ public class AdvancementHintRenderer {
     this.color = argb;
     this.item = item == null ? null : item.asItem();
 
-    RENDER_ADVANCEMENT_MAP.putIfAbsent(advancementId, true);
+    if (advancementId != null) {
+      RENDER_ADVANCEMENT_MAP.putIfAbsent(advancementId, true);
+    }
   }
 
   public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, float animationProgress) {
-    if (!RENDER_ADVANCEMENT_MAP.get(advancementId)) return;
+    var shouldRender = advancementId == null || RENDER_ADVANCEMENT_MAP.getOrDefault(advancementId, true);
+    if (!shouldRender) return;
     matrixStack.push();
     {
       var vertices = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(TEXTURE));

@@ -1,5 +1,8 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
+import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneController;
+import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
@@ -26,10 +29,12 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -53,9 +58,12 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   public abstract Item getActivationItem();
-  public abstract EntityType<?> getEntityType();
+
+  public abstract Identifier getSpawnerRuneDataId();
+
   public abstract Box getBox();
-  protected abstract void spawnEntity();
+
+  protected abstract void postProcessEntity(Entity entity);
 
   @Override
   public void tick() {
@@ -97,7 +105,18 @@ public abstract class ObeliskEntity extends Entity {
       this.playSound(SoundEvents.BLOCK_GRAVEL_HIT, 0.3F, this.random.nextFloat() * 0.5F + 0.5F);
     }
     if (this.activatedTicks == 40 && !this.isEntityPresent()) {
-      this.spawnEntity();
+      var entities = SpawnerRuneController.spawnEntities((ServerWorld) this.getWorld(), this.getSpawnerRuneDataId(), this.getBlockPos(), this::postProcessEntity);
+      for (var entity : entities) {
+        try {
+          //noinspection unchecked
+          this.postProcessEntity(entity);
+          if (entity instanceof MineCellsEntity mcEntity) {
+            mcEntity.spawnRunePos = this.getBlockPos();
+          }
+        } catch (ClassCastException e) {
+          MineCells.LOGGER.warn("Failed to post process entity " + entity + " by obelisk at pos: " + this.getBlockPos());
+        }
+      }
     }
   }
 
@@ -120,7 +139,8 @@ public abstract class ObeliskEntity extends Entity {
     this.activatedTicks = 0;
   }
 
-  protected void spawnActivationParticles(int activatedTicks) { }
+  protected void spawnActivationParticles(int activatedTicks) {
+  }
 
   @Override
   public ActionResult interact(PlayerEntity user, Hand hand) {
@@ -128,11 +148,13 @@ public abstract class ObeliskEntity extends Entity {
       return ActionResult.FAIL;
     }
     ItemStack stack = user.getStackInHand(hand);
-    if (stack.isOf(this.getActivationItem())) {
+    if (getActivationItem() == null || stack.isOf(this.getActivationItem())) {
       if (!getWorld().isClient) {
         this.playSound(MineCellsSounds.OBELISK, 1.0F, 1.0F);
         this.activatedTicks = 0;
-        stack.setCount(stack.getCount() - 1);
+        if (getActivationItem() != null) {
+          stack.setCount(stack.getCount() - 1);
+        }
         PlayerLookup.tracking(this).forEach((player) -> ServerPlayNetworking.send(player, ObeliskActivationS2CPacket.ID, new ObeliskActivationS2CPacket(this.getId())));
       }
       return ActionResult.SUCCESS;
@@ -151,7 +173,7 @@ public abstract class ObeliskEntity extends Entity {
 
   protected boolean isEntityPresent() {
     for (Entity e : getWorld().getOtherEntities(this, this.getBox(), VALID_LIVING_ENTITY)) {
-      if (e.getType() == this.getEntityType()) {
+      if (e instanceof MineCellsEntity mcEntity && this.getBlockPos().equals(mcEntity.spawnRunePos)) {
         return true;
       }
     }

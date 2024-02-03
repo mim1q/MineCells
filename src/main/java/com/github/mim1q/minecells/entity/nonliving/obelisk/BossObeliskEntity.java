@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -31,11 +32,16 @@ public abstract class BossObeliskEntity extends ObeliskEntity {
 
   @Override
   public ActionResult interact(PlayerEntity user, Hand hand) {
-    var result =  super.interact(user, hand);
+    var result = super.interact(user, hand);
     if (!getWorld().isClient && getServer() != null && result == ActionResult.SUCCESS) {
       var advancement = getServer().getAdvancementLoader().get(MineCells.createId("respawn_boss"));
-      ((ServerPlayerEntity)user).getAdvancementTracker().grantCriterion(advancement, "obelisk_used");
+      ((ServerPlayerEntity) user).getAdvancementTracker().grantCriterion(advancement, "obelisk_used");
     }
     return result;
+  }
+
+  @Override
+  protected boolean isEntityPresent() {
+    return !this.getWorld().getEntitiesByClass(MineCellsBossEntity.class, this.getBox(), e -> true).isEmpty();
   }
 }

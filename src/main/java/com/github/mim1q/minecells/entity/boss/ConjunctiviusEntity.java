@@ -139,7 +139,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
-    final var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
+    var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
       s.cooldownGetter = () -> this.auraCooldown;
       s.cooldownSetter = (cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown);
       s.stateSetter = this::switchAuraState;
@@ -154,7 +154,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.length = 60;
     });
 
-    final var dashGoal = (new ConjunctiviusDashGoal(this, s -> {
+    var dashGoal = (new ConjunctiviusDashGoal(this, s -> {
       s.cooldownGetter = () -> this.dashCooldown;
       s.cooldownSetter = (cooldown) -> this.dashCooldown = this.stageAdjustedCooldown(cooldown);
       s.stateSetter = this::switchDashState;
@@ -281,7 +281,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
 
     getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.getRoomBox().expand(10))).forEach(
-      player -> ((ServerPlayerEntity)player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
+      player -> ((ServerPlayerEntity) player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
     );
   }
 
@@ -494,7 +494,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return false;
   }
 
-  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) { }
+  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
+  }
 
   public void travel(Vec3d movementInput) {
     if (this.canMoveVoluntarily() || this.isLogicalSideForUpdatingMovement()) {
@@ -531,15 +532,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
     nbt.putInt("dashCooldown", this.dashCooldown);
-    nbt.putIntArray("spawnPos", new int[] {
-      (int)this.spawnPos.x, (int)this.spawnPos.y, (int)this.spawnPos.z
+    nbt.putIntArray("spawnPos", new int[]{
+      (int) this.spawnPos.x, (int) this.spawnPos.y, (int) this.spawnPos.z
     });
     nbt.putIntArray("roomBox", new int[]{
       this.roomBox.getMinX(), this.roomBox.getMinY(), this.roomBox.getMinZ(),
       this.roomBox.getMaxX(), this.roomBox.getMaxY(), this.roomBox.getMaxZ()
     });
     nbt.putFloat("spawnRot", this.spawnRot);
-    nbt.putIntArray("anchors", new int[] {
+    nbt.putIntArray("anchors", new int[]{
       this.getTopAnchor().getX(), this.getTopAnchor().getY(), this.getTopAnchor().getZ(),
       this.getLeftAnchor().getX(), this.getLeftAnchor().getY(), this.getLeftAnchor().getZ(),
       this.getRightAnchor().getX(), this.getRightAnchor().getY(), this.getRightAnchor().getZ(),
@@ -599,7 +600,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
     private boolean willCollide(Vec3d direction, int steps) {
       Box box = this.entity.getBoundingBox().withMinY(this.entity.getY() - 1.0D);
-      for(int i = 1; i < steps; ++i) {
+      for (int i = 1; i < steps; ++i) {
         box = box.offset(direction);
         if (!this.entity.getWorld().isSpaceEmpty(this.entity, box)) {
           return false;

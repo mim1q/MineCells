@@ -12,7 +12,8 @@
             "generic.max_health": 100.0
           },
           "nbt": {
-            "isElite": true
+            "isElite": true,
+            "additionalLootTable": "minecells:entities/elite/vine_rune"
           }
         }
       ]

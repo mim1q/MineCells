@@ -1,22 +1,26 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
-import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
-import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
+  private static final Identifier SPAWNER_RUNE = MineCells.createId("boss/conjunctivius");
+
   public ConjunctiviusObeliskEntity(EntityType<?> type, World world) {
     super(type, world);
   }
@@ -27,9 +31,10 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
   }
 
   @Override
-  public EntityType<?> getEntityType() {
-    return MineCellsEntities.CONJUNCTIVIUS;
+  public Identifier getSpawnerRuneDataId() {
+    return SPAWNER_RUNE;
   }
+
 
   @Override
   public Box getBox() {
@@ -37,14 +42,10 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
   }
 
   @Override
-  protected void spawnEntity() {
-    ConjunctiviusEntity boss = (ConjunctiviusEntity) getEntityType().create(this.getWorld());
-    if (boss == null) {
-      return;
-    }
-    boss.setPos(this.getX(), this.getY() + 10, this.getZ());
-    boss.initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
-    getWorld().spawnEntity(boss);
+  protected void postProcessEntity(Entity entity) {
+    entity.setPos(this.getX(), this.getY() + 10, this.getZ());
+    ((MobEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
+    getWorld().spawnEntity(entity);
   }
 
   @Override

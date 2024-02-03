@@ -62,7 +62,7 @@ public class MutatedBatEntity extends MineCellsEntity {
 
   @Override
   protected void initGoals() {
-    final var dashGoal = new TimedDashGoal<>(this, (s) -> {
+    var dashGoal = new TimedDashGoal<>(this, (s) -> {
       s.cooldownSetter = (cooldown) -> this.dashCooldown = cooldown;
       s.cooldownGetter = () -> this.dashCooldown;
       s.stateSetter = this::switchDashState;

@@ -82,7 +82,7 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   public EntityDimensions getDimensions(EntityPose pose) {
-    final var result = super.getDimensions(pose);
+    var result = super.getDimensions(pose);
     if (isElite()) {
       return new EntityDimensions(result.width * ELITE_SCALE, result.height * ELITE_SCALE, result.fixed);
     }
@@ -114,11 +114,11 @@ public class MineCellsEntity extends HostileEntity {
   protected void dropXp() {
     super.dropXp();
     if (additionalLootTable != null) {
-      final var server = this.getWorld().getServer();
+      var server = this.getWorld().getServer();
       if (server == null) return;
 
-      final var lootTable = server.getLootManager().getLootTable(additionalLootTable);
-      final var damageSource = this.getRecentDamageSource();
+      var lootTable = server.getLootManager().getLootTable(additionalLootTable);
+      var damageSource = this.getRecentDamageSource();
       if (damageSource == null) return;
 
       LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld) this.getWorld())

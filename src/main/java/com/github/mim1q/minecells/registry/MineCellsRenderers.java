@@ -172,6 +172,7 @@ public class MineCellsRenderers {
 
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "conjunctivius"));
     EntityRendererRegistry.register(MineCellsEntities.CONCIERGE_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "concierge"));
+    EntityRendererRegistry.register(MineCellsEntities.ELITE_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "elite"));
 
     EntityRendererRegistry.register(MineCellsEntities.SHOCKWAVE_PLACER, MineCellsRenderers::invisibleRenderer);
     EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneRenderer.Entity::new);

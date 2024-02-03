@@ -29,6 +29,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 public class SpawnerRuneController {
 
   private Identifier dataId = null;
@@ -74,11 +78,30 @@ public class SpawnerRuneController {
     var world = spawningPlayer.getWorld();
     var entities = data.getSelectedEntities(world.getRandom());
     for (var entityData : entities) {
-      var entity = spawnEntity((ServerWorld) world, entityData, findPos(world, pos, data.spawnDistance()), pos);
+      var entity = spawnEntity(
+        (ServerWorld) world,
+        entityData,
+        findPos(world, pos, data.spawnDistance()),
+        pos,
+        e -> {
+        }
+      );
       if (entity instanceof HostileEntity hostile) {
         hostile.setTarget(spawningPlayer);
       }
     }
+  }
+
+  public static List<Entity> spawnEntities(ServerWorld world, Identifier dataId, BlockPos pos, Consumer<Entity> entityConsumer) {
+    var data = MineCells.SPAWNER_RUNE_DATA.get(dataId);
+    if (data == null) return List.of();
+    var entities = data.getSelectedEntities(world.random);
+    var result = new ArrayList<Entity>();
+    for (var entityData : entities) {
+      var entity = spawnEntity(world, entityData, findPos(world, pos, data.spawnDistance()), pos, entityConsumer);
+      result.add(entity);
+    }
+    return result;
   }
 
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
@@ -99,7 +122,7 @@ public class SpawnerRuneController {
     return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
   }
 
-  private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos) {
+  private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
     Entity spawnedEntity = entityData.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity == null) return null;
     if (spawnedEntity instanceof LivingEntity livingEntity) {
@@ -119,6 +142,7 @@ public class SpawnerRuneController {
         currentEntityNbt.put(entry, entityData.nbt().get(entry));
       }
       livingEntity.readCustomDataFromNbt(currentEntityNbt);
+      entityConsumer.accept(livingEntity);
     }
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;
