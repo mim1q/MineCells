@@ -9,7 +9,9 @@
           "weight": 1,
           "entity": "minecells:undead_archer",
           "attributes": {
-            "generic.max_health": 100.0
+            "generic.max_health": 100.0,
+            "generic.movement_speed": 0.35,
+            "generic.attack_damage": 8.0
           },
           "nbt": {
             "isElite": true,

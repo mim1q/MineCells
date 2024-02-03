@@ -38,14 +38,14 @@ public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
   private void tick(World world, BlockPos pos, BlockState state) {
     if (world.isClient()) {
       usedTicks = Math.max(0, usedTicks - 1);
-      if (usedTicks >= 18) {
+      if (usedTicks >= 24) {
         wobble.setupTransitionTo(1.0F, 2.0F);
       } else {
         wobble.setupTransitionTo(0.0F, 5.0F);
       }
       return;
     }
-    if (blocksAbove > 0 && blocksAbove < 16 && world.getTime() % 2 == 0) {
+    if (blocksAbove > 0 && blocksAbove < 24 && world.getTime() % 2 == 0) {
       BlockPos posAbove = pos.up(blocksAbove);
       BlockState stateAbove = world.getBlockState(posAbove);
       BlockState stateBelow = world.getBlockState(posAbove.down());

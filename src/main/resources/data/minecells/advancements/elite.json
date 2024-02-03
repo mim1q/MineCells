@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:blood_sword"
+    },
+    "title": {
+      "translate": "advancements.minecells.elite"
+    },
+    "description": {
+      "translate": "advancements.minecells.elite.description"
+    }
+  },
+  "parent": "minecells:root",
+  "criteria": {
+    "obelisk_activated": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -18,6 +18,7 @@ import static com.github.mim1q.minecells.util.MathUtils.radians;
 
 public abstract class MineCellsEntityRenderer<T extends MineCellsEntity, M extends EntityModel<T>> extends MobEntityRenderer<T, M> {
   private static final Identifier RED_STAR_TEXTURE = MineCells.createId("textures/entity/effect/red_star.png");
+  private static final String ELITE_KEY = "entity.minecells.elite";
 
   public MineCellsEntityRenderer(EntityRendererFactory.Context context, M entityModel, float f) {
     super(context, entityModel, f);
@@ -35,7 +36,7 @@ public abstract class MineCellsEntityRenderer<T extends MineCellsEntity, M exten
     matrices.push();
     {
       final var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(RED_STAR_TEXTURE));
-      final var text = Text.literal("ELITE");
+      final var text = Text.translatable(ELITE_KEY);
 
       matrices.translate(0.0D, entity.getHeight() + 0.66D, 0.0D);
       final var textScale = 1 / 48F;

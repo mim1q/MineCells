@@ -113,8 +113,8 @@ public class MineCellsBlocks {
   public static final ColoredTorchBlock RAMPARTS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PROMENADE_TORCH)), "ramparts_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.DIRT)), "kingdom_portal_core");
-  public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS), "conjunctivius_box");
-  public static final Block CONCIERGE_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONCIERGE), "concierge_box");
+  public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCells.createId("boss/conjunctivius")), "conjunctivius_box");
+  public static final Block CONCIERGE_BOX = registerBlock(new MonsterBoxBlock(MineCells.createId("boss/concierge")), "concierge_box");
   public static final Block BEAM_PLACER = registerBlock(new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "beam_placer");
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));

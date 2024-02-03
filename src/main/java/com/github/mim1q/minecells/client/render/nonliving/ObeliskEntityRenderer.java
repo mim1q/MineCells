@@ -25,7 +25,7 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
     super(ctx);
     this.model = new ObeliskEntityModel(ctx.getPart(MineCellsRenderers.OBELISK_LAYER));
     this.texture = MineCells.createId("textures/entity/obelisk/" + texture + ".png");
-    this.hintRenderer = new AdvancementHintRenderer(null, ctx.getItemRenderer(), 0xFFFF4E3A, null);
+    this.hintRenderer = new AdvancementHintRenderer(MineCells.createId("elite"), ctx.getItemRenderer(), 0xFFFF4E3A, null);
   }
 
   @Override
