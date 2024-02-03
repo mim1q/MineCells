@@ -25,7 +25,7 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
     super(ctx);
     this.model = new ObeliskEntityModel(ctx.getPart(MineCellsRenderers.OBELISK_LAYER));
     this.texture = MineCells.createId("textures/entity/obelisk/" + texture + ".png");
-    this.hintRenderer = new AdvancementHintRenderer(null, ctx.getItemRenderer(), 0xff4e3a, null);
+    this.hintRenderer = new AdvancementHintRenderer(null, ctx.getItemRenderer(), 0xFFFF4E3A, null);
   }
 
   @Override
@@ -43,15 +43,16 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
       VertexConsumer glowVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture));
       var glow = entity.glow.update(animationProgress);
       this.model.renderGlow(matrices, glowVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, glow);
+    }
+    matrices.pop();
+    if (entity.bury.getValue() < 0.1F) {
       matrices.push();
       {
-        matrices.translate(0.0, -1.25, 0.0);
-        matrices.scale(1F, -1F, -1F);
+        matrices.translate(0.0, 2.75, 0.0);
         hintRenderer.render(matrices, vertexConsumers, entity.age + tickDelta);
       }
       matrices.pop();
     }
-    matrices.pop();
   }
 
   @Override

@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneController;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -78,9 +77,7 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   protected void clientTick() {
-    if (this.age % 20 == 0) {
-      this.bury.setupTransitionTo(this.isHidden() ? 50.0F : 0.0F, 40.0F);
-    }
+    this.bury.setupTransitionTo(this.isHidden() ? 50.0F : 0.0F, 40.0F);
     if (this.bury.getProgress() > 0.0F && this.bury.getProgress() < 1.0F) {
       this.spawnRiseParticles();
     }
@@ -108,7 +105,6 @@ public abstract class ObeliskEntity extends Entity {
       var entities = SpawnerRuneController.spawnEntities((ServerWorld) this.getWorld(), this.getSpawnerRuneDataId(), this.getBlockPos(), this::postProcessEntity);
       for (var entity : entities) {
         try {
-          //noinspection unchecked
           this.postProcessEntity(entity);
           if (entity instanceof MineCellsEntity mcEntity) {
             mcEntity.spawnRunePos = this.getBlockPos();
@@ -126,9 +122,10 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   protected void spawnRiseParticles() {
+    var stateBelow = getWorld().getBlockState(getBlockPos().down());
     ParticleUtils.addInBox(
       (ClientWorld) getWorld(),
-      new BlockStateParticleEffect(ParticleTypes.BLOCK, MineCellsBlocks.PRISON_COBBLESTONE.block.getDefaultState()),
+      new BlockStateParticleEffect(ParticleTypes.BLOCK, stateBelow),
       Box.of(this.getPos(), 2.5D, 0.25D, 2.0D),
       50,
       new Vec3d(-1.0D, 1.0D, -1.0D)
