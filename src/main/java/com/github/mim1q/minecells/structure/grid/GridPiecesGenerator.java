@@ -110,8 +110,8 @@ public class GridPiecesGenerator {
         return this;
       }
 
-      public RoomDataBuilder terrainSampleOffset(Vec3i terrainSampleOffset) {
-        this.terrainSampleOffset = terrainSampleOffset;
+      public RoomDataBuilder terrainSampleOffset(int x, int y, int z) {
+        terrainSampleOffset = new Vec3i(x, y, z);
         return this;
       }
 

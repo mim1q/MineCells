@@ -60,7 +60,7 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
 
       x += turns[i] ? 2 : -2;
       var rot = turns[i] ? COUNTERCLOCKWISE_90 : CLOCKWISE_90;
-      var length = 4 + random.nextInt(4);
+      var length = 3 + random.nextInt(4);
       addRoom(new Vec3i(x - rot.rotate(Direction.SOUTH).getOffsetX(), height - 1, z + 1), rot, up ? PLATFORM_UP : PLATFORM);
 
       if (up) height += 1;

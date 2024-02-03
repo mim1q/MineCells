@@ -90,6 +90,8 @@ object ModTemplatePools {
     add(Presets.indexed("minecells:promenade/path/building", 1, processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads", processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads_post", processors = proc))
+    // Special
+    add(Presets.single("minecells:promenade/special/vine_rune", processors = proc))
   }
 
   fun insufferableCrypt() = Preset {

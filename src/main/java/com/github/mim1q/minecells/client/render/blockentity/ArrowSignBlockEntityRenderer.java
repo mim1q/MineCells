@@ -81,7 +81,7 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
       matrices.push();
       matrices.scale(-0.45F, -0.45F, 0.45F);
       matrices.translate(0.0F, 2.5F, 0.0F);
-      itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, null, 0);
+      itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, 0xF000F0, overlay, matrices, vertexConsumers, null, 0);
       matrices.pop();
     }
   }
