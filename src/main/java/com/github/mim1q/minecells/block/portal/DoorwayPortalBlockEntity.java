@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,11 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   private List<MutableText> label = null;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
-    super(MineCellsBlockEntities.DOORWAY, pos, state);
+    this(MineCellsBlockEntities.DOORWAY, pos, state);
+  }
+
+  protected DoorwayPortalBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
   }
 
   public Identifier getTexture() {
