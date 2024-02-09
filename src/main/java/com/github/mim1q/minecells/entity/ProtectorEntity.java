@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProtectorEntity extends MineCellsEntity {
+  private static final float RANGE = 16.0F;
+  private static final float ACTIVE_TIME = 100.0F;
+  private static final float INACTIVE_TIME = 60.0F;
 
   protected int stateTicks = 0;
   public List<Entity> trackedEntities = new ArrayList<>();
@@ -51,8 +54,8 @@ public class ProtectorEntity extends MineCellsEntity {
     if (this.isActive()) {
       List<Entity> entities = getWorld().getOtherEntities(
         this,
-        Box.of(this.getPos(), 15.0D, 15.0D, 15.0D),
-        entity -> ProtectorEntity.canProtect(entity) && entity.distanceTo(this) < 7.5D
+        Box.of(this.getPos(), RANGE, RANGE, RANGE),
+        entity -> ProtectorEntity.canProtect(entity) && entity.distanceTo(this) < RANGE
       );
       this.trackedEntities = entities;
 
@@ -60,7 +63,7 @@ public class ProtectorEntity extends MineCellsEntity {
         if (this.stateTicks == 1 || this.stateTicks % 20 == 0) {
           this.playSound(MineCellsSounds.BUZZ, 0.25F, 1.0F);
         }
-        if (this.stateTicks > 50) {
+        if (this.stateTicks > ACTIVE_TIME) {
           this.setActive(false);
           this.stateTicks = 0;
         }
@@ -73,7 +76,7 @@ public class ProtectorEntity extends MineCellsEntity {
       }
     }
     if (!getWorld().isClient) {
-      if (!this.isActive() && this.stateTicks > 100) {
+      if (!this.isActive() && this.stateTicks > INACTIVE_TIME) {
         this.setActive(true);
         this.stateTicks = 0;
       }
@@ -95,13 +98,7 @@ public class ProtectorEntity extends MineCellsEntity {
   }
 
   protected static boolean canProtect(Entity e) {
-    if (e instanceof KamikazeEntity) {
-      return false;
-    }
-    if (e instanceof ProtectorEntity) {
-      return false;
-    }
-    if (e instanceof MutatedBatEntity) {
+    if (e instanceof KamikazeEntity || e instanceof ProtectorEntity || e instanceof MutatedBatEntity) {
       return false;
     }
 
@@ -139,6 +136,6 @@ public class ProtectorEntity extends MineCellsEntity {
     return createHostileAttributes()
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0F)
       .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F)
-      .add(EntityAttributes.GENERIC_ARMOR, 5.0F);
+      .add(EntityAttributes.GENERIC_ARMOR, 8.0F);
   }
 }
