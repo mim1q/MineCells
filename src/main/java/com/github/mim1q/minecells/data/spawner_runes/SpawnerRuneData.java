@@ -46,7 +46,7 @@ public record SpawnerRuneData(
   ) {
     private static final Codec<Pool> CODEC = RecordCodecBuilder.create(instance ->
       instance.group(
-        IntProvider.POSITIVE_CODEC.fieldOf("rolls").forGetter(Pool::rolls),
+        IntProvider.NON_NEGATIVE_CODEC.fieldOf("rolls").forGetter(Pool::rolls),
         Entry.CODEC.listOf().fieldOf("entries").forGetter(Pool::entries)
       ).apply(instance, Pool::new)
     );
