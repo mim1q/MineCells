@@ -57,23 +57,7 @@ object ModTemplatePools {
     add(Presets.indexed("minecells:promenade/chain_pile", 1, 2, 2, 2, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = proc))
     add(Presets.single("minecells:promenade/king_statue", proc, true))
-    // Overground buildings
-    add(Presets.prefixed("minecells:promenade/overground_buildings", "main/0" to 3, "main/1" to 1, "side/0" to 8, "side/1" to 6, processors = proc))
-    add(Presets.indexed("minecells:promenade/overground_buildings/pit", 1, processors = proc))
-    // Underground buildings
-    add(Presets.indexed("minecells:promenade/underground_buildings/entry", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/shaft", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/shaft_bottom", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/room", 3, 2, 2, 1, 2, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/chain_top", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/chain_bottom", 1, processors = proc))
-    add(Presets.single("minecells:promenade/underground_buildings/room_end_center", proc))
-    add(Presets.single("minecells:promenade/underground_buildings/room_end_left", proc))
-    add(Presets.single("minecells:promenade/underground_buildings/room_end_right", proc))
-    add(Presets.single("minecells:promenade/underground_buildings/end", proc))
-    // Doorways
-    add(Presets.indexed("minecells:promenade/doorway", 2, 1, 1, 1, 1, processors = proc))
-    add(Presets.prefixed("minecells:promenade/doorway_decoration", "banners" to 1, "torches" to 2, "minecraft:empty" to 4, processors = proc))
+    // Buildings
     // Walls
     add(Presets.single("minecells:promenade/border_wall/underground", processors = proc))
     add(Presets.single("minecells:promenade/border_wall/bottom", processors = proc))
