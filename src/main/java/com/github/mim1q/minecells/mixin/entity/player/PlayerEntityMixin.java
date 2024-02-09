@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.mixin.entity.player;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
-import com.github.mim1q.minecells.entity.nonliving.CellEntity;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.world.state.MineCellsData;
@@ -36,7 +35,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccessor {
 
   @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
-
   @Shadow public abstract int getXpToDrop();
 
   private static final TrackedData<Integer> CELL_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -108,8 +106,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   private float modifyDamage(float original, Entity target) {
     ItemStack stack = this.getMainHandStack();
     if (stack.getItem() instanceof CrittingWeapon critWeapon
-        && target instanceof LivingEntity livingTarget
-        && critWeapon.canCrit(stack, livingTarget, this)
+      && target instanceof LivingEntity livingTarget
+      && critWeapon.canCrit(stack, livingTarget, this)
     ) {
       if (critWeapon.shouldPlayCritSound(stack, livingTarget, this)) {
         getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
@@ -142,15 +140,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   protected void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
     this.setCells(nbt.getInt("cells"));
     kingdomPortalCooldown = nbt.getInt("kingdomPortalCooldown");
-  }
-
-  @Override
-  protected void drop(DamageSource source) {
-    super.drop(source);
-    int amount = this.getCells() / 2;
-    if (amount > 0) {
-      CellEntity.spawn(getWorld(), this.getPos(), amount);
-    }
   }
 
   @Override
