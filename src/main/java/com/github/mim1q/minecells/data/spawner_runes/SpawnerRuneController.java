@@ -86,7 +86,7 @@ public class SpawnerRuneController {
         e -> {
         }
       );
-      if (entity instanceof HostileEntity hostile) {
+      if (entity instanceof HostileEntity hostile && hostile.canSee(spawningPlayer)) {
         hostile.setTarget(spawningPlayer);
       }
     }
