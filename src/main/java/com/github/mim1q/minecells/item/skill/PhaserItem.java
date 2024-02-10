@@ -12,6 +12,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -24,6 +25,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 public class PhaserItem extends Item implements WeaponWithAbility {
   public PhaserItem(Settings settings) {
@@ -41,18 +43,17 @@ public class PhaserItem extends Item implements WeaponWithAbility {
     Vec3d targetPos = target.getPos().add(target.getRotationVec(0.0F).multiply(-1.0D, 0.0D, -1.0D).multiply(0.5D + target.getWidth()));
     if (
       world.getBlockState(BlockPos.ofFloored(targetPos)).isOpaque()
-      || world.getBlockState(BlockPos.ofFloored(targetPos).up()).isOpaque()
+        || world.getBlockState(BlockPos.ofFloored(targetPos).up()).isOpaque()
     ) {
       return false;
     }
     if (world.isClient()) {
       return true;
     }
-    player.setYaw(target.getYaw(0.0F));
     world.playSound(null, player.getX(), player.getY(), player.getZ(), MineCellsSounds.TELEPORT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.STUNNED, 30, 0, false, false, true));
     ((PlayerEntityAccessor) player).setInvincibilityFrames(10);
-    player.teleport(targetPos.x, targetPos.y, targetPos.z);
+    player.teleport((ServerWorld) world, targetPos.x, targetPos.y, targetPos.z, Set.of(), target.headYaw, player.getPitch());
     return true;
   }
 
