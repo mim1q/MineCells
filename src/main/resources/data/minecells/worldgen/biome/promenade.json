@@ -44,7 +44,7 @@
       "minecells:promenade_gallows",
       "minecells:promenade_tree",
       "minecraft:patch_tall_grass",
-      "minecraft:patch_grass_taiga"
+      "minecells:vegetation/grass_patch"
     ],
     []
   ]
