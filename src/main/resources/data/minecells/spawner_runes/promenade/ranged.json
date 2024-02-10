@@ -1,7 +1,7 @@
 {
   "cooldown": 60.0,
   "spawnDistance": 6.0,
-  "playerDistance": 24.0,
+  "playerDistance": 32.0,
   "pools": [
     {
       "rolls": {
