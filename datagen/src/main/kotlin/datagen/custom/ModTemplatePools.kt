@@ -58,7 +58,7 @@ object ModTemplatePools {
     add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = processors))
     add(Presets.single("minecells:promenade/king_statue", processors, true))
     // Buildings
-    add(Presets.indexed("minecells:promenade/overground_end", 1, 2, 2, 2, processors = processors))
+    add(Presets.indexed("minecells:promenade/overground_end", 1, 2, 2, processors = processors))
     add(Presets.indexed("minecells:promenade/overground", 2, 1, 2, 2, 1, processors = processors))
     add(Presets.indexed("minecells:promenade/overground_top", 1, 2, 3, 1, 2, 2, 2, 2, processors = processors))
     add(Presets.indexed("minecells:promenade/underground", 3, 3, 2, 1, 3, processors = processors))

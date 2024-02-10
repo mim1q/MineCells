@@ -1,5 +1,5 @@
 {
-  "feature": "minecraft:patch_taiga_grass",
+  "feature": "minecells:vegetation/grass_patch",
   "placement": [
     {
       "type": "minecraft:count",

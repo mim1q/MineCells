@@ -14,8 +14,8 @@
     }
   },
   "noise": {
-    "min_y": -64,
-    "height": 384,
+    "min_y": 0,
+    "height": 288,
     "size_horizontal": 1,
     "size_vertical": 2
   },
@@ -74,10 +74,10 @@
           "type": "minecraft:vertical_gradient",
           "random_name": "bedrock",
           "true_at_and_below": {
-            "absolute": 44
+            "absolute": 8
           },
           "false_at_and_above": {
-            "absolute": 50
+            "absolute": 16
           }
         },
         "then_run": {

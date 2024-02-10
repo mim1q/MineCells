@@ -62,13 +62,16 @@ public class RunnerEntity extends MineCellsEntity {
       s.actionTick = 12;
       s.length = 20;
     }));
-    this.goalSelector.add(0, new TimedTeleportGoal<>(this, s -> {
-      s.cooldownSetter = (cooldown) -> this.teleportCooldown = cooldown;
+    this.goalSelector.add(2, new TimedTeleportGoal<>(this, s -> {
+      s.cooldownSetter = (cooldown) -> {
+        this.teleportCooldown = cooldown;
+        this.attackCooldown = 40;
+      };
       s.cooldownGetter = () -> this.teleportCooldown;
       s.stateSetter = this::switchTeleportState;
       s.defaultCooldown = 100;
       s.actionTick = 20;
-      s.length = 30;
+      s.length = 40;
     }, null));
   }
 
@@ -140,7 +143,6 @@ public class RunnerEntity extends MineCellsEntity {
       this.target = this.entity.getTarget();
 
       return this.target != null && this.target.isAlive() && this.target.isAttackable()
-        && this.entity.teleportCooldown < 80
         && this.entity.distanceTo(this.target) < 1.5D
         && super.canStart();
     }
