@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData.RoomDataBuilder;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.structure.Structure;
@@ -27,25 +26,25 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
   }
 
   @Override
-  protected void addRoom(RoomDataBuilder builder) {
-    int x = builder.pos.getX() - 16 * xPart;
-    int z = builder.pos.getZ() - 16 * zPart;
+  protected void addRoom(RoomData data) {
+    int x = data.pos.getX() - 16 * xPart;
+    int z = data.pos.getZ() - 16 * zPart;
 
-    var terrainSampleX = builder.terrainSamplePos.getX() - 16 * xPart;
-    var terrainSampleZ = builder.terrainSamplePos.getZ() - 16 * zPart;
+    var terrainSampleX = data.terrainSamplePos.getX() - 16 * xPart;
+    var terrainSampleZ = data.terrainSamplePos.getZ() - 16 * zPart;
 
     if (x < 0 || z < 0 || x >= 16 || z >= 16) {
       return;
     }
-    var newBuilder = RoomData
-      .create(x - 8, builder.pos.getY(), z - 8, builder.poolId)
-      .rotation(builder.rotation)
-      .offset(builder.offset);
+    var newData = RoomData
+      .create(x - 8, data.pos.getY(), z - 8, data.poolId)
+      .rotation(data.rotation)
+      .offset(data.offset);
 
-    if (builder.terrainFit) {
-      newBuilder.terrainFit();
-      newBuilder.terrainSamplePos = new Vec3i(terrainSampleX - 8, builder.terrainSamplePos.getY(), terrainSampleZ - 8);
+    if (data.terrainFit) {
+      newData.terrainFit();
+      newData.terrainSamplePos = new Vec3i(terrainSampleX - 8, data.terrainSamplePos.getY(), terrainSampleZ - 8);
     }
-    super.addRoom(newBuilder);
+    super.addRoom(newData);
   }
 }

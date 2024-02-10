@@ -50,22 +50,28 @@ object ModTemplatePools {
   }
 
   fun promenadeOfTheCondemned() = Preset {
-    val proc = "minecells:promenade"
+    val processors = "minecells:promenade"
     // Spawn
-    add(Presets.single("minecells:promenade/spawn", proc))
+    add(Presets.single("minecells:promenade/spawn", processors))
     // Overground decorations
     add(Presets.indexed("minecells:promenade/chain_pile", 1, 2, 2, 2, terrainMatching = true))
-    add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = proc))
-    add(Presets.single("minecells:promenade/king_statue", proc, true))
+    add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = processors))
+    add(Presets.single("minecells:promenade/king_statue", processors, true))
     // Buildings
+    add(Presets.indexed("minecells:promenade/overground_end", 1, 2, 2, 2, processors = processors))
+    add(Presets.indexed("minecells:promenade/overground", 2, 1, 2, 2, 1, processors = processors))
+    add(Presets.indexed("minecells:promenade/overground_top", 1, 2, 3, 1, 2, 2, 2, 2, processors = processors))
+    add(Presets.indexed("minecells:promenade/underground", 3, 3, 2, 1, 3, processors = processors))
+    add(Presets.single("minecells:promenade/overground_elevator", processors = processors))
+    add(Presets.single("minecells:promenade/overground_base", processors = processors))
     // Walls
-    add(Presets.single("minecells:promenade/border_wall/underground", processors = proc))
-    add(Presets.single("minecells:promenade/border_wall/bottom", processors = proc))
-    add(Presets.single("minecells:promenade/border_wall/middle", processors = proc))
-    add(Presets.single("minecells:promenade/border_wall/top", processors = proc))
-    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/underground", processors = processors))
+    add(Presets.single("minecells:promenade/border_wall/bottom", processors = processors))
+    add(Presets.single("minecells:promenade/border_wall/middle", processors = processors))
+    add(Presets.single("minecells:promenade/border_wall/top", processors = processors))
+    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = processors))
     // Ramparts tower
-    add(Presets.single("minecells:promenade/ramparts_tower", proc))
+    add(Presets.single("minecells:promenade/ramparts_tower", processors))
     // Paths
     val pathProc = "minecells:promenade/path"
     add(Presets.indexed("minecells:promenade/path/straight", 1, 1, 1, processors = pathProc, terrainMatching = true))
@@ -73,9 +79,9 @@ object ModTemplatePools {
     add(Presets.single("minecells:promenade/path/half", processors = pathProc, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/path/building", 1, processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads", processors = pathProc, terrainMatching = true))
-    add(Presets.single("minecells:promenade/path/crossroads_post", processors = proc))
+    add(Presets.single("minecells:promenade/path/crossroads_post", processors = processors))
     // Special
-    add(Presets.single("minecells:promenade/special/vine_rune", processors = proc))
+    add(Presets.single("minecells:promenade/special/vine_rune", processors = processors))
   }
 
   fun insufferableCrypt() = Preset {

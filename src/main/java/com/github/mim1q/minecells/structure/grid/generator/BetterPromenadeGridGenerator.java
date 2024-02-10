@@ -9,8 +9,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
 public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
-  private static final Identifier MAIN = pool("overground_buildings");
-
   // Paths
   private static final Identifier PATH_STRAIGHT = pool("path/straight");
   private static final Identifier PATH_TURN = pool("path/turn");
@@ -18,6 +16,12 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   private static final Identifier PATH_CROSSROADS_POST = pool("path/crossroads_post");
   private static final Identifier PATH_BUILDING = pool("path/building");
   private static final Identifier PATH_HALF = pool("path/half");
+
+  // Buildings
+  private static final Identifier BUILDING_OVERGROUND = pool("overground");
+  private static final Identifier BUILDING_OVERGROUND_END = pool("overground_end");
+  private static final Identifier BUILDING_OVERGROUND_BASE = pool("overground_base");
+  private static final Identifier BUILDING_UNDERGROUND = pool("underground");
 
   // Special buildings
   private static final Identifier RAMPARTS_TOWER = pool("ramparts_tower");
@@ -42,9 +46,22 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     // Side road
     final var sideRoad = addPath(mainRoadSkipped, BlockRotation.COUNTERCLOCKWISE_90, 8, random, -1);
     final var sideRoadEnd = sideRoad.getLeft();
+    // Buildings
+    addBuilding(mainRoadSkipped.add(-2, 0, 1), 7, BlockRotation.NONE, random, false);
     // End
     addRoom(room(mainRoadEnd.add(0, 0, 1), RAMPARTS_TOWER).terrainFit(mainRoadEnd.getX(), mainRoadEnd.getY(), mainRoadEnd.getZ()).terrainSampleOffset(8, 0, 16));
     addRoom(room(sideRoadEnd, VINE_RUNE).terrainFit().terrainSampleOffset(14, 0, 8).offset(0, -21, 0).rotation(BlockRotation.CLOCKWISE_90));
+  }
+
+  private void addBuilding(Vec3i start, int length, BlockRotation rotation, Random random, boolean underground) {
+    var direction = rotation.rotate(Direction.SOUTH).getVector();
+    var fitPos = start.add(direction.multiply(length / 2));
+    addRoom(room(start.subtract(direction), BUILDING_OVERGROUND_END).terrainFit(fitPos));
+    for (var i = 0; i < length; ++i) {
+      addRoom(room(start.add(direction.multiply(i)), BUILDING_OVERGROUND).terrainFit(fitPos));
+      addRoom(room(start.add(direction.multiply(i)).down(), BUILDING_OVERGROUND_BASE).terrainFit(fitPos));
+    }
+    addRoom(room(start.add(direction.multiply(length)), BUILDING_OVERGROUND_END).rotation(BlockRotation.CLOCKWISE_180).terrainFit(fitPos));
   }
 
   private Pair<Vec3i, Vec3i> addPath(Vec3i start, BlockRotation rotation, int length, Random random, int skippedPos) {
@@ -74,8 +91,8 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
         }
       } else {
         addRoom(room(pos, PATH_STRAIGHT).rotation(BlockRotation.NONE.rotate(rotation)));
-        addRoom(room(pos.add(sideDirection.getVector()), MAIN).terrainFit().rotation(random.nextBoolean() ? BlockRotation.NONE.rotate(rotation) : BlockRotation.CLOCKWISE_180.rotate(rotation)));
-        addRoom(room(pos.subtract(sideDirection.getVector()), MAIN).terrainFit().rotation(random.nextBoolean() ? BlockRotation.NONE.rotate(rotation) : BlockRotation.CLOCKWISE_180.rotate(rotation)));
+//        addRoom(room(pos.add(sideDirection.getVector()), MAIN).terrainFit().rotation(random.nextBoolean() ? BlockRotation.NONE.rotate(rotation) : BlockRotation.CLOCKWISE_180.rotate(rotation)));
+//        addRoom(room(pos.subtract(sideDirection.getVector()), MAIN).terrainFit().rotation(random.nextBoolean() ? BlockRotation.NONE.rotate(rotation) : BlockRotation.CLOCKWISE_180.rotate(rotation)));
       }
     }
     return new Pair<>(pos, skippedVec);

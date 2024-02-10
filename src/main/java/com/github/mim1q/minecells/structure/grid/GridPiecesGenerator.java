@@ -38,90 +38,66 @@ public class GridPiecesGenerator {
   }
 
   public static class RoomData {
-    private final Vec3i pos;
-    private final BlockRotation rotation;
-    private final Identifier poolId;
-    private final Vec3i offset;
-    private final boolean terrainFit;
-    private final Vec3i terrainSamplePos;
-    private final Vec3i terrainSampleOffset;
+    public final Vec3i pos;
+    public final Identifier poolId;
+    public BlockRotation rotation = BlockRotation.NONE;
+    public Vec3i offset = Vec3i.ZERO;
+    public boolean terrainFit = false;
+    public Vec3i terrainSamplePos;
+    public Vec3i terrainSampleOffset = new Vec3i(8, 0, 8);
 
-    public RoomData(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit, Vec3i terrainSamplePos, Vec3i terrainSampleOffset) {
+    public RoomData(Vec3i pos, Identifier poolId) {
       this.pos = pos;
-      this.rotation = rotation;
       this.poolId = poolId;
-      this.offset = offset;
-      this.terrainFit = terrainFit;
-      this.terrainSamplePos = terrainSamplePos;
-      this.terrainSampleOffset = terrainSampleOffset;
+      this.terrainSamplePos = pos;
     }
 
-    public static RoomDataBuilder create(Vec3i pos, Identifier poolId) {
-      return new RoomDataBuilder(pos, poolId);
+    public static RoomData create(Vec3i pos, Identifier poolId) {
+      return new RoomData(pos, poolId);
     }
 
-    public static RoomDataBuilder create(int x, int y, int z, Identifier poolId) {
+    public static RoomData create(int x, int y, int z, Identifier poolId) {
       return create(new Vec3i(x, y, z), poolId);
     }
 
-    public static final class RoomDataBuilder {
-      public final Vec3i pos;
-      public BlockRotation rotation = BlockRotation.NONE;
-      public final Identifier poolId;
-      public Vec3i offset = Vec3i.ZERO;
-      public boolean terrainFit = false;
-      public Vec3i terrainSamplePos;
-      public Vec3i terrainSampleOffset = new Vec3i(8, 0, 8);
+    public RoomData rotation(BlockRotation rotation) {
+      this.rotation = rotation;
+      return this;
+    }
 
-      public RoomDataBuilder(Vec3i pos, Identifier poolId) {
-        this.pos = pos;
-        this.terrainSamplePos = pos;
-        this.poolId = poolId;
-      }
+    public RoomData offset(Vec3i offset) {
+      this.offset = offset;
+      return this;
+    }
 
-      public RoomDataBuilder rotation(BlockRotation rotation) {
-        this.rotation = rotation;
-        return this;
-      }
+    public RoomData offset(int x, int y, int z) {
+      return offset(new Vec3i(x, y, z));
+    }
 
-      public RoomDataBuilder offset(Vec3i offset) {
-        this.offset = offset;
-        return this;
-      }
+    public RoomData terrainFitOffset(int x, int y, int z) {
+      offset(x, y, z);
+      this.terrainSampleOffset = this.offset;
+      return this;
+    }
 
-      public RoomDataBuilder offset(int x, int y, int z) {
-        return offset(new Vec3i(x, y, z));
-      }
+    public RoomData terrainFit() {
+      this.terrainFit = true;
+      return this;
+    }
 
-      public RoomDataBuilder terrainFitOffset(int x, int y, int z) {
-        offset(x, y, z);
-        this.terrainSampleOffset = this.offset;
-        return this;
-      }
+    public RoomData terrainFit(Vec3i pos) {
+      this.terrainFit = true;
+      this.terrainSamplePos = pos;
+      return this;
+    }
 
-      public RoomDataBuilder terrainFit() {
-        this.terrainFit = true;
-        return this;
-      }
+    public RoomData terrainFit(int x, int y, int z) {
+      return terrainFit(new Vec3i(x, y, z));
+    }
 
-      public RoomDataBuilder terrainFit(Vec3i terrainSamplePos) {
-        this.terrainFit = true;
-        this.terrainSamplePos = terrainSamplePos;
-        return this;
-      }
-
-      public RoomDataBuilder terrainSampleOffset(int x, int y, int z) {
-        terrainSampleOffset = new Vec3i(x, y, z);
-        return this;
-      }
-
-      public RoomDataBuilder terrainFit(int x, int y, int z) {
-        return terrainFit(new Vec3i(x, y, z));
-      }
-
-      public RoomData build() {
-        return new RoomData(pos, rotation, poolId, offset, terrainFit, terrainSamplePos, terrainSampleOffset);
-      }
+    public RoomData terrainSampleOffset(int x, int y, int z) {
+      terrainSampleOffset = new Vec3i(x, y, z);
+      return this;
     }
   }
 
@@ -160,8 +136,8 @@ public class GridPiecesGenerator {
       addTerrainFitRoom(pos, rotation, poolId, Vec3i.ZERO);
     }
 
-    protected void addRoom(RoomData.RoomDataBuilder builder) {
-      rooms.add(builder.build());
+    protected void addRoom(RoomData roomData) {
+      rooms.add(roomData);
     }
 
     public static RoomGridGenerator single(Identifier roomId) {
@@ -172,11 +148,11 @@ public class GridPiecesGenerator {
       return new Single(roomId, offset);
     }
 
-    protected static RoomData.RoomDataBuilder room(int x, int y, int z, Identifier poolId) {
+    protected static RoomData room(int x, int y, int z, Identifier poolId) {
       return RoomData.create(x, y, z, poolId);
     }
 
-    protected static RoomData.RoomDataBuilder room(Vec3i pos, Identifier poolId) {
+    protected static RoomData room(Vec3i pos, Identifier poolId) {
       return RoomData.create(pos, poolId);
     }
 
