@@ -26,10 +26,12 @@ import static com.github.mim1q.minecells.block.RunicVinePlantBlock.ACTIVATED;
 public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
   private static final String REQUIRED_MESSAGE = "block.minecells.runic_vine_plant.message";
   private static final Identifier ADVANCEMENT_ID = MineCells.createId("vine_rune");
+  private static final int MAX_BLOCKS_ABOVE = 24;
 
   private int usedTicks = 0;
   private int blocksAbove = 0;
   public final AnimationProperty wobble = new AnimationProperty(0.0F, MathUtils::easeInOutQuad);
+
 
   public RunicVinePlantBlockEntity(BlockPos pos, BlockState state) {
     super(MineCellsBlockEntities.RUNIC_VINE_PLANT, pos, state);
@@ -38,14 +40,14 @@ public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
   private void tick(World world, BlockPos pos, BlockState state) {
     if (world.isClient()) {
       usedTicks = Math.max(0, usedTicks - 1);
-      if (usedTicks >= 24) {
+      if (usedTicks >= MAX_BLOCKS_ABOVE - 2) {
         wobble.setupTransitionTo(1.0F, 2.0F);
       } else {
         wobble.setupTransitionTo(0.0F, 5.0F);
       }
       return;
     }
-    if (blocksAbove > 0 && blocksAbove < 24 && world.getTime() % 2 == 0) {
+    if (blocksAbove > 0 && blocksAbove < MAX_BLOCKS_ABOVE && world.getTime() % 2 == 0) {
       BlockPos posAbove = pos.up(blocksAbove);
       BlockState stateAbove = world.getBlockState(posAbove);
       BlockState stateBelow = world.getBlockState(posAbove.down());
@@ -70,7 +72,7 @@ public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
   }
 
   public ActionResult use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
-    usedTicks = 20;
+    usedTicks = MAX_BLOCKS_ABOVE;
     world.playSound(null, pos, SoundEvents.BLOCK_WET_GRASS_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
     if (state.get(ACTIVATED) || world.isClient) {
       return ActionResult.SUCCESS;
