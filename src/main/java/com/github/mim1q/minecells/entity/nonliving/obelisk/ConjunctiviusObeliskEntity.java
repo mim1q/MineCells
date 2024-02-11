@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -8,7 +9,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -43,9 +43,8 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
 
   @Override
   protected void postProcessEntity(Entity entity) {
-    entity.setPos(this.getX(), this.getY() + 10, this.getZ());
-    ((MobEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
-    getWorld().spawnEntity(entity);
+    entity.refreshPositionAndAngles(this.getX(), this.getY() + 10, this.getZ(), 180F, 0F);
+    ((ConjunctiviusEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
   }
 
   @Override

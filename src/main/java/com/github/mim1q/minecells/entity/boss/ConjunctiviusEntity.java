@@ -72,7 +72,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   private Vec3d spawnPos = Vec3d.ZERO;
   private Direction direction;
-  private float spawnRot = 0.0F;
+  private float spawnRot = 180.0F;
   private BlockBox roomBox = null;
   private int dashCooldown = 0;
   private int auraCooldown = 0;
@@ -192,7 +192,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public void tick() {
+    this.bodyYaw = this.spawnRot;
+    this.prevBodyYaw = this.spawnRot;
+    this.setYaw(this.spawnRot);
+
     super.tick();
+
     if (getWorld().isClient()) {
       if (this.getDashState() != TimedActionGoal.State.IDLE || this.getAuraState() == TimedActionGoal.State.RELEASE) {
         this.spikeOffset.setupTransitionTo(0.0F, 10.0F);
@@ -216,9 +221,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       if (!getWorld().getBlockState(this.getBlockPos().down(2)).isAir()) {
         this.move(MovementType.SELF, new Vec3d(0.0D, 0.1D, 0.0D));
       }
-      this.bodyYaw = this.spawnRot;
-      this.prevBodyYaw = this.spawnRot;
-      this.setYaw(this.spawnRot);
 
       if (this.age % 20 == 0) {
         // Handle bossbar visibility
