@@ -38,8 +38,8 @@ fun main(args: Array<String>) {
   ).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
-    add(CustomBlockSets.leaves("minecells:wilted"))
-    add(CustomBlockSets.leaves("minecells:orange_wilted"))
+    add(CustomBlockSets.leaves("minecells:wilted", "minecells:putrid_sapling"))
+    add(CustomBlockSets.leaves("minecells:orange_wilted", "minecells:orange_putrid_sapling"))
     add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
@@ -103,7 +103,7 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "prison_doorway", "red_putrid_sapling", "king_statue", "chain_pile",
+      "big_chain", "broken_cage", "prison_doorway", "king_statue", "chain_pile",
       "putrid_board_block", "arrow_sign"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))

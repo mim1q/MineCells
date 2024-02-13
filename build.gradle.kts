@@ -74,6 +74,11 @@ sourceSets {
   }
 }
 
+// Access widener
+loom {
+  accessWidenerPath.set(file("src/main/resources/minecells.accesswidener"))
+}
+
 // Publishing
 val secretsFile = rootProject.file("publishing.properties")
 val secrets = Secrets(secretsFile)

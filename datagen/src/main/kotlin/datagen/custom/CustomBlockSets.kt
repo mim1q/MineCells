@@ -42,7 +42,11 @@ object CustomBlockSets {
     if (saplingId != null) {
       val (sNs, sName) = Id(saplingId)
       add(sName, ParentedModel.block("minecraft:block/cross").texture("cross", "$sNs:block/$sName"))
+      add(CommonModelPresets.generatedItemModel(saplingId, "block"))
       add(sName, BlockState.createSingle("$sNs:block/$sName"))
+
+      add(CommonDropPresets.simpleDrop(saplingId))
+
       TagManager.add("blocks/saplings", "$sNs:$sName")
       TagManager.add("items/saplings", "$sNs:$sName")
     }

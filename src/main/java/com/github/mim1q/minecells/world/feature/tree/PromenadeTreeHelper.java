@@ -22,7 +22,7 @@ public interface PromenadeTreeHelper {
 
   default void placeBranch(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos origin, Direction direction, boolean decorations) {
     if (decorations && random.nextFloat() < 0.025F) {
-      placeFlag(replacer, origin, direction);
+      placeFlag(replacer, origin, direction, random);
       return;
     }
     boolean big = random.nextFloat() < 0.75f;
@@ -32,6 +32,7 @@ public interface PromenadeTreeHelper {
     if (big) {
       origin = origin.add(offset).up();
       replacer.accept(origin, TRUNK_BLOCK);
+      replacer.accept(origin.up(), TRUNK_BLOCK);
     }
     if (random.nextFloat() < 0.5F) {
       int length = 3 + random.nextInt(8);
@@ -53,7 +54,7 @@ public interface PromenadeTreeHelper {
       if (!world.testBlockState(origin, state -> state.isIn(MineCellsBlockTags.TREE_ROOT_REPLACEABLE))) {
         continue;
       }
-      BlockPos[] positions = { origin.north(), origin.south(), origin.east(), origin.west() };
+      BlockPos[] positions = {origin.north(), origin.south(), origin.east(), origin.west()};
       boolean shouldPlace = false;
       for (BlockPos pos : positions) {
         if (world.testBlockState(pos, state -> state.getCollisionShape((BlockView) world, pos).isEmpty())) {
@@ -68,14 +69,15 @@ public interface PromenadeTreeHelper {
     }
   }
 
-  default void placeFlag(BiConsumer<BlockPos, BlockState> replacer, BlockPos origin, Direction direction) {
+  default void placeFlag(BiConsumer<BlockPos, BlockState> replacer, BlockPos origin, Direction direction, Random random) {
+    var flagBlock = random.nextBoolean() ? MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG : MineCellsBlocks.RED_RIBBON_FLAG;
     var pole = MineCellsBlocks.FLAG_POLE.getDefaultState().with(FlagPoleBlock.FACING, direction);
     var offset = direction.getVector();
     origin = origin.add(offset);
     replacer.accept(origin, pole.with(FlagPoleBlock.CONNECTING, true));
     origin = origin.add(offset);
     replacer.accept(origin, pole.with(FlagPoleBlock.CONNECTING, false));
-    replacer.accept(origin.down(), MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG.getDefaultState()
+    replacer.accept(origin.down(), flagBlock.getDefaultState()
       .with(FlagBlock.FACING, direction.rotateYClockwise())
       .with(FlagBlock.PLACEMENT, FlagBlock.Placement.CENTERED)
     );

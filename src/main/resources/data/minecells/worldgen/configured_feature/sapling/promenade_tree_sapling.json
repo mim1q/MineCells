@@ -14,7 +14,7 @@
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecells:putrid_wood",
+        "Name": "minecells:putrid_log",
         "Properties": {
           "axis": "y"
         }
@@ -29,7 +29,7 @@
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecells:red_wilted_leaves"
+        "Name": "minecells:wilted_leaves"
       }
     },
     "foliage_placer": {

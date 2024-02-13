@@ -1,6 +1,7 @@
 {
   "type": "minecraft:tree",
   "config": {
+    "ignore_vines": true,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size"
     },
@@ -26,12 +27,10 @@
       "height_rand_b": 0
     },
     "foliage_provider": {
-      "type": "minecraft:weighted_state_provider",
-      "entries": [
-        { "weight": 85, "data": { "Name": "minecells:red_wilted_leaves" } },
-        { "weight": 14, "data": { "Name": "minecells:orange_wilted_leaves" } },
-        { "weight": 1, "data": { "Name": "minecells:wilted_leaves" } }
-      ]
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecells:red_wilted_leaves"
+      }
     },
     "foliage_placer": {
       "type": "minecells:promenade_foliage_placer",

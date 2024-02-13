@@ -62,7 +62,9 @@ public class MineCellsBlocks {
   public static final LeavesSet ORANGE_WILTED_LEAVES = new LeavesSet(MineCells.createId("orange_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.ORANGE));
   public static final LeavesSet RED_WILTED_LEAVES = new LeavesSet(MineCells.createId("red_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.RED));
 
-  public static final SaplingBlock RED_PUTRID_SAPLING = registerSapling("red_putrid_sapling", "promenade_tree_sapling");
+  public static final SaplingBlock WILTED_SAPLING = registerSapling("putrid_sapling", "promenade_tree_sapling");
+  public static final SaplingBlock ORANGE_WILTED_SAPLING = registerSapling("orange_putrid_sapling", "orange_promenade_tree_sapling");
+  public static final SaplingBlock RED_PUTRID_SAPLING = registerSapling("red_putrid_sapling", "red_promenade_tree_sapling");
 
   // ----------------------------
 
@@ -174,7 +176,8 @@ public class MineCellsBlocks {
   }
 
   private static SaplingBlock registerSapling(String id, String key) {
-    var registryKey = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, MineCells.createId(key));
+    var actualKey = "sapling/" + key;
+    var registryKey = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, MineCells.createId(actualKey));
     return registerBlockWithItem(new SaplingBlock(
       new SaplingGenerator() {
         @Override
