@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -21,6 +22,8 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.TeleportTarget;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -121,9 +124,19 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     if (isDownstream()) {
       if (targetDimension == MineCellsDimension.OVERWORLD) {
         var data = MineCellsData.getPlayerData(player, world, posOverride).getPortalData(MineCellsDimension.PRISONERS_QUARTERS, MineCellsDimension.OVERWORLD);
+
         world.getServer().execute(() -> data.ifPresent(portalData -> {
           var pos = portalData.toPos();
-          player.teleport(world.getServer().getOverworld(), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYaw(), player.getPitch());
+          FabricDimensions.teleport(
+            player,
+            world.getServer().getOverworld(),
+            new TeleportTarget(
+              Vec3d.ofCenter(pos),
+              Vec3d.ZERO,
+              player.getYaw(),
+              player.getPitch()
+            )
+          );
         }));
       } else {
         MineCellsData.getPlayerData(player, world, posOverride).addPortalData(
@@ -138,7 +151,17 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       var data = MineCellsData.getPlayerData(player, world, posOverride).getPortalData(MineCellsDimension.of(world), targetDimension);
       world.getServer().execute(() -> data.ifPresent(portalData -> {
         var pos = portalData.toPos();
-        player.teleport(targetDimension.getWorld(world), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYaw(), player.getPitch());
+
+        FabricDimensions.teleport(
+          player,
+          targetDimension.getWorld(world),
+          new TeleportTarget(
+            Vec3d.ofCenter(pos),
+            Vec3d.ZERO,
+            player.getYaw(),
+            player.getPitch()
+          )
+        );
       }));
     }
   }

@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -16,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +82,7 @@ public enum MineCellsDimension {
       teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world);
     }
     world.getServer().execute(() -> {
-      player.teleport(destination, teleportPos.getX(), teleportPos.getY(), teleportPos.getZ(), yaw, 0F);
+      FabricDimensions.teleport(player, destination, new TeleportTarget(teleportPos, Vec3d.ZERO, yaw, 0F));
     });
   }
 
