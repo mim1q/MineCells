@@ -8,8 +8,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
-import java.util.Arrays;
-
 public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   // Paths
   private static final Identifier PATH_STRAIGHT = pool("path/straight");
@@ -54,7 +52,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     addRoom(room(sideRoadEnd, VINE_RUNE).terrainFit().terrainSampleOffset(14, 0, 8).offset(0, -21, 0).rotation(BlockRotation.CLOCKWISE_90));
 
     // Additional buildings
-    tryPlaceBuildingsBetween(new Vec3i(1, 0, 32), new Vec3i(63, 0, 58), random, 48, BlockRotation.CLOCKWISE_180);
+    tryPlaceBuildingsBetween(new Vec3i(1, 0, 32), new Vec3i(63, 0, 58), random, 32, BlockRotation.CLOCKWISE_180);
     tryPlaceBuildingsBetween(new Vec3i(1, 0, 1), new Vec3i(63, 0, 31), random, 48, BlockRotation.NONE);
   }
 
@@ -80,7 +78,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     addRoom(room(start.add(direction.multiply(length)), BUILDING_OVERGROUND_END).rotation(BlockRotation.CLOCKWISE_180.rotate(rotation)).terrainFit(fitPos));
   }
 
-  private void tryPlaceBuildingsBetween(Vec3i start, Vec3i end, Random random, int count, BlockRotation... excludedRotations) {
+  private void tryPlaceBuildingsBetween(Vec3i start, Vec3i end, Random random, int count, BlockRotation excludedRotation) {
     for (int i = 0; i < count; ++i) {
       // 4 attempts per building
       var attempts = 4;
@@ -88,21 +86,21 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
         var x = random.nextInt(end.getX() - start.getX() + 1) + start.getX();
         var z = random.nextInt(end.getZ() - start.getZ() + 1) + start.getZ();
         var pos = new Vec3i(x, start.getY(), z);
-        if (tryPlaceBuilding(pos, random, excludedRotations)) {
+        if (tryPlaceBuilding(pos, random, excludedRotation)) {
           break;
         }
       }
     }
   }
 
-  private boolean tryPlaceBuilding(Vec3i start, Random random, BlockRotation... excludedRotations) {
+  private boolean tryPlaceBuilding(Vec3i start, Random random, BlockRotation excludedRotation) {
     var rotations = BlockRotation.randomRotationOrder(random);
 
     var maxLength = 3 + random.nextInt(6);
     var result = false;
 
     for (var rotation : rotations) {
-      if (Arrays.stream(excludedRotations).anyMatch(r -> r == rotation)) {
+      if (rotation == excludedRotation) {
         continue;
       }
 
