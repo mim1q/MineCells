@@ -121,7 +121,8 @@ fun main(args: Array<String>) {
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue"
+      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue", "minecells:wilted_grass_block",
+      "minecells:bloomrock_wilted_grass_block"
     )
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",

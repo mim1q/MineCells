@@ -8,9 +8,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.structure.Structure;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridPiecesGenerator {
@@ -102,12 +100,14 @@ public class GridPiecesGenerator {
   }
 
   public static abstract class RoomGridGenerator {
-    private final List<RoomData> rooms = new ArrayList<>();
+    protected final List<RoomData> rooms = new ArrayList<>();
+    protected final Set<Vec3i> usedPositions = new HashSet<>();
 
     protected abstract void addRooms(Random random);
 
     public List<RoomData> generate(Structure.Context context) {
       rooms.clear();
+      usedPositions.clear();
       addRooms(context.random());
       return rooms;
     }
@@ -138,6 +138,11 @@ public class GridPiecesGenerator {
 
     protected void addRoom(RoomData roomData) {
       rooms.add(roomData);
+      usedPositions.add(roomData.pos);
+    }
+
+    protected boolean isPositionUsed(Vec3i pos) {
+      return usedPositions.contains(pos);
     }
 
     public static RoomGridGenerator single(Identifier roomId) {

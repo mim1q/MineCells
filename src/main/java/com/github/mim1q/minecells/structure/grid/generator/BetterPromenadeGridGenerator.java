@@ -8,6 +8,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
+import java.util.Arrays;
+
 public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   // Paths
   private static final Identifier PATH_STRAIGHT = pool("path/straight");
@@ -36,25 +38,31 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   @Override
   protected void addRooms(Random random) {
     addRoom(room(32, 0, 32, PATH_HALF).terrainFit().rotation(BlockRotation.CLOCKWISE_180));
-    addRoom(room(32, 0, 32, SPAWN).terrainFit().offset(0, -7, 0));
+    addRoom(room(32, 0, 32, SPAWN).terrainFit().terrainFitOffset(8, 0, 15).offset(0, -7, 0));
     // Main road
-    final var mainRoad = addPath(new Vec3i(32, 0, 32), BlockRotation.NONE, 23, random, 8);
+    final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 23, random, 3);
     final var mainRoadEnd = mainRoad.getLeft();
     final var mainRoadSkipped = mainRoad.getRight();
     // Crossroads
     addRoom(room(mainRoadSkipped, PATH_CROSSROADS));
     addRoom(room(mainRoadSkipped, PATH_CROSSROADS_POST).terrainFit().terrainFitOffset(5, 0, 6));
     // Side road
-    final var sideRoad = addPath(mainRoadSkipped, BlockRotation.COUNTERCLOCKWISE_90, 8, random, -1);
+    final var sideRoad = addPath(mainRoadSkipped.add(1, 0, 0), BlockRotation.COUNTERCLOCKWISE_90, 9, random, -1);
     final var sideRoadEnd = sideRoad.getLeft();
-    // Buildings
-//    addBuilding(mainRoadSkipped.add(-2, 0, 1), 7, BlockRotation.NONE, random, true);
     // End
     addRoom(room(mainRoadEnd.add(0, 0, 1), RAMPARTS_TOWER).terrainFit(mainRoadEnd).terrainSampleOffset(8, 0, 15));
     addRoom(room(sideRoadEnd, VINE_RUNE).terrainFit().terrainSampleOffset(14, 0, 8).offset(0, -21, 0).rotation(BlockRotation.CLOCKWISE_90));
+
+    // Additional buildings
+    tryPlaceBuildingsBetween(new Vec3i(1, 0, 32), new Vec3i(63, 0, 58), random, 48, BlockRotation.CLOCKWISE_180);
+    tryPlaceBuildingsBetween(new Vec3i(1, 0, 1), new Vec3i(63, 0, 31), random, 48, BlockRotation.NONE);
   }
 
-  private void addBuilding(Vec3i start, int length, BlockRotation rotation, Random random, boolean underground) {
+  private void addBuilding(Vec3i start, int length, BlockRotation rotation, Random random) {
+    if (length < 1) return;
+
+    var underground = length > 3 && random.nextFloat() < 0.66;
+
     var direction = rotation.rotate(Direction.SOUTH).getVector();
     var fitPos = start.add(direction.multiply(length / 2));
     addRoom(room(start.subtract(direction), BUILDING_OVERGROUND_END).rotation(rotation).terrainFit(fitPos));
@@ -72,70 +80,99 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     addRoom(room(start.add(direction.multiply(length)), BUILDING_OVERGROUND_END).rotation(BlockRotation.CLOCKWISE_180.rotate(rotation)).terrainFit(fitPos));
   }
 
-  private Pair<Vec3i, Vec3i> addPath(Vec3i start, BlockRotation rotation, int length, Random random, int skippedPos) {
-    var direction = rotation.rotate(Direction.SOUTH);
-    var sideDirection = direction.rotateYCounterclockwise().getVector();
-    Vec3i skippedVec = null;
-    var pos = start;
-    var leftLength = -1;
-    var rightLength = -1;
-
-    for (var i = 1; i <= length; ++i) {
-      pos = pos.add(direction.getVector());
-
-      var skipped = i == skippedPos;
-      if (skipped) {
-        skippedVec = pos;
-      }
-
-      var turn = i > 2 && random.nextFloat() < 0.25f && i != skippedPos;
-      var turnLeft = random.nextBoolean();
-
-      if (turn) {
-        if (turnLeft) {
-          addRoom(room(pos, PATH_TURN).rotation(BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation)));
-          pos = pos.subtract(sideDirection);
-          addRoom(room(pos, PATH_TURN).rotation(BlockRotation.CLOCKWISE_90.rotate(rotation)));
-          leftLength++;
-        } else {
-          addRoom(room(pos, PATH_TURN).rotation(BlockRotation.NONE.rotate(rotation)));
-          pos = pos.add(sideDirection);
-          addRoom(room(pos, PATH_TURN).rotation(BlockRotation.CLOCKWISE_180.rotate(rotation)));
-          rightLength++;
+  private void tryPlaceBuildingsBetween(Vec3i start, Vec3i end, Random random, int count, BlockRotation... excludedRotations) {
+    for (int i = 0; i < count; ++i) {
+      // 4 attempts per building
+      var attempts = 4;
+      for (int j = 0; j < attempts; ++j) {
+        var x = random.nextInt(end.getX() - start.getX() + 1) + start.getX();
+        var z = random.nextInt(end.getZ() - start.getZ() + 1) + start.getZ();
+        var pos = new Vec3i(x, start.getY(), z);
+        if (tryPlaceBuilding(pos, random, excludedRotations)) {
+          break;
         }
-      } else if (!skipped) {
-        addRoom(room(pos, PATH_STRAIGHT).rotation(BlockRotation.NONE.rotate(rotation)));
-        leftLength++;
-        rightLength++;
-      }
-
-      if (skipped) {
-        leftLength--;
-        rightLength--;
-      }
-
-      var end = i == length;
-
-      if (skipped || end || turn) {
-        if (leftLength > 1) {
-          var buildingPos = pos.subtract(direction.getVector());
-          if (skipped || end) buildingPos = buildingPos.add(sideDirection);
-          else if (!turnLeft) buildingPos = buildingPos.subtract(sideDirection.multiply(2));
-          addBuilding(buildingPos, leftLength - 1, rotation.rotate(BlockRotation.CLOCKWISE_180), random, leftLength > 3);
-        }
-
-        if (rightLength > 1) {
-          var buildingPos = pos.subtract(direction.getVector());
-          if (skipped || end) buildingPos = buildingPos.subtract(sideDirection);
-          else if (turnLeft) buildingPos = buildingPos.add(sideDirection.multiply(2));
-          addBuilding(buildingPos, rightLength - 1, rotation.rotate(BlockRotation.CLOCKWISE_180), random, rightLength > 3);
-        }
-
-        leftLength = 0;
-        rightLength = 0;
       }
     }
-    return new Pair<>(pos, skippedVec);
+  }
+
+  private boolean tryPlaceBuilding(Vec3i start, Random random, BlockRotation... excludedRotations) {
+    var rotations = BlockRotation.randomRotationOrder(random);
+
+    var maxLength = 3 + random.nextInt(6);
+    var result = false;
+
+    for (var rotation : rotations) {
+      if (Arrays.stream(excludedRotations).anyMatch(r -> r == rotation)) {
+        continue;
+      }
+
+      Vec3i pos = new Vec3i(start.getX(), start.getY(), start.getZ());
+      var valid = true;
+      var direction = rotation.rotate(Direction.SOUTH).getVector();
+      for (int i = 0; i < maxLength; ++i) {
+        pos = pos.add(direction);
+        if (isPositionUsed(pos) || pos.getX() <= 0 || pos.getZ() <= 0 || pos.getX() >= 63 || pos.getZ() >= 56) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        addBuilding(start.add(direction), maxLength - 2, rotation, random);
+        result = true;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  private Pair<Vec3i, Vec3i> addPath(Vec3i start, BlockRotation rotation, int length, Random random, int skippedTurn) {
+    var direction = rotation.rotate(Direction.SOUTH).getVector();
+    var sideDirection = rotation.rotate(Direction.EAST).getVector();
+    Vec3i skippedVec = null;
+    var pos = start;
+
+    var turns = 0;
+    var nextLength = 3 + random.nextInt(2);
+    var nextLeft = random.nextBoolean();
+    addBuilding(pos.add(sideDirection).add(direction.multiply(2)), nextLength - 2, rotation, random);
+    addBuilding(pos.subtract(sideDirection).add(direction.multiply(2)), nextLength - 2, rotation, random);
+
+    for (int i = 0; i < length; ++i) {
+      if (nextLength <= 0) {
+        if (turns == skippedTurn) {
+          skippedVec = pos;
+        } else {
+          if (nextLeft) {
+            // Left turn
+            addRoom(room(pos, PATH_TURN).rotation(rotation));
+            pos = pos.add(sideDirection);
+            addRoom(room(pos, PATH_TURN).rotation(rotation.rotate(BlockRotation.CLOCKWISE_180)));
+          } else {
+            // Right turn
+            addRoom(room(pos, PATH_TURN).rotation(rotation.rotate(BlockRotation.COUNTERCLOCKWISE_90)));
+            pos = pos.subtract(sideDirection);
+            addRoom(room(pos, PATH_TURN).rotation(rotation.rotate(BlockRotation.CLOCKWISE_90)));
+          }
+        }
+        nextLength = Math.min(2 + random.nextInt(3), length - i);
+
+        var leftMultipler = Math.max(nextLeft ? 0 : 1, skippedTurn == turns ? 1 : 0);
+        var rightMultipler = Math.max(nextLeft ? 1 : 0, skippedTurn == turns ? 1 : 0);
+        addBuilding(pos.add(sideDirection).add(direction.multiply(leftMultipler)), nextLength, rotation, random);
+        addBuilding(pos.subtract(sideDirection).add(direction.multiply(rightMultipler)), nextLength, rotation, random);
+
+        turns++;
+        nextLeft = random.nextBoolean();
+      } else {
+        addRoom(room(pos, PATH_STRAIGHT).rotation(rotation));
+        nextLength--;
+      }
+
+      pos = pos.add(direction);
+    }
+
+    return new Pair<>(pos.subtract(direction), skippedVec);
   }
 
   private static Identifier pool(String path) {

@@ -27,6 +27,8 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
 
   @Override
   protected void addRoom(RoomData data) {
+    usedPositions.add(data.pos);
+
     int x = data.pos.getX() - 16 * xPart;
     int z = data.pos.getZ() - 16 * zPart;
 
@@ -45,6 +47,7 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
       newData.terrainFit();
       newData.terrainSamplePos = new Vec3i(terrainSampleX - 8, data.terrainSamplePos.getY(), terrainSampleZ - 8);
     }
-    super.addRoom(newData);
+
+    rooms.add(newData);
   }
 }
