@@ -53,7 +53,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
 
     // Additional buildings
     tryPlaceBuildingsBetween(new Vec3i(1, 0, 32), new Vec3i(63, 0, 58), random, 32, BlockRotation.CLOCKWISE_180);
-    tryPlaceBuildingsBetween(new Vec3i(1, 0, 1), new Vec3i(63, 0, 31), random, 48, BlockRotation.NONE);
+    tryPlaceBuildingsBetween(new Vec3i(1, 0, 1), new Vec3i(63, 0, 30), random, 48, BlockRotation.NONE);
   }
 
   private void addBuilding(Vec3i start, int length, BlockRotation rotation, Random random) {

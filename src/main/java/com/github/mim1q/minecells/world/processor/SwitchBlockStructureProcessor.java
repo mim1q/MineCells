@@ -11,6 +11,7 @@ import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate.StructureBlockInfo;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
@@ -18,21 +19,25 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SwitchBlockStructureProcessor extends StructureProcessor {
-  public static final Codec<SwitchBlockStructureProcessor> CODEC = SwitchBlockRule.CODEC
-    .listOf()
-    .fieldOf("rules")
-    .xmap(SwitchBlockStructureProcessor::new, it -> it.rules)
-    .codec();
+  public static final Codec<SwitchBlockStructureProcessor> CODEC =
+    RecordCodecBuilder.create(instance -> instance.group(
+      Codec.STRING.optionalFieldOf("default_namespace", "minecraft").forGetter(it -> it.defaultNamespace),
+      SwitchBlockRule.CODEC.listOf().fieldOf("rules").forGetter(it -> it.rules)
+    ).apply(instance, SwitchBlockStructureProcessor::new));
 
   private final List<SwitchBlockRule> rules;
+  private final String defaultNamespace;
   private final Map<Block, SwitchBlockRule> rulesByFromBlock;
 
-  public SwitchBlockStructureProcessor(List<SwitchBlockRule> rules) {
+  public SwitchBlockStructureProcessor(String defaultNamespace, List<SwitchBlockRule> rules) {
     this.rules = rules;
+    this.rules.forEach(rule -> rule.setup(defaultNamespace));
+    this.defaultNamespace = defaultNamespace == null ? "minecraft" : defaultNamespace;
     this.rulesByFromBlock = rules.stream().collect(
-      java.util.stream.Collectors.toMap(
+      Collectors.toMap(
         rule -> rule.fromBlock,
         rule -> rule
       )
@@ -54,7 +59,9 @@ public class SwitchBlockStructureProcessor extends StructureProcessor {
     if (rule == null) {
       return currentBlockInfo;
     }
-    var newState = rule.selectRandomBlock(Random.create(currentBlockInfo.pos().hashCode())).getDefaultState();
+    var rng = Random.create(currentBlockInfo.pos().hashCode());
+    rng.nextInt();
+    var newState = rule.selectRandomBlock(rng).getDefaultState();
     for (var property : newState.getProperties()) {
       newState = copyProperty(oldState, newState, property);
     }
@@ -76,34 +83,56 @@ public class SwitchBlockStructureProcessor extends StructureProcessor {
   public static final class SwitchBlockRule {
     public static final Codec<SwitchBlockRule> CODEC = RecordCodecBuilder.create(instance ->
       instance.group(
-        Registries.BLOCK.getCodec().fieldOf("from").forGetter(rule -> rule.fromBlock),
-        Codec.unboundedMap(Registries.BLOCK.getCodec(), Codec.INT).fieldOf("to").forGetter(rule -> rule.toBlocksWithWeights)
+        Codec.STRING.fieldOf("from").forGetter(rule -> rule.fromBlockId),
+        Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("to").forGetter(rule -> rule.toBlocksIdsWithWeights)
       ).apply(instance, SwitchBlockRule::new)
     );
 
-    private final Block fromBlock;
-    private final Map<Block, Integer> toBlocksWithWeights;
+    private final String fromBlockId;
+    private final Map<String, Integer> toBlocksIdsWithWeights;
+
+    private Block fromBlock;
+    private Map<Block, Integer> toBlocksWithWeights;
+
     private final int totalWeight;
 
     private SwitchBlockRule(
-      Block from,
-      Map<Block, Integer> to
+      String from,
+      Map<String, Integer> to
     ) {
-      this.fromBlock = from;
-      this.toBlocksWithWeights = to;
-      this.totalWeight = toBlocksWithWeights.values().stream().reduce(0, Integer::sum);
+      this.fromBlockId = from;
+      this.toBlocksIdsWithWeights = to;
+      this.totalWeight = toBlocksIdsWithWeights.values().stream().reduce(0, Integer::sum);
     }
 
     private Block selectRandomBlock(Random random) {
-      var selectedWeight = random.nextInt(totalWeight) + 1;
-      var currentWeight = 0;
+      var selected = random.nextInt(totalWeight) + 1;
+
+      var current = 0;
       for (var entry : toBlocksWithWeights.entrySet()) {
-        currentWeight += entry.getValue();
-        if (currentWeight >= selectedWeight) {
+        current += entry.getValue();
+        if (current >= selected) {
           return entry.getKey();
         }
       }
+
       return fromBlock;
+    }
+
+    private void setup(String defaultNamespace) {
+      var fromBlock = Registries.BLOCK.get(getBlockId(fromBlockId, defaultNamespace));
+      var toBlocksWithWeights = toBlocksIdsWithWeights.entrySet().stream().collect(
+        Collectors.toMap(
+          entry -> Registries.BLOCK.get(getBlockId(entry.getKey(), defaultNamespace)),
+          Map.Entry::getValue
+        )
+      );
+      this.fromBlock = fromBlock;
+      this.toBlocksWithWeights = toBlocksWithWeights;
+    }
+
+    private static Identifier getBlockId(String id, String defaultNamespace) {
+      return new Identifier(id.contains(":") ? id : defaultNamespace + ":" + id);
     }
   }
 }

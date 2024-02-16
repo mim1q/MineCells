@@ -69,7 +69,7 @@ object ModTemplatePools {
     add(Presets.single("minecells:promenade/border_wall/bottom", processors = processors))
     add(Presets.single("minecells:promenade/border_wall/middle", processors = processors))
     add(Presets.single("minecells:promenade/border_wall/top", processors = processors))
-    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = processors))
+    add(Presets.indexed("minecells:promenade/wall_segment", 28, 2, 2, 1, 1, 1, processors = processors))
     // Ramparts tower
     add(Presets.single("minecells:promenade/ramparts_tower", processors))
     // Paths
