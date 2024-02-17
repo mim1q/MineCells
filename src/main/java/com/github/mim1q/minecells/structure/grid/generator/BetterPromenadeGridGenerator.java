@@ -23,6 +23,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   private static final Identifier BUILDING_OVERGROUND_BASE = pool("overground_base");
   private static final Identifier BUILDING_OVERGROUND_ELEVATOR = pool("overground_elevator");
   private static final Identifier BUILDING_UNDERGROUND = pool("underground");
+  private static final Identifier BUILDING_UNDERGROUND_END = pool("underground_end");
 
   // Special buildings
   private static final Identifier RAMPARTS_TOWER = pool("ramparts_tower");
@@ -64,7 +65,8 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     var direction = rotation.rotate(Direction.SOUTH).getVector();
     var fitPos = start.add(direction.multiply(length / 2));
     addRoom(room(start.subtract(direction), BUILDING_OVERGROUND_END).rotation(rotation).terrainFit(fitPos));
-    var skipped = underground ? random.nextInt(length) : -1;
+    var skipped = underground ? random.nextInt(length - 1) : -1;
+
     for (var i = 0; i < length; ++i) {
       if (i == skipped) {
         addRoom(room(start.add(direction.multiply(i)).down(2), BUILDING_OVERGROUND_ELEVATOR).rotation(rotation).terrainFit(fitPos));
@@ -73,7 +75,16 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
       var randomRotation = random.nextBoolean() ? rotation : BlockRotation.CLOCKWISE_180.rotate(rotation);
       addRoom(room(start.add(direction.multiply(i)), BUILDING_OVERGROUND).rotation(randomRotation).terrainFit(fitPos));
       addRoom(room(start.add(direction.multiply(i)).down(), BUILDING_OVERGROUND_BASE).rotation(rotation).terrainFit(fitPos));
-      addRoom(room(start.add(direction.multiply(i)).down(2), underground ? BUILDING_UNDERGROUND : BUILDING_OVERGROUND_BASE).rotation(rotation).terrainFit(fitPos));
+
+      if (underground) {
+        if (i == length - 1 && random.nextFloat() < 0.67) {
+          addRoom(room(start.add(direction.multiply(i).down(3)), BUILDING_UNDERGROUND_END).rotation(rotation).terrainFit(fitPos));
+        } else {
+          addRoom(room(start.add(direction.multiply(i)).down(2), BUILDING_UNDERGROUND).rotation(rotation).terrainFit(fitPos));
+        }
+      } else {
+        addRoom(room(start.add(direction.multiply(i)).down(2), BUILDING_OVERGROUND_BASE).rotation(rotation).terrainFit(fitPos));
+      }
     }
     addRoom(room(start.add(direction.multiply(length)), BUILDING_OVERGROUND_END).rotation(BlockRotation.CLOCKWISE_180.rotate(rotation)).terrainFit(fitPos));
   }

@@ -18,6 +18,7 @@ object ModItemModels {
       }
     }
     add("solid_barrier_rune", ParentedModel.item("minecells:item/barrier_rune"))
+    add("unbreakable_chain", ParentedModel.item("minecraft:item/chain"))
   }
 
   fun handheld() = Preset {

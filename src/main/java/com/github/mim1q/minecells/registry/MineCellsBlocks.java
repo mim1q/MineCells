@@ -35,6 +35,7 @@ public class MineCellsBlocks {
   public static final Block HARDSTONE = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "hardstone");
   public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "wilted_grass_block");
   public static final Block BLOOMROCK_WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "bloomrock_wilted_grass_block");
+  public static final ChainBlock UNBREAKABLE_CHAIN = registerBlockWithItem(new ChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN).strength(-1.0F, 3600000.0F)), "unbreakable_chain");
 
   // Block sets
   public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));

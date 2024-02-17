@@ -45,10 +45,13 @@ public class MineCellsItemGroups {
     stacks.add(stack(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK));
 
     stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());
+    stacks.add(MineCellsBlocks.ARROW_SIGN);
     stacks.add(stack(MineCellsBlocks.PUTRID_BOARDS));
     stacks.addAll(MineCellsBlocks.PUTRID_BOARD.getStacks());
     stacks.addAll(MineCellsBlocks.WILTED_LEAVES.getStacks());
+    stacks.add(MineCellsBlocks.WILTED_SAPLING);
     stacks.addAll(MineCellsBlocks.ORANGE_WILTED_LEAVES.getStacks());
+    stacks.add(MineCellsBlocks.ORANGE_WILTED_SAPLING);
     stacks.addAll(MineCellsBlocks.RED_WILTED_LEAVES.getStacks());
     stacks.addAll(List.of(
       stack(MineCellsBlocks.RED_PUTRID_SAPLING),
