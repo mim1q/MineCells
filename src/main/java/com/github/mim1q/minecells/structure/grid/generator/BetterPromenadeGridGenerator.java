@@ -175,6 +175,9 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
         nextLeft = random.nextBoolean();
       } else {
         addRoom(room(pos, PATH_STRAIGHT).rotation(rotation));
+        if (random.nextFloat() < 0.33) {
+          addRoom(room(pos, PATH_BUILDING).rotation(rotation).terrainFit());
+        }
         nextLength--;
       }
 

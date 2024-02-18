@@ -1,6 +1,7 @@
 package datagen.custom
 
 import tada.lib.presets.Preset
+import tada.lib.resources.templatepool.TemplatePool
 import tada.lib.presets.common.TemplatePoolPresets as Presets
 
 object ModTemplatePools {
@@ -78,9 +79,17 @@ object ModTemplatePools {
     add(Presets.indexed("minecells:promenade/path/straight", 1, 1, 1, processors = pathProc, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/path/turn", 1, 2, processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/half", processors = pathProc, terrainMatching = true))
-    add(Presets.indexed("minecells:promenade/path/building", 1, processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads", processors = pathProc, terrainMatching = true))
     add(Presets.single("minecells:promenade/path/crossroads_post", processors = processors))
+    add(Presets.single("minecells:promenade/path/post/before_crossroads", processors = processors))
+    add(Presets.single("minecells:promenade/path/post/after_crossroads", processors = processors))
+    add(Presets.single("minecells:promenade/path/post/vine_rune", processors = processors))
+    // Path Buildings
+    add("promenade/path/building", TemplatePool.create("minecells:promenade/path/building") {
+      single(3, "minecells:promenade/path/building/0", processors, false)
+      single(2, "minecells:promenade/path/building/1", processors, true)
+      single(1, "minecells:promenade/overground_top/7", processors, false)
+    })
     // Special
     add(Presets.single("minecells:promenade/special/vine_rune", processors = processors))
   }
