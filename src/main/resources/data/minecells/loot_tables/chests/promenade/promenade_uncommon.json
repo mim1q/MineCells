@@ -29,8 +29,8 @@
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 5,
-                "max": 15
+                "min": 4,
+                "max": 14
               },
               "conditions": [
                 {
@@ -54,7 +54,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/prison_blocks"
+          "name": "minecells:chests/common/promenade_blocks"
         }
       ],
       "conditions": [
@@ -69,7 +69,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/ramparts/ramparts_weapons"
+          "name": "minecells:chests/promenade/promenade_weapons"
         }
       ],
       "conditions": [

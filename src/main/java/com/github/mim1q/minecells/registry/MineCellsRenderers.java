@@ -215,6 +215,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.RED_WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.RUNIC_VINE,
       MineCellsBlocks.RUNIC_VINE_PLANT,
+      MineCellsBlocks.UNBREAKABLE_CHAIN,
 //      MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
