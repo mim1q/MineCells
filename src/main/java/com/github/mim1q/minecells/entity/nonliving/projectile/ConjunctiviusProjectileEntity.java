@@ -45,7 +45,10 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
 
   @Override
   protected float getDamage() {
-    return 6.0F;
+    if (this.getOwner() instanceof ConjunctiviusEntity owner) {
+      return owner.getDamage(1f);
+    }
+    return 8.0f;
   }
 
   @Override

@@ -146,7 +146,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.chargeSound = MineCellsSounds.SHOCKER_CHARGE;
       s.releaseSound = MineCellsSounds.SHOCKER_RELEASE;
       s.soundVolume = 2.0F;
-      s.damage = 10.0F;
+      s.damage = getDamage(1f);
       s.radius = 8.0D;
       s.defaultCooldown = 200;
       s.actionTick = 30;
@@ -162,7 +162,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.releaseSound = MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE;
       s.soundVolume = 2.0F;
       s.speed = 1.0F;
-      s.damage = 20.0F;
+      s.damage = getDamage(2.5f);
       s.defaultCooldown = 200;
       s.actionTick = 30;
       s.alignTick = 26;
@@ -470,6 +470,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D)
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0D)
       .add(EntityAttributes.GENERIC_ARMOR, 10.0D)

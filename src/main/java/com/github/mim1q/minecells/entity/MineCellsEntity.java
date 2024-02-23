@@ -283,4 +283,8 @@ public class MineCellsEntity extends HostileEntity {
   protected BiConsumer<State, Boolean> handleStateChange(TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
     return (state, value) -> this.handleStateChange(state, value, charging, releasing);
   }
+
+  public float getDamage(float scale) {
+    return (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * scale;
+  }
 }
