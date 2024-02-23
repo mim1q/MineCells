@@ -50,7 +50,7 @@ public class ElevatorEntity extends Entity {
   private static final TrackedData<Integer> MIN_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Integer> MAX_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-  private boolean unbeakable = false;
+  private boolean unbreakable = false;
   protected double serverY;
   protected int interpolationSteps = 0;
   protected int stoppedTicks = 0;
@@ -86,7 +86,7 @@ public class ElevatorEntity extends Entity {
   }
 
   public void setUnbreakable(boolean unbreakable) {
-    this.unbeakable = unbreakable;
+    this.unbreakable = unbreakable;
   }
 
   @Override
@@ -199,7 +199,7 @@ public class ElevatorEntity extends Entity {
 
   @Override
   public boolean handleAttack(Entity attacker) {
-    if (attacker instanceof PlayerEntity player && !this.unbeakable) {
+    if (attacker instanceof PlayerEntity player && !this.unbreakable) {
       if (player.preferredHand != null && player.getStackInHand(player.preferredHand).getItem() instanceof AxeItem) {
         this.kill();
       }
@@ -522,7 +522,7 @@ public class ElevatorEntity extends Entity {
     this.setup = nbt.getBoolean("setup");
     this.poweredTop = nbt.getBoolean("poweredTop");
     this.poweredBottom = nbt.getBoolean("poweredBottom");
-    this.unbeakable = nbt.getBoolean("unbreakable");
+    this.unbreakable = nbt.getBoolean("unbreakable");
   }
 
   @Override
@@ -534,6 +534,6 @@ public class ElevatorEntity extends Entity {
     nbt.putBoolean("setup", this.setup);
     nbt.putBoolean("poweredTop", this.poweredTop);
     nbt.putBoolean("poweredBottom", this.poweredBottom);
-    nbt.putBoolean("unbreakable", this.unbeakable);
+    nbt.putBoolean("unbreakable", this.unbreakable);
   }
 }

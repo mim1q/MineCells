@@ -82,7 +82,7 @@ public class ElevatorAssemblerBlock extends SetupBlock {
         world.breakBlock(pos, false);
         world.removeBlockEntity(pos.withY(second));
         world.breakBlock(pos.withY(second), false);
-        elevator.setUnbreakable(true);
+        elevator.setUnbreakable(state.get(UNBREAKABLE));
       }
       return true;
     }
