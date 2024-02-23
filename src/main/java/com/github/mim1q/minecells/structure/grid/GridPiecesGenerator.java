@@ -75,6 +75,7 @@ public class GridPiecesGenerator {
     public RoomData terrainFitOffset(int x, int y, int z) {
       offset(x, y, z);
       this.terrainSampleOffset = this.offset;
+      this.terrainFit();
       return this;
     }
 

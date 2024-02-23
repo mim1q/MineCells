@@ -13,7 +13,6 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   private static final Identifier PATH_STRAIGHT = pool("path/straight");
   private static final Identifier PATH_TURN = pool("path/turn");
   private static final Identifier PATH_CROSSROADS = pool("path/crossroads");
-  private static final Identifier PATH_CROSSROADS_POST = pool("path/crossroads_post");
   private static final Identifier PATH_BUILDING = pool("path/building");
   private static final Identifier PATH_HALF = pool("path/half");
 
@@ -30,6 +29,12 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   private static final Identifier VINE_RUNE = pool("special/vine_rune");
   private static final Identifier SPAWN = pool("spawn");
 
+  // Posts
+  private static final Identifier CROSSROADS_POST = pool("path/crossroads_post");
+  private static final Identifier VINE_RUNE_POST = pool("path/post/vine_rune");
+  private static final Identifier BEFORE_CROSSROADS_POST = pool("path/post/before_crossroads");
+  private static final Identifier AFTER_CROSSROADS_POST = pool("path/post/after_crossroads");
+
   public BetterPromenadeGridGenerator(int xPart, int zPart) {
     super(xPart, zPart);
   }
@@ -39,14 +44,14 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     addRoom(room(32, 0, 32, PATH_HALF).terrainFit().rotation(BlockRotation.CLOCKWISE_180));
     addRoom(room(32, 0, 32, SPAWN).terrainFit().terrainFitOffset(8, 0, 15).offset(0, -7, 0));
     // Main road
-    final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 23, random, 3);
+    final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 23, random, 3, BEFORE_CROSSROADS_POST, AFTER_CROSSROADS_POST);
     final var mainRoadEnd = mainRoad.getLeft();
     final var mainRoadSkipped = mainRoad.getRight();
     // Crossroads
     addRoom(room(mainRoadSkipped, PATH_CROSSROADS));
-    addRoom(room(mainRoadSkipped, PATH_CROSSROADS_POST).terrainFit().terrainFitOffset(5, 0, 6));
+    addRoom(room(mainRoadSkipped, CROSSROADS_POST).terrainFit().terrainFitOffset(5, 0, 6));
     // Side road
-    final var sideRoad = addPath(mainRoadSkipped.add(1, 0, 0), BlockRotation.COUNTERCLOCKWISE_90, 9, random, -1);
+    final var sideRoad = addPath(mainRoadSkipped.add(1, 0, 0), BlockRotation.COUNTERCLOCKWISE_90, 9, random, -1, VINE_RUNE_POST, VINE_RUNE_POST);
     final var sideRoadEnd = sideRoad.getLeft();
     // End
     addRoom(room(mainRoadEnd.add(0, 0, 1), RAMPARTS_TOWER).terrainFit(mainRoadEnd).terrainSampleOffset(8, 0, 15));
@@ -118,7 +123,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
       Vec3i pos = new Vec3i(start.getX(), start.getY(), start.getZ());
       var valid = true;
       var direction = rotation.rotate(Direction.SOUTH).getVector();
-      for (int i = 0; i < maxLength; ++i) {
+      for (int i = -1; i < maxLength + 1; ++i) {
         pos = pos.add(direction);
         if (isPositionUsed(pos) || pos.getX() <= 0 || pos.getZ() <= 0 || pos.getX() >= 63 || pos.getZ() >= 56) {
           valid = false;
@@ -135,7 +140,15 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     return result;
   }
 
-  private Pair<Vec3i, Vec3i> addPath(Vec3i start, BlockRotation rotation, int length, Random random, int skippedTurn) {
+  private Pair<Vec3i, Vec3i> addPath(
+    Vec3i start,
+    BlockRotation rotation,
+    int length,
+    Random random,
+    int skippedTurn,
+    Identifier beforeCrossroadsPost,
+    Identifier afterCrossroadsPost
+  ) {
     var direction = rotation.rotate(Direction.SOUTH).getVector();
     var sideDirection = rotation.rotate(Direction.EAST).getVector();
     Vec3i skippedVec = null;
@@ -175,8 +188,16 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
         nextLeft = random.nextBoolean();
       } else {
         addRoom(room(pos, PATH_STRAIGHT).rotation(rotation));
-        if (random.nextFloat() < 0.33) {
-          addRoom(room(pos, PATH_BUILDING).rotation(rotation).terrainFit());
+        if (random.nextFloat() < 0.6) {
+          if (random.nextFloat() < 0.33) {
+            var offset = direction.multiply(5).add(sideDirection.multiply(6));
+            addRoom(room(pos, turns < (skippedTurn + 1) ? beforeCrossroadsPost : afterCrossroadsPost)
+              .terrainFitOffset(offset.getX(), offset.getY(), offset.getZ())
+              .rotation(rotation)
+            );
+          } else {
+            addRoom(room(pos, PATH_BUILDING).rotation(rotation).terrainFit());
+          }
         }
         nextLength--;
       }
