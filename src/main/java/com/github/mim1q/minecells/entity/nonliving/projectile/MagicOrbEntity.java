@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -57,9 +58,9 @@ public class MagicOrbEntity extends ProjectileEntity {
     Entity entity = entityHitResult.getEntity();
 
     if (entity instanceof PlayerEntity) {
-      DamageSource damageSource = this.getOwner() == null
-        ? getDamageSources().magic()
-        : getDamageSources().indirectMagic(this, this.getOwner());
+      DamageSource damageSource = this.getOwner() instanceof LivingEntity owner
+        ? getDamageSources().mobAttack(owner)
+        : getDamageSources().generic();
       entity.damage(damageSource, this.getDamage());
       this.kill();
     }
