@@ -17,12 +17,7 @@
   "item.minecells.sweeper_spawn_egg": "Sweeper Spawn Egg",
   "item.minecells.buzzcutter_spawn_egg": "Buzzcutter Spawn Egg",
   "_comment.minecells.002": "=================================== BLOCKS AND ITEMS =====================================",
-  "itemGroup.minecells.minecells": [
-    {
-      "text": "Mine Cells",
-      "color": "#46D4FF"
-    }
-  ],
+  "itemGroup.minecells.minecells": [{ "text": "Mine Cells", "color": "#46D4FF" }],
   "itemGroup.minecells.minecells.tab.general": "General",
   "itemGroup.minecells.minecells.tab.combat": "Combat",
   "itemGroup.minecells.minecells.tab.spawn_eggs": "Spawn Eggs",
@@ -85,86 +80,16 @@
   "item.minecells.dimensional_rune.tooltip": "Use on a Doorway in the Overworld\nto change its destination",
   "item.minecells.dimensional_rune.only_usable_in_overworld": "You can only use this rune in the Overworld",
   "item.minecells.dimensional_rune.not_visited": "You can only use this rune to access an area you have already visited",
-  "item.minecells.prison_doorway": [
-    "",
-    {
-      "text": "Prisoners' Quarters ",
-      "color": "#54EF88"
-    },
-    "Doorway"
-  ],
-  "item.minecells.promenade_doorway": [
-    "",
-    {
-      "text": "Promenade of The Condemned ",
-      "color": "#93FFF7"
-    },
-    "Doorway"
-  ],
-  "item.minecells.insufferable_crypt_doorway": [
-    "",
-    {
-      "text": "Insufferable Crypt ",
-      "color": "#FF4CF4"
-    },
-    "Doorway"
-  ],
-  "item.minecells.ramparts_doorway": [
-    "",
-    {
-      "text": "Ramparts ",
-      "color": "#FFC540"
-    },
-    "Doorway"
-  ],
-  "item.minecells.black_bridge_doorway": [
-    "",
-    {
-      "text": "Black Bridge ",
-      "color": "#623CC9"
-    },
-    "Doorway"
-  ],
-  "item.minecells.prison_dimensional_rune": [
-    "",
-    {
-      "text": "Prisoners' Quarters ",
-      "color": "#54EF88"
-    },
-    "Dimensional Rune"
-  ],
-  "item.minecells.promenade_dimensional_rune": [
-    "",
-    {
-      "text": "Promenade of The Condemned ",
-      "color": "#93FFF7"
-    },
-    "Dimensional Rune"
-  ],
-  "item.minecells.insufferable_crypt_dimensional_rune": [
-    "",
-    {
-      "text": "Insufferable Crypt ",
-      "color": "#FF4CF4"
-    },
-    "Dimensional Rune"
-  ],
-  "item.minecells.ramparts_dimensional_rune": [
-    "",
-    {
-      "text": "Ramparts ",
-      "color": "#FFC540"
-    },
-    "Dimensional Rune"
-  ],
-  "item.minecells.black_bridge_dimensional_rune": [
-    "",
-    {
-      "text": "Black Bridge ",
-      "color": "#623CC9"
-    },
-    "Dimensional Rune"
-  ],
+  "item.minecells.prison_doorway": ["", { "text": "Prisoners' Quarters ", "color": "#54EF88" }, "Doorway"],
+  "item.minecells.promenade_doorway": ["", { "text": "Promenade of The Condemned ", "color": "#93FFF7" }, "Doorway"],
+  "item.minecells.insufferable_crypt_doorway": ["", { "text": "Insufferable Crypt ", "color": "#FF4CF4" }, "Doorway"],
+  "item.minecells.ramparts_doorway": ["", { "text": "Ramparts ", "color": "#FFC540" }, "Doorway"],
+  "item.minecells.black_bridge_doorway": ["", { "text": "Black Bridge ", "color": "#623CC9" }, "Doorway"],
+  "item.minecells.prison_dimensional_rune": ["", { "text": "Prisoners' Quarters ", "color": "#54EF88" }, "Dimensional Rune"],
+  "item.minecells.promenade_dimensional_rune": ["", { "text": "Promenade of The Condemned ", "color": "#93FFF7" }, "Dimensional Rune"],
+  "item.minecells.insufferable_crypt_dimensional_rune": ["", { "text": "Insufferable Crypt ", "color": "#FF4CF4" }, "Dimensional Rune"],
+  "item.minecells.ramparts_dimensional_rune": ["", { "text": "Ramparts ", "color": "#FFC540" }, "Dimensional Rune"],
+  "item.minecells.black_bridge_dimensional_rune": ["", { "text": "Black Bridge ", "color": "#623CC9" }, "Dimensional Rune"],
   "_comment.minecells.003": "======================================== WEAPONS =========================================",
   "item.minecells.assassins_dagger": "Assassin's Dagger",
   "item.minecells.assassins_dagger.description": "Deals critical (+%sHP) damage\nwhen hitting enemies in the back",
@@ -225,6 +150,7 @@
   "entity.minecells.disgusting_worm_egg": "Disgusting Worm Egg",
   "entity.minecells.spawner_rune": "Spawner Rune",
   "entity.minecells.elite": "ELITE",
+  "entity.minecells.elite_obelisk": "Elite Obelisk",
   "effect.minecells.electrified": "Electrified",
   "effect.minecells.protected": "Protected",
   "effect.minecells.cursed": "Cursed",
@@ -269,14 +195,7 @@
   "chat.minecells.version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
   "chat.minecells.version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
   "chat.minecells.stuck_message": "\nIt seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint.",
-  "chat.minecells.wipe_try": [
-    "\n",
-    {
-      "text": "WARNING: ",
-      "color": "#FF1111"
-    },
-    "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"
-  ],
+  "chat.minecells.wipe_try": ["\n", { "text": "WARNING: ", "color": "#FF1111" }, "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"],
   "chat.minecells.wipe_success": "All Mine Cells data has been wiped.",
   "_comment.minecells.005": "====================================== ADVANCEMENTS ======================================",
   "advancements.minecells.root": "Mine Cells",
