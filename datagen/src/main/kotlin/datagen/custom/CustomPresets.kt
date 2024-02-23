@@ -10,6 +10,7 @@ import tada.lib.resources.blockstate.BlockStateModel.Rotation
 import tada.lib.resources.model.ParentedModel
 import tada.lib.resources.recipe.CraftingRecipe
 import tada.lib.resources.recipe.SmeltingRecipe
+import tada.lib.resources.recipe.StonecuttingRecipe
 import tada.lib.tags.TagManager
 import tada.lib.util.Id
 
@@ -114,8 +115,29 @@ object CustomPresets {
       key("I", "minecraft:iron_bars")
       key("T", "minecells:prison_torch")
     })
+    add("flag_pole", CraftingRecipe.shaped("minecells:flag_pole") {
+      pattern("PPP")
+      pattern(" S ")
+      pattern("  S")
+      key("P", "minecells:putrid_planks")
+      key("S", "minecraft:stick")
+    })
     add("cracked_prison_bricks", SmeltingRecipe.create("minecells:prison_bricks", "minecells:cracked_prison_bricks"))
     add(dimensionalRuneRecipes())
+    add("arrow_sign", CraftingRecipe.shaped("minecells:arrow_sign", 4) {
+      pattern("PPS")
+      pattern("PPS")
+      key("P", "minecells:putrid_planks")
+      key("S", "minecells:putrid_stairs")
+    })
+    // Bloomrock
+    add(CommonRecipePresets.packed2x2("minecells:bloomrock", "minecells:bloomrock_bricks", 4))
+    add(CommonRecipePresets.packed2x2("minecells:bloomrock_bricks", "minecells:bloomrock_tiles", 4))
+    add("bloomrock_bricks_stonecutting", StonecuttingRecipe.create("minecells:bloomrock", "minecells:bloomrock_bricks", 1))
+    add("bloomrock_tiles_stonecutting", StonecuttingRecipe.create("minecells:bloomrock_bricks", "minecells:bloomrock_tiles", 1))
+    add("bloomrock_tiles_from_bricks_stonecutting", StonecuttingRecipe.create("minecells:bloomrock", "minecells:bloomrock_tiles", 1))
+    add("cracked_bloomrock_bricks", SmeltingRecipe.create("minecells:bloomrock_bricks", "minecells:cracked_bloomrock_bricks"))
+
   }
 
   private fun dimensionalRuneRecipes() = Preset {
