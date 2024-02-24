@@ -74,7 +74,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
         this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD)
           || this.getOffHandStack().isOf(MineCellsItems.CURSED_SWORD)
       ) {
-        this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.CURSED, 210, 0, false, false, true));
+        this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.CURSED, 30, 0, false, false, true));
       }
     }
   }
@@ -147,7 +147,7 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     nbt.putInt("MineCellsFlags", this.dataTracker.get(MINECELLS_FLAGS));
   }
-  
+
   @Inject(method = "dropXp()V", at = @At("HEAD"))
   public void dropXp(CallbackInfo ci) {
     if (!canDropCells()) {

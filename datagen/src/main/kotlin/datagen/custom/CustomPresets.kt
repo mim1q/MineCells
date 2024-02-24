@@ -118,7 +118,7 @@ object CustomPresets {
     add("flag_pole", CraftingRecipe.shaped("minecells:flag_pole") {
       pattern("PPP")
       pattern(" S ")
-      pattern("  S")
+      pattern("S  ")
       key("P", "minecells:putrid_planks")
       key("S", "minecraft:stick")
     })
@@ -137,6 +137,13 @@ object CustomPresets {
     add("bloomrock_tiles_stonecutting", StonecuttingRecipe.create("minecells:bloomrock_bricks", "minecells:bloomrock_tiles", 1))
     add("bloomrock_tiles_from_bricks_stonecutting", StonecuttingRecipe.create("minecells:bloomrock", "minecells:bloomrock_tiles", 1))
     add("cracked_bloomrock_bricks", SmeltingRecipe.create("minecells:bloomrock_bricks", "minecells:cracked_bloomrock_bricks"))
+    // Chains
+    add("chain_pile", CraftingRecipe.shaped("minecells:chain_pile", 4) {
+      pattern(" C ")
+      pattern("CCC")
+      key("C", "minecells:big_chain")
+    })
+    add(CommonRecipePresets.packed2x2("minecells:big_chain", "minecells:chain_pile_block", 2))
 
   }
 
