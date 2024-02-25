@@ -226,6 +226,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.WILTED_GRASS_BLOCK,
       MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK,
       MineCellsBlocks.RED_PUTRID_SAPLING,
+      MineCellsBlocks.ORANGE_PUTRID_SAPLING,
+      MineCellsBlocks.PUTRID_SAPLING,
       MineCellsBlocks.SHOCKWAVE_FLAME,
       MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER
     );

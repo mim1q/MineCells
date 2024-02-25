@@ -55,6 +55,19 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
 
       matrices.push();
       {
+        matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(verticalRotationDegrees)));
+        matrices.translate(0f, -1f, 0f);
+        if (flipRotation) {
+          matrices.translate(0f, 0f, 6 / 16f);
+          matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
+          matrices.translate(0f, 0f, -6 / 16f);
+        }
+        root.render(matrices, vertices, light, overlay);
+      }
+      matrices.pop();
+
+      matrices.push();
+      {
         matrices.translate(0F, 1.125F, 3.99f / 16f);
         renderIcon(entity, matrices, vertexConsumers, light, overlay);
         matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
@@ -62,15 +75,6 @@ public class ArrowSignBlockEntityRenderer implements BlockEntityRenderer<ArrowSi
         renderIcon(entity, matrices, vertexConsumers, light, overlay);
       }
       matrices.pop();
-
-      matrices.multiply(new Quaternionf().rotationZ(MathUtils.radians(verticalRotationDegrees)));
-      matrices.translate(0f, -1f, 0f);
-      if (flipRotation) {
-        matrices.translate(0f, 0f, 6 / 16f);
-        matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
-        matrices.translate(0f, 0f, -6 / 16f);
-      }
-      root.render(matrices, vertices, light, overlay);
     }
     matrices.pop();
   }
