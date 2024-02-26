@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.JumpBackGoal;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
@@ -9,10 +10,7 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -33,6 +31,8 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
   private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> SHOOT_RELEASING = DataTracker.registerData(GrenadierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
+  private int jumpbackCooldown = 0;
+
   public GrenadierEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
   }
@@ -48,14 +48,24 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
   @Override
   public void initGoals() {
-    this.goalSelector.add(3, new LookAroundGoal(this));
-    this.goalSelector.add(2, new WanderAroundGoal(this, 1.0D));
-    this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0D));
+    this.goalSelector.add(4, new LookAroundGoal(this));
+    this.goalSelector.add(3, new WanderAroundGoal(this, 1.0D));
+    this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
 
     this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 0, false, false, null));
 
-    this.goalSelector.add(0, new GrenadierShootGoal(this, 10, 20));
-    this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, true, 5.0D));
+    this.goalSelector.add(1, new GrenadierShootGoal(this, 10, 20));
+    this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
+    this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0D, true, 6.0D));
+
+    this.goalSelector.add(1, new JumpBackGoal(this, s -> {
+      s.defaultCooldown = 20;
+      s.actionTick = 10;
+      s.length = 20;
+      s.chance = 0.1F;
+      s.cooldownGetter = () -> jumpbackCooldown;
+      s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
+    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 25.0D));
   }
 
   @Override
@@ -80,6 +90,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
   protected void serverTick() {
     this.decrementCooldown(SHOOT_COOLDOWN);
+    --jumpbackCooldown;
   }
 
   @Override
