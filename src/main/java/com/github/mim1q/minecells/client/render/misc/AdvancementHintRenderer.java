@@ -68,11 +68,6 @@ public class AdvancementHintRenderer {
 
   public static void resetAdvancements() {
     RENDER_ADVANCEMENT_MAP.replaceAll((id, b) -> true);
-    var player = MinecraftClient.getInstance().player;
-    if (player == null) return;
-    player.networkHandler.getAdvancementHandler().getManager().getAdvancements().forEach(advancement -> {
-      RENDER_ADVANCEMENT_MAP.putIfAbsent(advancement.getId(), true);
-    });
   }
 
   public static void setAdvancementRendered(Identifier advancementId, boolean rendered) {

@@ -127,7 +127,7 @@ fun main(args: Array<String>) {
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",
       "minecells:small_crate", "minecells:brittle_barrel", "minecells:putrid_board_block", "minecells:putrid_board_slab",
-      "minecells:putrid_board_stairs"
+      "minecells:putrid_board_stairs", "minecells:arrow_sign"
     )
     TagManager.add("minecells:blocks/tree_root_replaceable",
       "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block",
