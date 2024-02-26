@@ -47,6 +47,15 @@ public abstract class MineCellsEntityRenderer<T extends MineCellsEntity, M exten
         .rotationY(radians(180F + camera.getYaw()))
         .rotateX(-radians(camera.getPitch()))
       );
+
+      matrices.push();
+      {
+        matrices.translate(-1.0, -6.0, 0.1D);
+        matrices.scale(-1.0F, -1.0F, 1.0F);
+        RenderUtils.drawBillboard(vertices, matrices, 0xF000F0, 24F, 24F, 0xFFFFFFFF);
+      }
+      matrices.pop();
+
       getTextRenderer().drawWithOutline(
         text.asOrderedText(),
         -getTextRenderer().getWidth(text) / 2.0F,
@@ -57,10 +66,6 @@ public abstract class MineCellsEntityRenderer<T extends MineCellsEntity, M exten
         vertexConsumers,
         0xF000F0
       );
-
-      matrices.translate(-1.0, -6.0, 0.1D);
-      matrices.scale(-1.0F, -1.0F, 1.0F);
-      RenderUtils.drawBillboard(vertices, matrices, 0xF000F0, 24F, 24F, 0xFFFFFFFF);
     }
     matrices.pop();
   }
