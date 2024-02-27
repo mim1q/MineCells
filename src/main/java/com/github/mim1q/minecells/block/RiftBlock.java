@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.EntityShapeContext;
@@ -20,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,12 +49,21 @@ public class RiftBlock extends BlockWithEntity {
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (
       entity instanceof ServerPlayerEntity player
-      && world instanceof ServerWorld serverWorld
-      && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
+        && world instanceof ServerWorld serverWorld
+        && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
     ) {
       var teleportPos = getPlayerTeleportPosition(player, serverWorld);
       serverWorld.getServer().execute(() -> {
-        player.teleport(world.getServer().getOverworld(), teleportPos.getX(), teleportPos.getY(), teleportPos.getZ(), 0F, 0F);
+        FabricDimensions.teleport(
+          player,
+          world.getServer().getOverworld(),
+          new TeleportTarget(
+            Vec3d.ofCenter(teleportPos),
+            Vec3d.ZERO,
+            0F,
+            0F
+          )
+        );
       });
     }
   }
