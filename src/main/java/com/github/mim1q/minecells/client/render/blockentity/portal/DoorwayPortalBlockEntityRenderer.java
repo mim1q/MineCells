@@ -37,26 +37,25 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
 
   @Override
   public void render(DoorwayPortalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-    var vertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(entity.getTexture()));
-    var backgroundVertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(entity.getBackgroundTexture()));
-    var foregroundVertices = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(entity.getTexture()));
-
     matrices.push();
     matrices.translate(0.5, 0.25, 0.5);
     matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F - entity.getRotation())));
 
-    matrices.translate(0.0, 0.0, 0.48);
-    RenderUtils.drawBillboard(foregroundVertices, matrices, 0xF000F0, 1.5F, 2.5F, 104F / 128, 1F, 0, 40F / 128, 0xFFFFFFFF);
-
-    matrices.translate(0.0, 0.0, 0.01);
+    var backgroundVertices = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(entity.getBackgroundTexture()));
+    matrices.translate(0.0, 0.0, 0.49);
     renderBackground(matrices, backgroundVertices, entity);
+
+    var foregroundVertices = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(entity.getTexture()));
+    matrices.translate(0.0, 0.0, -0.01);
+    RenderUtils.drawBillboard(foregroundVertices, matrices, 0xF000F0, 1.5F, 2.5F, 104F / 128, 1F, 0, 40F / 128, 0xFFFFFFFF);
 
     var barsProgress = entity.canPlayerEnter(MinecraftClient.getInstance().player) ? 0.25F : 1.0F;
     var minY = 1.25F - barsProgress * 2.5F;
     var minV = (40 - 40F * barsProgress) / 128;
 
+    var barsVertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(entity.getTexture()));
     matrices.translate(0.0, 0.01, -0.25);
-    RenderUtils.drawBillboard(vertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 0xFFFFFFFF);
+    RenderUtils.drawBillboard(barsVertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 0xFFFFFFFF);
 
     var text = entity.getLabel();
     renderLabel(text, matrices, vertexConsumers, shouldShowPosition(entity.getWorld(), entity.getPos(), entity.getCachedState().getBlock()));
