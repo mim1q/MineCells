@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.JumpBackGoal;
 import com.github.mim1q.minecells.entity.ai.goal.ShootGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.entity.interfaces.IShootEntity;
@@ -29,6 +30,7 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
 
   public final AnimationProperty handsUpProgess = new AnimationProperty(0.0F);
   public final AnimationProperty pullProgress = new AnimationProperty(0.0F);
+  private int jumpbackCooldown = 0;
   private static final TrackedData<Boolean> SHOOT_CHARGING = DataTracker.registerData(UndeadArcherEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> SHOOT_RELEASING = DataTracker.registerData(UndeadArcherEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Integer> SHOOT_COOLDOWN = DataTracker.registerData(UndeadArcherEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -40,8 +42,16 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
   @Override
   protected void initGoals() {
     super.initGoals();
-    this.goalSelector.add(0, new UndeadArcherShootGoal(this, 20, 25, 0.5F));
-    this.goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0D, false, 3.0F));
+    this.goalSelector.add(1, new JumpBackGoal(this, s -> {
+      s.defaultCooldown = 20;
+      s.actionTick = 10;
+      s.length = 20;
+      s.chance = 0.3F;
+      s.cooldownGetter = () -> jumpbackCooldown;
+      s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
+    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 12.0 * 12.0 && !isShootCharging() && !isShootReleasing()));
+    this.goalSelector.add(1, new UndeadArcherShootGoal(this, 20, 25, 0.5F));
+    this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0D, false, 3.0F));
   }
 
   @Override
@@ -66,6 +76,8 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     super.tick();
     if (getWorld().isClient()) {
       clientTick();
+    } else {
+      serverTick();
     }
   }
 
@@ -77,6 +89,10 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
       handsUpProgess.setupTransitionTo(0.0F, 5);
       pullProgress.setupTransitionTo(0.0F, 5);
     }
+  }
+
+  private void serverTick() {
+    --jumpbackCooldown;
   }
 
   @Override

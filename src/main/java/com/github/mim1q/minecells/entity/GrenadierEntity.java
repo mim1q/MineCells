@@ -62,7 +62,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
       s.defaultCooldown = 20;
       s.actionTick = 10;
       s.length = 20;
-      s.chance = 0.1F;
+      s.chance = 0.3F;
       s.cooldownGetter = () -> jumpbackCooldown;
       s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
     }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 25.0D));
