@@ -42,16 +42,17 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
   @Override
   protected void initGoals() {
     super.initGoals();
-    this.goalSelector.add(1, new JumpBackGoal(this, s -> {
+    this.goalSelector.add(1, new JumpBackGoal<>(this, s -> {
+      s.sideStrength = 0.75D;
       s.defaultCooldown = 20;
       s.actionTick = 10;
       s.length = 20;
       s.chance = 0.3F;
       s.cooldownGetter = () -> jumpbackCooldown;
       s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
-    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 12.0 * 12.0 && !isShootCharging() && !isShootReleasing()));
+    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 64.0 && !isShootCharging() && !isShootReleasing()));
     this.goalSelector.add(1, new UndeadArcherShootGoal(this, 20, 25, 0.5F));
-    this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0D, false, 3.0F));
+    this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0D, false, 8.5F));
   }
 
   @Override
