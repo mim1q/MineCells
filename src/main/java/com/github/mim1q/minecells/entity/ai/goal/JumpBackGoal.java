@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.mob.MobEntity;
 
 import java.util.EnumSet;
@@ -29,12 +30,14 @@ public class JumpBackGoal<E extends MobEntity> extends TimedActionGoal<E> {
     entity.lookAtEntity(this.entity.getTarget(), 360.0F, 360.0F);
 
     var targetDirection = entity.getTarget().getPos().subtract(entity.getPos()).normalize();
-    var sideDirection = vectorRotateY(targetDirection, 90.0F);
-    var sideStrength = (entity.getRandom().nextFloat() - 0.5F) * 2.0F * settings.sideStrength;
+    var sideDirection = vectorRotateY(targetDirection, MathUtils.radians(90.0F));
+    var sideStrength = settings.sideStrength * 0.5 + entity.getRandom().nextFloat() * settings.sideStrength * 0.5;
+
+    if (entity.getRandom().nextBoolean()) sideStrength *= -1;
 
     entity.setVelocity(
       targetDirection
-        .multiply(settings.backStrength)
+        .multiply(-settings.backStrength)
         .add(sideDirection.multiply(sideStrength))
         .add(0.0, settings.upStrength, 0.0)
     );

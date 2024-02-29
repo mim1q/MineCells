@@ -43,10 +43,10 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
   protected void initGoals() {
     super.initGoals();
     this.goalSelector.add(1, new JumpBackGoal<>(this, s -> {
-      s.sideStrength = 0.75D;
-      s.defaultCooldown = 20;
-      s.actionTick = 10;
-      s.length = 20;
+      s.sideStrength = 0.66D;
+      s.defaultCooldown = 10;
+      s.actionTick = 5;
+      s.length = 10;
       s.chance = 0.3F;
       s.cooldownGetter = () -> jumpbackCooldown;
       s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
