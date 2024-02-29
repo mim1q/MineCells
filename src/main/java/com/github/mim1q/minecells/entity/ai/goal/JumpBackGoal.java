@@ -29,7 +29,7 @@ public class JumpBackGoal<E extends MobEntity> extends TimedActionGoal<E> {
     playSound(MineCellsSounds.LEAPING_ZOMBIE_RELEASE);
     entity.lookAtEntity(this.entity.getTarget(), 360.0F, 360.0F);
 
-    var targetDirection = entity.getTarget().getPos().subtract(entity.getPos()).normalize();
+    var targetDirection = entity.getTarget().getPos().subtract(entity.getPos()).multiply(1, 0, 1).normalize();
     var sideDirection = vectorRotateY(targetDirection, MathUtils.radians(90.0F));
     var sideStrength = settings.sideStrength * 0.5 + entity.getRandom().nextFloat() * settings.sideStrength * 0.5;
 
