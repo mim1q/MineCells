@@ -4,7 +4,8 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
-import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
+import com.github.mim1q.minecells.util.TeleportUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -17,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,9 +81,7 @@ public enum MineCellsDimension {
     } else {
       teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world);
     }
-    world.getServer().execute(() -> {
-      FabricDimensions.teleport(player, destination, new TeleportTarget(teleportPos, Vec3d.ZERO, yaw, 0F));
-    });
+    TeleportUtils.teleportToDimension(player, destination, teleportPos, yaw);
   }
 
   public ServerWorld getWorld(ServerWorld world) {
@@ -150,6 +148,7 @@ public enum MineCellsDimension {
   public boolean canMusicStart(ClientPlayerEntity player) {
     return switch (this) {
       case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor) player).getMineCellsFlag(DISARMED);
+      case BLACK_BRIDGE -> player != null && MinecraftClient.getInstance().inGameHud.getBossBarHud() != null;
       default -> true;
     };
   }

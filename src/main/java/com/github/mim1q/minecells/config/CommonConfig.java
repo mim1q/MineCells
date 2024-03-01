@@ -25,6 +25,13 @@ public class CommonConfig implements Config {
   @Comment(" Whether the entry door to boss rooms should remain unlocked")
   public boolean unlockedBossEntry = false;
 
+  @SuppressWarnings("TextBlockMigration")
+  @Comment(" Forces the teleport between dimensions method to be used from the main server thread\n"
+    + " Might be necessary when used with mods that mess with threading, like C2ME\n"
+    + " Warning: This may cause weird desync issues, so use at your own risk and only if it crashes without it\n"
+  )
+  public boolean teleportForceMainThread = false;
+
   @Comment(" Whether the Mine Cells data should automatically get wiped after major updates")
   public boolean autoWipeData = true;
 

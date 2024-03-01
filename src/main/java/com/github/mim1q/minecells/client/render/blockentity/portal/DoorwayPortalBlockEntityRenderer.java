@@ -41,7 +41,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     matrices.translate(0.5, 0.25, 0.5);
     matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180F - entity.getRotation())));
 
-    var backgroundVertices = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(entity.getBackgroundTexture()));
+    var backgroundVertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(entity.getBackgroundTexture()));
     matrices.translate(0.0, 0.0, 0.49);
     renderBackground(matrices, backgroundVertices, entity);
 

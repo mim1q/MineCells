@@ -3,8 +3,8 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.util.TeleportUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
-import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.EntityShapeContext;
@@ -21,7 +21,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,18 +52,7 @@ public class RiftBlock extends BlockWithEntity {
         && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
     ) {
       var teleportPos = getPlayerTeleportPosition(player, serverWorld);
-      serverWorld.getServer().execute(() -> {
-        FabricDimensions.teleport(
-          player,
-          world.getServer().getOverworld(),
-          new TeleportTarget(
-            Vec3d.ofCenter(teleportPos),
-            Vec3d.ZERO,
-            0F,
-            0F
-          )
-        );
-      });
+      TeleportUtils.teleportToDimension(player, serverWorld.getServer().getOverworld(), Vec3d.ofCenter(teleportPos), 0.0F);
     }
   }
 
