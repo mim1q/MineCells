@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.JumpBackGoal;
 import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
@@ -27,6 +29,7 @@ import static java.lang.Math.abs;
 
 public class SweeperEntity extends MineCellsEntity {
   private int sweepCooldown = 0;
+  private int jumpbackCooldown = 0;
   private Vec3d gauntletPosition = this.getPos();
   private static final Vec3d GAUNTLET_OFFSET = new Vec3d(-0.75D, 0.2D, -0.9D);
 
@@ -35,6 +38,7 @@ public class SweeperEntity extends MineCellsEntity {
 
   private static final TrackedData<Boolean> SWEEP_CHARGING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> SWEEP_RELEASING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Boolean> JUMPBACK_RELEASING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
   public SweeperEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -72,6 +76,19 @@ public class SweeperEntity extends MineCellsEntity {
         && e.navigation.getCurrentPath() != null
         && e.navigation.getCurrentPath().reachesTarget()
     ));
+    this.goalSelector.add(0, new JumpBackGoal<>(this, s -> {
+      s.defaultCooldown = 20;
+      s.actionTick = 10;
+      s.length = 20;
+      s.chance = 0.3F;
+      s.cooldownGetter = () -> jumpbackCooldown;
+      s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
+      s.stateSetter = (state, value) -> {
+        if (state == TimedActionGoal.State.RELEASE) {
+          dataTracker.set(JUMPBACK_RELEASING, value);
+        }
+      };
+    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 25.0D));
   }
 
   @Override
@@ -86,6 +103,7 @@ public class SweeperEntity extends MineCellsEntity {
     super.tick();
 
     this.sweepCooldown--;
+    this.jumpbackCooldown--;
 
     if (getWorld().isClient) {
       var lastGauntletPosition = gauntletPosition;
