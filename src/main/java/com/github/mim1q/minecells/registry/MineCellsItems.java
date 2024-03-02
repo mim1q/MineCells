@@ -70,7 +70,6 @@ public class MineCellsItems {
     new BucketItem(MineCellsFluids.STILL_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
-
     ),
     "sewage_bucket"
   );
@@ -79,7 +78,6 @@ public class MineCellsItems {
     new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new FabricItemSettings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
-
     ),
     "ancient_sewage_bucket"
   );
@@ -89,7 +87,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
-
         .rarity(Rarity.UNCOMMON)
     ), "assassins_dagger"
   );
@@ -99,7 +96,6 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1200)
         .rarity(Rarity.UNCOMMON)
-
     ), "blood_sword"
   );
 
@@ -107,7 +103,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(600)
-
     ), "cursed_sword"
   );
 
@@ -116,7 +111,6 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(800)
       .rarity(Rarity.EPIC)
-
     ), "tentacle"
   );
 
@@ -125,7 +119,6 @@ public class MineCellsItems {
       .maxCount(1)
       .maxDamage(1200)
       .rarity(Rarity.RARE)
-
     ), "hattoris_katana"
   );
 
@@ -134,7 +127,6 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1000)
         .rarity(Rarity.COMMON)
-
     ), "broadsword"
   );
 
@@ -143,7 +135,6 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1200)
         .rarity(Rarity.COMMON)
-
     ), "balanced_blade"
   );
 
@@ -152,7 +143,6 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1100)
         .rarity(Rarity.COMMON)
-
     ), "crowbar"
   );
 
@@ -161,7 +151,6 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(1000)
         .rarity(Rarity.COMMON)
-
     ), "nutcracker"
   );
 
@@ -170,7 +159,6 @@ public class MineCellsItems {
         .maxCount(1)
         .maxDamage(32)
         .rarity(Rarity.COMMON)
-
     ), "frost_blast"
   );
 
