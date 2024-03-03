@@ -35,6 +35,10 @@ public class SweeperEntity extends MineCellsEntity {
 
   public final AnimationProperty sweepCharge = new AnimationProperty(0F);
   public final AnimationProperty sweepRelease = new AnimationProperty(0F, MathUtils::easeOutBack);
+  public final AnimationProperty rollCharge = new AnimationProperty(0F);
+
+  public float rollAnimation = 0F;
+  public float lastRollAnimation = 0F;
 
   private static final TrackedData<Boolean> SWEEP_CHARGING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> SWEEP_RELEASING = DataTracker.registerData(SweeperEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -48,17 +52,12 @@ public class SweeperEntity extends MineCellsEntity {
   @Override
   protected void initGoals() {
     super.initGoals();
-    goalSelector.add(1, new WalkTowardsTargetGoal(this, 1.0, false, 5.0));
-    goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16));
+    goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0, false, 5.0));
+    goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 16));
     goalSelector.add(0, new ShockwaveGoal<>(
       this,
       settings -> {
-        settings.cooldownGetter = () -> {
-          if (this.getTarget() != null && this.squaredDistanceTo(this.getTarget()) < 9.0) {
-            return sweepCooldown - 20;
-          }
-          return sweepCooldown;
-        };
+        settings.cooldownGetter = () -> sweepCooldown;
         settings.cooldownSetter = (cooldown) -> sweepCooldown = cooldown;
         settings.defaultCooldown = 40;
         settings.chance = 0.1F;
@@ -73,11 +72,13 @@ public class SweeperEntity extends MineCellsEntity {
       },
       e -> e.getTarget() != null
         && abs(e.getTarget().getY() - e.getY()) < 2.0
-        && e.navigation.getCurrentPath() != null
-        && e.navigation.getCurrentPath().reachesTarget()
+        && ((e.navigation.getCurrentPath() != null && e.navigation.getCurrentPath().reachesTarget()) || e.squaredDistanceTo(e.getTarget()) < 5.0 * 5.0)
     ));
-    this.goalSelector.add(0, new JumpBackGoal<>(this, s -> {
-      s.defaultCooldown = 20;
+    this.goalSelector.add(1, new JumpBackGoal<>(this, s -> {
+      s.backStrength = 1.25;
+      s.minDistance = 4.0;
+      s.upStrength = 0.1;
+      s.defaultCooldown = 40;
       s.actionTick = 10;
       s.length = 20;
       s.chance = 0.3F;
@@ -88,7 +89,7 @@ public class SweeperEntity extends MineCellsEntity {
           dataTracker.set(JUMPBACK_RELEASING, value);
         }
       };
-    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 25.0D));
+    }, null));
   }
 
   @Override
@@ -96,6 +97,7 @@ public class SweeperEntity extends MineCellsEntity {
     super.initDataTracker();
     dataTracker.startTracking(SWEEP_CHARGING, false);
     dataTracker.startTracking(SWEEP_RELEASING, false);
+    dataTracker.startTracking(JUMPBACK_RELEASING, false);
   }
 
   @Override
@@ -120,7 +122,21 @@ public class SweeperEntity extends MineCellsEntity {
       } else {
         sweepRelease.setupTransitionTo(0F, 20F, MathUtils::easeInOutQuad);
       }
+
+      lastRollAnimation = rollAnimation;
+      if (dataTracker.get(JUMPBACK_RELEASING)) {
+        rollCharge.setupTransitionTo(1F, 2F);
+        rollAnimation += 30;
+      } else {
+        rollCharge.setupTransitionTo(0F, 10F);
+        var nearest360 = MathUtils.getClosestMultiple((int) rollAnimation, 360);
+        rollAnimation = MathUtils.lerp(rollAnimation, nearest360, 0.1F);
+      }
     }
+  }
+
+  public float getRollAnimation(float tickDelta) {
+    return MathUtils.lerp(lastRollAnimation, rollAnimation, tickDelta);
   }
 
   private void spawnGauntletParticles(boolean moving) {

@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity.ai.goal;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.EnumSet;
 import java.util.function.Consumer;
@@ -21,6 +22,15 @@ public class JumpBackGoal<E extends MobEntity> extends TimedActionGoal<E> {
 
   public JumpBackGoal(E entity, Consumer<JumpBackSettings> settings, Predicate<E> predicate) {
     this(entity, TimedActionSettings.edit(new JumpBackSettings(), settings), predicate);
+  }
+
+  @Override public boolean canStart() {
+    if (!super.canStart()) return false;
+    if (entity.getTarget() == null) return false;
+    if (entity.getTarget().squaredDistanceTo(entity) > settings.minDistance * settings.minDistance) return false;
+
+    var posBehind = entity.getPos().add(entity.getRotationVec(1F).multiply(-1, 0, -1).normalize());
+    return !entity.getWorld().getBlockState(BlockPos.ofFloored(posBehind)).isOpaque();
   }
 
   @Override protected void runAction() {
@@ -44,6 +54,7 @@ public class JumpBackGoal<E extends MobEntity> extends TimedActionGoal<E> {
   }
 
   public static class JumpBackSettings extends TimedActionSettings {
+    public double minDistance = 5.0D;
     public double backStrength = 0.75D;
     public double upStrength = 0.33D;
     public double sideStrength = 0.0D;

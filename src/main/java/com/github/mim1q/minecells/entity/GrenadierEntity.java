@@ -59,13 +59,14 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
     this.goalSelector.add(2, new WalkTowardsTargetGoal(this, 1.0D, true, 6.0D));
 
     this.goalSelector.add(1, new JumpBackGoal<>(this, s -> {
+      s.minDistance = 5.0;
       s.defaultCooldown = 20;
       s.actionTick = 10;
       s.length = 20;
       s.chance = 0.3F;
       s.cooldownGetter = () -> jumpbackCooldown;
       s.cooldownSetter = ticks -> jumpbackCooldown = ticks;
-    }, it -> it.getTarget() != null && it.squaredDistanceTo(it.getTarget()) <= 25.0D));
+    }, null));
   }
 
   @Override

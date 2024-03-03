@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.render.model;
 
 import com.github.mim1q.minecells.entity.SweeperEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -74,6 +75,23 @@ public class SweeperEntityModel extends EntityModel<SweeperEntity> {
     rightArm.pitch -= radians(90F * release);
     rightArm.yaw -= radians(30F * release);
     rightArm.roll += radians(15F * release);
+
+    // Rolling animation
+
+    var rollAnimation = entity.rollCharge.update(animationProgress);
+
+    head.pitch = radians(rollAnimation * 20F);
+    upperTorso.pitch += radians(rollAnimation * 20F);
+    lowerTorso.pitch += radians(rollAnimation * 45F);
+    leftArm.pitch -= radians(rollAnimation * 50F);
+    leftArm.roll += radians(rollAnimation * 15F);
+    rightArm.pitch -= radians(rollAnimation * 50F);
+    rightArm.roll -= radians(rollAnimation * 15F);
+
+    var rollPitch = entity.getRollAnimation(MinecraftClient.getInstance().getTickDelta());
+    torsoWrapper.pitch = -radians(rollPitch);
+    rightLeg.pitch += torsoWrapper.pitch;
+//    root.pivotY = -rollAnimation * 8F;
   }
 
   @Override
