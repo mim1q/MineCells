@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.registry;
 
+import com.github.mim1q.minecells.world.processor.RandomizePropertyStructureProcessor;
 import com.github.mim1q.minecells.world.processor.SwitchBlockStructureProcessor;
 import com.mojang.serialization.Codec;
 import net.minecraft.registry.Registries;
@@ -11,6 +12,11 @@ public class MineCellsStructureProcessorTypes {
   public static final StructureProcessorType<SwitchBlockStructureProcessor> SWITCH_BLOCK = register(
     "switch_block",
     SwitchBlockStructureProcessor.CODEC
+  );
+
+  public static final StructureProcessorType<RandomizePropertyStructureProcessor> RANDOMIZE_PROPERTY = register(
+    "randomize_property",
+    RandomizePropertyStructureProcessor.CODEC
   );
 
   public static void init() {

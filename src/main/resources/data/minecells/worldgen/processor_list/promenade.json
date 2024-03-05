@@ -26,6 +26,11 @@
         { "from": "putrid_slab",            "to": { "putrid_slab": 1,            "putrid_board_slab": 1              }},
         { "from": "putrid_stairs",          "to": { "putrid_stairs": 1,          "putrid_board_stairs": 1            }}
       ]
+    },
+    {
+      "processor_type": "minecells:randomize_property",
+      "blocks": [ "minecells:king_statue" ],
+      "property_name": "pose"
     }
   ]
 }
