@@ -45,8 +45,9 @@ public class RandomizePropertyStructureProcessor extends StructureProcessor {
       .findFirst()
       .orElseThrow(() -> new IllegalStateException("Property " + propertyName + " not found in block: " + currentBlockInfo.state().getBlock()));
 
+    var random = data.getRandom(currentBlockInfo.pos());
     var propertyValue = (Comparable) property.getValues().stream()
-      .skip(data.getRandom(pos).nextInt(property.getValues().size()))
+      .skip(random.nextInt(property.getValues().size()))
       .findFirst()
       .orElseThrow();
 

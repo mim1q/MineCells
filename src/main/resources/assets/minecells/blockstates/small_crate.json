@@ -1,18 +1,8 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "minecells:block/small_crate/small_crate_0"
-      },
-      {
-        "model": "minecells:block/small_crate/small_crate_1"
-      },
-      {
-        "model": "minecells:block/small_crate/small_crate_2"
-      },
-      {
-        "model": "minecells:block/small_crate/small_crate_3"
-      }
-    ]
+    "rotation=0": [{"model": "minecells:block/small_crate/small_crate_0"}],
+    "rotation=1": [{"model": "minecells:block/small_crate/small_crate_1"}],
+    "rotation=2": [{"model": "minecells:block/small_crate/small_crate_2"}],
+    "rotation=3": [{"model": "minecells:block/small_crate/small_crate_3"}]
   }
 }

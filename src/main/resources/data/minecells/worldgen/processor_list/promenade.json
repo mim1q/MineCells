@@ -31,6 +31,11 @@
       "processor_type": "minecells:randomize_property",
       "blocks": [ "minecells:king_statue" ],
       "property_name": "pose"
+    },
+    {
+      "processor_type": "minecells:randomize_property",
+      "blocks": [ "minecells:small_crate" ],
+      "property_name": "rotation"
     }
   ]
 }

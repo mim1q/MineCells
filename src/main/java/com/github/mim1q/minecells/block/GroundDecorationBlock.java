@@ -8,10 +8,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
-public class GroundDecoration extends Block {
+public class GroundDecorationBlock extends Block {
 
   private final Shape shape;
-  public GroundDecoration(Settings settings, Shape shape) {
+
+  public GroundDecorationBlock(Settings settings, Shape shape) {
     super(settings);
     this.shape = shape;
   }

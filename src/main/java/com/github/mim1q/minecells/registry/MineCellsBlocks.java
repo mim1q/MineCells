@@ -94,9 +94,9 @@ public class MineCellsBlocks {
 
   public static final Block CRATE = registerBlockWithItem(new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)), "crate");
   public static final Block CHAIN_PILE_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.CHAIN)), "chain_pile_block");
-  public static final Block CHAIN_PILE = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN), GroundDecoration.Shape.PILE), "chain_pile");
-  public static final Block SMALL_CRATE = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BLOCK_12), "small_crate");
-  public static final Block BRITTLE_BARREL = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BARREL), "brittle_barrel");
+  public static final Block CHAIN_PILE = registerBlockWithItem(new GroundDecorationBlock(FabricBlockSettings.copyOf(Blocks.CHAIN), GroundDecorationBlock.Shape.PILE), "chain_pile");
+  public static final Block SMALL_CRATE = registerBlockWithItem(new SmallCrateBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)), "small_crate");
+  public static final Block BRITTLE_BARREL = registerBlockWithItem(new GroundDecorationBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecorationBlock.Shape.BARREL), "brittle_barrel");
   public static final Block CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false), "cage");
   public static final Block BROKEN_CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), true), "broken_cage");
   public static final Block SPIKES = registerBlockWithItem(new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).solid()), "spikes");
