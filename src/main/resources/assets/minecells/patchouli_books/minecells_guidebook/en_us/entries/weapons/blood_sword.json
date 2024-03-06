@@ -6,7 +6,7 @@
     {
       "type": "patchouli:spotlight",
       "item": {
-        "item": "minecraft:diamond_sword"
+        "item": "minecells:blood_sword"
       },
       "text": "The Blood Sword test"
     }
