@@ -28,6 +28,7 @@ repositories {
   maven("https://maven.shedaniel.me/")
   maven("https://maven.terraformersmc.com/releases/")
   maven("https://maven.wispforest.io")
+  maven("https://maven.blamejared.com") // Patchouli
 }
 
 dependencies {
@@ -43,6 +44,8 @@ dependencies {
 
   modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
+
+  modImplementation("vazkii.patchouli:Patchouli:${Versions.PATCHOULI}")
 }
 
 @Suppress("UnstableApiUsage")

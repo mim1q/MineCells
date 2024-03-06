@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.blood_sword",
+  "category": "minecells:weapons",
+  "icon": "minecells:blood_sword",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:diamond_sword"
+      },
+      "text": "The Blood Sword test"
+    }
+  ]
+}
