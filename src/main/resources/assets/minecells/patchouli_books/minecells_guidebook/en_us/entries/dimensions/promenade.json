@@ -1,0 +1,16 @@
+{
+  "name": "dimension.minecells.promenade",
+  "category": "minecells:dimensions",
+  "icon": "minecells:red_putrid_sapling",
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "title": "dimension.minecells.promenade",
+      "images": ["minecells:textures/block/doorway/promenade_background.png"]
+    },
+    {
+      "type": "minecells:references",
+      "title": "Dimensions test"
+    }
+  ]
+}
