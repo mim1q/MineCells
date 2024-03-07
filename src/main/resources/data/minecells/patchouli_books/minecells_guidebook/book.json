@@ -5,5 +5,7 @@
   "creative_tab": "minecells:minecells",
   "use_resource_pack": true,
   "book_texture": "minecells:textures/gui/guidebook/book.png",
-  "model": "minecells:guidebook"
+  "filler_texture": "minecells:textures/gui/guidebook/filler.png",
+  "model": "minecells:guidebook",
+  "i18n": true
 }
