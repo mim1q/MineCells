@@ -4,5 +4,6 @@
   "version": 1,
   "creative_tab": "minecells:minecells",
   "use_resource_pack": true,
-  "text_overflow_mode": "resize"
+  "book_texture": "minecells:textures/gui/guidebook/book.png",
+  "model": "minecells:guidebook"
 }
