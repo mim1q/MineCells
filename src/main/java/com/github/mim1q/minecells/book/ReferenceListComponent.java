@@ -6,8 +6,8 @@ import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.client.book.BookEntry;
-import vazkii.patchouli.client.book.gui.BookTextRenderer;
 import vazkii.patchouli.client.book.gui.GuiBook;
+import vazkii.patchouli.client.book.gui.button.GuiButtonEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +18,21 @@ public class ReferenceListComponent implements ICustomComponent {
   private IVariable references;
 
   private transient GuiBook bookGui = null;
-  private transient List<Identifier> referencesList;
+  private transient List<Identifier> referencesList = new ArrayList<>();
   private transient List<BookEntry> entries = new ArrayList<>();
+
+  private transient int y;
+  private transient int x;
 
   @Override
   public void build(int componentX, int componentY, int pageNum) {
     entries.clear();
     bookGui = null;
+    y = componentY;
+    x = componentX;
   }
 
-  @Override
-  public void render(DrawContext graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+  @Override public void onDisplayed(IComponentRenderContext context) {
     if (entries.isEmpty() && context.getGui() instanceof GuiBook) {
       bookGui = (GuiBook) context.getGui();
       entries = bookGui.book.getContents().entries.values()
@@ -37,21 +41,18 @@ public class ReferenceListComponent implements ICustomComponent {
         .toList();
     }
 
-    if (bookGui == null || entries.isEmpty()) return;
-
     for (var i = 0; i < entries.size(); i++) {
       var entry = entries.get(i);
-
-      graphics.getMatrices().push();
-      {
-        graphics.getMatrices().scale(0.5f, 0.5f, 0.5f);
-        entry.getIcon().render(graphics, 0, 20 + i * 40);
-      }
-      graphics.getMatrices().pop();
-
-      var textRenderer = new BookTextRenderer(bookGui, entry.getName(), 10, 10 + i * 20);
-      textRenderer.render(graphics, mouseX, mouseY);
+      var guiButton = new GuiButtonEntry(bookGui, x, y + 10 + i * 10, entry, (button) -> {
+        context.navigateToEntry(entry.getId(), 0, true);
+      });
+      context.addWidget(guiButton, 1);
     }
+  }
+
+  @Override
+  public void render(DrawContext graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+
   }
 
   @Override

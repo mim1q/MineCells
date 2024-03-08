@@ -10,7 +10,11 @@
     },
     {
       "type": "minecells:references",
-      "title": "Dimensions test"
+      "content": [
+        "# ",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/promenade"
+      ]
     }
   ]
 }

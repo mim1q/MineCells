@@ -3,23 +3,20 @@
     {
       "type": "patchouli:header",
       "text": "#title",
-      "x": 20,
+      "x": 60,
       "y": 0
     },
     {
       "type": "patchouli:separator",
       "x": 0,
-      "y": 40
+      "y": 10
     },
     {
       "type": "patchouli:custom",
       "class": "com.github.mim1q.minecells.book.ReferenceListComponent",
-      "references": [
-        "minecells:dimensions/prison",
-        "minecells:dimensions/promenade"
-      ],
-      "x": 20,
-      "y": 60
+      "references": "#references",
+      "x": 0,
+      "y": 30
     }
   ]
 }

@@ -2,7 +2,7 @@
   "type": "patchouli:shapeless_book_recipe",
   "ingredients": [
     { "item": "minecraft:book" },
-    { "item": "minecells:cell" }
+    { "item": "minecells:monster_cell" }
   ],
   "book": "minecells:minecells_guidebook"
 }
