@@ -1,22 +1,11 @@
 {
   "components": [
     {
-      "type": "patchouli:header",
-      "text": "#title",
-      "x": 60,
-      "y": 0
-    },
-    {
-      "type": "patchouli:separator",
-      "x": 0,
-      "y": 10
-    },
-    {
       "type": "patchouli:custom",
       "class": "com.github.mim1q.minecells.book.ReferenceListComponent",
-      "references": "#references",
+      "content": "#content",
       "x": 0,
-      "y": 30
+      "y": 0
     }
   ]
 }
