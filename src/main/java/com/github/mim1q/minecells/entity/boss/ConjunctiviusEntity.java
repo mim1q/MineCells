@@ -23,9 +23,7 @@ import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,19 +44,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static net.minecraft.entity.data.DataTracker.registerData;
+import static net.minecraft.entity.data.TrackedDataHandlerRegistry.*;
+
 public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public final AnimationProperty spikeOffset = new AnimationProperty(5.0F, MathUtils::easeInOutQuad);
 
-  public static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> BARRAGE_ACTIVE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<BlockPos> ANCHOR_TOP = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-  public static final TrackedData<BlockPos> ANCHOR_LEFT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-  public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-  public static final TrackedData<Integer> STAGE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.INTEGER);
+  public static final TrackedData<Boolean> DASH_CHARGING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> DASH_RELEASING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> AURA_CHARGING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> AURA_RELEASING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> BARRAGE_ACTIVE = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<BlockPos> ANCHOR_TOP = registerData(ConjunctiviusEntity.class, BLOCK_POS);
+  public static final TrackedData<BlockPos> ANCHOR_LEFT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
+  public static final TrackedData<BlockPos> ANCHOR_RIGHT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
+  public static final TrackedData<Integer> STAGE = registerData(ConjunctiviusEntity.class, INTEGER);
+  public static final TrackedData<Boolean> FOR_DISPLAY = registerData(ConjunctiviusEntity.class, BOOLEAN);
 
   // Stages:
   // 0 - has not seen any player yet
@@ -135,6 +137,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
     this.dataTracker.startTracking(STAGE, 0);
+    this.dataTracker.startTracking(FOR_DISPLAY, false);
   }
 
   @Override
@@ -530,6 +533,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return 360;
   }
 
+  public boolean isForDisplay() {
+    return this.dataTracker.get(FOR_DISPLAY);
+  }
+
   @Override
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
@@ -549,6 +556,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     });
     nbt.putInt("stage", this.dataTracker.get(STAGE));
     nbt.putInt("stageTicks", this.stageTicks);
+    nbt.putBoolean("forDisplay", this.dataTracker.get(FOR_DISPLAY));
   }
 
   @Override
@@ -577,6 +585,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.addStageGoals(3);
     }
     this.stageTicks = nbt.getInt("stageTicks");
+    this.dataTracker.set(FOR_DISPLAY, nbt.getBoolean("forDisplay"));
   }
 
   @Override

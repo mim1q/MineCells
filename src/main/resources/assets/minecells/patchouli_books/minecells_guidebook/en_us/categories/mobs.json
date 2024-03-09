@@ -1,0 +1,6 @@
+{
+  "name": "Enemies",
+  "description": "Mine Cells enemies",
+  "icon": "minecells:leaping_zombie_spawn_egg",
+  "sortnum": 1
+}

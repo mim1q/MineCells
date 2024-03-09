@@ -1,5 +1,6 @@
 {
   "name": "Weapons",
   "description": "Mine Cells weapons, shields, skills and traps",
-  "icon": "minecells:blood_sword"
+  "icon": "minecells:blood_sword",
+  "sortnum": 3
 }

@@ -1,5 +1,6 @@
 {
   "name": "Dimensions",
   "description": "Mine Cells dimensions",
-  "icon": "minecells:prison_doorway"
+  "icon": "minecells:prison_doorway",
+  "sortnum": 0
 }

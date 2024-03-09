@@ -9,6 +9,7 @@
   "use_resource_pack": true,
   "book_texture": "minecells:textures/gui/guidebook/book.png",
   "filler_texture": "minecells:textures/gui/guidebook/filler.png",
+  "crafting_texture": "minecells:textures/gui/guidebook/crafting.png",
   "model": "minecells:guidebook",
-  "text_overflow_mode": "truncate"
+  "text_overflow_mode": "resize"
 }

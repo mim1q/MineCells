@@ -1,0 +1,24 @@
+{
+  "name": "entity.minecells.conjunctivius",
+  "category": "minecells:bosses",
+  "icon": "minecells:conjunctivius_respawn_rune",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:conjunctivius{forDisplay:true}",
+      "title": "entity.minecells.conjunctivius",
+      "text": "A very common enemy, quite eager to jump at you."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "aaaaaaaaaa"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/insufferable_crypt"
+      ]
+    }
+  ]
+}

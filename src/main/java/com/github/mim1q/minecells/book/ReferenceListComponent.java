@@ -56,7 +56,7 @@ public class ReferenceListComponent implements ICustomComponent {
       }
       var entry = entries.get(i);
       var guiButton = new GuiButtonEntry(bookGui, x, buttonY, entry, (button) -> {
-        context.navigateToEntry(entry.getId(), 0, true);
+        context.navigateToEntry(entry.getId(), 0, false);
       });
       context.addWidget(guiButton, pageNum);
       buttons.add(guiButton);

@@ -1,0 +1,12 @@
+{
+  "name": "dimension.minecells.prison",
+  "category": "minecells:dimensions",
+  "icon": "minecraft:iron_bars",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "dimension.minecells.promenade",
+      "text": ""
+    }
+  ]
+}

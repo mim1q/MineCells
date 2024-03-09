@@ -4,16 +4,32 @@
   "icon": "minecells:red_putrid_sapling",
   "pages": [
     {
-      "type": "patchouli:image",
-      "title": "dimension.minecells.promenade",
-      "images": ["minecells:textures/block/doorway/promenade_background.png"]
+      "type": "minecells:dimension_image",
+      "title0": "Promenade",
+      "title1": "of the Condemned",
+      "border": true,
+      "image": "minecells:textures/gui/guidebook/images/promenade.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The charming countryside atmosphere of the forest has given way to a... less wholesome ambience.<br><br>The Promenade is an area where enemies attack you from all sides out in the open.<br><br>The dangers of this biome are worth taking on, as it houses the Vine Rune, which is required to reach other zones."
     },
     {
       "type": "minecells:references",
       "content": [
-        "# ",
+        "# Accessible from:",
         "minecells:dimensions/prison",
-        "minecells:dimensions/promenade"
+        "# Leads to:",
+        "minecells:dimensions/ramparts",
+        "# Important content:",
+        "minecells:items/vine_rune"
+      ]
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Mobs",
+        "minecells:mobs/leaping_zombie"
       ]
     }
   ]

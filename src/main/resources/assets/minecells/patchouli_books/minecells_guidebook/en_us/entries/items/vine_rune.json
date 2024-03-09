@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.vine_rune",
+  "category": "minecells:items",
+  "icon": "minecells:vine_rune",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:vine_rune"
+      },
+      "text": "Vine Rune"
+    }
+  ]
+}

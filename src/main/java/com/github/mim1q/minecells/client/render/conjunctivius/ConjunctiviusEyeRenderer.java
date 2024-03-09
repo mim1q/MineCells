@@ -19,7 +19,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel>  {
+public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
 
   private final static Identifier[] TEXTURES = {
     MineCells.createId("textures/entity/conjunctivius/eye_pink.png"),
@@ -40,6 +40,9 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     matrices.push();
     matrices.translate(0.0F, 0.2F, -15.75F / 16.0F);
     this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+    if (entity.isForDisplay()) {
+      matrices.scale(-1.0f, 1.0f, 1.0f);
+    }
     RenderLayer renderLayer = RenderLayer.getEntityCutout(this.getTexture(entity));
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
     this.model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
@@ -102,6 +105,12 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
 
     @Override
     public void setAngles(ConjunctiviusEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+      if (entity.isForDisplay()) {
+        this.eye.setPivot(0.0F, 0.0F, -0.01F);
+        this.highlight.setPivot(1.0F, -5.0F, -0.25F);
+        return;
+      }
+
       Entity player = MinecraftClient.getInstance().getCameraEntity();
       if (player != null) {
         Vec3d playerPos = player.getPos().add(0.0D, 1.5D, 0.0D);

@@ -20,6 +20,8 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.mim1q.minecells.util.RenderUtils.getGlobalAnimationProgress;
+
 public class ConjunctiviusTentacleRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
 
   private final ConjunctiviusTentacleModel model;
@@ -47,7 +49,7 @@ public class ConjunctiviusTentacleRenderer extends FeatureRenderer<Conjunctivius
       matrices.scale(-1.0F, -1.0F, 1.0F);
       this.model.setOffset(offset * 256);
       offset++;
-      this.model.setAngles(entity, limbAngle, limbDistance, animationProgress * 0.75F, headYaw, headPitch);
+      this.model.setAngles(entity, limbAngle, limbDistance, (entity.isForDisplay() ? getGlobalAnimationProgress() : animationProgress) * 0.75F, headYaw, headPitch);
       boolean hurt = entity.hurtTime > 0;
       this.model.render(matrices, vertexConsumers.getBuffer(layer), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.pop();

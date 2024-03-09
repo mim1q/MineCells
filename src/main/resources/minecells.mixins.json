@@ -35,6 +35,7 @@
     "client.WorldSessionMixin",
     "client.music.MusicTrackerMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
+    "compat.patchouli.GuiBookEntryMixin",
     "entity.LivingEntityClientMixin",
     "entity.player.ClientPlayerEntityMixin",
     "item.CompassItemMixin"

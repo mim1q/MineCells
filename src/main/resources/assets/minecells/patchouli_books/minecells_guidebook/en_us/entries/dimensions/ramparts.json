@@ -1,0 +1,12 @@
+{
+  "name": "dimension.minecells.ramparts",
+  "category": "minecells:dimensions",
+  "icon": "minecells:prison_bricks",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "dimension.minecells.promenade",
+      "text": ""
+    }
+  ]
+}

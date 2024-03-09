@@ -1,0 +1,24 @@
+{
+  "components": [
+    {
+      "type": "patchouli:header",
+      "text": "#title",
+      "x": -1,
+      "y": 0
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "#entity",
+      "x": 55,
+      "y": 60,
+      "rotate": false,
+      "default_rotation": 30
+    },
+    {
+      "type": "patchouli:text",
+      "text": "#text",
+      "x": 0,
+      "y": 110
+    }
+  ]
+}
