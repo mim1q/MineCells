@@ -1,12 +1,13 @@
 {
-  "name": "dimension.minecells.prison",
+  "name": "dimension.minecells.insufferable_crypt",
   "category": "minecells:dimensions",
-  "icon": "minecraft:iron_bars",
+  "icon": "minecells:big_chain",
+  "sortnum": 5,
   "pages": [
     {
-      "type": "patchouli:text",
-      "title": "dimension.minecells.promenade",
-      "text": ""
+      "type": "minecells:dimension_image",
+      "title0": "dimension.minecells.insufferable_crypt",
+      "image": "minecells:textures/gui/guidebook/images/insufferable_crypt.png"
     }
   ]
 }

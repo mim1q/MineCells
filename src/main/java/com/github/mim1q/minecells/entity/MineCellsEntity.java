@@ -49,6 +49,7 @@ public class MineCellsEntity extends HostileEntity {
   private static final TrackedData<Boolean> IS_ELITE = registerData(MineCellsEntity.class, BOOLEAN);
   private static final TrackedData<Boolean> ELITE_AURA_CHARGING = registerData(MineCellsEntity.class, BOOLEAN);
   private static final TrackedData<Boolean> ELITE_AURA_RELEASING = registerData(MineCellsEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> FOR_DISPLAY = registerData(MineCellsEntity.class, BOOLEAN);
 
   public BlockPos spawnRunePos = null;
   private boolean recalculatedDimensions = false;
@@ -93,6 +94,7 @@ public class MineCellsEntity extends HostileEntity {
     this.dataTracker.startTracking(IS_ELITE, false);
     this.dataTracker.startTracking(ELITE_AURA_CHARGING, false);
     this.dataTracker.startTracking(ELITE_AURA_RELEASING, false);
+    this.dataTracker.startTracking(FOR_DISPLAY, false);
   }
 
   @Override
@@ -237,34 +239,33 @@ public class MineCellsEntity extends HostileEntity {
     return MineCellsSounds.LEAPING_ZOMBIE_DEATH;
   }
 
+  public boolean isForDisplay() {
+    return this.dataTracker.get(FOR_DISPLAY);
+  }
+
+
   @Override
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
 
-    if (spawnRunePos != null) {
+    if (spawnRunePos != null)
       nbt.putLong("spawnRunePos", spawnRunePos.asLong());
-    }
-
     nbt.putBoolean("isElite", dataTracker.get(IS_ELITE));
-
-    if (additionalLootTable != null) {
+    if (additionalLootTable != null)
       nbt.putString("additionalLootTable", additionalLootTable.toString());
-    }
+    nbt.putBoolean("forDisplay", this.dataTracker.get(FOR_DISPLAY));
   }
 
   @Override
   public void readCustomDataFromNbt(NbtCompound nbt) {
     super.readCustomDataFromNbt(nbt);
 
-    if (nbt.contains("spawnRunePos")) {
+    if (nbt.contains("spawnRunePos"))
       spawnRunePos = BlockPos.fromLong(nbt.getLong("spawnRunePos"));
-    }
-
     dataTracker.set(IS_ELITE, nbt.getBoolean("isElite"));
-
-    if (nbt.contains("additionalLootTable")) {
+    if (nbt.contains("additionalLootTable"))
       additionalLootTable = Identifier.tryParse(nbt.getString("additionalLootTable"));
-    }
+    if (nbt.contains("forDisplay")) this.dataTracker.set(FOR_DISPLAY, nbt.getBoolean("forDisplay"));
 
     this.calculateDimensions();
     this.calculateBoundingBox();

@@ -2,11 +2,12 @@
   "name": "dimension.minecells.prison",
   "category": "minecells:dimensions",
   "icon": "minecraft:iron_bars",
+  "sortnum": 1,
   "pages": [
     {
-      "type": "patchouli:text",
-      "title": "dimension.minecells.promenade",
-      "text": ""
+      "type": "minecells:dimension_image",
+      "title0": "dimension.minecells.prison",
+      "image": "minecells:textures/gui/guidebook/images/prison.png"
     }
   ]
 }

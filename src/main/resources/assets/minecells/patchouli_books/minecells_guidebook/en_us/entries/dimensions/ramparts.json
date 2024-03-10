@@ -2,11 +2,30 @@
   "name": "dimension.minecells.ramparts",
   "category": "minecells:dimensions",
   "icon": "minecells:prison_bricks",
+  "sortnum": 3,
   "pages": [
     {
+      "type": "minecells:dimension_image",
+      "title0": "dimension.minecells.ramparts",
+      "image": "minecells:textures/gui/guidebook/images/ramparts.png"
+    },
+    {
       "type": "patchouli:text",
-      "title": "dimension.minecells.promenade",
-      "text": ""
+      "text": "The charming countryside atmosphere of the forest has given way to a... less wholesome ambience.<br><br>The Promenade is an area where enemies attack you from all sides out in the open.<br><br>The dangers of this biome are worth taking on, as it houses the Vine Rune, which is required to reach other zones."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Accessible from:",
+        "minecells:dimensions/promenade"
+      ]
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Mobs",
+        "minecells:mobs/leaping_zombie"
+      ]
     }
   ]
 }

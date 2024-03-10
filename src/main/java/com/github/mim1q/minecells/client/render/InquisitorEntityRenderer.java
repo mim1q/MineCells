@@ -35,26 +35,33 @@ public class InquisitorEntityRenderer extends MineCellsEntityRenderer<Inquisitor
     if (entity.isAlive()) {
       float offset = entity.armUpProgress.getValue() * 0.3F;
       VertexConsumer vertexConsumer = bufferIn.getBuffer(ORB_LAYER);
-      renderOrb(stack, vertexConsumer, entity.headYaw, entity.age, new Vector3f(-0.25F, 2.25F, 0.0F));
-      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vector3f(0.6F, 1.0F + offset, 0.4F + offset));
-      renderOrb(stack, vertexConsumer, entity.bodyYaw, entity.age, new Vector3f(0.6F, 1.0F + offset, -0.4F - offset));
+      var forDisplay = entity.isForDisplay();
+      var progress = (entity.age + partialTicks) * 0.2F;
+      renderOrb(stack, vertexConsumer, entity.headYaw, progress, new Vector3f(-0.25F, 2.25F, 0.0F), forDisplay);
+      renderOrb(stack, vertexConsumer, entity.bodyYaw, progress, new Vector3f(0.6F, 1.0F + offset, 0.4F + offset), forDisplay);
+      renderOrb(stack, vertexConsumer, entity.bodyYaw, progress, new Vector3f(0.6F, 1.0F + offset, -0.4F - offset), forDisplay);
     }
   }
 
-  public void renderOrb(MatrixStack matrixStack, VertexConsumer vertexConsumer, float yaw, int age, Vector3f offset) {
+  public void renderOrb(MatrixStack matrixStack, VertexConsumer vertexConsumer, float yaw, float age, Vector3f offset, boolean forDisplay) {
     matrixStack.push();
     offset = MathUtils.vectorRotateY(offset, yaw * MathHelper.PI / 180.0F);
-    matrixStack.translate(offset.x(), offset.y() + MathHelper.sin((float) age * MathHelper.PI / 45.0F) * 0.1F, offset.z());
+    matrixStack.translate(offset.x(), offset.y() + Math.sin(age) * 0.1F, offset.z());
     matrixStack.scale(0.375F, 0.375F, 0.375F);
-    matrixStack.multiply(this.dispatcher.getRotation());
-    matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
+    if (forDisplay) {
+      matrixStack.multiply(new Quaternionf().rotationZ(MathUtils.radians(1F)));
+      matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(30F)));
+    } else {
+      matrixStack.multiply(this.dispatcher.getRotation());
+      matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
+    }
     MatrixStack.Entry entry = matrixStack.peek();
     Matrix4f matrix4f = entry.getPositionMatrix();
     Matrix3f matrix3f = entry.getNormalMatrix();
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, 0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, -0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, 0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, -0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 255);
     matrixStack.pop();
   }
 

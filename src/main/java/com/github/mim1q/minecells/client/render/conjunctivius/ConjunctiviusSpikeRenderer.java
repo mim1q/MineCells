@@ -41,9 +41,6 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
       posRotScale.apply(matrices);
       this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
       boolean hurt = entity.hurtTime > 0;
-      if (entity.isForDisplay()) {
-        matrices.scale(1.0F, 1.0F, -1.0F); // Weird rendering fix for Patchouli
-      }
       this.model.render(matrices, vertexConsumers.getBuffer(model.getLayer(TEXTURE)), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.pop();
     }

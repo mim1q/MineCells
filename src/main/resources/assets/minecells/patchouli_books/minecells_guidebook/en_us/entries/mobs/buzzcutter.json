@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.buzzcutter",
+  "category": "minecells:mobs",
+  "icon": "minecells:buzzcutter_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:buzzcutter",
+      "title": "entity.minecells.buzzcutter",
+      "text": "These strange bird-like creatures often appear in groups, fly around and attack you with their fangs from up close."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

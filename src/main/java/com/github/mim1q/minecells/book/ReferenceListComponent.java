@@ -15,6 +15,7 @@ import vazkii.patchouli.client.book.gui.button.GuiButtonEntry;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class ReferenceListComponent implements ICustomComponent {
@@ -28,7 +29,7 @@ public class ReferenceListComponent implements ICustomComponent {
   private transient int y = 0;
   private transient int x = 0;
   private transient int pageNum = 0;
-  private static final List<ButtonWidget> buttons = new ArrayList<>();
+  private static final ArrayList<ButtonWidget> buttons = new ArrayList<>();
 
   @Override
   public void build(int componentX, int componentY, int pageNum) {
@@ -47,7 +48,7 @@ public class ReferenceListComponent implements ICustomComponent {
     entries = referencesList.stream()
       .map(it -> bookGui.book.getContents().entries.get(it))
       .filter(Objects::nonNull)
-      .toList();
+      .collect(Collectors.toCollection(ArrayList::new));
 
     int buttonY = y + 5;
     for (var i = 0; i < entries.size(); i++) {

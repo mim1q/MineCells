@@ -1,7 +1,7 @@
 {
   "version": 1,
   "name": "Mine Cells Guidebook",
-  "landing_text": "Welcome to Mine Cells",
+  "landing_text": "Mysterious doorways to otherworldly dungeons have been appearing all over the world.",
   "creative_tab": "minecells:minecells",
 
   "i18n": true,

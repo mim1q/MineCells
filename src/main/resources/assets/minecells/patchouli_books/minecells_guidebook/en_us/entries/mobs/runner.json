@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.runner",
+  "category": "minecells:mobs",
+  "icon": "minecells:runner_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:runner",
+      "title": "entity.minecells.runner",
+      "text": "Packs a heavy punch with its arm-blades. Will teleport to you if you try to run away."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

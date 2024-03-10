@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.shieldbearer",
+  "category": "minecells:mobs",
+  "icon": "minecells:shieldbearer_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:shieldbearer{HandItems: [{id: \"minecraft:shield\", tag: {Damage: 0}, Count: 1b}, {}]}",
+      "title": "entity.minecells.shieldbearer",
+      "text": "Cannot be attacked from the front. Periodically charges at you with its shield."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

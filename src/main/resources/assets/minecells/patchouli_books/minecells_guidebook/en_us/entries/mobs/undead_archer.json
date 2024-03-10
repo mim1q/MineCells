@@ -1,0 +1,22 @@
+{
+  "name": "entity.minecells.undead_archer",
+  "category": "minecells:mobs",
+  "icon": "minecells:undead_archer_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:undead_archer",
+      "title": "entity.minecells.undead_archer",
+      "text": "Just a common archer, now undead. Attacks with a bow and tries to stay back."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/promenade",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

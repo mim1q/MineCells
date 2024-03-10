@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 
 public class ConjunctiviusEntityRenderer extends MobEntityRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
 
@@ -47,6 +48,7 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
     matrixStack.scale(scale, scale, scale);
     if (mobEntity.isForDisplay()) {
       matrixStack.translate(0.0F, 0.5F, 0.0F);
+      matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
     }
     super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
     matrixStack.pop();

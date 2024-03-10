@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.sweeper",
+  "category": "minecells:mobs",
+  "icon": "minecells:sweeper_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:sweeper",
+      "title": "entity.minecells.sweeper",
+      "text": "Seems to have a molten piece of metal stuck to its hand. The Sweeper can use it to sweep a flaming shockwave in your direction."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

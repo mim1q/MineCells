@@ -2,12 +2,12 @@
   "name": "dimension.minecells.promenade",
   "category": "minecells:dimensions",
   "icon": "minecells:red_putrid_sapling",
+  "sortnum": 2,
   "pages": [
     {
       "type": "minecells:dimension_image",
       "title0": "Promenade",
       "title1": "of the Condemned",
-      "border": true,
       "image": "minecells:textures/gui/guidebook/images/promenade.png"
     },
     {

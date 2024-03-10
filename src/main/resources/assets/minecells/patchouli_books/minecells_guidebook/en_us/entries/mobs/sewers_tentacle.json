@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.sewers_tentacle",
+  "category": "minecells:mobs",
+  "icon": "minecells:sewers_tentacle_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:sewers_tentacle{forDisplay:true}",
+      "title": "entity.minecells.sewers_tentacle",
+      "text": "These tentacles spend most of their time underground. They will either move right under your feet and strike, or perform a long sweep attack."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/insufferable_crypt"
+      ]
+    }
+  ]
+}

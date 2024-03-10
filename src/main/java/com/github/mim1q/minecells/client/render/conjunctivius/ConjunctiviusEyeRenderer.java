@@ -40,9 +40,6 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     matrices.push();
     matrices.translate(0.0F, 0.2F, -15.75F / 16.0F);
     this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
-    if (entity.isForDisplay()) {
-      matrices.scale(-1.0f, 1.0f, 1.0f);
-    }
     RenderLayer renderLayer = RenderLayer.getEntityCutout(this.getTexture(entity));
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
     this.model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);

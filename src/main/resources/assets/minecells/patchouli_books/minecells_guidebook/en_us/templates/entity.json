@@ -10,15 +10,17 @@
       "type": "patchouli:entity",
       "entity": "#entity",
       "x": 55,
-      "y": 60,
+      "y": 45,
       "rotate": false,
-      "default_rotation": 30
+      "render_size": 70,
+      "default_rotation": -30,
+      "offset": "#offset"
     },
     {
       "type": "patchouli:text",
       "text": "#text",
       "x": 0,
-      "y": 110
+      "y": 85
     }
   ]
 }

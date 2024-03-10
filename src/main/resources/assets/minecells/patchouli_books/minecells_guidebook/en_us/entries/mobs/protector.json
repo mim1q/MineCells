@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.protector",
+  "category": "minecells:mobs",
+  "icon": "minecells:protector_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:protector",
+      "title": "entity.minecells.protector",
+      "text": "Sends protective rays to nearby monsters, making them invulnerable for a short period of time. Completely harmless on its own."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

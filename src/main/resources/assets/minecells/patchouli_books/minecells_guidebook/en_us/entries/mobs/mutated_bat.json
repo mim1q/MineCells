@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.mutated_bat",
+  "category": "minecells:mobs",
+  "icon": "minecells:mutated_bat_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:mutated_bat",
+      "title": "entity.minecells.mutated_bat",
+      "text": "Flies around unpredictably, before striking you with a dash attack. Very fragile."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

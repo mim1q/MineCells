@@ -1,0 +1,20 @@
+{
+  "name": "entity.minecells.inquisitor",
+  "category": "minecells:mobs",
+  "icon": "minecells:inquisitor_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:inquisitor{forDisplay:true}",
+      "title": "entity.minecells.inquisitor",
+      "text": "Throws magic orbs at their enemies. These orbs penetrate walls and deal damage to the hit target."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

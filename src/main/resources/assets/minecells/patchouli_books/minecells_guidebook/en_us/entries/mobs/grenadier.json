@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.grenadier",
+  "category": "minecells:mobs",
+  "icon": "minecells:grenadier_spawn_egg",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:grenadier",
+      "title": "entity.minecells.grenadier",
+      "text": "Throws explosive bulbs from large distances, and with great accuracy."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

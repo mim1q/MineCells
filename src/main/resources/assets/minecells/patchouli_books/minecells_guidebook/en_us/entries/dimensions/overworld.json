@@ -1,12 +1,13 @@
 {
-  "name": "dimension.minecells.prison",
+  "name": "dimension.minecraft.overworld",
   "category": "minecells:dimensions",
-  "icon": "minecraft:iron_bars",
+  "icon": "minecraft:grass_block",
+  "sortnum": 0,
   "pages": [
     {
-      "type": "patchouli:text",
-      "title": "dimension.minecells.promenade",
-      "text": ""
+      "type": "minecells:dimension_image",
+      "title0": "dimension.minecraft.overworld",
+      "image": "minecells:textures/gui/guidebook/images/overworld.png"
     }
   ]
 }

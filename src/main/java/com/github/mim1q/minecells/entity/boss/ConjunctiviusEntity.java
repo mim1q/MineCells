@@ -60,7 +60,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<BlockPos> ANCHOR_LEFT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
   public static final TrackedData<Integer> STAGE = registerData(ConjunctiviusEntity.class, INTEGER);
-  public static final TrackedData<Boolean> FOR_DISPLAY = registerData(ConjunctiviusEntity.class, BOOLEAN);
 
   // Stages:
   // 0 - has not seen any player yet
@@ -137,7 +136,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
     this.dataTracker.startTracking(STAGE, 0);
-    this.dataTracker.startTracking(FOR_DISPLAY, false);
   }
 
   @Override
@@ -533,10 +531,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return 360;
   }
 
-  public boolean isForDisplay() {
-    return this.dataTracker.get(FOR_DISPLAY);
-  }
-
   @Override
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
@@ -556,7 +550,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     });
     nbt.putInt("stage", this.dataTracker.get(STAGE));
     nbt.putInt("stageTicks", this.stageTicks);
-    nbt.putBoolean("forDisplay", this.dataTracker.get(FOR_DISPLAY));
   }
 
   @Override
@@ -585,7 +578,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.addStageGoals(3);
     }
     this.stageTicks = nbt.getInt("stageTicks");
-    this.dataTracker.set(FOR_DISPLAY, nbt.getBoolean("forDisplay"));
   }
 
   @Override
