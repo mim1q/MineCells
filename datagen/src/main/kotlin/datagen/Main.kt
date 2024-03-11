@@ -4,6 +4,7 @@ import datagen.custom.*
 import datagen.custom.Constants.MINECELLS_DIMENSIONS
 import tada.lib.generator.BeautifiedJsonFormatter
 import tada.lib.generator.ResourceGenerator
+import tada.lib.lang.FlattenedJson
 import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
 import tada.lib.presets.common.CommonDropPresets
@@ -14,8 +15,8 @@ import tada.lib.tags.TagManager
 import java.nio.file.Path
 
 fun main(args: Array<String>) {
-  if (args.size != 3) {
-    throw IllegalArgumentException("Must provide an output directory, lang directory and helper lang directory.")
+  if (args.size != 4) {
+    throw IllegalArgumentException("Must provide an output directory, lang directory, helper lang directory, and en_us lang map.")
   }
   val path = Path.of(args[0]).toAbsolutePath()
   val helperLangPath = Path.of(args[2]).toAbsolutePath()
@@ -142,7 +143,12 @@ fun main(args: Array<String>) {
     }
     // Sounds
     mineCellsSounds()
+
+    // Lang
+    val langFile = Path.of(args[3]).toFile()
+    add("en_us", FlattenedJson(langFile, "lang", "assets"))
   }
+
   generator.generate()
 
   LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {

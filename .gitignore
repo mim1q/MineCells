@@ -42,4 +42,4 @@ bin/
 run/
 publishing.properties
 src/main/generated/
-lang/generated/
+lang/missing/generated/
