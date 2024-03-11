@@ -22,14 +22,13 @@
         "# Leads to:",
         "minecells:dimensions/ramparts",
         "# Important content:",
-        "minecells:items/vine_rune"
-      ]
-    },
-    {
-      "type": "minecells:references",
-      "content": [
+        "minecells:items/vine_rune",
         "# Mobs",
-        "minecells:mobs/leaping_zombie"
+        "minecells:mobs/leaping_zombie",
+        "minecells:mobs/grenadier",
+        "minecells:mobs/mutated_bat",
+        "minecells:mobs/runner",
+        "minecells:mobs/protector"
       ]
     }
   ]

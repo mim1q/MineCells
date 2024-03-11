@@ -8,6 +8,22 @@
       "type": "minecells:dimension_image",
       "title0": "dimension.minecells.insufferable_crypt",
       "image": "minecells:textures/gui/guidebook/images/insufferable_crypt.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "What used to be a storage room has been repurposed as a holding cell for a creature that appeared out of nowhere and began to grow uncontrollably. <br><br>It's suspected that the monster feeds on human flesh and hasn't been fed in a while... which might be the reason why she stopped growing... for now..."
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Accessible from:",
+        "minecells:dimensions/prison",
+        "# Leads to:",
+        "minecells:dimensions/overworld",
+        "# Enemies",
+        "minecells:bosses/conjunctivius",
+        "minecells:mobs/sewers_tentacle"
+      ]
     }
   ]
 }

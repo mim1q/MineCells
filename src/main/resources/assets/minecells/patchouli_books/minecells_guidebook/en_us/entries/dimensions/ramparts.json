@@ -11,20 +11,21 @@
     },
     {
       "type": "patchouli:text",
-      "text": "The charming countryside atmosphere of the forest has given way to a... less wholesome ambience.<br><br>The Promenade is an area where enemies attack you from all sides out in the open.<br><br>The dangers of this biome are worth taking on, as it houses the Vine Rune, which is required to reach other zones."
+      "text": "This series of walls and towers used to be a resting spot for guards once they couldn't handle the overfilled prisons. The beautiful suset doesn't match the current vibe of this place, though. <br><br>The ramparts are full of dangerous monsters. If you manage to get to the end, don't think your fight here is over. There will be one more former guard waiting for you..."
     },
     {
       "type": "minecells:references",
       "content": [
         "# Accessible from:",
-        "minecells:dimensions/promenade"
-      ]
-    },
-    {
-      "type": "minecells:references",
-      "content": [
+        "minecells:dimensions/promenade",
+        "# Leads to:",
+        "minecells:dimensions/black_bridge",
         "# Mobs",
-        "minecells:mobs/leaping_zombie"
+        "minecells:mobs/undead_archer",
+        "minecells:mobs/shieldbearer",
+        "minecells:mobs/buzzcutter",
+        "minecells:mobs/inquisitor",
+        "minecells:mobs/sweeper"
       ]
     }
   ]
