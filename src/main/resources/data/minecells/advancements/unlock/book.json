@@ -1,0 +1,22 @@
+{
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": { "structure": "minecells:overworld_portal" }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": { "loot": ["minecells:advancements/book"]},
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": ["patchouli"]
+    }
+  ]
+}
