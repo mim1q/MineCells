@@ -33,7 +33,7 @@ fun deleteDir(directory: Path) {
 }
 
 val generatedDir = projectDir.resolve("../src/main/generated")
-val langDir = projectDir.resolve("../src/main/resources/assets/minecells/lang")
+val langDir = projectDir.resolve("../src/main/generated/assets/minecells/lang")
 val langHelperDir = projectDir.resolve("../lang/missing")
 val enUsLangMap = projectDir.resolve("../lang/en_us_map.json5")
 tasks {
