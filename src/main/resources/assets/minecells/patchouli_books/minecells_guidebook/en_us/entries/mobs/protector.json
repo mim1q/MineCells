@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:protector",
       "title": "entity.minecells.protector",
-      "text": "Sends protective rays to nearby monsters, making them invulnerable for a short period of time. Completely harmless on its own."
+      "text": "book.minecells.entries.mobs.protector"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/promenade"
       ]
     }

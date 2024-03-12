@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:mutated_bat",
       "title": "entity.minecells.mutated_bat",
-      "text": "Flies around unpredictably, before striking you with a dash attack. Very fragile."
+      "text": "book.minecells.entries.mobs.mutated_bat"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/promenade"
       ]
     }

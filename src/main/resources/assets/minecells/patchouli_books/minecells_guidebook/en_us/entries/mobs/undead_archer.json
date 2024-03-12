@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:undead_archer",
       "title": "entity.minecells.undead_archer",
-      "text": "Just a common archer, now undead. Attacks with a bow and tries to stay back."
+      "text": "book.minecells.entries.mobs.undead_archer"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/prison",
         "minecells:dimensions/promenade",
         "minecells:dimensions/ramparts"

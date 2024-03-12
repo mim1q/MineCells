@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:leaping_zombie",
       "title": "entity.minecells.leaping_zombie",
-      "text": "A very common enemy, quite eager to jump at you."
+      "text": "book.minecells.entries.mobs.leaping_zombie"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/prison",
         "minecells:dimensions/promenade"
       ]

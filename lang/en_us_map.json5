@@ -378,6 +378,19 @@
     },
 
     entries: {
+      mobs: {
+        buzzcutter: "These strange bird-like creatures often appear in groups, fly around and attack you with their fangs from up close.",
+        grenadier: "Throws explosive bulbs from large distances, and with great accuracy.",
+        inquisitor: "Throws magic orbs at their enemies. These orbs penetrate walls and deal damage to the hit target.",
+        leaping_zombie: "A very common enemy, quite eager to jump at you.",
+        mutated_bat: "Flies around unpredictably, before striking you with a dash attack. Very fragile.",
+        protector: "Sends protective rays to nearby monsters, making them invulnerable for a short period of time. Completely harmless on its own.",
+        runner: "Packs a heavy punch with its arm-blades. Will teleport to you if you try to run away.",
+        sewers_tentacle: "These tentacles spend most of their time underground. They will either move right under your feet and strike, or perform a long sweep attack.",
+        shieldbearer: "Cannot be attacked from the front. Periodically charges at you with its shield.",
+        sweeper: "Seems to have a molten piece of metal stuck to its hand. The Sweeper can use it to sweep a flaming shockwave in your direction.",
+        undead_archer: "Just a common archer, now undead. Attacks with a bow and tries to stay back.",
+      },
       dimensions: {
         overworld: {
           title0: "Overworld",

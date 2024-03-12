@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:sweeper",
       "title": "entity.minecells.sweeper",
-      "text": "Seems to have a molten piece of metal stuck to its hand. The Sweeper can use it to sweep a flaming shockwave in your direction."
+      "text": "book.minecells.entries.mobs.sweeper"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/ramparts"
       ]
     }

@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:grenadier",
       "title": "entity.minecells.grenadier",
-      "text": "Throws explosive bulbs from large distances, and with great accuracy."
+      "text": "book.minecells.entries.mobs.grenadier"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/prison",
         "minecells:dimensions/promenade"
       ]

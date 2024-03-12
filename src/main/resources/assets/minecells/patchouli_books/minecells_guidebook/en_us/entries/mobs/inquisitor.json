@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:inquisitor{forDisplay:true}",
       "title": "entity.minecells.inquisitor",
-      "text": "Throws magic orbs at their enemies. These orbs penetrate walls and deal damage to the hit target."
+      "text": "book.minecells.entries.mobs.inquisitor"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/ramparts"
       ]
     }

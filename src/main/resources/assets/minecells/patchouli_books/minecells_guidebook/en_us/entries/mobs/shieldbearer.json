@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:shieldbearer{HandItems: [{id: \"minecraft:shield\", tag: {Damage: 0}, Count: 1b}, {}]}",
       "title": "entity.minecells.shieldbearer",
-      "text": "Cannot be attacked from the front. Periodically charges at you with its shield."
+      "text": "book.minecells.entries.mobs.shieldbearer"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/prison",
         "minecells:dimensions/ramparts"
       ]

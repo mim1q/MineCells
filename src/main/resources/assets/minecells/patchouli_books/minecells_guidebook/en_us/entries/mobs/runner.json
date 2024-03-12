@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:runner",
       "title": "entity.minecells.runner",
-      "text": "Packs a heavy punch with its arm-blades. Will teleport to you if you try to run away."
+      "text": "book.minecells.entries.mobs.runner"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/promenade"
       ]
     }

@@ -7,12 +7,12 @@
       "type": "minecells:entity",
       "entity": "minecells:buzzcutter",
       "title": "entity.minecells.buzzcutter",
-      "text": "These strange bird-like creatures often appear in groups, fly around and attack you with their fangs from up close."
+      "text": "book.minecells.entries.mobs.buzzcutter"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/ramparts"
       ]
     }
