@@ -3,6 +3,7 @@
   "category": "minecells:dimensions",
   "icon": "minecells:prison_bricks",
   "sortnum": 3,
+  "advancement": "minecells:promenade",
   "pages": [
     {
       "type": "minecells:dimension_image",

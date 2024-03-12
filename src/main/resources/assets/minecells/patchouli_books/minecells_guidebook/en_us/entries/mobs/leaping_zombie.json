@@ -2,6 +2,7 @@
   "name": "entity.minecells.leaping_zombie",
   "category": "minecells:mobs",
   "icon": "minecells:leaping_zombie_spawn_egg",
+  "advancement": "minecells:unlock/mobs/leaping_zombie",
   "pages": [
     {
       "type": "minecells:entity",

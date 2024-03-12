@@ -2,6 +2,7 @@
   "name": "entity.minecells.mutated_bat",
   "category": "minecells:mobs",
   "icon": "minecells:mutated_bat_spawn_egg",
+  "advancement": "minecells:unlock/mobs/mutated_bat",
   "pages": [
     {
       "type": "minecells:entity",

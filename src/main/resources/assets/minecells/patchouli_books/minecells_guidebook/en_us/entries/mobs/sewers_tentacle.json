@@ -2,6 +2,7 @@
   "name": "entity.minecells.sewers_tentacle",
   "category": "minecells:mobs",
   "icon": "minecells:sewers_tentacle_spawn_egg",
+  "advancement": "minecells:unlock/mobs/sewers_tentacle",
   "pages": [
     {
       "type": "minecells:entity",

@@ -364,6 +364,7 @@
    katana: "%1$s was sliced by %2$s",
   },
   "book.minecells": {
+    name: "Mine Cells Guidebook",
     description: "Mysterious doorways to otherworldly dungeons have been appearing all over the world.<br><br>Just how many secrets do these dungeons hide...?",
     categories: {
       mobs: "Monsters",

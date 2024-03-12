@@ -2,6 +2,7 @@
   "name": "entity.minecells.grenadier",
   "category": "minecells:mobs",
   "icon": "minecells:grenadier_spawn_egg",
+  "advancement": "minecells:unlock/mobs/grenadier",
   "pages": [
     {
       "type": "minecells:entity",

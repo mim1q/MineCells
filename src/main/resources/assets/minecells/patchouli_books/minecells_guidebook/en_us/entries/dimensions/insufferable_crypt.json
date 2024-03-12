@@ -3,6 +3,7 @@
   "category": "minecells:dimensions",
   "icon": "minecells:big_chain",
   "sortnum": 5,
+  "advancement": "minecells:prison",
   "pages": [
     {
       "type": "minecells:dimension_image",

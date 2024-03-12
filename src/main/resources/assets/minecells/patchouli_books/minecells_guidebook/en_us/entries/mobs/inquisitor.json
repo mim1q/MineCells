@@ -2,6 +2,7 @@
   "name": "entity.minecells.inquisitor",
   "category": "minecells:mobs",
   "icon": "minecells:inquisitor_spawn_egg",
+  "advancement": "minecells:unlock/mobs/inquisitor",
   "pages": [
     {
       "type": "minecells:entity",

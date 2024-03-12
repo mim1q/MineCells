@@ -3,6 +3,7 @@
   "category": "minecells:dimensions",
   "icon": "minecells:red_putrid_sapling",
   "sortnum": 2,
+  "advancement": "minecells:prison",
   "pages": [
     {
       "type": "minecells:dimension_image",

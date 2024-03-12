@@ -3,6 +3,7 @@
   "category": "minecells:dimensions",
   "icon": "minecraft:oak_boat",
   "sortnum": 4,
+  "advancement": "minecells:ramparts",
   "pages": [
     {
       "type": "minecells:dimension_image",

@@ -2,6 +2,7 @@
   "name": "entity.minecells.shieldbearer",
   "category": "minecells:mobs",
   "icon": "minecells:shieldbearer_spawn_egg",
+  "advancement": "minecells:unlock/mobs/shieldbearer",
   "pages": [
     {
       "type": "minecells:entity",

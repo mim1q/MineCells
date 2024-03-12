@@ -2,6 +2,7 @@
   "name": "entity.minecells.sweeper",
   "category": "minecells:mobs",
   "icon": "minecells:sweeper_spawn_egg",
+  "advancement": "minecells:unlock/mobs/sweeper",
   "pages": [
     {
       "type": "minecells:entity",
