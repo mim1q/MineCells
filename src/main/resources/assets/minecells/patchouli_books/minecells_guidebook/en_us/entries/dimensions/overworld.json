@@ -6,17 +6,18 @@
   "pages": [
     {
       "type": "minecells:dimension_image",
-      "title0": "dimension.minecraft.overworld",
+      "title0": "book.minecells.entries.dimensions.overworld.title0",
+      "title1": "book.minecells.entries.dimensions.overworld.title1",
       "image": "minecells:textures/gui/guidebook/images/overworld.png"
     },
     {
       "type": "patchouli:text",
-      "text": "The main world, where your journey starts. Strange door-like portals have appeared all over here, it may be worth to investigate their destinations..."
+      "text": "book.minecells.entries.dimensions.overworld.description"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Leads to:",
+        "# book.minecells.common.leads_to",
         "minecells:dimensions/prison"
       ]
     }

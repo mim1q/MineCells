@@ -362,5 +362,61 @@
    "cursed.player": "%1$s succumbed to a curse",
    bleeding: "%1$s bled to death",
    katana: "%1$s was sliced by %2$s",
+  },
+  "book.minecells": {
+    categories: {
+      mobs: "Monsters",
+      mobs_description: "Monsters found in Mine Cells' dimensions. Surely none of them used to be human... right?",
+      dimensions: "Dimensions",
+      dimensions_description: "The dungeon-dimensions that are accessible through the mysterious Doorways.",
+      items: "Core items & mechanics",
+      items_description: "Notable items with special functions, and other core mechanics of Mine Cells.",
+      weapons: "Weapons",
+      weapons_description: "Mine Cells weapons",
+      bosses: "Bosses",
+      bosses_description: "The most powerful monsters found in the various dimensions of Mine Cells. Brutal and difficult to beat, but might give you some of the best loot out there.",
+    },
+
+    entries: {
+      dimensions: {
+        overworld: {
+          title0: "Overworld",
+          title1: "",
+          description: "The main world, where your journey begins. Strange door-like portals have appeared all over here, it may be worth to investigate their destinations..."
+        },
+        prison: {
+          title0: "Prisoners' Quarters",
+          title1: "",
+          description: "",
+        },
+        promenade: {
+          title0: "Promenade",
+          title1: "of the Condemned",
+          description: "The charming countryside atmosphere of the forest has given way to a... less wholesome ambience.<br><br>The Promenade is an area where enemies attack you from all sides out in the open.<br><br>The dangers of this biome are worth taking on, as it houses the Vine Rune, which is required to reach other zones."
+        },
+        ramparts: {
+          title0: "Ramparts",
+          title1: "",
+          description: "This series of walls and towers used to be a resting spot for guards once they couldn't handle the overfilled prisons. The beautiful suset doesn't match the current vibe of this place, though. <br><br>The ramparts are full of dangerous monsters. If you manage to get to the end, don't think your fight here is over. There will be one more former guard waiting for you...",
+        },
+        insufferable_crypt: {
+          title0: "Insufferable Crypt",
+          title1: "",
+          description: "What used to be a storage room has been repurposed as a holding cell for a creature that appeared out of nowhere and began to grow uncontrollably. <br><br>It's suspected that the monster feeds on human flesh and hasn't been fed in a while... which might be the reason why she stopped growing... for now...",
+        },
+        black_bridge: {
+          title0: "Black Bridge",
+          title1: "",
+          description: "",
+        },
+      }
+    },
+    common: {
+      accessible_from: "Accessible from:",
+      leads_to: "Leads to:",
+      grants_access_to: "Grants access to:",
+      found_in: "Found in:",
+      important_content: "Important content:",
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "Weapons",
-  "description": "Mine Cells weapons",
+  "name": "book.minecells.categories.weapons",
+  "description": "book.minecells.categories.weapons_description",
   "icon": "minecells:blood_sword",
   "sortnum": 3
 }

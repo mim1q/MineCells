@@ -6,8 +6,13 @@
   "pages": [
     {
       "type": "minecells:dimension_image",
-      "title0": "dimension.minecells.black_bridge",
+      "title0": "book.minecells.entries.dimensions.black_bridge.title0",
+      "title1": "book.minecells.entries.dimensions.black_bridge.title1",
       "image": "minecells:textures/gui/guidebook/images/black_bridge.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.dimensions.black_bridge.description"
     }
   ]
 }

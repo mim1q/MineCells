@@ -1,6 +1,6 @@
 {
-  "name": "Dimensions",
-  "description": "The dungeon-dimensions that are accessible through the mysterious Doorways.",
+  "name": "book.minecells.categories.dimensions",
+  "description": "book.minecells.categories.dimensions_description",
   "icon": "minecells:prison_doorway",
   "sortnum": 0
 }

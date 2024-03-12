@@ -1,6 +1,6 @@
 {
-  "name": "Core items & mechanics",
-  "description": "Notable items with special functions, and other core mechanics of Mine Cells.",
+  "name": "book.minecells.categories.items",
+  "description": "book.minecells.categories.items_description",
   "icon": "minecells:vine_rune",
   "sortnum": 4
 }

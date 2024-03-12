@@ -71,7 +71,7 @@ public class ReferenceListComponent implements ICustomComponent {
     var textRenderer = MinecraftClient.getInstance().textRenderer;
     titles.forEach((key, value) -> {
       var space = spaceAtomic.getAndAdd(20);
-      graphics.drawText(textRenderer, Text.literal(value), x, y + space + key * 10, 0x404040, false);
+      graphics.drawText(textRenderer, Text.translatable(value), x, y + space + key * 10, 0x404040, false);
     });
   }
 

@@ -1,6 +1,6 @@
 {
-  "name": "Bosses",
-  "description": "The most powerful monsters found in the various dimensions of Mine Cells. Brutal and difficult to beat, but might give you some of the best loot out there.",
+  "name": "book.minecells.categories.bosses",
+  "description": "book.minecells.categories.bosses_description",
   "icon": "minecells:conjunctivius_respawn_rune",
   "sortnum": 2
 }

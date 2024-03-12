@@ -6,21 +6,22 @@
   "pages": [
     {
       "type": "minecells:dimension_image",
-      "title0": "dimension.minecells.ramparts",
+      "title0": "book.minecells.entries.dimensions.ramparts.title0",
+      "title1": "book.minecells.entries.dimensions.ramparts.title1",
       "image": "minecells:textures/gui/guidebook/images/ramparts.png"
     },
     {
       "type": "patchouli:text",
-      "text": "This series of walls and towers used to be a resting spot for guards once they couldn't handle the overfilled prisons. The beautiful suset doesn't match the current vibe of this place, though. <br><br>The ramparts are full of dangerous monsters. If you manage to get to the end, don't think your fight here is over. There will be one more former guard waiting for you..."
+      "text": "book.minecells.entries.dimensions.ramparts.description"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Accessible from:",
+        "# book.minecells.common.accessible_from",
         "minecells:dimensions/promenade",
-        "# Leads to:",
+        "# book.minecells.common.leads_to",
         "minecells:dimensions/black_bridge",
-        "# Mobs",
+        "# book.minecells.categories.mobs",
         "minecells:mobs/undead_archer",
         "minecells:mobs/shieldbearer",
         "minecells:mobs/buzzcutter",

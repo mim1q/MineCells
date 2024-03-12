@@ -1,6 +1,6 @@
 {
-  "name": "Enemies",
-  "description": "Monsters found in Mine Cells' dimensions. Surely none of them used to be human... right?",
+  "name": "book.minecells.categories.mobs",
+  "description": "book.minecells.categories.mobs_description",
   "icon": "minecells:leaping_zombie_spawn_egg",
   "sortnum": 1
 }
