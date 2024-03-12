@@ -364,6 +364,7 @@
    katana: "%1$s was sliced by %2$s",
   },
   "book.minecells": {
+    description: "Mysterious doorways to otherworldly dungeons have been appearing all over the world.<br><br>Just how many secrets do these dungeons hide...?",
     categories: {
       mobs: "Monsters",
       mobs_description: "Monsters found in Mine Cells' dimensions. Surely none of them used to be human... right?",
