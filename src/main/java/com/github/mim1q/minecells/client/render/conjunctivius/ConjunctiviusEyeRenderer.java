@@ -103,7 +103,7 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     @Override
     public void setAngles(ConjunctiviusEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
       if (entity.isForDisplay()) {
-        this.eye.setPivot(0.0F, 0.0F, -0.01F);
+        this.eye.setPivot(2.5F, 0.0F, -0.01F);
         this.highlight.setPivot(1.0F, -5.0F, -0.25F);
         return;
       }

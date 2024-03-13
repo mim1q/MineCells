@@ -402,7 +402,7 @@
         prison: {
           title0: "Prisoners' Quarters",
           title1: "",
-          description: "",
+          description: "The Prison was where criminals and people who showed symptopms of any mutation or disease were thrown. Some of those less unfortunate who survived in these cells are still dwelling around here to this day.",
         },
         promenade: {
           title0: "Promenade",
@@ -422,7 +422,7 @@
         black_bridge: {
           title0: "Black Bridge",
           title1: "",
-          description: "",
+          description: "Finally, somewhere where you can rest after crossing the Ramparts, right?<br><br>Time for rest will come when you defeat the guardian of this place. A former prison guard, mutated by a mysterious disease, just like everyone and everything else in these cursed dungeons.",
         },
       }
     },
