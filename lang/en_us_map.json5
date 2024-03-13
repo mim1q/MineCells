@@ -393,6 +393,10 @@
         sweeper: "Seems to have a molten piece of metal stuck to its hand. The Sweeper can use it to sweep a flaming shockwave in your direction.",
         undead_archer: "Just a common archer, now undead. Attacks with a bow and tries to stay back.",
       },
+      bosses: {
+        "concierge.description0": "The Concierge guards the Black Bridge, not letting anyone into or out of the Ramparts. Once a corrupt prison guard, his function remains the same, but is now driven by the effects of a mutating disease.",
+        "concierge.description1": "",
+      },
       dimensions: {
         overworld: {
           title0: "Overworld",

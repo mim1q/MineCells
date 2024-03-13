@@ -1,0 +1,24 @@
+{
+  "name": "entity.minecells.concierge",
+  "category": "minecells:bosses",
+  "icon": "minecells:concierge_respawn_rune",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:concierge",
+      "title": "entity.minecells.concierge",
+      "text": "book.minecells.entries.bosses.concierge.description0"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.bosses.concierge.description1"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/black_bridge"
+      ]
+    }
+  ]
+}

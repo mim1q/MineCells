@@ -13,6 +13,21 @@
     {
       "type": "patchouli:text",
       "text": "book.minecells.entries.dimensions.prison.description"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.accessible_from",
+        "minecells:dimensions/overworld",
+        "# book.minecells.common.leads_to",
+        "minecells:dimensions/promenade",
+        "minecells:dimensions/insufferable_crypt",
+        "# book.minecells.categories.mobs",
+        "minecells:mobs/grenadier",
+        "minecells:mobs/leaping_zombie",
+        "minecells:mobs/shieldbearer",
+        "minecells:mobs/undead_archer"
+      ]
     }
   ]
 }
