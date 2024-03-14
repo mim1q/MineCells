@@ -13,7 +13,6 @@
     "sewage_bucket": "Sewage Bucket",
     "ancient_sewage_bucket": "Ancient Sewage Bucket",
 
-    // Banners
     biome_banner: "Flag",
     "biome_banner.promenade_of_the_condemned": "Promenade of the Condemned",
     "biome_banner.king_crest": "King's Crest",
@@ -340,32 +339,32 @@
     stunned: "Stunned",
     frozen: "Frozen",
   },
-  "chat.minecells": {
-   obelisk_item_message: "Requires %s to activate",
-   suffocation_fix_message: "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
-   version_mismatch: "It seems like you have installed a new version of Mine Cells! Here's what you should do after updating the mod:\n",
-   "version_mismatch.link": "\n\nClick here for a guide on updating Mine Cells",
-   "version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
-   "version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
-   "version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
-   stuck_message: "\nIt seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint.",
-   wipe_try: ["\n", { "text": "WARNING: ", "color": "#FF1111" }, "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"],
-   wipe_success: "All Mine Cells data has been wiped.",
+    "chat.minecells": {
+    obelisk_item_message: "Requires %s to activate",
+    suffocation_fix_message: "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
+    version_mismatch: "It seems like you have installed a new version of Mine Cells! Here's what you should do after updating the mod:\n",
+    "version_mismatch.link": "\n\nClick here for a guide on updating Mine Cells",
+    "version_mismatch.prison": " - Reset the \"minecells:prison\" dimension",
+    "version_mismatch.insufferable_crypt": " - Reset the \"minecells:insufferable_crypt\" dimension",
+    "version_mismatch.promenade": " - Reset the \"minecells:promenade\" dimension",
+    stuck_message: "\nIt seems that you got stuck in one of Mine Cells' dimensions. You have been teleported to your spawnpoint.",
+    wipe_try: ["\n", { "text": "WARNING: ", "color": "#FF1111" }, "This command will wipe the Mine Cells data of all players. Execute it again to proceed.\n"],
+    wipe_success: "All Mine Cells data has been wiped.",
   },
   "death.attack.minecells": {
-   grenade: "%s was blown up by %s",
-   aura: "%1$s didn't respect %2$s's boundaries",
-   backstab: "%1$s was backstabbed by %2$s",
-   elevator: "%1$s turned into a pancake",
-   "elevator.player": "%1$s got squashed by %2$s",
-   cursed: "%1$s succumbed to a curse",
-   "cursed.player": "%1$s succumbed to a curse",
-   bleeding: "%1$s bled to death",
-   katana: "%1$s was sliced by %2$s",
+    grenade: "%s was blown up by %s",
+    aura: "%1$s didn't respect %2$s's boundaries",
+    backstab: "%1$s was backstabbed by %2$s",
+    elevator: "%1$s turned into a pancake",
+    "elevator.player": "%1$s got squashed by %2$s",
+    cursed: "%1$s succumbed to a curse",
+    "cursed.player": "%1$s succumbed to a curse",
+    bleeding: "%1$s bled to death",
+    katana: "%1$s was sliced by %2$s",
   },
   "book.minecells": {
     name: "Mine Cells Guidebook",
-    description: "Mysterious doorways to otherworldly dungeons have been appearing all over the world.<br><br>Just how many secrets do these dungeons hide...?",
+    description: "Mysterious doorways to otherworldly dungeons have been appearing all over the world.<br>They seem to resemble areas from the world of $(l:https://dead-cells.com)Dead Cells$()...<br><br>Just how many secrets do these dungeons hide...?",
     categories: {
       mobs: "Monsters",
       mobs_description: "Monsters found in Mine Cells' dimensions. Surely none of them used to be human... right?",
@@ -395,7 +394,9 @@
       },
       bosses: {
         "concierge.description0": "The Concierge guards the Black Bridge, not letting anyone into or out of the Ramparts. Once a corrupt prison guard, his function remains the same, but is now driven by the effects of a mutating disease.",
-        "concierge.description1": "",
+        "concierge.description1": "He mostly attacks at close range at first, knocking you back with his massive fist or activating a damaging aura. He will also use his gauntlets to send powerful shockwaves engulfing the entire bridge in flames.<br><br>Once you've damaged him enough he'll start leaping towards you, trying to crush you with his weight. His attacks become faster and more aggressive as his health decreases",
+        "conjunctivius.description0": "This monster emerged from a pile of mutated bodies, and eventually grew into her current size. She has been chained in her crypt in the hopes of that preventing her from wreaking any more havoc.",
+        "conjunctivius.description1": "The Conjunctivius will try to break from her chains to dash into you, which is signaled by a red particle beam. She also shoots toxic green tears from her eye in later stages of the battle.<br><br>Once she reaches a certain health threshold, she will become invulnerable and summon a few tentacles to aid her in battle. Once those are defeated, she will become vulnerable again.",
       },
       dimensions: {
         overworld: {
@@ -428,14 +429,22 @@
           title1: "",
           description: "Finally, somewhere where you can rest after crossing the Ramparts, right?<br><br>Time for rest will come when you defeat the guardian of this place. A former prison guard, mutated by a mysterious disease, just like everyone and everything else in these cursed dungeons.",
         },
+      },
+      items: {
+        vine_rune: {
+          description0: "The Vine Rune is a useful rune that can be used to access otherwise hidden areas.<br><br>It's found in the Promenade of the Condemned. The path in that area should take you directly to the rune's location, as long as you follow the signs.",
+          description1: "You can use the Vine Rune on a Runic Vine Plant, shown above, to create a vine that will open up new places for you to explore."
+        }
       }
     },
+
     common: {
       accessible_from: "Accessible from:",
       leads_to: "Leads to:",
       grants_access_to: "Grants access to:",
       found_in: "Found in:",
       important_content: "Important content:",
+      summons: "Summons:",
     }
   }
 }

@@ -6,6 +6,8 @@
 
   "i18n": true,
 
+  "show_progress": false,
+
   "use_resource_pack": true,
   "book_texture": "minecells:textures/gui/guidebook/book.png",
   "filler_texture": "minecells:textures/gui/guidebook/filler.png",

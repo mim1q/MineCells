@@ -7,17 +7,19 @@
       "type": "minecells:entity",
       "entity": "minecells:conjunctivius{forDisplay:true}",
       "title": "entity.minecells.conjunctivius",
-      "text": "eye larg"
+      "text": "book.minecells.entries.bosses.conjunctivius.description0"
     },
     {
       "type": "patchouli:text",
-      "text": "aaaaaaaaaabbbbbacassadasdasd"
+      "text": "book.minecells.entries.bosses.conjunctivius.description1"
     },
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
-        "minecells:dimensions/insufferable_crypt"
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/insufferable_crypt",
+        "# book.minecells.common.summons",
+        "minecells:mobs/sewers_tentacle"
       ]
     }
   ]

@@ -8,7 +8,12 @@
       "item": {
         "item": "minecells:vine_rune"
       },
-      "text": "The Vine Rune is a useful rune that can be used to access otherwise hidden areas.<br><br>Use it on a Runic Vine Plant (which should have a Vine Rune indicator before you first activate it) to create a vine that will open these new places for you."
+      "text": "book.minecells.entries.items.vine_rune.description0"
+    },
+    {
+      "type": "minecells:image_and_text",
+      "image": "minecells:textures/gui/guidebook/images/runic_vine_plant.png",
+      "text": "book.minecells.entries.items.vine_rune.description1"
     },
     {
       "type": "minecells:references",
