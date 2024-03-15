@@ -46,10 +46,17 @@
   "book.minecells.entries.dimensions.black_bridge.description": "Finally, somewhere where you can rest after crossing the Ramparts, right?<br><br>Time for rest will come when you defeat the guardian of this place. A former prison guard, mutated by a mysterious disease, just like everyone and everything else in these cursed dungeons.",
   "book.minecells.entries.items.vine_rune.description0": "The Vine Rune is a useful rune that can be used to access otherwise hidden areas.<br><br>It's found in the Promenade of the Condemned. The path in that area should take you directly to the rune's location, as long as you follow the signs.",
   "book.minecells.entries.items.vine_rune.description1": "You can use the Vine Rune on a Runic Vine Plant, shown above, to create a vine that will open up new places for you to explore.",
+  "book.minecells.entries.items.doorway.title": "Doorways",
+  "book.minecells.entries.items.doorway.description0": "Doorways are the primary method of accessing the dimensions of Mine Cells.<br><br>Doorways to Prisoners' Quarters can be found randomly in the Overworld, and can be broken, crafted, and placed elsewhere.",
+  "book.minecells.entries.items.doorway.description1": "Hovering over a Doorway will display its coordinates, which are always rounded to multiples of 1024.<br><br>Two Doorways with the same displayed coordinates will always lead to the same area.<br><br>Doorways will always remember the coordinates they displayed when they were first placed/found. Picking the doorways up and placing them anywhere else will not change the coordinates bound to that Doorway item.",
+  "book.minecells.entries.items.doorway.description2": "- Holding a Doorway in your hand will display a tooltip with the coordinates that would be bound to it if you placed it at your feet. It will also tell if if you've already visited the area it leads to.<br>- Place a Doorway in a crafting grid to clear its bound coordinates<br>- Craft a Doorway with bound coordinates and one without them to clone these coordinates",
+  "book.minecells.entries.items.doorway.dimensional_rune.title": "Dimensional Runes",
+  "book.minecells.entries.items.doorway.dimensional_rune.description": "Dimensional Runes can be used to change the destination of a Doorway in the Overworld.<br>They're granted when you first enter a Mine Cells dimension, but can also be crafted.<br><br>You can only use it if you've already visited the rune's dimension through a Doorway with the same coordinates as the one you want to change.",
   "book.minecells.common.accessible_from": "Accessible from:",
   "book.minecells.common.leads_to": "Leads to:",
   "book.minecells.common.grants_access_to": "Grants access to:",
   "book.minecells.common.found_in": "Found in:",
   "book.minecells.common.important_content": "Important content:",
-  "book.minecells.common.summons": "Summons:"
+  "book.minecells.common.summons": "Summons:",
+  "book.minecells.common.tips": "Tips"
 }

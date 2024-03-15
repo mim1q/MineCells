@@ -1,0 +1,25 @@
+{
+  "name": "book.minecells.entries.items.doorway.title",
+  "category": "minecells:items",
+  "icon": "minecells:prison_doorway",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": { "item": "minecells:prison_doorway" },
+      "title": "book.minecells.entries.items.doorway.title",
+      "text": "book.minecells.entries.items.doorway.description0"
+    },
+    "book.minecells.entries.items.doorway.description1",
+    {
+      "type": "patchouli:text",
+      "title": "book.minecells.common.tips",
+      "text": "book.minecells.entries.items.doorway.description2"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": { "item": "minecells:promenade_dimensional_rune" },
+      "title": "book.minecells.entries.items.doorway.dimensional_rune.title",
+      "text": "book.minecells.entries.items.doorway.dimensional_rune.description"
+    }
+  ]
+}

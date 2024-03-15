@@ -12,6 +12,8 @@
   "book_texture": "minecells:textures/gui/guidebook/book.png",
   "filler_texture": "minecells:textures/gui/guidebook/filler.png",
   "crafting_texture": "minecells:textures/gui/guidebook/crafting.png",
+  "link_color": "c42716",
+  "link_hover_color": "e44d24",
   "model": "minecells:guidebook",
   "text_overflow_mode": "resize"
 }
