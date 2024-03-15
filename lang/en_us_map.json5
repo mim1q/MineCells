@@ -444,6 +444,13 @@
             title: "Dimensional Runes",
             description: "Dimensional Runes can be used to change the destination of a Doorway in the Overworld.<br>They're granted when you first enter a Mine Cells dimension, but can also be crafted.<br><br>You can only use it if you've already visited the rune's dimension through a Doorway with the same coordinates as the one you want to change."
           }
+        },
+        elevator: {
+          title: "Elevators",
+          multiblock_title: "Assembling an elevator",
+          description0: "Mine Cells' elevators are a great and stylish way to travel vertically.<br>Stand on the platform and right-click it to activate.",
+          description1: "Crouching will make you drop down through the elevator. Be careful, you might get squashed if you're not careful!<br><br>You can create your own elevators, by crafting Elevator Assemblers, and placing two of them surrounded by chains on two sides, like shown on the next page.<br><br>Player-made elevators can be destroyed with an axe or by breaking the chains at the platform's height.",
+          description2: "You can call the elevators by emitting a redstone signal at the same level you placed an Assembler!"
         }
       }
     },
