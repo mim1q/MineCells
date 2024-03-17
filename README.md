@@ -16,6 +16,6 @@ The source code is licensed under the [APACHE 2.0](https://www.apache.org/licens
 ### Assets
 All textures and models (that is, files in `src/main/resources/assets/minecells/textures/` and `src/main/resources/minecells/models/` and all of their subdirectories) are All Rights Reserved. You may not reuse those in your own projects or redistribute them in any way without my explicit permission.
 
-If you have any questions about these terms or any other , feel free to contact me:
+If you have any questions about these terms or any other, feel free to contact me:
 - on Discord: @Mim1q
 - by e-mail: [mim1q.dev@gmail.com](mailto:mim1q.dev@gmail.com)
