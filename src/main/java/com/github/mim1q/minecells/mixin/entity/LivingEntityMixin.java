@@ -43,7 +43,6 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Shadow public abstract boolean damage(DamageSource source, float amount);
   @Shadow public abstract void kill();
   @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
-  @Shadow public abstract Identifier getLootTable();
   @Shadow public abstract ItemStack getOffHandStack();
   @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
   @Shadow public abstract LivingEntity getLastAttacker();
@@ -80,10 +79,10 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     if (!source.isIn(DamageTypeTags.IS_FREEZING)) {
       this.removeStatusEffect(MineCellsStatusEffects.FROZEN);
     }
+
     if (getMineCellsFlag(MineCellsEffectFlags.CURSED) && !source.isOf(MineCellsDamageSource.CURSED.key)) {
       getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
-      this.damage(MineCellsDamageSource.CURSED.get(getWorld(), getLastAttacker()), Float.MAX_VALUE);
-      cir.setReturnValue(false);
+      cir.setReturnValue(this.damage(MineCellsDamageSource.CURSED.get(getWorld(), getLastAttacker()), 2048f));
     }
   }
 
