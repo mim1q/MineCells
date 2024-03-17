@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.spite_sword",
+  "category": "minecells:weapons",
+  "icon": "minecells:spite_sword",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:spite_sword"
+      },
+      "text": "book.minecells.entries.weapons.spite_sword"
+    }
+  ]
+}

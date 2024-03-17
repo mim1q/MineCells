@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.phaser",
+  "category": "minecells:weapons",
+  "icon": "minecells:phaser",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:phaser"
+      },
+      "text": "book.minecells.entries.weapons.phaser"
+    }
+  ]
+}

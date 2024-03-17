@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.balanced_blade",
+  "category": "minecells:weapons",
+  "icon": "minecells:balanced_blade",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:balanced_blade"
+      },
+      "text": "book.minecells.entries.weapons.balanced_blade"
+    }
+  ]
+}

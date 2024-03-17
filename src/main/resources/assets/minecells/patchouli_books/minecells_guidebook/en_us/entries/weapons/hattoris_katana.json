@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.hattoris_katana",
+  "category": "minecells:weapons",
+  "icon": "minecells:hattoris_katana",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:hattoris_katana"
+      },
+      "text": "book.minecells.entries.weapons.hattoris_katana"
+    }
+  ]
+}
