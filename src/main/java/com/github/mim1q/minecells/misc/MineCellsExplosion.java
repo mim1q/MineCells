@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.misc;
 
-import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
