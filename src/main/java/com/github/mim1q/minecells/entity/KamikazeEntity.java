@@ -100,7 +100,7 @@ public class KamikazeEntity extends MineCellsEntity {
 
   public void explode() {
     if (!getWorld().isClient()) {
-      MineCellsExplosion.explode((ServerWorld) getWorld(), this, this.getPos(), 20.0F, 6.0F);
+      MineCellsExplosion.explode((ServerWorld) getWorld(), this, this, this.getPos(), 20.0F, 6.0F);
     }
   }
 

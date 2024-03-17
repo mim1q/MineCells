@@ -67,6 +67,7 @@ public class GrenadeEntity extends ProjectileEntity {
   public void explode() {
     MineCellsExplosion.explode(
       (ServerWorld) getWorld(),
+      this,
       (LivingEntity) this.getOwner(),
       this.getPos(),
       this.damage,

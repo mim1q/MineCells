@@ -186,6 +186,7 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
 
       GrenadeEntity grenade = new GrenadeEntity(MineCellsEntities.GRENADE, this.entity.getWorld());
       grenade.setPosition(entityPos.add(0.0D, 1.5D, 0.0D));
+      grenade.setOwner(this.entity);
       grenade.shoot(delta);
 
       this.entity.getWorld().spawnEntity(grenade);
