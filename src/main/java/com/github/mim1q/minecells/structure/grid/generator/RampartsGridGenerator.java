@@ -72,19 +72,19 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
       }
 
       if (sideTowers[0]) {
-        var nextRight = i != 3 && turns[i + 1];
+//        var nextRight = i != 3 && turns[i + 1];
         var prevRight = turns[i];
         var startZ = z + (prevRight ? 2 : 1);
-        var addedZ = length - (nextRight ? 2 : 1);
-        addTower(x - 2, height, startZ + random.nextInt(addedZ), random, CLOCKWISE_90);
+//        var addedZ = length - (nextRight ? 2 : 1);
+        addTower(x - 2, height, startZ + random.nextInt(length - 2), random, CLOCKWISE_90);
       }
 
       if (sideTowers[1]) {
-        var nextLeft = i != 3 && !turns[i + 1];
+//        var nextLeft = i != 3 && !turns[i + 1];
         var prevLeft = !turns[i];
         var startZ = z + (prevLeft ? 2 : 1);
-        var addedZ = length - (nextLeft ? 2 : 1);
-        addTower(x + 2, height, startZ + random.nextInt(addedZ), random, COUNTERCLOCKWISE_90);
+//        var addedZ = length - (nextLeft ? 2 : 1);
+        addTower(x + 2, height, startZ + random.nextInt(length - 2), random, COUNTERCLOCKWISE_90);
       }
       z += length - 1;
     }
@@ -150,6 +150,10 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
     Random random,
     BlockRotation rotation
   ) {
+    if (isPositionUsed(new Vec3i(x, 0, z))) {
+      return;
+    }
+
     var floating = random.nextBoolean();
     var height = 2 + random.nextInt(3);
 
