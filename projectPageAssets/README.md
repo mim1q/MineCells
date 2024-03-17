@@ -67,10 +67,18 @@ Use a compass to guide you back to the entrance. Compasses sometimes spawn in ch
 </details>
 
 <details>
-    <summary>Can I use this mod in my modpack / showcase video?</summary>
+    <summary>Can I use this mod in my modpack / showcase video / blog?</summary>
 
-You can use this mod in your modpacks and videos! Asking for consent beforehand is appreciated, but not necessary.
-I would be grateful if you sent me the video link so I can check it out!
+You can use this mod in your videos, blogs, etc.! If you do, provide a download link to this page.  
+**Do not** reupload the mod's files to any other hostings for people to download.  
+
+Feel free to use the mod in your modpacks, as long as they are either:
+- Used in private with your friends  
+or
+- Publicly available on CurseForge or Modrinth and you're not making money by selling them.
+
+If you have any questions about this, feel free to contact me on the Discord server linked at the top of this page.
+
 </details>
 
 <details>
