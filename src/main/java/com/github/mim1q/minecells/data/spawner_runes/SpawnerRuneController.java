@@ -18,6 +18,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -27,6 +28,10 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class SpawnerRuneController {
 
@@ -73,11 +78,30 @@ public class SpawnerRuneController {
     var world = spawningPlayer.getWorld();
     var entities = data.getSelectedEntities(world.getRandom());
     for (var entityData : entities) {
-      var entity = spawnEntity((ServerWorld) world, entityData, findPos(world, pos, data.spawnDistance()), pos);
-      if (entity instanceof HostileEntity hostile) {
+      var entity = spawnEntity(
+        (ServerWorld) world,
+        entityData,
+        findPos(world, pos, data.spawnDistance()),
+        pos,
+        e -> {
+        }
+      );
+      if (entity instanceof HostileEntity hostile && hostile.canSee(spawningPlayer)) {
         hostile.setTarget(spawningPlayer);
       }
     }
+  }
+
+  public static List<Entity> spawnEntities(ServerWorld world, Identifier dataId, BlockPos pos, Consumer<Entity> entityConsumer) {
+    var data = MineCells.SPAWNER_RUNE_DATA.get(dataId);
+    if (data == null) return List.of();
+    var entities = data.getSelectedEntities(world.random);
+    var result = new ArrayList<Entity>();
+    for (var entityData : entities) {
+      var entity = spawnEntity(world, entityData, findPos(world, pos, data.spawnDistance()), pos, entityConsumer);
+      result.add(entity);
+    }
+    return result;
   }
 
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
@@ -98,7 +122,7 @@ public class SpawnerRuneController {
     return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
   }
 
-  private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos) {
+  private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
     Entity spawnedEntity = entityData.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity == null) return null;
     if (spawnedEntity instanceof LivingEntity livingEntity) {
@@ -112,6 +136,13 @@ public class SpawnerRuneController {
         }
       });
       livingEntity.setHealth(livingEntity.getMaxHealth());
+      final var currentEntityNbt = new NbtCompound();
+      livingEntity.writeCustomDataToNbt(currentEntityNbt);
+      for (var entry : entityData.nbt().getKeys()) {
+        currentEntityNbt.put(entry, entityData.nbt().get(entry));
+      }
+      livingEntity.readCustomDataFromNbt(currentEntityNbt);
+      entityConsumer.accept(livingEntity);
     }
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;

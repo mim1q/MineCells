@@ -23,9 +23,7 @@ import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,19 +44,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static net.minecraft.entity.data.DataTracker.registerData;
+import static net.minecraft.entity.data.TrackedDataHandlerRegistry.*;
+
 public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public final AnimationProperty spikeOffset = new AnimationProperty(5.0F, MathUtils::easeInOutQuad);
 
-  public static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> AURA_CHARGING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> AURA_RELEASING = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<Boolean> BARRAGE_ACTIVE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  public static final TrackedData<BlockPos> ANCHOR_TOP = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-  public static final TrackedData<BlockPos> ANCHOR_LEFT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-  public static final TrackedData<BlockPos> ANCHOR_RIGHT = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-  public static final TrackedData<Integer> STAGE = DataTracker.registerData(ConjunctiviusEntity.class, TrackedDataHandlerRegistry.INTEGER);
+  public static final TrackedData<Boolean> DASH_CHARGING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> DASH_RELEASING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> AURA_CHARGING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> AURA_RELEASING = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<Boolean> BARRAGE_ACTIVE = registerData(ConjunctiviusEntity.class, BOOLEAN);
+  public static final TrackedData<BlockPos> ANCHOR_TOP = registerData(ConjunctiviusEntity.class, BLOCK_POS);
+  public static final TrackedData<BlockPos> ANCHOR_LEFT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
+  public static final TrackedData<BlockPos> ANCHOR_RIGHT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
+  public static final TrackedData<Integer> STAGE = registerData(ConjunctiviusEntity.class, INTEGER);
 
   // Stages:
   // 0 - has not seen any player yet
@@ -72,7 +73,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   private Vec3d spawnPos = Vec3d.ZERO;
   private Direction direction;
-  private float spawnRot = 0.0F;
+  private float spawnRot = 180.0F;
   private BlockBox roomBox = null;
   private int dashCooldown = 0;
   private int auraCooldown = 0;
@@ -139,14 +140,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
-    final var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
+    var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
       s.cooldownGetter = () -> this.auraCooldown;
       s.cooldownSetter = (cooldown) -> this.auraCooldown = this.stageAdjustedCooldown(cooldown);
       s.stateSetter = this::switchAuraState;
       s.chargeSound = MineCellsSounds.SHOCKER_CHARGE;
       s.releaseSound = MineCellsSounds.SHOCKER_RELEASE;
       s.soundVolume = 2.0F;
-      s.damage = 10.0F;
+      s.damage = getDamage(1f);
       s.radius = 8.0D;
       s.defaultCooldown = 200;
       s.actionTick = 30;
@@ -154,7 +155,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.length = 60;
     });
 
-    final var dashGoal = (new ConjunctiviusDashGoal(this, s -> {
+    var dashGoal = (new ConjunctiviusDashGoal(this, s -> {
       s.cooldownGetter = () -> this.dashCooldown;
       s.cooldownSetter = (cooldown) -> this.dashCooldown = this.stageAdjustedCooldown(cooldown);
       s.stateSetter = this::switchDashState;
@@ -162,7 +163,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.releaseSound = MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE;
       s.soundVolume = 2.0F;
       s.speed = 1.0F;
-      s.damage = 20.0F;
+      s.damage = getDamage(2.5f);
       s.defaultCooldown = 200;
       s.actionTick = 30;
       s.alignTick = 26;
@@ -183,7 +184,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void addStageGoals(int stage) {
     if (stage == 3) {
       this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F));
-      return;
     }
     if (stage == 7) {
       this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.02F));
@@ -192,7 +192,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   public void tick() {
+    this.bodyYaw = this.spawnRot;
+    this.prevBodyYaw = this.spawnRot;
+    this.setYaw(this.spawnRot);
+
     super.tick();
+
     if (getWorld().isClient()) {
       if (this.getDashState() != TimedActionGoal.State.IDLE || this.getAuraState() == TimedActionGoal.State.RELEASE) {
         this.spikeOffset.setupTransitionTo(0.0F, 10.0F);
@@ -216,9 +221,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       if (!getWorld().getBlockState(this.getBlockPos().down(2)).isAir()) {
         this.move(MovementType.SELF, new Vec3d(0.0D, 0.1D, 0.0D));
       }
-      this.bodyYaw = this.spawnRot;
-      this.prevBodyYaw = this.spawnRot;
-      this.setYaw(this.spawnRot);
 
       if (this.age % 20 == 0) {
         // Handle bossbar visibility
@@ -281,7 +283,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
 
     getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.getRoomBox().expand(10))).forEach(
-      player -> ((ServerPlayerEntity)player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
+      player -> ((ServerPlayerEntity) player).getAdvancementTracker().grantCriterion(advancement, "conjunctivius_killed")
     );
   }
 
@@ -469,6 +471,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {
     return createHostileAttributes()
+      .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
       .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D)
       .add(EntityAttributes.GENERIC_MAX_HEALTH, 400.0D)
       .add(EntityAttributes.GENERIC_ARMOR, 10.0D)
@@ -494,7 +497,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return false;
   }
 
-  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) { }
+  protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
+  }
 
   public void travel(Vec3d movementInput) {
     if (this.canMoveVoluntarily() || this.isLogicalSideForUpdatingMovement()) {
@@ -531,15 +535,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void writeCustomDataToNbt(NbtCompound nbt) {
     super.writeCustomDataToNbt(nbt);
     nbt.putInt("dashCooldown", this.dashCooldown);
-    nbt.putIntArray("spawnPos", new int[] {
-      (int)this.spawnPos.x, (int)this.spawnPos.y, (int)this.spawnPos.z
+    nbt.putIntArray("spawnPos", new int[]{
+      (int) this.spawnPos.x, (int) this.spawnPos.y, (int) this.spawnPos.z
     });
     nbt.putIntArray("roomBox", new int[]{
       this.roomBox.getMinX(), this.roomBox.getMinY(), this.roomBox.getMinZ(),
       this.roomBox.getMaxX(), this.roomBox.getMaxY(), this.roomBox.getMaxZ()
     });
     nbt.putFloat("spawnRot", this.spawnRot);
-    nbt.putIntArray("anchors", new int[] {
+    nbt.putIntArray("anchors", new int[]{
       this.getTopAnchor().getX(), this.getTopAnchor().getY(), this.getTopAnchor().getZ(),
       this.getLeftAnchor().getX(), this.getLeftAnchor().getY(), this.getLeftAnchor().getZ(),
       this.getRightAnchor().getX(), this.getRightAnchor().getY(), this.getRightAnchor().getZ(),
@@ -599,7 +603,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
     private boolean willCollide(Vec3d direction, int steps) {
       Box box = this.entity.getBoundingBox().withMinY(this.entity.getY() - 1.0D);
-      for(int i = 1; i < steps; ++i) {
+      for (int i = 1; i < steps; ++i) {
         box = box.offset(direction);
         if (!this.entity.getWorld().isSpaceEmpty(this.entity, box)) {
           return false;

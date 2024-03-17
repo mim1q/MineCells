@@ -10,40 +10,42 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public class CellForgeRecipe implements Recipe<CellForgeInventory> {
+public record CellForgeRecipe(
+  Identifier id,
+  List<ItemStack> ingredients,
+  ItemStack output,
+  Optional<Identifier> requiredAdvancement,
+  int priority,
+  Category category
+) implements Recipe<CellForgeInventory> {
 
   public static final Codec<CellForgeRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-    Codec.list(ItemStack.CODEC).fieldOf("input").forGetter(CellForgeRecipe::getInput),
-    Codec.INT.fieldOf("cells").forGetter(CellForgeRecipe::getCells),
-    ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::getOutput),
-    Identifier.CODEC.optionalFieldOf("advancement").forGetter(CellForgeRecipe::getRequiredAdvancement),
-    Codec.INT.optionalFieldOf("priority", 0).forGetter(CellForgeRecipe::getPriority)
-  ).apply(instance, CellForgeRecipe::new));
+    Codec.list(ItemStack.CODEC).fieldOf("input").forGetter(CellForgeRecipe::ingredients),
+    ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::output),
+    Identifier.CODEC.optionalFieldOf("advancement").forGetter(CellForgeRecipe::requiredAdvancement),
+    Codec.INT.optionalFieldOf("priority", 0).forGetter(CellForgeRecipe::priority),
+    StringIdentifiable.createCodec(Category::values).optionalFieldOf("category", Category.OTHER).forGetter(CellForgeRecipe::category)
+  ).apply(instance, CellForgeRecipe::create));
 
-  private Identifier id = null;
-  private final List<ItemStack> ingredients;
-  private final int cells;
-  private final ItemStack output;
-  private final Optional<Identifier> requiredAdvancement;
-  private final int priority;
-
-  public CellForgeRecipe(List<ItemStack> ingredients, int cells, ItemStack output, Optional<Identifier> requiredAdvancement, int priority) {
-    this.ingredients = ingredients;
-    this.cells = cells;
-    this.output = output;
-    this.requiredAdvancement = requiredAdvancement;
-    this.priority = priority;
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+  private static CellForgeRecipe create(
+    List<ItemStack> ingredients,
+    ItemStack output,
+    Optional<Identifier> requiredAdvancement,
+    int priority,
+    Category category
+  ) {
+    return new CellForgeRecipe(null, ingredients, output, requiredAdvancement, priority, category);
   }
 
-  public CellForgeRecipe withId(Identifier id) {
-    this.id = id;
-    return this;
+  public CellForgeRecipe withId(Identifier newId) {
+    return new CellForgeRecipe(newId, ingredients, output, requiredAdvancement, priority, category);
   }
 
   @Override
@@ -68,29 +70,9 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
     return false;
   }
 
-  public ItemStack getOutput() {
-    return output;
-  }
-
   @Override
   public ItemStack getOutput(DynamicRegistryManager registryManager) {
     return output;
-  }
-
-  public List<ItemStack> getInput() {
-    return ingredients;
-  }
-
-  public int getCells() {
-    return cells;
-  }
-
-  public Optional<Identifier> getRequiredAdvancement() {
-    return requiredAdvancement;
-  }
-
-  public int getPriority() {
-    return priority;
   }
 
   @Override
@@ -106,5 +88,22 @@ public class CellForgeRecipe implements Recipe<CellForgeInventory> {
   @Override
   public RecipeType<?> getType() {
     return MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE;
+  }
+
+  public enum Category implements StringIdentifiable {
+    GEAR("gear"),
+    DECORATION("decoration"),
+    OTHER("other");
+
+    private final String name;
+
+    Category(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String asString() {
+      return name;
+    }
   }
 }

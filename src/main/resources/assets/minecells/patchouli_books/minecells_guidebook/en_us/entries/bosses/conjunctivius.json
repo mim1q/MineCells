@@ -1,0 +1,27 @@
+{
+  "name": "entity.minecells.conjunctivius",
+  "category": "minecells:bosses",
+  "icon": "minecells:conjunctivius_respawn_rune",
+  "advancement": "minecells:insufferable_crypt",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:conjunctivius{forDisplay:true}",
+      "title": "entity.minecells.conjunctivius",
+      "text": "book.minecells.entries.bosses.conjunctivius.description0"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.bosses.conjunctivius.description1"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/insufferable_crypt",
+        "# book.minecells.common.summons",
+        "minecells:mobs/sewers_tentacle"
+      ]
+    }
+  ]
+}

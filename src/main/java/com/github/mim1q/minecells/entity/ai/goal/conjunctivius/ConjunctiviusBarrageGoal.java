@@ -53,7 +53,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     if (this.ticks > 60) {
       super.tick();
       if (this.ticks % 6 == 0) {
-        var serverWorld = ((ServerWorld)this.entity.getWorld());
+        var serverWorld = ((ServerWorld) this.entity.getWorld());
         serverWorld.getServer().getPlayerManager().sendToAround(
           null, entity.getX(), entity.getY(), entity.getZ(), 32.0D, entity.getWorld().getRegistryKey(),
           new PlaySoundS2CPacket(RegistryEntry.of(MineCellsSounds.CONJUNCTIVIUS_SHOT), SoundCategory.HOSTILE, entity.getX(), entity.getY(), entity.getZ(), 0.25F, 1.0F, 0)
@@ -117,7 +117,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
   public static class Around extends ConjunctiviusBarrageGoal {
 
     public Around(ConjunctiviusEntity entity, double speed, float chance) {
-      super(entity, speed, chance, 1);
+      super(entity, speed, chance, 2);
     }
 
     @Override

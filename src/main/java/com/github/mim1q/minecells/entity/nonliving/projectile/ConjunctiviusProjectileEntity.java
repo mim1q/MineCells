@@ -28,8 +28,8 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
     double f = this.getVelocity().y;
     double g = this.getVelocity().z;
     double l = this.getVelocity().horizontalLength();
-    this.setYaw((float)(-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
-    this.setPitch((float)(-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
+    this.setYaw((float) (-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
+    this.setPitch((float) (-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
   }
 
   public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
@@ -45,7 +45,10 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
 
   @Override
   protected float getDamage() {
-    return 10.0F;
+    if (this.getOwner() instanceof ConjunctiviusEntity owner) {
+      return owner.getDamage(1f);
+    }
+    return 8.0f;
   }
 
   @Override

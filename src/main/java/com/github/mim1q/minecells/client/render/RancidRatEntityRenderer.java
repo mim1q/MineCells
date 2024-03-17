@@ -7,10 +7,9 @@ import com.github.mim1q.minecells.client.render.model.RancidRatEntityModel;
 import com.github.mim1q.minecells.entity.RancidRatEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class RancidRatEntityRenderer extends MobEntityRenderer<RancidRatEntity, RancidRatEntityModel> {
+public class RancidRatEntityRenderer extends MineCellsEntityRenderer<RancidRatEntity, RancidRatEntityModel> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/rancid_rat/rancid_rat.png");
   private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/rancid_rat/rancid_rat_glow.png");

@@ -4,9 +4,11 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.TeleportUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,6 +22,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -31,13 +34,22 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   private boolean upstream = false;
   private boolean clientVisited = false;
   private BlockPos posOverride = null;
+  private List<MutableText> label = null;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
-    super(MineCellsBlockEntities.DOORWAY, pos, state);
+    this(MineCellsBlockEntities.DOORWAY, pos, state);
+  }
+
+  protected DoorwayPortalBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
   }
 
   public Identifier getTexture() {
     return ((DoorwayPortalBlock) getCachedState().getBlock()).type.texture;
+  }
+
+  public Identifier getBackgroundTexture() {
+    return ((DoorwayPortalBlock) getCachedState().getBlock()).type.backgroundTexture;
   }
 
   public boolean hasClientVisited() {
@@ -48,23 +60,35 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     if (world != null && world.isClient) {
       var player = MinecraftClient.getInstance().player;
       if (player == null) return;
+      var lastClientVisited = clientVisited;
       clientVisited = ((PlayerEntityAccessor) player).getMineCellsData()
         .get(posOverride == null ? player.getBlockPos() : posOverride)
         .hasVisitedDimension(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension);
+      if (lastClientVisited != clientVisited) {
+        label = null;
+      }
     }
   }
 
-  public List<MutableText> getLabel(boolean showPosition) {
+  public List<MutableText> getLabel() {
+    if (label != null) {
+      return label;
+    }
     var result = new ArrayList<MutableText>();
     var text = Text.translatable(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension.translationKey);
     if (!hasClientVisited()) {
       text.append(Text.literal("*"));
     }
-    result.add(text);
-    if (showPosition) {
-      var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
-      result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
+    var parts = text.getString().split(" ");
+    if (parts.length >= 4) {
+      result.add(Text.literal(parts[0] + " " + parts[1]));
+      result.add(Text.literal(parts[2] + " " + parts[3]));
+    } else {
+      result.add(text);
     }
+    var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
+    result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
+    label = result;
     return result;
   }
 
@@ -99,10 +123,11 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     if (isDownstream()) {
       if (targetDimension == MineCellsDimension.OVERWORLD) {
         var data = MineCellsData.getPlayerData(player, world, posOverride).getPortalData(MineCellsDimension.PRISONERS_QUARTERS, MineCellsDimension.OVERWORLD);
-        world.getServer().execute(() -> data.ifPresent(portalData -> {
+
+        data.ifPresent(portalData -> {
           var pos = portalData.toPos();
-          player.teleport(world.getServer().getOverworld(), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYaw(), player.getPitch());
-        }));
+          TeleportUtils.teleportToDimension(player, world.getServer().getOverworld(), Vec3d.ofCenter(pos), player.getYaw());
+        });
       } else {
         MineCellsData.getPlayerData(player, world, posOverride).addPortalData(
           MineCellsDimension.of(world),
@@ -114,10 +139,10 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       }
     } else {
       var data = MineCellsData.getPlayerData(player, world, posOverride).getPortalData(MineCellsDimension.of(world), targetDimension);
-      world.getServer().execute(() -> data.ifPresent(portalData -> {
+      data.ifPresent(portalData -> {
         var pos = portalData.toPos();
-        player.teleport(targetDimension.getWorld(world), pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYaw(), player.getPitch());
-      }));
+        TeleportUtils.teleportToDimension(player, targetDimension.getWorld(world), Vec3d.ofCenter(pos), player.getYaw());
+      });
     }
   }
 

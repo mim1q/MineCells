@@ -7,9 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +21,6 @@ public class AssassinsDaggerItem extends SwordItem implements CrittingWeapon {
 
   @Override
   public boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-    System.out.println(target);
     float difference = MathHelper.angleBetween(target.bodyYaw, attacker.getHeadYaw());
     return difference < 60.0F;
   }

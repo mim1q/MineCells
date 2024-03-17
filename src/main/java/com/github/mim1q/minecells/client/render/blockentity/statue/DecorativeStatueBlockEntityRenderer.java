@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.block.DecorativeStatueBlock;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import com.github.mim1q.minecells.util.MathUtils;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -26,11 +27,12 @@ public class DecorativeStatueBlockEntityRenderer implements BlockEntityRenderer<
   @Override
   public void render(DecorativeStatueBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
     float rotation = entity.getCachedState().get(DecorativeStatueBlock.ROTATION) * 22.5F;
-    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(model.getLayer(TEXTURE));
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
     matrices.push();
     matrices.scale(1.0F, -1.0F, -1.0F);
     matrices.translate(0.5F, -1.5F, -0.5F);
     matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(180.0F + rotation)));
+    this.model.setPose(entity.getCachedState().get(DecorativeStatueBlock.POSE));
     this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }

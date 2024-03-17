@@ -7,10 +7,9 @@ import com.github.mim1q.minecells.client.render.model.LeapingZombieEntityModel;
 import com.github.mim1q.minecells.entity.LeapingZombieEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class LeapingZombieEntityRenderer extends MobEntityRenderer<LeapingZombieEntity, LeapingZombieEntityModel> {
+public class LeapingZombieEntityRenderer extends MineCellsEntityRenderer<LeapingZombieEntity, LeapingZombieEntityModel> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/leaping_zombie/leaping_zombie.png");
   private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/leaping_zombie/leaping_zombie_glow.png");

@@ -1,0 +1,14 @@
+{
+  "playerDistance": 0.0,
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "weight": 1,
+          "entity": "minecells:concierge"
+        }
+      ]
+    }
+  ]
+}

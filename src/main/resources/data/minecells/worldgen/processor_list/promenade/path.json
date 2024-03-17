@@ -1,0 +1,24 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecells:switch_block",
+      "rules": [
+        {
+          "from": "minecraft:gravel",
+          "to": {
+            "minecraft:gravel": 2,
+            "minecraft:cobblestone": 1
+          }
+        },
+        {
+          "from": "minecraft:coarse_dirt",
+          "to": {
+            "minecraft:gravel": 2,
+            "minecraft:cobblestone": 1,
+            "minecells:bloomrock_wilted_grass_block": 1
+          }
+        }
+      ]
+    }
+  ]
+}

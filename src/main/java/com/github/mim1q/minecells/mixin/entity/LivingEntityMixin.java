@@ -30,7 +30,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -39,20 +38,15 @@ import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
-  
-  protected int droppedCellAmount = 1;
-  protected float droppedCellChance = 0.75F;
-
-  @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
   @Shadow public abstract ItemStack getMainHandStack();
   @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
   @Shadow public abstract boolean damage(DamageSource source, float amount);
   @Shadow public abstract void kill();
-  @Shadow public abstract void setHealth(float health);
   @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
-  @Shadow public abstract Identifier getLootTable();
   @Shadow public abstract ItemStack getOffHandStack();
   @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
+  @Shadow public abstract LivingEntity getLastAttacker();
+
   @Shadow private long lastDamageTime;
 
   @Unique
@@ -73,48 +67,29 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     if (!getWorld().isClient()) {
       if (
         this.getMainHandStack().isOf(MineCellsItems.CURSED_SWORD)
-        || this.getOffHandStack().isOf(MineCellsItems.CURSED_SWORD)
+          || this.getOffHandStack().isOf(MineCellsItems.CURSED_SWORD)
       ) {
-        this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.CURSED, 210, 0, false, false, true));
+        this.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.CURSED, 30, 0, false, false, true));
       }
     }
   }
 
-  @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), argsOnly = true)
-  public DamageSource damageModifyDamageSource(DamageSource source) {
-    if (this.isInvulnerableTo(source)) {
-      return source;
-    }
-    if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
-      return MineCellsDamageSource.CURSED.get(getWorld());
-    }
-    return source;
-  }
-
-  @ModifyVariable(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), argsOnly = true)
-  public float damageModifyAmount(float amount, DamageSource source) {
-    if (this.isInvulnerableTo(source)) {
-      return amount;
-    }
-    if (this.hasStatusEffect(MineCellsStatusEffects.CURSED)) {
-      getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
-      this.setHealth(0.5f);
-      return 10.0f;
-    }
-    return amount;
-  }
-
-  @Inject(method = "damage", at = @At("HEAD"))
+  @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
   private void minecells$injectDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
     if (!source.isIn(DamageTypeTags.IS_FREEZING)) {
       this.removeStatusEffect(MineCellsStatusEffects.FROZEN);
+    }
+
+    if (getMineCellsFlag(MineCellsEffectFlags.CURSED) && !source.isOf(MineCellsDamageSource.CURSED.key)) {
+      getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CURSE_DEATH, this.getSoundCategory(), 1.0F, 1.0F);
+      cir.setReturnValue(this.damage(MineCellsDamageSource.CURSED.get(getWorld(), getLastAttacker()), 2048f));
     }
   }
 
   @Override
   public void clearCurableStatusEffects() {
     Iterator<StatusEffectInstance> iterator = this.getActiveStatusEffects().values().iterator();
-    while(iterator.hasNext()) {
+    while (iterator.hasNext()) {
       StatusEffectInstance statusEffectInstance = iterator.next();
       if (statusEffectInstance.getEffectType() instanceof MineCellsStatusEffect effect && effect.isIncurable()) {
         continue;
@@ -166,39 +141,5 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Inject(method = "writeCustomDataToNbt(Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
   public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     nbt.putInt("MineCellsFlags", this.dataTracker.get(MINECELLS_FLAGS));
-  }
-
-  @Inject(method = "dropXp()V", at = @At("HEAD"))
-  public void dropXp(CallbackInfo ci) {
-    if (!canDropCells()) {
-      return;
-    }
-    float chance = this.droppedCellChance * MineCells.COMMON_CONFIG.entities.cellDropChanceModifier;
-    for (int i = 0; i < this.droppedCellAmount; i++) {
-      if (this.random.nextFloat() < chance) {
-        CellEntity.spawn(getWorld(), this.getPos(), 1);
-      }
-    }
-  }
-
-  @SuppressWarnings("deprecation")
-  protected boolean canDropCells() {
-    if (!getWorld().getGameRules().getBoolean(MineCellsGameRules.MOBS_DROP_CELLS)) {
-      return false;
-    }
-    if (MineCells.COMMON_CONFIG.entities.allMobsDropCells || this.getLootTable().getNamespace().equals("minecells")) {
-      return true;
-    }
-    var key = this.getType().getRegistryEntry().getKey();
-    if (key.isEmpty()) {
-      return false;
-    }
-    String id = key.get().getValue().toString();
-    return MineCells.COMMON_CONFIG.entities.cellDropWhitelist.contains(id);
-  }
-
-  public void mixinSetCellAmountAndChance(int amount, float chance) {
-    this.droppedCellAmount = amount;
-    this.droppedCellChance = chance;
   }
 }

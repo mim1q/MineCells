@@ -19,6 +19,8 @@ import org.joml.Quaternionf;
 
 import java.util.ArrayList;
 
+import static com.github.mim1q.minecells.util.RenderUtils.getGlobalAnimationProgress;
+
 public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEntity> {
   private final BiomeBannerBlockEntityModel model;
   private final BiomeBannerBlockEntityModel largeModel;
@@ -49,7 +51,7 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
     var strength = (placement == Placement.HORIZONTAL ? 0.2F : 0.125F) * (large ? 0.3F : 1.0F);
 
     if (world != null && entity.getCachedState().get(FlagBlock.WAVING)) {
-      float time = world.getTime() + tickDelta;
+      float time = getGlobalAnimationProgress();
       usedModel.wave(
         time * (large ? 0.15F : 0.1F),
         offset % 100,
@@ -119,7 +121,7 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
       ModelPartData dMain = modelPartData.addChild("main",
         ModelPartBuilder.create()
           .uv(0, 0)
-          .cuboid(-width/2F, -1.0F, -1.0F, width, 2.0F, 2.0F),
+          .cuboid(-width / 2F, -1.0F, -1.0F, width, 2.0F, 2.0F),
         ModelTransform.NONE
       );
 
@@ -128,7 +130,7 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
         segmentDatas[i] = parent.addChild("segment" + i,
           ModelPartBuilder.create()
             .uv(0, 16 + i * height)
-            .cuboid(-width/2F, 0F, 0F, width, height, 0F),
+            .cuboid(-width / 2F, 0F, 0F, width, height, 0F),
           ModelTransform.pivot(0F, i == 0 ? 0F : height, 0F)
         );
       }

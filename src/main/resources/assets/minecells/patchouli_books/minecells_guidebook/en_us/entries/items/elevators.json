@@ -1,0 +1,41 @@
+{
+  "name": "book.minecells.entries.items.elevator.title",
+  "category": "minecells:items",
+  "icon": "minecells:elevator_assembler",
+  "pages": [
+    {
+      "type": "minecells:image_and_text",
+      "image": "minecells:textures/gui/guidebook/images/elevator.png",
+      "text": "book.minecells.entries.items.elevator.description0"
+    },
+    "book.minecells.entries.items.elevator.description1",
+    {
+      "type": "patchouli:multiblock",
+      "name": "book.minecells.entries.items.elevator.multiblock_title",
+      "multiblock": {
+        "pattern": [
+          [ "     ", "  C  ", "     ", "  C  ", "     " ],
+          [ "     ", "  C  ", "  A  ", "  C  ", "     " ],
+          [ "     ", "  C  ", "     ", "  C  ", "     " ],
+          [ "     ", "  C  ", "     ", "  C  ", "     " ],
+          [ "     ", "  C  ", "     ", "  C  ", "     " ],
+          [ "     ", "  C  ", "     ", "  C  ", "     " ],
+          [ "     ", "  C  ", "     ", "  C  ", "     " ],
+          [ "     ", "  C  ", "  0  ", "  C  ", "     " ],
+          [ "     ", "  C  ", "  A P", "  C  ", "     " ],
+          [ "SSSSS", "SSSSS", "SSSSS", "SSSSS", "SSSSS" ],
+          [ "     ", "     ", "     ", "     ", "     " ],
+          [ "     ", "     ", "     ", "     ", "     " ]
+        ],
+        "mapping": {
+          "C": "minecraft:chain",
+          "A": "minecells:elevator_assembler",
+          "S": "minecells:putrid_planks",
+          "P": "minecraft:light_weighted_pressure_plate"
+        }
+      },
+      "enable_visualize": false,
+      "text": "book.minecells.entries.items.elevator.description2"
+    }
+  ]
+}

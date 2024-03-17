@@ -1,11 +1,11 @@
 package com.github.mim1q.minecells.misc;
 
-import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.network.PacketIdentifiers;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,9 +22,9 @@ import java.util.List;
 
 public class MineCellsExplosion {
 
-  public static void explode(ServerWorld world, LivingEntity causingEntity, Vec3d position, float power, float radius) {
+  public static void explode(ServerWorld world, Entity grenade, LivingEntity causingEntity, Vec3d position, float power, float radius) {
     world.playSound(null, BlockPos.ofFloored(position), MineCellsSounds.EXPLOSION, SoundCategory.HOSTILE, 1.0f, 1.0f);
-    damageEntities(world, causingEntity, position, power, radius);
+    damageEntities(world, grenade, causingEntity, position, power, radius);
 
     PacketByteBuf buf = PacketByteBufs.create();
     buf.writeDouble(position.x);
@@ -36,7 +36,7 @@ public class MineCellsExplosion {
     }
   }
 
-  protected static void damageEntities(ServerWorld world, LivingEntity causingEntity, Vec3d pos, float power, float radius) {
+  protected static void damageEntities(ServerWorld world, Entity grenade, LivingEntity attacker, Vec3d pos, float power, float radius) {
     Box box = new Box(
       pos.x - radius,
       pos.y - radius,
@@ -50,7 +50,7 @@ public class MineCellsExplosion {
       float distance = MathHelper.sqrt((float) entity.squaredDistanceTo(pos));
       if (distance <= radius) {
         float damage = power * getDamagePercentage(distance, radius);
-        entity.damage(MineCellsDamageSource.GRENADE.get(world, causingEntity), damage);
+        entity.damage(world.getDamageSources().explosion(grenade, attacker), damage);
       }
     }
   }

@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.crowbar",
+  "category": "minecells:weapons",
+  "icon": "minecells:crowbar",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:crowbar"
+      },
+      "text": "book.minecells.entries.weapons.crowbar"
+    }
+  ]
+}

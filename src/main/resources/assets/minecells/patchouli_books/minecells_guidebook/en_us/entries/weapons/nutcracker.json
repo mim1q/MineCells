@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.nutcracker",
+  "category": "minecells:weapons",
+  "icon": "minecells:nutcracker",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:nutcracker"
+      },
+      "text": "book.minecells.entries.weapons.nutcracker"
+    }
+  ]
+}

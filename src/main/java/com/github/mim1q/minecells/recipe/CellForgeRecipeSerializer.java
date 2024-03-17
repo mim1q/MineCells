@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.recipe;
 
+import com.github.mim1q.minecells.MineCells;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.nbt.NbtOps;
@@ -12,7 +13,11 @@ public class CellForgeRecipeSerializer implements RecipeSerializer<CellForgeReci
 
   @Override
   public CellForgeRecipe read(Identifier id, JsonObject json) {
-    return CellForgeRecipe.CODEC.decode(JsonOps.INSTANCE, json).getOrThrow(false, System.out::println).getFirst().withId(id);
+    return CellForgeRecipe.CODEC
+      .decode(JsonOps.INSTANCE, json)
+      .getOrThrow(false, MineCells.LOGGER::error)
+      .getFirst()
+      .withId(id);
   }
 
   @Override

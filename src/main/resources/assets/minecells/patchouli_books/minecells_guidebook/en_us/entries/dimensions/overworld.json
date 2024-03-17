@@ -1,0 +1,25 @@
+{
+  "name": "dimension.minecraft.overworld",
+  "category": "minecells:dimensions",
+  "icon": "minecraft:grass_block",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "minecells:dimension_image",
+      "title0": "book.minecells.entries.dimensions.overworld.title0",
+      "title1": "book.minecells.entries.dimensions.overworld.title1",
+      "image": "minecells:textures/gui/guidebook/images/overworld.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.dimensions.overworld.description"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.leads_to",
+        "minecells:dimensions/prison"
+      ]
+    }
+  ]
+}

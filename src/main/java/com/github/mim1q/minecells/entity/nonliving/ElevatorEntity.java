@@ -27,9 +27,6 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -53,6 +50,7 @@ public class ElevatorEntity extends Entity {
   private static final TrackedData<Integer> MIN_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
   private static final TrackedData<Integer> MAX_Y = DataTracker.registerData(ElevatorEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
+  private boolean unbreakable = false;
   protected double serverY;
   protected int interpolationSteps = 0;
   protected int stoppedTicks = 0;
@@ -76,7 +74,7 @@ public class ElevatorEntity extends Entity {
     this.serverY = this.getY();
   }
 
-  public static void spawn(World world, int x, int z, int minY, int maxY, boolean isRotated, boolean isGoingUp) {
+  public static ElevatorEntity spawn(World world, int x, int z, int minY, int maxY, boolean isRotated, boolean isGoingUp) {
     ElevatorEntity elevator = new ElevatorEntity(MineCellsEntities.ELEVATOR, world);
     elevator.setPosition(x + 0.5D, isGoingUp ? maxY : minY, z + 0.5D);
     elevator.setMaxY(maxY);
@@ -84,6 +82,11 @@ public class ElevatorEntity extends Entity {
     elevator.setRotated(isRotated);
     elevator.setGoingUp(isGoingUp);
     world.spawnEntity(elevator);
+    return elevator;
+  }
+
+  public void setUnbreakable(boolean unbreakable) {
+    this.unbreakable = unbreakable;
   }
 
   @Override
@@ -196,7 +199,7 @@ public class ElevatorEntity extends Entity {
 
   @Override
   public boolean handleAttack(Entity attacker) {
-    if (attacker instanceof PlayerEntity player) {
+    if (attacker instanceof PlayerEntity player && !this.unbreakable) {
       if (player.preferredHand != null && player.getStackInHand(player.preferredHand).getItem() instanceof AxeItem) {
         this.kill();
       }
@@ -297,10 +300,10 @@ public class ElevatorEntity extends Entity {
     }
 
     if (
-      entities.size() > 0
-      && !getWorld().isClient
-      && this.getFirstPassenger() instanceof ServerPlayerEntity player
-      && getWorld().getServer() != null
+      !entities.isEmpty()
+        && !getWorld().isClient
+        && this.getFirstPassenger() instanceof ServerPlayerEntity player
+        && getWorld().getServer() != null
     ) {
       var advancement = getWorld().getServer().getAdvancementLoader().get(MineCells.createId("elevator"));
       player.getAdvancementTracker().grantCriterion(advancement, "entity_squashed");
@@ -519,6 +522,7 @@ public class ElevatorEntity extends Entity {
     this.setup = nbt.getBoolean("setup");
     this.poweredTop = nbt.getBoolean("poweredTop");
     this.poweredBottom = nbt.getBoolean("poweredBottom");
+    this.unbreakable = nbt.getBoolean("unbreakable");
   }
 
   @Override
@@ -530,10 +534,6 @@ public class ElevatorEntity extends Entity {
     nbt.putBoolean("setup", this.setup);
     nbt.putBoolean("poweredTop", this.poweredTop);
     nbt.putBoolean("poweredBottom", this.poweredBottom);
-  }
-
-  @Override
-  public Packet<ClientPlayPacketListener> createSpawnPacket() {
-    return new EntitySpawnS2CPacket(this);
+    nbt.putBoolean("unbreakable", this.unbreakable);
   }
 }

@@ -9,6 +9,7 @@ import tada.lib.resources.blockstate.BlockState
 import tada.lib.resources.blockstate.BlockStateModel
 import tada.lib.resources.blockstate.BlockStateModel.Rotation
 import tada.lib.resources.model.ParentedModel
+import tada.lib.resources.recipe.CraftingRecipe
 import tada.lib.resources.recipe.SmeltingRecipe
 import tada.lib.resources.recipe.StonecuttingRecipe
 import tada.lib.tags.TagManager
@@ -42,7 +43,11 @@ object CustomBlockSets {
     if (saplingId != null) {
       val (sNs, sName) = Id(saplingId)
       add(sName, ParentedModel.block("minecraft:block/cross").texture("cross", "$sNs:block/$sName"))
+      add(CommonModelPresets.generatedItemModel(saplingId, "block"))
       add(sName, BlockState.createSingle("$sNs:block/$sName"))
+
+      add(CommonDropPresets.simpleDrop(saplingId))
+
       TagManager.add("blocks/saplings", "$sNs:$sName")
       TagManager.add("items/saplings", "$sNs:$sName")
     }
@@ -64,6 +69,18 @@ object CustomBlockSets {
       variant("facing=west", BlockStateModel("$ns:block/${name}_wall_leaves", yRot = Rotation.CW_270))
       variant("facing=down", BlockStateModel("$ns:block/${name}_wall_leaves", xRot = Rotation.CW_90, yRot = Rotation.CW_90))
       variant("facing=up", BlockStateModel("$ns:block/${name}_wall_leaves", xRot = Rotation.CW_270, yRot = Rotation.CW_90))
+    })
+
+    add("${name}_wall_leaves", CraftingRecipe.shaped("${ns}:${name}_wall_leaves", 8) {
+      pattern(" # ")
+      pattern("# #")
+      pattern(" # ")
+      key("#", "${ns}:${name}_leaves")
+    })
+    add("${name}_hanging_leaves", CraftingRecipe.shaped("${ns}:${name}_hanging_leaves", 6) {
+      pattern("# #")
+      pattern(" # ")
+      key("#", "${ns}:${name}_leaves")
     })
 
     TagManager.add("blocks/leaves", "$ns:${name}_leaves")

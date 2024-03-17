@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.buzzcutter",
+  "category": "minecells:mobs",
+  "icon": "minecells:buzzcutter_spawn_egg",
+  "advancement": "minecells:unlock/mobs/buzzcutter",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:buzzcutter",
+      "title": "entity.minecells.buzzcutter",
+      "text": "book.minecells.entries.mobs.buzzcutter"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

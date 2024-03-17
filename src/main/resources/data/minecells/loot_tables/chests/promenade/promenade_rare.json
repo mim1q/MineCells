@@ -1,0 +1,74 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "minecells:chests/common/general_treasure"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:book",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.33
+                }
+              ]
+            },
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 14,
+                "max": 23
+              },
+              "treasure": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "minecells:chests/promenade/promenade_weapons"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:enchant_with_levels",
+          "levels": {
+            "type": "minecraft:uniform",
+            "min": 18,
+            "max": 25
+          },
+          "treasure": false,
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.33
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.frost_blast",
+  "category": "minecells:weapons",
+  "icon": "minecells:frost_blast",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:frost_blast"
+      },
+      "text": "book.minecells.entries.weapons.frost_blast"
+    }
+  ]
+}

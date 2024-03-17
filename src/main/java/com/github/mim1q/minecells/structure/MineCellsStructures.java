@@ -20,16 +20,12 @@ public class MineCellsStructures {
   public static final StructureType<GridBasedStructure> PRISON = registerStructure("prison", GridBasedStructure.PRISON_CODEC);
 
   // Promenade of the Condemned
-  public static final StructureType<GridBasedStructure> PROMENADE_SPAWN = registerStructure("promenade_spawn", GridBasedStructure.PROMENADE_SPAWN_CODEC);
-  public static final StructureType<GridBasedStructure> PROMENADE_OVERGROUND = registerStructure("promenade_overground", GridBasedStructure.PROMENADE_OVERGROUND_CODEC);
-  public static final StructureType<GridBasedStructure> PROMENADE_UNDERGROUND = registerStructure("promenade_underground", GridBasedStructure.PROMENADE_UNDERGROUND_CODEC);
-  public static final StructureType<GridBasedStructure> PROMENADE_PIT = registerStructure("promenade_pit", GridBasedStructure.PROMENADE_PIT_CODEC);
+  public static final StructureType<GridBasedStructure> PROMENADE = registerStructure("promenade", GridBasedStructure.PROMENADE_CODEC);
   public static final StructureType<GridBasedStructure> PROMENADE_WALL_X = registerStructure("promenade_wall_x", GridBasedStructure.PROMENADE_WALL_X_CODEC);
   public static final StructureType<GridBasedStructure> PROMENADE_WALL_Z = registerStructure("promenade_wall_z", GridBasedStructure.PROMENADE_WALL_Z_CODEC);
 
   // Ramparts
   public static final StructureType<GridBasedStructure> RAMPARTS = registerStructure("ramparts", GridBasedStructure.RAMPARTS_CODEC);
-  public static final StructureType<GridBasedStructure> RAMPARTS_SECOND = registerStructure("ramparts_second", GridBasedStructure.RAMPARTS_SECOND_CODEC);
 
   // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");

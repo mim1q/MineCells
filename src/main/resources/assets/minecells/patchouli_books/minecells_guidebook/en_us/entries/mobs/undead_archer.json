@@ -1,0 +1,23 @@
+{
+  "name": "entity.minecells.undead_archer",
+  "category": "minecells:mobs",
+  "icon": "minecells:undead_archer_spawn_egg",
+  "advancement": "minecells:unlock/mobs/undead_archer",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:undead_archer",
+      "title": "entity.minecells.undead_archer",
+      "text": "book.minecells.entries.mobs.undead_archer"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/promenade",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

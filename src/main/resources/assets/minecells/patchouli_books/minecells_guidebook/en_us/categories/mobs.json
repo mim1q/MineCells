@@ -1,0 +1,6 @@
+{
+  "name": "book.minecells.categories.mobs",
+  "description": "book.minecells.categories.mobs_description",
+  "icon": "minecells:leaping_zombie_spawn_egg",
+  "sortnum": 1
+}

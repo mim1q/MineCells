@@ -26,18 +26,19 @@ public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerato
     for (int i = -7; i <= 8; i++) {
       var x = zAxis ? 0 : i;
       var z = zAxis ? i : 0;
-      var pos = new Vec3i(x, 0, z);
+      var pos = new Vec3i(x, (zAxis ? 3 : 8), z);
       this.addColumn(pos, rotation, offset);
     }
   }
 
   private void addColumn(Vec3i pos, BlockRotation rotation, Vec3i blockOffset) {
-    this.addTerrainFitRoom(pos.down(3), rotation, UNDERGROUND, blockOffset);
-    this.addTerrainFitRoom(pos.down(2), rotation, UNDERGROUND, blockOffset);
-    this.addTerrainFitRoom(pos.down(), rotation, UNDERGROUND, blockOffset);
-    this.addTerrainFitRoom(pos, rotation, BOTTOM, blockOffset);
-    this.addTerrainFitRoom(pos.up(), rotation, MIDDLE, blockOffset);
-    this.addTerrainFitRoom(pos.up(2), rotation, MIDDLE, blockOffset);
-    this.addTerrainFitRoom(pos.up(3), rotation, TOP, blockOffset);
+    for (int i = 0; i < 3; ++i) {
+      this.addRoom(pos.down(i), rotation, UNDERGROUND, blockOffset);
+    }
+    this.addRoom(pos, rotation, BOTTOM, blockOffset);
+    for (int i = 1; i < 7; ++i) {
+      this.addRoom(pos.up(i), rotation, MIDDLE, blockOffset);
+    }
+    this.addRoom(pos.up(7), rotation, TOP, blockOffset);
   }
 }

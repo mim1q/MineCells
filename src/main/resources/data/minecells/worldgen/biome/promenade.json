@@ -15,7 +15,7 @@
         "type": "minecells:falling_leaf",
         "color": 12916255
       },
-      "probability": 0.001
+      "probability": 0.002
     }
   },
   "spawners": {
@@ -37,15 +37,14 @@
     [],
     [],
     [],
+    [],
     [
       "minecells:promenade_shrub",
-      "minecells:promenade_chains",
       "minecells:promenade_king_statue",
       "minecells:promenade_gallows",
       "minecells:promenade_tree",
       "minecraft:patch_tall_grass",
-      "minecraft:patch_grass_taiga"
-    ],
-    []
+      "minecells:vegetation/grass_patch"
+    ]
   ]
 }

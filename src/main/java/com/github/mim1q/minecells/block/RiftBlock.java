@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.util.TeleportUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -47,13 +48,11 @@ public class RiftBlock extends BlockWithEntity {
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
     if (
       entity instanceof ServerPlayerEntity player
-      && world instanceof ServerWorld serverWorld
-      && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
+        && world instanceof ServerWorld serverWorld
+        && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
     ) {
       var teleportPos = getPlayerTeleportPosition(player, serverWorld);
-      serverWorld.getServer().execute(() -> {
-        player.teleport(world.getServer().getOverworld(), teleportPos.getX(), teleportPos.getY(), teleportPos.getZ(), 0F, 0F);
-      });
+      TeleportUtils.teleportToDimension(player, serverWorld.getServer().getOverworld(), Vec3d.ofCenter(teleportPos), 0.0F);
     }
   }
 

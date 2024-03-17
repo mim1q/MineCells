@@ -17,14 +17,15 @@ import net.minecraft.util.Identifier;
 public interface SpawnerRuneRenderer {
   Identifier TEXTURE = MineCells.createId("textures/entity/spawner_rune.png");
 
-  private static void render(MatrixStack matrices, float age, VertexConsumerProvider vertices) {
+  private static void render(MatrixStack matrices, VertexConsumerProvider vertices) {
     matrices.push();
+    var age = RenderUtils.getGlobalAnimationProgress();
     var yOffset = 0.5 + Math.sin(0.1F * age) * 0.15F;
     matrices.translate(0.0D, yOffset, 0.0D);
     var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     matrices.multiply(dispatcher.getRotation());
     var consumer = vertices.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
-    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 200);
+    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 0xC8FFFFFF);
     matrices.pop();
   }
 
@@ -36,7 +37,7 @@ public interface SpawnerRuneRenderer {
     @Override
     public void render(SpawnerRuneEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
       if (!entity.controller.isVisible()) return;
-      SpawnerRuneRenderer.render(matrices, entity.getWorld().getTime() + tickDelta, vertexConsumers);
+      SpawnerRuneRenderer.render(matrices, vertexConsumers);
     }
 
     @Override
@@ -46,7 +47,8 @@ public interface SpawnerRuneRenderer {
   }
 
   final class BlockEntity implements SpawnerRuneRenderer, BlockEntityRenderer<SpawnerRuneBlockEntity> {
-    public BlockEntity(BlockEntityRendererFactory.Context ctx) { }
+    public BlockEntity(BlockEntityRendererFactory.Context ctx) {
+    }
 
     @Override
     public void render(SpawnerRuneBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
@@ -54,7 +56,7 @@ public interface SpawnerRuneRenderer {
       if (world == null || !entity.controller.isVisible()) return;
       matrices.push();
       matrices.translate(0.5, 0.0, 0.5);
-      SpawnerRuneRenderer.render(matrices, entity.getWorld().getTime() + tickDelta, vertexConsumers);
+      SpawnerRuneRenderer.render(matrices, vertexConsumers);
       matrices.pop();
     }
   }

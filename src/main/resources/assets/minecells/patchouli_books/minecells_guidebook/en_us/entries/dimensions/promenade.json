@@ -1,0 +1,36 @@
+{
+  "name": "dimension.minecells.promenade",
+  "category": "minecells:dimensions",
+  "icon": "minecells:red_putrid_sapling",
+  "sortnum": 2,
+  "advancement": "minecells:prison",
+  "pages": [
+    {
+      "type": "minecells:dimension_image",
+      "title0": "book.minecells.entries.dimensions.promenade.title0",
+      "title1": "book.minecells.entries.dimensions.promenade.title1",
+      "image": "minecells:textures/gui/guidebook/images/promenade.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.dimensions.promenade.description"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.accessible_from",
+        "minecells:dimensions/prison",
+        "# book.minecells.common.leads_to",
+        "minecells:dimensions/ramparts",
+        "# book.minecells.common.important_content",
+        "minecells:items/vine_rune",
+        "# book.minecells.categories.mobs",
+        "minecells:mobs/leaping_zombie",
+        "minecells:mobs/grenadier",
+        "minecells:mobs/mutated_bat",
+        "minecells:mobs/runner",
+        "minecells:mobs/protector"
+      ]
+    }
+  ]
+}

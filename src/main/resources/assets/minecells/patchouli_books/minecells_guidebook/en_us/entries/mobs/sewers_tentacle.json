@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.sewers_tentacle",
+  "category": "minecells:mobs",
+  "icon": "minecells:sewers_tentacle_spawn_egg",
+  "advancement": "minecells:unlock/mobs/sewers_tentacle",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:sewers_tentacle{forDisplay:true}",
+      "title": "entity.minecells.sewers_tentacle",
+      "text": "book.minecells.entries.mobs.sewers_tentacle"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/insufferable_crypt"
+      ]
+    }
+  ]
+}

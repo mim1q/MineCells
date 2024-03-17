@@ -1,0 +1,34 @@
+{
+  "name": "dimension.minecells.ramparts",
+  "category": "minecells:dimensions",
+  "icon": "minecells:prison_bricks",
+  "sortnum": 3,
+  "advancement": "minecells:promenade",
+  "pages": [
+    {
+      "type": "minecells:dimension_image",
+      "title0": "book.minecells.entries.dimensions.ramparts.title0",
+      "title1": "book.minecells.entries.dimensions.ramparts.title1",
+      "image": "minecells:textures/gui/guidebook/images/ramparts.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.dimensions.ramparts.description"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.accessible_from",
+        "minecells:dimensions/promenade",
+        "# book.minecells.common.leads_to",
+        "minecells:dimensions/black_bridge",
+        "# book.minecells.categories.mobs",
+        "minecells:mobs/undead_archer",
+        "minecells:mobs/shieldbearer",
+        "minecells:mobs/buzzcutter",
+        "minecells:mobs/inquisitor",
+        "minecells:mobs/sweeper"
+      ]
+    }
+  ]
+}

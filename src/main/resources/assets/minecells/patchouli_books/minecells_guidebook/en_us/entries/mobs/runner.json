@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.runner",
+  "category": "minecells:mobs",
+  "icon": "minecells:runner_spawn_egg",
+  "advancement": "minecells:unlock/mobs/runner",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:runner",
+      "title": "entity.minecells.runner",
+      "text": "book.minecells.entries.mobs.runner"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

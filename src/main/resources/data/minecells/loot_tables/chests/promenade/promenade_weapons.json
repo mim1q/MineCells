@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:assassins_dagger" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:blood_sword" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:broadsword" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:balanced_blade" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:crowbar" },
+        { "type": "minecraft:item", "weight": 3, "name": "minecells:nutcracker" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:frost_blast" },
+        { "type": "minecraft:item", "weight": 2, "name": "minecells:phaser" }
+      ]
+    }
+  ]
+}

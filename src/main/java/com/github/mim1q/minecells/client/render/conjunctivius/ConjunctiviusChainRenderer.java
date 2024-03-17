@@ -31,6 +31,10 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
 
   @Override
   public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ConjunctiviusEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    if (entity.isForDisplay()) {
+      return;
+    }
+
     Vec3d startPos = entity.getLerpedPos(tickDelta);
 
     VertexConsumer vertices = vertexConsumers.getBuffer(this.model.getLayer(TEXTURE));
@@ -62,7 +66,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
       new Vector3f(1.0F, 1.0F, 1.0F)
     );
     posRotScale.apply(matrices);
-    int count = (int)(direction.length());
+    int count = (int) (direction.length());
     for (int i = 0; i < count; i++) {
       this.model.render(matrices, vertices, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
       matrices.translate(0.0F, 0.0F, -1.0F);
@@ -73,6 +77,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
   public static class ConjunctiviusChainModel extends EntityModel<ConjunctiviusEntity> {
 
     private final ModelPart main;
+
     public ConjunctiviusChainModel(ModelPart part) {
       super(RenderLayer::getEntityCutout);
       this.main = part.getChild("main");

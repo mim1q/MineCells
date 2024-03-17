@@ -13,7 +13,7 @@
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecells:putrid_wood",
+        "Name": "minecells:putrid_log",
         "Properties": {
           "axis": "y"
         }
@@ -26,10 +26,12 @@
       "height_rand_b": 0
     },
     "foliage_provider": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "minecells:red_wilted_leaves"
-      }
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        { "weight": 85, "data": { "Name": "minecells:red_wilted_leaves" } },
+        { "weight": 14, "data": { "Name": "minecells:orange_wilted_leaves" } },
+        { "weight": 1, "data": { "Name": "minecells:wilted_leaves" } }
+      ]
     },
     "foliage_placer": {
       "type": "minecells:promenade_foliage_placer",

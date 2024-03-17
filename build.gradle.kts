@@ -16,11 +16,11 @@ java {
 }
 
 base {
-  archivesName.set(ModData.id)
+  archivesName.set(ModData.ID)
 }
 
-group = ModData.group
-version = ModData.version
+group = ModData.GROUP
+version = ModData.VERSION
 
 repositories {
   mavenCentral()
@@ -28,6 +28,7 @@ repositories {
   maven("https://maven.shedaniel.me/")
   maven("https://maven.terraformersmc.com/releases/")
   maven("https://maven.wispforest.io")
+  maven("https://maven.blamejared.com") // Patchouli
 }
 
 dependencies {
@@ -43,14 +44,16 @@ dependencies {
 
   modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
+
+  modImplementation("vazkii.patchouli:Patchouli:${Versions.PATCHOULI}")
 }
 
 @Suppress("UnstableApiUsage")
 tasks {
   withType<ProcessResources> {
-    inputs.property("version", ModData.version)
+    inputs.property("version", ModData.VERSION)
     filesMatching("fabric.mod.json") {
-      expand("version" to ModData.version)
+      expand("version" to ModData.VERSION)
     }
   }
   withType<JavaCompile> {
@@ -74,14 +77,19 @@ sourceSets {
   }
 }
 
+// Access widener
+loom {
+  accessWidenerPath.set(file("src/main/resources/minecells.accesswidener"))
+}
+
 // Publishing
 val secretsFile = rootProject.file("publishing.properties")
 val secrets = Secrets(secretsFile)
 
 val remapJar = tasks.getByName("remapJar") as RemapJarTask
-val newVersionName = "${ModData.id}-${ModData.mcVersions[0]}-${ModData.version}"
+val newVersionName = "${ModData.ID}-${ModData.mcVersions[0]}-${ModData.VERSION}"
 val newChangelog = try {
-  rootProject.file("changelogs/${ModData.mcVersions[0]}-${ModData.version}.md").readText()
+  rootProject.file("changelogs/${ModData.mcVersions[0]}-${ModData.VERSION}.md").readText()
 } catch (_: FileNotFoundException) {
   println("No changelog found")
   ""
@@ -94,7 +102,7 @@ if (secrets.isModrinthReady()) {
     projectId.set(secrets.modrinthId)
     uploadFile.set(remapJar)
     versionName.set(newVersionName)
-    versionType.set(ModData.versionType)
+    versionType.set(ModData.VERSION_TYPE)
     changelog.set(newChangelog)
     syncBodyFrom.set(rootProject.file("README.md").readText())
     gameVersions.set(ModData.mcVersions)
@@ -111,7 +119,7 @@ if (secrets.isCurseforgeReady()) {
     apiKey = secrets.curseforgeToken
     project(closureOf<CurseProject> {
       id = secrets.curseforgeId
-      releaseType = ModData.versionType
+      releaseType = ModData.VERSION_TYPE
       ModData.mcVersions.forEach(::addGameVersion)
       addGameVersion("Fabric")
       changelog = newChangelog

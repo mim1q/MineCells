@@ -9,7 +9,7 @@ object ModItemModels {
     listOf(
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
       "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
-      "block/red_putrid_sapling", "reset_rune", "concierge_respawn_rune"
+      "reset_rune", "concierge_respawn_rune", "monster_cell", "boss_stem_cell", "arrow_sign", "guidebook",
     ).forEach {
       if (it.startsWith("block/")) {
         add(CommonModelPresets.generatedItemModel("minecells:${it.removePrefix("block/")}", "block"))
@@ -18,6 +18,7 @@ object ModItemModels {
       }
     }
     add("solid_barrier_rune", ParentedModel.item("minecells:item/barrier_rune"))
+    add("unbreakable_chain", ParentedModel.item("minecraft:item/chain"))
   }
 
   fun handheld() = Preset {
@@ -42,9 +43,10 @@ object ModItemModels {
   }
 
   fun blockModels() = Preset {
-    listOf("brittle_barrel", "spikes", "flag_pole", "spawner_rune").forEach {
+    listOf("brittle_barrel", "spikes", "spawner_rune").forEach {
       add(CommonModelPresets.itemBlockModel("minecells:$it"))
     }
+    add("flag_pole", ParentedModel.item("minecells:block/flag_pole_connecting"))
   }
 
   fun dimensionalRunes() = Preset {

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecells:wilted_grass_block"
+    "minecells:wilted_grass_block",
+    "minecells:bloomrock_wilted_grass_block"
   ]
 }

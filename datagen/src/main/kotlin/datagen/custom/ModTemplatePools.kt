@@ -1,6 +1,7 @@
 package datagen.custom
 
 import tada.lib.presets.Preset
+import tada.lib.resources.templatepool.TemplatePool
 import tada.lib.presets.common.TemplatePoolPresets as Presets
 
 object ModTemplatePools {
@@ -50,38 +51,47 @@ object ModTemplatePools {
   }
 
   fun promenadeOfTheCondemned() = Preset {
-    val proc = "minecells:promenade"
+    val processors = "minecells:promenade"
     // Spawn
-    add(Presets.single("minecells:promenade/spawn", proc))
+    add(Presets.single("minecells:promenade/spawn", processors))
     // Overground decorations
     add(Presets.indexed("minecells:promenade/chain_pile", 1, 2, 2, 2, terrainMatching = true))
-    add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = proc))
-    add(Presets.single("minecells:promenade/king_statue", proc, true))
-    // Overground buildings
-    add(Presets.prefixed("minecells:promenade/overground_buildings", "main/0" to 3, "main/1" to 1, "side/0" to 8, "side/1" to 6, processors = proc))
-    add(Presets.indexed("minecells:promenade/overground_buildings/pit", 1, processors = proc))
-    // Underground buildings
-    add(Presets.indexed("minecells:promenade/underground_buildings/entry", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/shaft", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/shaft_bottom", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/room", 3, 2, 2, 1, 2, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/chain_top", 1, processors = proc))
-    add(Presets.indexed("minecells:promenade/underground_buildings/chain_bottom", 1, processors = proc))
-    add(Presets.single("minecells:promenade/underground_buildings/room_end_center", proc))
-    add(Presets.single("minecells:promenade/underground_buildings/room_end_left", proc))
-    add(Presets.single("minecells:promenade/underground_buildings/room_end_right", proc))
-    add(Presets.single("minecells:promenade/underground_buildings/end", proc))
-    // Doorways
-    add(Presets.indexed("minecells:promenade/doorway", 2, 1, 1, 1, 1, processors = proc))
-    add(Presets.prefixed("minecells:promenade/doorway_decoration", "banners" to 1, "torches" to 2, "minecraft:empty" to 4, processors = proc))
+    add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = processors))
+    add(Presets.single("minecells:promenade/king_statue", processors, true))
+    // Buildings
+    add(Presets.indexed("minecells:promenade/overground_end", 1, 2, 2, processors = processors))
+    add(Presets.indexed("minecells:promenade/overground", 2, 1, 2, 2, 1, processors = processors))
+    add(Presets.indexed("minecells:promenade/overground_top", 1, 2, 3, 1, 2, 2, 2, 2, processors = processors))
+    add(Presets.indexed("minecells:promenade/underground", 3, 3, 2, 2, 3, 4, processors = processors))
+    add(Presets.indexed("minecells:promenade/underground_end", 1, processors = processors))
+    add(Presets.single("minecells:promenade/overground_elevator", processors = processors))
+    add(Presets.single("minecells:promenade/overground_base", processors = processors))
     // Walls
-    add(Presets.single("minecells:promenade/border_wall/underground", processors = proc))
-    add(Presets.single("minecells:promenade/border_wall/bottom", processors = proc))
-    add(Presets.single("minecells:promenade/border_wall/middle", processors = proc))
-    add(Presets.single("minecells:promenade/border_wall/top", processors = proc))
-    add(Presets.indexed("minecells:promenade/wall_segment", 3, 2, 2, 1, 1, 1, processors = proc))
+    add(Presets.single("minecells:promenade/border_wall/underground", processors = processors))
+    add(Presets.single("minecells:promenade/border_wall/bottom", processors = processors))
+    add(Presets.single("minecells:promenade/border_wall/middle", processors = processors))
+    add(Presets.single("minecells:promenade/border_wall/top", processors = processors))
+    add(Presets.indexed("minecells:promenade/wall_segment", 28, 2, 2, 1, 1, 1, processors = processors))
     // Ramparts tower
-    add(Presets.single("minecells:promenade/ramparts_tower", proc))
+    add(Presets.single("minecells:promenade/ramparts_tower", processors))
+    // Paths
+    val pathProc = "minecells:promenade/path"
+    add(Presets.indexed("minecells:promenade/path/straight", 1, 1, 1, processors = pathProc, terrainMatching = true))
+    add(Presets.indexed("minecells:promenade/path/turn", 1, 2, processors = pathProc, terrainMatching = true))
+    add(Presets.single("minecells:promenade/path/half", processors = pathProc, terrainMatching = true))
+    add(Presets.single("minecells:promenade/path/crossroads", processors = pathProc, terrainMatching = true))
+    add(Presets.single("minecells:promenade/path/crossroads_post", processors = processors))
+    add(Presets.single("minecells:promenade/path/post/before_crossroads", processors = processors))
+    add(Presets.single("minecells:promenade/path/post/after_crossroads", processors = processors))
+    add(Presets.single("minecells:promenade/path/post/vine_rune", processors = processors))
+    // Path Buildings
+    add("promenade/path/building", TemplatePool.create("minecells:promenade/path/building") {
+      single(3, "minecells:promenade/path/building/0", processors, false)
+      single(2, "minecells:promenade/path/building/1", processors, true)
+      single(1, "minecells:promenade/overground_top/7", processors, false)
+    })
+    // Special
+    add(Presets.single("minecells:promenade/special/vine_rune", processors = processors))
   }
 
   fun insufferableCrypt() = Preset {

@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.IntProvider;
@@ -45,7 +46,7 @@ public record SpawnerRuneData(
   ) {
     private static final Codec<Pool> CODEC = RecordCodecBuilder.create(instance ->
       instance.group(
-        IntProvider.POSITIVE_CODEC.fieldOf("rolls").forGetter(Pool::rolls),
+        IntProvider.NON_NEGATIVE_CODEC.fieldOf("rolls").forGetter(Pool::rolls),
         Entry.CODEC.listOf().fieldOf("entries").forGetter(Pool::entries)
       ).apply(instance, Pool::new)
     );
@@ -66,7 +67,7 @@ public record SpawnerRuneData(
       for (var entry : entries) {
         randomWeight -= entry.weight;
         if (randomWeight < 0) {
-          return new EntitySpawnData(entry.entityType, entry.attributeOverrides);
+          return new EntitySpawnData(entry.entityType, entry.attributeOverrides, entry.nbt);
         }
       }
       return null;
@@ -78,8 +79,9 @@ public record SpawnerRuneData(
     private final EntityType<?> entityType;
     private final Map<String, Double> attributeMap;
     public final Map<EntityAttribute, Double> attributeOverrides;
+    public final NbtCompound nbt = new NbtCompound();
 
-    private Entry(int weight, String entityType, Map<String, Double> attributeOverrides) {
+    private Entry(int weight, String entityType, Map<String, Double> attributeOverrides, NbtCompound nbt) {
       this.weight = weight;
       this.entityType = entityType == null ? null : Registries.ENTITY_TYPE.get(Identifier.tryParse(entityType));
       this.attributeMap = attributeOverrides;
@@ -100,20 +102,23 @@ public record SpawnerRuneData(
         )
         .filter(Objects::nonNull)
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+      this.nbt.copyFrom(nbt);
     }
 
     private static final Codec<Entry> CODEC = RecordCodecBuilder.create(instance ->
       instance.group(
         Codec.INT.optionalFieldOf("weight", 1).forGetter(e -> e.weight),
         Codec.STRING.optionalFieldOf("entity", null).forGetter(e -> Registries.ENTITY_TYPE.getId(e.entityType).toString()),
-        Codec.unboundedMap(Codec.STRING, Codec.DOUBLE).optionalFieldOf("attributes", Map.of()).forGetter(e -> e.attributeMap)
+        Codec.unboundedMap(Codec.STRING, Codec.DOUBLE).optionalFieldOf("attributes", Map.of()).forGetter(e -> e.attributeMap),
+        NbtCompound.CODEC.optionalFieldOf("nbt", new NbtCompound()).forGetter(e -> e.nbt)
       ).apply(instance, Entry::new)
     );
   }
 
   public record EntitySpawnData(
     EntityType<?> entityType,
-    Map<EntityAttribute, Double> attributeOverrides
+    Map<EntityAttribute, Double> attributeOverrides,
+    NbtCompound nbt
   ) {
   }
 }

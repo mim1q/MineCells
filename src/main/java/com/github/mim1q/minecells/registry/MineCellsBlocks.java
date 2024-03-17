@@ -34,6 +34,8 @@ public class MineCellsBlocks {
   public static final Block BIG_CHAIN = registerBlockWithItem(new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)), "big_chain");
   public static final Block HARDSTONE = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "hardstone");
   public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "wilted_grass_block");
+  public static final Block BLOOMROCK_WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "bloomrock_wilted_grass_block");
+  public static final ChainBlock UNBREAKABLE_CHAIN = registerBlockWithItem(new ChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN).strength(-1.0F, 3600000.0F)), "unbreakable_chain");
 
   // Block sets
   public static final WoodSet PUTRID_WOOD = new WoodSet(MineCells.createId("putrid"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
@@ -42,10 +44,15 @@ public class MineCellsBlocks {
   public static final StoneSet PRISON_BRICKS = new StoneSet(MineCells.createId("prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet SMALL_PRISON_BRICKS = new StoneSet(MineCells.createId("small_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet CRACKED_PRISON_BRICKS = new StoneSet(MineCells.createId("cracked_prison_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet BLOOMROCK = new StoneSet(MineCells.createId("bloomrock"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet CRACKED_BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("cracked_bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet BLOOMROCK_TILES = new StoneSet(MineCells.createId("bloomrock_tile"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
 
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");
   public static final SimpleSet PUTRID_BOARD = new SimpleSet(MineCells.createId("putrid_board"), "_block", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.OAK_PLANKS));
+  public static final ArrowSignBlock ARROW_SIGN = registerBlockWithItem(new ArrowSignBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque().noCollision()), "arrow_sign");
 
   // Leaves
   public static final LeavesSet WILTED_LEAVES = new LeavesSet(
@@ -56,7 +63,9 @@ public class MineCellsBlocks {
   public static final LeavesSet ORANGE_WILTED_LEAVES = new LeavesSet(MineCells.createId("orange_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.ORANGE));
   public static final LeavesSet RED_WILTED_LEAVES = new LeavesSet(MineCells.createId("red_wilted"), MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(WILTED_LEAVES.leaves).mapColor(MapColor.RED));
 
-  public static final SaplingBlock RED_PUTRID_SAPLING = registerSapling("red_putrid_sapling", "promenade_tree_sapling");
+  public static final SaplingBlock PUTRID_SAPLING = registerSapling("putrid_sapling", "promenade_tree_sapling");
+  public static final SaplingBlock ORANGE_PUTRID_SAPLING = registerSapling("orange_putrid_sapling", "orange_promenade_tree_sapling");
+  public static final SaplingBlock RED_PUTRID_SAPLING = registerSapling("red_putrid_sapling", "red_promenade_tree_sapling");
 
   // ----------------------------
 
@@ -85,9 +94,9 @@ public class MineCellsBlocks {
 
   public static final Block CRATE = registerBlockWithItem(new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)), "crate");
   public static final Block CHAIN_PILE_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.CHAIN)), "chain_pile_block");
-  public static final Block CHAIN_PILE = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.CHAIN), GroundDecoration.Shape.PILE), "chain_pile");
-  public static final Block SMALL_CRATE = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BLOCK_12), "small_crate");
-  public static final Block BRITTLE_BARREL = registerBlockWithItem(new GroundDecoration(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecoration.Shape.BARREL), "brittle_barrel");
+  public static final Block CHAIN_PILE = registerBlockWithItem(new GroundDecorationBlock(FabricBlockSettings.copyOf(Blocks.CHAIN), GroundDecorationBlock.Shape.PILE), "chain_pile");
+  public static final Block SMALL_CRATE = registerBlockWithItem(new SmallCrateBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F)), "small_crate");
+  public static final Block BRITTLE_BARREL = registerBlockWithItem(new GroundDecorationBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).strength(1.0F), GroundDecorationBlock.Shape.BARREL), "brittle_barrel");
   public static final Block CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false), "cage");
   public static final Block BROKEN_CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), true), "broken_cage");
   public static final Block SPIKES = registerBlockWithItem(new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).solid()), "spikes");
@@ -107,8 +116,8 @@ public class MineCellsBlocks {
   public static final ColoredTorchBlock RAMPARTS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PROMENADE_TORCH)), "ramparts_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.DIRT)), "kingdom_portal_core");
-  public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONJUNCTIVIUS), "conjunctivius_box");
-  public static final Block CONCIERGE_BOX = registerBlock(new MonsterBoxBlock(MineCellsEntities.CONCIERGE), "concierge_box");
+  public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCells.createId("boss/conjunctivius")), "conjunctivius_box");
+  public static final Block CONCIERGE_BOX = registerBlock(new MonsterBoxBlock(MineCells.createId("boss/concierge")), "concierge_box");
   public static final Block BEAM_PLACER = registerBlock(new BeamPlacerBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "beam_placer");
   public static final FluidBlock SEWAGE = new FluidBlock(MineCellsFluids.STILL_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
   public static final FluidBlock ANCIENT_SEWAGE = new FluidBlock(MineCellsFluids.STILL_ANCIENT_SEWAGE, FabricBlockSettings.copyOf(Blocks.WATER));
@@ -168,7 +177,8 @@ public class MineCellsBlocks {
   }
 
   private static SaplingBlock registerSapling(String id, String key) {
-    var registryKey = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, MineCells.createId(key));
+    var actualKey = "sapling/" + key;
+    var registryKey = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, MineCells.createId(actualKey));
     return registerBlockWithItem(new SaplingBlock(
       new SaplingGenerator() {
         @Override

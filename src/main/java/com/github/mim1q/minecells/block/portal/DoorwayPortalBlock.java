@@ -192,10 +192,13 @@ public class DoorwayPortalBlock extends BlockWithEntity {
 
     public final MineCellsDimension dimension;
     public final Identifier texture;
+    public final Identifier backgroundTexture;
     public final int color;
+
     DoorwayType(MineCellsDimension dimension, int color) {
       this.dimension = dimension;
       this.texture = MineCells.createId("textures/block/doorway/" + dimension.key.getValue().getPath() + ".png");
+      this.backgroundTexture = MineCells.createId("textures/block/doorway/" + dimension.key.getValue().getPath() + "_background.png");
       this.color = color;
     }
   }
@@ -246,8 +249,8 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
       if (
         MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
-        && sourcePos.equals(pos.subtract(state.get(FACING).getVector()))
-        && !world.getBlockState(sourcePos).isSideSolidFullSquare(world, sourcePos, state.get(FACING))
+          && sourcePos.equals(pos.subtract(state.get(FACING).getVector()))
+          && !world.getBlockState(sourcePos).isSideSolidFullSquare(world, sourcePos, state.get(FACING))
       ) {
         onBroken(world, pos, state);
         world.breakBlock(pos, true);

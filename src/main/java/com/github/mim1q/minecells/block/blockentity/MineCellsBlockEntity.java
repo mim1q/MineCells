@@ -16,4 +16,10 @@ public class MineCellsBlockEntity extends BlockEntity {
       getWorld().markDirty(this.getPos());
     }
   }
+
+  protected void sync() {
+    if (world != null) {
+      world.updateListeners(pos, getCachedState(), getCachedState(), 3);
+    }
+  }
 }

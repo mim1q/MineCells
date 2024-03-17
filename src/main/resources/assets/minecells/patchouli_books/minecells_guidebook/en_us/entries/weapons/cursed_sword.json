@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.cursed_sword",
+  "category": "minecells:weapons",
+  "icon": "minecells:cursed_sword",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:cursed_sword"
+      },
+      "text": "book.minecells.entries.weapons.cursed_sword"
+    }
+  ]
+}

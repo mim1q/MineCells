@@ -1,0 +1,22 @@
+{
+  "name": "entity.minecells.grenadier",
+  "category": "minecells:mobs",
+  "icon": "minecells:grenadier_spawn_egg",
+  "advancement": "minecells:unlock/mobs/grenadier",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:grenadier",
+      "title": "entity.minecells.grenadier",
+      "text": "book.minecells.entries.mobs.grenadier"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.sweeper",
+  "category": "minecells:mobs",
+  "icon": "minecells:sweeper_spawn_egg",
+  "advancement": "minecells:unlock/mobs/sweeper",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:sweeper",
+      "title": "entity.minecells.sweeper",
+      "text": "book.minecells.entries.mobs.sweeper"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

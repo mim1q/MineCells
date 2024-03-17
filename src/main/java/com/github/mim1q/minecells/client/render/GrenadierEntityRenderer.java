@@ -7,10 +7,9 @@ import com.github.mim1q.minecells.client.render.model.GrenadierEntityModel;
 import com.github.mim1q.minecells.entity.GrenadierEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class GrenadierEntityRenderer extends MobEntityRenderer<GrenadierEntity, GrenadierEntityModel> {
+public class GrenadierEntityRenderer extends MineCellsEntityRenderer<GrenadierEntity, GrenadierEntityModel> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/grenadier/grenadier.png");
   private static final Identifier GLOW_TEXTURE = MineCells.createId("textures/entity/grenadier/grenadier_glow.png");

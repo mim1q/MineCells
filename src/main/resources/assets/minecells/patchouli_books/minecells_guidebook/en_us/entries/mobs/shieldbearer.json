@@ -1,0 +1,22 @@
+{
+  "name": "entity.minecells.shieldbearer",
+  "category": "minecells:mobs",
+  "icon": "minecells:shieldbearer_spawn_egg",
+  "advancement": "minecells:unlock/mobs/shieldbearer",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:shieldbearer{HandItems: [{id: \"minecraft:shield\", tag: {Damage: 0}, Count: 1b}, {}]}",
+      "title": "entity.minecells.shieldbearer",
+      "text": "book.minecells.entries.mobs.shieldbearer"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/ramparts"
+      ]
+    }
+  ]
+}

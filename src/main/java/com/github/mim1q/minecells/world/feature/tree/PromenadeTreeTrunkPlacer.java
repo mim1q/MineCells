@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.world.feature.tree;
 
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
+import com.github.mim1q.minecells.world.feature.tree.PromenadeFoliagePlacer.PromenadeLeafNode;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
@@ -11,7 +12,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.foliage.FoliagePlacer;
+import net.minecraft.world.gen.foliage.FoliagePlacer.TreeNode;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 
@@ -29,10 +30,13 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
   }
 
   @Override
-  public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
+  public List<TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, int height, BlockPos startPos, TreeFeatureConfig config) {
     height = height + random.nextInt(10);
-    List<FoliagePlacer.TreeNode> nodes = new ArrayList<>();
+    List<TreeNode> nodes = new ArrayList<>();
     boolean broken = random.nextFloat() < 0.1F;
+
+    var leafBlock = config.foliageProvider.get(random, startPos.up(height));
+
     if (broken) {
       height = height * 2 / 3;
     }
@@ -64,13 +68,13 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
         h = random.nextBetween(minH, height - 3);
         placeBranch(world, replacer, random, startPos.up(h), dir, !config.ignoreVines);
         if (!broken && h > height - 10) {
-          nodes.add(new FoliagePlacer.TreeNode(startPos.up(h + 1).add(dir.getVector().multiply(3)), 2, true));
+          nodes.add(new PromenadeLeafNode(startPos.up(h + 1).add(dir.getVector().multiply(3)), 2, true, leafBlock));
         }
         minH = h + 3;
       }
     }
     if (!broken) {
-      nodes.add(new FoliagePlacer.TreeNode(startPos.up(height), 2, true));
+      nodes.add(new PromenadeLeafNode(startPos.up(height), 2, true, leafBlock));
 
 
       var dirs = Direction.Type.HORIZONTAL.getShuffled(random);
@@ -78,13 +82,13 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
         var branchHeight = 3 + random.nextInt(2);
         var pos = startPos.up(height - 4 - random.nextInt(10));
         generateLongBranch(world, replacer, random, pos, dirs.get(0), branchHeight);
-        nodes.add(new FoliagePlacer.TreeNode(pos.add(dirs.get(0).getVector().multiply(branchHeight).up(branchHeight + 1)), 2, true));
+        nodes.add(new PromenadeLeafNode(pos.add(dirs.get(0).getVector().multiply(branchHeight).up(branchHeight + 1)), 2, true, leafBlock));
       }
       if (random.nextFloat() < 0.5F) {
         var branchHeight = 3 + random.nextInt(2);
         var pos = startPos.up(height - 4 - random.nextInt(10));
         generateLongBranch(world, replacer, random, pos, dirs.get(1), branchHeight);
-        nodes.add(new FoliagePlacer.TreeNode(pos.add(dirs.get(1).getVector().multiply(branchHeight).up(branchHeight + 1)), 2, true));
+        nodes.add(new PromenadeLeafNode(pos.add(dirs.get(1).getVector().multiply(branchHeight).up(branchHeight + 1)), 2, true, leafBlock));
       }
     }
     return nodes;
@@ -96,6 +100,7 @@ public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements Pro
       pos = pos.add(dir.getVector()).up();
       replacer.accept(pos, TRUNK_BLOCK);
     }
+    replacer.accept(pos.up(2), TRUNK_BLOCK);
   }
 
   @Override

@@ -7,10 +7,9 @@ import com.github.mim1q.minecells.client.render.model.ShockerEntityModel;
 import com.github.mim1q.minecells.entity.ShockerEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class ShockerEntityRenderer extends MobEntityRenderer<ShockerEntity, ShockerEntityModel> {
+public class ShockerEntityRenderer extends MineCellsEntityRenderer<ShockerEntity, ShockerEntityModel> {
 
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/shocker/shocker.png");
   private static final Identifier GLOW_TEXTURE_NORMAL = MineCells.createId("textures/entity/shocker/shocker_glow.png");

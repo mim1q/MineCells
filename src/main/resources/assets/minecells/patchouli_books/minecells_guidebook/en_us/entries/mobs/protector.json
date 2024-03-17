@@ -1,0 +1,21 @@
+{
+  "name": "entity.minecells.protector",
+  "category": "minecells:mobs",
+  "icon": "minecells:protector_spawn_egg",
+  "advancement": "minecells:unlock/mobs/protector",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:protector",
+      "title": "entity.minecells.protector",
+      "text": "book.minecells.entries.mobs.protector"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

@@ -13,16 +13,8 @@
   "parent": "minecells:promenade",
   "criteria": {
     "vine_rune": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecells:vine_rune"
-            ]
-          }
-        ]
-      }
+      "trigger": "minecraft:impossible",
+      "conditions": {}
     }
   },
   "requirements": [

@@ -21,7 +21,7 @@
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
-      "state": { "Name": "minecells:wilted_leaves" }
+      "state": { "Name": "minecells:wilted_leaves", "Properties": { "persistent": "true" } }
     },
     "foliage_placer": {
       "type": "minecraft:bush_foliage_placer",

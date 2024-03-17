@@ -2,12 +2,9 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.*;
-import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer;
+import com.github.mim1q.minecells.client.render.blockentity.*;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
-import com.github.mim1q.minecells.client.render.blockentity.FlagBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.FlagBlockEntityRenderer.BiomeBannerBlockEntityModel;
-import com.github.mim1q.minecells.client.render.blockentity.ReturnStoneBlockEntityRenderer;
-import com.github.mim1q.minecells.client.render.blockentity.RunicVinePlantBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.DoorwayPortalBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.RiftBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer;
@@ -96,6 +93,7 @@ public class MineCellsRenderers {
 
   public static final EntityModelLayer FLAG_LAYER = registerLayer("flag", () -> BiomeBannerBlockEntityModel.getTexturedModelData(false));
   public static final EntityModelLayer FLAG_LARGE_LAYER = registerLayer("flag", "large", () -> BiomeBannerBlockEntityModel.getTexturedModelData(true));
+  public static final EntityModelLayer ARROW_SIGN_LAYER = registerLayer("arrow_sign", ArrowSignBlockEntityRenderer::getTexturedModelData);
 
   public static final EntityModelLayer KING_STATUE_LAYER = new EntityModelLayer(MineCells.createId("king_statue"), "main");
   public static final EntityModelLayer TELEPORTER_LAYER = registerLayer("teleporter", TeleporterModel::getTexturedModelData);
@@ -174,6 +172,7 @@ public class MineCellsRenderers {
 
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "conjunctivius"));
     EntityRendererRegistry.register(MineCellsEntities.CONCIERGE_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "concierge"));
+    EntityRendererRegistry.register(MineCellsEntities.ELITE_OBELISK, ctx -> new ObeliskEntityRenderer(ctx, "elite"));
 
     EntityRendererRegistry.register(MineCellsEntities.SHOCKWAVE_PLACER, MineCellsRenderers::invisibleRenderer);
     EntityRendererRegistry.register(MineCellsEntities.SPAWNER_RUNE, SpawnerRuneRenderer.Entity::new);
@@ -216,6 +215,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.RED_WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.RUNIC_VINE,
       MineCellsBlocks.RUNIC_VINE_PLANT,
+      MineCellsBlocks.UNBREAKABLE_CHAIN,
 //      MineCellsBlocks.CELL_FORGE,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
@@ -224,7 +224,10 @@ public class MineCellsRenderers {
       MineCellsBlocks.PROMENADE_TORCH,
       MineCellsBlocks.RAMPARTS_TORCH,
       MineCellsBlocks.WILTED_GRASS_BLOCK,
+      MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK,
       MineCellsBlocks.RED_PUTRID_SAPLING,
+      MineCellsBlocks.ORANGE_PUTRID_SAPLING,
+      MineCellsBlocks.PUTRID_SAPLING,
       MineCellsBlocks.SHOCKWAVE_FLAME,
       MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER
     );
@@ -241,6 +244,7 @@ public class MineCellsRenderers {
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DECORATIVE_STATUE_BLOCK_ENTITY, DecorativeStatueBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RETURN_STONE, ReturnStoneBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.ARROW_SIGN, ArrowSignBlockEntityRenderer::new);
 
     BlockEntityRendererFactories.register(MineCellsBlockEntities.BARRIER_CONTROLLER, BarrierControllerRenderer::new);
 
@@ -263,12 +267,12 @@ public class MineCellsRenderers {
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getGrassColor(world, pos),
-      MineCellsBlocks.WILTED_GRASS_BLOCK
+      MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK
     );
 
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
-      MineCellsBlocks.WILTED_GRASS_BLOCK
+      MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK
     );
 
     ColorProviderRegistry.ITEM.register(

@@ -5,158 +5,37 @@
       "value": "#minecells:protected"
     },
     {
-      "processor_type": "minecraft:rule",
+      "processor_type": "minecells:switch_block",
+      "default_namespace": "minecells",
       "rules": [
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:small_prison_bricks",
-            "probability": 0.5
-          },
-          "output_state": { "Name": "minecells:prison_stone" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecraft:iron_bars",
-            "probability": 0.3
-          },
-          "output_state": { "Name": "minecraft:air" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_cobblestone",
-            "probability": 0.25
-          },
-          "output_state": { "Name": "minecells:prison_stone" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:putrid_board_block",
-            "probability": 0.5
-          },
-          "output_state": { "Name": "minecells:putrid_planks" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:putrid_board_block",
-            "probability": 0.02
-          },
-          "output_state": { "Name": "minecraft:air" }
-        }
+        { "from": "prison_bricks",          "to": { "prison_bricks": 3,          "cracked_prison_bricks": 1,       "small_prison_bricks": 1       }},
+        { "from": "prison_brick_stairs",    "to": { "prison_brick_stairs": 3,    "cracked_prison_brick_stairs": 1, "small_prison_brick_stairs": 1 }},
+        { "from": "prison_brick_slab",      "to": { "prison_brick_slab": 3,      "cracked_prison_brick_slab": 1,   "small_prison_brick_slab": 1   }},
+        { "from": "prison_brick_wall",      "to": { "prison_brick_wall": 3,      "cracked_prison_brick_wall": 1,   "small_prison_brick_wall": 1   }},
+        { "from": "prison_stone",           "to": { "prison_stone": 2,           "prison_cobblestone": 1             }},
+        { "from": "prison_stone_stairs",    "to": { "prison_stone_stairs": 2,    "prison_cobblestone_stairs": 1      }},
+        { "from": "prison_stone_slab",      "to": { "prison_stone_slab": 2,      "prison_cobblestone_slab": 1        }},
+        { "from": "prison_stone_wall",      "to": { "prison_stone_wall": 2,      "prison_cobblestone_wall": 1        }},
+        { "from": "bloomrock_tiles",        "to": { "bloomrock_tiles": 2,        "bloomrock": 1                      }},
+        { "from": "bloomrock_tile_slab",    "to": { "bloomrock_tile_slab": 2,    "bloomrock_slab": 1                 }},
+        { "from": "bloomrock_tile_stairs",  "to": { "bloomrock_tile_stairs": 2,  "bloomrock_stairs": 1               }},
+        { "from": "bloomrock_bricks",       "to": { "bloomrock_bricks": 2,       "cracked_bloomrock_bricks": 1       }},
+        { "from": "bloomrock_brick_slab",   "to": { "bloomrock_brick_slab": 2,   "cracked_bloomrock_brick_slab": 1   }},
+        { "from": "bloomrock_brick_stairs", "to": { "bloomrock_brick_stairs": 2, "cracked_bloomrock_brick_stairs": 1 }},
+        { "from": "putrid_planks",          "to": { "putrid_planks": 1,          "putrid_board_block": 1             }},
+        { "from": "putrid_slab",            "to": { "putrid_slab": 1,            "putrid_board_slab": 1              }},
+        { "from": "putrid_stairs",          "to": { "putrid_stairs": 1,          "putrid_board_stairs": 1            }}
       ]
     },
     {
-      "processor_type": "minecells:better_rule",
-      "rules": [
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_bricks",
-            "probability": 0.15
-          },
-          "output_state": { "Name": "minecells:cracked_prison_bricks" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_brick_stairs",
-            "probability": 0.15
-          },
-          "output_state": { "Name": "minecells:cracked_prison_brick_stairs" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_brick_slab",
-            "probability": 0.15
-          },
-          "output_state": { "Name": "minecells:cracked_prison_brick_slab" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_bricks",
-            "probability": 0.2
-          },
-          "output_state": { "Name": "minecells:cracked_prison_bricks" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_brick_stairs",
-            "probability": 0.2
-          },
-          "output_state": { "Name": "minecells:cracked_prison_brick_stairs" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_bricks",
-            "probability": 0.2
-          },
-          "output_state": { "Name": "minecells:small_prison_bricks" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_brick_stairs",
-            "probability": 0.2
-          },
-          "output_state": { "Name": "minecells:small_prison_brick_stairs" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_brick_slab",
-            "probability": 0.2
-          },
-          "output_state": { "Name": "minecells:small_prison_brick_slab" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_stone",
-            "probability": 0.4
-          },
-          "output_state": { "Name": "minecells:prison_cobblestone" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_stone_stairs",
-            "probability": 0.4
-          },
-          "output_state": { "Name": "minecells:prison_cobblestone_stairs" }
-        },
-        {
-          "location_predicate": { "predicate_type": "minecraft:always_true" },
-          "input_predicate": {
-            "predicate_type": "minecraft:random_block_match",
-            "block": "minecells:prison_stone_slab",
-            "probability": 0.4
-          },
-          "output_state": { "Name": "minecells:prison_cobblestone_slab" }
-        }
-      ]
+      "processor_type": "minecells:randomize_property",
+      "blocks": [ "minecells:king_statue" ],
+      "property_name": "pose"
+    },
+    {
+      "processor_type": "minecells:randomize_property",
+      "blocks": [ "minecells:small_crate" ],
+      "property_name": "rotation"
     }
   ]
 }

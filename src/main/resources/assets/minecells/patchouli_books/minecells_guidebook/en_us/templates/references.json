@@ -1,0 +1,11 @@
+{
+  "components": [
+    {
+      "type": "patchouli:custom",
+      "class": "com.github.mim1q.minecells.book.ReferenceListComponent",
+      "content": "#content",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

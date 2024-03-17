@@ -1,0 +1,22 @@
+{
+  "name": "entity.minecells.leaping_zombie",
+  "category": "minecells:mobs",
+  "icon": "minecells:leaping_zombie_spawn_egg",
+  "advancement": "minecells:unlock/mobs/leaping_zombie",
+  "pages": [
+    {
+      "type": "minecells:entity",
+      "entity": "minecells:leaping_zombie",
+      "title": "entity.minecells.leaping_zombie",
+      "text": "book.minecells.entries.mobs.leaping_zombie"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.found_in",
+        "minecells:dimensions/prison",
+        "minecells:dimensions/promenade"
+      ]
+    }
+  ]
+}

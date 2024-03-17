@@ -1,0 +1,26 @@
+{
+  "name": "dimension.minecells.black_bridge",
+  "category": "minecells:dimensions",
+  "icon": "minecraft:oak_boat",
+  "sortnum": 4,
+  "advancement": "minecells:ramparts",
+  "pages": [
+    {
+      "type": "minecells:dimension_image",
+      "title0": "book.minecells.entries.dimensions.black_bridge.title0",
+      "title1": "book.minecells.entries.dimensions.black_bridge.title1",
+      "image": "minecells:textures/gui/guidebook/images/black_bridge.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.dimensions.black_bridge.description"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.categories.mobs",
+        "minecells:bosses/concierge"
+      ]
+    }
+  ]
+}

@@ -5,10 +5,9 @@ import com.github.mim1q.minecells.client.render.model.KamikazeEntityModel;
 import com.github.mim1q.minecells.entity.KamikazeEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
-public class KamikazeEntityRenderer extends MobEntityRenderer<KamikazeEntity, KamikazeEntityModel> {
+public class KamikazeEntityRenderer extends MineCellsEntityRenderer<KamikazeEntity, KamikazeEntityModel> {
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/kamikaze.png");
 
   public KamikazeEntityRenderer(EntityRendererFactory.Context ctx) {

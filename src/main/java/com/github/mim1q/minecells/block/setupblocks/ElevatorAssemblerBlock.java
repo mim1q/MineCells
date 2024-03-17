@@ -5,6 +5,9 @@ import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -12,8 +15,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ElevatorAssemblerBlock extends SetupBlock {
+  public static final Property<Boolean> WAITING = BooleanProperty.of("waiting");
+  public static final Property<Boolean> UNBREAKABLE = BooleanProperty.of("unbreakable");
+
   public ElevatorAssemblerBlock() {
     super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).hardness(0.5F));
+    this.setDefaultState(
+      this.stateManager.getDefaultState()
+        .with(WAITING, false)
+        .with(UNBREAKABLE, false)
+    );
   }
 
   @Override
@@ -23,8 +34,17 @@ public class ElevatorAssemblerBlock extends SetupBlock {
     return result ? ActionResult.SUCCESS : ActionResult.FAIL;
   }
 
+  @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    super.appendProperties(builder);
+    builder.add(WAITING, UNBREAKABLE);
+  }
+
   @Override
   public boolean setup(World world, BlockPos pos, BlockState state) {
+    if (state.get(WAITING)) {
+      return false;
+    }
+
     int maxHeight = MineCells.COMMON_CONFIG.elevator.maxAssemblyHeight;
     int minHeight = MineCells.COMMON_CONFIG.elevator.minAssemblyHeight;
     // Search for another elevator assembler
@@ -57,11 +77,12 @@ public class ElevatorAssemblerBlock extends SetupBlock {
 
     if (ElevatorEntity.validateShaft(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated)) {
       if (!world.isClient()) {
-        ElevatorEntity.spawn(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, goingUp);
+        var elevator = ElevatorEntity.spawn(world, pos.getX(), pos.getZ(), elevatorMinY, elevatorMaxY, rotated, goingUp);
         world.removeBlockEntity(pos);
         world.breakBlock(pos, false);
         world.removeBlockEntity(pos.withY(second));
         world.breakBlock(pos.withY(second), false);
+        elevator.setUnbreakable(state.get(UNBREAKABLE));
       }
       return true;
     }

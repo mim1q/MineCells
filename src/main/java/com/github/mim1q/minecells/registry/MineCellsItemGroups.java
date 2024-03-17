@@ -30,17 +30,28 @@ public class MineCellsItemGroups {
   private static void generalStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {
     stacks.addAll(MineCellsItems.DOORWAY_COLORS.keySet().stream().map(MineCellsItemGroups::stack).toList());
     stacks.addAll(MineCellsItems.DIMENSIONAL_RUNES.stream().map(MineCellsItemGroups::stack).toList());
+
     stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_BRICKS.getStacks());
     stacks.addAll(MineCellsBlocks.CRACKED_PRISON_BRICKS.getStacks());
     stacks.addAll(MineCellsBlocks.SMALL_PRISON_BRICKS.getStacks());
     stacks.add(stack(MineCellsBlocks.WILTED_GRASS_BLOCK));
+
+    stacks.addAll(MineCellsBlocks.BLOOMROCK.getStacks());
+    stacks.addAll(MineCellsBlocks.BLOOMROCK_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.BLOOMROCK_TILES.getStacks());
+    stacks.add(stack(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK));
+
     stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());
+    stacks.add(MineCellsBlocks.ARROW_SIGN);
     stacks.add(stack(MineCellsBlocks.PUTRID_BOARDS));
     stacks.addAll(MineCellsBlocks.PUTRID_BOARD.getStacks());
     stacks.addAll(MineCellsBlocks.WILTED_LEAVES.getStacks());
+    stacks.add(MineCellsBlocks.PUTRID_SAPLING);
     stacks.addAll(MineCellsBlocks.ORANGE_WILTED_LEAVES.getStacks());
+    stacks.add(MineCellsBlocks.ORANGE_PUTRID_SAPLING);
     stacks.addAll(MineCellsBlocks.RED_WILTED_LEAVES.getStacks());
     stacks.addAll(List.of(
       stack(MineCellsBlocks.RED_PUTRID_SAPLING),
@@ -137,7 +148,7 @@ public class MineCellsItemGroups {
   }
 
   public static final OwoItemGroup MINECELLS = OwoItemGroup
-    .builder(MineCells.createId("minecells"), () -> Icon.of(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE))
+    .builder(MineCells.createId("minecells"), () -> Icon.of(MineCellsItems.MONSTER_CELL))
     .customTexture(BACKGROUND)
     .initializer(group -> {
       group.tabs.add(GENERAL_TAB);

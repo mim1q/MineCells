@@ -2,7 +2,10 @@ package datagen
 
 import datagen.custom.*
 import datagen.custom.Constants.MINECELLS_DIMENSIONS
+import tada.lib.generator.BeautifiedJsonFormatter
+import tada.lib.generator.FilesystemFileSaver
 import tada.lib.generator.ResourceGenerator
+import tada.lib.lang.FlattenedJson
 import tada.lib.lang.LanguageHelper
 import tada.lib.presets.blocksets.BlockSets
 import tada.lib.presets.common.CommonDropPresets
@@ -13,8 +16,8 @@ import tada.lib.tags.TagManager
 import java.nio.file.Path
 
 fun main(args: Array<String>) {
-  if (args.size != 3) {
-    throw IllegalArgumentException("Must provide an output directory, lang directory and helper lang directory.")
+  if (args.size != 4) {
+    throw IllegalArgumentException("Must provide an output directory, src directory, helper lang directory, and en_us lang map.")
   }
   val path = Path.of(args[0]).toAbsolutePath()
   val helperLangPath = Path.of(args[2]).toAbsolutePath()
@@ -22,22 +25,39 @@ fun main(args: Array<String>) {
     + "\n  Output directory: $path"
     + "\n  Generated language helper directory: $helperLangPath"
   )
-  val generator = ResourceGenerator.create("minecells", path).apply {
+
+  val excludedFiles = arrayOf(
+    ".*/assets/minecells/models/block/putrid_fence_(side|post).json",
+    ".*/assets/minecells/blockstates/putrid_fence.json",
+    ".*/assets/minecells/models/item/putrid_fence.json",
+  )
+
+  val generator = ResourceGenerator(
+    "minecells",
+    path,
+    SelectiveFileSaver(*excludedFiles),
+    BeautifiedJsonFormatter
+  ).apply {
     // Wood
     add(BlockSets.basicWoodSet("minecells:putrid"))
-    add(CustomBlockSets.leaves("minecells:wilted"))
-    add(CustomBlockSets.leaves("minecells:orange_wilted"))
+    add(CustomBlockSets.leaves("minecells:wilted", "minecells:putrid_sapling"))
+    add(CustomBlockSets.leaves("minecells:orange_wilted", "minecells:orange_putrid_sapling"))
     add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
     // Stone
     add(CustomBlockSets.stoneFamily("minecells:prison"))
     add(BlockSets.basicStoneSet("minecells:cracked_prison_brick", baseSuffix = "s"))
+    add(BlockSets.basicStoneSet("minecells:bloomrock"))
+    add(BlockSets.basicStoneSet("minecells:bloomrock_tile", baseSuffix = "s"))
+    add(BlockSets.basicStoneSet("minecells:bloomrock_brick", baseSuffix = "s"))
+    add(BlockSets.basicStoneSet("minecells:cracked_bloomrock_brick", baseSuffix = "s"))
     // Torches
     val torches = listOf("prison", "promenade", "ramparts")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
     // Other
     add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
-    add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone"))
+    add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone", "minecells:wilted_grass_block"))
+    add(CustomPresets.grassBlock("minecells:bloomrock_wilted_grass_block", "minecells:bloomrock", "minecells:bloomrock_wilted_grass_block", "minecells:wilted_grass_block"))
     add(CustomPresets.corpse("minecells:corpse"))
     add(CustomPresets.corpse("minecells:rotting_corpse", true))
     add(CustomPresets.corpse("minecells:skeleton"))
@@ -48,7 +68,7 @@ fun main(args: Array<String>) {
     add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
     listOf("conjunctivius_box", "concierge_box", "beam_placer", "doorway_frame", "unbreakable_doorway_frame",
       "solid_barrier_rune", "conditional_barrier", "boss_barrier_controller", "boss_entry_barrier_controller",
-      "player_barrier_controller", "spawner_rune", "rift"
+      "player_barrier_controller", "spawner_rune", "rift", "arrow_sign"
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
     }
@@ -60,6 +80,7 @@ fun main(args: Array<String>) {
     listOf("runic_vine", "runic_vine_top").forEach {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
     }
+    add("arrow_sign", BlockState.createSingle("minecells:block/putrid_planks"))
     // Flags
     listOf(
       "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt",
@@ -84,8 +105,8 @@ fun main(args: Array<String>) {
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "prison_doorway", "red_putrid_sapling", "king_statue", "chain_pile",
-      "putrid_board_block"
+      "big_chain", "broken_cage", "prison_doorway", "king_statue", "chain_pile",
+      "putrid_board_block", "arrow_sign"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }
@@ -102,15 +123,17 @@ fun main(args: Array<String>) {
     // Tags
     TagManager.add("blocks/mineable/pickaxe",
       "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue"
+      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue", "minecells:wilted_grass_block",
+      "minecells:bloomrock_wilted_grass_block"
     )
     TagManager.add("blocks/mineable/axe",
       "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",
       "minecells:small_crate", "minecells:brittle_barrel", "minecells:putrid_board_block", "minecells:putrid_board_slab",
-      "minecells:putrid_board_stairs"
+      "minecells:putrid_board_stairs", "minecells:arrow_sign"
     )
     TagManager.add("minecells:blocks/tree_root_replaceable",
-      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block"
+      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block",
+      "minecells:bloomrock_wilted_grass_block"
     )
     TagManager.add("minecells:items/discard_in_high_dimensions",
       "minecraft:stick", "minecells:red_putrid_sapling"
@@ -122,9 +145,22 @@ fun main(args: Array<String>) {
     // Sounds
     mineCellsSounds()
   }
+
   generator.generate()
 
-  LanguageHelper.create(Path.of(args[1]).toAbsolutePath(), Path.of(args[2]).toAbsolutePath()) {
+  // Generate in the default resources dir instead of `generated`
+  ResourceGenerator(
+    "minecells",
+    Path.of(args[1]),
+    FilesystemFileSaver,
+    BeautifiedJsonFormatter
+  ).apply {
+    // Lang
+    val langFile = Path.of(args[3]).toFile()
+    add("en_us", FlattenedJson(langFile, "lang", "assets"))
+  }.generate()
+
+  LanguageHelper.create(Path.of(args[1]).toAbsolutePath().resolve("assets/minecells/lang/"), Path.of(args[2]).toAbsolutePath()) {
     automaticallyGenerateBlockEntries(generator)
     generateMissingLangEntries()
   }

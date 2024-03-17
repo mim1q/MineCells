@@ -1,0 +1,31 @@
+{
+  "name": "dimension.minecells.insufferable_crypt",
+  "category": "minecells:dimensions",
+  "icon": "minecells:big_chain",
+  "sortnum": 5,
+  "advancement": "minecells:prison",
+  "pages": [
+    {
+      "type": "minecells:dimension_image",
+      "title0": "book.minecells.entries.dimensions.insufferable_crypt.title0",
+      "title1": "book.minecells.entries.dimensions.insufferable_crypt.title1",
+      "image": "minecells:textures/gui/guidebook/images/insufferable_crypt.png"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "book.minecells.entries.dimensions.insufferable_crypt.description"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# book.minecells.common.accessible_from",
+        "minecells:dimensions/prison",
+        "# book.minecells.common.leads_to",
+        "minecells:dimensions/overworld",
+        "# book.minecells.categories.mobs",
+        "minecells:bosses/conjunctivius",
+        "minecells:mobs/sewers_tentacle"
+      ]
+    }
+  ]
+}

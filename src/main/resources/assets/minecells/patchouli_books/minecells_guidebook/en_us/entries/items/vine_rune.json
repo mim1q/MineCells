@@ -1,0 +1,29 @@
+{
+  "name": "item.minecells.vine_rune",
+  "category": "minecells:items",
+  "icon": "minecells:vine_rune",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:vine_rune"
+      },
+      "text": "book.minecells.entries.items.vine_rune.description0"
+    },
+    {
+      "type": "minecells:image_and_text",
+      "image": "minecells:textures/gui/guidebook/images/runic_vine_plant.png",
+      "text": "book.minecells.entries.items.vine_rune.description1"
+    },
+    {
+      "type": "minecells:references",
+      "content": [
+        "# Found in:",
+        "minecells:dimensions/promenade",
+        "# Grants access to:",
+        "minecells:dimensions/ramparts",
+        "minecells:dimensions/insufferable_crypt"
+      ]
+    }
+  ]
+}

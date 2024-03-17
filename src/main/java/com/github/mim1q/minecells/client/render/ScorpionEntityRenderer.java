@@ -8,11 +8,10 @@ import com.github.mim1q.minecells.entity.ScorpionEntity;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class ScorpionEntityRenderer extends MobEntityRenderer<ScorpionEntity, ScorpionEntityModel> {
+public class ScorpionEntityRenderer extends MineCellsEntityRenderer<ScorpionEntity, ScorpionEntityModel> {
 
   public static final Identifier TEXTURE = MineCells.createId("textures/entity/scorpion/scorpion.png");
   public static final Identifier TEXTURE_GLOW = MineCells.createId("textures/entity/scorpion/scorpion_glow.png");
