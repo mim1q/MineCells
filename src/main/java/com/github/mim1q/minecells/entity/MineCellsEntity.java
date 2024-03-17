@@ -151,10 +151,6 @@ public class MineCellsEntity extends HostileEntity {
     return result;
   }
 
-  public void setCellAmountAndChance(int amount, float chance) {
-    ((LivingEntityAccessor) this).mixinSetCellAmountAndChance(amount, chance);
-  }
-
   public float getPathfindingFavor(BlockPos pos, WorldView world) {
     return 0.0F;
   }

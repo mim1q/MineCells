@@ -38,10 +38,6 @@ import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
-
-  protected int droppedCellAmount = 1;
-  protected float droppedCellChance = 0.75F;
-
   @Shadow public abstract ItemStack getMainHandStack();
   @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
   @Shadow public abstract boolean damage(DamageSource source, float amount);
@@ -146,39 +142,5 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   @Inject(method = "writeCustomDataToNbt(Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
   public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     nbt.putInt("MineCellsFlags", this.dataTracker.get(MINECELLS_FLAGS));
-  }
-
-  @Inject(method = "dropXp()V", at = @At("HEAD"))
-  public void dropXp(CallbackInfo ci) {
-    if (!canDropCells()) {
-      return;
-    }
-    float chance = this.droppedCellChance * MineCells.COMMON_CONFIG.entities.cellDropChanceModifier;
-    for (int i = 0; i < this.droppedCellAmount; i++) {
-      if (this.random.nextFloat() < chance) {
-        CellEntity.spawn(getWorld(), this.getPos(), 1);
-      }
-    }
-  }
-
-  @SuppressWarnings("deprecation")
-  protected boolean canDropCells() {
-    if (!getWorld().getGameRules().getBoolean(MineCellsGameRules.MOBS_DROP_CELLS)) {
-      return false;
-    }
-    if (MineCells.COMMON_CONFIG.entities.allMobsDropCells || this.getLootTable().getNamespace().equals("minecells")) {
-      return true;
-    }
-    var key = this.getType().getRegistryEntry().getKey();
-    if (key.isEmpty()) {
-      return false;
-    }
-    String id = key.get().getValue().toString();
-    return MineCells.COMMON_CONFIG.entities.cellDropWhitelist.contains(id);
-  }
-
-  public void mixinSetCellAmountAndChance(int amount, float chance) {
-    this.droppedCellAmount = amount;
-    this.droppedCellChance = chance;
   }
 }

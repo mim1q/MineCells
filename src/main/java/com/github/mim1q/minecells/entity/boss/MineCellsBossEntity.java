@@ -19,7 +19,6 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
   protected MineCellsBossEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
     this.bossBar = new ServerBossBar(this.getDisplayName(), BossBar.Color.RED, BossBar.Style.PROGRESS);
-    this.setCellAmountAndChance(25, 1.0F);
   }
 
   @Override
