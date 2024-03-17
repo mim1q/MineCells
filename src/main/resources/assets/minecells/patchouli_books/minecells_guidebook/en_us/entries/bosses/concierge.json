@@ -2,6 +2,7 @@
   "name": "entity.minecells.concierge",
   "category": "minecells:bosses",
   "icon": "minecells:concierge_respawn_rune",
+  "advancement": "minecells:black_bridge",
   "pages": [
     {
       "type": "minecells:entity",

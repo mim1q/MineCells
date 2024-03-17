@@ -2,6 +2,7 @@
   "name": "entity.minecells.conjunctivius",
   "category": "minecells:bosses",
   "icon": "minecells:conjunctivius_respawn_rune",
+  "advancement": "minecells:insufferable_crypt",
   "pages": [
     {
       "type": "minecells:entity",
