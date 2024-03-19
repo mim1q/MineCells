@@ -9,7 +9,7 @@ object Versions {
 
   // Required / embedded dependencies
   const val OMEGA_CONFIG = "1.2.3-1.18.1"
-  const val OWOLIB = "0.11.2-pre.14+1.20"
+  const val OWOLIB = "0.11.2+1.20"
 
   // Optional dependencies
   const val PATCHOULI = "1.20.1-84-FABRIC"
