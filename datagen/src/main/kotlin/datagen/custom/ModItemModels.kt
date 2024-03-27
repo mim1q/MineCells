@@ -1,8 +1,10 @@
 package datagen.custom
 
+import com.google.gson.JsonArray
 import tada.lib.presets.Preset
 import tada.lib.presets.common.CommonModelPresets
 import tada.lib.resources.model.ParentedModel
+import tada.lib.util.json
 
 object ModItemModels {
   fun generated() = Preset {
@@ -52,6 +54,36 @@ object ModItemModels {
   fun dimensionalRunes() = Preset {
     Constants.MINECELLS_DIMENSIONS.forEach {
       add("${it}_dimensional_rune", ParentedModel.item("minecells:item/dimensional_rune"))
+    }
+  }
+
+  fun bows() = Preset {
+    Constants.BOWS.forEach {
+      add(it, ParentedModel.item("minecells:item/base_bow") {
+        texture("layer0", "minecells:item/bow/$it")
+      }.postProcess {
+        val overrides = JsonArray().apply {
+          add(json {
+            "predicate" { "pulling" to 1 }
+            "model" to "minecells:item/${it}_pulling_0"
+          })
+          add(json {
+            "predicate" { "pulling" to 1; "pull" to 0.65 }
+            "model" to "minecells:item/${it}_pulling_1"
+          })
+          add(json {
+            "predicate" { "pulling" to 1; "pull" to 0.9 }
+            "model" to "minecells:item/${it}_pulling_2"
+          })
+        }
+        add("overrides", overrides)
+      })
+
+      for (i in 0 until 3) {
+        add("${it}_pulling_$i", ParentedModel.item("minecells:item/base_bow") {
+          texture("layer0", "minecells:item/bow/${it}_pulling_$i")
+        })
+      }
     }
   }
 }

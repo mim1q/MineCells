@@ -41,6 +41,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.BowItem;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
@@ -260,6 +261,8 @@ public class MineCellsRenderers {
       (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
 
+    MineCellsItems.BOWS.forEach(MineCellsRenderers::registerBowPredicate);
+
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves
@@ -301,5 +304,18 @@ public class MineCellsRenderers {
         }
       })
     );
+  }
+
+  private static void registerBowPredicate(BowItem item) {
+    ModelPredicateProviderRegistry.register(item, new Identifier("pulling"), (stack, world, entity, seed) ->
+      entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
+    );
+    ModelPredicateProviderRegistry.register(item, new Identifier("pull"), (stack, world, entity, seed) -> {
+      if (entity == null) {
+        return 0.0F;
+      } else {
+        return entity.getActiveItem() != stack ? 0.0F : (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft()) / 20.0F;
+      }
+    });
   }
 }

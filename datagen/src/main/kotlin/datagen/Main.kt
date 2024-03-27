@@ -101,6 +101,7 @@ fun main(args: Array<String>) {
     add(ModItemModels.spawnEggs())
     add(ModItemModels.blockModels())
     add(ModItemModels.dimensionalRunes())
+    add(ModItemModels.bows())
     add("flint", ParentedModel.item("minecells:item/balanced_blade").texture("layer0", "minecells:item/flint"))
     // Block drops
     listOf(
@@ -168,8 +169,5 @@ fun main(args: Array<String>) {
     generateMissingLangEntries()
   }
 }
-
-
-
 
 
