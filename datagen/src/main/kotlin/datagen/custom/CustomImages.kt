@@ -15,20 +15,8 @@ object CustomImages {
     spriteHeight = 32
   ) {
     val states = listOf("", "_pulling_0", "_pulling_1", "_pulling_2")
-    val bows = listOf(
-      "bow_and_endless_quiver",
-      "explosive_crossbow",
-      "heavy_crossbow",
-      "ice_bow",
-      "infantry_bow",
-      "marksmans_bow",
-      "multiple_nocks_bow",
-      "nerves_of_steel",
-      "quick_bow",
-    )
-
     states.forEach { state ->
-      bows.forEach { bow ->
+      Constants.BOWS.forEach { bow ->
         sprite("$bow${state}")
       }
     }

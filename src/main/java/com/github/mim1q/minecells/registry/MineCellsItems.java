@@ -25,6 +25,7 @@ import java.util.Map;
 public class MineCellsItems {
   public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
   public static List<DimensionalRuneItem> DIMENSIONAL_RUNES = new ArrayList<>();
+  public static List<BowItem> BOWS = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
@@ -193,6 +194,17 @@ public class MineCellsItems {
     ), "health_flask"
   );
 
+  // Bows
+  public static final BowItem MULTIPLE_NOCKS_BOW = registerBowItem("multiple_nocks_bow");
+  public static final BowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver");
+  public static final BowItem MARKSMANS_BOW = registerBowItem("marksmans_bow");
+  public static final BowItem INFANTRY_BOW = registerBowItem("infantry_bow");
+  public static final BowItem QUICK_BOW = registerBowItem("quick_bow");
+  public static final BowItem ICE_BOW = registerBowItem("ice_bow");
+  public static final BowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow");
+  public static final BowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel");
+  public static final BowItem EXPLOSIVE_CROSSBOW = registerBowItem("explosive_crossbow");
+
   // Simple crafting ingredients
 
   public static final Item MONSTER_CELL = registerCraftingIngredient("monster_cell");
@@ -253,6 +265,12 @@ public class MineCellsItems {
       doorway.type.dimension.key.getValue().getPath() + "_dimensional_rune"
     );
     DIMENSIONAL_RUNES.add(item);
+    return item;
+  }
+
+  public static BowItem registerBowItem(String name) {
+    var item = register(new BowItem(new FabricItemSettings().maxCount(1)), name);
+    BOWS.add(item);
     return item;
   }
 }
