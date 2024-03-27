@@ -144,6 +144,9 @@ fun main(args: Array<String>) {
     }
     // Sounds
     mineCellsSounds()
+
+    // Generated images
+    CustomImages.createBowTextures("bow_atlas.png", Path.of(args[0]))
   }
 
   generator.generate()
