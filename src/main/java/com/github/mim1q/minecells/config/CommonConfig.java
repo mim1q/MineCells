@@ -5,8 +5,7 @@ import draylar.omegaconfig.api.Config;
 import draylar.omegaconfig.api.Syncing;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.List;
-
+@SuppressWarnings("TextBlockMigration")
 public class CommonConfig implements Config {
   @Override
   public String getName() {
@@ -23,7 +22,6 @@ public class CommonConfig implements Config {
   @Comment(" Whether the entry door to boss rooms should remain unlocked")
   public boolean unlockedBossEntry = false;
 
-  @SuppressWarnings("TextBlockMigration")
   @Comment(" Forces the teleport between dimensions method to be used from the main server thread\n"
     + " Might be necessary when used with mods that mess with threading, like C2ME "
     + " (if DEFAULT is set, this option will enable itself if that mod is present)\n"
@@ -34,6 +32,12 @@ public class CommonConfig implements Config {
 
   @Comment(" Whether the Mine Cells data should automatically get wiped after major updates")
   public boolean autoWipeData = true;
+
+  @Comment(" Disable the fall protection feature of the Ramparts. \n"
+    + " This will let players explore the bottom of the dimension freely, but keep in mind: \n"
+    + " that isn't the intended way to explore the dimension."
+  )
+  public boolean disableFallProtection = false;
 
   @Override
   public void save() {

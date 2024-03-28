@@ -88,6 +88,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
 
     if (
       getWorld().isClient
+        || MineCells.COMMON_CONFIG.disableFallProtection
         || this.age < 10
         || fallResetY == null
         || (((Entity) (Object) this) instanceof PlayerEntity player && (
