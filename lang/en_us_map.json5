@@ -281,7 +281,7 @@
     elite: "ELITE",
     elite_obelisk: "Elite Obelisk",
   },
-  "dimension.minecells": {
+  "dimension.minecells;biome.minecells;travelerstitles.minecells": {
     prison: "Prisoners' Quarters",
     insufferable_crypt: "Insufferable Crypt",
     promenade: "Promenade of The Condemned",
@@ -289,20 +289,6 @@
     black_bridge: "Black Bridge",
   },
   "dimension.minecraft.overworld": "Overworld",
-  "travelerstitles.minecells": {
-    prison: "Prisoners' Quarters",
-    insufferable_crypt: "Insufferable Crypt",
-    promenade: "Promenade of The Condemned",
-    ramparts: "Ramparts",
-    black_bridge: "Black Bridge",
-  },
-  "biome.minecells": {
-    prison: "Prisoners' Quarters",
-    insufferable_crypt: "Insufferable Crypt",
-    promenade: "Promenade of The Condemned",
-    ramparts: "Ramparts",
-    black_bridge: "Black Bridge",
-  },
   "advancements.minecells": {
     root: "Mine Cells",
     "root.description": "Find a portal to the Prisoners' Quarters",
