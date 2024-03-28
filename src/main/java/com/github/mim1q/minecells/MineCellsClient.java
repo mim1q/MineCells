@@ -30,13 +30,14 @@ public class MineCellsClient implements ClientModInitializer {
 
   private void setupScreenShakeModifiers() {
     // Conjunctivius
-    ScreenShakeModifiers.setModifier("conjunctiviusSmash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
-    ScreenShakeModifiers.setModifier("conjunctiviusRoar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);
-    ScreenShakeModifiers.setModifier("conjunctiviusDeath", CLIENT_CONFIG.screenShake.conjunctiviusDeath);
+    ScreenShakeModifiers.setModifier("conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
+    ScreenShakeModifiers.setModifier("conjunctivius_roar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);
+    ScreenShakeModifiers.setModifier("conjunctivius_death", CLIENT_CONFIG.screenShake.conjunctiviusDeath);
 
     // Concierge
-    ScreenShakeModifiers.setModifier("conciergeLeap", CLIENT_CONFIG.screenShake.conciergeLeap);
-    ScreenShakeModifiers.setModifier("conciergeStep", CLIENT_CONFIG.screenShake.conciergeStep);
-    ScreenShakeModifiers.setModifier("conciergeDeath", CLIENT_CONFIG.screenShake.conciergeDeath);
+    ScreenShakeModifiers.setModifier("concierge_leap", CLIENT_CONFIG.screenShake.conciergeLeap);
+    ScreenShakeModifiers.setModifier("concierge_step", CLIENT_CONFIG.screenShake.conciergeStep);
+    ScreenShakeModifiers.setModifier("concierge_roar", CLIENT_CONFIG.screenShake.conciergeRoar);
+    ScreenShakeModifiers.setModifier("concierge_death", CLIENT_CONFIG.screenShake.conciergeDeath);
   }
 }

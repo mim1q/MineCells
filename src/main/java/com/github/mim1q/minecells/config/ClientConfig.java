@@ -29,13 +29,14 @@ public class ClientConfig implements Config {
   }
 
   public static class ScreenShake {
-    public float conjunctiviusSmash = 0.5f;
-    public float conjunctiviusRoar = 0.5f;
-    public float conjunctiviusDeath = 0.5f;
+    public float conjunctiviusSmash = 1f;
+    public float conjunctiviusRoar = 1f;
+    public float conjunctiviusDeath = 2f;
 
-    public float conciergeLeap = 0.5f;
-    public float conciergeStep = 0.5f;
-    public float conciergeDeath = 0.5f;
+    public float conciergeLeap = 2f;
+    public float conciergeStep = 0.25f;
+    public float conciergeRoar = 1f;
+    public float conciergeDeath = 2f;
   }
 
   public static class Rendering {
