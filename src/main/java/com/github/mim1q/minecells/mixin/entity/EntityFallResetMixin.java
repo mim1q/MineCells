@@ -45,6 +45,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
   @Shadow public abstract void discard();
   @Shadow public abstract boolean isPlayer();
   @Shadow public abstract Text getName();
+  @Shadow public abstract void dismountVehicle();
 
   @Unique private Double fallResetY = 0.0;
   @Unique private BlockPos lastSolidBlock;
@@ -120,6 +121,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
       }
 
       var tpPos = minecells$getResetToPos();
+      this.dismountVehicle();
 
       if (this.isPlayer()) {
         MineCells.LOGGER.info("Fall protection mechanic triggered for Player {} at {} from {} in dimension {}",
