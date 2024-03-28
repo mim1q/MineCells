@@ -20,9 +20,22 @@ public class ClientConfig implements Config {
 
   public Rendering rendering = new Rendering();
 
+  @Comment(" The screen shake intensity for various events.")
+  public ScreenShake screenShake = new ScreenShake();
+
   @Override
   public void save() {
     Config.super.save();
+  }
+
+  public static class ScreenShake {
+    public float conjunctiviusSmash = 0.5f;
+    public float conjunctiviusRoar = 0.5f;
+    public float conjunctiviusDeath = 0.5f;
+
+    public float conciergeLeap = 0.5f;
+    public float conciergeStep = 0.5f;
+    public float conciergeDeath = 0.5f;
   }
 
   public static class Rendering {

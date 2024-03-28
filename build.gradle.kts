@@ -24,7 +24,7 @@ version = ModData.VERSION
 
 repositories {
   mavenCentral()
-  maven("https://jitpack.io")
+  maven("https://jitpack.io") // Gimm1q
   maven("https://maven.shedaniel.me/")
   maven("https://maven.terraformersmc.com/releases/")
   maven("https://maven.wispforest.io")
@@ -39,13 +39,14 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
 
-  include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
-  modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
+  modImplementation(include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")!!)
 
   modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
 
   modImplementation("vazkii.patchouli:Patchouli:${Versions.PATCHOULI}")
+
+  modImplementation(include("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 }
 
 @Suppress("UnstableApiUsage")
