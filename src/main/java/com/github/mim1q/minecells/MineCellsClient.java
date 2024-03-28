@@ -29,6 +29,9 @@ public class MineCellsClient implements ClientModInitializer {
   }
 
   private void setupScreenShakeModifiers() {
+    // Weapons
+    ScreenShakeModifiers.setModifier("weapon_flint", CLIENT_CONFIG.screenShake.weaponFlint);
+
     // Conjunctivius
     ScreenShakeModifiers.setModifier("conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
     ScreenShakeModifiers.setModifier("conjunctivius_roar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);

@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemUsage;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -85,6 +87,16 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.HIT_FLOOR, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
     stack.damage(2, user, p -> p.sendToolBreakStatus(flintHand));
+
+    ScreenShakeUtils.shakeAround(
+      (ServerWorld) world,
+      user.getPos(),
+      3.0f,
+      20,
+      0,
+      5,
+      "weapon_flint"
+    );
   }
 
   @Override
