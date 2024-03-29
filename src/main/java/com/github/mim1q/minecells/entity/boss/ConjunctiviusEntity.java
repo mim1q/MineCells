@@ -190,7 +190,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void addStageGoals(int stage) {
     if (stage >= 3) {
       this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F, 8, 200));
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.0D, 0.8F, 300, 80, () -> random.nextInt(5) + 2));
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.0D, 0.8F, 300, 80, () -> 1));
     }
     if (stage == 7) {
 //      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.02F, 8, 200));

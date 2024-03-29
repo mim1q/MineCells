@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
@@ -25,33 +24,28 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   @Override
   public void tick() {
     super.tick();
-
-    if (this.age <= 1) {
-      MineCells.LOGGER.info(this.getId() + " -> " + this.getVelocity().toString());
-    }
-
-    if (!getWorld().isClient() && getWorld().getBlockCollisions(this, this.getBoundingBox()).iterator().hasNext()) {
-      this.kill();
-    }
   }
 
-  public void updateRotation() {
-    this.prevYaw = this.getYaw();
-    this.prevPitch = this.getPitch();
+  @Override
+  public void updateRotation() { }
 
+  private void recalculateRotation() {
     double e = this.getVelocity().x;
     double f = this.getVelocity().y;
     double g = this.getVelocity().z;
     double l = this.getVelocity().horizontalLength();
     this.setYaw((float) (-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
     this.setPitch((float) (-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
+
+    this.prevYaw = this.getYaw();
+    this.prevPitch = this.getPitch();
   }
 
   public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
     var velocity = target.subtract(pos).normalize();
     ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, pos, velocity);
-    projectile.updateRotation();
     projectile.setOwner(owner);
+    projectile.recalculateRotation();
 
     world.spawnEntity(projectile);
   }
@@ -80,6 +74,6 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   @Override
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
-    this.updateRotation();
+    recalculateRotation();
   }
 }
