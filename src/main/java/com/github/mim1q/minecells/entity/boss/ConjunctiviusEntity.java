@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRe
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
-import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarrageGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
@@ -14,6 +13,9 @@ import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import dev.mim1q.gimm1q.interpolation.Easing;
+import dev.mim1q.gimm1q.interpolation.EasingUtils;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
@@ -33,13 +35,17 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -162,16 +168,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.chargeSound = MineCellsSounds.CONJUNCTIVIUS_DASH_CHARGE;
       s.releaseSound = MineCellsSounds.CONJUNCTIVIUS_DASH_RELEASE;
       s.soundVolume = 2.0F;
-      s.speed = 1.0F;
-      s.damage = getDamage(2.5f);
       s.defaultCooldown = 200;
-      s.actionTick = 30;
-      s.alignTick = 26;
+      s.actionTick = 40;
       s.chance = 0.1F;
-      s.length = 70;
-      s.rotate = false;
-      s.margin = 0.5D;
-      s.particle = MineCellsParticles.SPECKLE.get(0xFF0000);
+      s.length = 130;
     }));
 
     this.goalSelector.add(2, dashGoal);
@@ -259,8 +259,27 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     } else {
       if (this.deathTime == 1) {
         this.playSound(MineCellsSounds.CONJUNCTIVIUS_DYING, 2.0F, 1.0F);
+        ScreenShakeUtils.shakeAround(
+          (ServerWorld) getWorld(),
+          this.getPos(),
+          0.5f,
+          80,
+          30,
+          40,
+          "conjunctivius_death"
+        );
       }
       if (this.deathTime == 60) {
+        ScreenShakeUtils.shakeAround(
+          (ServerWorld) getWorld(),
+          this.getPos(),
+          1f,
+          40,
+          30,
+          40,
+          "conjunctivius_death"
+        );
+
         this.playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
         this.remove(RemovalReason.KILLED);
       }
@@ -450,6 +469,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void setStage(int stage) {
     if (stage != this.getStage()) {
       this.playSound(MineCellsSounds.CONJUNCTIVIUS_SHOUT, 2.0F, 1.0F);
+      ScreenShakeUtils.shakeAround(
+        (ServerWorld) getWorld(),
+        this.getPos(),
+        1f,
+        50,
+        20,
+        40,
+        "conjunctivius_roar"
+      );
       this.dataTracker.set(STAGE, stage);
       this.addStageGoals(stage);
     }
@@ -613,17 +641,50 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     }
   }
 
-  protected static class ConjunctiviusDashGoal extends TimedDashGoal<ConjunctiviusEntity> {
+  protected static class ConjunctiviusDashGoal extends TimedActionGoal<ConjunctiviusEntity> {
+    private Vec3d startPos;
+    private Vec3d targetPos;
 
-    public ConjunctiviusDashGoal(ConjunctiviusEntity entity, Consumer<TimedDashSettings> settings) {
-      super(entity, settings, null);
+    public ConjunctiviusDashGoal(ConjunctiviusEntity entity, Consumer<TimedActionSettings> settings) {
+      super(entity, settings, it -> it.canAttack() && !it.moving && it.getTarget() != null);
+      this.setControls(EnumSet.of(Control.MOVE));
+      this.startPos = entity.getPos();
+      this.targetPos = entity.getPos();
     }
 
-    @Override
-    public boolean canStart() {
-      return super.canStart()
-        && this.entity.canAttack()
-        && !this.entity.moving;
+    @Override public void start() {
+      super.start();
+      startPos = this.entity.getPos();
+      var target = this.entity.getTarget();
+      targetPos = target == null ? startPos : target.getPos();
+    }
+
+    @Override protected void release() {
+      var delta = (this.ticks() - this.actionTick) / (float) (this.length - this.actionTick - 75);
+      var tickPos = EasingUtils.interpolateVec(startPos, targetPos, delta, Easing::easeInOutCubic);
+
+      if (this.ticks() == this.length - 75) {
+        if (this.entity.getWorld() instanceof ServerWorld serverWorld) {
+          serverWorld.spawnParticles(
+            ParticleTypes.EXPLOSION_EMITTER,
+            targetPos.x, targetPos.y, targetPos.z,
+            2,
+            2.0, 2.0, 2.0, 0.0
+          );
+          ScreenShakeUtils.shakeAround(
+            serverWorld,
+            tickPos,
+            1f,
+            30,
+            20,
+            40D,
+            "conjunctivius_smash"
+          );
+          serverWorld.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 2.0F, 1.0F);
+        }
+      }
+
+      this.entity.setPosition(tickPos);
     }
 
     @Override

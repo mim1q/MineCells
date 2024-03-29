@@ -29,7 +29,7 @@ public class ClientConfig implements Config {
   }
 
   public static class ScreenShake {
-    public float weaponFlint = 2f;
+    public float weaponFlint = 1.5f;
 
     public float conjunctiviusSmash = 1f;
     public float conjunctiviusRoar = 1f;

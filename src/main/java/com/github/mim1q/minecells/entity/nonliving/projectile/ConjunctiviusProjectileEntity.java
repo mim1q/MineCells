@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
@@ -53,7 +54,15 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
 
   @Override
   protected void spawnParticles() {
-
+    getWorld().addParticle(
+      MineCellsParticles.SPECKLE.get(0x00FF40),
+      this.getPos().x,
+      this.getPos().y,
+      this.getPos().z,
+      0.0D,
+      0.0D,
+      0.0D
+    );
   }
 
   @Override
