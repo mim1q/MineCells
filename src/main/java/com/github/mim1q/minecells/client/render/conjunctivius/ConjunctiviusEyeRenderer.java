@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.client.render.conjunctivius;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
-import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.OverlayTexture;
@@ -16,7 +15,6 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
@@ -110,30 +108,10 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
 
       Entity player = MinecraftClient.getInstance().getCameraEntity();
       if (player != null) {
-        Vec3d playerPos = player.getPos().add(0.0D, 1.5D, 0.0D);
-        Vec3d entityPos = entity.getPos().add(0.0D, 2.5D, 0.0D);
-        Vec3d diff = playerPos.subtract(entityPos);
-        float rotation = entity.bodyYaw;
-        Vec3d rotatedDiff = MathUtils.vectorRotateY(diff, rotation * MathHelper.RADIANS_PER_DEGREE + MathHelper.HALF_PI);
+        Vec3d rotatedDiff = entity.getEyeOffset(MinecraftClient.getInstance().getTickDelta());
 
-        float xOffset = (float) -rotatedDiff.x;
-        float yOffset = (float) -rotatedDiff.y;
-        float distance = 1.0F - ((float) rotatedDiff.z - 2.5F) / 30.0F;
-        distance = MathHelper.clamp(distance, 0.25F, 1.0F);
-
-        xOffset *= distance * 0.75F;
-        yOffset *= distance;
-
-        if (entity.getEyeState() == EyeState.SHAKING) {
-          xOffset += (entity.getRandom().nextFloat() - 0.5F) * 3.0F;
-          yOffset += (entity.getRandom().nextFloat() - 0.5F) * 3.0F;
-        }
-
-        xOffset = MathHelper.clamp(xOffset, -7.5F, 7.5F);
-        yOffset = MathHelper.clamp(yOffset, -5.0F, 5.0F);
-
-        this.eye.pivotX = xOffset;
-        this.eye.pivotY = yOffset;
+        this.eye.pivotX = (float) rotatedDiff.x;
+        this.eye.pivotY = (float) rotatedDiff.y;
         this.highlight.pivotZ = -0.25F;
       }
     }

@@ -1,30 +1,44 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
-  public ConjunctiviusProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
+  public ConjunctiviusProjectileEntity(EntityType<? extends ThrownEntity> entityType, World world) {
     super(entityType, world);
+  }
+
+  public ConjunctiviusProjectileEntity(World world, Vec3d position, Vec3d velocity) {
+    this(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, world);
+    this.setPosition(position.x, position.y, position.z);
+    this.setVelocity(velocity.x, velocity.y, velocity.z);
   }
 
   @Override
   public void tick() {
-    this.updateRotation();
     super.tick();
+
+    if (this.age <= 1) {
+      MineCells.LOGGER.info(this.getId() + " -> " + this.getVelocity().toString());
+    }
+
     if (!getWorld().isClient() && getWorld().getBlockCollisions(this, this.getBoundingBox()).iterator().hasNext()) {
       this.kill();
     }
   }
 
   public void updateRotation() {
+    this.prevYaw = this.getYaw();
+    this.prevPitch = this.getPitch();
+
     double e = this.getVelocity().x;
     double f = this.getVelocity().y;
     double g = this.getVelocity().z;
@@ -34,14 +48,12 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   }
 
   public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
-    ConjunctiviusProjectileEntity projectile = MineCellsEntities.CONJUNCTIVIUS_PROJECTILE.create(world);
-    if (projectile != null) {
-      projectile.setPosition(pos);
-      projectile.setVelocity(target.subtract(pos).normalize());
-      projectile.updateRotation();
-      projectile.setOwner(owner);
-      world.spawnEntity(projectile);
-    }
+    var velocity = target.subtract(pos).normalize();
+    ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, pos, velocity);
+    projectile.updateRotation();
+    projectile.setOwner(owner);
+
+    world.spawnEntity(projectile);
   }
 
   @Override
@@ -68,7 +80,6 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   @Override
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
-    this.setVelocity(packet.getVelocityX(), packet.getVelocityY(), packet.getVelocityZ());
     this.updateRotation();
   }
 }

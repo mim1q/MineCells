@@ -6,36 +6,31 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.entity.projectile.thrown.ThrownEntity;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class MagicOrbEntity extends ProjectileEntity {
+public class MagicOrbEntity extends ThrownEntity {
 
-  public MagicOrbEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
+  public MagicOrbEntity(EntityType<? extends ThrownEntity> entityType, World world) {
     super(entityType, world);
-    this.noClip = true;
+    this.noClip = false;
   }
 
   @Override
   public void tick() {
     super.tick();
-    this.move(MovementType.SELF, this.getVelocity());
+
     if (getWorld().isClient()) {
       this.spawnParticles();
     } else {
       if (this.age > 300 || this.getVelocity().lengthSquared() < 0.01D) {
         this.discard();
-      }
-
-      EntityHitResult hitResult = this.getEntityCollision(this.getPos(), this.getPos().add(this.getVelocity()));
-      if (hitResult != null) {
-        this.onEntityHit(hitResult);
       }
     }
   }
@@ -72,5 +67,20 @@ public class MagicOrbEntity extends ProjectileEntity {
 
   @Override
   protected void initDataTracker() {
+  }
+
+  @Override
+  protected float getGravity() {
+    return 0.0F;
+  }
+
+  @Override public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+    super.onSpawnPacket(packet);
+
+    var vx = packet.getVelocityX();
+    var vy = packet.getVelocityY();
+    var vz = packet.getVelocityZ();
+
+    this.setVelocity(vx, vy, vz);
   }
 }
