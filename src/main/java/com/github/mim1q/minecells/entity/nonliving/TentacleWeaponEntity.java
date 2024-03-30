@@ -11,6 +11,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -26,14 +27,14 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class TentacleWeaponEntity extends Entity {
-  public static final double BASE_LENGTH = 10.0F;
-
   private Vec3d startingPos;
   private Vec3d targetPos;
   private PlayerEntity owner;
   private Vec3d ownerVelocity = null;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Float> TARGET_LENGTH = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.FLOAT);
+
   private final AnimationProperty length = new AnimationProperty(0.0F, MathUtils::easeOutQuad);
 
   public TentacleWeaponEntity(EntityType<TentacleWeaponEntity> type, World world) {
@@ -48,14 +49,21 @@ public class TentacleWeaponEntity extends Entity {
     }
     entity.owner = owner;
     entity.setPos(owner.getX(), owner.getY() + 1.5D, owner.getZ());
-    entity.setVelocity(Vec3d.ZERO);
-    entity.setPitch(owner.getPitch());
-    entity.prevPitch = owner.getPitch();
-    entity.setYaw(owner.getYaw());
-    entity.prevYaw = owner.getYaw();
-    entity.startRiding(owner, true);
     entity.targetPos = targetPos;
     entity.startingPos = entity.getPos();
+    entity.setVelocity(targetPos.subtract(entity.startingPos));
+
+    // Pitch and yaw from the target position
+    ProjectileUtil.setRotationFromVelocity(entity, 1.0f);
+    entity.setVelocity(Vec3d.ZERO);
+
+    entity.setPitch(owner.getPitch());
+    entity.prevPitch = entity.getPitch();
+    entity.setYaw(owner.getYaw());
+    entity.prevYaw = entity.getYaw();
+
+    entity.startRiding(owner, true);
+    entity.dataTracker.set(TARGET_LENGTH, (float) entity.startingPos.distanceTo(targetPos));
     return entity;
   }
 
@@ -168,6 +176,7 @@ public class TentacleWeaponEntity extends Entity {
   @Override
   protected void initDataTracker() {
     this.dataTracker.startTracking(RETRACTING, false);
+    this.dataTracker.startTracking(TARGET_LENGTH, 0.0F);
   }
 
   public boolean isRetracting() {
@@ -192,14 +201,14 @@ public class TentacleWeaponEntity extends Entity {
 
   @Override
   public Packet<ClientPlayPacketListener> createSpawnPacket() {
-    return new EntitySpawnS2CPacket(this);
+    return new EntitySpawnS2CPacket(this, (int) this.startingPos.distanceTo(this.targetPos));
   }
 
   @Override
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
     Vec3d spawnPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
-    this.targetPos = spawnPos.add(this.getRotationVector().multiply(BASE_LENGTH));
+    this.targetPos = spawnPos.add(this.getRotationVector().multiply(packet.getEntityData()));
     this.startingPos = spawnPos;
   }
 }

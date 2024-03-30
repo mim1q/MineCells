@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
@@ -72,7 +73,7 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
 
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
-    return 60;
+    return 30;
   }
 
   @Override
@@ -86,8 +87,8 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
       }
     }
 
-    var maxDistance = 12.0D;
-    var targetPos = entity.getEyePos().add(entity.getRotationVec(1.0F).multiply(maxDistance));
+    var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance;
+    var targetPos = entity.getEyePos().add(entity.getRotationVec(0.5F).multiply(maxDistance));
     var entityRaycast = ProjectileUtil.raycast(
       entity,
       entity.getEyePos(),

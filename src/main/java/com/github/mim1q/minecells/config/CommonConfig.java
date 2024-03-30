@@ -39,6 +39,10 @@ public class CommonConfig implements Config {
   )
   public boolean disableFallProtection = false;
 
+  @Syncing
+  @Comment(" The maximum distance (in blocks) the Conjunctivius' Tentacle weapon can stretch when activated")
+  public int baseTentacleMaxDistance = 12;
+
   @Override
   public void save() {
     elevator.maxAssemblyHeight = MathHelper.clamp(elevator.maxAssemblyHeight, 64, 320);
