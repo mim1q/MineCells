@@ -1,40 +1,53 @@
 package com.github.mim1q.minecells.item.weapon;
 
-import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
+import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAbility {
+  public HitResult hitResult = null;
+
   public TentacleItem(float attackDamage, float critAttackDamage, float attackSpeed, Settings settings) {
     super(ToolMaterials.IRON, attackDamage, critAttackDamage, attackSpeed, settings);
   }
 
   @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-    ItemStack stack = user.getStackInHand(hand);
-    world.playSound(user.getX(), user.getY(), user.getZ(), MineCellsSounds.TENTACLE_CHARGE, user.getSoundCategory(), 1.0F, 1.0F, false);
-    if (!world.isClient) {
-      Entity entity = TentacleWeaponEntity.create(world, user);
-      if (entity != null) {
-        world.spawnEntity(entity);
+    if (world.isClient && hand == Hand.MAIN_HAND) {
+      if (this.hitResult != null && this.hitResult.getType() != HitResult.Type.MISS) {
+        var pos = this.hitResult.getPos();
+
+        if (this.hitResult.getType() == HitResult.Type.BLOCK) {
+          pos = ((BlockHitResult)hitResult).getBlockPos().toCenterPos();
+        }
+
+        world.playSound(user.getX(), user.getY(), user.getZ(), MineCellsSounds.TENTACLE_CHARGE, user.getSoundCategory(), 1.0F, 1.0F, false);
+        var packet = new UseTentacleWeaponC2SPacket(pos);
+        packet.send();
+
+        return TypedActionResult.success(user.getStackInHand(hand));
       }
-      stack.damage(1, user, (p) -> p.sendToolBreakStatus(hand));
-      user.getItemCooldownManager().set(this, getAbilityCooldown(stack));
-      return TypedActionResult.success(stack, true);
     }
     return super.use(world, user, hand);
   }
@@ -63,5 +76,45 @@ public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAb
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
     return 20;
+  }
+
+  @Override
+  public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+    if (!(world.isClient && selected)) return;
+
+    if (entity instanceof PlayerEntity player) {
+      if (player.getItemCooldownManager().isCoolingDown(this)) {
+        this.hitResult = null;
+        return;
+      }
+    }
+
+    var maxDistance = 12.0D;
+    var targetPos = entity.getEyePos().add(entity.getRotationVec(1.0F).multiply(maxDistance));
+    var entityRaycast = ProjectileUtil.raycast(
+      entity,
+      entity.getEyePos(),
+      targetPos,
+      Box.of(entity.getEyePos(), maxDistance * 2, maxDistance * 2, maxDistance * 2),
+      Objects::nonNull,
+      maxDistance * maxDistance
+    );
+    if (entityRaycast != null && entityRaycast.getType() != HitResult.Type.MISS) {
+      this.hitResult = entityRaycast;
+      return;
+    }
+    this.hitResult = world.raycast(new RaycastContext(
+      entity.getEyePos(),
+      targetPos,
+      RaycastContext.ShapeType.COLLIDER,
+      RaycastContext.FluidHandling.NONE,
+      entity
+    ));
+
+    if (this.hitResult != null
+      && BlockPos.ofFloored(this.hitResult.getPos()).getSquaredDistance(entity.getPos()) <= 3 * 3
+    ) {
+      this.hitResult = null;
+    }
   }
 }

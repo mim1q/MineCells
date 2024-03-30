@@ -35,10 +35,10 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     float xRot = (float) Math.asin(-normalized.y());
     float yRot = (float) Math.atan2(normalized.x(), normalized.z());
     matrices.multiply(new Quaternionf().rotationYXZ(-yRot, -xRot, 0.0F));
-    renderTentacle(matrices, vertexConsumers, light, length * 0.3F, 1F);
-    renderTentacle(matrices, vertexConsumers, light, length * 0.6F, 0.8F);
-    renderTentacle(matrices, vertexConsumers, light, length * 0.9F, 0.6F);
-    renderTentacle(matrices, vertexConsumers, light, length * 1.2F, 0.4F);
+    renderTentacle(matrices, vertexConsumers, light, length * 0.25F, 1F);
+    renderTentacle(matrices, vertexConsumers, light, length * 0.5F, 0.8F);
+    renderTentacle(matrices, vertexConsumers, light, length * 0.75F, 0.6F);
+    renderTentacle(matrices, vertexConsumers, light, length, 0.4F);
     matrices.pop();
 
     super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);

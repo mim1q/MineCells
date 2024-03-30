@@ -107,7 +107,7 @@ public class MineCellsItems {
     ), "cursed_sword"
   );
 
-  public static final Item TENTACLE = register(
+  public static final TentacleItem TENTACLE = register(
     new TentacleItem(9, 0, -3.0F, new FabricItemSettings()
       .maxCount(1)
       .maxDamage(800)

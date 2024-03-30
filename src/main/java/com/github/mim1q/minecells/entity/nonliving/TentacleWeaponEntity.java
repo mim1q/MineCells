@@ -40,7 +40,7 @@ public class TentacleWeaponEntity extends Entity {
     this.ignoreCameraFrustum = true;
   }
 
-  public static TentacleWeaponEntity create(World world, PlayerEntity owner) {
+  public static TentacleWeaponEntity create(World world, PlayerEntity owner, Vec3d targetPos) {
     TentacleWeaponEntity entity = MineCellsEntities.TENTACLE_WEAPON.create(world);
     if (entity == null) {
       return null;
@@ -53,7 +53,7 @@ public class TentacleWeaponEntity extends Entity {
     entity.setYaw(owner.getYaw());
     entity.prevYaw = owner.getYaw();
     entity.startRiding(owner, true);
-    entity.targetPos = entity.getPos().add(entity.getRotationVector().multiply(BASE_LENGTH));
+    entity.targetPos = targetPos;
     entity.startingPos = entity.getPos();
     return entity;
   }
@@ -65,10 +65,6 @@ public class TentacleWeaponEntity extends Entity {
       this.length.setupTransitionTo(0.0F, 10.0F);
     } else {
       this.length.setupTransitionTo(1.0F, 10.0F);
-    }
-
-    if (this.getVehicle() != null) {
-      this.targetPos = this.targetPos.add(this.getVehicle().getVelocity().multiply(0.25D));
     }
 
     if (getWorld().isClient) {

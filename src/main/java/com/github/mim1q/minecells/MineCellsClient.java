@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.MineCellsItemGroups;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
+import dev.mim1q.gimm1q.client.highlight.HighlightDrawerCallback;
 import dev.mim1q.gimm1q.client.item.handheld.HandheldItemModelRegistry;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeModifiers;
 import draylar.omegaconfig.OmegaConfig;
@@ -14,6 +15,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 
 @Environment(EnvType.CLIENT)
 public class MineCellsClient implements ClientModInitializer {
@@ -34,6 +38,22 @@ public class MineCellsClient implements ClientModInitializer {
     if (CLIENT_CONFIG.keepOriginalGuiModels) {
       setupAllHandheldModels();
     }
+
+    HighlightDrawerCallback.EVENT.register((drawer, ctx) -> {
+      var stack = ctx.player().getMainHandStack();
+      if (stack.isOf(MineCellsItems.TENTACLE)) {
+        var hitResult = MineCellsItems.TENTACLE.hitResult;
+        if (hitResult == null || hitResult.getType() == HitResult.Type.MISS) {
+          return;
+        }
+        if (hitResult.getType() == HitResult.Type.ENTITY) {
+          drawer.highlightEntity(((EntityHitResult)hitResult).getEntity(), 0x00000000, 0xFFAA25EB);
+          return;
+        }
+
+        drawer.highlightBlock(((BlockHitResult)hitResult).getBlockPos(), 0x00000000, 0xFFAA25EB);
+      }
+    });
   }
 
   private void setupScreenShakeModifiers() {
