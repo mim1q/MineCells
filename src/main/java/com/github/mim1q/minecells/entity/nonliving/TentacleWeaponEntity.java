@@ -129,8 +129,13 @@ public class TentacleWeaponEntity extends Entity {
       return new EntityHitResult(entity.get());
     }
     var blockPos = BlockPos.ofFloored(pos);
-    if (getWorld().getBlockState(blockPos).isSolidBlock(getWorld(), blockPos)) {
-      return new BlockHitResult(pos, null, blockPos, false);
+
+    if (age == 10) {
+      blockPos = BlockPos.ofFloored(targetPos);
+    }
+
+    if (!getWorld().getBlockState(blockPos).getCollisionShape(getWorld(), blockPos).isEmpty()) {
+      return new BlockHitResult(pos, null, blockPos, true);
     }
     Vec3d minPos = this.getEndPos(this.getLength(0.0F));
     Vec3d maxPos = this.getEndPos(this.getLength(1.0F));
