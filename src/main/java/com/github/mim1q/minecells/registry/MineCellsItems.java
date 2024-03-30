@@ -108,7 +108,7 @@ public class MineCellsItems {
   );
 
   public static final TentacleItem TENTACLE = register(
-    new TentacleItem(9, 0, -3.0F, new FabricItemSettings()
+    new TentacleItem(5, -3.0F, new FabricItemSettings()
       .maxCount(1)
       .maxDamage(800)
       .rarity(Rarity.EPIC)

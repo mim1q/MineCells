@@ -25,7 +25,7 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
 
   @Override
   public void render(TentacleWeaponEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-    if (entity.age < 2) {
+    if (entity.age < 2 || entity.getLength(tickDelta) < 0.01F) {
       return;
     }
     matrices.push();

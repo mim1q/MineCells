@@ -1,15 +1,17 @@
 package com.github.mim1q.minecells.item.weapon;
 
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -25,11 +27,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAbility {
+public class TentacleItem extends SwordItem implements WeaponWithAbility, CrittingWeapon {
   public HitResult hitResult = null;
 
-  public TentacleItem(float attackDamage, float critAttackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, critAttackDamage, attackSpeed, settings);
+  public TentacleItem(int attackDamage, float attackSpeed, Settings settings) {
+    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
   }
 
   @Override
@@ -54,12 +56,7 @@ public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAb
 
   @Override
   public boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-    return false;
-  }
-
-  @Override
-  public DamageSource getDamageSource(ItemStack stack, LivingEntity attacker, LivingEntity target) {
-    return null;
+    return attacker.getPassengerList().stream().anyMatch(it -> it.getType() == MineCellsEntities.TENTACLE_WEAPON);
   }
 
   @Override
@@ -75,7 +72,7 @@ public class TentacleItem extends AbstractCritWeaponItem implements WeaponWithAb
 
   @Override
   public int getBaseAbilityCooldown(ItemStack stack) {
-    return 20;
+    return 60;
   }
 
   @Override

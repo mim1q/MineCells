@@ -83,10 +83,11 @@ public class TentacleWeaponEntity extends Entity {
       return;
     }
     if (this.isRetracting()) {
-      if (this.ownerVelocity != null) {
+      var length = this.getLength(0.0F);
+      if (this.ownerVelocity != null && length >= 0.01F) {
         this.pullOwner();
       }
-      if (this.getLength(0.0f) <= 0.01F) {
+      if (length <= 0.01F && this.age > 30) {
         this.discard();
       }
       return;
