@@ -16,4 +16,20 @@ object Constants {
     "nerves_of_steel",
     "explosive_crossbow",
   )
+
+  val MELEE_AND_SKILLS = listOf(
+    "assassins_dagger",
+    "balanced_blade",
+    "blood_sword",
+    "broadsword",
+    "crowbar",
+    "cursed_sword",
+    "flint",
+    "nutcracker",
+    "hattoris_katana",
+    "tentacle",
+    "spite_sword",
+    "frost_blast",
+    "phaser",
+  )
 }

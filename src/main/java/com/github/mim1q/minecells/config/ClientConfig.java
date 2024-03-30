@@ -23,6 +23,11 @@ public class ClientConfig implements Config {
   @Comment(" The screen shake intensity for various events.")
   public ScreenShake screenShake = new ScreenShake();
 
+  @Comment(" If you enable this and have the 3D Weapon Pack installed, weapons will only be displayed as 3D in hand.\n"
+    + " In the inventory, they will be displayed as the original 2D textures."
+  )
+  public boolean keepOriginalGuiModels = false;
+
   @Override
   public void save() {
     Config.super.save();

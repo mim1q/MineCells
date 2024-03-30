@@ -49,7 +49,7 @@
       "predicate": {
         "blocking": 1
       },
-      "model": "minecells:item/hattoris_katana_blocking"
+      "model": "minecells:item/weapon/hattoris_katana_blocking"
     }
   ]
 }

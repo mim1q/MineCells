@@ -10,7 +10,7 @@ object ModItemModels {
   fun generated() = Preset {
     listOf(
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
-      "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
+      "ancient_sewage_bucket", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
       "reset_rune", "concierge_respawn_rune", "monster_cell", "boss_stem_cell", "arrow_sign", "guidebook",
     ).forEach {
       if (it.startsWith("block/")) {
@@ -21,11 +21,12 @@ object ModItemModels {
     }
     add("solid_barrier_rune", ParentedModel.item("minecells:item/barrier_rune"))
     add("unbreakable_chain", ParentedModel.item("minecraft:item/chain"))
+    add("weapon/phaser", ParentedModel.item("minecraft:item/generated").texture("layer0", "minecells:item/phaser"))
   }
 
   fun handheld() = Preset {
     listOf("assassins_dagger", "cursed_sword", "tentacle").forEach {
-      add(it, ParentedModel.item("minecraft:item/handheld") {
+      add("weapon/$it", ParentedModel.item("minecraft:item/handheld") {
         texture("layer0", "minecells:item/$it")
       })
     }
@@ -84,6 +85,12 @@ object ModItemModels {
           texture("layer0", "minecells:item/bow/${it}_pulling_$i")
         })
       }
+    }
+  }
+
+  fun weaponCopies() = Preset {
+    Constants.MELEE_AND_SKILLS.forEach {
+      add(it, ParentedModel.item("minecells:item/weapon/$it"))
     }
   }
 }

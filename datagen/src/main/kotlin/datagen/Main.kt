@@ -102,7 +102,8 @@ fun main(args: Array<String>) {
     add(ModItemModels.blockModels())
     add(ModItemModels.dimensionalRunes())
     add(ModItemModels.bows())
-    add("flint", ParentedModel.item("minecells:item/balanced_blade").texture("layer0", "minecells:item/flint"))
+    add("weapon/flint", ParentedModel.item("minecells:item/weapon/balanced_blade").texture("layer0", "minecells:item/flint"))
+    add(ModItemModels.weaponCopies())
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
