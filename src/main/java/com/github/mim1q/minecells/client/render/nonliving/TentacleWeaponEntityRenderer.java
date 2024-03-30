@@ -36,8 +36,11 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     float yRot = (float) Math.atan2(normalized.x(), normalized.z());
     matrices.multiply(new Quaternionf().rotationYXZ(-yRot, -xRot, 0.0F));
     renderTentacle(matrices, vertexConsumers, light, length * 0.25F, 1F);
+    matrices.translate(0.0, 0.0, 0.01);
     renderTentacle(matrices, vertexConsumers, light, length * 0.5F, 0.8F);
+    matrices.translate(0.0, 0.0, 0.01);
     renderTentacle(matrices, vertexConsumers, light, length * 0.75F, 0.6F);
+    matrices.translate(0.0, 0.0, 0.01);
     renderTentacle(matrices, vertexConsumers, light, length, 0.4F);
     matrices.pop();
 
@@ -47,7 +50,7 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
   public void renderTentacle(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float length, float scale) {
     matrices.push();
     var size = MathUtils.easeInOutQuad(1.1F, 0.5F, length) * scale;
-    matrices.scale(size, size, length * 15F);
+    matrices.scale(size, size, length * 16F);
     this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
     matrices.pop();
   }

@@ -1,0 +1,29 @@
+{
+  "attributes": {
+    "attack_range": 3.25,
+    "two_handed": false,
+    "category": "claymore",
+    "attacks": [
+      {
+        "hitbox": "FORWARD_BOX",
+        "damage_multiplier": 1,
+        "angle": 150,
+        "upswing": 0.5,
+        "animation": "bettercombat:two_handed_slash_horizontal_right",
+        "swing_sound": {
+          "id": "minecells:weapon.swipe"
+        }
+      },
+      {
+        "hitbox": "FORWARD_BOX",
+        "damage_multiplier": 1,
+        "angle": 150,
+        "upswing": 0.5,
+        "animation": "bettercombat:two_handed_slash_horizontal_left",
+        "swing_sound": {
+          "id": "minecells:weapon.swipe"
+        }
+      }
+    ]
+  }
+}
