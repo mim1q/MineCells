@@ -18,6 +18,7 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -101,7 +102,10 @@ public class TentacleWeaponEntity extends Entity {
         Vec3d pos = this.getEndPos(this.getLength(0.0F));
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         this.setRetracting(true);
-        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D).add(0.0D, 0.075D, 0.0D);
+        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D);
+        if (owner.getY() < targetPos.getY()) {
+          this.ownerVelocity = this.ownerVelocity.add(0.0D, 0.05D, 0.0D);
+        }
         if (collision.getType() == HitResult.Type.ENTITY) {
           Entity entity = ((EntityHitResult) collision).getEntity();
           entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);
@@ -111,7 +115,7 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   public HitResult getCollision() {
-    Vec3d pos = this.getEndPos(this.getLength(0.0F));
+    Vec3d pos = this.getEndPos(this.getLength(1.0F));
     if (pos == null) {
       return BlockHitResult.createMissed(Vec3d.ZERO, null, null);
     }
@@ -123,8 +127,9 @@ public class TentacleWeaponEntity extends Entity {
     if (entity.isPresent()) {
       return new EntityHitResult(entity.get());
     }
-    if (getWorld().getBlockState(this.getBlockPos()).isSolidBlock(getWorld(), this.getBlockPos())) {
-      return new BlockHitResult(pos, null, this.getBlockPos(), false);
+    var blockPos = BlockPos.ofFloored(pos);
+    if (getWorld().getBlockState(blockPos).isSolidBlock(getWorld(), blockPos)) {
+      return new BlockHitResult(pos, null, blockPos, false);
     }
     Vec3d minPos = this.getEndPos(this.getLength(0.0F));
     Vec3d maxPos = this.getEndPos(this.getLength(1.0F));
