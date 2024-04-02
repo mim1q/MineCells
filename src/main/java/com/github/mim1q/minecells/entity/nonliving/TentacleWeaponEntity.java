@@ -18,10 +18,13 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
+
+import static net.minecraft.util.math.Direction.Axis.Y;
 
 public class TentacleWeaponEntity extends Entity {
   private Vec3d startingPos;
@@ -97,10 +100,9 @@ public class TentacleWeaponEntity extends Entity {
         Vec3d pos = this.getEndPos(this.getLength(0.0F));
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         this.setRetracting(true);
-        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D);
-        if (owner.getY() < getTargetPos().getY()) {
-          this.ownerVelocity = this.ownerVelocity.add(0.0D, 0.05D, 0.0D);
-        }
+        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D, 0.35D, 0.15D);
+        var yDiff = Math.abs(this.owner.getPos().y - pos.y) * 0.125D;
+        this.ownerVelocity = ownerVelocity.withAxis(Y, MathHelper.clamp(ownerVelocity.y, -yDiff, yDiff));
         if (collision.getType() == HitResult.Type.ENTITY) {
           Entity entity = ((EntityHitResult) collision).getEntity();
           entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);

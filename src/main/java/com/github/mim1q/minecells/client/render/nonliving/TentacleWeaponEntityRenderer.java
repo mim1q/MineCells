@@ -32,7 +32,7 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     {
       matrices.scale(-1.0F, -1.0F, 1.0F);
       float length = entity.getLength(tickDelta);
-      Vector3f normalized = entity.getEndPos(entity.isRetracting() ? 1f : length).subtract(entity.getCameraPosVec(tickDelta)).normalize().toVector3f();
+      Vector3f normalized = entity.getEndPos(1f).subtract(entity.getLerpedPos(tickDelta)).normalize().toVector3f();
       float xRot = (float) Math.asin(-normalized.y());
       float yRot = (float) Math.atan2(normalized.x(), normalized.z());
 
