@@ -11,29 +11,25 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 public class TentacleWeaponEntity extends Entity {
   private Vec3d startingPos;
-  private Vec3d targetPos;
   private PlayerEntity owner;
   private Vec3d ownerVelocity = null;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-  private static final TrackedData<Float> TARGET_LENGTH = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.FLOAT);
+  private static final TrackedData<Vector3f> TARGET_POS = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.VECTOR3F);
 
   private final AnimationProperty length = new AnimationProperty(0.0F, MathUtils::easeOutQuad);
 
@@ -49,21 +45,11 @@ public class TentacleWeaponEntity extends Entity {
     }
     entity.owner = owner;
     entity.setPos(owner.getX(), owner.getY() + 1.5D, owner.getZ());
-    entity.targetPos = targetPos;
+    entity.setTargetPos(targetPos);
     entity.startingPos = entity.getPos();
-    entity.setVelocity(targetPos.subtract(entity.startingPos));
-
-    // Pitch and yaw from the target position
-    ProjectileUtil.setRotationFromVelocity(entity, 1.0f);
-    entity.setVelocity(Vec3d.ZERO);
-
-    entity.setPitch(owner.getPitch());
-    entity.prevPitch = entity.getPitch();
-    entity.setYaw(owner.getYaw());
-    entity.prevYaw = entity.getYaw();
 
     entity.startRiding(owner, true);
-    entity.dataTracker.set(TARGET_LENGTH, (float) entity.startingPos.distanceTo(targetPos));
+
     return entity;
   }
 
@@ -105,14 +91,14 @@ public class TentacleWeaponEntity extends Entity {
       this.setRetracting(true);
     }
 
-    if (this.targetPos != null && this.startingPos != null) {
+    if (this.startingPos != null) {
       HitResult collision = this.getCollision();
       if (collision.getType() != HitResult.Type.MISS) {
         Vec3d pos = this.getEndPos(this.getLength(0.0F));
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         this.setRetracting(true);
         this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D);
-        if (owner.getY() < targetPos.getY()) {
+        if (owner.getY() < getTargetPos().getY()) {
           this.ownerVelocity = this.ownerVelocity.add(0.0D, 0.05D, 0.0D);
         }
         if (collision.getType() == HitResult.Type.ENTITY) {
@@ -139,7 +125,7 @@ public class TentacleWeaponEntity extends Entity {
     var blockPos = BlockPos.ofFloored(pos);
 
     if (age == 10) {
-      blockPos = BlockPos.ofFloored(targetPos);
+      blockPos = BlockPos.ofFloored(getTargetPos());
     }
 
     if (!getWorld().getBlockState(blockPos).getCollisionShape(getWorld(), blockPos).isEmpty()) {
@@ -157,16 +143,11 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   public float getLength(float tickDelta) {
-    if (this.targetPos == null) {
-      return 0.0F;
-    }
-    this.length.update(this.age + tickDelta);
-    float progress = this.length.getValue();
-    return MathHelper.clamp(progress, 0.0F, 1.0F);
+    return this.length.update(this.age + tickDelta);
   }
 
   public Vec3d getEndPos(float length) {
-    return this.targetPos.subtract(this.startingPos).multiply(length).add(this.startingPos);
+    return this.getTargetPos().subtract(this.startingPos).multiply(length).add(this.startingPos);
   }
 
   public Vec3d getStartingPos() {
@@ -176,7 +157,16 @@ public class TentacleWeaponEntity extends Entity {
   @Override
   protected void initDataTracker() {
     this.dataTracker.startTracking(RETRACTING, false);
-    this.dataTracker.startTracking(TARGET_LENGTH, 0.0F);
+    this.dataTracker.startTracking(TARGET_POS, new Vector3f((float)this.getX(), (float)this.getY(), (float)this.getZ()));
+  }
+
+  private Vec3d getTargetPos() {
+    var pos = this.dataTracker.get(TARGET_POS);
+    return new Vec3d(pos.x(), pos.y(), pos.z());
+  }
+
+  private void setTargetPos(Vec3d pos) {
+    this.dataTracker.set(TARGET_POS, new Vector3f((float) pos.x, (float) pos.y, (float) pos.z));
   }
 
   public boolean isRetracting() {
@@ -189,26 +179,20 @@ public class TentacleWeaponEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-    this.targetPos = new Vec3d(nbt.getDouble("TargetX"), nbt.getDouble("TargetY"), nbt.getDouble("TargetZ"));
+    this.setTargetPos(new Vec3d(nbt.getDouble("TargetX"), nbt.getDouble("TargetY"), nbt.getDouble("TargetZ")));
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-    nbt.putDouble("TargetX", this.targetPos.x);
-    nbt.putDouble("TargetY", this.targetPos.y);
-    nbt.putDouble("TargetZ", this.targetPos.z);
+    nbt.putDouble("TargetX", this.getTargetPos().x);
+    nbt.putDouble("TargetY", this.getTargetPos().y);
+    nbt.putDouble("TargetZ", this.getTargetPos().z);
   }
 
-  @Override
-  public Packet<ClientPlayPacketListener> createSpawnPacket() {
-    return new EntitySpawnS2CPacket(this, (int) this.startingPos.distanceTo(this.targetPos));
-  }
 
   @Override
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
-    Vec3d spawnPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
-    this.targetPos = spawnPos.add(this.getRotationVector().multiply(packet.getEntityData()));
-    this.startingPos = spawnPos;
+    this.startingPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
   }
 }

@@ -29,19 +29,25 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
       return;
     }
     matrices.push();
-    matrices.scale(-1.0F, -1.0F, 1.0F);
-    float length = entity.getLength(tickDelta);
-    Vector3f normalized = entity.getEndPos(Math.max(1.0F, length)).subtract(entity.getCameraPosVec(tickDelta)).normalize().toVector3f();
-    float xRot = (float) Math.asin(-normalized.y());
-    float yRot = (float) Math.atan2(normalized.x(), normalized.z());
-    matrices.multiply(new Quaternionf().rotationYXZ(-yRot, -xRot, 0.0F));
-    renderTentacle(matrices, vertexConsumers, light, length * 0.25F, 1F);
-    matrices.translate(0.0, 0.0, 0.01);
-    renderTentacle(matrices, vertexConsumers, light, length * 0.5F, 0.8F);
-    matrices.translate(0.0, 0.0, 0.01);
-    renderTentacle(matrices, vertexConsumers, light, length * 0.75F, 0.6F);
-    matrices.translate(0.0, 0.0, 0.01);
-    renderTentacle(matrices, vertexConsumers, light, length, 0.4F);
+    {
+      matrices.scale(-1.0F, -1.0F, 1.0F);
+      float length = entity.getLength(tickDelta);
+      Vector3f normalized = entity.getEndPos(entity.isRetracting() ? 1f : length).subtract(entity.getCameraPosVec(tickDelta)).normalize().toVector3f();
+      float xRot = (float) Math.asin(-normalized.y());
+      float yRot = (float) Math.atan2(normalized.x(), normalized.z());
+
+      matrices.multiply(new Quaternionf().rotationYXZ(-yRot, -xRot, 0.0F));
+      renderTentacle(matrices, vertexConsumers, light, length * 0.25F, 1F);
+
+      matrices.translate(0.0, 0.0, 0.01);
+      renderTentacle(matrices, vertexConsumers, light, length * 0.5F, 0.8F);
+
+      matrices.translate(0.0, 0.0, 0.01);
+      renderTentacle(matrices, vertexConsumers, light, length * 0.75F, 0.6F);
+
+      matrices.translate(0.0, 0.0, 0.01);
+      renderTentacle(matrices, vertexConsumers, light, length, 0.4F);
+    }
     matrices.pop();
 
     super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
