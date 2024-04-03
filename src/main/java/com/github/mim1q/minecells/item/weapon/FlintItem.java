@@ -95,7 +95,7 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
       20,
       0,
       5,
-      "weapon_flint"
+      "minecells:weapon_flint"
     );
   }
 

@@ -58,18 +58,21 @@ public class MineCellsClient implements ClientModInitializer {
 
   private void setupScreenShakeModifiers() {
     // Weapons
-    ScreenShakeModifiers.setModifier("weapon_flint", CLIENT_CONFIG.screenShake.weaponFlint);
+    ScreenShakeModifiers.setModifier("minecells:weapon_flint", CLIENT_CONFIG.screenShake.weaponFlint);
 
     // Conjunctivius
-    ScreenShakeModifiers.setModifier("conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
-    ScreenShakeModifiers.setModifier("conjunctivius_roar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);
-    ScreenShakeModifiers.setModifier("conjunctivius_death", CLIENT_CONFIG.screenShake.conjunctiviusDeath);
+    ScreenShakeModifiers.setModifier("minecells:conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
+    ScreenShakeModifiers.setModifier("minecells:conjunctivius_roar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);
+    ScreenShakeModifiers.setModifier("minecells:conjunctivius_death", CLIENT_CONFIG.screenShake.conjunctiviusDeath);
 
     // Concierge
-    ScreenShakeModifiers.setModifier("concierge_leap", CLIENT_CONFIG.screenShake.conciergeLeap);
-    ScreenShakeModifiers.setModifier("concierge_step", CLIENT_CONFIG.screenShake.conciergeStep);
-    ScreenShakeModifiers.setModifier("concierge_roar", CLIENT_CONFIG.screenShake.conciergeRoar);
-    ScreenShakeModifiers.setModifier("concierge_death", CLIENT_CONFIG.screenShake.conciergeDeath);
+    ScreenShakeModifiers.setModifier("minecells:concierge_leap", CLIENT_CONFIG.screenShake.conciergeLeap);
+    ScreenShakeModifiers.setModifier("minecells:concierge_step", CLIENT_CONFIG.screenShake.conciergeStep);
+    ScreenShakeModifiers.setModifier("minecells:concierge_roar", CLIENT_CONFIG.screenShake.conciergeRoar);
+    ScreenShakeModifiers.setModifier("minecells:concierge_death", CLIENT_CONFIG.screenShake.conciergeDeath);
+
+    // Explosions
+    ScreenShakeModifiers.setModifier("minecells:explosion", CLIENT_CONFIG.screenShake.explosion);
   }
 
   private void setupAllHandheldModels() {

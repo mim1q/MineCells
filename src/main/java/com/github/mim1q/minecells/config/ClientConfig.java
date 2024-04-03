@@ -44,6 +44,8 @@ public class ClientConfig implements Config {
     public float conciergeStep = 0.25f;
     public float conciergeRoar = 1f;
     public float conciergeDeath = 2f;
+
+    public float explosion = 0.75f;
   }
 
   public static class Rendering {

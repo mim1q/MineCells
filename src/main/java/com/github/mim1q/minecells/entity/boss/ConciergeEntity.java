@@ -258,7 +258,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       80,
       40.0,
       60.0,
-      "concierge_roar"
+      "minecells:concierge_roar"
     );
   }
 
@@ -307,7 +307,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       duration,
       10.0,
       30.0,
-      "concierge_death"
+      "minecells:concierge_death"
     );
   }
 
@@ -391,7 +391,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       5,
       2.0,
       20.0,
-      "concierge_step"
+      "minecells:concierge_step"
     );
   }
 
@@ -404,7 +404,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       20,
       10.0,
       30.0,
-      "concierge_leap"
+      "minecells:concierge_leap"
     );
   }
 

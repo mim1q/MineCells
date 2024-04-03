@@ -323,7 +323,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           80,
           30,
           40,
-          "conjunctivius_death"
+          "minecells:conjunctivius_death"
         );
       }
       if (this.deathTime == 60) {
@@ -334,7 +334,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           40,
           30,
           40,
-          "conjunctivius_death"
+          "minecells:conjunctivius_death"
         );
 
         this.playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
@@ -533,7 +533,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         50,
         20,
         40,
-        "conjunctivius_roar"
+        "minecells:conjunctivius_roar"
       );
       this.dataTracker.set(STAGE, stage);
       this.addStageGoals(stage);
@@ -732,7 +732,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
             30,
             20,
             40D,
-            "conjunctivius_smash"
+            "minecells:conjunctivius_smash"
           );
           serverWorld.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 2.0F, 1.0F);
         }
