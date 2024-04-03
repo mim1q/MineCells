@@ -84,6 +84,7 @@ public class TentacleWeaponEntity extends Entity {
       if (this.ownerVelocity != null && length >= 0.01F) {
         this.pullOwner();
       }
+      this.owner.fallDistance = 0.0F;
       if (length <= 0.01F && this.age > 30) {
         this.discard();
       }
@@ -100,9 +101,10 @@ public class TentacleWeaponEntity extends Entity {
         Vec3d pos = this.getEndPos(this.getLength(0.0F));
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         this.setRetracting(true);
-        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D, 0.35D, 0.15D);
-        var yDiff = Math.abs(this.owner.getPos().y - pos.y) * 0.125D;
-        this.ownerVelocity = ownerVelocity.withAxis(Y, MathHelper.clamp(ownerVelocity.y, -yDiff, yDiff));
+        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15, 0.4, 0.15);
+        var yDiff = Math.abs(this.owner.getPos().y - pos.y) * 0.15;
+        yDiff = Math.max(yDiff, 0.05);
+        this.ownerVelocity = ownerVelocity.withAxis(Y, MathHelper.clamp(ownerVelocity.y, -(yDiff * 0.25), yDiff));
         if (collision.getType() == HitResult.Type.ENTITY) {
           Entity entity = ((EntityHitResult) collision).getEntity();
           entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);
@@ -141,7 +143,6 @@ public class TentacleWeaponEntity extends Entity {
   private void pullOwner() {
     this.owner.setVelocity(this.ownerVelocity);
     this.owner.velocityModified = true;
-    this.owner.fallDistance = 0.0F;
   }
 
   public float getLength(float tickDelta) {

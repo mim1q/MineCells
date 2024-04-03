@@ -11,7 +11,7 @@
         "upswing": 0.5,
         "animation": "bettercombat:two_handed_slash_horizontal_right",
         "swing_sound": {
-          "id": "minecells:weapon.swipe"
+          "id": "minecells:weapon.tentacle.release"
         }
       },
       {
@@ -21,7 +21,7 @@
         "upswing": 0.5,
         "animation": "bettercombat:two_handed_slash_horizontal_left",
         "swing_sound": {
-          "id": "minecells:weapon.swipe"
+          "id": "minecells:weapon.tentacle.release"
         }
       }
     ]
