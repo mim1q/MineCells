@@ -24,8 +24,9 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
       Codec.floatRange(0.0F, 1.0F).optionalFieldOf("frequency", 1.0F).forGetter(BetterRandomSpreadPlacement::getFrequency),
       Codecs.NONNEGATIVE_INT.fieldOf("salt").forGetter(BetterRandomSpreadPlacement::getSalt),
       BetterExclusionZone.CODEC.listOf().optionalFieldOf("exclusion_zones", List.of()).forGetter(BetterRandomSpreadPlacement::getExclusionZones),
-      Codecs.NONNEGATIVE_INT.fieldOf("spacing").forGetter(BetterRandomSpreadPlacement::getSpacing),
-      Codecs.NONNEGATIVE_INT.fieldOf("separation").forGetter(BetterRandomSpreadPlacement::getSeparation),
+      // Using the minecells prefix as a workaround for Sparse Structures...
+      Codecs.NONNEGATIVE_INT.fieldOf("minecells_spacing").forGetter(BetterRandomSpreadPlacement::getSpacing),
+      Codecs.NONNEGATIVE_INT.fieldOf("minecells_separation").forGetter(BetterRandomSpreadPlacement::getSeparation),
       SpreadType.CODEC.optionalFieldOf("spread_type", SpreadType.LINEAR).forGetter(BetterRandomSpreadPlacement::getSpreadType)
     ).apply(instance, BetterRandomSpreadPlacement::new)
   );
@@ -33,7 +34,7 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
   private final List<BetterExclusionZone> exclusionZones;
   private final float actualFrequency;
 
-  public BetterRandomSpreadPlacement(
+  private BetterRandomSpreadPlacement(
     Vec3i locateOffset,
     float frequency,
     int salt,
@@ -47,7 +48,7 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
     this.actualFrequency = frequency;
   }
 
-  public List<BetterExclusionZone> getExclusionZones() {
+  private List<BetterExclusionZone> getExclusionZones() {
     return exclusionZones;
   }
 

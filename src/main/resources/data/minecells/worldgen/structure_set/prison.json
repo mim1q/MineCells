@@ -6,9 +6,9 @@
     }
   ],
   "placement": {
-    "type": "minecraft:random_spread",
-    "spacing": 64,
-    "separation": 63,
+    "type": "minecells:better_random_spread",
+    "minecells_spacing": 64,
+    "minecells_separation": 63,
     "salt": 2043237655
   }
 }
