@@ -8,6 +8,8 @@ import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.ResetRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
+import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
+import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -25,7 +27,7 @@ import java.util.Map;
 public class MineCellsItems {
   public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
   public static List<DimensionalRuneItem> DIMENSIONAL_RUNES = new ArrayList<>();
-  public static List<BowItem> BOWS = new ArrayList<>();
+  public static List<CustomBowItem> BOWS = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
@@ -195,15 +197,15 @@ public class MineCellsItems {
   );
 
   // Bows
-  public static final BowItem MULTIPLE_NOCKS_BOW = registerBowItem("multiple_nocks_bow");
-  public static final BowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver");
-  public static final BowItem MARKSMANS_BOW = registerBowItem("marksmans_bow");
-  public static final BowItem INFANTRY_BOW = registerBowItem("infantry_bow");
-  public static final BowItem QUICK_BOW = registerBowItem("quick_bow");
-  public static final BowItem ICE_BOW = registerBowItem("ice_bow");
-  public static final BowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow");
-  public static final BowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel");
-  public static final BowItem EXPLOSIVE_CROSSBOW = registerBowItem("explosive_crossbow");
+  public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem("multiple_nocks_bow", CustomArrowType.DEFAULT);
+  public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver", CustomArrowType.DEFAULT);
+  public static final CustomBowItem MARKSMANS_BOW = registerBowItem("marksmans_bow", CustomArrowType.MARKSMAN);
+  public static final CustomBowItem INFANTRY_BOW = registerBowItem("infantry_bow", CustomArrowType.INFANTRY);
+  public static final CustomBowItem QUICK_BOW = registerBowItem("quick_bow", CustomArrowType.DEFAULT);
+  public static final CustomBowItem ICE_BOW = registerBowItem("ice_bow", CustomArrowType.ICE);
+  public static final CustomBowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow", CustomArrowType.DEFAULT);
+  public static final CustomBowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel", CustomArrowType.DEFAULT);
+  public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerBowItem("explosive_crossbow", CustomArrowType.EXPLOSIVE_BOLT);
 
   // Simple crafting ingredients
 
@@ -268,8 +270,8 @@ public class MineCellsItems {
     return item;
   }
 
-  public static BowItem registerBowItem(String name) {
-    var item = register(new BowItem(new FabricItemSettings().maxCount(1)), name);
+  public static CustomBowItem registerBowItem(String name, CustomArrowType arrowType) {
+    var item = register(new CustomBowItem(new FabricItemSettings().maxCount(1), arrowType), name);
     BOWS.add(item);
     return item;
   }

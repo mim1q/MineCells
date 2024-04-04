@@ -25,6 +25,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Grena
 import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
+import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -41,7 +42,6 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.BowItem;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
@@ -306,7 +306,7 @@ public class MineCellsRenderers {
     );
   }
 
-  private static void registerBowPredicate(BowItem item) {
+  private static void registerBowPredicate(CustomBowItem item) {
     ModelPredicateProviderRegistry.register(item, new Identifier("pulling"), (stack, world, entity, seed) ->
       entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );

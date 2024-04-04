@@ -54,6 +54,7 @@ public final class MineCellsEntities {
   public static final EntityType<MagicOrbEntity> MAGIC_ORB = registerEntity("magic_orb", SpawnGroup.MISC, MagicOrbEntity::new, 0.75F, 0.75F);
   public static final EntityType<ScorpionSpitEntity> SCORPION_SPIT = registerEntity("scorpion_spit", SpawnGroup.MISC, ScorpionSpitEntity::new, 0.5F, 0.5F);
   public static final EntityType<ConjunctiviusProjectileEntity> CONJUNCTIVIUS_PROJECTILE = registerEntity("conjunctivius_projectile", SpawnGroup.MISC, ConjunctiviusProjectileEntity::new, 0.5F, 0.5F);
+  public static final EntityType<CustomArrowEntity> CUSTOM_ARROW = registerEntity("custom_arrow", SpawnGroup.MISC, CustomArrowEntity::new, 0.5F, 0.5F);
   public static final EntityType<ElevatorEntity> ELEVATOR = registerEntity("elevator", SpawnGroup.MISC, ElevatorEntity::new, 2.0F, 0.5F);
   public static final EntityType<CellEntity> CELL = registerEntity("cell", SpawnGroup.MISC, CellEntity::new, 0.5F, 0.5F);
   public static final EntityType<TentacleWeaponEntity> TENTACLE_WEAPON = registerEntity("tentacle_weapon", SpawnGroup.MISC, TentacleWeaponEntity::new, 0.1F, 0.1F);
