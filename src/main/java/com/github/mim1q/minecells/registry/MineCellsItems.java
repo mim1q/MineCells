@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.item.weapon.bow.QuickBowItem;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -201,7 +202,7 @@ public class MineCellsItems {
   public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver", CustomArrowType.DEFAULT);
   public static final CustomBowItem MARKSMANS_BOW = registerBowItem("marksmans_bow", CustomArrowType.MARKSMAN);
   public static final CustomBowItem INFANTRY_BOW = registerBowItem("infantry_bow", CustomArrowType.INFANTRY);
-  public static final CustomBowItem QUICK_BOW = registerBowItem("quick_bow", CustomArrowType.DEFAULT);
+  public static final CustomBowItem QUICK_BOW = registerBowItem("quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1)));
   public static final CustomBowItem ICE_BOW = registerBowItem("ice_bow", CustomArrowType.ICE);
   public static final CustomBowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow", CustomArrowType.DEFAULT);
   public static final CustomBowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel", CustomArrowType.DEFAULT);
@@ -271,7 +272,11 @@ public class MineCellsItems {
   }
 
   public static CustomBowItem registerBowItem(String name, CustomArrowType arrowType) {
-    var item = register(new CustomBowItem(new FabricItemSettings().maxCount(1), arrowType), name);
+    return registerBowItem(name, new CustomBowItem(new FabricItemSettings().maxCount(1), arrowType));
+  }
+
+  public static CustomBowItem registerBowItem(String name, CustomBowItem bow) {
+    var item = register(bow, name);
     BOWS.add(item);
     return item;
   }

@@ -54,7 +54,7 @@ public class MineCellsExplosion {
       position,
       1.0f,
       20,
-      1f,
+      radius,
       radius * 3f,
       "minecells:explosion"
     );

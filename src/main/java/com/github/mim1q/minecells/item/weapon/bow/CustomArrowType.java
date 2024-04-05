@@ -63,9 +63,14 @@ public class CustomArrowType {
     };
   });
 
+  public static final CustomArrowType QUICK = create("quick", it -> {
+    it.drawTime = 10;
+  });
+
   //#region Class definition
   private final String name;
   private float defaultDamage = 5f;
+  private int drawTime = 20;
   private Consumer<ArrowEntityHitContext> onEntityHit = context -> {};
   private Consumer<ArrowBlockHitContext> onBlockHit = context -> {};
   private Function<ArrowEntityHitContext, Pair<Float, Boolean>> damageAndCrit = (context) -> new Pair<>(defaultDamage, false);
@@ -80,6 +85,10 @@ public class CustomArrowType {
 
   public void onBlockHit(ArrowBlockHitContext context) {
     onBlockHit.accept(context);
+  }
+
+  public int getDrawTime() {
+    return drawTime;
   }
 
   public Pair<Float, Boolean> getDamageAndCrit(ArrowEntityHitContext context) {

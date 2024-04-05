@@ -17,26 +17,25 @@ public class CustomBowItem extends RangedWeaponItem {
   private final static int MAX_USE_TIME = 60 * 60 * 20;
 
   private final CustomArrowType arrowType;
-  private final int drawTime;
-
-  public CustomBowItem(Settings settings, CustomArrowType arrowType, int drawTime) {
-    super(settings);
-    this.arrowType = arrowType;
-    this.drawTime = drawTime;
-  }
 
   public CustomBowItem(Settings settings, CustomArrowType arrowType) {
-    this(settings, arrowType, 10);
+    super(settings);
+    this.arrowType = arrowType;
   }
 
-  @Override public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+  @Override
+  public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
     if (world.isClient) return;
 
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
     if (ticks < getDrawTime(stack) || !user.isPlayer()) return;
 
+    spawnArrow(world, user, stack);
+  }
+
+  protected void spawnArrow(World world, LivingEntity user, ItemStack stack) {
     var arrow = new CustomArrowEntity(world, (PlayerEntity) user, arrowType, user.getEyePos(), stack);
-    arrow.setVelocity(user.getRotationVec(1f).multiply(5.0));
+    arrow.setVelocity(user.getRotationVec(1f).multiply(1.5));
     world.spawnEntity(arrow);
   }
 
@@ -72,7 +71,7 @@ public class CustomBowItem extends RangedWeaponItem {
   }
 
   public int getDrawTime(ItemStack stack) {
-    return drawTime;
+    return arrowType.getDrawTime();
   }
 
   public float getFovMultiplier(PlayerEntity player, ItemStack stack) {

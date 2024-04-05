@@ -49,6 +49,7 @@ public class ClientPacketHandler {
     client.execute(() -> {
       if (client.player != null && client.world != null) {
         client.world.addParticle(MineCellsParticles.EXPLOSION, true, pos.x, pos.y, pos.z, 0, 0, 0);
+        client.world.addParticle(ParticleTypes.EXPLOSION, true, pos.x + 0.01, pos.y + 0.01, pos.z + 0.01, 0, 0, 0);
         var random = client.world.random;
         for (int i = 0; i < 20; ++i) {
           double vx = (random.nextDouble() - 0.5) * radius;
