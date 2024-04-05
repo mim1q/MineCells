@@ -166,6 +166,7 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.MAGIC_ORB, MagicOrbEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.SCORPION_SPIT, ScorpionSpitEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, ConjunctiviusProjectileEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CUSTOM_ARROW, CustomArrowEntityRenderer::new);
 
     EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
@@ -260,6 +261,22 @@ public class MineCellsRenderers {
       new Identifier("blocking"),
       (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
+
+    for (var item : MineCellsItems.BOWS) {
+      ModelPredicateProviderRegistry.register(item, MineCells.createId("pulling"), (stack, world, entity, seed) ->
+        entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
+      );
+      ModelPredicateProviderRegistry.register(item, MineCells.createId("pull"), (stack, world, entity, seed) -> {
+        if (entity == null) {
+          return 0.0F;
+        } else {
+          var stackItem = (CustomBowItem) stack.getItem();
+          return entity.getActiveItem() != stack
+            ? 0.0F
+            : (float) entity.getItemUseTime() / stackItem.getDrawTime(stack);
+        }
+      });
+    }
 
     MineCellsItems.BOWS.forEach(MineCellsRenderers::registerBowPredicate);
 

@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -96,12 +97,15 @@ public class CustomArrowType {
   }
 
   protected static CustomArrowType create(String name) {
-    return create(name, it -> {
-    });
+    return create(name, it -> {});
   }
 
   public static CustomArrowType get(String name) {
     return arrowTypes.getOrDefault(name, DEFAULT);
+  }
+
+  public static Set<String> getAllNames() {
+    return arrowTypes.keySet();
   }
   //#endregion
 

@@ -7,6 +7,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.world.World;
@@ -24,11 +25,25 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
     super(entityType, world);
   }
 
-  public CustomArrowEntity(PlayerEntity owner, World world, CustomArrowType arrowType) {
+  public CustomArrowEntity(World world, PlayerEntity owner, CustomArrowType arrowType) {
     super(MineCellsEntities.CUSTOM_ARROW, world);
     this.dataTracker.set(ARROW_TYPE, arrowType.getName());
     setOwner(owner);
     setPosition(owner.getEyePos().subtract(0.0, 0.1, 0.0));
+  }
+
+  @Override protected void initDataTracker() {
+    super.initDataTracker();
+    this.dataTracker.startTracking(ARROW_TYPE, CustomArrowType.DEFAULT.getName());
+  }
+
+  @Override public void tick() {
+    super.tick();
+    if (getWorld().isClient) return;
+
+    if (this.getVelocity().lengthSquared() < 0.1) {
+      ProjectileUtil.setRotationFromVelocity(this, 0.5f);
+    }
   }
 
   public CustomArrowType getArrowType() {

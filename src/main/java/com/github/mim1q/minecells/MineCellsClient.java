@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.ClientConfig;
+import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.network.ClientPacketHandler;
 import com.github.mim1q.minecells.registry.MineCellsItemGroups;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -13,6 +14,7 @@ import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.hit.BlockHitResult;
@@ -39,6 +41,8 @@ public class MineCellsClient implements ClientModInitializer {
       setupAllHandheldModels();
     }
 
+    loadArrowModels();
+
     HighlightDrawerCallback.EVENT.register((drawer, ctx) -> {
       var stack = ctx.player().getMainHandStack();
       if (stack.isOf(MineCellsItems.TENTACLE)) {
@@ -47,11 +51,11 @@ public class MineCellsClient implements ClientModInitializer {
           return;
         }
         if (hitResult.getType() == HitResult.Type.ENTITY) {
-          drawer.highlightEntity(((EntityHitResult)hitResult).getEntity(), 0x00000000, 0xFFAA25EB);
+          drawer.highlightEntity(((EntityHitResult) hitResult).getEntity(), 0x00000000, 0xFFAA25EB);
           return;
         }
 
-        drawer.highlightBlock(((BlockHitResult)hitResult).getBlockPos(), 0x00000000, 0xFFAA25EB);
+        drawer.highlightBlock(((BlockHitResult) hitResult).getBlockPos(), 0x00000000, 0xFFAA25EB);
       }
     });
   }
@@ -98,5 +102,17 @@ public class MineCellsClient implements ClientModInitializer {
       MineCells.createId("weapon/" + name),
       MineCells.createId(name)
     );
+  }
+
+  private void loadArrowModels() {
+    ModelLoadingPlugin.register(context -> {
+      context.addModels(
+        CustomArrowType
+          .getAllNames()
+          .stream()
+          .map(it -> MineCells.createId("arrow/" + it))
+          .toList()
+      );
+    });
   }
 }

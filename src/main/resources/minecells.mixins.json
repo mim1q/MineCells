@@ -38,6 +38,7 @@
     "compat.patchouli.GuiBookEntryMixin",
     "compat.patchouli.RenderEntityIdleAnimationMixin",
     "entity.LivingEntityClientMixin",
+    "entity.player.AbstractClientPlayerEntityMixin",
     "entity.player.ClientPlayerEntityMixin",
     "item.CompassItemMixin"
   ],

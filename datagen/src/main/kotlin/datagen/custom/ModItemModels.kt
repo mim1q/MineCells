@@ -65,15 +65,15 @@ object ModItemModels {
       }.postProcess {
         val overrides = JsonArray().apply {
           add(json {
-            "predicate" { "pulling" to 1 }
+            "predicate" { "minecells:pulling" to 1 }
             "model" to "minecells:item/${it}_pulling_0"
           })
           add(json {
-            "predicate" { "pulling" to 1; "pull" to 0.65 }
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 0.5 }
             "model" to "minecells:item/${it}_pulling_1"
           })
           add(json {
-            "predicate" { "pulling" to 1; "pull" to 0.9 }
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 1.0 }
             "model" to "minecells:item/${it}_pulling_2"
           })
         }
