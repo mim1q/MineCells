@@ -27,6 +27,11 @@ public class ExplosionParticle extends SpriteBillboardParticle {
   }
 
   @Override
+  protected int getBrightness(float tint) {
+    return 0xF000F0;
+  }
+
+  @Override
   public void tick() {
     super.tick();
     if (this.age < 3) {

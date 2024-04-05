@@ -48,8 +48,14 @@ public class ClientPacketHandler {
     double radius = buf.readDouble();
     client.execute(() -> {
       if (client.player != null && client.world != null) {
-        ParticleUtils.addParticle(client.world, MineCellsParticles.EXPLOSION, pos, Vec3d.ZERO);
-        ParticleUtils.addAura(client.world, pos, ParticleTypes.CRIT, 20, 0.0D, radius);
+        client.world.addParticle(MineCellsParticles.EXPLOSION, true, pos.x, pos.y, pos.z, 0, 0, 0);
+        var random = client.world.random;
+        for (int i = 0; i < 20; ++i) {
+          double vx = (random.nextDouble() - 0.5) * radius;
+          double vy = (random.nextDouble() - 0.5) * radius;
+          double vz = (random.nextDouble() - 0.5) * radius;
+          client.world.addParticle(ParticleTypes.CRIT, true, pos.x, pos.y, pos.z, vx, vy, vz);
+        }
       }
     });
   }
