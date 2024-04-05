@@ -64,7 +64,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
-    it.drawTime = 10;
+    it.drawTime = 7;
   });
 
   //#region Class definition
