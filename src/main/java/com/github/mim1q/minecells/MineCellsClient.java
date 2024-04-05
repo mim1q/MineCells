@@ -2,12 +2,14 @@ package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.ClientConfig;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
+import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.network.ClientPacketHandler;
 import com.github.mim1q.minecells.registry.MineCellsItemGroups;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsRenderers;
 import dev.mim1q.gimm1q.client.highlight.HighlightDrawerCallback;
+import dev.mim1q.gimm1q.client.highlight.crosshair.CrosshairTipDrawerCallback;
 import dev.mim1q.gimm1q.client.item.handheld.HandheldItemModelRegistry;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeModifiers;
 import draylar.omegaconfig.OmegaConfig;
@@ -15,14 +17,18 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
 @Environment(EnvType.CLIENT)
 public class MineCellsClient implements ClientModInitializer {
+  private static final Identifier CRIT_CROSSHAIR = MineCells.createId("textures/gui/crosshair/crit_indicator.png");
 
   public static final ClientConfig CLIENT_CONFIG = OmegaConfig.register(ClientConfig.class);
 
@@ -56,6 +62,23 @@ public class MineCellsClient implements ClientModInitializer {
         }
 
         drawer.highlightBlock(((BlockHitResult) hitResult).getBlockPos(), 0x00000000, 0xFFAA25EB);
+      }
+    });
+
+    CrosshairTipDrawerCallback.register((drawer, ctx) -> {
+      var stack = ctx.player().getMainHandStack();
+      if (stack.getItem() instanceof CrittingWeapon item) {
+        var hitResult = MinecraftClient.getInstance().crosshairTarget;
+        LivingEntity entity = null;
+        if (
+          hitResult instanceof EntityHitResult entityHitResult
+          && entityHitResult.getEntity() instanceof LivingEntity livingEntity
+        ) {
+          entity = livingEntity;
+        }
+        if (item.canCrit(stack, entity, ctx.player()) && item.shouldPlayCritSound(stack, entity, ctx.player())) {
+          drawer.drawCrosshairTip(12, 0, 16, CRIT_CROSSHAIR);
+        }
       }
     });
   }

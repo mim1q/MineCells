@@ -21,6 +21,8 @@ public class AssassinsDaggerItem extends SwordItem implements CrittingWeapon {
 
   @Override
   public boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    if (target == null) return false;
+
     float difference = MathHelper.angleBetween(target.bodyYaw, attacker.getHeadYaw());
     return difference < 60.0F;
   }

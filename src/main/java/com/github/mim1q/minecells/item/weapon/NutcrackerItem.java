@@ -44,6 +44,8 @@ public class NutcrackerItem extends Item implements CrittingWeapon {
 
   @Override
   public boolean canCrit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    if (target == null) return false;
+
     return Stream.of(MineCellsEffectFlags.FROZEN, MineCellsEffectFlags.STUNNED).anyMatch(
       flag -> ((LivingEntityAccessor) target).getMineCellsFlag(flag)
     );

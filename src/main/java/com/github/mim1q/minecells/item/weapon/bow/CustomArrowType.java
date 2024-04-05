@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
+import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -52,10 +54,12 @@ public class CustomArrowType {
   public static final CustomArrowType EXPLOSIVE_BOLT = create("explosive_bolt", it -> {
     it.defaultDamage = 0f;
     it.onBlockHit = context -> {
-      MineCellsExplosion.explode(context.world, context.shooter, context.shooter, context.hitPos, 2f, 3f);
+      MineCellsExplosion.explode(context.world, context.arrow, context.shooter, context.hitPos, 10f, 4f, Objects::nonNull);
+      context.arrow.discard();
     };
     it.onEntityHit = context -> {
-      MineCellsExplosion.explode(context.world, context.shooter, context.shooter, context.hitPos, 2f, 3f);
+      MineCellsExplosion.explode(context.world, context.arrow, context.shooter, context.hitPos, 10f, 4f, Objects::nonNull);
+      context.arrow.discard();
     };
   });
 
@@ -110,28 +114,14 @@ public class CustomArrowType {
   //#endregion
 
   //#region Context classes
-  public record ArrowShotContext(
-    ServerWorld world,
-    ItemStack bow,
-    PlayerEntity shooter,
-    Vec3d shotFromPos
-  ) {
-    public ArrowEntityHitContext entityHit(LivingEntity target, Vec3d hitPos) {
-      return new ArrowEntityHitContext(world, bow, shooter, target, shotFromPos, hitPos);
-    }
-
-    public ArrowBlockHitContext blockHit(Vec3d hitPos, BlockPos hitBlockPos) {
-      return new ArrowBlockHitContext(world, bow, shooter, shotFromPos, hitBlockPos, hitPos);
-    }
-  }
-
   public record ArrowEntityHitContext(
     ServerWorld world,
     ItemStack bow,
     PlayerEntity shooter,
     LivingEntity target,
     Vec3d shotFromPos,
-    Vec3d hitPos
+    Vec3d hitPos,
+    CustomArrowEntity arrow
   ) {}
 
   public record ArrowBlockHitContext(
@@ -140,7 +130,8 @@ public class CustomArrowType {
     PlayerEntity shooter,
     Vec3d shotFromPos,
     BlockPos hitBlockPos,
-    Vec3d hitPos
+    Vec3d hitPos,
+    CustomArrowEntity arrow
   ) {}
   //#endregion
 }

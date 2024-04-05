@@ -35,7 +35,7 @@ public class CustomBowItem extends RangedWeaponItem {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
     if (ticks < getDrawTime(stack) || !user.isPlayer()) return;
 
-    var arrow = new CustomArrowEntity(world, (PlayerEntity) user, arrowType);
+    var arrow = new CustomArrowEntity(world, (PlayerEntity) user, arrowType, user.getEyePos(), stack);
     arrow.setVelocity(user.getRotationVec(1f).multiply(5.0));
     world.spawnEntity(arrow);
   }

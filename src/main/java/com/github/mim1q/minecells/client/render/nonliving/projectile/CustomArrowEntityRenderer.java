@@ -38,9 +38,9 @@ public class CustomArrowEntityRenderer extends EntityRenderer<CustomArrowEntity>
 
     matrices.push();
     {
-      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.getYaw()));
-      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-entity.getPitch()));
-      matrices.translate(0.0, 0.0, -1.0);
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f + entity.getYaw()));
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch()));
+      matrices.translate(-0.5, -0.5, 0.0);
       renderBakedArrowModel(model, entity.getWorld().getRandom(), light, matrices, vertexConsumers);
     }
     matrices.pop();
