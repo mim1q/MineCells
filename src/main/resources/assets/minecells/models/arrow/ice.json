@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "minecells:arrow/marksman"
+		"2": "minecells:item/arrow_entity/marksman"
 	},
 	"elements": [
 		{
