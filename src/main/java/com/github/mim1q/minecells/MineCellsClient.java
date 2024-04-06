@@ -41,14 +41,14 @@ public class MineCellsClient implements ClientModInitializer {
     ClientPacketHandler.init();
     MineCellsParticles.initClient();
 
+    if (CLIENT_CONFIG.keepOriginalGuiModels) setupAllHandheldModels();
+    if (CLIENT_CONFIG.showCritIndicator) setupCritIndicator();
     setupScreenShakeModifiers();
-
-    if (CLIENT_CONFIG.keepOriginalGuiModels) {
-      setupAllHandheldModels();
-    }
-
     loadArrowModels();
+    setupTentacleWeaponHighlighting();
+  }
 
+  private void setupTentacleWeaponHighlighting() {
     HighlightDrawerCallback.EVENT.register((drawer, ctx) -> {
       var stack = ctx.player().getMainHandStack();
       if (stack.isOf(MineCellsItems.TENTACLE)) {
@@ -64,7 +64,9 @@ public class MineCellsClient implements ClientModInitializer {
         drawer.highlightBlock(((BlockHitResult) hitResult).getBlockPos(), 0x00000000, 0xFFAA25EB);
       }
     });
+  }
 
+  private void setupCritIndicator() {
     CrosshairTipDrawerCallback.register((drawer, ctx) -> {
       var stack = ctx.player().getMainHandStack();
       if (stack.getItem() instanceof CrittingWeapon item) {
@@ -72,7 +74,7 @@ public class MineCellsClient implements ClientModInitializer {
         LivingEntity entity = null;
         if (
           hitResult instanceof EntityHitResult entityHitResult
-          && entityHitResult.getEntity() instanceof LivingEntity livingEntity
+            && entityHitResult.getEntity() instanceof LivingEntity livingEntity
         ) {
           entity = livingEntity;
         }

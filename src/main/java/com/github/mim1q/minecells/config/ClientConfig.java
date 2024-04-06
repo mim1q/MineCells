@@ -28,6 +28,10 @@ public class ClientConfig implements Config {
   )
   public boolean keepOriginalGuiModels = false;
 
+  @Comment(" Whether to show a little red sword icon next to your crosshair if the weapon you are holding will deal" +
+    " critical damage on the next hit.")
+  public boolean showCritIndicator = true;
+
   @Override
   public void save() {
     Config.super.save();
