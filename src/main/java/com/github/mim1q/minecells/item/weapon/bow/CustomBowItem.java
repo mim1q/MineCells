@@ -1,14 +1,17 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.function.Predicate;
@@ -16,7 +19,7 @@ import java.util.function.Predicate;
 public class CustomBowItem extends RangedWeaponItem {
   private final static int MAX_USE_TIME = 60 * 60 * 20;
 
-  private final CustomArrowType arrowType;
+  protected final CustomArrowType arrowType;
 
   public CustomBowItem(Settings settings, CustomArrowType arrowType) {
     super(settings);
@@ -30,12 +33,19 @@ public class CustomBowItem extends RangedWeaponItem {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
     if (ticks < getDrawTime(stack) || !user.isPlayer()) return;
 
-    spawnArrow(world, user, stack);
+    shoot(world, user, stack);
   }
 
-  protected void spawnArrow(World world, LivingEntity user, ItemStack stack) {
-    var arrow = new CustomArrowEntity(world, (PlayerEntity) user, arrowType, user.getEyePos(), stack);
-    arrow.setVelocity(user.getRotationVec(1f).multiply(1.5));
+  protected void shoot(World world, LivingEntity user, ItemStack stack) {
+    world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_RELEASE, SoundCategory.PLAYERS, 0.7f, 0.9f);
+
+    var velocity = user.getRotationVec(1f);
+    spawnArrow(world, (PlayerEntity) user, stack, velocity);
+  }
+
+  protected void spawnArrow(World world, PlayerEntity user, ItemStack stack, Vec3d velocity) {
+    var arrow = new CustomArrowEntity(world, user, arrowType, user.getEyePos(), stack);
+    arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(), arrowType.getSpread());
     world.spawnEntity(arrow);
   }
 
@@ -43,6 +53,7 @@ public class CustomBowItem extends RangedWeaponItem {
     var stack = user.getStackInHand(hand);
     var hasProjectile = !user.getProjectileType(stack).isEmpty();
     if (hasProjectile || user.getAbilities().creativeMode) {
+      world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 1.0f, 0.8f);
       user.setCurrentHand(hand);
       return TypedActionResult.consume(stack);
     }

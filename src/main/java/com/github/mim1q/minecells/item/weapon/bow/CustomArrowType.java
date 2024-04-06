@@ -7,8 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -24,23 +25,21 @@ public class CustomArrowType {
   public static final CustomArrowType DEFAULT = create("default");
 
   public static final CustomArrowType MARKSMAN = create("marksman", it -> {
-    it.damageAndCrit = context -> {
+    it.speed = 3;
+    it.defaultDamage = 5f;
+    it.additionalCritDamage = 9f;
+    it.shouldCrit = context -> {
       var distanceSq = context.shotFromPos.squaredDistanceTo(context.hitPos);
-      if (distanceSq > 20 * 20) {
-        return new Pair<>(it.defaultDamage * 2.5f, true);
-      }
-      return new Pair<>(it.defaultDamage, false);
+      return distanceSq > 20 * 20;
     };
   });
 
   public static final CustomArrowType INFANTRY = create("infantry", it -> {
     it.defaultDamage = 6f;
-    it.damageAndCrit = context -> {
+    it.additionalCritDamage = 5f;
+    it.shouldCrit = context -> {
       var distanceSq = context.shotFromPos.squaredDistanceTo(context.hitPos);
-      if (distanceSq < 10 * 10) {
-        return new Pair<>(it.defaultDamage * 2, true);
-      }
-      return new Pair<>(it.defaultDamage, false);
+      return distanceSq < 10 * 10;
     };
   });
 
@@ -49,6 +48,7 @@ public class CustomArrowType {
     it.onEntityHit = context -> {
       context.target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, 100));
     };
+    it.particle = ParticleTypes.SNOWFLAKE;
   });
 
   public static final CustomArrowType EXPLOSIVE_BOLT = create("explosive_bolt", it -> {
@@ -61,32 +61,53 @@ public class CustomArrowType {
       MineCellsExplosion.explode(context.world, context.arrow, context.shooter, context.hitPos, 10f, 4f, Objects::nonNull);
       context.arrow.discard();
     };
+    it.particle = ParticleTypes.SMOKE;
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
-    it.drawTime = 8;
+    it.speed = 1.5f;
+    it.defaultDamage = 7f;
+    it.drawTime = 6;
+    it.spread = 3f;
   });
 
   public static final CustomArrowType NERVES_OF_STEEL = create("nerves_of_steel", it -> {
     it.drawTime = 10;
     it.defaultDamage = 4f;
-    it.damageAndCrit = context -> {
+    it.additionalCritDamage = 7f;
+    it.shouldCrit = context -> {
       var nbt = context.bow().getOrCreateNbt();
-      if (nbt.getBoolean("crit")) {
-        return new Pair<>(it.defaultDamage * 3, true);
-      } else {
-        return new Pair<>(it.defaultDamage, false);
-      }
+      return nbt.getBoolean("crit");
     };
   });
 
+  public static final CustomArrowType HEAVY_BOLT = create("heavy_bolt", it -> {
+    it.defaultDamage = 8f;
+    it.speed = 0.8f;
+    it.maxAge = 5;
+  });
+
+  public static final CustomArrowType MULTIPLE_NOCKS = create("multiple_nocks", it -> {
+
+  });
+
+  public static final CustomArrowType ENDLESS = create("endless", it -> {
+
+  });
+
   //#region Class definition
+
   private final String name;
   private float defaultDamage = 5f;
+  private float additionalCritDamage = 0f;
   private int drawTime = 20;
+  private float speed = 2f;
+  private int maxAge = 60 * 20;
+  private float spread = 1f;
+  private ParticleEffect particle = null;
   private Consumer<ArrowEntityHitContext> onEntityHit = context -> {};
   private Consumer<ArrowBlockHitContext> onBlockHit = context -> {};
-  private Function<ArrowEntityHitContext, Pair<Float, Boolean>> damageAndCrit = (context) -> new Pair<>(defaultDamage, false);
+  private Function<ArrowEntityHitContext, Boolean> shouldCrit = context -> false;
 
   private CustomArrowType(String name) {
     this.name = name;
@@ -104,12 +125,36 @@ public class CustomArrowType {
     return drawTime;
   }
 
-  public Pair<Float, Boolean> getDamageAndCrit(ArrowEntityHitContext context) {
-    return damageAndCrit.apply(context);
+  public boolean shouldCrit(ArrowEntityHitContext context) {
+    return shouldCrit.apply(context);
+  }
+
+  public float getDamage() {
+    return defaultDamage;
+  }
+
+  public float getAdditionalCritDamage() {
+    return additionalCritDamage;
   }
 
   public String getName() {
     return name;
+  }
+
+  public ParticleEffect getParticle() {
+    return particle;
+  }
+
+  public float getSpeed() {
+    return speed;
+  }
+
+  public int getMaxAge() {
+    return maxAge;
+  }
+
+  public float getSpread() {
+    return spread;
   }
 
   //#endregion

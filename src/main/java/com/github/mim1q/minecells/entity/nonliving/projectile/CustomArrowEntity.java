@@ -52,7 +52,21 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
   @Override
   public void tick() {
     super.tick();
-    if (getWorld().isClient) return;
+    if (getWorld().isClient && !inGround) {
+      var particle = this.getArrowType().getParticle();
+      if (particle != null) {
+        var reverseVelocity = getVelocity().multiply(-0.1);
+        getWorld().addParticle(
+          particle,
+          getX(), getY(), getZ(),
+          reverseVelocity.x, reverseVelocity.y, reverseVelocity.z
+        );
+      }
+    }
+
+    if (!getWorld().isClient && age > arrowType.getMaxAge()) {
+      this.discard();
+    }
   }
 
   @Override
@@ -70,18 +84,15 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
         this
       );
 
-      var damageAndCrit = arrowType.getDamageAndCrit(entityHitContext);
-
-      target.damage(
-        getWorld().getDamageSources().mobProjectile(this, (PlayerEntity) this.getOwner()),
-        damageAndCrit.getLeft()
-      );
-
-      if (damageAndCrit.getRight()) {
-        getWorld().playSound(null, getOwner().getBlockPos(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+      var damage = arrowType.getDamage();
+      if (arrowType.shouldCrit(entityHitContext)) {
+        getWorld().playSound(null, getOwner().getBlockPos(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1f, 1f);
+        damage += arrowType.getAdditionalCritDamage();
       }
+      target.damage(getWorld().getDamageSources().mobProjectile(this, (PlayerEntity) this.getOwner()), damage);
 
       this.getArrowType().onEntityHit(entityHitContext);
+      this.discard();
     }
   }
 

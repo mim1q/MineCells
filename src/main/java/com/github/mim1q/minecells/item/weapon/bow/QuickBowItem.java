@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -15,7 +16,7 @@ public class QuickBowItem extends CustomBowItem {
     if (world.isClient) return;
 
     if (remainingUseTicks == 1) {
-      spawnArrow(world, user, stack);
+      shoot(world, user, stack);
     }
   }
 
@@ -25,5 +26,13 @@ public class QuickBowItem extends CustomBowItem {
   @Override
   public int getMaxUseTime(ItemStack stack) {
     return this.getDrawTime(stack) + 2;
+  }
+
+  @Override
+  public float getFovMultiplier(PlayerEntity player, ItemStack stack) {
+    if (player.isUsingItem()) {
+      return 0.9f;
+    }
+    return 1.0f;
   }
 }

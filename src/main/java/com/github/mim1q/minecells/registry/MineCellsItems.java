@@ -8,10 +8,7 @@ import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.ResetRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
-import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
-import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
-import com.github.mim1q.minecells.item.weapon.bow.NervesOfSteelItem;
-import com.github.mim1q.minecells.item.weapon.bow.QuickBowItem;
+import com.github.mim1q.minecells.item.weapon.bow.*;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -199,13 +196,13 @@ public class MineCellsItems {
   );
 
   // Bows
-  public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem("multiple_nocks_bow", CustomArrowType.DEFAULT);
-  public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver", CustomArrowType.DEFAULT);
+  public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem("multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1)));
+  public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver", CustomArrowType.ENDLESS);
   public static final CustomBowItem MARKSMANS_BOW = registerBowItem("marksmans_bow", CustomArrowType.MARKSMAN);
   public static final CustomBowItem INFANTRY_BOW = registerBowItem("infantry_bow", CustomArrowType.INFANTRY);
   public static final CustomBowItem QUICK_BOW = registerBowItem("quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1)));
   public static final CustomBowItem ICE_BOW = registerBowItem("ice_bow", CustomArrowType.ICE);
-  public static final CustomBowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow", CustomArrowType.DEFAULT);
+  public static final CustomBowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow", CustomArrowType.HEAVY_BOLT);
   public static final CustomBowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1)));
   public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerBowItem("explosive_crossbow", CustomArrowType.EXPLOSIVE_BOLT);
 

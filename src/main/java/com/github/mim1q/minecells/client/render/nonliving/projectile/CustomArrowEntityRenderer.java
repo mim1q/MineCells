@@ -41,6 +41,15 @@ public class CustomArrowEntityRenderer extends EntityRenderer<CustomArrowEntity>
       matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f + entity.getYaw()));
       matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch()));
       matrices.translate(-0.5, -0.5, 0.0);
+      var maxAge = entity.getArrowType().getMaxAge();
+      var age = entity.age + tickDelta;
+
+      if (age > maxAge - 2) {
+        var scale = 1.0f - (age - (maxAge - 2)) / 2.0f;
+        matrices.translate(0.5, 0.5, 0.0);
+        matrices.scale(scale, scale, scale);
+        matrices.translate(-0.5, -0.5, 0.0);
+      }
       renderBakedArrowModel(model, entity.getWorld().getRandom(), light, matrices, vertexConsumers);
     }
     matrices.pop();
