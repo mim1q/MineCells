@@ -18,6 +18,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -40,6 +41,11 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
     if (world.isClient && hand == Hand.MAIN_HAND) {
       if (this.hitResult != null && this.hitResult.getType() != HitResult.Type.MISS) {
         var pos = this.hitResult.getPos();
+
+        if (this.hitResult.getType() == HitResult.Type.ENTITY) {
+          var targetEntity = ((EntityHitResult)this.hitResult).getEntity();
+          pos = targetEntity.getPos().add(0.0D, targetEntity.getHeight() / 2.0D, 0.0D);
+        }
 
         if (this.hitResult.getType() == HitResult.Type.BLOCK) {
           pos = ((BlockHitResult)hitResult).getBlockPos().toCenterPos();
@@ -88,6 +94,7 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
     }
 
     var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance;
+    var minDistance = 3;
     var targetPos = entity.getEyePos().add(entity.getRotationVec(0.5F).multiply(maxDistance));
     var entityRaycast = ProjectileUtil.raycast(
       entity,
@@ -97,7 +104,11 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
       Objects::nonNull,
       maxDistance * maxDistance
     );
-    if (entityRaycast != null && entityRaycast.getType() != HitResult.Type.MISS) {
+    if (
+      entityRaycast != null
+      && entityRaycast.getType() != HitResult.Type.MISS
+      && entityRaycast.getPos().squaredDistanceTo(entity.getEyePos()) >= minDistance * minDistance
+    ) {
       this.hitResult = entityRaycast;
       return;
     }
@@ -109,8 +120,9 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
       entity
     ));
 
-    if (this.hitResult != null
-      && BlockPos.ofFloored(this.hitResult.getPos()).getSquaredDistance(entity.getPos()) <= 3 * 3
+    if (
+      this.hitResult != null
+      && BlockPos.ofFloored(this.hitResult.getPos()).getSquaredDistance(entity.getPos()) <= minDistance * minDistance
     ) {
       this.hitResult = null;
     }

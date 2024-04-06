@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
 import com.github.mim1q.minecells.registry.MineCellsEntities;
-import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
@@ -13,19 +12,16 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 
 public class TentacleWeaponEntity extends Entity {
   private Vec3d startingPos;
   private PlayerEntity owner;
+  private boolean pulling = false;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Vector3f> TARGET_POS = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.VECTOR3F);
@@ -68,13 +64,15 @@ public class TentacleWeaponEntity extends Entity {
     }
   }
 
-  public void tickClient() { }
+  public void tickClient() {
+  }
 
   public void tickServer() {
     if (this.owner == null || !this.hasVehicle()) {
       this.discard();
       return;
     }
+
     if (this.isRetracting()) {
       var length = this.getLength(0.0F);
       if (length >= 0.01F) {
@@ -84,57 +82,36 @@ public class TentacleWeaponEntity extends Entity {
       if (length <= 0.01F && this.age > 30) {
         this.discard();
       }
-      return;
-    }
-    if (this.age > this.getTargetPos().length() / 10) {
-      this.owner.getItemCooldownManager().set(MineCellsItems.TENTACLE, 10);
-      this.setRetracting(true);
-    }
+    } else {
+      var entitiesHit = getWorld().getOtherEntities(
+        this,
+        Box.of(getEndPos(this.getLength(1.0F)), 0.75, 0.75, 0.75),
+        entity -> entity != this.owner
+      );
 
-    if (this.startingPos != null) {
-      HitResult collision = this.getCollision();
-      if (collision.getType() != HitResult.Type.MISS) {
-        Vec3d pos = this.getEndPos(this.getLength(0.0F));
+      for (var entity : entitiesHit) {
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
+        entity.damage(getWorld().getDamageSources().playerAttack(this.owner), 4.0F);
         this.setRetracting(true);
-        var yDiff = Math.abs(this.owner.getPos().y - pos.y) * 0.15;
-        yDiff = Math.max(yDiff, 0.05);
-        if (collision.getType() == HitResult.Type.ENTITY) {
-          Entity entity = ((EntityHitResult) collision).getEntity();
-          entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);
+        this.pulling = true;
+        return;
+      }
+
+      if (this.getLength(1.0F) >= 0.99F) {
+        var targetBlockPos = BlockPos.ofFloored(getTargetPos());
+        var state = getWorld().getBlockState(targetBlockPos);
+        if (!state.getCollisionShape(getWorld(), targetBlockPos).isEmpty()) {
+          pulling = true;
+          this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         }
+        this.setRetracting(true);
       }
     }
   }
 
-  public HitResult getCollision() {
-    Vec3d pos = this.getEndPos(this.getLength(1.0F));
-    if (pos == null) {
-      return BlockHitResult.createMissed(Vec3d.ZERO, null, null);
-    }
-    var entity = getWorld().getOtherEntities(
-      this,
-      Box.of(pos, 1.0D, 1.0D, 1.0D),
-      e -> e != this.owner && e != this
-    ).stream().findFirst();
-    if (entity.isPresent()) {
-      return new EntityHitResult(entity.get());
-    }
-    var blockPos = BlockPos.ofFloored(pos);
-
-    if (age == 10) {
-      blockPos = BlockPos.ofFloored(getTargetPos());
-    }
-
-    if (!getWorld().getBlockState(blockPos).getCollisionShape(getWorld(), blockPos).isEmpty()) {
-      return new BlockHitResult(pos, null, blockPos, true);
-    }
-    Vec3d minPos = this.getEndPos(this.getLength(0.0F));
-    Vec3d maxPos = this.getEndPos(this.getLength(1.0F));
-    return getWorld().raycast(new RaycastContext(minPos, maxPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
-  }
-
   private void pullOwner() {
+    if (!this.pulling) return;
+
     var ownerPos = this.owner.getPos();
     var targetPos = this.getTargetPos().add(
       0.0,
@@ -161,7 +138,7 @@ public class TentacleWeaponEntity extends Entity {
   @Override
   protected void initDataTracker() {
     this.dataTracker.startTracking(RETRACTING, false);
-    this.dataTracker.startTracking(TARGET_POS, new Vector3f((float)this.getX(), (float)this.getY(), (float)this.getZ()));
+    this.dataTracker.startTracking(TARGET_POS, new Vector3f((float) this.getX(), (float) this.getY(), (float) this.getZ()));
   }
 
   private Vec3d getTargetPos() {
@@ -184,6 +161,9 @@ public class TentacleWeaponEntity extends Entity {
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
     this.setTargetPos(new Vec3d(nbt.getDouble("TargetX"), nbt.getDouble("TargetY"), nbt.getDouble("TargetZ")));
+    this.startingPos = new Vec3d(nbt.getDouble("StartingX"), nbt.getDouble("StartingY"), nbt.getDouble("StartingZ"));
+    this.setRetracting(nbt.getBoolean("Retracting"));
+    this.pulling = nbt.getBoolean("Pulling");
   }
 
   @Override
@@ -191,6 +171,11 @@ public class TentacleWeaponEntity extends Entity {
     nbt.putDouble("TargetX", this.getTargetPos().x);
     nbt.putDouble("TargetY", this.getTargetPos().y);
     nbt.putDouble("TargetZ", this.getTargetPos().z);
+    nbt.putDouble("StartingX", this.startingPos.x);
+    nbt.putDouble("StartingY", this.startingPos.y);
+    nbt.putDouble("StartingZ", this.startingPos.z);
+    nbt.putBoolean("Retracting", this.isRetracting());
+    nbt.putBoolean("Pulling", this.pulling);
   }
 
 
