@@ -12,6 +12,7 @@ public class QuickBowItem extends CustomBowItem {
   @Override
   public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
     super.usageTick(world, user, stack, remainingUseTicks);
+    if (world.isClient) return;
 
     if (remainingUseTicks == 1) {
       spawnArrow(world, user, stack);
@@ -23,6 +24,6 @@ public class QuickBowItem extends CustomBowItem {
 
   @Override
   public int getMaxUseTime(ItemStack stack) {
-    return this.getDrawTime(stack) + 1;
+    return this.getDrawTime(stack) + 2;
   }
 }

@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.item.weapon.bow.NervesOfSteelItem;
 import com.github.mim1q.minecells.item.weapon.bow.QuickBowItem;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -205,7 +206,7 @@ public class MineCellsItems {
   public static final CustomBowItem QUICK_BOW = registerBowItem("quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1)));
   public static final CustomBowItem ICE_BOW = registerBowItem("ice_bow", CustomArrowType.ICE);
   public static final CustomBowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow", CustomArrowType.DEFAULT);
-  public static final CustomBowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel", CustomArrowType.DEFAULT);
+  public static final CustomBowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1)));
   public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerBowItem("explosive_crossbow", CustomArrowType.EXPLOSIVE_BOLT);
 
   // Simple crafting ingredients

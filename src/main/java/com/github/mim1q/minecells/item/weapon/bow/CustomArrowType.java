@@ -64,7 +64,20 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
-    it.drawTime = 7;
+    it.drawTime = 8;
+  });
+
+  public static final CustomArrowType NERVES_OF_STEEL = create("nerves_of_steel", it -> {
+    it.drawTime = 10;
+    it.defaultDamage = 4f;
+    it.damageAndCrit = context -> {
+      var nbt = context.bow().getOrCreateNbt();
+      if (nbt.getBoolean("crit")) {
+        return new Pair<>(it.defaultDamage * 3, true);
+      } else {
+        return new Pair<>(it.defaultDamage, false);
+      }
+    };
   });
 
   //#region Class definition
