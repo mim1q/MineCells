@@ -18,18 +18,14 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 
-import static net.minecraft.util.math.Direction.Axis.Y;
-
 public class TentacleWeaponEntity extends Entity {
   private Vec3d startingPos;
   private PlayerEntity owner;
-  private Vec3d ownerVelocity = null;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Vector3f> TARGET_POS = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.VECTOR3F);
@@ -81,7 +77,7 @@ public class TentacleWeaponEntity extends Entity {
     }
     if (this.isRetracting()) {
       var length = this.getLength(0.0F);
-      if (this.ownerVelocity != null && length >= 0.01F) {
+      if (length >= 0.01F) {
         this.pullOwner();
       }
       this.owner.fallDistance = 0.0F;
@@ -90,7 +86,7 @@ public class TentacleWeaponEntity extends Entity {
       }
       return;
     }
-    if (this.age > 10) {
+    if (this.age > this.getTargetPos().length() / 10) {
       this.owner.getItemCooldownManager().set(MineCellsItems.TENTACLE, 10);
       this.setRetracting(true);
     }
@@ -101,10 +97,8 @@ public class TentacleWeaponEntity extends Entity {
         Vec3d pos = this.getEndPos(this.getLength(0.0F));
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         this.setRetracting(true);
-        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15, 0.4, 0.15);
         var yDiff = Math.abs(this.owner.getPos().y - pos.y) * 0.15;
         yDiff = Math.max(yDiff, 0.05);
-        this.ownerVelocity = ownerVelocity.withAxis(Y, MathHelper.clamp(ownerVelocity.y, -(yDiff * 0.25), yDiff));
         if (collision.getType() == HitResult.Type.ENTITY) {
           Entity entity = ((EntityHitResult) collision).getEntity();
           entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);
@@ -141,7 +135,14 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   private void pullOwner() {
-    this.owner.setVelocity(this.ownerVelocity);
+    var ownerPos = this.owner.getPos();
+    var targetPos = this.getTargetPos().add(
+      0.0,
+      2.5,
+      0.0
+    );
+    var direction = targetPos.subtract(ownerPos).multiply(0.15);
+    this.owner.setVelocity(direction);
     this.owner.velocityModified = true;
   }
 
