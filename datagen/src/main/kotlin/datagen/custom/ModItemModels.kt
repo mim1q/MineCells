@@ -88,6 +88,43 @@ object ModItemModels {
     }
   }
 
+  fun crossbows() = Preset {
+    Constants.CROSSBOWS.forEach {
+      add(it, ParentedModel.item("minecells:item/base_crossbow") {
+        texture("layer0", "minecells:item/bow/$it")
+      }.postProcess {
+        val overrides = JsonArray().apply {
+          add(json {
+            "predicate" { "minecells:pulling" to 1 }
+            "model" to "minecells:item/${it}_pulling_0"
+          })
+          add(json {
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 0.5 }
+            "model" to "minecells:item/${it}_pulling_1"
+          })
+          add(json {
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 1.0 }
+            "model" to "minecells:item/${it}_pulling_2"
+          })
+          add(json {
+            "predicate" { "minecells:charged" to 1 }
+            "model" to "minecells:item/${it}_charged"
+          })
+        }
+        add("overrides", overrides)
+      })
+
+      for (i in 0 until 3) {
+        add("${it}_pulling_$i", ParentedModel.item("minecells:item/base_crossbow") {
+          texture("layer0", "minecells:item/bow/${it}_pulling_$i")
+        })
+      }
+      add("${it}_charged", ParentedModel.item("minecells:item/base_crossbow_charged") {
+        texture("layer0", "minecells:item/bow/${it}_pulling_2")
+      })
+    }
+  }
+
   fun weaponCopies() = Preset {
     Constants.MELEE_AND_SKILLS.forEach {
       add(it, ParentedModel.item("minecells:item/weapon/$it"))

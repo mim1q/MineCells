@@ -112,6 +112,7 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.PHASER)
     ));
     stacks.addAll(MineCellsItems.BOWS.stream().map(MineCellsItemGroups::stack).toList());
+    stacks.addAll(MineCellsItems.CROSSBOWS.stream().map(MineCellsItemGroups::stack).toList());
   }
 
   private static void spawnEggStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {

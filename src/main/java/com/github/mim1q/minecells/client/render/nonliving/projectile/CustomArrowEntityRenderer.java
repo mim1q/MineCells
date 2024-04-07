@@ -44,8 +44,8 @@ public class CustomArrowEntityRenderer extends EntityRenderer<CustomArrowEntity>
       var maxAge = entity.getArrowType().getMaxAge();
       var age = entity.age + tickDelta;
 
-      if (age > maxAge - 2) {
-        var scale = 1.0f - (age - (maxAge - 2)) / 2.0f;
+      if (age >= maxAge - 1) {
+        var scale = 1.0f - (age - (maxAge - 1));
         matrices.translate(0.5, 0.5, 0.0);
         matrices.scale(scale, scale, scale);
         matrices.translate(-0.5, -0.5, 0.0);

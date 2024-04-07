@@ -27,6 +27,7 @@ public class MineCellsItems {
   public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
   public static List<DimensionalRuneItem> DIMENSIONAL_RUNES = new ArrayList<>();
   public static List<CustomBowItem> BOWS = new ArrayList<>();
+  public static List<CustomCrossbowItem> CROSSBOWS = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
@@ -195,21 +196,41 @@ public class MineCellsItems {
     ), "health_flask"
   );
 
-  // Bows
-  public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem("multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1)));
-  public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem("bow_and_endless_quiver", CustomArrowType.ENDLESS);
-  public static final CustomBowItem MARKSMANS_BOW = registerBowItem("marksmans_bow", CustomArrowType.MARKSMAN);
-  public static final CustomBowItem INFANTRY_BOW = registerBowItem("infantry_bow", CustomArrowType.INFANTRY);
-  public static final CustomBowItem QUICK_BOW = registerBowItem("quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1)));
-  public static final CustomBowItem ICE_BOW = registerBowItem("ice_bow", CustomArrowType.ICE);
-  public static final CustomBowItem HEAVY_CROSSBOW = registerBowItem("heavy_crossbow", CustomArrowType.HEAVY_BOLT);
-  public static final CustomBowItem NERVES_OF_STEEL = registerBowItem("nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1)));
-  public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerBowItem("explosive_crossbow", CustomArrowType.EXPLOSIVE_BOLT);
+  //#region Ranged weapons
+  public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem(
+    "multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1))
+  );
+  public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem(
+    "bow_and_endless_quiver", CustomArrowType.ENDLESS
+  );
+  public static final CustomBowItem MARKSMANS_BOW = registerBowItem(
+    "marksmans_bow", CustomArrowType.MARKSMAN
+  );
+  public static final CustomBowItem INFANTRY_BOW = registerBowItem(
+    "infantry_bow", CustomArrowType.INFANTRY
+  );
+  public static final CustomBowItem QUICK_BOW = registerBowItem(
+    "quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1))
+  );
+  public static final CustomBowItem ICE_BOW = registerBowItem(
+    "ice_bow", CustomArrowType.ICE
+  );
+  public static final CustomBowItem NERVES_OF_STEEL = registerBowItem(
+    "nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1))
+  );
 
-  // Simple crafting ingredients
+  public static final CustomBowItem HEAVY_CROSSBOW = registerCrossbowItem(
+    "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1))
+  );
+  public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerCrossbowItem(
+    "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1), CustomArrowType.EXPLOSIVE_BOLT)
+  );
+  //#endregion
 
+  //#region Simple crafting ingredients
   public static final Item MONSTER_CELL = registerCraftingIngredient("monster_cell");
   public static final Item BOSS_STEM_CELL = registerCraftingIngredient("boss_stem_cell");
+  //#endregion
 
   static {
     registerDoorwayItem(MineCellsBlocks.PRISON_DOORWAY);
@@ -276,6 +297,12 @@ public class MineCellsItems {
   public static CustomBowItem registerBowItem(String name, CustomBowItem bow) {
     var item = register(bow, name);
     BOWS.add(item);
+    return item;
+  }
+
+  public static CustomCrossbowItem registerCrossbowItem(String name, CustomCrossbowItem crossbow) {
+    var item = register(crossbow, name);
+    CROSSBOWS.add(item);
     return item;
   }
 }

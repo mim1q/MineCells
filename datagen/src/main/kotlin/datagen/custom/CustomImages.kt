@@ -15,8 +15,9 @@ object CustomImages {
     spriteHeight = 32
   ) {
     val states = listOf("", "_pulling_0", "_pulling_1", "_pulling_2")
+    val weapons = Constants.BOWS + Constants.CROSSBOWS
     states.forEach { state ->
-      Constants.BOWS.forEach { bow ->
+      weapons.forEach { bow ->
         sprite("$bow${state}")
       }
     }

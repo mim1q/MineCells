@@ -102,6 +102,7 @@ fun main(args: Array<String>) {
     add(ModItemModels.blockModels())
     add(ModItemModels.dimensionalRunes())
     add(ModItemModels.bows())
+    add(ModItemModels.crossbows())
     add("weapon/flint", ParentedModel.item("minecells:item/weapon/balanced_blade").texture("layer0", "minecells:item/flint"))
     add(ModItemModels.weaponCopies())
     // Block drops

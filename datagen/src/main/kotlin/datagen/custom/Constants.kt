@@ -12,8 +12,11 @@ object Constants {
     "infantry_bow",
     "quick_bow",
     "ice_bow",
-    "heavy_crossbow",
     "nerves_of_steel",
+  )
+
+  val CROSSBOWS = listOf(
+    "heavy_crossbow",
     "explosive_crossbow",
   )
 

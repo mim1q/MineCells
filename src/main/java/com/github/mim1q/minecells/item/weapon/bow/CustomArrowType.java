@@ -83,8 +83,9 @@ public class CustomArrowType {
 
   public static final CustomArrowType HEAVY_BOLT = create("heavy_bolt", it -> {
     it.defaultDamage = 8f;
-    it.speed = 0.8f;
+    it.speed = 0.6f;
     it.maxAge = 5;
+    it.spread = 30;
   });
 
   public static final CustomArrowType MULTIPLE_NOCKS = create("multiple_nocks", it -> {

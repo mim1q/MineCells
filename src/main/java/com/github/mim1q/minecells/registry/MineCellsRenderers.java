@@ -26,6 +26,7 @@ import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -42,6 +43,8 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
@@ -262,23 +265,8 @@ public class MineCellsRenderers {
       (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
 
-    for (var item : MineCellsItems.BOWS) {
-      ModelPredicateProviderRegistry.register(item, MineCells.createId("pulling"), (stack, world, entity, seed) ->
-        entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
-      );
-      ModelPredicateProviderRegistry.register(item, MineCells.createId("pull"), (stack, world, entity, seed) -> {
-        if (entity == null) {
-          return 0.0F;
-        } else {
-          var stackItem = (CustomBowItem) stack.getItem();
-          return entity.getActiveItem() != stack
-            ? 0.0F
-            : (float) entity.getItemUseTime() / stackItem.getDrawTime(stack);
-        }
-      });
-    }
-
     MineCellsItems.BOWS.forEach(MineCellsRenderers::registerBowPredicate);
+    MineCellsItems.CROSSBOWS.forEach(MineCellsRenderers::registerCrossbowPredicate);
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
@@ -324,15 +312,45 @@ public class MineCellsRenderers {
   }
 
   private static void registerBowPredicate(CustomBowItem item) {
-    ModelPredicateProviderRegistry.register(item, new Identifier("pulling"), (stack, world, entity, seed) ->
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("pulling"), (stack, world, entity, seed) ->
       entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
-    ModelPredicateProviderRegistry.register(item, new Identifier("pull"), (stack, world, entity, seed) -> {
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("pull"), (stack, world, entity, seed) -> {
       if (entity == null) {
         return 0.0F;
       } else {
-        return entity.getActiveItem() != stack ? 0.0F : (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft()) / 20.0F;
+        var stackItem = (CustomBowItem) stack.getItem();
+        return entity.getActiveItem() != stack
+          ? 0.0F
+          : (float) entity.getItemUseTime() / stackItem.getDrawTime(stack);
       }
     });
+  }
+
+  private static void registerCrossbowPredicate(CustomCrossbowItem item) {
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("pull"), (stack, world, entity, seed) -> {
+      if (entity == null) {
+        return 0.0F;
+      } else {
+        var stackItem = (CustomCrossbowItem) stack.getItem();
+        return CrossbowItem.isCharged(stack)
+          ? 0.0F
+          : (float) entity.getItemUseTime() / stackItem.getDrawTime(stack);
+      }
+    });
+
+    ModelPredicateProviderRegistry.register(
+      item,
+      MineCells.createId("pulling"),
+      (stack, world, entity, seed) -> entity != null
+        && entity.isUsingItem()
+        && entity.getActiveItem() == stack
+        && !CrossbowItem.isCharged(stack) ? 1.0F : 0.0F);
+
+    ModelPredicateProviderRegistry.register(
+      item,
+      MineCells.createId("charged"),
+      (stack, world, entity, seed) -> CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
+    );
   }
 }
