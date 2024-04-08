@@ -51,7 +51,10 @@ public class ElectricParticle extends SpriteBillboardParticle {
 
   @Override
   public void tick() {
-    super.tick();
+    if (this.age++ >= this.maxAge) {
+      this.markDead();
+    }
+
     this.setSprite(this.spriteProvider.getSprite(world.random));
     if (this.length == 0) {
       return;

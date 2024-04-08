@@ -72,7 +72,10 @@ public class ElectricWhipItem extends Item {
           new StatusEffectInstance(
             MineCellsStatusEffects.ELECTRIFIED,
             20 * 5,
-            1
+            2,
+            false,
+            false,
+            true
           ),
           user
         );
