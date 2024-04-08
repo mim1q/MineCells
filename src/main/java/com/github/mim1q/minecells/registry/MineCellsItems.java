@@ -197,6 +197,7 @@ public class MineCellsItems {
   );
 
   //#region Ranged weapons
+  // Bows
   public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem(
     "multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1))
   );
@@ -219,11 +220,17 @@ public class MineCellsItems {
     "nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1))
   );
 
+  // Crossbows
   public static final CustomBowItem HEAVY_CROSSBOW = registerCrossbowItem(
     "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1))
   );
   public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerCrossbowItem(
     "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1), CustomArrowType.EXPLOSIVE_BOLT)
+  );
+
+  // Other
+  public static final ElectricWhipItem ELECTRIC_WHIP = register(
+    new ElectricWhipItem(new FabricItemSettings().maxCount(1)), "electric_whip"
   );
   //#endregion
 

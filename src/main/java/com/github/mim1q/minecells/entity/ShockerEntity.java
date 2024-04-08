@@ -46,7 +46,7 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
   @Override
   public void initGoals() {
-    this.goalSelector.add(0, new AuraGoal<>(this, 10.0d, 15, 60, 1.0F));
+    this.goalSelector.add(0, new AuraGoal<>(this, 6.0d, 15, 60, 1.0F));
   }
 
   @Override
@@ -64,8 +64,19 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
           ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.CHARGE, pos, Vec3d.ZERO);
         }
       } else if (this.isAuraReleasing()) {
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 100, 9.5D, 0.01D);
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
+        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 100, 5.5D, 0.01D);
+        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
+
+        var direction = Vec3d.ZERO.addRandom(random, 1.0f);
+        getWorld().addParticle(
+          MineCellsParticles.ELECTRICITY.get(direction, 5, 0xFFf19f95, 1f),
+          pos.getX(),
+          pos.getY(),
+          pos.getZ(),
+          0.0D,
+          0.0D,
+          0.0D
+        );
       }
     }
   }
