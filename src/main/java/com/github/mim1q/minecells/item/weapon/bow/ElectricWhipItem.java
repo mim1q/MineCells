@@ -71,7 +71,7 @@ public class ElectricWhipItem extends Item {
         ((LivingEntity) entity).addStatusEffect(
           new StatusEffectInstance(
             MineCellsStatusEffects.ELECTRIFIED,
-            20 * 5,
+            20 * 3 + 1,
             2,
             false,
             false,

@@ -69,7 +69,7 @@ public class ElectrifiedStatusEffect extends StatusEffect {
 
       var effect = new StatusEffectInstance(
         MineCellsStatusEffects.ELECTRIFIED,
-        20 * 5,
+        20 * 3 + 1,
         amplifier - 1,
         false,
         false,
