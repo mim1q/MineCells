@@ -69,7 +69,7 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
 
         var direction = Vec3d.ZERO.addRandom(random, 1.0f);
         getWorld().addParticle(
-          MineCellsParticles.ELECTRICITY.get(direction, 5, 0xFFf19f95, 1f),
+          MineCellsParticles.ELECTRICITY.get(direction, 4, 0xFFf19f95, 1f),
           pos.getX(),
           pos.getY(),
           pos.getZ(),

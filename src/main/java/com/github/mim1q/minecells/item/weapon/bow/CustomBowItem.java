@@ -37,7 +37,7 @@ public class CustomBowItem extends RangedWeaponItem {
   }
 
   protected void shoot(World world, LivingEntity user, ItemStack stack) {
-    world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_RELEASE, SoundCategory.PLAYERS, 0.7f, 0.9f);
+    world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_RELEASE, SoundCategory.PLAYERS, 0.5f, 0.9f);
 
     var velocity = user.getRotationVec(1f);
     spawnArrow(world, (PlayerEntity) user, stack, velocity);
@@ -53,7 +53,7 @@ public class CustomBowItem extends RangedWeaponItem {
     var stack = user.getStackInHand(hand);
     var hasProjectile = !user.getProjectileType(stack).isEmpty();
     if (hasProjectile || user.getAbilities().creativeMode) {
-      world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 1.0f, 0.8f);
+      world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 0.5f, 0.8f);
       user.setCurrentHand(hand);
       return TypedActionResult.consume(stack);
     }

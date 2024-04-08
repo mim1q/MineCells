@@ -33,6 +33,7 @@
     "client.ClientAdvancementManagerMixin",
     "client.HeldItemRendererMixin",
     "client.LivingEntityRendererMixin",
+    "client.PlayerEntityRendererMixin",
     "client.WorldRendererMixin",
     "client.WorldSessionMixin",
     "client.music.MusicTrackerMixin",

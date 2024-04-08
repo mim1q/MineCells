@@ -82,7 +82,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType HEAVY_BOLT = create("heavy_bolt", it -> {
-    it.defaultDamage = 8f;
+    it.defaultDamage = 12f;
     it.speed = 0.6f;
     it.maxAge = 5;
     it.spread = 30;

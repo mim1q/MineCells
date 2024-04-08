@@ -53,8 +53,6 @@ public class ElectricParticle extends SpriteBillboardParticle {
   public void tick() {
     super.tick();
     this.setSprite(this.spriteProvider.getSprite(world.random));
-    this.roll += (world.random.nextFloat() * 0.5f - 0.25f) * MathHelper.PI;
-
     if (this.length == 0) {
       return;
     }
