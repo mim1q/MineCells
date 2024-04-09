@@ -35,4 +35,13 @@ object Constants {
     "frost_blast",
     "phaser",
   )
+
+  val SHIELDS = listOf(
+    "cudgel",
+    "rampart",
+    "bloodthirsty_shield",
+    "greed_shield",
+    "ice_shield",
+    "assault_shield",
+  )
 }

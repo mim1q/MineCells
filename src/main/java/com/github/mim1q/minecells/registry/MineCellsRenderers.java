@@ -44,7 +44,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.Items;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
@@ -267,6 +267,7 @@ public class MineCellsRenderers {
 
     MineCellsItems.BOWS.forEach(MineCellsRenderers::registerBowPredicate);
     MineCellsItems.CROSSBOWS.forEach(MineCellsRenderers::registerCrossbowPredicate);
+    MineCellsItems.SHIELDS.forEach(MineCellsRenderers::registerShieldPredicate);
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
@@ -351,6 +352,12 @@ public class MineCellsRenderers {
       item,
       MineCells.createId("charged"),
       (stack, world, entity, seed) -> CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
+    );
+  }
+
+  private static void registerShieldPredicate(Item item) {
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("blocking"), (stack, world, entity, seed) ->
+      entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
   }
 }

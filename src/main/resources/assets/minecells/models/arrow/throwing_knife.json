@@ -1,0 +1,35 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "minecells:item/arrow_entity/throwing_knife",
+		"particle": "minecells:item/arrow_entity/throwing_knife"
+	},
+	"elements": [
+		{
+			"from": [5.5, 8, -2],
+			"to": [10.5, 8, 5],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 1.5]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 5], "rotation": 270, "texture": "#0"},
+				"east": {"uv": [0, 7, 0, 0], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 5], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [0, 0, 0, 7], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [0, 0, 7, 5], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [7, 0, 0, 5], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 6.5, 5],
+			"to": [8, 9.5, 8],
+			"rotation": {"angle": -45, "axis": "x", "origin": [8, 8, 6.5]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 3], "texture": "#0"},
+				"east": {"uv": [10, 0, 7, 3], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 3], "texture": "#0"},
+				"west": {"uv": [7, 0, 10, 3], "texture": "#0"},
+				"up": {"uv": [0, 3, 0, 0], "texture": "#0"},
+				"down": {"uv": [0, 0, 0, 3], "texture": "#0"}
+			}
+		}
+	]
+}

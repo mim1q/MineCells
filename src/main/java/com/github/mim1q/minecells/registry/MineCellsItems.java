@@ -9,6 +9,7 @@ import com.github.mim1q.minecells.item.ResetRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.*;
+import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -28,6 +29,8 @@ public class MineCellsItems {
   public static List<DimensionalRuneItem> DIMENSIONAL_RUNES = new ArrayList<>();
   public static List<CustomBowItem> BOWS = new ArrayList<>();
   public static List<CustomCrossbowItem> CROSSBOWS = new ArrayList<>();
+  public static List<Item> OTHER_RANGED = new ArrayList<>();
+  public static List<Item> SHIELDS = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new FabricItemSettings()),
@@ -228,12 +231,43 @@ public class MineCellsItems {
     "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1), CustomArrowType.EXPLOSIVE_BOLT)
   );
 
-  // Other
-  public static final ElectricWhipItem ELECTRIC_WHIP = register(
-    new ElectricWhipItem(new FabricItemSettings().maxCount(1)), "electric_whip"
+  // Shields
+  public static final CustomShieldItem CUDGEL = registerShield(
+    "cudgel", new CustomShieldItem(new FabricItemSettings().maxCount(1))
   );
-  public static final LightningBoltItem LIGHTNING_BOLT = register(
-    new LightningBoltItem(new FabricItemSettings().maxCount(1)), "lightning_bolt"
+
+  public static final CustomShieldItem RAMPART = registerShield(
+    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+  );
+
+  public static final CustomShieldItem ASSAULT_SHIELD = registerShield(
+    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+  );
+
+  public static final CustomShieldItem BLOODTHIRSTY_SHIELD = registerShield(
+    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+  );
+
+  public static final CustomShieldItem GREED_SHIELD = registerShield(
+    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+  );
+
+  public static final CustomShieldItem ICE_SHIELD = registerShield(
+    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+  );
+
+  // Other
+  public static final Item ELECTRIC_WHIP = registerOtherRanged(
+    "electric_whip", new ElectricWhipItem(new FabricItemSettings().maxCount(1))
+  );
+  public static final Item LIGHTNING_BOLT = registerOtherRanged(
+    "lightning_bolt", new LightningBoltItem(new FabricItemSettings().maxCount(1))
+  );
+  public static final Item THROWING_KNIFE = registerOtherRanged(
+    "throwing_knife", new SingleUseProjectileItem(new FabricItemSettings().maxCount(1), CustomArrowType.THROWING_KNIFE)
+  );
+  public static final Item FIREBRANDS = registerOtherRanged(
+    "firebrands", new SingleUseProjectileItem(new FabricItemSettings().maxCount(1), CustomArrowType.FIREBRANDS)
   );
   //#endregion
 
@@ -314,5 +348,17 @@ public class MineCellsItems {
     var item = register(crossbow, name);
     CROSSBOWS.add(item);
     return item;
+  }
+
+  public static Item registerOtherRanged(String name, Item item) {
+    var registered = register(item, name);
+    OTHER_RANGED.add(registered);
+    return registered;
+  }
+
+  public static CustomShieldItem registerShield(String name, CustomShieldItem item) {
+    var registered = register(item, name);
+    SHIELDS.add(registered);
+    return registered;
   }
 }

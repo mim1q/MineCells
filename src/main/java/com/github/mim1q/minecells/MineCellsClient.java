@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.config.ClientConfig;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.LightningBoltItem;
 import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
-import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.network.ClientPacketHandler;
 import com.github.mim1q.minecells.registry.MineCellsItemGroups;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -44,6 +43,7 @@ public class MineCellsClient implements ClientModInitializer {
     MineCellsParticles.initClient();
 
     if (CLIENT_CONFIG.keepOriginalGuiModels) setupAllHandheldModels();
+    setupShieldHandheldModels();
     if (CLIENT_CONFIG.showCritIndicator) setupCritIndicator();
     setupScreenShakeModifiers();
     loadArrowModels();
@@ -145,6 +145,17 @@ public class MineCellsClient implements ClientModInitializer {
       MineCells.createId("weapon/" + name),
       MineCells.createId(name)
     );
+  }
+
+  private void setupShieldHandheldModels() {
+    for (var shield : MineCellsItems.SHIELDS) {
+      var name = Registries.ITEM.getId(shield).getPath();
+      HandheldItemModelRegistry.getInstance().register(
+        shield,
+        MineCells.createId(name),
+        MineCells.createId("shield_3d/" + name)
+      );
+    }
   }
 
   private void loadArrowModels() {

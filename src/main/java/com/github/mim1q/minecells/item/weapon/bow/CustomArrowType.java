@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
+import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +13,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.HashMap;
@@ -96,6 +99,34 @@ public class CustomArrowType {
 
   });
 
+  private static void placeFire(ArrowBlockHitContext context) {
+    var blockPos = context.hitBlockPos().add(context.hitFace().getVector());
+    var fireState = Blocks.FIRE.getDefaultState();
+    if (context.world.getBlockState(blockPos).isReplaceable()) {
+      context.world.setBlockState(blockPos, fireState);
+    }
+  }
+
+  public static final CustomArrowType FIREBRANDS = create("firebrands", it -> {
+    it.defaultDamage = 3f;
+    it.speed = 1f;
+    it.onEntityHit = context -> context.target.setOnFireFor(5);
+    it.onBlockHit = context -> {
+      placeFire(context);
+      context.arrow.discard();
+    };
+    it.particle = ParticleTypes.FLAME;
+    it.cooldown = 20;
+  });
+
+  public static final CustomArrowType THROWING_KNIFE = create("throwing_knife", it -> {
+    it.defaultDamage = 1f;
+    it.speed = 2.5f;
+    it.spread = 0.5f;
+    it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
+    it.cooldown = 10;
+  });
+
   //#region Class definition
 
   private final String name;
@@ -109,6 +140,7 @@ public class CustomArrowType {
   private Consumer<ArrowEntityHitContext> onEntityHit = context -> {};
   private Consumer<ArrowBlockHitContext> onBlockHit = context -> {};
   private Function<ArrowEntityHitContext, Boolean> shouldCrit = context -> false;
+  private int cooldown = 0;
 
   private CustomArrowType(String name) {
     this.name = name;
@@ -158,6 +190,10 @@ public class CustomArrowType {
     return spread;
   }
 
+  public int getCooldown() {
+    return cooldown;
+  }
+
   //#endregion
 
   //#region Static methods
@@ -199,6 +235,7 @@ public class CustomArrowType {
     Vec3d shotFromPos,
     BlockPos hitBlockPos,
     Vec3d hitPos,
+    Direction hitFace,
     CustomArrowEntity arrow
   ) {}
   //#endregion

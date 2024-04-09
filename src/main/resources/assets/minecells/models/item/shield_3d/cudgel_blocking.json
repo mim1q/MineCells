@@ -1,0 +1,73 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "minecells:item/shield/3d/cudgel"
+	},
+	"elements": [
+		{
+			"from": [2.5, -10.5, 7.5],
+			"to": [13.5, 10.5, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 0.5, 6, 11], "texture": "#0"},
+				"east": {"uv": [0, 0.5, 0.5, 11], "texture": "#0"},
+				"south": {"uv": [6.5, 0.5, 12, 11], "texture": "#0"},
+				"west": {"uv": [6, 0.5, 6.5, 11], "texture": "#0"},
+				"up": {"uv": [6, 0.5, 0.5, 0], "texture": "#0"},
+				"down": {"uv": [11.5, 0, 6, 0.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, -3, 8.5],
+			"to": [9, 3, 14.5],
+			"faces": {
+				"north": {"uv": [11, 13, 12, 16], "texture": "#0"},
+				"east": {"uv": [8, 13, 11, 16], "texture": "#0"},
+				"south": {"uv": [15, 13, 16, 16], "texture": "#0"},
+				"west": {"uv": [12, 13, 15, 16], "texture": "#0"},
+				"up": {"uv": [8, 16, 7, 13], "texture": "#0"},
+				"down": {"uv": [7, 13, 6, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [11.5, 10.5, 7.5],
+			"to": [13.5, 12.5, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 11.5, 1.5, 12.5], "texture": "#0"},
+				"east": {"uv": [0, 11.5, 0.5, 12.5], "texture": "#0"},
+				"south": {"uv": [2, 11.5, 3, 12.5], "texture": "#0"},
+				"west": {"uv": [1.5, 11.5, 2, 12.5], "texture": "#0"},
+				"up": {"uv": [1.5, 11.5, 0.5, 11], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2.5, 10.5, 7.5],
+			"to": [4.5, 12.5, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 13, 1.5, 14], "texture": "#0"},
+				"east": {"uv": [0, 13, 0.5, 14], "texture": "#0"},
+				"south": {"uv": [2, 13, 3, 14], "texture": "#0"},
+				"west": {"uv": [1.5, 13, 2, 14], "texture": "#0"},
+				"up": {"uv": [1.5, 13, 0.5, 12.5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [45, -40, 0],
+			"translation": [4, 4.5, 4.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [45, -40, 0],
+			"translation": [4, 4.5, 4.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [5, 0, -5],
+			"translation": [-6.5, 1.5, -1.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [5, 0, -5],
+			"translation": [-6.5, 1.5, -1.5]
+		}
+	}
+}

@@ -37,6 +37,8 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
   public CustomArrowEntity(World world, PlayerEntity owner, CustomArrowType arrowType, Vec3d shotFromPos, ItemStack bow) {
     super(MineCellsEntities.CUSTOM_ARROW, world);
     this.dataTracker.set(ARROW_TYPE, arrowType.getName());
+    this.setSilent(true);
+
     setOwner(owner);
     setPosition(owner.getEyePos().subtract(0.0, 0.2, 0.0));
     this.shotFromPos = shotFromPos;
@@ -109,6 +111,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
       shotFromPos,
       blockHitResult.getBlockPos(),
       blockHitResult.getPos(),
+      blockHitResult.getSide(),
       this
     );
 
