@@ -38,17 +38,22 @@ public class ClientConfig implements Config {
   }
 
   public static class ScreenShake {
+    @Comment(" Weapons")
     public float weaponFlint = 1.5f;
+    public float weaponLightningBolt = 0.5f;
 
+    @Comment(" Conjunctivius Boss")
     public float conjunctiviusSmash = 1f;
     public float conjunctiviusRoar = 1f;
     public float conjunctiviusDeath = 2f;
 
+    @Comment(" Concierge Boss")
     public float conciergeLeap = 2f;
     public float conciergeStep = 0.25f;
     public float conciergeRoar = 1f;
     public float conciergeDeath = 2f;
 
+    @Comment(" Other")
     public float explosion = 0.75f;
   }
 

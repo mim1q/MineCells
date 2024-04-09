@@ -15,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class ElectricWhipItem extends Item {
@@ -33,7 +34,13 @@ public class ElectricWhipItem extends Item {
     var direction = user.getRotationVector();
     var maxDistance = 5.5;
     var maxPos = userEyePos.add(direction.multiply(maxDistance));
-    var raycast = user.raycast(maxDistance, 1, false);
+    var raycast = world.raycast(new RaycastContext(
+      userEyePos,
+      maxPos,
+      RaycastContext.ShapeType.COLLIDER,
+      RaycastContext.FluidHandling.NONE,
+      user
+    ));
 
     var particleLength = 4;
 

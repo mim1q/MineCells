@@ -2,6 +2,8 @@ package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.ClientConfig;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
+import com.github.mim1q.minecells.item.weapon.bow.LightningBoltItem;
+import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.network.ClientPacketHandler;
 import com.github.mim1q.minecells.registry.MineCellsItemGroups;
@@ -46,6 +48,7 @@ public class MineCellsClient implements ClientModInitializer {
     setupScreenShakeModifiers();
     loadArrowModels();
     setupTentacleWeaponHighlighting();
+    setupLightningBoltHighlighting();
   }
 
   private void setupTentacleWeaponHighlighting() {
@@ -66,10 +69,24 @@ public class MineCellsClient implements ClientModInitializer {
     });
   }
 
+  private void setupLightningBoltHighlighting() {
+    HighlightDrawerCallback.EVENT.register((drawer, ctx) -> {
+      var stack = ctx.player().getMainHandStack();
+      if (stack.isOf(MineCellsItems.LIGHTNING_BOLT)) {
+        var entity = LightningBoltItem.getTargetedEntity(stack, ctx.player().getWorld());
+        if (entity != null) {
+          var ticks = ctx.player().getItemUseTime();
+          var color = 0xFF000000 | LightningBoltItem.getLightningColor(ticks);
+          drawer.highlightEntity(entity, 0x00000000, color);
+        }
+      }
+    });
+  }
+
   private void setupCritIndicator() {
     CrosshairTipDrawerCallback.register((drawer, ctx) -> {
       var stack = ctx.player().getMainHandStack();
-      if (stack.getItem() instanceof CrittingWeapon item) {
+      if (stack.getItem() instanceof CritIndicator item) {
         var hitResult = MinecraftClient.getInstance().crosshairTarget;
         LivingEntity entity = null;
         if (
@@ -78,7 +95,7 @@ public class MineCellsClient implements ClientModInitializer {
         ) {
           entity = livingEntity;
         }
-        if (item.canCrit(stack, entity, ctx.player()) && item.shouldPlayCritSound(stack, entity, ctx.player())) {
+        if (item.shouldShowCritIndicator(ctx.player(), entity, stack)) {
           drawer.drawCrosshairTip(12, 0, 16, CRIT_CROSSHAIR);
         }
       }
@@ -88,6 +105,7 @@ public class MineCellsClient implements ClientModInitializer {
   private void setupScreenShakeModifiers() {
     // Weapons
     ScreenShakeModifiers.setModifier("minecells:weapon_flint", CLIENT_CONFIG.screenShake.weaponFlint);
+    ScreenShakeModifiers.setModifier("minecells:weapon_lightning_bolt", CLIENT_CONFIG.screenShake.weaponLightningBolt);
 
     // Conjunctivius
     ScreenShakeModifiers.setModifier("minecells:conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);

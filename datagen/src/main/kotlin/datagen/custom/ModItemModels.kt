@@ -26,7 +26,7 @@ object ModItemModels {
   }
 
   fun handheld() = Preset {
-    listOf("assassins_dagger", "cursed_sword", "tentacle").forEach {
+    listOf("assassins_dagger", "cursed_sword", "tentacle", "lightning_bolt").forEach {
       add("weapon/$it", ParentedModel.item("minecraft:item/handheld") {
         texture("layer0", "minecells:item/$it")
       })
@@ -130,5 +130,6 @@ object ModItemModels {
     Constants.MELEE_AND_SKILLS.forEach {
       add(it, ParentedModel.item("minecells:item/weapon/$it"))
     }
+    add("lightning_bolt", ParentedModel.item("minecells:item/weapon/lightning_bolt"))
   }
 }

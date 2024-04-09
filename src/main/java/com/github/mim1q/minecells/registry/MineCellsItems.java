@@ -232,6 +232,9 @@ public class MineCellsItems {
   public static final ElectricWhipItem ELECTRIC_WHIP = register(
     new ElectricWhipItem(new FabricItemSettings().maxCount(1)), "electric_whip"
   );
+  public static final LightningBoltItem LIGHTNING_BOLT = register(
+    new LightningBoltItem(new FabricItemSettings().maxCount(1)), "lightning_bolt"
+  );
   //#endregion
 
   //#region Simple crafting ingredients
