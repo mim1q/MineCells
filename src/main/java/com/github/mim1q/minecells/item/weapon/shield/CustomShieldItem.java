@@ -24,6 +24,7 @@ public class CustomShieldItem extends Item {
 
   @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    shieldType.onUse(new CustomShieldType.ShieldUseContext(user));
     return ItemUsage.consumeHeldItem(world, user, hand);
   }
 

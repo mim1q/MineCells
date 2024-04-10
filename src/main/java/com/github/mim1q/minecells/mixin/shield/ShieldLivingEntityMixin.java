@@ -27,7 +27,7 @@ public abstract class ShieldLivingEntityMixin extends Entity {
   )
   private void minecells$cancelIsBlocking(CallbackInfoReturnable<Boolean> cir) {
     if (getActiveItem().getItem() instanceof CustomShieldItem) {
-      cir.setReturnValue(true);
+      cir.setReturnValue(false);
     }
   }
 }

@@ -238,23 +238,23 @@ public class MineCellsItems {
   );
 
   public static final CustomShieldItem RAMPART = registerShield(
-    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
+    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.RAMPART)
   );
 
   public static final CustomShieldItem ASSAULT_SHIELD = registerShield(
-    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
+    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.ASSAULT)
   );
 
   public static final CustomShieldItem BLOODTHIRSTY_SHIELD = registerShield(
-    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
+    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.BLOOD)
   );
 
   public static final CustomShieldItem GREED_SHIELD = registerShield(
-    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
+    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.GREED)
   );
 
   public static final CustomShieldItem ICE_SHIELD = registerShield(
-    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
+    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.ICE)
   );
 
   // Other
