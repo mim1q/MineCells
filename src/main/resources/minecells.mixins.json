@@ -21,6 +21,7 @@
     "item.BlockItemMixin",
     "item.CrossbowItemMixin",
     "item.MilkBucketItemMixin",
+    "shield.ShieldLivingEntityMixin",
     "shield.ShieldPlayerEntityMixin",
     "world.ChunkGeneratorMixin",
     "world.DensityFunctionTypesMixin",

@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.*;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
+import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -233,27 +234,27 @@ public class MineCellsItems {
 
   // Shields
   public static final CustomShieldItem CUDGEL = registerShield(
-    "cudgel", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+    "cudgel", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.CUDGEL)
   );
 
   public static final CustomShieldItem RAMPART = registerShield(
-    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
   );
 
   public static final CustomShieldItem ASSAULT_SHIELD = registerShield(
-    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
   );
 
   public static final CustomShieldItem BLOODTHIRSTY_SHIELD = registerShield(
-    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
   );
 
   public static final CustomShieldItem GREED_SHIELD = registerShield(
-    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
   );
 
   public static final CustomShieldItem ICE_SHIELD = registerShield(
-    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1))
+    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.DEFAULT)
   );
 
   // Other
