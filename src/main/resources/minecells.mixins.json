@@ -21,6 +21,7 @@
     "item.BlockItemMixin",
     "item.CrossbowItemMixin",
     "item.MilkBucketItemMixin",
+    "shield.ShieldPlayerEntityMixin",
     "world.ChunkGeneratorMixin",
     "world.DensityFunctionTypesMixin",
     "world.FoliagePlacerTypeInvoker",
