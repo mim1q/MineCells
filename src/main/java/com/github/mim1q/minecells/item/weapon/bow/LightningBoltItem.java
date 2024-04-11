@@ -43,16 +43,16 @@ public class LightningBoltItem extends Item implements CritIndicator {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
 
 
-    var damage = 1.0f;
+    var damage = 1.5f;
     var intensity = 0;
 
     if (ticks > 20) {
-      damage = 1.5f;
+      damage = 2.0f;
       intensity = 1;
     }
 
     if (ticks > 40) {
-      damage = 2.0f;
+      damage = 2.5f;
       intensity = 2;
     }
 
