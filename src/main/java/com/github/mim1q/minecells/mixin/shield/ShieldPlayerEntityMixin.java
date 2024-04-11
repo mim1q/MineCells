@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
@@ -99,8 +100,33 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
     Consumer<RangedDamageContext> rangedEffect,
     boolean isParry
   ) {
+    if (getWorld().isClient) return;
     baseEffect.accept(context);
     var source = context.source();
+
+    var particle = shieldType.getParticle();
+
+    if (particle != null) {
+      var world = (ServerWorld) getWorld();
+      var particlePos = getPos()
+        .add(0, getHeight() / 2.0, 0)
+        .add(getRotationVector()
+          .normalize()
+          .multiply(0.5)
+        );
+
+      world.spawnParticles(
+        shieldType.getParticle(),
+        particlePos.getX(),
+        particlePos.getY(),
+        particlePos.getZ(),
+        isParry ? 10 : 3,
+        0.2,
+        0.2,
+        0.2,
+        0.1
+      );
+    }
 
     var attacker = source.getAttacker();
     if (attacker instanceof LivingEntity livingAttacker) {
@@ -108,11 +134,12 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
       if (projectile instanceof ProjectileEntity projectileEntity) {
         rangedEffect.accept(context.toRanged(livingAttacker, projectileEntity));
       } else {
-        meleeEffect.accept(context.toMelee(livingAttacker));
         if (isParry) {
           livingAttacker.setVelocity(Vec3d.ZERO);
+          livingAttacker.takeKnockback(1, livingAttacker.getX() - getX(), livingAttacker.getZ() - getZ());
           livingAttacker.damage(getWorld().getDamageSources().playerAttack(getThis()), shieldType.getParryDamage());
         }
+        meleeEffect.accept(context.toMelee(livingAttacker));
       }
     }
   }

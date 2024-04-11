@@ -8,6 +8,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Box;
 
 import java.util.function.Consumer;
@@ -80,6 +82,7 @@ public class CustomShieldType {
         StatusEffects.SLOWNESS, 30, 0, false, false, true
       ));
     };
+    it.particle = ParticleTypes.SNOWFLAKE;
   });
 
   public static final CustomShieldType GREED = new CustomShieldType(it -> {
@@ -96,6 +99,8 @@ public class CustomShieldType {
   private float blockAngle = 90f;
   private float parryTime = 5f;
   private float parryDamage = 6.0f;
+
+  private ParticleEffect particle = null;
 
   private Consumer<ShieldUseContext> onUse = context -> {};
   private Consumer<DamageContext> onParry = context -> {};
@@ -124,6 +129,10 @@ public class CustomShieldType {
 
   public float getParryDamage() {
     return parryDamage;
+  }
+
+  public ParticleEffect getParticle() {
+    return particle;
   }
 
   public void onUse(ShieldUseContext context) {
