@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon.shield;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -23,6 +24,12 @@ public class CustomShieldItem extends Item {
   }
 
   @Override
+  public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+    super.usageTick(world, user, stack, remainingUseTicks);
+    shieldType.onHold(new CustomShieldType.ShieldHoldContext((PlayerEntity) user, MAX_USE_DURATION - remainingUseTicks));
+  }
+
+  @Override
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
     shieldType.onUse(new CustomShieldType.ShieldUseContext(user));
     return ItemUsage.consumeHeldItem(world, user, hand);
@@ -38,12 +45,11 @@ public class CustomShieldItem extends Item {
     return MAX_USE_DURATION;
   }
 
-  public static boolean shouldTryToBlock(
+  public static Float getAngleDifference(
     PlayerEntity player,
-    DamageSource source,
-    float maxAngleDifference
+    DamageSource source
   ) {
-    if (source.getPosition() == null) return false;
+    if (source.getPosition() == null) return null;
 
     var damageDirection = source.getPosition().subtract(player.getPos());
     var playerRotation = player.getRotationVector();
@@ -52,8 +58,6 @@ public class CustomShieldItem extends Item {
     var aMagnitude = damageDirection.length();
     var bMagnitude = playerRotation.length();
 
-    var angleDifference = (float) toDegrees(acos(dotProduct / (aMagnitude * bMagnitude)));
-
-    return angleDifference <= maxAngleDifference;
+    return (float) toDegrees(acos(dotProduct / (aMagnitude * bMagnitude)));
   }
 }

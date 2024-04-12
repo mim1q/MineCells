@@ -2,14 +2,19 @@ package com.github.mim1q.minecells.item.weapon.shield;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 
 import java.util.function.Consumer;
@@ -45,8 +50,29 @@ public class CustomShieldType {
 
   public static final CustomShieldType ASSAULT = new CustomShieldType(it -> {
     it.blockDamageReduction = 0.6f;
+    it.parryAngle = 360f;
     it.onUse = context -> {
-      MineCells.LOGGER.info("TODO: Assault shield use");
+      context.player().setVelocity(context.player().getRotationVector()
+        .multiply(0.5, 0.0, 0.5)
+        .normalize()
+        .multiply(1.5)
+        .add(0.0, 0.2, 0.0)
+      );
+    };
+    it.onHold = context -> {
+      var user = context.player();
+      if (context.useTicks() < 10) {
+        var box = user.getBoundingBox().expand(1.0);
+        var entities = user.getEntityWorld().getOtherEntities(
+          user,
+          box,
+          entity -> entity instanceof LivingEntity
+        );
+        entities.forEach(entity -> {
+          ((LivingEntity) entity).takeKnockback(0.5, entity.getX() - user.getX(), entity.getZ() - user.getZ());
+          entity.damage(user.getWorld().getDamageSources().playerAttack(user), 2.0f);
+        });
+      }
     };
   });
 
@@ -87,7 +113,27 @@ public class CustomShieldType {
 
   public static final CustomShieldType GREED = new CustomShieldType(it -> {
     it.onMeleeParry = context -> {
-      MineCells.LOGGER.info("TODO: Greed parry");
+      var serverWorld = (ServerWorld) context.player().getWorld();
+      var lootTable = serverWorld
+        .getServer()
+        .getLootManager()
+        .getLootTable(MineCells.createId("gameplay/greed_shield_parry"));
+
+      var attacker = context.attacker();
+
+      var lootContext = new LootContextParameterSet.Builder(serverWorld)
+        .add(LootContextParameters.THIS_ENTITY, attacker)
+        .add(LootContextParameters.ORIGIN, attacker.getPos())
+        .add(LootContextParameters.DAMAGE_SOURCE, context.source())
+        .addOptional(LootContextParameters.KILLER_ENTITY, context.player())
+        .addOptional(LootContextParameters.DIRECT_KILLER_ENTITY, context.player())
+        .build(LootContextTypes.ENTITY);
+
+      lootTable.generateLoot(lootContext, stack -> {
+        var item = new ItemEntity(serverWorld, attacker.getX(), attacker.getY() + attacker.getHeight() / 2.0, attacker.getZ(), stack);
+        item.setPickupDelay(20);
+        serverWorld.spawnEntity(item);
+      });
     };
   });
 
@@ -97,6 +143,7 @@ public class CustomShieldType {
   //#region Class Definition
   private float blockDamageReduction = 0.5f;
   private float blockAngle = 90f;
+  private float parryAngle = 90f;
   private float parryTime = 5f;
   private float parryDamage = 6.0f;
 
@@ -107,6 +154,7 @@ public class CustomShieldType {
   private Consumer<MeleeDamageContext> onMeleeParry = context -> {};
   private Consumer<RangedDamageContext> onRangedParry = context -> {};
 
+  private Consumer<ShieldHoldContext> onHold = context -> {};
   private Consumer<DamageContext> onBlock = context -> {};
   private Consumer<MeleeDamageContext> onMeleeBlock = context -> {};
   private Consumer<RangedDamageContext> onRangedBlock = context -> {};
@@ -121,6 +169,10 @@ public class CustomShieldType {
 
   public float getBlockAngle() {
     return blockAngle;
+  }
+
+  public float getParryAngle() {
+    return parryAngle;
   }
 
   public float getParryTime() {
@@ -151,6 +203,10 @@ public class CustomShieldType {
     onRangedParry.accept(context);
   }
 
+  public void onHold(ShieldHoldContext context) {
+    onHold.accept(context);
+  }
+
   public void onBlock(DamageContext context) {
     onBlock.accept(context);
   }
@@ -167,6 +223,12 @@ public class CustomShieldType {
   //#region Context Classes
   public record ShieldUseContext(
     PlayerEntity player
+  ) {
+  }
+
+  public record ShieldHoldContext(
+    PlayerEntity player,
+    int useTicks
   ) {
   }
 

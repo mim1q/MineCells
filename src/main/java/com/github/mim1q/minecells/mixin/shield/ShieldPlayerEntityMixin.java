@@ -50,43 +50,45 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
 
     var activeItem = getActiveItem();
     if (activeItem.getItem() instanceof CustomShieldItem shield) {
-      if (CustomShieldItem.shouldTryToBlock(getThis(), source, shield.shieldType.getBlockAngle())) {
+      var angleDifference = CustomShieldItem.getAngleDifference(getThis(), source);
+      var parryTime = shield.shieldType.getParryTime();
+      var damageContext = new DamageContext(source, getThis(), amount);
+      var isParry = this.getItemUseTime() <= parryTime;
+      var maxAngle = isParry ? shield.shieldType.getParryAngle() : shield.shieldType.getBlockAngle();
 
-        var parryTime = shield.shieldType.getParryTime();
-        var damageContext = new DamageContext(source, getThis(), amount);
+      if (angleDifference == null || angleDifference > maxAngle) return;
 
-        getWorld().playSound(null, getX(), getY(), getZ(), SoundEvents.ITEM_SHIELD_BLOCK, getSoundCategory(), 1f, 1f);
+      getWorld().playSound(null, getX(), getY(), getZ(), SoundEvents.ITEM_SHIELD_BLOCK, getSoundCategory(), 1f, 1f);
 
-        if (this.getItemUseTime() <= parryTime) {
-          applyShieldEffects(
-            shield.shieldType,
-            damageContext,
-            shield.shieldType::onParry,
-            shield.shieldType::onMeleeParry,
-            shield.shieldType::onRangedParry,
-            true
-          );
-          getWorld().playSound(null, getX(), getY(), getZ(), MineCellsSounds.CRIT, getSoundCategory(), 1f, 1f);
+      if (isParry) {
+        applyShieldEffects(
+          shield.shieldType,
+          damageContext,
+          shield.shieldType::onParry,
+          shield.shieldType::onMeleeParry,
+          shield.shieldType::onRangedParry,
+          true
+        );
+        getWorld().playSound(null, getX(), getY(), getZ(), MineCellsSounds.CRIT, getSoundCategory(), 1f, 1f);
 
-          cir.setReturnValue(false);
-        } else {
+        cir.setReturnValue(false);
+      } else {
 
-          minecells$shieldBlocking = true;
+        minecells$shieldBlocking = true;
 
-          var reduction = shield.shieldType.getBlockDamageReduction();
-          var result = damage(source, amount * (1f - reduction));
+        var reduction = shield.shieldType.getBlockDamageReduction();
+        var result = damage(source, amount * (1f - reduction));
 
-          applyShieldEffects(
-            shield.shieldType,
-            damageContext,
-            shield.shieldType::onBlock,
-            shield.shieldType::onMeleeBlock,
-            shield.shieldType::onRangedBlock,
-            false
-          );
+        applyShieldEffects(
+          shield.shieldType,
+          damageContext,
+          shield.shieldType::onBlock,
+          shield.shieldType::onMeleeBlock,
+          shield.shieldType::onRangedBlock,
+          false
+        );
 
-          cir.setReturnValue(result);
-        }
+        cir.setReturnValue(result);
       }
     }
   }
