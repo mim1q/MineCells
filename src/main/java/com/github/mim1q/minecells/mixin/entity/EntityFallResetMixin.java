@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.mixin.entity;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.FallResetHeightEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
@@ -9,7 +10,9 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
@@ -26,52 +29,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityFallResetMixin implements FallResetHeightEntityAccessor {
-  @Shadow
-  public abstract double getY();
+  @Shadow public abstract double getY();
+  @Shadow public abstract World getWorld();
+  @Shadow public abstract ChunkPos getChunkPos();
+  @Shadow public abstract BlockPos getBlockPos();
+  @Shadow public abstract void teleport(double destX, double destY, double destZ);
+  @Shadow public float fallDistance;
+  @Shadow public abstract boolean damage(DamageSource source, float amount);
+  @Shadow public abstract void setVelocity(Vec3d velocity);
+  @Shadow public abstract EntityType<?> getType();
+  @Shadow public abstract double getX();
+  @Shadow public abstract float getYaw(float tickDelta);
+  @Shadow public abstract double getZ();
+  @Shadow public int age;
+  @Shadow public abstract void discard();
+  @Shadow public abstract boolean isPlayer();
+  @Shadow public abstract Text getName();
 
-  @Shadow
-  public abstract World getWorld();
-
-  @Shadow
-  public abstract ChunkPos getChunkPos();
-
-  @Shadow
-  public abstract BlockPos getBlockPos();
-
-  @Shadow
-  public abstract void teleport(double destX, double destY, double destZ);
-
-  @Shadow
-  public float fallDistance;
-
-  @Shadow
-  public abstract boolean damage(DamageSource source, float amount);
-
-  @Shadow
-  public abstract void setVelocity(Vec3d velocity);
-
-  @Shadow
-  public abstract EntityType<?> getType();
-
-  @Shadow
-  public abstract double getX();
-
-  @Shadow
-  public abstract float getYaw(float tickDelta);
-
-  @Shadow
-  public abstract double getZ();
-
-  @Shadow
-  public int age;
-
-  @Shadow
-  public abstract void discard();
-
-  @Unique
-  private Double fallResetY = 0.0;
-  @Unique
-  private BlockPos lastSolidBlock;
+  @Unique private Double fallResetY = 0.0;
+  @Unique private BlockPos lastSolidBlock;
+  @Unique private RegistryKey<World> lastWorld;
 
   @Inject(
     method = "<init>",
@@ -91,6 +68,7 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
       return;
     }
     ((EntityFallResetMixin) (Object) result).fallResetY = MineCellsDimension.getFallResetHeight(destination);
+    lastSolidBlock = null;
   }
 
   @Inject(
@@ -98,14 +76,25 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
     at = @At("HEAD")
   )
   private void minecells$injectTick(CallbackInfo ci) {
+    var worldKey = getWorld().getRegistryKey();
+    if (!worldKey.equals(lastWorld)) {
+      lastSolidBlock = null;
+      lastWorld = worldKey;
+      fallResetY = MineCellsDimension.getFallResetHeight(getWorld());
+
+      return;
+    }
+
     if (
       getWorld().isClient
+        || this.age < 10
         || fallResetY == null
         || (((Entity) (Object) this) instanceof PlayerEntity player && (
         player.isCreative() || player.isSpectator())
       )) {
       return;
     }
+
     if (getY() < fallResetY) {
       if (this.getType() == EntityType.ITEM) {
         if (age % 20 != 0) {
@@ -129,7 +118,18 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
         damage(getWorld().getDamageSources().fall(), 100.0F);
         return;
       }
+
       var tpPos = minecells$getResetToPos();
+
+      if (this.isPlayer()) {
+        MineCells.LOGGER.info("Fall protection mechanic triggered for Player {} at {} from {} in dimension {}",
+          this.getName().getString(),
+          tpPos.toShortString(),
+          getBlockPos().toShortString(),
+          getWorld().getRegistryKey().getValue()
+        );
+      }
+
       this.teleport(tpPos.getX() + 0.5, tpPos.getY() + 0.5, tpPos.getZ() + 0.5);
       this.setVelocity(Vec3d.ZERO);
       fallDistance = 0.0f;

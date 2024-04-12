@@ -28,10 +28,14 @@ public class TeleportUtils {
     );
 
     if (shouldRunOnMainThread()) {
-      targetWorld.getServer().execute(() -> FabricDimensions.teleport(entity, targetWorld, target));
+      targetWorld.getServer().execute(() -> {
+        FabricDimensions.teleport(entity, targetWorld, target);
+        entity.setPosition(position);
+      });
       return;
     }
 
     FabricDimensions.teleport(entity, targetWorld, target);
+    entity.setPosition(position);
   }
 }

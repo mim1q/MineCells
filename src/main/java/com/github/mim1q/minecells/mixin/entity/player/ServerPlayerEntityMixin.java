@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.mixin.entity.player;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.accessor.FallResetHeightEntityAccessor;
 import com.github.mim1q.minecells.accessor.MineCellsBorderEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
@@ -90,14 +89,5 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
   void minecells$injectOnSpawn(CallbackInfo ci) {
     MineCellsData.syncCurrentPlayerData((ServerPlayerEntity) (Object) this, this.getServerWorld());
     MineCells.DIMENSION_GRAPH.saveStuckPlayer((ServerPlayerEntity) (Object) this);
-    ((FallResetHeightEntityAccessor) this).setFallResetY(MineCellsDimension.getFallResetHeight(getWorld()));
-  }
-
-  @Inject(
-    method = "setServerWorld",
-    at = @At("RETURN")
-  )
-  private void minecells$injectSetServerWorld(ServerWorld world, CallbackInfo ci) {
-    ((FallResetHeightEntityAccessor) this).setFallResetY(MineCellsDimension.getFallResetHeight(world));
   }
 }
