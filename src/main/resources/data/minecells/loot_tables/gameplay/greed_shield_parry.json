@@ -9,12 +9,12 @@
             {
               "type": "minecraft:item",
               "name": "minecraft:gold_nugget",
-              "weight": 50
+              "weight": 40
             },
             {
               "type": "minecraft:item",
               "name": "minecraft:iron_nugget",
-              "weight": 50
+              "weight": 40
             },
             {
               "type": "minecraft:item",

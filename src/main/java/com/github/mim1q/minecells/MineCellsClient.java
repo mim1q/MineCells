@@ -107,6 +107,10 @@ public class MineCellsClient implements ClientModInitializer {
     ScreenShakeModifiers.setModifier("minecells:weapon_flint", CLIENT_CONFIG.screenShake.weaponFlint);
     ScreenShakeModifiers.setModifier("minecells:weapon_lightning_bolt", CLIENT_CONFIG.screenShake.weaponLightningBolt);
 
+    // Shields
+    ScreenShakeModifiers.setModifier("minecells:shield_block", CLIENT_CONFIG.screenShake.shieldBlock);
+    ScreenShakeModifiers.setModifier("minecells:shield_parry", CLIENT_CONFIG.screenShake.shieldParry);
+
     // Conjunctivius
     ScreenShakeModifiers.setModifier("minecells:conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
     ScreenShakeModifiers.setModifier("minecells:conjunctivius_roar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);

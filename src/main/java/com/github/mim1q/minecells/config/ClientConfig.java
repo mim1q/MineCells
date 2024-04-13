@@ -42,6 +42,10 @@ public class ClientConfig implements Config {
     public float weaponFlint = 1.5f;
     public float weaponLightningBolt = 0.5f;
 
+    @Comment(" Shields")
+    public float shieldBlock = 0.4f;
+    public float shieldParry = 0.8f;
+
     @Comment(" Conjunctivius Boss")
     public float conjunctiviusSmash = 1f;
     public float conjunctiviusRoar = 1f;

@@ -6,11 +6,13 @@ import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType.DamageCont
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType.MeleeDamageContext;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType.RangedDamageContext;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -129,6 +131,14 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
         0.1
       );
     }
+
+    var shakeModifier = isParry ? "minecells:shield_parry" : "minecells:shield_block";
+    ScreenShakeUtils.applyShake(
+      (ServerPlayerEntity) getThis(),
+      1.0f,
+      20,
+      shakeModifier
+    );
 
     var attacker = source.getAttacker();
     if (attacker instanceof LivingEntity livingAttacker) {
