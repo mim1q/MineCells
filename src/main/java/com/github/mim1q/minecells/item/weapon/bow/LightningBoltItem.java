@@ -25,6 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class LightningBoltItem extends Item implements CritIndicator {
   private static final int MAX_USE_TIME = 60 * 60 * 20;
+  private static final double SELECT_DISTANCE = 6.0;
+  private static final double MAX_DISTANCE = 12.0;
 
   public LightningBoltItem(Settings settings) {
     super(settings);
@@ -157,45 +159,51 @@ public class LightningBoltItem extends Item implements CritIndicator {
 
     if (world.isClient || !entity.isPlayer()) return;
 
-    if (selected && !((PlayerEntity) entity).getItemCooldownManager().isCoolingDown(this)) {
-      var startPos = entity.getPos().add(0, entity.getHeight() / 2.0, 0);
-      var direction = entity.getRotationVector();
-      var length = 5.5;
-      var endPos = startPos.add(direction.multiply(length));
+    var player = (PlayerEntity) entity;
 
-      var blockRaycast = world.raycast(new RaycastContext(
-        startPos,
-        endPos,
-        RaycastContext.ShapeType.COLLIDER,
-        RaycastContext.FluidHandling.NONE,
-        entity
-      ));
-
-      if (blockRaycast.getType() != Type.MISS) {
-        length = blockRaycast.getPos().distanceTo(startPos);
-      }
-
-      LivingEntity selectedEntity = null;
-      for (var delta = 1.0; delta <= length; delta += 0.5) {
-        var pos = startPos.add(direction.multiply(delta));
-        var box = Box.of(pos, 1.0, 1.0, 1.0);
-        var entities = world.getEntitiesByClass(LivingEntity.class, box, it -> it != entity);
-        if (!entities.isEmpty()) {
-          selectedEntity = entities.get(0);
-          break;
-        }
-      }
-
-      if (selectedEntity == null) {
-        setTargetedEntity(stack, null);
-        return;
-      }
-
-      setTargetedEntity(stack, selectedEntity);
-
-    } else {
+    if (!selected || player.getItemCooldownManager().isCoolingDown(this)) {
       setTargetedEntity(stack, null);
+      return;
     }
+    var startPos = entity.getPos().add(0, entity.getHeight() / 2.0, 0);
+    var direction = entity.getRotationVector();
+    var length = SELECT_DISTANCE;
+    var endPos = startPos.add(direction.multiply(length));
+
+    var blockRaycast = world.raycast(new RaycastContext(
+      startPos,
+      endPos,
+      RaycastContext.ShapeType.COLLIDER,
+      RaycastContext.FluidHandling.NONE,
+      entity
+    ));
+
+    if (blockRaycast.getType() != Type.MISS) {
+      length = blockRaycast.getPos().distanceTo(startPos);
+    }
+
+    LivingEntity selectedEntity = null;
+    for (var delta = 1.0; delta <= length; delta += 0.5) {
+      var pos = startPos.add(direction.multiply(delta));
+      var box = Box.of(pos, 1.0, 1.0, 1.0);
+      var entities = world.getEntitiesByClass(LivingEntity.class, box, it -> it != entity);
+      if (!entities.isEmpty()) {
+        selectedEntity = entities.get(0);
+        break;
+      }
+    }
+
+    if (selectedEntity == null) {
+      var currentTarget = getTargetedEntity(stack, world);
+      if (currentTarget == null) return;
+
+      if (!player.isUsingItem() || currentTarget.distanceTo(player) > MAX_DISTANCE) {
+        setTargetedEntity(stack, null);
+      }
+      return;
+    }
+
+    setTargetedEntity(stack, selectedEntity);
   }
 
   @Override
