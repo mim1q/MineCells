@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.accessor.FallResetHeightEntityAccessor;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
 import net.minecraft.entity.Entity;
@@ -28,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(Entity.class)
-public abstract class EntityFallResetMixin implements FallResetHeightEntityAccessor {
+public abstract class EntityFallResetMixin {
   @Shadow public abstract double getY();
   @Shadow public abstract World getWorld();
   @Shadow public abstract ChunkPos getChunkPos();
@@ -166,10 +165,5 @@ public abstract class EntityFallResetMixin implements FallResetHeightEntityAcces
     }
 
     return resetToPos;
-  }
-
-  @Override
-  public void setFallResetY(Double y) {
-    this.fallResetY = y;
   }
 }
