@@ -12,7 +12,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -124,7 +123,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
 
   @Override
   protected ItemStack asItemStack() {
-    return new ItemStack(Items.ARROW);
+    return arrowType.getAmmoItem().map(ItemStack::new).orElse(ItemStack.EMPTY);
   }
 
   @Override

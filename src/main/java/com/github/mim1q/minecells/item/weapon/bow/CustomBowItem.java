@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
@@ -20,10 +19,16 @@ public class CustomBowItem extends RangedWeaponItem {
   private final static int MAX_USE_TIME = 60 * 60 * 20;
 
   protected final CustomArrowType arrowType;
+  protected final int maxProjectileCount;
 
-  public CustomBowItem(Settings settings, CustomArrowType arrowType) {
+  protected CustomBowItem(Settings settings, CustomArrowType arrowType, int maxProjectileCount) {
     super(settings);
     this.arrowType = arrowType;
+    this.maxProjectileCount = maxProjectileCount;
+  }
+
+  public CustomBowItem(Settings settings, CustomArrowType arrowType) {
+    this(settings, arrowType, 1);
   }
 
   @Override
@@ -34,6 +39,7 @@ public class CustomBowItem extends RangedWeaponItem {
     if (ticks < getDrawTime(stack) || !user.isPlayer()) return;
 
     shoot(world, user, stack);
+    loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
   }
 
   protected void shoot(World world, LivingEntity user, ItemStack stack) {
@@ -51,8 +57,12 @@ public class CustomBowItem extends RangedWeaponItem {
 
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
     var stack = user.getStackInHand(hand);
-    var hasProjectile = !user.getProjectileType(stack).isEmpty();
-    if (hasProjectile || user.getAbilities().creativeMode) {
+    var projectileStack = user.getProjectileType(stack);
+    var projectileNeeded = arrowType.getAmmoItem().isPresent();
+
+    var hasProjectile = !projectileStack.isEmpty();
+
+    if (hasProjectile || !projectileNeeded) {
       world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 0.5f, 0.8f);
       user.setCurrentHand(hand);
       return TypedActionResult.consume(stack);
@@ -63,7 +73,28 @@ public class CustomBowItem extends RangedWeaponItem {
 
   @Override
   public Predicate<ItemStack> getProjectiles() {
-    return item -> item.getItem() instanceof ArrowItem;
+    return item -> arrowType.getAmmoItem()
+      .map(arrow -> item.getItem() == arrow)
+      .orElse(true);
+  }
+
+  protected final int loadMaxProjectiles(World world, PlayerEntity user, ItemStack bow, ItemStack arrow, int maxCount) {
+    if (
+      user.isCreative()
+      || world.isClient
+      || arrow.isEmpty()
+      || arrowType.getAmmoItem().isEmpty()
+    ) {
+      return maxCount;
+    }
+
+    for (int i = 0; i < maxCount; i++) {
+      if (arrow.isEmpty()) {
+        return i;
+      }
+      arrow.decrement(1);
+    }
+    return maxCount;
   }
 
   @Override

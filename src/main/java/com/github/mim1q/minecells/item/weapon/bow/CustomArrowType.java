@@ -8,7 +8,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -18,6 +20,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -52,6 +55,7 @@ public class CustomArrowType {
       context.target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, 100));
     };
     it.particle = ParticleTypes.SNOWFLAKE;
+    it.ammo = Items.SNOWBALL;
   });
 
   public static final CustomArrowType EXPLOSIVE_BOLT = create("explosive_bolt", it -> {
@@ -65,6 +69,7 @@ public class CustomArrowType {
       context.arrow.discard();
     };
     it.particle = ParticleTypes.SMOKE;
+    it.ammo = Items.TNT;
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
@@ -96,7 +101,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType ENDLESS = create("endless", it -> {
-
+    it.ammo = null;
   });
 
   private static void placeFire(ArrowBlockHitContext context) {
@@ -141,6 +146,7 @@ public class CustomArrowType {
   private Consumer<ArrowBlockHitContext> onBlockHit = context -> {};
   private Function<ArrowEntityHitContext, Boolean> shouldCrit = context -> false;
   private int cooldown = 0;
+  private Item ammo = Items.ARROW;
 
   private CustomArrowType(String name) {
     this.name = name;
@@ -192,6 +198,10 @@ public class CustomArrowType {
 
   public int getCooldown() {
     return cooldown;
+  }
+
+  public Optional<Item> getAmmoItem() {
+    return Optional.ofNullable(ammo);
   }
 
   //#endregion

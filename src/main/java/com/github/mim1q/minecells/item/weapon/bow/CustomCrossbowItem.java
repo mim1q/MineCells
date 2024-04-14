@@ -24,6 +24,7 @@ public class CustomCrossbowItem extends CustomBowItem {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
     if (!CrossbowItem.isCharged(stack) && ticks > getDrawTime(stack) && user.isPlayer()) {
       CrossbowItem.setCharged(stack, true);
+      loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
     }
   }
 
