@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class MultipleNocksBowItem extends CustomBowItem {
   public MultipleNocksBowItem(Settings settings) {
-    super(settings, CustomArrowType.MULTIPLE_NOCKS);
+    super(settings, CustomArrowType.MULTIPLE_NOCKS, 3);
   }
 
   @Override
@@ -18,8 +18,14 @@ public class MultipleNocksBowItem extends CustomBowItem {
     world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_RELEASE, SoundCategory.PLAYERS, 0.7f, 0.9f);
 
     var velocity = user.getRotationVec(1f).multiply(arrowType.getSpeed());
-    spawnArrow(world, (PlayerEntity) user, stack, velocity);
-    spawnArrow(world, (PlayerEntity) user, stack, velocity.rotateY(MathUtils.radians(15)));
-    spawnArrow(world, (PlayerEntity) user, stack, velocity.rotateY(MathUtils.radians(-15)));
+    var angle = 15;
+    var loaded = getLoadedProjectiles(stack);
+
+    for (int i = 0; i < loaded; i++) {
+      spawnArrow(world, (PlayerEntity) user, stack, velocity.rotateY(MathUtils.radians(angle)));
+      angle -= 15;
+    }
+
+    setLoadedProjectiles(stack, 0);
   }
 }

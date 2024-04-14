@@ -15,6 +15,10 @@ public class MineCellsDamageSource {
     this.key = key;
   }
 
+  public DamageSource get(World world, Entity entity, Entity indirectEntity) {
+    return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key), entity, indirectEntity);
+  }
+
   public DamageSource get(World world, Entity entity) {
     return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key), entity);
   }
@@ -23,9 +27,9 @@ public class MineCellsDamageSource {
     return get(world, null);
   }
 
-  public static final MineCellsDamageSource ELEVATOR = create("elevator"); // new DamageType("minecells.elevator").setBypassesArmor();
-  public static final MineCellsDamageSource CURSED = create("cursed"); // new DamageSource("minecells.cursed").setBypassesArmor().setBypassesProtection();
-  public static final MineCellsDamageSource BLEEDING = create("bleeding"); // new DamageSource("minecells.bleeding").setBypassesArmor().setBypassesProtection();
+  public static final MineCellsDamageSource ELEVATOR = create("elevator");
+  public static final MineCellsDamageSource CURSED = create("cursed");
+  public static final MineCellsDamageSource BLEEDING = create("bleeding");
   public static final MineCellsDamageSource KATANA = create("katana");
   public static final MineCellsDamageSource BACKSTAB = create("backstab");
   public static final MineCellsDamageSource AURA = create("aura");

@@ -1,22 +1,27 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.misc.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -73,7 +78,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
-    it.speed = 1.5f;
+    it.speed = 2.2f;
     it.defaultDamage = 7f;
     it.drawTime = 6;
     it.spread = 3f;
@@ -90,10 +95,12 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType HEAVY_BOLT = create("heavy_bolt", it -> {
-    it.defaultDamage = 12f;
+    it.defaultDamage = 6f;
+    it.drawTime = 30;
     it.speed = 0.6f;
-    it.maxAge = 5;
-    it.spread = 30;
+    it.maxAge = 10;
+    it.spread = 45;
+    it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
 
   public static final CustomArrowType MULTIPLE_NOCKS = create("multiple_nocks", it -> {
@@ -106,7 +113,17 @@ public class CustomArrowType {
 
   private static void placeFire(ArrowBlockHitContext context) {
     var blockPos = context.hitBlockPos().add(context.hitFace().getVector());
-    var fireState = Blocks.FIRE.getDefaultState();
+    var fireState = Blocks.FIRE.getPlacementState(new ItemPlacementContext(
+      context.shooter(),
+      context.shooter().getActiveHand(),
+      context.bow(),
+      new BlockHitResult(
+        context.hitPos(),
+        context.hitFace(),
+        context.hitBlockPos(),
+        false
+      )
+    ));
     if (context.world.getBlockState(blockPos).isReplaceable()) {
       context.world.setBlockState(blockPos, fireState);
     }
@@ -145,6 +162,7 @@ public class CustomArrowType {
   private Consumer<ArrowEntityHitContext> onEntityHit = context -> {};
   private Consumer<ArrowBlockHitContext> onBlockHit = context -> {};
   private Function<ArrowEntityHitContext, Boolean> shouldCrit = context -> false;
+  private DamageSourceFactory damageSourceFactory = (world, arrow, shooter) -> world.getDamageSources().mobProjectile(arrow, shooter);
   private int cooldown = 0;
   private Item ammo = Items.ARROW;
 
@@ -204,6 +222,10 @@ public class CustomArrowType {
     return Optional.ofNullable(ammo);
   }
 
+  public DamageSource getDamageSource(World world, CustomArrowEntity arrow, LivingEntity shooter) {
+    return damageSourceFactory.create(world, arrow, shooter);
+  }
+
   //#endregion
 
   //#region Static methods
@@ -228,6 +250,11 @@ public class CustomArrowType {
   //#endregion
 
   //#region Context classes
+  @FunctionalInterface
+  public interface DamageSourceFactory {
+    DamageSource create(World world, CustomArrowEntity arrow, LivingEntity shooter);
+  }
+
   public record ArrowEntityHitContext(
     ServerWorld world,
     ItemStack bow,

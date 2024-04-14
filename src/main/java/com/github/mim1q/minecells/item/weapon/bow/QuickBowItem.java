@@ -17,6 +17,8 @@ public class QuickBowItem extends CustomBowItem {
 
     if (remainingUseTicks == 1) {
       shoot(world, user, stack);
+      var arrow = user.getProjectileType(stack);
+      loadMaxProjectiles(world, (PlayerEntity) user, stack, arrow, this.maxProjectileCount);
     }
   }
 

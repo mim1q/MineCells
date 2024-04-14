@@ -3,7 +3,9 @@ package com.github.mim1q.minecells.item.weapon.bow;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
@@ -38,8 +40,9 @@ public class CustomBowItem extends RangedWeaponItem {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
     if (ticks < getDrawTime(stack) || !user.isPlayer()) return;
 
+    var loaded = loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
+    setLoadedProjectiles(stack, loaded);
     shoot(world, user, stack);
-    loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
   }
 
   protected void shoot(World world, LivingEntity user, ItemStack stack) {
@@ -47,12 +50,14 @@ public class CustomBowItem extends RangedWeaponItem {
 
     var velocity = user.getRotationVec(1f);
     spawnArrow(world, (PlayerEntity) user, stack, velocity);
+    setLoadedProjectiles(stack, 0);
   }
 
-  protected void spawnArrow(World world, PlayerEntity user, ItemStack stack, Vec3d velocity) {
+  protected CustomArrowEntity spawnArrow(World world, PlayerEntity user, ItemStack stack, Vec3d velocity) {
     var arrow = new CustomArrowEntity(world, user, arrowType, user.getEyePos(), stack);
     arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(), arrowType.getSpread());
     world.spawnEntity(arrow);
+    return arrow;
   }
 
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
@@ -124,5 +129,16 @@ public class CustomBowItem extends RangedWeaponItem {
       multiplier *= multiplier;
     }
     return 1.0f - multiplier * 0.15f;
+  }
+
+  public static int getLoadedProjectiles(ItemStack bow) {
+    var bowItem = (CustomBowItem) bow.getItem();
+    return bowItem.maxProjectileCount == 1 ? 1 : bow.getOrCreateNbt().getInt("LoadedProjectiles");
+  }
+
+  public static void setLoadedProjectiles(ItemStack bow, int count) {
+    var bowItem = (CustomBowItem) bow.getItem();
+    if (bowItem.maxProjectileCount == 1) return;
+    bow.getOrCreateNbt().putInt("LoadedProjectiles", count);
   }
 }

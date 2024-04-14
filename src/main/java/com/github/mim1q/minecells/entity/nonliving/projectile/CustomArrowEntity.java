@@ -90,7 +90,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
         getWorld().playSound(null, getOwner().getBlockPos(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1f, 1f);
         damage += arrowType.getAdditionalCritDamage();
       }
-      target.damage(getWorld().getDamageSources().mobProjectile(this, (PlayerEntity) this.getOwner()), damage);
+      target.damage(arrowType.getDamageSource(getWorld(), this, (LivingEntity) getOwner()), damage);
 
       this.getArrowType().onEntityHit(entityHitContext);
       this.discard();

@@ -17,6 +17,10 @@ public class CustomCrossbowItem extends CustomBowItem {
     super(settings, arrowType);
   }
 
+  protected CustomCrossbowItem(Settings settings, CustomArrowType arrowType, int maxProjectileCount) {
+    super(settings, arrowType, maxProjectileCount);
+  }
+
   @Override
   public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
     if (world.isClient) return;
@@ -24,7 +28,8 @@ public class CustomCrossbowItem extends CustomBowItem {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
     if (!CrossbowItem.isCharged(stack) && ticks > getDrawTime(stack) && user.isPlayer()) {
       CrossbowItem.setCharged(stack, true);
-      loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
+      var loaded = loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
+      CustomBowItem.setLoadedProjectiles(stack, loaded);
     }
   }
 
@@ -36,6 +41,11 @@ public class CustomCrossbowItem extends CustomBowItem {
       shoot(world, user, stack);
       CrossbowItem.setCharged(stack, false);
       return TypedActionResult.consume(stack);
+    }
+
+    var hasAmmo = !user.getProjectileType(stack).isEmpty() || user.isCreative();
+    if (!hasAmmo) {
+      return TypedActionResult.fail(stack);
     }
 
     world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 1f, 0.8f);
