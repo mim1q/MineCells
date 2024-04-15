@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.effect;
 
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
@@ -37,7 +38,7 @@ public class ElectrifiedStatusEffect extends StatusEffect {
 
     if (entity.age % interval != 0) return;
 
-    entity.damage(entity.getDamageSources().magic(), damage);
+    entity.damage(MineCellsDamageSource.ELECTRICITY.get(entity.getWorld()), damage);
     entity.getWorld().playSound(null, entity.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
 
     var serverWorld = (ServerWorld) entity.getWorld();

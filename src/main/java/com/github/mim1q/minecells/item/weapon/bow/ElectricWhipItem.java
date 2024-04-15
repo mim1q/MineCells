@@ -72,7 +72,7 @@ public class ElectricWhipItem extends Item {
       );
       for (var entity : entities) {
         entity.damage(
-          MineCellsDamageSource.AURA.get(world, user),
+          MineCellsDamageSource.ELECTRICITY.get(world, user),
           1.0f
         );
         ((LivingEntity) entity).addStatusEffect(

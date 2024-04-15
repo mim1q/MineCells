@@ -34,6 +34,8 @@ public class MineCellsDamageSource {
   public static final MineCellsDamageSource BACKSTAB = create("backstab");
   public static final MineCellsDamageSource AURA = create("aura");
   public static final MineCellsDamageSource GRENADE = create("grenade");
+  public static final MineCellsDamageSource HEAVY_BOLT = create("heavy_bolt");
+  public static final MineCellsDamageSource ELECTRICITY = create("electricity");
 
   private static MineCellsDamageSource create(String name) {
     return new MineCellsDamageSource(RegistryKey.of(RegistryKeys.DAMAGE_TYPE, MineCells.createId(name)));

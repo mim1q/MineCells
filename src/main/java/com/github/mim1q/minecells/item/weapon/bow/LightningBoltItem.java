@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
+import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
@@ -81,7 +82,7 @@ public class LightningBoltItem extends Item implements CritIndicator {
       }
 
       entity.damage(
-        world.getDamageSources().playerAttack((PlayerEntity) user),
+        MineCellsDamageSource.ELECTRICITY.get(world, user),
         damage
       );
 
