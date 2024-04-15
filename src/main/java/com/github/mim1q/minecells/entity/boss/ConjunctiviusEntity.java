@@ -14,6 +14,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.github.mim1q.minecells.util.client.ClientUtil;
+import dev.mim1q.gimm1q.interpolation.AnimatedProperty.EasingFunction;
 import dev.mim1q.gimm1q.interpolation.Easing;
 import dev.mim1q.gimm1q.interpolation.EasingUtils;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
@@ -47,6 +48,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -67,7 +69,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<BlockPos> ANCHOR_LEFT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
   public static final TrackedData<Integer> STAGE = registerData(ConjunctiviusEntity.class, INTEGER);
-  public static final TrackedData<Integer> ENTITY_ID = registerData(ConjunctiviusEntity.class, INTEGER);
+  public static final TrackedData<Integer> TARGET_ID = registerData(ConjunctiviusEntity.class, INTEGER);
 
   // Stages:
   // 0 - has not seen any player yet
@@ -90,6 +92,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private int stageTicks = 1;
   private int lastStage = 0;
 
+  private HashMap<LivingEntity, Integer> hitEntities = new HashMap<>();
+
+  private EasingFunction eyeEasing = Easing::lerp;
   private Vec3d eyeOffset = Vec3d.ZERO;
   private Vec3d lastEyeOffset = Vec3d.ZERO;
 
@@ -147,7 +152,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
     this.dataTracker.startTracking(STAGE, 0);
-    this.dataTracker.startTracking(ENTITY_ID, -1);
+    this.dataTracker.startTracking(TARGET_ID, -1);
   }
 
   @Override
@@ -180,7 +185,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.length = 130;
     }));
 
-    this.goalSelector.add(2, dashGoal);
+    this.goalSelector.add(3, dashGoal);
     this.goalSelector.add(9, auraGoal);
     this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
 
@@ -216,8 +221,13 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     } else {
       for (Entity e : getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25D))) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
+          var lastHit = this.hitEntities.getOrDefault(livingEntity, 0);
+
+          if (age - lastHit < 40) continue;
+
           this.tryAttack(livingEntity);
           this.knockback(livingEntity);
+          this.hitEntities.put(livingEntity, age);
         }
       }
       BlockPos.iterateOutwards(this.getBlockPos(), 3, 4, 3).forEach((blockPos) -> {
@@ -260,18 +270,9 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private void calculateEyeOffset() {
     this.lastEyeOffset = this.eyeOffset;
 
-    if (getEyeState() == ConjunctiviusEyeRenderer.EyeState.SHAKING) {
-      this.eyeOffset = new Vec3d(
-        (this.random.nextDouble() - 0.5) * 5.0,
-        (this.random.nextDouble() - 0.5) * 5.0,
-        0.0D
-      );
-      return;
-    }
-
     Vec3d targetPos = ClientUtil.getClientCameraPos();
 
-    var targetId = this.dataTracker.get(ENTITY_ID);
+    var targetId = this.dataTracker.get(TARGET_ID);
 
     if (targetId != -1) {
       var entity = getWorld().getEntityById(targetId);
@@ -291,6 +292,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     xOffset *= distance * 0.5F;
     yOffset *= distance * 0.5F;
 
+    if (getEyeState() == ConjunctiviusEyeRenderer.EyeState.SHAKING) {
+      xOffset = (this.random.nextFloat() - 0.5F) * 2.0F;
+      yOffset = (this.random.nextFloat() - 0.5F) * 2.0F;
+      this.eyeEasing = Easing::easeOutBack;
+    } else {
+      this.eyeEasing = Easing::lerp;
+    }
+
     xOffset = MathHelper.clamp(xOffset, -6F, 6F);
     yOffset = MathHelper.clamp(yOffset, -4F, 4F);
 
@@ -298,12 +307,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   public Vec3d getEyeOffset(float tickDelta) {
-    return EasingUtils.interpolateVec(this.lastEyeOffset, this.eyeOffset, tickDelta, Easing::lerp);
+    return EasingUtils.interpolateVec(this.lastEyeOffset, this.eyeOffset, tickDelta, this.eyeEasing);
   }
 
   @Override public void setTarget(@Nullable LivingEntity target) {
     super.setTarget(target);
-    this.dataTracker.set(ENTITY_ID, target == null ? -1 : target.getId());
+    this.dataTracker.set(TARGET_ID, target == null ? -1 : target.getId());
   }
 
   @Override
