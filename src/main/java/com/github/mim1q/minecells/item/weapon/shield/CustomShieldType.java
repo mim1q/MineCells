@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon.shield;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -52,8 +53,12 @@ public class CustomShieldType {
   public static final CustomShieldType ASSAULT = new CustomShieldType(it -> {
     it.blockDamageReduction = 0.6f;
     it.parryAngle = 360f;
+    it.cooldown = 60;
+    it.cooldownAfterParry = 20;
     it.onUse = context -> {
-      context.player().setVelocity(context.player().getRotationVector()
+      var user = context.player();
+      user.getWorld().playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.LEAPING_ZOMBIE_RELEASE, user.getSoundCategory(), 1.0f, 1.0f);
+      user.setVelocity(user.getRotationVector()
         .multiply(0.5, 0.0, 0.5)
         .normalize()
         .multiply(1.5)
@@ -155,6 +160,8 @@ public class CustomShieldType {
   private float parryAngle = 90f;
   private float parryTime = 5f;
   private float parryDamage = 6.0f;
+  private int cooldown = 20;
+  private int cooldownAfterParry = 5;
 
   private ParticleEffect particle = null;
 
@@ -194,6 +201,10 @@ public class CustomShieldType {
 
   public ParticleEffect getParticle() {
     return particle;
+  }
+
+  public int getCooldown(boolean parried) {
+    return parried ? cooldownAfterParry : cooldown;
   }
 
   public void onUse(ShieldUseContext context) {

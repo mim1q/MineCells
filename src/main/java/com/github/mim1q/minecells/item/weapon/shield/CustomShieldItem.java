@@ -36,6 +36,14 @@ public class CustomShieldItem extends Item {
   }
 
   @Override
+  public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+    var parried = hasParried(stack);
+    var cooldown = shieldType.getCooldown(parried);
+    ((PlayerEntity)user).getItemCooldownManager().set(this, cooldown);
+    setParried(stack, false);
+  }
+
+  @Override
   public UseAction getUseAction(ItemStack stack) {
     return UseAction.BLOCK;
   }
@@ -59,5 +67,13 @@ public class CustomShieldItem extends Item {
     var bMagnitude = playerRotation.length();
 
     return (float) toDegrees(acos(dotProduct / (aMagnitude * bMagnitude)));
+  }
+
+  public static void setParried(ItemStack stack, boolean parried) {
+    stack.getOrCreateNbt().putBoolean("parried", parried);
+  }
+
+  public static boolean hasParried(ItemStack stack) {
+    return stack.getOrCreateNbt().getBoolean("parried");
   }
 }

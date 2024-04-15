@@ -30,10 +30,10 @@ import java.util.function.Consumer;
 @Mixin(PlayerEntity.class)
 public abstract class ShieldPlayerEntityMixin extends LivingEntity {
   @Shadow public abstract boolean damage(DamageSource source, float amount);
-
   @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
-
   @Unique private boolean minecells$shieldBlocking = false;
+  @Unique private int minecells$lastBlockedTime = 0;
+  @Unique private LivingEntity minecells$lastBlockedEntity = null;
 
   private ShieldPlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -45,6 +45,11 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
     cancellable = true
   )
   private void minecells$onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    if (minecells$lastBlockedEntity == source.getAttacker() && age - minecells$lastBlockedTime < 10) {
+      cir.setReturnValue(false);
+      return;
+    }
+
     if (minecells$shieldBlocking) {
       minecells$shieldBlocking = false;
       return;
@@ -72,6 +77,7 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
           true
         );
         getWorld().playSound(null, getX(), getY(), getZ(), MineCellsSounds.CRIT, getSoundCategory(), 1f, 1f);
+        CustomShieldItem.setParried(activeItem, true);
 
         cir.setReturnValue(false);
       } else {
@@ -104,6 +110,9 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
     Consumer<RangedDamageContext> rangedEffect,
     boolean isParry
   ) {
+    this.minecells$lastBlockedTime = age;
+    this.minecells$lastBlockedEntity = context.source().getSource() instanceof LivingEntity entity ? entity : null;
+
     if (getWorld().isClient) return;
     baseEffect.accept(context);
     var source = context.source();
@@ -142,9 +151,9 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
 
     var attacker = source.getAttacker();
     if (attacker instanceof LivingEntity livingAttacker) {
-      var projectile = source.getSource();
-      if (projectile instanceof ProjectileEntity projectileEntity) {
-        rangedEffect.accept(context.toRanged(livingAttacker, projectileEntity));
+      var sourceEntity = source.getSource();
+      if (sourceEntity instanceof ProjectileEntity projectile) {
+        rangedEffect.accept(context.toRanged(livingAttacker, projectile));
       } else {
         if (isParry) {
           livingAttacker.setVelocity(Vec3d.ZERO);
