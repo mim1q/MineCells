@@ -704,10 +704,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     nbt.putIntArray("spawnPos", new int[]{
       (int) this.spawnPos.x, (int) this.spawnPos.y, (int) this.spawnPos.z
     });
-    nbt.putIntArray("roomBox", new int[]{
-      this.roomBox.getMinX(), this.roomBox.getMinY(), this.roomBox.getMinZ(),
-      this.roomBox.getMaxX(), this.roomBox.getMaxY(), this.roomBox.getMaxZ()
-    });
+    if (this.roomBox != null) {
+      nbt.putIntArray("roomBox", new int[]{
+        this.roomBox.getMinX(), this.roomBox.getMinY(), this.roomBox.getMinZ(),
+        this.roomBox.getMaxX(), this.roomBox.getMaxY(), this.roomBox.getMaxZ()
+      });
+    }
     nbt.putFloat("spawnRot", this.spawnRot);
     nbt.putIntArray("anchors", new int[]{
       this.getTopAnchor().getX(), this.getTopAnchor().getY(), this.getTopAnchor().getZ(),
