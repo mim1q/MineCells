@@ -73,7 +73,7 @@ public class ElectricWhipItem extends Item {
       for (var entity : entities) {
         entity.damage(
           MineCellsDamageSource.ELECTRICITY.get(world, user),
-          1.0f
+          4.0f
         );
         ((LivingEntity) entity).addStatusEffect(
           new StatusEffectInstance(

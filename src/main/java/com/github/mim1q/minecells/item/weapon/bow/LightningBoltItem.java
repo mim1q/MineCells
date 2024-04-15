@@ -46,23 +46,28 @@ public class LightningBoltItem extends Item implements CritIndicator {
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
 
 
-    var damage = 1.5f;
+    var damage = 2.0f;
     var intensity = 0;
 
     if (ticks > 20) {
-      damage = 2.0f;
+      damage = 2.5f;
       intensity = 1;
     }
 
     if (ticks > 40) {
-      damage = 2.5f;
+      damage = 3.0f;
       intensity = 2;
+    }
+
+    if (ticks > 60) {
+      damage = 4.0f;
+      intensity = 3;
     }
 
     if (ticks % 5 == 0) {
       ScreenShakeUtils.applyShake(
         (ServerPlayerEntity) user,
-        0.5f * intensity,
+        0.33f * intensity,
         20,
         "minecells:weapon_lightning_bolt"
       );

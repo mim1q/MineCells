@@ -16,6 +16,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.function.Consumer;
 
@@ -76,24 +77,32 @@ public class CustomShieldType {
     };
   });
 
-  public static final CustomShieldType BLOOD = new CustomShieldType(it -> {
-    it.onMeleeParry = context -> {
-      var entities = context.player.getWorld().getOtherEntities(
-        context.player,
-        Box.of(context.attacker.getPos(), 8, 8, 8),
-        entity ->
-          entity.distanceTo(context.attacker) <= 4
-          && entity != context.player
-          && entity instanceof LivingEntity
+  private static void applyBleedingAround(PlayerEntity user, Vec3d pos) {
+    var entities = user.getWorld().getOtherEntities(
+      null,
+      Box.of(pos, 8, 8, 8),
+      entity ->
+        entity.squaredDistanceTo(pos) <= 16
+        && entity != user
+        && entity instanceof LivingEntity
+    );
+    entities.forEach(entity -> {
+      ((LivingEntity) entity).addStatusEffect(
+        new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 60, 1, false, false, true)
       );
+    });
+  }
+
+  public static final CustomShieldType BLOOD = new CustomShieldType(it -> {
+    it.onParry = context -> {
+      applyBleedingAround(context.player(), context.player().getPos());
+    };
+
+    it.onMeleeParry = context -> {
+      applyBleedingAround(context.player(), context.attacker.getPos());
       context.attacker.addStatusEffect(new StatusEffectInstance(
         MineCellsStatusEffects.BLEEDING, 100, 2, false, false, true
       ));
-      entities.forEach(entity -> {
-        ((LivingEntity) entity).addStatusEffect(
-          new StatusEffectInstance(MineCellsStatusEffects.BLEEDING, 60, 1, false, false, true)
-        );
-      });
     };
   });
 
