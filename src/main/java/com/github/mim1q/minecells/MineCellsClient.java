@@ -27,6 +27,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
+import java.util.stream.Stream;
+
 @Environment(EnvType.CLIENT)
 public class MineCellsClient implements ClientModInitializer {
   private static final Identifier CRIT_CROSSHAIR = MineCells.createId("textures/gui/crosshair/crit_indicator.png");
@@ -47,8 +49,19 @@ public class MineCellsClient implements ClientModInitializer {
     if (CLIENT_CONFIG.showCritIndicator) setupCritIndicator();
     setupScreenShakeModifiers();
     loadArrowModels();
+    loadMiscCustomModels();
     setupTentacleWeaponHighlighting();
     setupLightningBoltHighlighting();
+  }
+
+  private void loadMiscCustomModels() {
+    ModelLoadingPlugin.register(context -> {
+      var miscModels = Stream.of(
+        "conjunctivius/chain",
+        "conjunctivius/dash_chain"
+      ).map(it -> MineCells.createId("misc/" + it)).toList();
+      context.addModels(miscModels);
+    });
   }
 
   private void setupTentacleWeaponHighlighting() {

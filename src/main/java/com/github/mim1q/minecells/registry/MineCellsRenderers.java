@@ -11,7 +11,10 @@ import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlo
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
-import com.github.mim1q.minecells.client.render.conjunctivius.*;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEntityRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusSpikeRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusTentacleRenderer;
 import com.github.mim1q.minecells.client.render.item.BiomeBannerItemRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -80,7 +83,6 @@ public class MineCellsRenderers {
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
   public static final EntityModelLayer CONJUNCTIVIUS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "tentacle");
   public static final EntityModelLayer CONJUNCTIVIUS_SPIKE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "spike");
-  public static final EntityModelLayer CONJUNCTIVIUS_CHAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "chain");
 
   public static final EntityModelLayer CONCIERGE_LAYER = registerLayer("concierge", ConciergeEntityModel::getTexturedModelData);
 
@@ -133,7 +135,6 @@ public class MineCellsRenderers {
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_EYE_LAYER, ConjunctiviusEyeRenderer.ConjunctiviusEyeModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_TENTACLE_LAYER, ConjunctiviusTentacleRenderer.ConjunctiviusTentacleModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_SPIKE_LAYER, ConjunctiviusSpikeRenderer.ConjunctiviusSpikeModel::getTexturedModelData);
-    EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_CHAIN_LAYER, ConjunctiviusChainRenderer.ConjunctiviusChainModel::getTexturedModelData);
 
     EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);

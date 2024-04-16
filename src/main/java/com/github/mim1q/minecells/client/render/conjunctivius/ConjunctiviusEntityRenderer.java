@@ -38,7 +38,7 @@ public class ConjunctiviusEntityRenderer extends MobEntityRenderer<Conjunctivius
     spikes.addPosRotScale(-1.05F, 0.8F, -0.8F, 35.0F, 0.0F, -110.0F, 1.0F);
     spikes.addPosRotScale(-1.0F, 1.2F, -0.6F, 25.0F, 0.0F, -135.0F, 1.0F);
     this.addFeature(spikes);
-    this.addFeature(new ConjunctiviusChainRenderer(this, context.getPart(MineCellsRenderers.CONJUNCTIVIUS_CHAIN_LAYER)));
+    this.addFeature(new ConjunctiviusChainRenderer(this, context.getModelManager()));
   }
 
   @Override

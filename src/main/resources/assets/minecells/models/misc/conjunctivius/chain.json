@@ -1,0 +1,30 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecells:block/big_chain_sideways",
+	"textures": {
+		"0": "minecells:block/big_chain",
+		"particle": "minecells:block/big_chain"
+	},
+	"elements": [
+		{
+			"from": [4, 8, 0],
+			"to": [12, 8, 12],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 2, 8, 14], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [0, 2, 8, 14], "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 4, 8],
+			"to": [8, 12, 20],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [8, 2, 16, 14], "rotation": 270, "texture": "#0"},
+				"west": {"uv": [8, 2, 16, 14], "rotation": 90, "texture": "#0"}
+			}
+		}
+	]
+}
