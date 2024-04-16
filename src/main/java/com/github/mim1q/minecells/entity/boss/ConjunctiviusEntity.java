@@ -92,7 +92,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private int stageTicks = 1;
   private int lastStage = 0;
 
-  private HashMap<LivingEntity, Integer> hitEntities = new HashMap<>();
+  private final HashMap<LivingEntity, Integer> hitEntities = new HashMap<>();
 
   private EasingFunction eyeEasing = Easing::lerp;
   private Vec3d eyeOffset = Vec3d.ZERO;
@@ -185,7 +185,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       s.length = 130;
     }));
 
-    this.goalSelector.add(3, dashGoal);
+    this.goalSelector.add(4, dashGoal);
     this.goalSelector.add(9, auraGoal);
     this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
 
@@ -194,11 +194,18 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public void addStageGoals(int stage) {
     if (stage >= 3) {
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, 0.15D, 0.1F, 8, 200));
-      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.0D, 0.8F, 300, 80, () -> 1));
-    }
-    if (stage == 7) {
-//      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, 0.15D, 0.02F, 8, 200));
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, s -> {
+        s.chance = 0.1F;
+        s.length = 100;
+        s.interval = 6;
+        s.cooldown = 200;
+      }));
+      this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, s -> {
+        s.chance = 0.5F;
+        s.length = 60;
+        s.interval = 6;
+        s.cooldown = 80;
+      }));
     }
   }
 
@@ -244,7 +251,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         // Handle bossbar visibility
         boolean closestPlayerNearby = getWorld().getClosestPlayer(this, 32.0D) != null;
         List<PlayerEntity> playersInArea = getWorld().getPlayers(TargetPredicate.DEFAULT, this, Box.from(this.roomBox).expand(2.0D));
-        this.bossBar.setVisible(closestPlayerNearby && playersInArea.size() > 0);
+        this.bossBar.setVisible(closestPlayerNearby && !playersInArea.isEmpty());
 
         this.switchStages(this.getStage());
 
@@ -293,8 +300,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     yOffset *= distance * 0.5F;
 
     if (getEyeState() == ConjunctiviusEyeRenderer.EyeState.SHAKING) {
-      xOffset = (this.random.nextFloat() - 0.5F) * 2.0F;
-      yOffset = (this.random.nextFloat() - 0.5F) * 2.0F;
+      xOffset += (this.random.nextFloat() - 0.5F) * 2.0F;
+      yOffset += (this.random.nextFloat() - 0.5F) * 2.0F;
       this.eyeEasing = Easing::easeOutBack;
     } else {
       this.eyeEasing = Easing::lerp;
@@ -310,7 +317,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return EasingUtils.interpolateVec(this.lastEyeOffset, this.eyeOffset, tickDelta, this.eyeEasing);
   }
 
-  @Override public void setTarget(@Nullable LivingEntity target) {
+  @Override
+  public void setTarget(@Nullable LivingEntity target) {
     super.setTarget(target);
     this.dataTracker.set(TARGET_ID, target == null ? -1 : target.getId());
   }
@@ -561,6 +569,16 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       return ConjunctiviusEyeRenderer.EyeState.YELLOW;
     }
     return ConjunctiviusEyeRenderer.EyeState.PINK;
+  }
+
+  private <T> T getStageAdjustedValue(T stage1, T stage3, T stage5, T stage7) {
+    int stage = this.getStage();
+    return switch (stage) {
+      case 3, 4 -> stage3;
+      case 5, 6 -> stage5;
+      case 7 -> stage7;
+      default -> stage1;
+    };
   }
 
   public static DefaultAttributeContainer.Builder createConjunctiviusAttributes() {

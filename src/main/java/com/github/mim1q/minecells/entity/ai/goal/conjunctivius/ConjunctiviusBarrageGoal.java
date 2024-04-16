@@ -10,23 +10,22 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGoal {
   protected int ticks = 0;
   private Entity target;
-  private final float chance;
-  private final int interval;
-  private final int length;
-  private final int barrageCooldown;
+  protected final BarrageSettings settings;
 
-  public ConjunctiviusBarrageGoal(ConjunctiviusEntity entity, double speed, float chance, int interval, int length, int cooldown) {
+  public ConjunctiviusBarrageGoal(ConjunctiviusEntity entity, Consumer<BarrageSettings> settings) {
     super(entity);
-    this.speed = speed;
-    this.chance = chance;
-    this.interval = interval;
-    this.length = length;
-    this.barrageCooldown = cooldown;
+
+    var settingsObj = new BarrageSettings();
+    settings.accept(settingsObj);
+    this.settings = settingsObj;
+
+    this.speed = this.settings.speed;
   }
 
   @Override
@@ -37,13 +36,13 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
       && this.target != null
       && this.entity.moving
       && this.entity.canAttack()
-      && this.entity.getRandom().nextFloat() < this.chance;
+      && this.entity.getRandom().nextFloat() < settings.chance;
   }
 
   @Override
   public boolean shouldContinue() {
     this.target = entity.getTarget();
-    return this.target != null && this.ticks < this.length + 60 && this.entity.canAttack();
+    return this.target != null && this.ticks < settings.length + 60 && this.entity.canAttack();
   }
 
   @Override
@@ -65,7 +64,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
           new PlaySoundS2CPacket(RegistryEntry.of(MineCellsSounds.CONJUNCTIVIUS_SHOT), SoundCategory.HOSTILE, entity.getX(), entity.getY(), entity.getZ(), 0.25F, 1.0F, 0)
         );
       }
-      if (this.ticks % this.interval == 0) {
+      if (this.ticks % settings.interval == 0) {
         this.shoot(this.entity, this.target);
       }
     }
@@ -82,25 +81,43 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
   @Override
   public void stop() {
     this.ticks = 0;
-    this.entity.barrageCooldown = this.barrageCooldown;
+    this.entity.barrageCooldown = settings.cooldown;
     this.entity.getDataTracker().set(ConjunctiviusEntity.BARRAGE_ACTIVE, false);
     super.stop();
   }
 
   public static class Targeted extends ConjunctiviusBarrageGoal {
 
-    public Targeted(ConjunctiviusEntity entity, double speed, float chance, int length, int cooldown) {
-      super(entity, speed, chance, 8, length, cooldown);
+    public Targeted(ConjunctiviusEntity entity, Consumer<BarrageSettings> settings) {
+      super(entity, settings);
     }
 
     @Override
     protected void shoot(ConjunctiviusEntity entity, Entity target) {
       if (target != null) {
-        for (int i = 0; i < 2; i++) {
-          Vec3d targetPos = target.getPos().add(
-            (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
-            (entity.getRandom().nextDouble() - 0.5D) * 2.0D + 2.0D,
-            (entity.getRandom().nextDouble() - 0.5D) * 2.0D
+        Vec3d targetPos = target.getPos().add(
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D + 2.0D,
+          (entity.getRandom().nextDouble() - 0.5D) * 2.0D
+        );
+        ConjunctiviusProjectileEntity.spawn(entity.getWorld(), entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
+      }
+    }
+  }
+
+  public static class Around extends ConjunctiviusBarrageGoal {
+    public Around(ConjunctiviusEntity entity, Consumer<BarrageSettings> settings) {
+      super(entity, settings);
+    }
+
+    @Override
+    protected void shoot(ConjunctiviusEntity entity, Entity target) {
+      if (target != null) {
+        for (int i = 0; i < settings.count.get(); i++) {
+          Vec3d targetPos = entity.getPos().add(
+            (entity.getRandom().nextDouble() - 0.5D) * 10.0D,
+            (entity.getRandom().nextDouble() - 0.5D) * 10.0D + 2.5D,
+            (entity.getRandom().nextDouble() - 0.5D) * 10.0D
           );
           ConjunctiviusProjectileEntity.spawn(entity.getWorld(), entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
         }
@@ -108,26 +125,12 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     }
   }
 
-  public static class Around extends ConjunctiviusBarrageGoal {
-    private final Supplier<Integer> count;
-
-    public Around(ConjunctiviusEntity entity, double speed, float chance, int length, int cooldown, Supplier<Integer> count) {
-      super(entity, speed, chance, 10, length, cooldown);
-      this.count = count;
-    }
-
-    @Override
-    protected void shoot(ConjunctiviusEntity entity, Entity target) {
-      if (target != null) {
-        for (int i = 0; i < this.count.get(); i++) {
-          Vec3d targetPos = target.getPos().add(
-            (entity.getRandom().nextDouble() - 0.5D) * 10.0D,
-            (entity.getRandom().nextDouble() - 0.5D) * 10.0D + 3.0D,
-            (entity.getRandom().nextDouble() - 0.5D) * 10.0D
-          );
-          ConjunctiviusProjectileEntity.spawn(entity.getWorld(), entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
-        }
-      }
-    }
+  public static class BarrageSettings {
+    public float chance = 0.5f;
+    public float speed = 0.05f;
+    public int interval = 8;
+    public int length = 40;
+    public int cooldown = 200;
+    public Supplier<Integer> count = () -> 1;
   }
 }
