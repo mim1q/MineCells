@@ -46,6 +46,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -70,6 +71,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public static final TrackedData<BlockPos> ANCHOR_RIGHT = registerData(ConjunctiviusEntity.class, BLOCK_POS);
   public static final TrackedData<Integer> STAGE = registerData(ConjunctiviusEntity.class, INTEGER);
   public static final TrackedData<Integer> TARGET_ID = registerData(ConjunctiviusEntity.class, INTEGER);
+  public static final TrackedData<Vector3f> DASH_TARGET = registerData(ConjunctiviusEntity.class, VECTOR3F);
 
   // Stages:
   // 0 - has not seen any player yet
@@ -153,6 +155,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
     this.dataTracker.startTracking(STAGE, 0);
     this.dataTracker.startTracking(TARGET_ID, -1);
+    this.dataTracker.startTracking(DASH_TARGET, new Vector3f(0.0F, 0.0F, 0.0F));
   }
 
   @Override
@@ -600,6 +603,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     return this.spawnPos;
   }
 
+  public Vec3d getDashTarget() {
+    return new Vec3d(this.dataTracker.get(DASH_TARGET));
+  }
+
   @Override
   public boolean isPushable() {
     return false;
@@ -738,6 +745,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       startPos = this.entity.getPos();
       var target = this.entity.getTarget();
       targetPos = target == null ? startPos : target.getPos();
+      entity.getDataTracker().set(DASH_TARGET, new Vector3f((float) targetPos.x, (float) targetPos.y, (float) targetPos.z));
     }
 
     @Override protected void release() {

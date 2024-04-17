@@ -47,7 +47,13 @@ public class RenderUtils {
     RenderUtils.produceVertex(consumer, m4f, m3f, light, argb, minX, minY, 0F, minU, maxV);
   }
 
-  public static void renderBakedModel(BakedModel model, Random random, int light, MatrixStack matrices, VertexConsumer buffer) {
+  public static void renderBakedModel(
+    BakedModel model,
+    Random random,
+    int light,
+    MatrixStack matrices,
+    VertexConsumer buffer
+  ) {
     for (var direction : Direction.values()) {
       var quads = model.getQuads(null, direction, random);
       renderBakedQuads(quads, matrices, buffer, light);
@@ -57,7 +63,12 @@ public class RenderUtils {
     renderBakedQuads(noDirectionQuads, matrices, buffer, light);
   }
 
-  private static void renderBakedQuads(List<BakedQuad> quads, MatrixStack matrices, VertexConsumer buffer, int light) {
+  private static void renderBakedQuads(
+    List<BakedQuad> quads,
+    MatrixStack matrices,
+    VertexConsumer buffer,
+    int light
+  ) {
     for (var quad : quads) {
       buffer.quad(
         matrices.peek(),
