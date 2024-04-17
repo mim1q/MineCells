@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
+import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,6 +16,7 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
@@ -57,21 +59,21 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     var stage = entity.getStage();
     if (stage < 2) {
       renderChain(
-        entity, matrices, vertices, light, startPos,
+        entity, matrices, vertices, startPos,
         Vec3d.ofBottomCenter(entity.getRightAnchor()),
         entity.getYaw(), new Vector3f(2.2F, 0.85F, 0.0F), false
       );
     }
     if (stage < 4) {
       renderChain(
-        entity, matrices, vertices, light, startPos,
+        entity, matrices, vertices, startPos,
         Vec3d.ofBottomCenter(entity.getLeftAnchor()),
         entity.getYaw(), new Vector3f(-2.2F, 0.85F, 0.0F), false
       );
     }
     if (stage < 6) {
       renderChain(
-        entity, matrices, vertices, light, startPos,
+        entity, matrices, vertices, startPos,
         Vec3d.ofBottomCenter(entity.getTopAnchor().up()),
         entity.getYaw(), new Vector3f(0.0F, -1.75F, 0.0F), false
       );
@@ -82,7 +84,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
       var target = entity.getDashTarget();
       if (!target.equals(Vec3d.ZERO)) {
         renderChain(
-          entity, matrices, dashVertices, 0xF000F0, startPos,
+          entity, matrices, dashVertices, startPos,
           target,
           entity.getYaw(), new Vector3f(0.0F, 0.5F, -1.5F), true
         );
@@ -94,7 +96,6 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     ConjunctiviusEntity entity,
     MatrixStack matrices,
     VertexConsumer vertices,
-    int light,
     Vec3d startPos,
     Vec3d targetPos,
     float headYaw,
@@ -107,8 +108,9 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     matrices.scale(0.75F, 0.75F, 0.75F);
     startPos = startPos.add(0.0D, -offset.y * 2.0D + 3.0D, 0.01D);
     var direction = targetPos.subtract(startPos);
+    var normDir = direction.normalize();
     direction = direction.rotateY(MathUtils.radians(headYaw));
-    direction = direction.add(-offset.x * 1.5D, 0.0D, 0.0D);
+    direction = direction.add(-offset.x * 1.5D, 0.0D, -offset.z * 1.5D);
 
     var rx = (float) -Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
     var ry = (float) -Math.atan2(direction.x, direction.z);
@@ -120,7 +122,15 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     posRotScale.apply(matrices);
     var count = (int) (direction.length());
     matrices.translate(-0.5, -0.5, -1.25);
+
+    var lightPos = startPos.add(offset.x * 1.5, 0.0, offset.z);
+    var light = 0xF000F0;
     for (int i = 0; i < count; i++) {
+      if (!isDash) {
+        var lightLevel = entity.getWorld().getLightLevel(BlockPos.ofFloored(lightPos));
+        light = LightmapTextureManager.pack(lightLevel, lightLevel);
+        lightPos = lightPos.add(normDir);
+      }
       RenderUtils.renderBakedModel(modelToUse, entity.getRandom(), light, matrices, vertices);
       matrices.translate(0.0F, 0.0F, -1.0F);
     }
