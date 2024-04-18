@@ -110,7 +110,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType ENDLESS = create("endless", it -> {
-    it.ammo = null;
+    it.ammo = () -> null;
   });
 
   private static void placeFire(ArrowBlockHitContext context) {
