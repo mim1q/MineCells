@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells;
 
+import com.github.mim1q.minecells.accessor.GameOptionsAccessor;
 import com.github.mim1q.minecells.config.ClientConfig;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.LightningBoltItem;
@@ -17,7 +18,9 @@ import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
@@ -47,11 +50,14 @@ public class MineCellsClient implements ClientModInitializer {
     if (CLIENT_CONFIG.keepOriginalGuiModels) setupAllHandheldModels();
     setupShieldHandheldModels();
     if (CLIENT_CONFIG.showCritIndicator) setupCritIndicator();
-    setupScreenShakeModifiers();
     loadArrowModels();
     loadMiscCustomModels();
     setupTentacleWeaponHighlighting();
     setupLightningBoltHighlighting();
+
+    ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+      setupScreenShakeModifiers(CLIENT_CONFIG.screenShake.global);
+    });
   }
 
   private void loadMiscCustomModels() {
@@ -115,28 +121,28 @@ public class MineCellsClient implements ClientModInitializer {
     });
   }
 
-  private void setupScreenShakeModifiers() {
+  public static void setupScreenShakeModifiers(float d) {
     // Weapons
-    ScreenShakeModifiers.setModifier("minecells:weapon_flint", CLIENT_CONFIG.screenShake.weaponFlint);
-    ScreenShakeModifiers.setModifier("minecells:weapon_lightning_bolt", CLIENT_CONFIG.screenShake.weaponLightningBolt);
+    ScreenShakeModifiers.setModifier("minecells:weapon_flint", d * CLIENT_CONFIG.screenShake.weaponFlint);
+    ScreenShakeModifiers.setModifier("minecells:weapon_lightning_bolt", d * CLIENT_CONFIG.screenShake.weaponLightningBolt);
 
     // Shields
-    ScreenShakeModifiers.setModifier("minecells:shield_block", CLIENT_CONFIG.screenShake.shieldBlock);
-    ScreenShakeModifiers.setModifier("minecells:shield_parry", CLIENT_CONFIG.screenShake.shieldParry);
+    ScreenShakeModifiers.setModifier("minecells:shield_block", d * CLIENT_CONFIG.screenShake.shieldBlock);
+    ScreenShakeModifiers.setModifier("minecells:shield_parry", d * CLIENT_CONFIG.screenShake.shieldParry);
 
     // Conjunctivius
-    ScreenShakeModifiers.setModifier("minecells:conjunctivius_smash", CLIENT_CONFIG.screenShake.conjunctiviusSmash);
-    ScreenShakeModifiers.setModifier("minecells:conjunctivius_roar", CLIENT_CONFIG.screenShake.conjunctiviusRoar);
-    ScreenShakeModifiers.setModifier("minecells:conjunctivius_death", CLIENT_CONFIG.screenShake.conjunctiviusDeath);
+    ScreenShakeModifiers.setModifier("minecells:conjunctivius_smash", d * CLIENT_CONFIG.screenShake.conjunctiviusSmash);
+    ScreenShakeModifiers.setModifier("minecells:conjunctivius_roar", d * CLIENT_CONFIG.screenShake.conjunctiviusRoar);
+    ScreenShakeModifiers.setModifier("minecells:conjunctivius_death", d * CLIENT_CONFIG.screenShake.conjunctiviusDeath);
 
     // Concierge
-    ScreenShakeModifiers.setModifier("minecells:concierge_leap", CLIENT_CONFIG.screenShake.conciergeLeap);
-    ScreenShakeModifiers.setModifier("minecells:concierge_step", CLIENT_CONFIG.screenShake.conciergeStep);
-    ScreenShakeModifiers.setModifier("minecells:concierge_roar", CLIENT_CONFIG.screenShake.conciergeRoar);
-    ScreenShakeModifiers.setModifier("minecells:concierge_death", CLIENT_CONFIG.screenShake.conciergeDeath);
+    ScreenShakeModifiers.setModifier("minecells:concierge_leap", d * CLIENT_CONFIG.screenShake.conciergeLeap);
+    ScreenShakeModifiers.setModifier("minecells:concierge_step", d * CLIENT_CONFIG.screenShake.conciergeStep);
+    ScreenShakeModifiers.setModifier("minecells:concierge_roar", d * CLIENT_CONFIG.screenShake.conciergeRoar);
+    ScreenShakeModifiers.setModifier("minecells:concierge_death", d * CLIENT_CONFIG.screenShake.conciergeDeath);
 
     // Explosions
-    ScreenShakeModifiers.setModifier("minecells:explosion", CLIENT_CONFIG.screenShake.explosion);
+    ScreenShakeModifiers.setModifier("minecells:explosion", d * CLIENT_CONFIG.screenShake.explosion);
   }
 
   private void setupAllHandheldModels() {

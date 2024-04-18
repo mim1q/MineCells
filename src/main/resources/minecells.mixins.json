@@ -45,7 +45,9 @@
     "entity.LivingEntityClientMixin",
     "entity.player.AbstractClientPlayerEntityMixin",
     "entity.player.ClientPlayerEntityMixin",
-    "item.CompassItemMixin"
+    "item.CompassItemMixin",
+    "options.AccessibilityOptionsMixin",
+    "options.GameOptionsMixin"
   ],
   "server": [],
   "injectors": {

@@ -38,6 +38,9 @@ public class ClientConfig implements Config {
   }
 
   public static class ScreenShake {
+    @Comment(" Affects all screen shake events. Can also be adjusted in the game's accessibility settings.")
+    public float global = 1f;
+
     @Comment(" Weapons")
     public float weaponFlint = 1.5f;
     public float weaponLightningBolt = 0.5f;
