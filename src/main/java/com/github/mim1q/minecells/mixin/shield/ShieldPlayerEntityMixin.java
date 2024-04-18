@@ -66,6 +66,7 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
       if (angleDifference == null || angleDifference > maxAngle) return;
 
       getWorld().playSound(null, getX(), getY(), getZ(), SoundEvents.ITEM_SHIELD_BLOCK, getSoundCategory(), 1f, 1f);
+      activeItem.damage(1, getThis(), player -> player.sendToolBreakStatus(player.getActiveHand()));
 
       if (isParry) {
         applyShieldEffects(
