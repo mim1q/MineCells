@@ -165,10 +165,9 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
 
       Vec3d vel = targetPos.subtract(entityPos).normalize().multiply(1.0D);
 
-      MagicOrbEntity orb = new MagicOrbEntity(MineCellsEntities.MAGIC_ORB, this.entity.getWorld());
+      MagicOrbEntity orb = new MagicOrbEntity(MineCellsEntities.MAGIC_ORB, this.entity.getWorld(), this.entity);
       orb.setPosition(entityPos);
-      orb.setVelocity(vel.getX(), vel.getY(), vel.getZ(), 1.0F, 0.0F);
-      orb.setOwner(this.entity);
+      orb.setVelocity(vel.getX(), vel.getY(), vel.getZ());
 
       this.entity.getWorld().spawnEntity(orb);
     }

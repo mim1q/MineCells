@@ -15,7 +15,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class ConjunctiviusProjectileEntityRenderer extends EntityRenderer<ConjunctiviusProjectileEntity> {
-
   private static final Identifier TEXTURE = MineCells.createId("textures/entity/conjunctivius/projectile.png");
   private static final RenderLayer LAYER = RenderLayer.getEyes(TEXTURE);
   private final EntityModel<ConjunctiviusProjectileEntity> model;

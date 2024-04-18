@@ -4,23 +4,17 @@ import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
-  public ConjunctiviusProjectileEntity(EntityType<? extends ThrownEntity> entityType, World world) {
-    super(entityType, world);
+  public ConjunctiviusProjectileEntity(World world, ConjunctiviusEntity owner) {
+    super(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, world, owner);
   }
 
-  public ConjunctiviusProjectileEntity(World world, Vec3d position, Vec3d velocity) {
-    this(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, world);
-    this.setPosition(position.x, position.y, position.z);
-    this.setVelocity(velocity.x, velocity.y, velocity.z);
+  public ConjunctiviusProjectileEntity(EntityType<? extends ConjunctiviusProjectileEntity> entityType, World world) {
+    super(entityType, world);
   }
 
   @Override
@@ -28,35 +22,17 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
     super.tick();
   }
 
-  @Override
-  public void updateRotation() { }
-
-  private void recalculateRotation() {
-    double e = this.getVelocity().x;
-    double f = this.getVelocity().y;
-    double g = this.getVelocity().z;
-    double l = this.getVelocity().horizontalLength();
-    this.setYaw((float) (-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
-    this.setPitch((float) (-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
-
-    this.prevYaw = this.getYaw();
-    this.prevPitch = this.getPitch();
-  }
-
   public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
     var velocity = target.subtract(pos).normalize();
-    ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, pos, velocity);
-    projectile.setOwner(owner);
-    projectile.recalculateRotation();
+    ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, owner);
+    projectile.updatePosition(pos.x, pos.y, pos.z);
+    projectile.setVelocity(velocity.multiply(1.5D));
 
     world.spawnEntity(projectile);
   }
 
   @Override
-  protected float getDamage() {
-    if (this.getOwner() instanceof ConjunctiviusEntity owner) {
-      return owner.getDamage(1f);
-    }
+  public float getDamage() {
     return 8.0f;
   }
 
@@ -76,6 +52,5 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   @Override
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
-    recalculateRotation();
   }
 }
