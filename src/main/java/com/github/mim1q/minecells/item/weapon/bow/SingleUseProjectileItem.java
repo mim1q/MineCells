@@ -27,6 +27,7 @@ public class SingleUseProjectileItem extends Item {
       shoot(world, user, stack);
       user.getItemCooldownManager().set(this, arrowType.getCooldown());
     }
+    stack.decrement(1);
     return TypedActionResult.consume(stack);
   }
 

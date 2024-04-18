@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.misc.MineCellsExplosion;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -29,6 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class CustomArrowType {
   private static final HashMap<String, CustomArrowType> arrowTypes = new HashMap<>();
@@ -60,7 +62,7 @@ public class CustomArrowType {
       context.target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, 100));
     };
     it.particle = ParticleTypes.SNOWFLAKE;
-    it.ammo = Items.SNOWBALL;
+    it.ammo = () -> Items.SNOWBALL;
   });
 
   public static final CustomArrowType EXPLOSIVE_BOLT = create("explosive_bolt", it -> {
@@ -74,7 +76,7 @@ public class CustomArrowType {
       context.arrow.discard();
     };
     it.particle = ParticleTypes.SMOKE;
-    it.ammo = Items.TNT;
+    it.ammo = () -> Items.TNT;
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
@@ -147,6 +149,7 @@ public class CustomArrowType {
     it.spread = 0.5f;
     it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
     it.cooldown = 10;
+    it.ammo = () -> MineCellsItems.THROWING_KNIFE;
   });
 
   //#region Class definition
@@ -164,7 +167,7 @@ public class CustomArrowType {
   private Function<ArrowEntityHitContext, Boolean> shouldCrit = context -> false;
   private DamageSourceFactory damageSourceFactory = (world, arrow, shooter) -> world.getDamageSources().mobProjectile(arrow, shooter);
   private int cooldown = 0;
-  private Item ammo = Items.ARROW;
+  private Supplier<Item> ammo = () -> Items.ARROW;
 
   private CustomArrowType(String name) {
     this.name = name;
@@ -219,7 +222,7 @@ public class CustomArrowType {
   }
 
   public Optional<Item> getAmmoItem() {
-    return Optional.ofNullable(ammo);
+    return Optional.ofNullable(ammo.get());
   }
 
   public DamageSource getDamageSource(World world, CustomArrowEntity arrow, LivingEntity shooter) {

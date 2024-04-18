@@ -68,6 +68,7 @@ public class CustomBowItem extends RangedWeaponItem {
     if (hasProjectile || !projectileNeeded) {
       world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 0.5f, 0.8f);
       user.setCurrentHand(hand);
+      stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
       return TypedActionResult.consume(stack);
     }
 

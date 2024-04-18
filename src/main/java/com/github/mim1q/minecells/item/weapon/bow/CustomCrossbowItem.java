@@ -40,6 +40,7 @@ public class CustomCrossbowItem extends CustomBowItem {
     if (CrossbowItem.isCharged(stack)) {
       shoot(world, user, stack);
       CrossbowItem.setCharged(stack, false);
+      stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
       return TypedActionResult.consume(stack);
     }
 

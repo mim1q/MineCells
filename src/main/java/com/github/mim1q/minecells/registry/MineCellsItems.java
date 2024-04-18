@@ -203,72 +203,72 @@ public class MineCellsItems {
   //#region Ranged weapons
   // Bows
   public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem(
-    "multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1))
+    "multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1).maxDamage(1000))
   );
   public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem(
-    "bow_and_endless_quiver", CustomArrowType.ENDLESS
+    "bow_and_endless_quiver", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomArrowType.ENDLESS)
   );
   public static final CustomBowItem MARKSMANS_BOW = registerBowItem(
-    "marksmans_bow", CustomArrowType.MARKSMAN
+    "marksmans_bow", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomArrowType.MARKSMAN)
   );
   public static final CustomBowItem INFANTRY_BOW = registerBowItem(
-    "infantry_bow", CustomArrowType.INFANTRY
+    "infantry_bow", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomArrowType.INFANTRY)
   );
   public static final CustomBowItem QUICK_BOW = registerBowItem(
-    "quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1))
+    "quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1).maxDamage(1000))
   );
   public static final CustomBowItem ICE_BOW = registerBowItem(
-    "ice_bow", CustomArrowType.ICE
+    "ice_bow", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomArrowType.ICE)
   );
   public static final CustomBowItem NERVES_OF_STEEL = registerBowItem(
-    "nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1))
+    "nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1).maxDamage(1000))
   );
 
   // Crossbows
   public static final CustomBowItem HEAVY_CROSSBOW = registerCrossbowItem(
-    "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1))
+    "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(1000))
   );
   public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerCrossbowItem(
-    "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1), CustomArrowType.EXPLOSIVE_BOLT)
+    "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomArrowType.EXPLOSIVE_BOLT)
   );
 
   // Shields
   public static final CustomShieldItem CUDGEL = registerShield(
-    "cudgel", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.CUDGEL)
+    "cudgel", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomShieldType.CUDGEL)
   );
 
   public static final CustomShieldItem RAMPART = registerShield(
-    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.RAMPART)
+    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomShieldType.RAMPART)
   );
 
   public static final CustomShieldItem ASSAULT_SHIELD = registerShield(
-    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.ASSAULT)
+    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomShieldType.ASSAULT)
   );
 
   public static final CustomShieldItem BLOODTHIRSTY_SHIELD = registerShield(
-    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.BLOOD)
+    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomShieldType.BLOOD)
   );
 
   public static final CustomShieldItem GREED_SHIELD = registerShield(
-    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.GREED)
+    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomShieldType.GREED)
   );
 
   public static final CustomShieldItem ICE_SHIELD = registerShield(
-    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1), CustomShieldType.ICE)
+    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(1000), CustomShieldType.ICE)
   );
 
   // Other
   public static final Item ELECTRIC_WHIP = registerOtherRanged(
-    "electric_whip", new ElectricWhipItem(new FabricItemSettings().maxCount(1))
+    "electric_whip", new ElectricWhipItem(new FabricItemSettings().maxCount(1).maxDamage(1000))
   );
   public static final Item LIGHTNING_BOLT = registerOtherRanged(
-    "lightning_bolt", new LightningBoltItem(new FabricItemSettings().maxCount(1))
+    "lightning_bolt", new LightningBoltItem(new FabricItemSettings().maxCount(1).maxDamage(1000))
   );
   public static final Item THROWING_KNIFE = registerOtherRanged(
-    "throwing_knife", new SingleUseProjectileItem(new FabricItemSettings().maxCount(1), CustomArrowType.THROWING_KNIFE)
+    "throwing_knife", new SingleUseProjectileItem(new FabricItemSettings(), CustomArrowType.THROWING_KNIFE)
   );
   public static final Item FIREBRANDS = registerOtherRanged(
-    "firebrands", new SingleUseProjectileItem(new FabricItemSettings().maxCount(1), CustomArrowType.FIREBRANDS)
+    "firebrands", new SingleUseProjectileItem(new FabricItemSettings(), CustomArrowType.FIREBRANDS)
   );
   //#endregion
 
@@ -333,10 +333,6 @@ public class MineCellsItems {
     );
     DIMENSIONAL_RUNES.add(item);
     return item;
-  }
-
-  public static CustomBowItem registerBowItem(String name, CustomArrowType arrowType) {
-    return registerBowItem(name, new CustomBowItem(new FabricItemSettings().maxCount(1), arrowType));
   }
 
   public static CustomBowItem registerBowItem(String name, CustomBowItem bow) {
