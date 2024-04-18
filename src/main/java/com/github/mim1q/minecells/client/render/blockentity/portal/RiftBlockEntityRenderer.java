@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -95,7 +96,8 @@ public class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEnt
       startU + width * scale / 16f,
       startV,
       startV + height * scale / 16f,
-      0xFFFFFFFF
+      0xFFFFFFFF,
+      OverlayTexture.DEFAULT_UV
     );
   }
 }

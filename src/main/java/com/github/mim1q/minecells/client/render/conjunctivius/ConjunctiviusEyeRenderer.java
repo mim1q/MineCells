@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.render.conjunctivius;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
+import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.OverlayTexture;
@@ -15,6 +16,7 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {
@@ -26,6 +28,8 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     MineCells.createId("textures/entity/conjunctivius/eye_blue.png")
   };
 
+  private static final Identifier EYELID_TEXTURE = MineCells.createId("textures/entity/conjunctivius/eyelid.png");
+
   private final ConjunctiviusEyeModel model;
 
   public ConjunctiviusEyeRenderer(FeatureRendererContext<ConjunctiviusEntity, ConjunctiviusEntityModel> context, ModelPart eyeRoot) {
@@ -35,12 +39,17 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
 
   @Override
   public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ConjunctiviusEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+
+    renderEyelid(matrices, vertexConsumers, light, entity, animationProgress);
+
     matrices.push();
-    matrices.translate(0.0F, 0.2F, -15.75F / 16.0F);
-    this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
-    RenderLayer renderLayer = RenderLayer.getEntityCutout(this.getTexture(entity));
-    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
-    this.model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    {
+      matrices.translate(0.0F, 0.2F, -15.5F / 16.0F);
+      this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+      RenderLayer renderLayer = RenderLayer.getEntityCutout(this.getTexture(entity));
+      VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
+      this.model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    }
     matrices.pop();
   }
 
@@ -50,6 +59,42 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
       return TEXTURES[(entity.age / 2) % TEXTURES.length];
     }
     return TEXTURES[state.index];
+  }
+
+  private void renderEyelid(
+    MatrixStack matrices,
+    VertexConsumerProvider vertexConsumers,
+    int light,
+    ConjunctiviusEntity entity,
+    float animationProgress
+  ) {
+    matrices.push();
+    {
+      matrices.translate(0.0f, 0.25f, -1.0f);
+      matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180.0F));
+
+      var frame = entity.getEyelidFrame(animationProgress);
+      var minV = frame * 0.2f;
+      var maxV = minV + 0.2f;
+
+      var buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(EYELID_TEXTURE));
+      var overlay = OverlayTexture.getUv(0.0f, entity.hurtTime > 0);
+
+      RenderUtils.drawBillboard(
+        buffer,
+        matrices,
+        light,
+        2.0f,
+        2.0f,
+        0.0f,
+        1.0f,
+        minV,
+        maxV,
+        0xFFFFFFFF,
+        overlay
+      );
+    }
+    matrices.pop();
   }
 
   public enum EyeState {

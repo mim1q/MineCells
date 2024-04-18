@@ -30,7 +30,7 @@ public class ConjunctiviusEntityModel extends EntityModel<ConjunctiviusEntity> {
         .uv(0, 0)
         .cuboid(-16.0F, -36.0F, -16.0F, 32, 32, 32) // Main Body
         .uv(138, 94)
-        .cuboid(-12.0F, -31.0F, -15.5F, 24, 22, 0) // Eye Background
+        .cuboid(-12.0F, -31.0F, -15.25F, 24, 22, 0) // Eye Background
         .uv(92, 64)
         .cuboid(-12.0F, -42.0F, -12.0F, 24, 6, 24) // Head Top
         .uv(46, 70)

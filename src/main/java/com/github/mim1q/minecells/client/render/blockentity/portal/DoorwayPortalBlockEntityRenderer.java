@@ -8,6 +8,7 @@ import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -55,7 +56,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
 
     var barsVertices = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(entity.getTexture()));
     matrices.translate(0.0, 0.01, -0.25);
-    RenderUtils.drawBillboard(barsVertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 0xFFFFFFFF);
+    RenderUtils.drawBillboard(barsVertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 0xFFFFFFFF, OverlayTexture.DEFAULT_UV);
 
     var text = entity.getLabel();
     renderLabel(text, matrices, vertexConsumers, shouldShowPosition(entity.getWorld(), entity.getPos(), entity.getCachedState().getBlock()));

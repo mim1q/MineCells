@@ -14,6 +14,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.github.mim1q.minecells.util.client.ClientUtil;
+import dev.mim1q.gimm1q.interpolation.AnimatedProperty;
 import dev.mim1q.gimm1q.interpolation.AnimatedProperty.EasingFunction;
 import dev.mim1q.gimm1q.interpolation.Easing;
 import dev.mim1q.gimm1q.interpolation.EasingUtils;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer.EyeState.SHAKING;
 import static net.minecraft.entity.data.DataTracker.registerData;
 import static net.minecraft.entity.data.TrackedDataHandlerRegistry.*;
 
@@ -94,11 +96,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private int stageTicks = 1;
   private int lastStage = 0;
 
+
   private final HashMap<LivingEntity, Integer> hitEntities = new HashMap<>();
 
   private EasingFunction eyeEasing = Easing::lerp;
   private Vec3d eyeOffset = Vec3d.ZERO;
   private Vec3d lastEyeOffset = Vec3d.ZERO;
+
+  private int blinkTimer = 0;
+  private final AnimatedProperty eyeBlink = new AnimatedProperty(0.0F, MathUtils::lerp);
 
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -223,11 +229,25 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     if (getWorld().isClient()) {
       calculateEyeOffset();
       if (this.getDashState() != TimedActionGoal.State.IDLE || this.getAuraState() == TimedActionGoal.State.RELEASE) {
-        this.spikeOffset.setupTransitionTo(0.0F, 10.0F);
+        this.spikeOffset.setupTransitionTo(0.0F, 10.0F, Easing::easeInQuad);
       } else {
-        this.spikeOffset.setupTransitionTo(5.0F, 40.0F);
+        this.spikeOffset.setupTransitionTo(5.0F, 30.0F, Easing::easeInOutQuad);
       }
       this.spawnParticles();
+
+      var blinkTime = this.getBlinkTicks();
+      if (blinkTime > 0) {
+        this.blinkTimer = Math.max(blinkTime, this.blinkTimer);
+      } else {
+        this.blinkTimer = Math.max(0, this.blinkTimer - 1);
+      }
+
+      if (this.blinkTimer > 0) {
+        this.eyeBlink.transitionTo(4.0F, 1.5F);
+      } else {
+        this.eyeBlink.transitionTo(0.0F, 4.0F);
+      }
+
     } else {
       for (Entity e : getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25D))) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
@@ -302,7 +322,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     xOffset *= distance * 0.5F;
     yOffset *= distance * 0.5F;
 
-    if (getEyeState() == ConjunctiviusEyeRenderer.EyeState.SHAKING) {
+    if (getEyeState() == SHAKING) {
       xOffset += (this.random.nextFloat() - 0.5F) * 2.0F;
       yOffset += (this.random.nextFloat() - 0.5F) * 2.0F;
       this.eyeEasing = Easing::easeOutBack;
@@ -318,6 +338,26 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   public Vec3d getEyeOffset(float tickDelta) {
     return EasingUtils.interpolateVec(this.lastEyeOffset, this.eyeOffset, tickDelta, this.eyeEasing);
+  }
+
+  private int getBlinkTicks() {
+    if (hurtTime == maxHurtTime - 1) {
+      return 3;
+    }
+
+    if (this.age % (20 * 20) == 0) {
+      return 5;
+    }
+
+    if (this.deathTime > 40 || this.getStage() == 0) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  public int getEyelidFrame(float progress) {
+    return (int) this.eyeBlink.update(progress);
   }
 
   @Override
@@ -434,6 +474,16 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     } else if (this.getAuraState() == TimedActionGoal.State.RELEASE) {
       ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 50, 7.0D, 0.01D);
       ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
+    }
+
+    if (this.getEyeState() == SHAKING || this.age % 5 == 0) {
+      ParticleUtils.addInBox(
+        (ClientWorld) getWorld(),
+        ParticleTypes.FALLING_WATER,
+        Box.of(getPos().add(0.0, 0.25, 0.0), 2.0, 0.5, 2.0),
+        this.getEyeState() == SHAKING ? 3 : 1,
+        Vec3d.ZERO
+      );
     }
 
     int stage = this.getStage();
@@ -563,7 +613,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public ConjunctiviusEyeRenderer.EyeState getEyeState() {
     boolean stageBeginning = this.stageTicks > 0 && this.stageTicks < 30;
     if (stageBeginning || !this.isAlive()) {
-      return ConjunctiviusEyeRenderer.EyeState.SHAKING;
+      return SHAKING;
     }
     if (this.dataTracker.get(BARRAGE_ACTIVE)) {
       return ConjunctiviusEyeRenderer.EyeState.GREEN;
