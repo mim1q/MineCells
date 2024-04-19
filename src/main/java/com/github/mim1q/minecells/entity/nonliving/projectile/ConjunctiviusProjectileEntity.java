@@ -26,7 +26,7 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
     var velocity = target.subtract(pos).normalize();
     ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, owner);
     projectile.updatePosition(pos.x, pos.y, pos.z);
-    projectile.setVelocity(velocity.multiply(1.5D));
+    projectile.setVelocity(velocity.multiply(1.2D));
 
     world.spawnEntity(projectile);
   }
@@ -38,15 +38,28 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
 
   @Override
   protected void spawnParticles() {
+    var inverseVelocity = getVelocity().multiply(-0.4 - random.nextDouble() * 0.2);
     getWorld().addParticle(
       MineCellsParticles.SPECKLE.get(0x00FF40),
-      this.getPos().x,
-      this.getPos().y,
-      this.getPos().z,
-      0.0D,
-      0.0D,
-      0.0D
+      this.prevX + (random.nextDouble() - 0.5) * 0.25,
+      this.prevY + getHeight() / 2.0 + (random.nextDouble() - 0.5) * 0.25,
+      this.prevZ + (random.nextDouble() - 0.5) * 0.25,
+      inverseVelocity.x,
+      inverseVelocity.y,
+      inverseVelocity.z
     );
+
+    if (random.nextFloat() < 0.2) {
+      getWorld().addParticle(
+        MineCellsParticles.ELECTRICITY.get(getRotationVector().multiply(-1), 3, 0x00FF40, 0.25f),
+        prevX,
+        prevY  + getHeight() / 2.0,
+        prevZ,
+        getVelocity().x,
+        getVelocity().y,
+        getVelocity().z
+      );
+    }
   }
 
   @Override

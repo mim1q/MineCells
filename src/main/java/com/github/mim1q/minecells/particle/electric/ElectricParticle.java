@@ -27,6 +27,9 @@ public class ElectricParticle extends SpriteBillboardParticle {
     double x,
     double y,
     double z,
+    double velocityX,
+    double velocityY,
+    double velocityZ,
     Vec3d direction,
     int length,
     int color,
@@ -46,11 +49,14 @@ public class ElectricParticle extends SpriteBillboardParticle {
     this.pitch = (float) Math.atan2(this.direction.x, this.direction.z);
     this.roll = clientWorld.random.nextFloat() * 2 * MathHelper.PI;
 
+    this.setVelocity(velocityX, velocityY, velocityZ);
     this.setSprite(spriteProvider.getSprite(clientWorld.random));
   }
 
   @Override
   public void tick() {
+    this.setPos(this.x + this.velocityX, this.y + this.velocityY, this.z + this.velocityZ);
+
     if (this.age++ >= this.maxAge) {
       this.markDead();
     }
@@ -79,9 +85,9 @@ public class ElectricParticle extends SpriteBillboardParticle {
       newPos.x,
       newPos.y,
       newPos.z,
-      0.0D,
-      0.0D,
-      0.0D
+      velocityX,
+      velocityY,
+      velocityZ
     );
   }
 
@@ -95,9 +101,9 @@ public class ElectricParticle extends SpriteBillboardParticle {
       newPos.x,
       newPos.y,
       newPos.z,
-      0.0D,
-      0.0D,
-      0.0D
+      velocityX,
+      velocityY,
+      velocityZ
     );
   }
 
@@ -181,6 +187,9 @@ public class ElectricParticle extends SpriteBillboardParticle {
         x,
         y,
         z,
+        velocityX,
+        velocityY,
+        velocityZ,
         parameters.direction(),
         parameters.length(),
         parameters.color(),

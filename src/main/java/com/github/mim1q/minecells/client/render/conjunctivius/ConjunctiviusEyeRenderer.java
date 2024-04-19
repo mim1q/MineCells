@@ -54,8 +54,8 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
   }
 
   public Identifier getTexture(ConjunctiviusEntity entity) {
-    EyeState state = entity.getEyeState();
-    if (state == EyeState.SHAKING) {
+    ConjunctiviusEntity.EyeState state = entity.getEyeState();
+    if (state == ConjunctiviusEntity.EyeState.SHAKING) {
       return TEXTURES[(entity.age / 2) % TEXTURES.length];
     }
     return TEXTURES[state.index];
@@ -95,20 +95,6 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
       );
     }
     matrices.pop();
-  }
-
-  public enum EyeState {
-    SHAKING(-1),
-    PINK(0),
-    YELLOW(1),
-    GREEN(2),
-    BLUE(3);
-
-    final int index;
-
-    EyeState(int index) {
-      this.index = index;
-    }
   }
 
   public static class ConjunctiviusEyeModel extends EntityModel<ConjunctiviusEntity> {

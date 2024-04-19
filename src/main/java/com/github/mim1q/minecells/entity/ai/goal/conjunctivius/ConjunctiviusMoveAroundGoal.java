@@ -68,7 +68,7 @@ public class ConjunctiviusMoveAroundGoal extends Goal {
 
   private Vec3d getRandomTargetPos() {
     Vec3d center = this.entity.getSpawnPos();
-    double zOffset = this.entity.getStage() == 7 ? this.entity.getRandom().nextDouble() * 4.0D : 0.0D;
+    double zOffset = entity.getRandom().nextDouble() * entity.getStageAdjustedValue(2.0, 4.0, 8.0, 12.0);
     return center.add(
       -4.0D + this.entity.getRandom().nextDouble() * 8.0D,
       -5.0D + this.entity.getRandom().nextDouble() * 3.0D,

@@ -3,11 +3,13 @@ package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.function.Consumer;
@@ -75,7 +77,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
 
   @Override
   protected int getNextCooldown() {
-    return 10;
+    return entity.getRandom().nextBetween(settings.minPause, settings.maxPause);
   }
 
   @Override
@@ -114,11 +116,17 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     protected void shoot(ConjunctiviusEntity entity, Entity target) {
       if (target != null) {
         for (int i = 0; i < settings.count.get(); i++) {
-          Vec3d targetPos = entity.getPos().add(
-            (entity.getRandom().nextDouble() - 0.5D) * 10.0D,
-            (entity.getRandom().nextDouble() - 0.5D) * 10.0D + 2.5D,
-            (entity.getRandom().nextDouble() - 0.5D) * 10.0D
+          var yaw = MathUtils.radians(entity.getYaw());
+          yaw += (float) (entity.getRandom().nextDouble() - 0.5) * MathHelper.PI * 2.0F;
+          var pitch = (float) (entity.getRandom().nextDouble() - 0.8) * MathHelper.PI;
+
+          var offset = new Vec3d(
+            MathHelper.sin(yaw) * MathHelper.cos(pitch),
+            MathHelper.sin(pitch) + 2.5,
+            MathHelper.cos(yaw) * MathHelper.cos(pitch)
           );
+
+          Vec3d targetPos = entity.getPos().add(offset);
           ConjunctiviusProjectileEntity.spawn(entity.getWorld(), entity.getPos().add(0.0D, 2.5D, 0.0D), targetPos, this.entity);
         }
       }
@@ -131,6 +139,8 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
     public int interval = 8;
     public int length = 40;
     public int cooldown = 200;
+    public int minPause = 40;
+    public int maxPause = 80;
     public Supplier<Integer> count = () -> 1;
   }
 }

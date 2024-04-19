@@ -86,7 +86,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
         renderChain(
           entity, matrices, dashVertices, startPos,
           target,
-          entity.getYaw(), new Vector3f(0.0F, 0.5F, -1.5F), true
+          entity.getYaw(), new Vector3f(0.0F, 0.0F, 0.0F), true
         );
       }
     }
@@ -106,11 +106,11 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
 
     matrices.push();
     matrices.scale(0.75F, 0.75F, 0.75F);
-    startPos = startPos.add(0.0D, -offset.y * 2.0D + 3.0D, 0.01D);
+    startPos = startPos.add(0.0D, -offset.y * 2.0D + 3.0D, 0.01 - offset.z * 1.5D);
     var direction = targetPos.subtract(startPos);
-    var normDir = direction.normalize();
+    var normDir = direction.normalize().multiply(0.75);
     direction = direction.rotateY(MathUtils.radians(headYaw));
-    direction = direction.add(-offset.x * 1.5D, 0.0D, -offset.z * 1.5D);
+    direction = direction.add(-offset.x * 1.5D, 0.0D, 0.0);
 
     var rx = (float) -Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
     var ry = (float) -Math.atan2(direction.x, direction.z);
@@ -123,7 +123,7 @@ public class ConjunctiviusChainRenderer extends FeatureRenderer<ConjunctiviusEnt
     var count = (int) (direction.length());
     matrices.translate(-0.5, -0.5, -1.25);
 
-    var lightPos = startPos.add(offset.x * 1.5, 0.0, offset.z);
+    var lightPos = startPos.add(-offset.x * 1.5, 0.0, offset.z);
     var light = 0xF000F0;
     for (int i = 0; i < count; i++) {
       if (!isDash) {
