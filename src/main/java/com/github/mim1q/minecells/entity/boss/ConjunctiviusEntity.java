@@ -97,7 +97,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private int stageTicks = 1;
   private int lastStage = 0;
 
-
   private final HashMap<LivingEntity, Integer> hitEntities = new HashMap<>();
 
   private EasingFunction eyeEasing = Easing::lerp;
@@ -107,7 +106,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   private int blinkTimer = 0;
   private final AnimatedProperty eyeBlink = new AnimatedProperty(0.0F, MathUtils::lerp);
 
-  private EyeState lastEyeState = SHAKING;
+  private int lastTargetId = -1;
 
   public ConjunctiviusEntity(EntityType<? extends HostileEntity> entityType, World world) {
     super(entityType, world);
@@ -212,14 +211,14 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   public void addStageGoals(int stage) {
     if (stage >= 3) {
       this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Targeted(this, s -> {
-        s.chance = 0.1F;
+        s.chance = 0.2F;
         s.length = getStageAdjustedValue(60, 80, 100, 120);
-        s.interval = 6;
+        s.interval = getStageAdjustedValue(8, 6, 5, 4);
         s.cooldown = getStageAdjustedValue(20 * 16, 20 * 14, 20 * 12, 20 * 10);
       }));
       this.goalSelector.add(2, new ConjunctiviusBarrageGoal.Around(this, s -> {
-        s.chance = 0.01F;
-        s.length = getStageAdjustedValue(20, 25, 30, 35);
+        s.chance = 0.05F;
+        s.length = getStageAdjustedValue(20, 26, 32, 37);
         s.interval = getStageAdjustedValue(8, 6, 5, 4);
         s.cooldown = 40;
         s.speed = 0.1f;
@@ -267,7 +266,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
           if (age - lastHit < 40) continue;
 
-          this.tryAttack(livingEntity);
+          livingEntity.damage(getWorld().getDamageSources().mobAttack(this), 4.0f);
           this.hitEntities.put(livingEntity, age);
         }
       }
@@ -352,10 +351,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   private int getBlinkTicks() {
-    var eyeState = this.getEyeState();
-    if (eyeState != lastEyeState) {
-      this.lastEyeState = eyeState;
-      return 2;
+    var targetId = this.dataTracker.get(TARGET_ID);
+    if (targetId != lastTargetId) {
+      lastTargetId = targetId;
+      return 4;
     }
 
     if (hurtTime == maxHurtTime - 1)  return 3;
@@ -804,7 +803,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       this.restTime = restTime;
     }
 
-    @Override public void start() {
+    @Override
+    public void start() {
       super.start();
       startPos = this.entity.getPos();
       var target = this.entity.getTarget();
@@ -812,9 +812,20 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       entity.getDataTracker().set(DASH_TARGET, new Vector3f((float) targetPos.x, (float) targetPos.y + 1, (float) targetPos.z));
     }
 
-    @Override protected void release() {
+    @Override
+    protected void release() {
       var delta = (this.ticks() - this.actionTick) / (float) (this.length - this.actionTick - restTime);
       var tickPos = EasingUtils.interpolateVec(startPos, targetPos, delta, Easing::easeInOutCubic);
+
+      if (this.ticks() <= this.length - restTime) {
+        var entities = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(0.5));
+        for (Entity e : entities) {
+          if (e instanceof LivingEntity livingEntity) {
+            livingEntity.damage(entity.getWorld().getDamageSources().mobAttack(entity), 10.0f);
+            entity.hitEntities.put(livingEntity, entity.age);
+          }
+        }
+      }
 
       if (this.ticks() == this.length - restTime) {
         if (this.entity.getWorld() instanceof ServerWorld serverWorld) {

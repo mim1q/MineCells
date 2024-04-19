@@ -40,17 +40,17 @@ public class ConjunctiviusMoveAroundGoal extends Goal {
 
   @Override
   public void tick() {
-    this.entity.moving = this.isMoving();
-    if (this.cooldown == 0) {
-      this.entity.setVelocity(this.entity.getVelocity().add(this.targetPos.subtract(this.entity.getPos()).normalize().multiply(this.speed)));
-      if (this.targetPos.distanceTo(this.entity.getPos()) < 2.0D || this.entity.horizontalCollision || this.entity.verticalCollision) {
-        this.targetPos = this.getRandomTargetPos();
-        this.cooldown = this.getNextCooldown();
-      }
+    entity.moving = isMoving();
+    if (cooldown == 0) {
+      targetPos = getRandomTargetPos();
+      cooldown = getNextCooldown();
     } else {
-      this.cooldown--;
-      if (this.cooldown == 0 && this.entity.getStage() < 7) {
-        this.entity.playSound(MineCellsSounds.CONJUNCTIVIUS_MOVE, 1.0F, 1.0F);
+      cooldown--;
+      if (entity.getPos().squaredDistanceTo(targetPos) > 4.0D) {
+        entity.setVelocity(entity.getVelocity().add(targetPos.subtract(entity.getPos()).normalize().multiply(speed)));
+      }
+      if (cooldown == 0 && this.entity.getStage() < 7) {
+        entity.playSound(MineCellsSounds.CONJUNCTIVIUS_MOVE, 1.0F, 1.0F);
       }
     }
   }

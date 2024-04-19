@@ -117,7 +117,7 @@ public abstract class ConjunctiviusBarrageGoal extends ConjunctiviusMoveAroundGo
       if (target != null) {
         for (int i = 0; i < settings.count.get(); i++) {
           var yaw = MathUtils.radians(entity.getYaw());
-          yaw += (float) (entity.getRandom().nextDouble() - 0.5) * MathHelper.PI * 2.0F;
+          yaw += (float) (entity.getRandom().nextDouble() - 0.5) * MathHelper.PI * 1.5F;
           var pitch = (float) (entity.getRandom().nextDouble() - 0.8) * MathHelper.PI;
 
           var offset = new Vec3d(
