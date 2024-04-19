@@ -112,7 +112,9 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.PHASER)
     ));
     stacks.addAll(MineCellsItems.BOWS.stream().map(MineCellsItemGroups::stack).toList());
+    stacks.add(stack(MineCellsItems.ICE_ARROW));
     stacks.addAll(MineCellsItems.CROSSBOWS.stream().map(MineCellsItemGroups::stack).toList());
+    stacks.add(stack(MineCellsItems.EXPLOSIVE_BOLT));
     stacks.addAll(MineCellsItems.OTHER_RANGED.stream().map(MineCellsItemGroups::stack).toList());
     stacks.addAll(MineCellsItems.SHIELDS.stream().map(MineCellsItemGroups::stack).toList());
   }

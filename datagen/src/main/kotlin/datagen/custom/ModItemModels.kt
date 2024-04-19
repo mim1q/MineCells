@@ -12,7 +12,7 @@ object ModItemModels {
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
       "ancient_sewage_bucket", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
       "reset_rune", "concierge_respawn_rune", "monster_cell", "boss_stem_cell", "arrow_sign", "guidebook",
-      "electric_whip", "throwing_knife", "firebrands"
+      "electric_whip", "throwing_knife", "firebrands", "explosive_bolt", "ice_arrow"
     ).forEach {
       if (it.startsWith("block/")) {
         add(CommonModelPresets.generatedItemModel("minecells:${it.removePrefix("block/")}", "block"))
@@ -26,7 +26,7 @@ object ModItemModels {
   }
 
   fun handheld() = Preset {
-    listOf("assassins_dagger", "cursed_sword", "tentacle", "lightning_bolt").forEach {
+    listOf("assassins_dagger", "cursed_sword", "tentacle").forEach {
       add("weapon/$it", ParentedModel.item("minecraft:item/handheld") {
         texture("layer0", "minecells:item/$it")
       })
