@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -13,22 +12,13 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class CellForgeBlock extends Block {
-
+public class CellCrafterBlock extends Block {
   public static final String CELL_FORGE_TITLE_KEY = "gui.minecells.cell_forge.title";
-  private static final VoxelShape SHAPE = VoxelShapes.union(
-    Block.createCuboidShape(0, 0, 0, 16, 2, 16),
-    Block.createCuboidShape(0, 14, 0, 16, 16, 16),
-    Block.createCuboidShape(2, 2, 2, 14, 14, 14)
-  );
 
-  public CellForgeBlock(Settings settings) {
+  public CellCrafterBlock(Settings settings) {
     super(settings);
   }
 
@@ -62,12 +52,8 @@ public class CellForgeBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-    return null;
-  }
-
-  @Override
-  @SuppressWarnings("deprecation")
-  public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return SHAPE;
+    return world.getBlockEntity(pos) instanceof NamedScreenHandlerFactory factory
+      ? factory
+      : null;
   }
 }

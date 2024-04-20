@@ -52,6 +52,9 @@ public class MineCellsBlockEntities {
   public static final BlockEntityType<ArrowSignBlockEntity> ARROW_SIGN = register(
     "arrow_sign", ArrowSignBlockEntity::new, MineCellsBlocks.ARROW_SIGN
   );
+  public static final BlockEntityType<CellCrafterBlockEntity> CELL_CRAFTER = register(
+    "cell_crafter", CellCrafterBlockEntity::new, MineCellsBlocks.CELL_CRAFTER
+  );
 
   public static void init() {
   }
