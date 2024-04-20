@@ -6,6 +6,7 @@ import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -15,10 +16,12 @@ import java.util.function.Consumer;
 
 public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCrafterScreenHandler> {
   public static final Identifier SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/container.png");
-  public static final Identifier RECIPES_SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/recipes.png");
+  private final CellCrafterRecipeList recipeList;
+  private boolean isRecipeListVisible = false;
 
   public CellCrafterScreen(CellCrafterScreenHandler handler, PlayerInventory inventory, Text title) {
     super(handler, inventory, title);
+    recipeList = new CellCrafterRecipeList(this::toggleRecipeList);
   }
 
   @Override
@@ -27,22 +30,44 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     return OwoUIAdapter.create(this, Containers::verticalFlow);
   }
 
-  @Override protected void build(FlowLayout rootComponent) {
+  @Override
+  protected void build(FlowLayout rootComponent) {
     rootComponent
       .surface(Surface.VANILLA_TRANSLUCENT)
       .horizontalAlignment(HorizontalAlignment.CENTER)
       .verticalAlignment(VerticalAlignment.CENTER);
 
-    rootComponent.child(
-      Containers.verticalFlow(Sizing.fixed(178), Sizing.fixed(160))
-        .child(new RecipeButton(it -> System.out.println("test button clicked"))
-          .sizing(Sizing.fixed(16))
-        )
-        .surface(backgroundTexture(SCREEN_TEXTURE, 256, 256))
-        .horizontalAlignment(HorizontalAlignment.LEFT)
-        .verticalAlignment(VerticalAlignment.TOP)
-        .padding(Insets.of(8))
-    );
+    if (isRecipeListVisible) {
+      recipeList.build(rootComponent);
+    } else {
+      rootComponent.child(
+        Containers.verticalFlow(Sizing.fixed(178), Sizing.fixed(160))
+          .child(new TexturedButton(it -> toggleRecipeList(), SCREEN_TEXTURE, 192, 0)
+            .sizing(Sizing.fixed(16))
+          )
+          .surface(backgroundTexture(SCREEN_TEXTURE, 256, 256))
+          .horizontalAlignment(HorizontalAlignment.LEFT)
+          .verticalAlignment(VerticalAlignment.TOP)
+          .padding(Insets.of(8))
+      );
+    }
+  }
+
+  @Override
+  protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+    // No-op
+  }
+
+  private void toggleRecipeList() {
+    isRecipeListVisible = !isRecipeListVisible;
+
+    for (int i = 0; i < 36; ++i) {
+      if (isRecipeListVisible) disableSlot(i);
+      else enableSlot(i);
+    }
+
+    this.uiAdapter.rootComponent.clearChildren();
+    this.build(this.uiAdapter.rootComponent);
   }
 
   public static Surface backgroundTexture(Identifier texture, int textureWidth, int textureHeight) {
@@ -57,10 +82,10 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     };
   }
 
-  private static class RecipeButton extends ButtonComponent {
-    protected RecipeButton(Consumer<ButtonComponent> onPress) {
+  public static class TexturedButton extends ButtonComponent {
+    protected TexturedButton(Consumer<ButtonComponent> onPress, Identifier texture, int u, int v) {
       super(Text.empty(), onPress);
-      this.renderer = Renderer.texture(SCREEN_TEXTURE, 192, 0, 256, 256);
+      this.renderer = Renderer.texture(texture, u, v, 256, 256);
     }
   }
 }
