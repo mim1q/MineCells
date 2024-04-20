@@ -1,7 +1,11 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -15,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class CellCrafterBlock extends Block {
+public class CellCrafterBlock extends BlockWithEntity {
   public static final String CELL_FORGE_TITLE_KEY = "gui.minecells.cell_forge.title";
 
   public CellCrafterBlock(Settings settings) {
@@ -50,10 +54,20 @@ public class CellCrafterBlock extends Block {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
     return world.getBlockEntity(pos) instanceof NamedScreenHandlerFactory factory
       ? factory
       : null;
+  }
+
+  @Override
+  public BlockRenderType getRenderType(BlockState state) {
+    return BlockRenderType.MODEL;
+  }
+
+  @Nullable
+  @Override
+  public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    return new CellCrafterBlockEntity(pos, state);
   }
 }

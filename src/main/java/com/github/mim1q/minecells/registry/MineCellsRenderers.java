@@ -30,6 +30,7 @@ import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -39,6 +40,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -185,6 +187,8 @@ public class MineCellsRenderers {
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
+
+    HandledScreens.register(MineCellsScreenHandlerTypes.CELL_FORGE_SCREEN_HANDLER, CellCrafterScreen::new);
   }
 
   public static void initBlocks() {
