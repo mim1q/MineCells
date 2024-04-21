@@ -1,17 +1,21 @@
 package com.github.mim1q.minecells.screen.cellcrafter;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList.DisplayedRecipe;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCrafterScreenHandler> {
@@ -22,6 +26,15 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
   public CellCrafterScreen(CellCrafterScreenHandler handler, PlayerInventory inventory, Text title) {
     super(handler, inventory, title);
     recipeList = new CellCrafterRecipeList(this::toggleRecipeList);
+
+    ClientPlayNetworking.send(
+      RequestUnlockedCellCrafterRecipesC2SPacket.ID,
+      new RequestUnlockedCellCrafterRecipesC2SPacket(inventory.player)
+    );
+  }
+
+  public void updateRecipes(List<DisplayedRecipe> recipes) {
+    recipeList.updateRecipes(recipes);
   }
 
   @Override
@@ -68,6 +81,12 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
 
     this.uiAdapter.rootComponent.clearChildren();
     this.build(this.uiAdapter.rootComponent);
+  }
+
+  @Override
+  public void close() {
+    if (isRecipeListVisible) toggleRecipeList();
+    else super.close();
   }
 
   public static Surface backgroundTexture(Identifier texture, int textureWidth, int textureHeight) {

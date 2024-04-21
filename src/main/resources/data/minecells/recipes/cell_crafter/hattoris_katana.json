@@ -1,5 +1,6 @@
 {
   "type": "minecells:cell_forge_recipe",
+  "advancement": "minecells:promenade",
   "input": [
     {
       "id": "minecraft:iron_sword",

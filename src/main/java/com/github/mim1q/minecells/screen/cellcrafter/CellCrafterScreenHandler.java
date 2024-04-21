@@ -23,6 +23,7 @@ public class CellCrafterScreenHandler extends ScreenHandler {
     }
   }
 
+
   @Override
   public ItemStack quickMove(PlayerEntity player, int slot) {
     return null;
