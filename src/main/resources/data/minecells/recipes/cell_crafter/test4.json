@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "input": [
+    {
+      "id": "minecraft:redstone",
+      "Count": 16
+    }
+  ],
+  "cells": 10,
+  "output": {
+    "id": "minecraft:white_stained_glass_pane",
+    "Count": 1
+  }
+}
