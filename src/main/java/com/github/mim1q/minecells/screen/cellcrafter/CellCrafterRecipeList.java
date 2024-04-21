@@ -13,6 +13,8 @@ import io.wispforest.owo.ui.core.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
@@ -131,6 +133,7 @@ public class CellCrafterRecipeList {
 
       if (recipe.isUnlocked) {
         this.mouseDownEvents.source().subscribe((mouseX, mouseY, button) -> {
+          MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
           parent.selectedRecipe = this.recipe;
           return true;
         });
@@ -151,17 +154,18 @@ public class CellCrafterRecipeList {
 
       if (recipe.isUnlocked) {
         if (this.hovered || parent.selectedRecipe == this.recipe) {
+          matrices.push();
+          matrices.translate(0, 0, 200);
           context.drawTexture(RECIPES_SCREEN_TEXTURE, x() - 3, y() - 3, 160, 96, 22, 22);
+          matrices.pop();
         }
         if (this.hovered) {
           context.drawItemTooltip(textRenderer, recipe.recipe().output(), mouseX, mouseY);
         }
       } else {
         matrices.push();
-        {
-          matrices.translate(0, 0, 300);
-          context.drawTexture(RECIPES_SCREEN_TEXTURE, x(), y(), 208, 64, 16, 16);
-        }
+        matrices.translate(0, 0, 300);
+        context.drawTexture(RECIPES_SCREEN_TEXTURE, x(), y(), 208, 64, 16, 16);
         matrices.pop();
       }
       RenderSystem.disableDepthTest();

@@ -55,8 +55,8 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     } else {
       rootComponent.child(
         Containers.verticalFlow(Sizing.fixed(178), Sizing.fixed(160))
-          .child(new TexturedButton(it -> toggleRecipeList(), SCREEN_TEXTURE, 192, 0)
-            .sizing(Sizing.fixed(16))
+          .child(new TexturedButton(it -> toggleRecipeList(), SCREEN_TEXTURE, 192, 48)
+            .sizing(Sizing.fixed(64))
           )
           .surface(backgroundTexture(SCREEN_TEXTURE, 256, 256))
           .horizontalAlignment(HorizontalAlignment.LEFT)
