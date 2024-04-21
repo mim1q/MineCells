@@ -17,8 +17,10 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +99,19 @@ public class CellCrafterRecipeList {
     visibleRecipes.clear();
 
     currentRecipes.addAll(allRecipes);
+    currentRecipes.sort((a, b) -> {
+      if (a.isUnlocked() && !b.isUnlocked()) return -1;
+      if (!a.isUnlocked() && b.isUnlocked()) return 1;
+
+      var priority = b.recipe().priority() - a.recipe().priority();
+      if (priority != 0) return priority;
+
+      var aName = a.recipe().output().getItem().getName().getString();
+      var bName = b.recipe().output().getItem().getName().getString();
+
+      return aName.compareTo(bName);
+    });
+
     visibleRecipes.addAll(currentRecipes);
 
     for (int r = 0; r < 5; ++r) {
@@ -167,6 +182,20 @@ public class CellCrafterRecipeList {
         matrices.translate(0, 0, 300);
         context.drawTexture(RECIPES_SCREEN_TEXTURE, x(), y(), 208, 64, 16, 16);
         matrices.pop();
+
+        if (this.hovered) {
+          var advancementKey = Util.createTranslationKey("advancements", recipe.recipe().requiredAdvancement().orElseThrow()) + ".description";
+          var advancementName = Text.translatable(advancementKey).getString();
+          context.drawOrderedTooltip(
+            textRenderer,
+            List.of(
+              OrderedText.styledForwardsVisitedString("Locked", Style.EMPTY.withFormatting(Formatting.RED)),
+              OrderedText.styledForwardsVisitedString(advancementName, Style.EMPTY.withFormatting(Formatting.GRAY))
+            ),
+            mouseX,
+            mouseY
+          );
+        }
       }
       RenderSystem.disableDepthTest();
       RenderSystem.disableBlend();
