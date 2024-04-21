@@ -54,8 +54,8 @@
 			}
 		},
 		{
-			"from": [-2, 16.5, 8.25],
-			"to": [1, 16.5, 10.25],
+			"from": [0, 16.5, 11.25],
+			"to": [3, 16.5, 13.25],
 			"rotation": {"angle": 0, "axis": "y", "origin": [16.5, 16.25, 11.75]},
 			"faces": {
 				"up": {"uv": [8.75, 6.5, 8, 6], "texture": "#texture"},
@@ -63,24 +63,36 @@
 			}
 		},
 		{
-			"from": [0, 16.25, 5.5],
-			"to": [3, 16.25, 7.5],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [1, 16, 6.25]},
+			"from": [-2, 16.25, 7.5],
+			"to": [1, 16.25, 9.5],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [1, 16, 6.25]},
 			"faces": {
 				"up": {"uv": [8.75, 6, 8, 5.5], "texture": "#texture"},
 				"down": {"uv": [8.75, 5.5, 8, 6], "texture": "#texture"}
 			}
 		},
 		{
-			"from": [0.25, 15, 6.25],
-			"to": [10.25, 17, 14.25],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [6.5, 16, 10.25]},
+			"from": [1.5, 15, 4],
+			"to": [9.5, 17, 14],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [6.5, 16, 10.25]},
 			"faces": {
-				"north": {"uv": [4.5, 7, 7, 7.5], "texture": "#texture"},
-				"east": {"uv": [4.5, 7.5, 6.5, 8], "texture": "#texture"},
-				"south": {"uv": [4.5, 7, 7, 7.5], "texture": "#texture"},
-				"west": {"uv": [4.5, 7.5, 6.5, 8], "texture": "#texture"},
-				"up": {"uv": [7, 7, 4.5, 5], "texture": "#texture"}
+				"north": {"uv": [4.5, 7.5, 6.5, 8], "texture": "#texture"},
+				"east": {"uv": [4.5, 7, 7, 7.5], "texture": "#texture"},
+				"south": {"uv": [4.5, 7.5, 6.5, 8], "texture": "#texture"},
+				"west": {"uv": [4.5, 7, 7, 7.5], "texture": "#texture"},
+				"up": {"uv": [7, 7, 4.5, 5], "rotation": 90, "texture": "#texture"}
+			}
+		},
+		{
+			"from": [2.25628, 16, 4.49739],
+			"to": [10.25628, 16, 14.49739],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5.25628, 16, 7.24739]},
+			"faces": {
+				"north": {"uv": [4.5, 7.5, 6.5, 8], "texture": "#texture"},
+				"east": {"uv": [4.5, 7, 7, 7.5], "texture": "#texture"},
+				"south": {"uv": [4.5, 7.5, 6.5, 8], "texture": "#texture"},
+				"west": {"uv": [4.5, 7, 7, 7.5], "texture": "#texture"},
+				"up": {"uv": [11.5, 6.5, 9, 4.5], "rotation": 90, "texture": "#texture"}
 			}
 		},
 		{
@@ -121,11 +133,11 @@
 					"name": "book",
 					"origin": [21, 15.5, 10],
 					"color": 0,
-					"children": [4, 5, 6]
+					"children": [4, 5, 6, 7]
 				},
-				7
+				8
 			]
 		},
-		8
+		9
 	]
 }
