@@ -119,6 +119,7 @@
 			}
 		}
 	],
+	"display": {},
 	"groups": [
 		{
 			"name": "table",
