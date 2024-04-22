@@ -30,7 +30,7 @@ import static com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen.ba
 public class CellCrafterRecipeList {
   public static final Identifier RECIPES_SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/recipes.png");
 
-  private final Runnable closeAction;
+  private final CellCrafterScreen parent;
 
   private final List<DisplayedRecipe> allRecipes = new ArrayList<>();
   private final List<DisplayedRecipe> currentRecipes = new ArrayList<>();
@@ -40,12 +40,13 @@ public class CellCrafterRecipeList {
   private final GridLayout grid;
   private final TexturedButton downButton;
   private final TexturedButton upButton;
+  private final TexturedButton applyButton;
 
   private String search = "";
   private int yOffset = 0;
 
-  public CellCrafterRecipeList(Runnable closeAction) {
-    this.closeAction = closeAction;
+  public CellCrafterRecipeList(CellCrafterScreen parent) {
+    this.parent = parent;
     grid = Containers.grid(Sizing.content(), Sizing.content(), 5, 6);
 
     upButton = new TexturedButton(
@@ -58,6 +59,12 @@ public class CellCrafterRecipeList {
       it -> scrollDown(),
       RECIPES_SCREEN_TEXTURE,
       224, 48
+    );
+
+    applyButton = new TexturedButton(
+      it -> this.parent.setSelectedRecipe(selectedRecipe.recipe()),
+      RECIPES_SCREEN_TEXTURE,
+      224, 0
     );
   }
 
@@ -84,7 +91,7 @@ public class CellCrafterRecipeList {
 
     container.child(
       new TexturedButton(
-        it -> this.closeAction.run(),
+        it -> this.parent.toggleRecipeList(),
         RECIPES_SCREEN_TEXTURE,
         208, 0
       )
@@ -93,11 +100,7 @@ public class CellCrafterRecipeList {
     );
 
     container.child(
-      new TexturedButton(
-        it -> System.out.println("applied"),
-        RECIPES_SCREEN_TEXTURE,
-        224, 0
-      )
+      applyButton
         .sizing(Sizing.fixed(16))
         .positioning(Positioning.absolute(112, 138))
     );
@@ -122,6 +125,7 @@ public class CellCrafterRecipeList {
   void updateScrollButtons() {
     upButton.active(yOffset > 0);
     downButton.active(yOffset < getMaxYOffset());
+    applyButton.active(selectedRecipe != null);
   }
 
   public void updateRecipes(List<DisplayedRecipe> recipes) {
@@ -231,6 +235,7 @@ public class CellCrafterRecipeList {
         this.mouseDownEvents.source().subscribe((mouseX, mouseY, button) -> {
           MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
           parent.selectedRecipe = this.recipe;
+          parent.updateScrollButtons();
           return true;
         });
         this.cursorStyle(CursorStyle.HAND);

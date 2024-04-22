@@ -1,7 +1,9 @@
 package com.github.mim1q.minecells.screen.cellcrafter;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList.DisplayedRecipe;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
@@ -14,6 +16,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -23,15 +26,19 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
   public static final Identifier SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/container.png");
   private final CellCrafterRecipeList recipeList;
   private boolean isRecipeListVisible = false;
+  private CellForgeRecipe selectedRecipe = null;
+  private BlockPos blockPos = null;
 
   public CellCrafterScreen(CellCrafterScreenHandler handler, PlayerInventory inventory, Text title) {
     super(handler, inventory, title);
-    recipeList = new CellCrafterRecipeList(this::toggleRecipeList);
+    recipeList = new CellCrafterRecipeList(this);
 
     ClientPlayNetworking.send(
       RequestUnlockedCellCrafterRecipesC2SPacket.ID,
       new RequestUnlockedCellCrafterRecipesC2SPacket(inventory.player)
     );
+
+    handler.blockPos.observe(it -> blockPos = it);
   }
 
   public void updateRecipes(List<DisplayedRecipe> recipes) {
@@ -73,7 +80,11 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       );
 
       container.child(
-        new TexturedButton(System.out::println, SCREEN_TEXTURE, 208, 0)
+        new TexturedButton(it -> {
+          if (selectedRecipe != null && blockPos != null) {
+            new CellCrafterCraftRequestC2SPacket(selectedRecipe.getId(), blockPos).send();
+          }
+        }, SCREEN_TEXTURE, 208, 0)
           .sizing(Sizing.fixed(16))
           .positioning(Positioning.absolute(118, 26))
       );
@@ -87,7 +98,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     // No-op
   }
 
-  private void toggleRecipeList() {
+  public void toggleRecipeList() {
     isRecipeListVisible = !isRecipeListVisible;
 
     for (int i = 0; i < 36; ++i) {
@@ -98,6 +109,10 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     this.uiAdapter.rootComponent.clearChildren();
     this.build(this.uiAdapter.rootComponent);
     this.recipeList.clearSearch();
+  }
+
+  public void setSelectedRecipe(CellForgeRecipe recipe) {
+    this.selectedRecipe = recipe;
   }
 
   @Override
