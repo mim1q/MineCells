@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList.DisplayedRecipe;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
+import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
@@ -53,16 +54,31 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     if (isRecipeListVisible) {
       recipeList.build(rootComponent);
     } else {
-      rootComponent.child(
-        Containers.verticalFlow(Sizing.fixed(178), Sizing.fixed(160))
-          .child(new TexturedButton(it -> toggleRecipeList(), SCREEN_TEXTURE, 192, 48)
-            .sizing(Sizing.fixed(64))
-          )
-          .surface(backgroundTexture(SCREEN_TEXTURE, 256, 256))
-          .horizontalAlignment(HorizontalAlignment.LEFT)
-          .verticalAlignment(VerticalAlignment.TOP)
-          .padding(Insets.of(8))
+      var container = Containers.verticalFlow(Sizing.fixed(178), Sizing.fixed(160));
+      container
+        .surface(backgroundTexture(SCREEN_TEXTURE, 256, 256))
+        .horizontalAlignment(HorizontalAlignment.LEFT)
+        .verticalAlignment(VerticalAlignment.TOP)
+        .padding(Insets.of(8));
+
+      container.child(
+        new TexturedButton(it -> toggleRecipeList(), SCREEN_TEXTURE, 192, 48)
+          .sizing(Sizing.fixed(64))
       );
+
+      container.child(
+        Components.texture(SCREEN_TEXTURE, 224, 0, 16, 16)
+          .sizing(Sizing.fixed(16))
+          .positioning(Positioning.absolute(100, 26))
+      );
+
+      container.child(
+        new TexturedButton(System.out::println, SCREEN_TEXTURE, 208, 0)
+          .sizing(Sizing.fixed(16))
+          .positioning(Positioning.absolute(118, 26))
+      );
+
+      rootComponent.child(container);
     }
   }
 
@@ -81,6 +97,18 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
 
     this.uiAdapter.rootComponent.clearChildren();
     this.build(this.uiAdapter.rootComponent);
+    this.recipeList.clearSearch();
+  }
+
+  @Override
+  public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    if (amount > 0) {
+      recipeList.scrollUp();
+    } else if (amount < 0) {
+      recipeList.scrollDown();
+    }
+
+    return true;
   }
 
   @Override

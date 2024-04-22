@@ -38,11 +38,27 @@ public class CellCrafterRecipeList {
   private DisplayedRecipe selectedRecipe = null;
 
   private final GridLayout grid;
+  private final TexturedButton downButton;
+  private final TexturedButton upButton;
+
+  private String search = "";
+  private int yOffset = 0;
 
   public CellCrafterRecipeList(Runnable closeAction) {
     this.closeAction = closeAction;
     grid = Containers.grid(Sizing.content(), Sizing.content(), 5, 6);
-    updateRecipes();
+
+    upButton = new TexturedButton(
+      it -> scrollUp(),
+      RECIPES_SCREEN_TEXTURE,
+      208, 48
+    );
+
+    downButton = new TexturedButton(
+      it -> scrollDown(),
+      RECIPES_SCREEN_TEXTURE,
+      224, 48
+    );
   }
 
   public void build(FlowLayout rootComponent) {
@@ -60,6 +76,10 @@ public class CellCrafterRecipeList {
       OrderedText.styledForwardsVisitedString(string, Style.EMPTY.withFormatting(Formatting.BLACK))
     );
     textBox.positioning(Positioning.absolute(58, 18));
+    textBox.onChanged().subscribe(it -> {
+      search = it.toLowerCase();
+      updateRecipes();
+    });
     container.child(textBox);
 
     container.child(
@@ -82,24 +102,37 @@ public class CellCrafterRecipeList {
         .positioning(Positioning.absolute(112, 138))
     );
 
+    container.child(upButton
+      .sizing(Sizing.fixed(16))
+      .positioning(Positioning.absolute(112, 36))
+    );
+    container.child(downButton
+      .sizing(Sizing.fixed(16))
+      .positioning(Positioning.absolute(112, 52))
+    );
+
+    updateScrollButtons();
+
     grid.positioning(Positioning.absolute(3, 34)).allowOverflow(true);
 
     container.child(grid);
     rootComponent.child(container);
   }
 
+  void updateScrollButtons() {
+    upButton.active(yOffset > 0);
+    downButton.active(yOffset < getMaxYOffset());
+  }
+
   public void updateRecipes(List<DisplayedRecipe> recipes) {
     allRecipes.clear();
     allRecipes.addAll(recipes);
-    updateRecipes();
-  }
+    allRecipes.addAll(recipes);
+    allRecipes.addAll(recipes);
+    allRecipes.addAll(recipes);
+    allRecipes.addAll(recipes);
 
-  public void updateRecipes() {
-    currentRecipes.clear();
-    visibleRecipes.clear();
-
-    currentRecipes.addAll(allRecipes);
-    currentRecipes.sort((a, b) -> {
+    allRecipes.sort((a, b) -> {
       if (a.isUnlocked() && !b.isUnlocked()) return -1;
       if (!a.isUnlocked() && b.isUnlocked()) return 1;
 
@@ -112,7 +145,31 @@ public class CellCrafterRecipeList {
       return aName.compareTo(bName);
     });
 
-    visibleRecipes.addAll(currentRecipes);
+    updateRecipes();
+  }
+
+  public void clearSearch() {
+    search = "";
+    updateRecipes();
+  }
+
+  public void updateRecipes() {
+    currentRecipes.clear();
+    visibleRecipes.clear();
+
+    allRecipes.stream()
+      .filter(it -> search.isBlank() || (
+        it.isUnlocked && it.recipe().output().getItem().getName().getString().toLowerCase().contains(search))
+      )
+      .forEach(currentRecipes::add);
+
+    for (int i = yOffset * 6; i < currentRecipes.size(); ++i) {
+      visibleRecipes.add(currentRecipes.get(i));
+    }
+
+    if (!currentRecipes.contains(selectedRecipe)) {
+      selectedRecipe = null;
+    }
 
     for (int r = 0; r < 5; ++r) {
       for (int c = 0; c < 6; ++c) {
@@ -127,6 +184,30 @@ public class CellCrafterRecipeList {
         grid.child(component, r, c);
       }
     }
+
+    updateScrollButtons();
+  }
+
+  public void scrollDown() {
+    var newYOffset = Math.min(getMaxYOffset(), yOffset + 1);
+    if (newYOffset != yOffset) {
+      yOffset = newYOffset;
+      updateRecipes();
+      updateScrollButtons();
+    }
+  }
+
+  public void scrollUp() {
+    var newYOffset = Math.max(0, yOffset - 1);
+    if (newYOffset != yOffset) {
+      yOffset = newYOffset;
+      updateRecipes();
+      updateScrollButtons();
+    }
+  }
+
+  private int getMaxYOffset() {
+    return Math.max(0, (int) Math.ceil(currentRecipes.size() / 6.0) - 5);
   }
 
   public record DisplayedRecipe(
@@ -180,7 +261,7 @@ public class CellCrafterRecipeList {
       } else {
         matrices.push();
         matrices.translate(0, 0, 300);
-        context.drawTexture(RECIPES_SCREEN_TEXTURE, x(), y(), 208, 64, 16, 16);
+        context.drawTexture(RECIPES_SCREEN_TEXTURE, x(), y(), 192, 64, 16, 16);
         matrices.pop();
 
         if (this.hovered) {
