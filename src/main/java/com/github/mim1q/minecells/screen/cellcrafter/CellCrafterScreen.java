@@ -89,6 +89,14 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
           .positioning(Positioning.absolute(118, 26))
       );
 
+      if (selectedRecipe != null) {
+        container.child(
+          Components.item(selectedRecipe.output())
+            .sizing(Sizing.fixed(16))
+            .positioning(Positioning.absolute(100, 44))
+        );
+      }
+
       rootComponent.child(container);
     }
   }

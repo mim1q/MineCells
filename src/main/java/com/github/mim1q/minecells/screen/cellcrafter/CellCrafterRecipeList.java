@@ -62,7 +62,10 @@ public class CellCrafterRecipeList {
     );
 
     applyButton = new TexturedButton(
-      it -> this.parent.setSelectedRecipe(selectedRecipe.recipe()),
+      it -> {
+        this.parent.setSelectedRecipe(selectedRecipe.recipe());
+        this.parent.toggleRecipeList();
+      },
       RECIPES_SCREEN_TEXTURE,
       224, 0
     );

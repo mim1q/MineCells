@@ -63,7 +63,7 @@ public class MineCellsItemGroups {
       stack(MineCellsBlocks.ROTTING_CORPSE),
       stack(MineCellsBlocks.CORPSE),
       stack(MineCellsBlocks.ELEVATOR_ASSEMBLER),
-      //stack(MineCellsBlocks.CELL_FORGE),
+      stack(MineCellsBlocks.CELL_CRAFTER),
       stack(MineCellsBlocks.HARDSTONE),
       stack(MineCellsBlocks.CHAIN_PILE_BLOCK),
       stack(MineCellsBlocks.CHAIN_PILE),
