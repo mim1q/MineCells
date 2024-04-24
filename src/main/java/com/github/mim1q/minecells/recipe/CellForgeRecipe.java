@@ -1,9 +1,13 @@
 package com.github.mim1q.minecells.recipe;
 
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
@@ -91,14 +95,16 @@ public record CellForgeRecipe(
   }
 
   public enum Category implements StringIdentifiable {
-    GEAR("gear"),
-    DECORATION("decoration"),
-    OTHER("other");
+    GEAR("gear", MineCellsItems.BLOOD_SWORD),
+    DECORATION("decoration", MineCellsBlocks.KINGS_CREST_FLAG),
+    OTHER("other", MineCellsItems.RESET_RUNE);
 
     private final String name;
+    public final Item displayItem;
 
-    Category(String name) {
+    Category(String name, ItemConvertible displayItem) {
       this.name = name;
+      this.displayItem = displayItem.asItem();
     }
 
     @Override

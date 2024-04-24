@@ -47,7 +47,7 @@ public class CellCrafterRecipeList {
   private IngredientDisplay ingredientDisplay = null;
 
   private String search = "";
-  private int yOffset = 0;
+  private int scrollOffset = 0;
 
   public CellCrafterRecipeList(CellCrafterScreen parent) {
     this.parent = parent;
@@ -130,7 +130,7 @@ public class CellCrafterRecipeList {
     categoryContainer.allowOverflow(true).positioning(Positioning.absolute(0, 16));
 
     for (var category : CellForgeRecipe.Category.values()) {
-      categoryContainer.child(new CategoryButton(category).sizing(Sizing.fixed(48), Sizing.fixed(32)));
+      categoryContainer.child(new CategoryButton(category).sizing(Sizing.fixed(40), Sizing.fixed(25)));
     }
 
     container.child(categoryContainer);
@@ -140,17 +140,13 @@ public class CellCrafterRecipeList {
   }
 
   void updateButtons() {
-    upButton.active(yOffset > 0);
-    downButton.active(yOffset < getMaxYOffset());
+    upButton.active(scrollOffset > 0);
+    downButton.active(scrollOffset < getMaxYOffset());
     applyButton.active(selectedRecipe != null);
   }
 
   public void updateRecipes(List<DisplayedRecipe> recipes) {
     allRecipes.clear();
-    allRecipes.addAll(recipes);
-    allRecipes.addAll(recipes);
-    allRecipes.addAll(recipes);
-    allRecipes.addAll(recipes);
     allRecipes.addAll(recipes);
 
     allRecipes.sort((a, b) -> {
@@ -185,7 +181,7 @@ public class CellCrafterRecipeList {
       .filter(it -> it.recipe().category() == selectedCategory)
       .forEach(currentRecipes::add);
 
-    for (int i = yOffset * 6; i < currentRecipes.size(); ++i) {
+    for (int i = scrollOffset * 6; i < currentRecipes.size(); ++i) {
       visibleRecipes.add(currentRecipes.get(i));
     }
 
@@ -228,24 +224,24 @@ public class CellCrafterRecipeList {
       parent.getScreenHandler().player().getInventory(), selectedRecipe.recipe(),
       Sizing.fixed(96), Sizing.fixed(16)
     );
-    ingredientDisplay.positioning(Positioning.absolute(10, 128));
+    ingredientDisplay.positioning(Positioning.absolute(50, 128));
 
     container.child(ingredientDisplay);
   }
 
   public void scrollDown() {
-    var newYOffset = Math.min(getMaxYOffset(), yOffset + 1);
-    if (newYOffset != yOffset) {
-      yOffset = newYOffset;
+    var newYOffset = Math.min(getMaxYOffset(), scrollOffset + 1);
+    if (newYOffset != scrollOffset) {
+      scrollOffset = newYOffset;
       updateRecipes();
       updateButtons();
     }
   }
 
   public void scrollUp() {
-    var newYOffset = Math.max(0, yOffset - 1);
-    if (newYOffset != yOffset) {
-      yOffset = newYOffset;
+    var newYOffset = Math.max(0, scrollOffset - 1);
+    if (newYOffset != scrollOffset) {
+      scrollOffset = newYOffset;
       updateRecipes();
       updateButtons();
     }
@@ -332,17 +328,17 @@ public class CellCrafterRecipeList {
   }
 
   private class CategoryButton extends TexturedButton {
-    private final CellForgeRecipe.Category category;
 
     public CategoryButton(CellForgeRecipe.Category category) {
       super(
         it -> {
           selectedCategory = category;
+          search = "";
+          scrollOffset = 0;
           updateRecipes();
         },
         RECIPES_SCREEN_TEXTURE, 160, 0
       );
-      this.category = category;
 
       this.renderer = (context, button, delta) -> {
         int renderV = 0;
@@ -352,7 +348,7 @@ public class CellCrafterRecipeList {
 
         var x = button.getX();
         if (selectedCategory != category) {
-          x += 16;
+          x += 8;
         }
 
         var matrices = context.getMatrices();
@@ -367,6 +363,7 @@ public class CellCrafterRecipeList {
           256, 256
         );
 
+        context.drawItem(category.displayItem.getDefaultStack(), x + 12, y() + 6);
         matrices.pop();
       };
     }
