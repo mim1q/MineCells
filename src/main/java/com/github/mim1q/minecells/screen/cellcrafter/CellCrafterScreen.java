@@ -78,7 +78,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     } else {
       var container = Containers.verticalFlow(Sizing.fixed(178), Sizing.fixed(160));
       container
-        .surface(backgroundTexture(SCREEN_TEXTURE, 256, 256))
+        .surface(backgroundTexture(SCREEN_TEXTURE, 178, 160))
         .horizontalAlignment(HorizontalAlignment.LEFT)
         .verticalAlignment(VerticalAlignment.TOP)
         .padding(Insets.of(8));
@@ -171,10 +171,10 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     return (context, component) -> {
       context.drawTexture(
         texture,
-        component.x(), component.y(),
+        component.x() - textureWidth + component.width(), component.y(),
         0, 0,
-        component.width(), component.height(),
-        textureWidth, textureHeight
+        textureWidth, textureHeight,
+        256, 256
       );
     };
   }

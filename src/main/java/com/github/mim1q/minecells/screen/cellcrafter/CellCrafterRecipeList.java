@@ -37,6 +37,7 @@ public class CellCrafterRecipeList {
   private final List<DisplayedRecipe> currentRecipes = new ArrayList<>();
   private final List<DisplayedRecipe> visibleRecipes = new ArrayList<>();
   private DisplayedRecipe selectedRecipe = null;
+  private CellForgeRecipe.Category selectedCategory = CellForgeRecipe.Category.GEAR;
 
   private final GridLayout grid;
   private final TexturedButton downButton;
@@ -75,9 +76,9 @@ public class CellCrafterRecipeList {
   }
 
   public void build(FlowLayout rootComponent) {
-    container = Containers.verticalFlow(Sizing.fixed(160), Sizing.fixed(176));
+    container = Containers.verticalFlow(Sizing.fixed(200), Sizing.fixed(176));
     container
-      .surface(backgroundTexture(RECIPES_SCREEN_TEXTURE, 256, 256))
+      .surface(backgroundTexture(RECIPES_SCREEN_TEXTURE, 160, 176))
       .horizontalAlignment(HorizontalAlignment.LEFT)
       .verticalAlignment(VerticalAlignment.TOP)
       .padding(Insets.of(8))
@@ -88,7 +89,7 @@ public class CellCrafterRecipeList {
     textBox.setRenderTextProvider((string, firstCharacterIndex) ->
       OrderedText.styledForwardsVisitedString(string, Style.EMPTY.withFormatting(Formatting.BLACK))
     );
-    textBox.positioning(Positioning.absolute(58, 18));
+    textBox.positioning(Positioning.absolute(98, 18));
     textBox.onChanged().subscribe(it -> {
       search = it.toLowerCase();
       updateRecipes();
@@ -102,28 +103,37 @@ public class CellCrafterRecipeList {
         208, 0
       )
         .sizing(Sizing.fixed(16))
-        .positioning(Positioning.absolute(4, 16))
+        .positioning(Positioning.absolute(44, 16))
     );
 
     container.child(
       applyButton
         .sizing(Sizing.fixed(16))
-        .positioning(Positioning.absolute(112, 138))
+        .positioning(Positioning.absolute(152, 138))
     );
 
     container.child(upButton
       .sizing(Sizing.fixed(16))
-      .positioning(Positioning.absolute(112, 36))
+      .positioning(Positioning.absolute(152, 36))
     );
     container.child(downButton
       .sizing(Sizing.fixed(16))
-      .positioning(Positioning.absolute(112, 52))
+      .positioning(Positioning.absolute(152, 52))
     );
 
-    grid.positioning(Positioning.absolute(3, 34)).allowOverflow(true);
+    grid.positioning(Positioning.absolute(43, 34)).allowOverflow(true);
 
     container.child(grid);
     rootComponent.child(container);
+
+    var categoryContainer = Containers.verticalFlow(Sizing.fixed(48), Sizing.fixed(160));
+    categoryContainer.allowOverflow(true).positioning(Positioning.absolute(0, 16));
+
+    for (var category : CellForgeRecipe.Category.values()) {
+      categoryContainer.child(new CategoryButton(category).sizing(Sizing.fixed(48), Sizing.fixed(32)));
+    }
+
+    container.child(categoryContainer);
 
     updateButtons();
     updateSelectedRecipeDisplay();
@@ -172,6 +182,7 @@ public class CellCrafterRecipeList {
       .filter(it -> search.isBlank() || (
         it.isUnlocked && it.recipe().output().getItem().getName().getString().toLowerCase().contains(search))
       )
+      .filter(it -> it.recipe().category() == selectedCategory)
       .forEach(currentRecipes::add);
 
     for (int i = yOffset * 6; i < currentRecipes.size(); ++i) {
@@ -317,6 +328,47 @@ public class CellCrafterRecipeList {
       RenderSystem.disableDepthTest();
       RenderSystem.disableBlend();
 
+    }
+  }
+
+  private class CategoryButton extends TexturedButton {
+    private final CellForgeRecipe.Category category;
+
+    public CategoryButton(CellForgeRecipe.Category category) {
+      super(
+        it -> {
+          selectedCategory = category;
+          updateRecipes();
+        },
+        RECIPES_SCREEN_TEXTURE, 160, 0
+      );
+      this.category = category;
+
+      this.renderer = (context, button, delta) -> {
+        int renderV = 0;
+        if (button.isHovered() || selectedCategory == category) {
+          renderV += button.height();
+        }
+
+        var x = button.getX();
+        if (selectedCategory != category) {
+          x += 16;
+        }
+
+        var matrices = context.getMatrices();
+        matrices.push();
+        matrices.translate(0, 0, -3);
+
+        RenderSystem.enableDepthTest();
+        context.drawTexture(
+          RECIPES_SCREEN_TEXTURE,
+          x, button.getY(), 160, renderV,
+          button.width(), button.height(),
+          256, 256
+        );
+
+        matrices.pop();
+      };
     }
   }
 
