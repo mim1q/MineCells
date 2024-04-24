@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -197,13 +198,29 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
           tooltip.addAll(Text.literal("You don't have enough of this item.").getWithStyle(Style.EMPTY.withColor(0xFF0000)));
         }
 
+        var firstLine = tooltip.get(0);
+        if (firstLine != null) {
+          var sibling = firstLine.getSiblings().get(0);
+          if (sibling != null) {
+            MutableText text = MutableText.of(sibling.getContent());
+            text.append(" x" + ingredient.getCount());
+            tooltip.clear();
+            tooltip.add(firstLine);
+            firstLine.getSiblings().set(0, text);
+          }
+        }
+
         box.child(Components.item(ingredient)
           .sizing(Sizing.fixed(16))
           .tooltip(tooltip)
         );
+
+        var color = hasEnough ? 0x99ffa9 : 0xff7b7d;
+        if (inventory == null) color = 0xFFFFFF;
+
         box.child(
           Components.label(Text.literal("" + ingredient.getCount()))
-            .color(hasEnough ? Color.WHITE : Color.RED)
+            .color(Color.ofRgb(color))
             .shadow(true)
             .horizontalTextAlignment(HorizontalAlignment.CENTER)
             .positioning(Positioning.absolute(6, 10))

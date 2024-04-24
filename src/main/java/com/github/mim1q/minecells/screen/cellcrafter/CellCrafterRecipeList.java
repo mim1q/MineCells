@@ -213,8 +213,11 @@ public class CellCrafterRecipeList {
       return;
     }
 
-    ingredientDisplay = new CellCrafterScreen.IngredientDisplay(null, selectedRecipe.recipe(), Sizing.fixed(96), Sizing.fixed(16));
-    ingredientDisplay.positioning(Positioning.absolute(8, 128));
+    ingredientDisplay = new CellCrafterScreen.IngredientDisplay(
+      parent.getScreenHandler().player().getInventory(), selectedRecipe.recipe(),
+      Sizing.fixed(96), Sizing.fixed(16)
+    );
+    ingredientDisplay.positioning(Positioning.absolute(10, 128));
 
     container.child(ingredientDisplay);
   }
