@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.screen.cellcrafter;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen.IngredientDisplay;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen.TexturedButton;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.component.ItemComponent;
@@ -41,6 +42,8 @@ public class CellCrafterRecipeList {
   private final TexturedButton downButton;
   private final TexturedButton upButton;
   private final TexturedButton applyButton;
+  private FlowLayout container;
+  private IngredientDisplay ingredientDisplay = null;
 
   private String search = "";
   private int yOffset = 0;
@@ -72,7 +75,7 @@ public class CellCrafterRecipeList {
   }
 
   public void build(FlowLayout rootComponent) {
-    var container = Containers.verticalFlow(Sizing.fixed(160), Sizing.fixed(176));
+    container = Containers.verticalFlow(Sizing.fixed(160), Sizing.fixed(176));
     container
       .surface(backgroundTexture(RECIPES_SCREEN_TEXTURE, 256, 256))
       .horizontalAlignment(HorizontalAlignment.LEFT)
@@ -117,15 +120,16 @@ public class CellCrafterRecipeList {
       .positioning(Positioning.absolute(112, 52))
     );
 
-    updateScrollButtons();
-
     grid.positioning(Positioning.absolute(3, 34)).allowOverflow(true);
 
     container.child(grid);
     rootComponent.child(container);
+
+    updateButtons();
+    updateSelectedRecipeDisplay();
   }
 
-  void updateScrollButtons() {
+  void updateButtons() {
     upButton.active(yOffset > 0);
     downButton.active(yOffset < getMaxYOffset());
     applyButton.active(selectedRecipe != null);
@@ -192,7 +196,27 @@ public class CellCrafterRecipeList {
       }
     }
 
-    updateScrollButtons();
+    updateButtons();
+    updateSelectedRecipeDisplay();
+  }
+
+  private void updateSelectedRecipeDisplay() {
+    if (container == null) {
+      return;
+    }
+
+    if (ingredientDisplay != null && ingredientDisplay.parent() == container) {
+      container.removeChild(ingredientDisplay);
+    }
+
+    if (selectedRecipe == null) {
+      return;
+    }
+
+    ingredientDisplay = new CellCrafterScreen.IngredientDisplay(null, selectedRecipe.recipe(), Sizing.fixed(96), Sizing.fixed(16));
+    ingredientDisplay.positioning(Positioning.absolute(8, 128));
+
+    container.child(ingredientDisplay);
   }
 
   public void scrollDown() {
@@ -200,7 +224,7 @@ public class CellCrafterRecipeList {
     if (newYOffset != yOffset) {
       yOffset = newYOffset;
       updateRecipes();
-      updateScrollButtons();
+      updateButtons();
     }
   }
 
@@ -209,7 +233,7 @@ public class CellCrafterRecipeList {
     if (newYOffset != yOffset) {
       yOffset = newYOffset;
       updateRecipes();
-      updateScrollButtons();
+      updateButtons();
     }
   }
 
@@ -238,7 +262,8 @@ public class CellCrafterRecipeList {
         this.mouseDownEvents.source().subscribe((mouseX, mouseY, button) -> {
           MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
           parent.selectedRecipe = this.recipe;
-          parent.updateScrollButtons();
+          parent.updateButtons();
+          parent.updateSelectedRecipeDisplay();
           return true;
         });
         this.cursorStyle(CursorStyle.HAND);

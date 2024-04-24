@@ -54,7 +54,7 @@ public class ServerPacketHandler {
           && recipe.isPresent()
           && recipe.get() instanceof CellForgeRecipe cellForgeRecipe
         ) {
-          cellCrafter.setCooldown(40);
+          cellCrafter.setCooldown(10);
           cellCrafter.addStack(cellForgeRecipe.getOutput(server.getRegistryManager()));
         }
       });

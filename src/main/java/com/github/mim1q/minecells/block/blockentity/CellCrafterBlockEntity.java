@@ -65,10 +65,6 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
   public void tick(World world, BlockPos pos, BlockState state) {
     if (world.isClient()) return;
     if (cooldown > 0) {
-      if (state.get(CellCrafterBlock.STATUS) == CellCrafterBlock.Status.IN_USE) {
-        return;
-      }
-
       if (cooldown % 10 == 0) {
         world.playSound(null, pos, MineCellsSounds.BUZZ, SoundCategory.BLOCKS, 0.2f, 0.8f + world.random.nextFloat() * 0.4f);
       }

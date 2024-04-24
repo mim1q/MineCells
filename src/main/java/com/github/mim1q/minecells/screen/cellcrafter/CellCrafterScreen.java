@@ -13,7 +13,9 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -51,6 +53,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     return OwoUIAdapter.create(this, Containers::verticalFlow);
   }
 
+
   @Override
   protected void build(FlowLayout rootComponent) {
     rootComponent
@@ -73,27 +76,33 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
           .sizing(Sizing.fixed(64))
       );
 
-      container.child(
-        Components.texture(SCREEN_TEXTURE, 224, 0, 16, 16)
-          .sizing(Sizing.fixed(16))
-          .positioning(Positioning.absolute(100, 26))
-      );
-
-      container.child(
-        new TexturedButton(it -> {
-          if (selectedRecipe != null && blockPos != null) {
-            new CellCrafterCraftRequestC2SPacket(selectedRecipe.getId(), blockPos).send();
-          }
-        }, SCREEN_TEXTURE, 208, 0)
-          .sizing(Sizing.fixed(16))
-          .positioning(Positioning.absolute(118, 26))
-      );
-
       if (selectedRecipe != null) {
+        container.child(
+          Components.texture(SCREEN_TEXTURE, 224, 0, 16, 16)
+            .sizing(Sizing.fixed(16))
+            .positioning(Positioning.absolute(100, 26))
+        );
+
+        container.child(
+          new TexturedButton(it -> {
+            if (selectedRecipe != null && blockPos != null) {
+              new CellCrafterCraftRequestC2SPacket(selectedRecipe.getId(), blockPos).send();
+            }
+          }, SCREEN_TEXTURE, 208, 0)
+            .sizing(Sizing.fixed(16))
+            .positioning(Positioning.absolute(118, 26))
+        );
+
         container.child(
           Components.item(selectedRecipe.output())
             .sizing(Sizing.fixed(16))
             .positioning(Positioning.absolute(100, 44))
+            .tooltip(selectedRecipe.output().getTooltip(this.handler.player(), TooltipContext.BASIC))
+        );
+
+        container.child(
+          new IngredientDisplay(handler.player().getInventory(), selectedRecipe, Sizing.fixed(96), Sizing.fixed(16))
+            .positioning(Positioning.absolute(60, 6))
         );
       }
 
@@ -156,6 +165,53 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     protected TexturedButton(Consumer<ButtonComponent> onPress, Identifier texture, int u, int v) {
       super(Text.empty(), onPress);
       this.renderer = Renderer.texture(texture, u, v, 256, 256);
+    }
+  }
+
+  public static class IngredientDisplay extends FlowLayout {
+    private final CellForgeRecipe recipe;
+    private final PlayerInventory inventory;
+
+    public IngredientDisplay(PlayerInventory inventory, CellForgeRecipe recipe, Sizing horizontalSizing, Sizing verticalSizing) {
+      super(horizontalSizing, verticalSizing, Algorithm.HORIZONTAL);
+      this.inventory = inventory;
+      this.recipe = recipe;
+
+      horizontalAlignment(HorizontalAlignment.CENTER);
+      allowOverflow(true);
+
+      setup();
+    }
+
+    public void setup() {
+      clearChildren();
+
+      for (var ingredient : recipe.ingredients()) {
+        var box = Containers.horizontalFlow(Sizing.fixed(16), Sizing.fixed(16));
+        box.allowOverflow(true);
+
+        var tooltip = ingredient.getTooltip(null, TooltipContext.BASIC);
+
+        var hasEnough = inventory == null || inventory.count(ingredient.getItem()) >= ingredient.getCount();
+        if (!hasEnough) {
+          tooltip.addAll(Text.literal("You don't have enough of this item.").getWithStyle(Style.EMPTY.withColor(0xFF0000)));
+        }
+
+        box.child(Components.item(ingredient)
+          .sizing(Sizing.fixed(16))
+          .tooltip(tooltip)
+        );
+        box.child(
+          Components.label(Text.literal("" + ingredient.getCount()))
+            .color(hasEnough ? Color.WHITE : Color.RED)
+            .shadow(true)
+            .horizontalTextAlignment(HorizontalAlignment.CENTER)
+            .positioning(Positioning.absolute(6, 10))
+            .horizontalSizing(Sizing.fixed(16))
+            .zIndex(300)
+        );
+        child(box);
+      }
     }
   }
 }
