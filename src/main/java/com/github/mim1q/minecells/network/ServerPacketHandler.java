@@ -54,8 +54,26 @@ public class ServerPacketHandler {
           && recipe.isPresent()
           && recipe.get() instanceof CellForgeRecipe cellForgeRecipe
         ) {
+          var canCraft = cellForgeRecipe.matches(player.getInventory(), player.getWorld());
+          if (!canCraft) {
+            MineCells.LOGGER.warn(
+              "Player {} tried to craft {} without having the required items",
+              player.getName().getString(),
+              cellForgeRecipe.getId().toString()
+            );
+            return;
+          }
+          var output = cellForgeRecipe.craft(player.getInventory(), player.getWorld().getRegistryManager());
+          if (output == null) {
+            MineCells.LOGGER.warn(
+              "Player {} tried to craft {} but failed",
+              player.getName().getString(),
+              cellForgeRecipe.getId().toString()
+            );
+            return;
+          }
           cellCrafter.setCooldown(10);
-          cellCrafter.addStack(cellForgeRecipe.getOutput(server.getRegistryManager()));
+          cellCrafter.addStack(output);
         }
       });
     });
