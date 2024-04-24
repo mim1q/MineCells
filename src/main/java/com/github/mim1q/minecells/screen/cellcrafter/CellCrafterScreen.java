@@ -8,6 +8,8 @@ import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList.Displ
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
+import io.wispforest.owo.ui.component.ItemComponent;
+import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
@@ -15,14 +17,17 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCrafterScreenHandler> {
@@ -116,6 +121,13 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     // No-op
   }
 
+  public void rebuild() {
+    if (this.uiAdapter == null) return;
+
+    this.uiAdapter.rootComponent.clearChildren();
+    this.build(this.uiAdapter.rootComponent);
+  }
+
   public void toggleRecipeList() {
     isRecipeListVisible = !isRecipeListVisible;
 
@@ -124,8 +136,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       else enableSlot(i);
     }
 
-    this.uiAdapter.rootComponent.clearChildren();
-    this.build(this.uiAdapter.rootComponent);
+    rebuild();
     this.recipeList.clearSearch();
   }
 
@@ -172,6 +183,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
   public static class IngredientDisplay extends FlowLayout {
     private final CellForgeRecipe recipe;
     private final PlayerInventory inventory;
+    private final Map<ItemStack, Pair<ItemComponent, LabelComponent>> itemLabels = new java.util.HashMap<>();
 
     public IngredientDisplay(PlayerInventory inventory, CellForgeRecipe recipe, Sizing horizontalSizing, Sizing verticalSizing) {
       super(horizontalSizing, verticalSizing, Algorithm.HORIZONTAL);
@@ -182,6 +194,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       allowOverflow(true);
 
       setup();
+
     }
 
     public void setup() {
@@ -191,12 +204,35 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
         var box = Containers.horizontalFlow(Sizing.fixed(16), Sizing.fixed(16));
         box.allowOverflow(true);
 
-        var tooltip = ingredient.getTooltip(null, TooltipContext.BASIC);
+        var itemComponent = Components.item(ingredient);
+        itemComponent
+          .sizing(Sizing.fixed(16))
+          .tooltip(tooltip);
+        box.child(itemComponent);
 
-        var hasEnough = inventory == null || inventory.count(ingredient.getItem()) >= ingredient.getCount();
-        if (!hasEnough) {
-          tooltip.addAll(Text.literal("You don't have enough of this item.").getWithStyle(Style.EMPTY.withColor(0xFF0000)));
-        }
+        var label = Components.label(Text.literal("" + ingredient.getCount()));
+        label
+          .shadow(true)
+          .horizontalTextAlignment(HorizontalAlignment.CENTER)
+          .positioning(Positioning.absolute(6, 10))
+          .horizontalSizing(Sizing.fixed(16))
+          .zIndex(300);
+        box.child(label);
+
+        itemLabels.put(ingredient, new Pair<>(itemComponent, label));
+        child(box);
+      }
+
+      updateLabels();
+    }
+
+    private void updateLabels() {
+      for (var entry : itemLabels.entrySet()) {
+        var ingredient = entry.getKey();
+
+        var tooltip = ingredient.getTooltip(null, TooltipContext.BASIC);
+        var itemComponent = entry.getValue().getLeft();
+        var label = entry.getValue().getRight();
 
         var firstLine = tooltip.get(0);
         if (firstLine != null) {
@@ -210,25 +246,23 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
           }
         }
 
-        box.child(Components.item(ingredient)
-          .sizing(Sizing.fixed(16))
-          .tooltip(tooltip)
-        );
+        var hasEnough = inventory == null || inventory.count(ingredient.getItem()) >= ingredient.getCount();
+        if (!hasEnough) {
+          tooltip.addAll(Text.literal("You don't have enough of this item.").getWithStyle(Style.EMPTY.withColor(0xFF0000)));
+        }
 
         var color = hasEnough ? 0x99ffa9 : 0xff7b7d;
         if (inventory == null) color = 0xFFFFFF;
 
-        box.child(
-          Components.label(Text.literal("" + ingredient.getCount()))
-            .color(Color.ofRgb(color))
-            .shadow(true)
-            .horizontalTextAlignment(HorizontalAlignment.CENTER)
-            .positioning(Positioning.absolute(6, 10))
-            .horizontalSizing(Sizing.fixed(16))
-            .zIndex(300)
-        );
-        child(box);
+        itemComponent.tooltip(tooltip);
+        label.color(Color.ofArgb(color));
       }
+    }
+
+    @Override
+    public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
+      updateLabels();
+      super.draw(context, mouseX, mouseY, partialTicks, delta);
     }
   }
 }
