@@ -160,14 +160,6 @@ public abstract class ObeliskEntity extends Entity {
     return ActionResult.FAIL;
   }
 
-  @Override
-  public boolean damage(DamageSource source, float amount) {
-    if (source.getName().equals("player") && source.getAttacker() instanceof PlayerEntity player) {
-      this.interact(player, Hand.MAIN_HAND);
-    }
-    return false;
-  }
-
   protected boolean isEntityPresent() {
     for (Entity e : getWorld().getOtherEntities(this, this.getBox(), VALID_LIVING_ENTITY)) {
       if (e instanceof MineCellsEntity mcEntity && this.getBlockPos().equals(mcEntity.spawnRunePos)) {
