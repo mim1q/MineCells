@@ -47,12 +47,4 @@ public class CellCrafterScreenHandler extends ScreenHandler {
   public boolean canUse(PlayerEntity player) {
     return true;
   }
-
-  @Override
-  public void onClosed(PlayerEntity player) {
-    super.onClosed(player);
-    if (!player.getWorld().isClient && this.entity != null) {
-      this.entity.onScreenClosed();
-    }
-  }
 }

@@ -33,6 +33,7 @@ import java.util.function.Consumer;
 public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCrafterScreenHandler> {
   public static final Identifier SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/container.png");
   private final CellCrafterRecipeList recipeList;
+  private final TexturedButton forgeButton;
   private boolean isRecipeListVisible = false;
   private CellForgeRecipe selectedRecipe = null;
   private BlockPos blockPos = null;
@@ -47,6 +48,12 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     );
 
     handler.blockPos.observe(it -> blockPos = it);
+
+    forgeButton = new TexturedButton(it -> {
+      if (selectedRecipe != null && blockPos != null) {
+        new CellCrafterCraftRequestC2SPacket(selectedRecipe.getId(), blockPos).send();
+      }
+    }, SCREEN_TEXTURE, 208, 0);
   }
 
   public void updateRecipes(List<DisplayedRecipe> recipes) {
@@ -58,7 +65,6 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
   protected OwoUIAdapter<FlowLayout> createAdapter() {
     return OwoUIAdapter.create(this, Containers::verticalFlow);
   }
-
 
   @Override
   protected void build(FlowLayout rootComponent) {
@@ -90,11 +96,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
         );
 
         container.child(
-          new TexturedButton(it -> {
-            if (selectedRecipe != null && blockPos != null) {
-              new CellCrafterCraftRequestC2SPacket(selectedRecipe.getId(), blockPos).send();
-            }
-          }, SCREEN_TEXTURE, 208, 0)
+          forgeButton
             .sizing(Sizing.fixed(16))
             .positioning(Positioning.absolute(118, 26))
         );
@@ -118,7 +120,11 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
 
   @Override
   protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-    // No-op
+    // Update the forge button state, skip the super call
+    forgeButton.active(
+      selectedRecipe != null
+        && selectedRecipe.matches(this.handler.player().getInventory(), this.handler.player().getWorld())
+    );
   }
 
   public void rebuild() {

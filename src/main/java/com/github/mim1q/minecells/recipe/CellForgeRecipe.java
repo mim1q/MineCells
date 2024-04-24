@@ -1,9 +1,9 @@
 package com.github.mim1q.minecells.recipe;
 
-import com.github.mim1q.minecells.block.inventory.CellForgeInventory;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
@@ -23,7 +23,7 @@ public record CellForgeRecipe(
   Optional<Identifier> requiredAdvancement,
   int priority,
   Category category
-) implements Recipe<CellForgeInventory> {
+) implements Recipe<PlayerInventory> {
 
   public static final Codec<CellForgeRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
     Codec.list(ItemStack.CODEC).fieldOf("input").forGetter(CellForgeRecipe::ingredients),
@@ -49,25 +49,25 @@ public record CellForgeRecipe(
   }
 
   @Override
-  public boolean matches(CellForgeInventory inventory, World world) {
-    for (int i = 0; i < ingredients.size(); i++) {
-      ItemStack ingredient = ingredients.get(i);
-      ItemStack stack = inventory.getStack(i);
-      if (!(ingredient.isOf(stack.getItem()) && ingredient.getCount() == stack.getCount())) {
-        return false;
-      }
+  public boolean matches(PlayerInventory inventory, World world) {
+    for (var ingredient : ingredients) {
+      if (inventory.count(ingredient.getItem()) < ingredient.getCount()) return false;
     }
     return true;
   }
 
   @Override
-  public ItemStack craft(CellForgeInventory inventory, DynamicRegistryManager registryManager) {
-    return null;
+  public ItemStack craft(PlayerInventory inventory, DynamicRegistryManager registryManager) {
+    for (var ingredient : ingredients) {
+      if (inventory.count(ingredient.getItem()) < ingredient.getCount()) return null;
+      inventory.remove(stack -> ItemStack.areItemsEqual(stack, ingredient), ingredient.getCount(), inventory);
+    }
+    return output.copy();
   }
 
   @Override
   public boolean fits(int width, int height) {
-    return false;
+    return true;
   }
 
   @Override

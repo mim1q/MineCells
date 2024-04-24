@@ -52,16 +52,6 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
     craftedItems.add(itemStack.copy());
   }
 
-  public void onScreenClosed() {
-    if (world == null || !world.getBlockState(pos).equals(this.getCachedState())) return;
-
-    world.setBlockState(pos, getCachedState().with(CellCrafterBlock.STATUS,
-      craftedItems.isEmpty()
-        ? CellCrafterBlock.Status.IDLE
-        : CellCrafterBlock.Status.CRAFTING)
-    );
-  }
-
   public void tick(World world, BlockPos pos, BlockState state) {
     if (world.isClient()) return;
     if (cooldown > 0) {

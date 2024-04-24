@@ -56,11 +56,11 @@ public class CellCrafterBlock extends BlockWithEntity {
   @Override
   @SuppressWarnings("deprecation")
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    if (world.isClient() || state.get(STATUS) != Status.IDLE) {
+    if (world.isClient) {
       return ActionResult.SUCCESS;
     }
+
     player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-    world.setBlockState(pos, state.with(STATUS, Status.IN_USE));
     return ActionResult.CONSUME;
   }
 
