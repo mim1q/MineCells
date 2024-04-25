@@ -1,23 +1,10 @@
 {
   "type": "minecells:cell_forge_recipe",
-  "advancement": "minecells:promenade",
+  "category": "gear",
   "input": [
-    {
-      "id": "minecraft:iron_sword",
-      "Count": 1
-    },
-    {
-      "id": "minecraft:gold_ingot",
-      "Count": 32
-    },
-    {
-      "id": "minecraft:string",
-      "Count": 2
-    }
+    { "id": "minecraft:iron_sword", "Count": 1 },
+    { "id": "minecraft:gold_ingot", "Count": 32 },
+    { "id": "minecraft:string", "Count": 2 }
   ],
-  "cells": 25,
-  "output": {
-    "id": "minecells:hattoris_katana",
-    "Count": 1
-  }
+  "output": { "id": "minecells:hattoris_katana", "Count": 1 }
 }

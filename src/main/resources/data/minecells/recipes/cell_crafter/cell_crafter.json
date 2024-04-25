@@ -1,19 +1,11 @@
 {
   "type": "minecells:cell_forge_recipe",
   "priority": 100,
+  "category": "other",
   "input": [
-    {
-      "id": "minecraft:crafting_table",
-      "Count": 1
-    },
-    {
-      "id": "minecraft:diamond",
-      "Count": 8
-    }
+    { "id": "minecells:monster_cell", "Count": 8 },
+    { "id": "minecraft:crafting_table", "Count": 1 },
+    { "id": "minecraft:diamond", "Count": 1 }
   ],
-  "cells": 100,
-  "output": {
-    "id": "minecells:cell_crafter",
-    "Count": 1
-  }
+  "output": { "id": "minecells:cell_crafter", "Count": 1 }
 }
