@@ -86,6 +86,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       container.child(
         new TexturedButton(it -> toggleRecipeList(), SCREEN_TEXTURE, 192, 48)
           .sizing(Sizing.fixed(64))
+          .tooltip(Text.translatable("block.minecells.cell_crafter.view_recipes"))
       );
 
       if (selectedRecipe != null) {
@@ -124,6 +125,12 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     forgeButton.active(
       selectedRecipe != null
         && selectedRecipe.matches(this.handler.player().getInventory(), this.handler.player().getWorld())
+    );
+
+    forgeButton.tooltip(
+      forgeButton.active
+        ? Text.translatable("block.minecells.cell_crafter.craft")
+        : Text.translatable("block.minecells.cell_crafter.not_enough_ingredients")
     );
   }
 
@@ -200,7 +207,6 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       allowOverflow(true);
 
       setup();
-
     }
 
     public void setup() {
@@ -254,7 +260,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
 
         var hasEnough = inventory == null || inventory.count(ingredient.getItem()) >= ingredient.getCount();
         if (!hasEnough) {
-          tooltip.addAll(Text.literal("You don't have enough of this item.").getWithStyle(Style.EMPTY.withColor(0xFF0000)));
+          tooltip.addAll(Text.translatable("block.minecells.cell_crafter.not_enough_of_this_item").getWithStyle(Style.EMPTY.withColor(0xFF0000)));
         }
 
         var color = hasEnough ? 0x99ffa9 : 0xff7b7d;

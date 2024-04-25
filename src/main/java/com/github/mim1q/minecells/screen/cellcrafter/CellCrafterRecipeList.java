@@ -5,7 +5,9 @@ import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen.IngredientDisplay;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen.TexturedButton;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.ItemComponent;
+import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.component.TextBoxComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
@@ -43,6 +45,8 @@ public class CellCrafterRecipeList {
   private final TexturedButton downButton;
   private final TexturedButton upButton;
   private final TexturedButton applyButton;
+  private final LabelComponent label;
+  private final TextBoxComponent textBox;
   private FlowLayout container;
   private IngredientDisplay ingredientDisplay = null;
 
@@ -73,6 +77,13 @@ public class CellCrafterRecipeList {
       RECIPES_SCREEN_TEXTURE,
       224, 0
     );
+
+    label = Components.label(selectedCategory.getName());
+    label.shadow(false)
+      .color(Color.BLACK)
+      .positioning(Positioning.absolute(44, 4));
+
+    textBox = new NoShadowTextBox(Sizing.fixed(70));
   }
 
   public void build(FlowLayout rootComponent) {
@@ -84,7 +95,6 @@ public class CellCrafterRecipeList {
       .padding(Insets.of(8))
       .allowOverflow(true);
 
-    var textBox = new NoShadowTextBox(Sizing.fixed(70));
     textBox.setDrawsBackground(false);
     textBox.setRenderTextProvider((string, firstCharacterIndex) ->
       OrderedText.styledForwardsVisitedString(string, Style.EMPTY.withFormatting(Formatting.BLACK))
@@ -110,6 +120,7 @@ public class CellCrafterRecipeList {
       applyButton
         .sizing(Sizing.fixed(16))
         .positioning(Positioning.absolute(152, 138))
+        .tooltip(Text.translatable("block.minecells.cell_crafter.select_recipe"))
     );
 
     container.child(upButton
@@ -121,6 +132,8 @@ public class CellCrafterRecipeList {
       .positioning(Positioning.absolute(152, 52))
     );
 
+    container.child(label);
+
     grid.positioning(Positioning.absolute(43, 34)).allowOverflow(true);
 
     container.child(grid);
@@ -130,7 +143,7 @@ public class CellCrafterRecipeList {
     categoryContainer.allowOverflow(true).positioning(Positioning.absolute(0, 16));
 
     for (var category : CellForgeRecipe.Category.values()) {
-      categoryContainer.child(new CategoryButton(category).sizing(Sizing.fixed(40), Sizing.fixed(25)));
+      categoryContainer.child(new CategoryButton(category).sizing(Sizing.fixed(40), Sizing.fixed(25)).tooltip(category.getName()));
     }
 
     container.child(categoryContainer);
@@ -167,6 +180,7 @@ public class CellCrafterRecipeList {
 
   public void clearSearch() {
     search = "";
+    textBox.setText("");
     updateRecipes();
   }
 
@@ -202,6 +216,8 @@ public class CellCrafterRecipeList {
         grid.child(component, r, c);
       }
     }
+
+    label.text(selectedCategory.getName());
 
     updateButtons();
     updateSelectedRecipeDisplay();
@@ -333,9 +349,8 @@ public class CellCrafterRecipeList {
       super(
         it -> {
           selectedCategory = category;
-          search = "";
           scrollOffset = 0;
-          updateRecipes();
+          clearSearch();
         },
         RECIPES_SCREEN_TEXTURE, 160, 0
       );

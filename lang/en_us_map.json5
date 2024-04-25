@@ -132,6 +132,22 @@
     shockwave_flame_player: "Player's Shockwave Flame",
     shockwave_flame: "Shockwave Flame",
 
+    // Cell Crafter
+    cell_crafter: {
+      "": "Cell Crafter",
+      not_enough_of_this_item: "You don't have enough of this item",
+      not_enough_ingredients: "You don't have all the necessary ingredients",
+      view_recipes: "View Recipes",
+      craft: "Craft",
+      select_recipe: "Select Recipe",
+
+      category: {
+        gear: "Gear recipes",
+        decoration: "Decoration recipes",
+        other: "Other recipes",
+      },
+    },
+
     // Automatically generated block names
     putrid_planks: "Putrid Planks",
     putrid_log: "Putrid Log",

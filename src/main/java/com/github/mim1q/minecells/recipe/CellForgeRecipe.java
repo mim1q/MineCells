@@ -13,6 +13,7 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.world.World;
@@ -101,15 +102,21 @@ public record CellForgeRecipe(
 
     private final String name;
     public final Item displayItem;
+    private final String translationKey;
 
     Category(String name, ItemConvertible displayItem) {
       this.name = name;
       this.displayItem = displayItem.asItem();
+      this.translationKey = "block.minecells.cell_crafter.category." + name;
     }
 
     @Override
     public String asString() {
       return name;
+    }
+
+    public Text getName() {
+      return Text.translatable(translationKey);
     }
   }
 }
