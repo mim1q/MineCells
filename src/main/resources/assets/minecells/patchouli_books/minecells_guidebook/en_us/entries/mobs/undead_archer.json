@@ -2,7 +2,7 @@
   "name": "entity.minecells.undead_archer",
   "category": "minecells:mobs",
   "icon": "minecells:undead_archer_spawn_egg",
-  "advancement": "minecells:unlock/mobs/undead_archer",
+  "advancement": "minecells:book/mobs/undead_archer",
   "pages": [
     {
       "type": "minecells:entity",

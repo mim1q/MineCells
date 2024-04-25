@@ -2,7 +2,7 @@
   "name": "entity.minecells.buzzcutter",
   "category": "minecells:mobs",
   "icon": "minecells:buzzcutter_spawn_egg",
-  "advancement": "minecells:unlock/mobs/buzzcutter",
+  "advancement": "minecells:book/mobs/buzzcutter",
   "pages": [
     {
       "type": "minecells:entity",
