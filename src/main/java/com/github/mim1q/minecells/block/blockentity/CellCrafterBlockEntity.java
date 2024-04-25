@@ -9,6 +9,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
@@ -46,10 +49,12 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
 
   public void setCooldown(int cooldown) {
     this.cooldown = cooldown;
+    markDirty();
   }
 
   public void addStack(ItemStack itemStack) {
     craftedItems.add(itemStack.copy());
+    markDirty();
   }
 
   public void tick(World world, BlockPos pos, BlockState state) {
@@ -68,7 +73,7 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
         pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 1,
         0.5, 0, 0.5, 0.01
       );
-      cooldown--;
+      setCooldown(cooldown - 1);
     } else if (!craftedItems.isEmpty()) {
       var itemStack = craftedItems.poll();
       dropStack(world, pos.up(), itemStack);
@@ -84,5 +89,30 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
     } else if (state.get(CellCrafterBlock.STATUS) == CellCrafterBlock.Status.CRAFTING) {
       world.setBlockState(pos, state.with(CellCrafterBlock.STATUS, CellCrafterBlock.Status.IDLE));
     }
+  }
+
+  @Override
+  public NbtCompound toInitialChunkDataNbt() {
+    return createNbt();
+  }
+
+  @Override
+  public void readNbt(NbtCompound nbt) {
+    super.readNbt(nbt);
+    for (var itemStackNbt : nbt.getList("CraftedItems", NbtElement.COMPOUND_TYPE)) {
+      craftedItems.add(ItemStack.fromNbt((NbtCompound) itemStackNbt));
+    }
+    cooldown = nbt.getInt("Cooldown");
+  }
+
+  @Override
+  protected void writeNbt(NbtCompound nbt) {
+    super.writeNbt(nbt);
+    var craftedItems = new NbtList();
+    for (var itemStack : this.craftedItems) {
+      craftedItems.add(itemStack.writeNbt(new NbtCompound()));
+    }
+    nbt.put("CraftedItems", craftedItems);
+    nbt.putInt("Cooldown", cooldown);
   }
 }
