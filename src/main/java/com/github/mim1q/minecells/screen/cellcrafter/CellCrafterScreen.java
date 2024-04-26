@@ -212,17 +212,18 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     public void setup() {
       clearChildren();
 
-      for (var ingredient : recipe.ingredients()) {
+      for (var ingredient : recipe.ingredients().entrySet()) {
+        var itemStack = ingredient.getKey().getDefaultStack();
         var box = Containers.horizontalFlow(Sizing.fixed(16), Sizing.fixed(16));
         box.allowOverflow(true);
 
-        var itemComponent = Components.item(ingredient);
+        var itemComponent = Components.item(itemStack);
         itemComponent
           .sizing(Sizing.fixed(16))
           .tooltip(tooltip);
         box.child(itemComponent);
 
-        var label = Components.label(Text.literal("" + ingredient.getCount()));
+        var label = Components.label(Text.literal("" + ingredient.getValue()));
         label
           .shadow(true)
           .horizontalTextAlignment(HorizontalAlignment.CENTER)
@@ -231,7 +232,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
           .zIndex(300);
         box.child(label);
 
-        itemLabels.put(ingredient, new Pair<>(itemComponent, label));
+        itemLabels.put(itemStack, new Pair<>(itemComponent, label));
         child(box);
       }
 

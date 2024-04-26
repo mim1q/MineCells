@@ -275,6 +275,20 @@ public class MineCellsItems {
   //#region Simple crafting ingredients
   public static final Item MONSTER_CELL = registerSimpleItem("monster_cell");
   public static final Item BOSS_STEM_CELL = registerSimpleItem("boss_stem_cell");
+  public static final Item EXPLOSIVE_BULB = registerSimpleItem("explosive_gel");
+  public static final Item INFECTED_FLESH = registerSimpleItem("infected_flesh");
+  public static final Item CELL_INFUSED_STEEL = registerSimpleItem("cell_infused_steel");
+  public static final Item METAL_SHARDS = registerSimpleItem("metal_shards");
+  public static final Item BUZZCUTTER_FANG = registerSimpleItem("buzzcutter_fang");
+  public static final Item MOLTEN_CHUNK = registerSimpleItem("molten_chunk");
+  public static final Item SEWER_CALAMARI = register(new Item(
+    new FabricItemSettings().food((new FoodComponent.Builder()).hunger(3).saturationModifier(0.3F).meat().build())
+  ), "sewer_calamari");
+  public static final Item COOKED_SEWER_CALAMARI = register(new Item(
+    new FabricItemSettings().food((new FoodComponent.Builder()).hunger(8).saturationModifier(0.8F).meat().build())
+  ), "cooked_sewer_calamari");
+  public static final Item TRANSPOSITION_CORE = registerSimpleItem("transposition_core");
+  public static final Item BLOOD_BOTTLE = registerSimpleItem("blood_bottle");
 
   public static final Item ICE_ARROW = registerSimpleItem("ice_arrow");
   public static final Item EXPLOSIVE_BOLT = registerSimpleItem("explosive_bolt");

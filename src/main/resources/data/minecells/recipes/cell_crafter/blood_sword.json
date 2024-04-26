@@ -1,9 +1,0 @@
-{
-  "type": "minecells:cell_forge_recipe",
-  "category": "gear",
-  "input": [
-    { "id": "minecraft:iron_sword", "Count": 1 },
-    { "id": "minecraft:redstone", "Count": 16 }
-  ],
-  "output": { "id": "minecells:blood_sword", "Count": 1 }
-}

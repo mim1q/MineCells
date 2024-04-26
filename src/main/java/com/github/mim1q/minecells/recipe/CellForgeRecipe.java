@@ -13,17 +13,18 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.world.World;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public record CellForgeRecipe(
   Identifier id,
-  List<ItemStack> ingredients,
+  Map<Item, Integer> ingredients,
   ItemStack output,
   Optional<Identifier> requiredAdvancement,
   int priority,
@@ -31,7 +32,7 @@ public record CellForgeRecipe(
 ) implements Recipe<PlayerInventory> {
 
   public static final Codec<CellForgeRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-    Codec.list(ItemStack.CODEC).fieldOf("input").forGetter(CellForgeRecipe::ingredients),
+    Codec.unboundedMap(Registries.ITEM.getCodec(), Codec.INT).fieldOf("input").forGetter(CellForgeRecipe::ingredients),
     ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::output),
     Identifier.CODEC.optionalFieldOf("advancement").forGetter(CellForgeRecipe::requiredAdvancement),
     Codec.INT.optionalFieldOf("priority", 0).forGetter(CellForgeRecipe::priority),
@@ -40,7 +41,7 @@ public record CellForgeRecipe(
 
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   private static CellForgeRecipe create(
-    List<ItemStack> ingredients,
+    Map<Item, Integer> ingredients,
     ItemStack output,
     Optional<Identifier> requiredAdvancement,
     int priority,
@@ -55,17 +56,17 @@ public record CellForgeRecipe(
 
   @Override
   public boolean matches(PlayerInventory inventory, World world) {
-    for (var ingredient : ingredients) {
-      if (inventory.count(ingredient.getItem()) < ingredient.getCount()) return false;
+    for (var ingredient : ingredients.entrySet()) {
+      if (inventory.count(ingredient.getKey()) < ingredient.getValue()) return false;
     }
     return true;
   }
 
   @Override
   public ItemStack craft(PlayerInventory inventory, DynamicRegistryManager registryManager) {
-    for (var ingredient : ingredients) {
-      if (inventory.count(ingredient.getItem()) < ingredient.getCount()) return null;
-      inventory.remove(stack -> ItemStack.areItemsEqual(stack, ingredient), ingredient.getCount(), inventory);
+    for (var ingredient : ingredients.entrySet()) {
+      if (inventory.count(ingredient.getKey()) < ingredient.getValue()) return null;
+      inventory.remove(stack -> stack.isOf(ingredient.getKey()), ingredient.getValue(), inventory);
     }
     return output.copy();
   }

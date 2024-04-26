@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MineCellsItemGroups {
   private static final Identifier DISCORD_ICON = MineCells.createId("textures/gui/button/discord.png");
@@ -25,6 +26,10 @@ public class MineCellsItemGroups {
 
   private static ItemStack stack(ItemConvertible item) {
     return new ItemStack(item);
+  }
+
+  private static List<ItemStack> stackList(ItemConvertible ...item) {
+    return Stream.of(item).map(MineCellsItemGroups::stack).toList();
   }
 
   private static void generalStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {
@@ -92,6 +97,22 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE),
       stack(MineCellsItems.CONCIERGE_RESPAWN_RUNE),
       stack(MineCellsItems.VINE_RUNE)
+    ));
+
+    // Crafting ingredients
+    stacks.addAll(stackList(
+      MineCellsItems.MONSTER_CELL,
+      MineCellsItems.BOSS_STEM_CELL,
+      MineCellsItems.EXPLOSIVE_BULB,
+      MineCellsItems.INFECTED_FLESH,
+      MineCellsItems.CELL_INFUSED_STEEL,
+      MineCellsItems.METAL_SHARDS,
+      MineCellsItems.BUZZCUTTER_FANG,
+      MineCellsItems.MOLTEN_CHUNK,
+      MineCellsItems.SEWER_CALAMARI,
+      MineCellsItems.COOKED_SEWER_CALAMARI,
+      MineCellsItems.TRANSPOSITION_CORE,
+      MineCellsItems.BLOOD_BOTTLE
     ));
   }
 
