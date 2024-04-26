@@ -1,0 +1,12 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:cell_infused_steel": 8,
+    "minecells:arcane_goo": 2
+  },
+  "output": {
+    "id": "minecells:rampart",
+    "Count": 1
+  }
+}

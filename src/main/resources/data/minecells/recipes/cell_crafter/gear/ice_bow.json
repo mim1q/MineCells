@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:stick": 3,
+    "minecraft:packed_ice": 5,
+    "minecells:monster_cell": 12
+  },
+  "output": {
+    "id": "minecells:ice_bow",
+    "Count": 1
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:arcane_goo": 8,
+    "minecells:metal_shards": 4,
+    "minecells:monster_cell": 12
+  },
+  "output": {
+    "id": "minecells:lightning_bolt",
+    "Count": 1
+  }
+}

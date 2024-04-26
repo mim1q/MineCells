@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:stick": 2,
+    "minecraft:diamond": 2,
+    "minecraft:lapis_lazuli": 8,
+    "minecells:cell_infused_steel": 8,
+    "minecraft:obsidian": 4
+  },
+  "output": {
+    "id": "minecells:broadsword",
+    "Count": 1
+  }
+}

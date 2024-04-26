@@ -4,11 +4,11 @@
   "input": {
     "minecraft:stick": 1,
     "minecells:cell_infused_steel": 6,
-    "minecraft:gold_ingot": 6,
-    "minecraft:string": 2
+    "minecells:buzzcutter_fang": 2,
+    "minecells:infected_flesh": 4
   },
   "output": {
-    "id": "minecells:hattoris_katana",
+    "id": "minecells:spite_sword",
     "Count": 1
   }
 }

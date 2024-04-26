@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:arcane_goo": 4,
+    "minecraft:string": 6,
+    "minecells:monster_cell": 8
+  },
+  "output": {
+    "id": "minecells:electric_whip",
+    "Count": 1
+  }
+}

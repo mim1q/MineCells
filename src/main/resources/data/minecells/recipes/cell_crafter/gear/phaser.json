@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:infected_flesh": 8,
+    "minecells:guts": 4,
+    "minecells:monsters_eye": 2,
+    "minecells:transposition_core": 1
+  },
+  "output": {
+    "id": "minecells:phaser",
+    "Count": 1
+  }
+}

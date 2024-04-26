@@ -1,0 +1,12 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:arrow": 16,
+    "minecraft:ice": 8
+  },
+  "output": {
+    "id": "minecells:ice_arrow",
+    "Count": 16
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:cell_infused_steel": 4,
+    "minecells:blood_bottle": 3,
+    "minecells:infected_flesh": 3
+  },
+  "output": {
+    "id": "minecells:throwing_knife",
+    "Count": 12
+  }
+}

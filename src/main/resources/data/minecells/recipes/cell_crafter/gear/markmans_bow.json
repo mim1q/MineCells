@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:stick": 3,
+    "minecraft:string": 3,
+    "minecells:putrid_planks": 8,
+    "minecraft:diamond": 1,
+    "minecells:monster_cell": 8
+  },
+  "output": {
+    "id": "minecells:marksmans_bow",
+    "Count": 1
+  }
+}

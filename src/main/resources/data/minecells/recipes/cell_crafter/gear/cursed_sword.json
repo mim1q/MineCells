@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:diamond_sword": 1,
+    "minecells:monsters_eye": 1,
+    "minecells:cell_infused_steel": 24,
+    "minecells:arcane_goo": 16,
+    "minecells:boss_stem_cell": 1
+  },
+  "output": {
+    "id": "minecells:cursed_sword",
+    "Count": 1
+  }
+}

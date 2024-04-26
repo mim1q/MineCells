@@ -1,0 +1,12 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:cell_infused_steel": 8,
+    "minecraft:packed_ice": 8
+  },
+  "output": {
+    "id": "minecells:ice_shield",
+    "Count": 1
+  }
+}

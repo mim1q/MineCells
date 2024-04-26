@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:stick": 4,
+    "minecraft:string": 4,
+    "minecells:cell_infused_steel": 24,
+    "minecraft:diamond": 4,
+    "minecells:boss_stem_cell": 1
+  },
+  "output": {
+    "id": "minecells:heavy_crossbow",
+    "Count": 1
+  }
+}

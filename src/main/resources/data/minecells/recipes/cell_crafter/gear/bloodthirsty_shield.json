@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:cell_infused_steel": 8,
+    "minecells:metal_shards": 4,
+    "minecells:blood_bottle": 4
+  },
+  "output": {
+    "id": "minecells:bloodthirsty_shield",
+    "Count": 1
+  }
+}

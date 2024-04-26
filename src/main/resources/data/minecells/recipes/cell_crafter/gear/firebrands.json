@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:torch": 8,
+    "minecraft:flint": 4,
+    "minecraft:fire_charge": 2
+  },
+  "output": {
+    "id": "minecells:firebrands",
+    "Count": 8
+  }
+}

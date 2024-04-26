@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:stick": 2,
+    "minecraft:obsidian": 6,
+    "minecells:cell_infused_steel": 8,
+    "minecells:metal_shards": 3
+  },
+  "output": {
+    "id": "minecells:nutcracker",
+    "Count": 1
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:packed_ice": 8,
+    "minecraft:ice": 16,
+    "minecells:monster_cell": 8
+  },
+  "output": {
+    "id": "minecells:frost_blast",
+    "Count": 1
+  }
+}

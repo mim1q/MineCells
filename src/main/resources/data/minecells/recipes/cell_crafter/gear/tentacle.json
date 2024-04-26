@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:sewer_calamari": 4,
+    "minecells:infected_flesh": 16,
+    "minecells:monster_cell": 24,
+    "minecells:boss_stem_cell": 1
+  },
+  "output": {
+    "id": "minecells:tentacle",
+    "Count": 1
+  }
+}

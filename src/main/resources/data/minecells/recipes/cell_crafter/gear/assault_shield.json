@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecells:cell_infused_steel": 12,
+    "minecraft:sugar": 4,
+    "minecraft:lapis_lazuli": 8
+  },
+  "output": {
+    "id": "minecells:assault_shield",
+    "Count": 1
+  }
+}

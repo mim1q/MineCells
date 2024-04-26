@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:string": 3,
+    "minecraft:stick": 3,
+    "minecraft:lapis_lazuli": 3,
+    "minecells:infected_flesh": 16,
+    "minecells:monster_cell": 12
+  },
+  "output": {
+    "id": "minecells:bow_and_endless_quiver",
+    "Count": 1
+  }
+}

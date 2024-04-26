@@ -3,12 +3,11 @@
   "category": "gear",
   "input": {
     "minecraft:stick": 1,
-    "minecells:cell_infused_steel": 6,
-    "minecraft:gold_ingot": 6,
-    "minecraft:string": 2
+    "minecells:metal_shards": 2,
+    "minecells:monster_cell": 4
   },
   "output": {
-    "id": "minecells:hattoris_katana",
+    "id": "minecells:assassins_dagger",
     "Count": 1
   }
 }

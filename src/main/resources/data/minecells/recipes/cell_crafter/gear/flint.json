@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:bone": 2,
+    "minecraft:obsidian": 4,
+    "minecraft:flint": 16,
+    "minecells:molten_chunk": 4,
+    "minecells:boss_stem_cell": 1
+
+  },
+  "output": {
+    "id": "minecells:flint",
+    "Count": 1
+  }
+}

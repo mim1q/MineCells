@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "input": {
+    "minecraft:stick": 4,
+    "minecraft:string": 4,
+    "minecells:cell_infused_steel": 12,
+    "minecells:explosive_bulb": 8,
+    "minecraft:gunpowder": 8
+  },
+  "output": {
+    "id": "minecells:explosive_crossbow",
+    "Count": 1
+  }
+}
