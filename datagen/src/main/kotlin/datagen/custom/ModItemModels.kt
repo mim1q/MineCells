@@ -12,7 +12,9 @@ object ModItemModels {
       "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
       "ancient_sewage_bucket", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
       "reset_rune", "concierge_respawn_rune", "monster_cell", "boss_stem_cell", "arrow_sign", "guidebook",
-      "electric_whip", "throwing_knife", "firebrands", "explosive_bolt", "ice_arrow"
+      "electric_whip", "throwing_knife", "firebrands", "explosive_bolt", "ice_arrow", "explosive_bulb", "infected_flesh",
+      "cell_infused_steel", "metal_shards", "buzzcutter_fang", "molten_chunk", "sewer_calamari", "cooked_sewer_calamari",
+      "transposition_core", "blood_bottle", "arcane_goo"
     ).forEach {
       if (it.startsWith("block/")) {
         add(CommonModelPresets.generatedItemModel("minecells:${it.removePrefix("block/")}", "block"))

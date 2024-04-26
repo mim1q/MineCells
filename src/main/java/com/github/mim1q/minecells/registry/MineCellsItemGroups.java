@@ -89,8 +89,6 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.SEWAGE_BUCKET),
       stack(MineCellsItems.ANCIENT_SEWAGE_BUCKET),
       stack(MineCellsItems.ELEVATOR_MECHANISM),
-      stack(MineCellsItems.GUTS),
-      stack(MineCellsItems.MONSTERS_EYE),
       stack(MineCellsItems.HEALTH_FLASK),
       stack(MineCellsItems.BLANK_RUNE),
       stack(MineCellsItems.RESET_RUNE),
@@ -103,6 +101,8 @@ public class MineCellsItemGroups {
     stacks.addAll(stackList(
       MineCellsItems.MONSTER_CELL,
       MineCellsItems.BOSS_STEM_CELL,
+      MineCellsItems.GUTS,
+      MineCellsItems.MONSTERS_EYE,
       MineCellsItems.EXPLOSIVE_BULB,
       MineCellsItems.INFECTED_FLESH,
       MineCellsItems.CELL_INFUSED_STEEL,
@@ -112,7 +112,8 @@ public class MineCellsItemGroups {
       MineCellsItems.SEWER_CALAMARI,
       MineCellsItems.COOKED_SEWER_CALAMARI,
       MineCellsItems.TRANSPOSITION_CORE,
-      MineCellsItems.BLOOD_BOTTLE
+      MineCellsItems.BLOOD_BOTTLE,
+      MineCellsItems.ARCANE_GOO
     ));
   }
 
