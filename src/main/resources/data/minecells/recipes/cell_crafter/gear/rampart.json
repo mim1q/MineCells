@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "advancement": "minecells:unlock/kill_10_shieldbearers",
   "input": {
     "minecells:cell_infused_steel": 8,
     "minecells:arcane_goo": 2

@@ -28,7 +28,7 @@ import net.minecraft.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen.backgroundTexture;
+import static com.github.mim1q.minecells.client.gui.toast.SurfaceUtil.backgroundTexture;
 
 public class CellCrafterRecipeList {
   public static final Identifier RECIPES_SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/recipes.png");

@@ -1,6 +1,8 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 100,
+  "advancement": "minecells:unlock/kill_conjunctivius",
   "input": {
     "minecraft:diamond_sword": 1,
     "minecells:monsters_eye": 1,

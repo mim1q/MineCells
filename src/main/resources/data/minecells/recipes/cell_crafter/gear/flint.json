@@ -1,6 +1,8 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 100,
+  "advancement": "minecells:unlock/kill_concierge",
   "input": {
     "minecraft:bone": 2,
     "minecraft:obsidian": 4,

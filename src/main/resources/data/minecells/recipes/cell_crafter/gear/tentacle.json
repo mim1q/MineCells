@@ -1,6 +1,8 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 100,
+  "advancement": "minecells:unlock/kill_conjunctivius",
   "input": {
     "minecells:sewer_calamari": 4,
     "minecells:infected_flesh": 16,

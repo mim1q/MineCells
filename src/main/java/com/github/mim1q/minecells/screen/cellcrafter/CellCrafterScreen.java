@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static com.github.mim1q.minecells.client.gui.toast.SurfaceUtil.backgroundTexture;
+
 public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCrafterScreenHandler> {
   public static final Identifier SCREEN_TEXTURE = MineCells.createId("textures/gui/cell_crafter/container.png");
   private final CellCrafterRecipeList recipeList;
@@ -172,18 +174,6 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
   public void close() {
     if (isRecipeListVisible) toggleRecipeList();
     else super.close();
-  }
-
-  public static Surface backgroundTexture(Identifier texture, int textureWidth, int textureHeight) {
-    return (context, component) -> {
-      context.drawTexture(
-        texture,
-        component.x() - textureWidth + component.width(), component.y(),
-        0, 0,
-        textureWidth, textureHeight,
-        256, 256
-      );
-    };
   }
 
   public static class TexturedButton extends ButtonComponent {
