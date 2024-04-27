@@ -2,6 +2,7 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 80,
+  "advancement": "minecells:unlock/kill_15_undead_archers",
   "input": {
     "minecraft:stick": 3,
     "minecraft:string": 3,

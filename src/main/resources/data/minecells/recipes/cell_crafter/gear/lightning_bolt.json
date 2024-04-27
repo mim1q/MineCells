@@ -2,6 +2,7 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 70,
+  "advancement": "minecells:unlock/kill_10_inquisitors",
   "input": {
     "minecells:arcane_goo": 8,
     "minecells:metal_shards": 4,

@@ -2,6 +2,7 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 70,
+  "advancement": "minecells:unlock/kill_15_runners",
   "input": {
     "minecells:infected_flesh": 8,
     "minecells:guts": 4,

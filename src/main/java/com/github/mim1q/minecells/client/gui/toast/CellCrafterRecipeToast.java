@@ -30,6 +30,7 @@ public class CellCrafterRecipeToast implements Toast {
     );
     context.drawText(textRenderer, Text.translatable("toast.minecells.recipe_unlocked"), 30, 5, 0xffee4d, true);
     context.drawText(textRenderer, recipe.getOutput(null).getName(), 30, 15, 0xffffff, true);
+    context.drawItem(recipe.getOutput(null).copyWithCount(1), 8, 6);
 
     return time > 5000 ? Visibility.HIDE : Visibility.SHOW;
   }

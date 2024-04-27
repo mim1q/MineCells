@@ -2,15 +2,14 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 90,
-  "advancement": "minecells:unlock/kill_20_grenadiers",
   "input": {
     "minecraft:stick": 1,
     "minecells:cell_infused_steel": 6,
-    "minecraft:gold_ingot": 6,
-    "minecraft:string": 2
+    "minecraft:lapis_lazuli": 4,
+    "minecraft:emerald": 2
   },
   "output": {
-    "id": "minecells:hattoris_katana",
+    "id": "minecells:blood_sword",
     "Count": 1
   }
 }

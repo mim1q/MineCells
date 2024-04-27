@@ -15,7 +15,7 @@
                     "type": "minecraft:killed",
                     "stat": "minecells:shieldbearer",
                     "value": {
-                      "min": 10
+                      "min": 30
                     }
                   }
                 ]

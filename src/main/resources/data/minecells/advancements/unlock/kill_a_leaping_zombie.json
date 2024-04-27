@@ -1,6 +1,6 @@
 {
   "criteria": {
-    "concierge_killed": {
+    "leaping_zombie_killed": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "player": [],
@@ -9,7 +9,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecells:conjunctivius"
+              "type": "minecells:leaping_zombie"
             }
           }
         ]

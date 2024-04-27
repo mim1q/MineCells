@@ -1,6 +1,6 @@
 {
   "criteria": {
-    "shieldbearers_killed": {
+    "undead_archers_killed": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "player": [
@@ -13,9 +13,9 @@
                 "stats": [
                   {
                     "type": "minecraft:killed",
-                    "stat": "minecells:shieldbearer",
+                    "stat": "minecells:undead_archer",
                     "value": {
-                      "min": 10
+                      "min": 15
                     }
                   }
                 ]
@@ -28,7 +28,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecells:shieldbearer"
+              "type": "minecells:undead_archer"
             }
           }
         ]

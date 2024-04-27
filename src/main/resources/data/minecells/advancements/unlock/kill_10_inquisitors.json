@@ -1,6 +1,6 @@
 {
   "criteria": {
-    "shieldbearers_killed": {
+    "inquisitors_killed": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "player": [
@@ -13,7 +13,7 @@
                 "stats": [
                   {
                     "type": "minecraft:killed",
-                    "stat": "minecells:shieldbearer",
+                    "stat": "minecells:inquisitor",
                     "value": {
                       "min": 10
                     }
@@ -28,7 +28,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecells:shieldbearer"
+              "type": "minecells:inquisitor"
             }
           }
         ]

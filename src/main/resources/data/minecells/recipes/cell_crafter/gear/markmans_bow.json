@@ -2,6 +2,7 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 80,
+  "advancement": "minecells:ramparts",
   "input": {
     "minecraft:stick": 3,
     "minecraft:string": 3,

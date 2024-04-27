@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "run": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "dimension": "minecells:promenade"
+              },
+              "flags": {
+                "is_sprinting": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

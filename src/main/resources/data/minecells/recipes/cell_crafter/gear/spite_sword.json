@@ -2,6 +2,7 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 90,
+  "advancement": "minecells:unlock/kill_10_buzzcutters",
   "input": {
     "minecraft:stick": 1,
     "minecells:cell_infused_steel": 6,

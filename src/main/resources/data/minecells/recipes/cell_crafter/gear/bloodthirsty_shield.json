@@ -2,6 +2,7 @@
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
   "priority": 60,
+  "advancement": "minecells:unlock/kill_30_shieldbearers",
   "input": {
     "minecells:cell_infused_steel": 8,
     "minecells:metal_shards": 4,

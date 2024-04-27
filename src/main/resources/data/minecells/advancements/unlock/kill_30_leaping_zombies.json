@@ -1,6 +1,6 @@
 {
   "criteria": {
-    "shieldbearers_killed": {
+    "leaping_zombies_killed": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "player": [
@@ -13,9 +13,9 @@
                 "stats": [
                   {
                     "type": "minecraft:killed",
-                    "stat": "minecells:shieldbearer",
+                    "stat": "minecells:leaping_zombie",
                     "value": {
-                      "min": 10
+                      "min": 30
                     }
                   }
                 ]
@@ -28,7 +28,7 @@
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "minecells:shieldbearer"
+              "type": "minecells:leaping_zombie"
             }
           }
         ]
