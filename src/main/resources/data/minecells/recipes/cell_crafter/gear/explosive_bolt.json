@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 50,
   "input": {
     "minecraft:arrow": 16,
     "minecells:explosive_bulb": 4,

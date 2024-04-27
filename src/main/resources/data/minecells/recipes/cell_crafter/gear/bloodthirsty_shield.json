@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 60,
   "input": {
     "minecells:cell_infused_steel": 8,
     "minecells:metal_shards": 4,

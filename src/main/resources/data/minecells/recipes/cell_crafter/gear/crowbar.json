@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 90,
   "input": {
     "minecraft:copper_ingot": 6,
     "minecells:cell_infused_steel": 4

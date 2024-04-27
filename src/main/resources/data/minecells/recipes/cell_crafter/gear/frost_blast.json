@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 70,
   "input": {
     "minecraft:packed_ice": 8,
     "minecraft:ice": 16,

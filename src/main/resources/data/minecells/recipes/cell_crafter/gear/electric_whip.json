@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 70,
   "input": {
     "minecells:arcane_goo": 4,
     "minecraft:string": 6,

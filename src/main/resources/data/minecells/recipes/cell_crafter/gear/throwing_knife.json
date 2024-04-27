@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 70,
   "input": {
     "minecells:cell_infused_steel": 4,
     "minecells:blood_bottle": 3,

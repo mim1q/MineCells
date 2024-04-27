@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 70,
   "input": {
     "minecraft:torch": 8,
     "minecraft:flint": 4,

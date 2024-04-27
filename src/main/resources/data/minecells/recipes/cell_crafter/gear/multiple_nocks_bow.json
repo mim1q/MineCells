@@ -1,6 +1,7 @@
 {
   "type": "minecells:cell_forge_recipe",
   "category": "gear",
+  "priority": 80,
   "input": {
     "minecraft:stick": 3,
     "minecraft:string": 3,
