@@ -182,6 +182,7 @@
       view_recipes: "View Recipes",
       craft: "Craft",
       select_recipe: "Select Recipe",
+      requirement: "Requirement",
 
       category: {
         gear: "Gear recipes",
@@ -428,6 +429,7 @@
   "toast.minecells": {
     recipe_unlocked: "New Cell Crafter Recipe:"
   },
+  "emi.category.minecells.cell_crafter": "Cell Crafting",
   "book.minecells": {
     name: "Mine Cells Guidebook",
     description: "Mysterious doorways to otherworldly dungeons have been appearing all over the world.<br>They seem to resemble areas from the world of $(l:https://dead-cells.com)Dead Cells$()...<br><br>Just how many secrets do these dungeons hide...?",

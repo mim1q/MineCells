@@ -7,7 +7,11 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -54,13 +58,32 @@ public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
 
   @Override
   public void addWidgets(WidgetHolder widgets) {
-    var x = getDisplayWidth() / 2 - (getInputs().size() * 10) + 2;
+    var widgetX = getDisplayWidth() / 2 - (getInputs().size() * 10) + 2;
     for (var input : getInputs()) {
-      widgets.addSlot(input, x, 0);
-      x += 20;
+      widgets.addSlot(input, widgetX, 0);
+      widgetX += 20;
     }
 
-    widgets.addTexture(ARROW_TEXTURE, getDisplayWidth() / 2 - 8, 22, 16, 16, 0, 0, 16, 16, 16, 16);
+    var hasAdvancement = recipe.requiredAdvancement().isPresent();
+
+    var arrow = widgets.addTexture(
+      ARROW_TEXTURE, getDisplayWidth() / 2 - 8, 22,
+      hasAdvancement ? 24 : 16, 16,
+      0, 0,
+      hasAdvancement ? 24 : 16, 16,
+      32, 32
+    );
+
+    if (hasAdvancement) {
+      arrow.tooltip((x, y) -> {
+        var advancementKey = Util.createTranslationKey("advancements", recipe.requiredAdvancement().orElseThrow()) + ".description";
+
+        return List.of(
+          TooltipComponent.of(Text.translatable("block.minecells.cell_crafter.requirement").formatted(Formatting.RED).asOrderedText()),
+          TooltipComponent.of(Text.translatable(advancementKey).formatted(Formatting.GRAY).asOrderedText())
+        );
+      });
+    }
     widgets.addSlot(getOutputs().get(0), getDisplayWidth() / 2 - 8, 40);
   }
 }

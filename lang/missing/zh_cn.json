@@ -39,6 +39,7 @@
   "block.minecells.cell_crafter.view_recipes": "View Recipes",
   "block.minecells.cell_crafter.craft": "Craft",
   "block.minecells.cell_crafter.select_recipe": "Select Recipe",
+  "block.minecells.cell_crafter.requirement": "Requirement",
   "block.minecells.cell_crafter.category.gear": "Gear recipes",
   "block.minecells.cell_crafter.category.decoration": "Decoration recipes",
   "block.minecells.cell_crafter.category.other": "Other recipes",
@@ -70,5 +71,6 @@
   "advancements.minecells.unlock.kill_concierge.description": "Kill the Concierge",
   "advancements.minecells.unlock.kill_conjunctivius.description": "Kill Conjunctivius",
   "advancements.minecells.unlock.run_in_the_promenade.description": "Run in the Promenade of The Condemned",
-  "toast.minecells.recipe_unlocked": "New Cell Crafter Recipe:"
+  "toast.minecells.recipe_unlocked": "New Cell Crafter Recipe:",
+  "emi.category.minecells.cell_crafter": "Cell Crafting"
 }
