@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "decoration",
+  "advancement": "minecells:black_bridge",
+  "input": {
+    "minecraft:stick": 1,
+    "minecraft:purple_wool": 2
+  },
+  "output": {
+    "id": "minecells:black_bridge_flag",
+    "Count": 1
+  }
+}

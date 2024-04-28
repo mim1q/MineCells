@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "decoration",
+  "advancement": "minecells:promenade",
+  "input": {
+    "minecraft:stick": 1,
+    "minecraft:light_blue_wool": 2
+  },
+  "output": {
+    "id": "minecells:promenade_of_the_condemned_flag",
+    "Count": 1
+  }
+}

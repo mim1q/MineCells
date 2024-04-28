@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "decoration",
+  "input": {
+    "minecraft:stick": 1,
+    "minecraft:blue_wool": 2
+  },
+  "output": {
+    "id": "minecells:torn_kings_crest_flag",
+    "Count": 1
+  }
+}
