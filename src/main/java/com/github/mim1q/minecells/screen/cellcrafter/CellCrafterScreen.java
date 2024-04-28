@@ -106,6 +106,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
 
         container.child(
           Components.item(selectedRecipe.output())
+            .showOverlay(true)
             .sizing(Sizing.fixed(16))
             .positioning(Positioning.absolute(100, 44))
             .tooltip(selectedRecipe.output().getTooltip(this.handler.player(), TooltipContext.BASIC))

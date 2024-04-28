@@ -286,6 +286,7 @@ public class CellCrafterRecipeList {
       this.recipe = recipe;
       this.textRenderer = textRenderer;
       this.parent = parent;
+      this.showOverlay(true);
 
       if (recipe.isUnlocked) {
         this.mouseDownEvents.source().subscribe((mouseX, mouseY, button) -> {
