@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.Block;
@@ -10,11 +11,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -71,6 +77,21 @@ public class SpikesBlock extends Block {
   @SuppressWarnings("deprecation")
   public BlockState rotate(BlockState state, BlockRotation rotation) {
     return state.with(FACING, rotation.rotate(state.get(FACING)));
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    var stack = player.getStackInHand(hand);
+    if (stack.isOf(Items.GLASS_BOTTLE) && state.get(BLOODY)) {
+      if (!player.isCreative()) {
+        stack.decrement(1);
+      }
+      player.giveItemStack(MineCellsItems.BLOOD_BOTTLE.getDefaultStack());
+      world.setBlockState(pos, state.with(BLOODY, false));
+      return ActionResult.CONSUME;
+    }
+    return ActionResult.PASS;
   }
 
   @Override
