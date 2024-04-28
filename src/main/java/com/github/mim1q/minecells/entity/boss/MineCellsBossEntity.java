@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.entity.boss;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.mob.HostileEntity;
@@ -11,6 +13,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public abstract class MineCellsBossEntity extends MineCellsEntity {
@@ -58,6 +61,19 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
 
   public void onStoppedTrackingBy(ServerPlayerEntity player) {
     this.bossBar.removePlayer(player);
+  }
+
+  @Override
+  protected void dropXp() {
+    if (!getWorld().isClient) {
+      this.bossBar.getPlayers().forEach(player -> {
+        var item = new ItemEntity(getWorld(), getX(), getY(), getZ(), MineCellsItems.BOSS_STEM_CELL.getDefaultStack());
+        item.setOwner(player.getUuid());
+        item.setVelocity(Vec3d.ZERO.addRandom(getRandom(), 0.3f));
+        getWorld().spawnEntity(item);
+      });
+    }
+    super.dropXp();
   }
 
   @Override
