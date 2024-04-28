@@ -79,9 +79,51 @@
     "spite_sword.description": "Deals critical damage (+%sHP)\nIf you've recently taken damage",
     phaser: "Phaser",
     "phaser.description": "Teleport to a nearby enemy,\nstunning it briefly.\nYour next attack deals\nadditional damage",
+
+    // Bows
+    multiple_nocks_bow: "Multiple-Nocks Bow",
+    bow_and_endless_quiver: "Bow and Endless Quiver",
+    marksmans_bow: "Marksman's Bow",
+    infantry_bow: "Infantry Bow",
+    quick_bow: "Quick Bow",
+    ice_bow: "Ice Bow",
+    nerves_of_steel: "Nerves of Steel",
+    ice_arrow: "Ice Arrow",
+    heavy_crossbow: "Heavy Crossbow",
+    explosive_crossbow: "Explosive Crossbow",
+    explosive_bolt: "Explosive Bolt",
+    electric_whip: "Electric Whip",
+    lightning_bolt: "Lightning Bolt",
+    throwing_knife: "Throwing Knife",
+    firebrands: "Firebrands",
+
+    // Shields
+    cudgel: "Cudgel",
+    rampart: "Rampart",
+    assault_shield: "Assault Shield",
+    bloodthirsty_shield: "Bloodthirsty Shield",
+    greed_shield: "Greed Shield",
+    ice_shield: "Ice Shield",
+
+    // Text
     hold: "Hold ",
     ability_damage: "Damage: %sHP",
     ability_cooldown: "Cooldown: %ss",
+
+    // Crafting ingredients
+    monster_cell: "Monster Cell",
+    boss_stem_cell: "Boss Stem Cell",
+    explosive_bulb: "Explosive Bulb",
+    infected_flesh: "Infected Flesh",
+    cell_infused_steel: "Cell-infused Steel",
+    metal_shards: "Metal Shards",
+    buzzcutter_fang: "Buzzcutter Fang",
+    molten_chunk: "Molten Chunk",
+    sewer_calamari: "Sewer Calamari",
+    cooked_sewer_calamari: "Cooked Sewer Calamari",
+    transposition_core: "Transposition Core",
+    blood_bottle: "Blood Bottle",
+    arcane_goo: "Arcane Goo",
 
     // Spawn eggs
     shocker_spawn_egg: "Shocker Spawn Egg",
@@ -329,7 +371,26 @@
     concierge: "Steam rolled",
     "concierge.description": "Defeat the Concierge",
     elite: "Elite enemy!",
-    "elite.description": "Summon an Elite enemy using an Elite Obelisk"
+    "elite.description": "Summon an Elite enemy using an Elite Obelisk",
+
+    unlock: {
+      "$;$.description": {
+        fall_from_the_ramparts: "Fall from the Ramparts",
+        kill_10_buzzcutters: "Kill 10 Buzzcutters",
+        kill_10_inquisitors: "Kill 10 Inquisitors",
+        kill_10_shieldbearers: "Kill 10 Shieldbearers",
+        kill_15_runners: "Kill 15 Runners",
+        kill_15_undead_archers: "Kill 15 Undead Archers",
+        kill_20_grenadiers: "Kill 20 Grenadiers",
+        kill_30_leaping_zombies: "Kill 30 Leaping Zombies",
+        kill_30_shieldbearers: "Kill 30 Shieldbearers",
+        kill_50_undead_archers: "Kill 50 Undead Archers",
+        kill_a_leaping_zombie: "Kill a Leaping Zombie",
+        kill_concierge: "Kill the Concierge",
+        kill_conjunctivius: "Kill Conjunctivius",
+        run_in_the_promenade: "Run in the Promenade of The Condemned",
+      }
+    }
   },
   "effect.minecells": {
     electrified: "Electrified",
@@ -363,6 +424,9 @@
     "cursed.player": "%1$s succumbed to a curse",
     bleeding: "%1$s bled to death",
     katana: "%1$s was sliced by %2$s",
+  },
+  "toast.minecells": {
+    recipe_unlocked: "New Cell Crafter Recipe:"
   },
   "book.minecells": {
     name: "Mine Cells Guidebook",
