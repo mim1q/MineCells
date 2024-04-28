@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
+  private static final Identifier ARROW_TEXTURE = MineCells.createId("textures/gui/cell_crafter/emi_arrow.png");
+
   private final CellForgeRecipe recipe;
 
   public EmiCellCrafterRecipeDisplay(CellForgeRecipe recipe) {
@@ -58,6 +60,7 @@ public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
       x += 20;
     }
 
+    widgets.addTexture(ARROW_TEXTURE, getDisplayWidth() / 2 - 8, 22, 16, 16, 0, 0, 16, 16, 16, 16);
     widgets.addSlot(getOutputs().get(0), getDisplayWidth() / 2 - 8, 40);
   }
 }
