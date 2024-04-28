@@ -17,6 +17,9 @@
     ],
     "main": [
       "com.github.mim1q.minecells.MineCells"
+    ],
+    "emi": [
+      "com.github.mim1q.minecells.compat.emi.MineCellsEmiPlugin"
     ]
   },
   "mixins": [

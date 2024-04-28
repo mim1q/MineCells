@@ -46,10 +46,12 @@ dependencies {
 
   modImplementation("vazkii.patchouli:Patchouli:${Versions.PATCHOULI}")
 
+  modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
+  modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
+
   modImplementation(include("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 }
 
-@Suppress("UnstableApiUsage")
 tasks {
   withType<ProcessResources> {
     inputs.property("version", ModData.VERSION)

@@ -14,6 +14,7 @@ object Versions {
 
   // Optional dependencies
   const val PATCHOULI = "1.20.1-84-FABRIC"
+  const val EMI = "1.1.4+1.20.1"
 
   // Publishing
   const val CURSEGRADLE = "1.4.0"
