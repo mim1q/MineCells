@@ -1,25 +1,32 @@
 {
   "pools": [
     {
-      "rolls": 1,
+      "rolls": { "min": 16, "max": 32 },
+      "entries": [{ "type": "minecraft:item", "name": "minecells:monster_cell" }]
+    },
+    {
+      "rolls": {
+        "min": 16,
+        "max": 24
+      },
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecells:cursed_sword"
+          "name": "minecells:sewer_calamari"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "minecells:guts"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monsters_eye"
         }
       ]
     },
     {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecells:tentacle"
-        }
-      ]
-    },
-    {
-      "rolls": 32,
+      "rolls": 24,
       "entries": [
         {
           "type": "minecraft:item",

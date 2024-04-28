@@ -1,17 +1,42 @@
 {
   "pools": [
     {
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monster_cell"
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "minecells:metal_shards"
+        }
+      ]
+    },
+    {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecells:phaser"
+          "name": "minecells:transposition_core"
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.025
+          "chance": 0.1
         }
       ]
     }

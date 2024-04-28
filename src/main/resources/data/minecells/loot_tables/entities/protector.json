@@ -1,23 +1,20 @@
 {
   "pools": [
     {
-      "rolls": { "min": 16, "max": 32 },
+      "rolls": { "min": 0, "max": 1 },
       "entries": [{ "type": "minecraft:item", "name": "minecells:monster_cell" }]
     },
     {
-      "rolls": 24,
+      "rolls": { "min": 0, "max": 1 },
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond"
+          "weight": 3,
+          "name": "minecells:arcane_goo"
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:emerald"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:gold_ingot"
+          "name": "minecells:metal_shards"
         }
       ]
     }

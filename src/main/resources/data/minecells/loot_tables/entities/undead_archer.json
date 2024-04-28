@@ -3,33 +3,30 @@
     {
       "rolls": {
         "min": 0,
-        "max": 2
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monster_cell"
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 0,
+        "max": 3
       },
       "entries": [
         {
           "type": "minecraft:item",
           "weight": 3,
-          "name": "minecraft:rotten_flesh"
+          "name": "minecraft:arrow"
         },
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "minecells:guts"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecells:monsters_eye"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:random_chance",
-          "chance": 0.05
+          "name": "minecells:infected_flesh"
         }
       ]
     }

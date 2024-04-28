@@ -1,0 +1,13 @@
+{
+  "pools": [
+    {
+      "rolls": { "min": 0, "max": 1 },
+      "entries": [{ "type": "minecraft:item", "name": "minecells:monster_cell" }]
+    },
+    {
+      "rolls": 1,
+      "entries": [{ "type": "minecraft:item", "name": "minecells:monsters_eye" }],
+      "conditions": [{ "condition": "minecraft:random_chance", "chance": 0.2 }]
+    }
+  ]
+}
