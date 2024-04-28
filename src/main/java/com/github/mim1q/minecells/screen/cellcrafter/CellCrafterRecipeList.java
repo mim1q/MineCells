@@ -62,12 +62,14 @@ public class CellCrafterRecipeList {
       RECIPES_SCREEN_TEXTURE,
       208, 48
     );
+    upButton.tooltip(Text.translatable("block.minecells.cell_crafter.scroll_up"));
 
     downButton = new TexturedButton(
       it -> scrollDown(),
       RECIPES_SCREEN_TEXTURE,
       224, 48
     );
+    downButton.tooltip(Text.translatable("block.minecells.cell_crafter.scroll_down"));
 
     applyButton = new TexturedButton(
       it -> {
@@ -114,6 +116,7 @@ public class CellCrafterRecipeList {
       )
         .sizing(Sizing.fixed(16))
         .positioning(Positioning.absolute(44, 16))
+        .tooltip(Text.translatable("block.minecells.cell_crafter.return"))
     );
 
     container.child(

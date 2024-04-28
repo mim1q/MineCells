@@ -183,6 +183,9 @@
       craft: "Craft",
       select_recipe: "Select Recipe",
       requirement: "Requirement",
+      return: "Return",
+      scroll_up: "Scroll Up",
+      scroll_down: "Scroll Down",
 
       category: {
         gear: "Gear recipes",
