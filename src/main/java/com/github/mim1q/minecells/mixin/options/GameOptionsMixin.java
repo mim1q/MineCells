@@ -13,7 +13,7 @@ public class GameOptionsMixin implements GameOptionsAccessor {
   @Unique
   private final SimpleOption<Double> minecellsScreenshake = new SimpleOption<>(
     "options.minecells.screenshake",
-    SimpleOption.emptyTooltip(),
+    SimpleOption.constantTooltip(Text.translatable("options.minecells.screenshake.tooltip")),
     GameOptionsMixin::getPercentValueText,
     SimpleOption.DoubleSliderCallbacks.INSTANCE,
     (double) MineCellsClient.CLIENT_CONFIG.screenShake.global,

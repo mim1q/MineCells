@@ -75,5 +75,7 @@
   "advancements.minecells.unlock.kill_conjunctivius.description": "Kill Conjunctivius",
   "advancements.minecells.unlock.run_in_the_promenade.description": "Run in the Promenade of The Condemned",
   "toast.minecells.recipe_unlocked": "New Cell Crafter Recipe:",
-  "emi.category.minecells.cell_crafter": "Cell Crafting"
+  "emi.category.minecells.cell_crafter": "Cell Crafting",
+  "options.minecells.screenshake": "Mine Cells Screen Shake",
+  "options.minecells.screenshake.tooltip": "Modify the global intensity of screen shake events added by Mine Cells.\nIndividual events can be tweaked in the minecells-client.json5 file.\n0% disables all Mine Cells screen shakes."
 }

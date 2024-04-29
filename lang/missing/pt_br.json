@@ -453,5 +453,7 @@
   "book.minecells.common.found_in": "Found in:",
   "book.minecells.common.important_content": "Important content:",
   "book.minecells.common.summons": "Summons:",
-  "book.minecells.common.tips": "Tips"
+  "book.minecells.common.tips": "Tips",
+  "options.minecells.screenshake": "Mine Cells Screen Shake",
+  "options.minecells.screenshake.tooltip": "Modify the global intensity of screen shake events added by Mine Cells.\nIndividual events can be tweaked in the minecells-client.json5 file.\n0% disables all Mine Cells screen shakes."
 }
