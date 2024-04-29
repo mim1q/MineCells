@@ -84,12 +84,14 @@ public class SpikesBlock extends Block {
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     var stack = player.getStackInHand(hand);
     if (stack.isOf(Items.GLASS_BOTTLE) && state.get(BLOODY)) {
-      if (!player.isCreative()) {
-        stack.decrement(1);
+      if (!world.isClient) {
+        if (!player.isCreative()) {
+          stack.decrement(1);
+        }
+        player.giveItemStack(MineCellsItems.BLOOD_BOTTLE.getDefaultStack());
+        world.setBlockState(pos, state.with(BLOODY, false));
       }
-      player.giveItemStack(MineCellsItems.BLOOD_BOTTLE.getDefaultStack());
-      world.setBlockState(pos, state.with(BLOODY, false));
-      return ActionResult.CONSUME;
+      return ActionResult.SUCCESS;
     }
     return ActionResult.PASS;
   }
