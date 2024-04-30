@@ -148,7 +148,7 @@ public class CustomArrowType {
     it.speed = 2.5f;
     it.spread = 0.5f;
     it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
-    it.cooldown = 10;
+    it.cooldown = 3;
     it.ammo = () -> MineCellsItems.THROWING_KNIFE;
   });
 
