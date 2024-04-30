@@ -144,7 +144,8 @@ object CustomPresets {
       key("C", "minecells:big_chain")
     })
     add(CommonRecipePresets.packed2x2("minecells:big_chain", "minecells:chain_pile_block", 2))
-
+    add("cooked_sewer_calamari", SmeltingRecipe.create("minecells:sewer_calamari", "minecells:cooked_sewer_calamari", 0.35))
+    add("cooked_sewer_calamari_smoking", SmeltingRecipe.smoking("minecells:sewer_calamari", "minecells:cooked_sewer_calamari", 0.35))
   }
 
   private fun dimensionalRuneRecipes() = Preset {
