@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -21,12 +20,7 @@ public class BloodSwordItem extends SwordItem {
 
   @Override
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-    if (attacker instanceof ServerPlayerEntity player) {
-      if (!player.getItemCooldownManager().isCoolingDown(this)) {
-        player.getItemCooldownManager().set(this, 20);
-        BleedingStatusEffect.apply(target, 20 * 5);
-      }
-    }
+    BleedingStatusEffect.apply(target, 20 * 5);
     return super.postHit(stack, target, attacker);
   }
 

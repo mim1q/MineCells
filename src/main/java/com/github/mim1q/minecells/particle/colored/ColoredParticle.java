@@ -9,8 +9,11 @@ import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ColoredParticle extends SpriteBillboardParticle {
+  protected final int color;
+
   public ColoredParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, int color) {
     super(world, x, y, z, velocityX, velocityY, velocityZ);
+    this.color = color;
     int r = color >> 16;
     int g = color >> 8 & 0xFF;
     int b = color & 0xFF;
