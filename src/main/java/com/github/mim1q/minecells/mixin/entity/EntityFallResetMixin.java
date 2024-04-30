@@ -10,6 +10,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -33,14 +34,18 @@ public abstract class EntityFallResetMixin {
   @Shadow public abstract ChunkPos getChunkPos();
   @Shadow public abstract BlockPos getBlockPos();
   @Shadow public abstract void teleport(double destX, double destY, double destZ);
+
   @Shadow public float fallDistance;
+
   @Shadow public abstract boolean damage(DamageSource source, float amount);
   @Shadow public abstract void setVelocity(Vec3d velocity);
   @Shadow public abstract EntityType<?> getType();
   @Shadow public abstract double getX();
   @Shadow public abstract float getYaw(float tickDelta);
   @Shadow public abstract double getZ();
+
   @Shadow public int age;
+
   @Shadow public abstract void discard();
   @Shadow public abstract boolean isPlayer();
   @Shadow public abstract Text getName();
@@ -130,6 +135,8 @@ public abstract class EntityFallResetMixin {
           getBlockPos().toShortString(),
           getWorld().getRegistryKey().getValue()
         );
+
+        minecells$grantAdvancementCriterion();
       }
 
       this.teleport(tpPos.getX() + 0.5, tpPos.getY() + 0.5, tpPos.getZ() + 0.5);
@@ -142,6 +149,19 @@ public abstract class EntityFallResetMixin {
     ) {
       lastSolidBlock = getBlockPos();
     }
+  }
+
+  @SuppressWarnings("DataFlowIssue")
+  @Unique
+  private void minecells$grantAdvancementCriterion() {
+    var server = getWorld().getServer();
+    if (server == null) return;
+
+    var advancement = server.getAdvancementLoader().get(MineCells.createId("unlock/fall_from_the_ramparts"));
+    if (advancement == null) return;
+
+    var tracker = ((ServerPlayerEntity)(Object) this).getAdvancementTracker();
+    tracker.grantCriterion(advancement, "teleported_up");
   }
 
   @Unique

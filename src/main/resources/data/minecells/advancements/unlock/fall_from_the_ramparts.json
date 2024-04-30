@@ -1,7 +1,7 @@
 {
   "criteria": {
     "fall_down": {
-      "trigger": "minecraft:fall_from_height",
+      "trigger": "minecraft:location",
       "conditions": {
         "player": [
           {
@@ -19,13 +19,17 @@
               }
             }
           }
-        ],
-        "distance": {
-          "y": {
-            "min": 10
-          }
-        }
+        ]
       }
+    },
+    "teleported_up": {
+      "trigger": "minecraft:impossible"
     }
-  }
+  },
+  "requirements": [
+    [
+      "fall_down",
+      "teleported_up"
+    ]
+  ]
 }
