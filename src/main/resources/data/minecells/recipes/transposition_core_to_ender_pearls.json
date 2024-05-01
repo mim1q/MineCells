@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ASA",
+    "STS",
+    "ASA"
+  ],
+  "key": {
+    "A": { "item": "minecells:arcane_goo" },
+    "S": { "item": "minecraft:snowball" },
+    "T": { "item": "minecells:transposition_core" }
+  },
+  "result": {
+    "item": "minecraft:ender_pearl",
+    "count": 8
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "other",
+  "advancement": "minecells:insufferable_crypt",
+  "input": {
+    "minecells:big_chain": 16,
+    "minecells:monsters_eye": 4,
+    "minecells:infected_flesh": 16,
+    "minecells:guts": 12,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:conjunctivius_respawn_rune",
+    "Count": 1
+  }
+}

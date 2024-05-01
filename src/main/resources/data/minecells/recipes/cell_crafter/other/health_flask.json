@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 90,
+  "category": "other",
+  "input": {
+    "minecraft:glass_bottle": 1,
+    "minecells:guts": 2,
+    "minecells:monster_cell": 6
+  },
+  "output": {
+    "id": "minecells:health_flask",
+    "Count": 1
+  }
+}
