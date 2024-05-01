@@ -7,7 +7,7 @@ import net.minecraft.client.world.ClientWorld;
 public class SmallDropParticle extends ColoredParticle {
   public SmallDropParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, int color) {
     super(world, x, y, z, velocityX, velocityY, velocityZ, color);
-    this.gravityStrength = 1.0f;
+    this.gravityStrength = 0.7f;
   }
 
   @Override

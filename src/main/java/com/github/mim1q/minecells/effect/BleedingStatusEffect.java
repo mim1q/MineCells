@@ -23,10 +23,10 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
         entity.getX(),
         entity.getY() + entity.getHeight() / 2f,
         entity.getZ(),
-        1,
-        entity.getWidth(),
-        entity.getHeight() / 2f,
-        entity.getWidth(),
+        2,
+        entity.getWidth() / 4f,
+        entity.getHeight() / 4f,
+        entity.getWidth() / 4f,
         0.1D
       );
     }
@@ -43,13 +43,13 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
   }
 
   public static void apply(LivingEntity entity, int duration) {
-    StatusEffectInstance effect = entity.getStatusEffect(MineCellsStatusEffects.BLEEDING);
+    var effect = entity.getStatusEffect(MineCellsStatusEffects.BLEEDING);
     int newLevel = 0;
     if (effect != null) {
       newLevel = effect.getAmplifier() + 1;
     }
     if (newLevel >= 6) {
-      entity.damage(MineCellsDamageSource.BLEEDING.get(entity.getWorld(), null), 6.0F);
+      entity.damage(MineCellsDamageSource.BLEEDING.get(entity.getWorld(), null), 8.0F);
       entity.removeStatusEffect(MineCellsStatusEffects.BLEEDING);
       return;
     }

@@ -8,7 +8,7 @@ import net.minecraft.client.world.ClientWorld;
 public class DropParticle extends ColoredParticle {
   public DropParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, int color) {
     super(world, x, y, z, velocityX, velocityY, velocityZ, color);
-    this.gravityStrength = 1.0f;
+    this.gravityStrength = 0.8f;
     this.collidesWithWorld = true;
     this.maxAge = 40;
   }
@@ -23,9 +23,9 @@ public class DropParticle extends ColoredParticle {
           x,
           y,
           z,
-          (random.nextDouble() - 0.5) * 0.2,
+          (random.nextDouble() - 0.5) * 0.3,
           0.1D,
-          (random.nextDouble() - 0.5) * 0.2
+          (random.nextDouble() - 0.5) * 0.3
         );
         markDead();
       }

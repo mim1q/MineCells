@@ -81,9 +81,10 @@ public class CustomArrowType {
 
   public static final CustomArrowType QUICK = create("quick", it -> {
     it.speed = 2.2f;
-    it.defaultDamage = 7f;
+    it.defaultDamage = 5f;
     it.drawTime = 6;
     it.spread = 3f;
+    it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
 
   public static final CustomArrowType NERVES_OF_STEEL = create("nerves_of_steel", it -> {
@@ -145,11 +146,12 @@ public class CustomArrowType {
 
   public static final CustomArrowType THROWING_KNIFE = create("throwing_knife", it -> {
     it.defaultDamage = 1f;
-    it.speed = 2.5f;
+    it.speed = 1.75f;
     it.spread = 0.5f;
     it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
-    it.cooldown = 3;
+    it.cooldown = 6;
     it.ammo = () -> MineCellsItems.THROWING_KNIFE;
+    it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
 
   //#region Class definition
