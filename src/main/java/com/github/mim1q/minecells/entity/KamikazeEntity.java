@@ -1,6 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.misc.MineCellsExplosion;
+import com.github.mim1q.minecells.world.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.entity.Entity;

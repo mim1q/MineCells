@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.item.weapon.bow;
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
-import com.github.mim1q.minecells.misc.MineCellsExplosion;
+import com.github.mim1q.minecells.world.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.block.Blocks;
