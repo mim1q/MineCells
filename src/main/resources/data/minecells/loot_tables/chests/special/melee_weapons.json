@@ -1,0 +1,105 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:assassins_dagger"
+          },
+          "advancement": "minecells:promenade",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:balanced_blade"
+          },
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:blood_sword"
+          },
+          "advancement": "minecells:unlock/kill_a_leaping_zombie",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:broadsword"
+          },
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:crowbar"
+          },
+          "advancement": "minecells:unlock/kill_30_leaping_zombies",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:cursed_sword"
+          },
+          "advancement": "minecells:unlock/kill_conjunctivius",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:flint"
+          },
+          "advancement": "minecells:unlock/kill_concierge",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:hattoris_katana"
+          },
+          "advancement": "minecells:unlock/kill_20_grenadiers",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:nutcracker"
+          },
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:spite_sword"
+          },
+          "advancement": "minecells:unlock/kill_10_buzzcutters",
+          "weight": 1,
+          "dimension_level": 1
+        },
+        {
+          "loot": {
+            "type": "minecraft:item",
+            "name": "minecells:tentacle"
+          },
+          "advancement": "minecells:unlock/kill_conjunctivius",
+          "weight": 1,
+          "dimension_level": 1
+        }
+      ]
+    }
+  ]
+}

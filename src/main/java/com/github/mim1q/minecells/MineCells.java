@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.config.CommonConfig;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRunesReloadListener;
 import com.github.mim1q.minecells.dimension.MineCellsDimensionGraph;
+import com.github.mim1q.minecells.misc.SpecialWeaponLootEntry;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
@@ -18,6 +19,9 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.loot.entry.LootPoolEntryType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -33,6 +37,12 @@ public class MineCells implements ModInitializer {
   public static final Logger LOGGER = LogManager.getLogger();
 
   public static final MineCellsDimensionGraph DIMENSION_GRAPH = new MineCellsDimensionGraph();
+
+  public static final LootPoolEntryType SPECIAL_WEAPON_LOOT_ENTRY = Registry.register(
+    Registries.LOOT_POOL_ENTRY_TYPE,
+    createId("special_weapon"),
+    new LootPoolEntryType(new SpecialWeaponLootEntry.Serializer())
+  );
 
   @Override
   public void onInitialize() {
