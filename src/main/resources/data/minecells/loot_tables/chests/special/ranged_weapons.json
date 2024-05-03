@@ -9,7 +9,24 @@
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:assassins_dagger"
+                "name": "minecells:bow_and_endless_quiver"
+              },
+              "advancement": "minecells:unlock/kill_50_undead_archers",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:electric_whip"
+              },
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:explosive_crossbow"
               },
               "advancement": "minecells:promenade",
               "weight": 1,
@@ -18,7 +35,7 @@
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:balanced_blade"
+                "name": "minecells:firebrands"
               },
               "weight": 1,
               "dimension_level": 1
@@ -26,16 +43,7 @@
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:blood_sword"
-              },
-              "advancement": "minecells:unlock/kill_a_leaping_zombie",
-              "weight": 1,
-              "dimension_level": 1
-            },
-            {
-              "loot": {
-                "type": "minecraft:item",
-                "name": "minecells:broadsword"
+                "name": "minecells:frost_blast"
               },
               "weight": 1,
               "dimension_level": 1
@@ -43,25 +51,7 @@
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:crowbar"
-              },
-              "advancement": "minecells:unlock/kill_30_leaping_zombies",
-              "weight": 1,
-              "dimension_level": 1
-            },
-            {
-              "loot": {
-                "type": "minecraft:item",
-                "name": "minecells:cursed_sword"
-              },
-              "advancement": "minecells:unlock/kill_conjunctivius",
-              "weight": 1,
-              "dimension_level": 1
-            },
-            {
-              "loot": {
-                "type": "minecraft:item",
-                "name": "minecells:flint"
+                "name": "minecells:heavy_crossbow"
               },
               "advancement": "minecells:unlock/kill_concierge",
               "weight": 1,
@@ -70,16 +60,43 @@
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:hattoris_katana"
+                "name": "minecells:ice_bow"
               },
-              "advancement": "minecells:unlock/kill_20_grenadiers",
+              "advancement": "minecells:unlock/kill_50_undead_archers",
               "weight": 1,
               "dimension_level": 1
             },
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:nutcracker"
+                "name": "minecells:infantry_bow"
+              },
+              "advancement": "minecells:unlock/kill_15_undead_archers",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:lightning_bolt"
+              },
+              "advancement": "minecells:unlock/kill_10_inquisitors",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:marksmans_bow"
+              },
+              "advancement": "minecells:ramparts",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:multiple_nocks_bow"
               },
               "weight": 1,
               "dimension_level": 1
@@ -87,18 +104,35 @@
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:spite_sword"
+                "name": "minecells:nerves_of_steel"
               },
-              "advancement": "minecells:unlock/kill_10_buzzcutters",
+              "advancement": "minecells:unlock/fall_from_the_ramparts",
               "weight": 1,
               "dimension_level": 1
             },
             {
               "loot": {
                 "type": "minecraft:item",
-                "name": "minecells:tentacle"
+                "name": "minecells:phaser"
               },
-              "advancement": "minecells:unlock/kill_conjunctivius",
+              "advancement": "minecells:unlock/kill_15_runners",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:quick_bow"
+              },
+              "advancement": "minecells:unlock/run_in_the_promenade",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:throwing_knife"
+              },
               "weight": 1,
               "dimension_level": 1
             }
