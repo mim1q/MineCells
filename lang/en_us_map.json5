@@ -538,6 +538,27 @@
         phaser: "Using the phaser will teleport you behind one of the nearby enemies, briefly stunning it.<br><br>If you attack an enemy within a few seconds of using the Phaser, your attack will deal additional damage.",
         spite_sword: "The Spite Sword deals a bit more damage if you've recently taken a hit yourself.",
         tentacle: "While the Tentacle can be used to slap enemies, and it isn't the weakest of weapons, its main use is not an offensive one.<br><br>Using this item, you can pull yourself towards enemies and terrain, allowing you to perform some crazy maneuvers.",
+        // Ranged
+        multiple_nocks_bow: "The Multiple-Nocks Bow uses up to 3 arrows (less if you don't have enough) and shoots them in fron of you, in a horizontal plane.",
+        bow_and_endless_quiver: "This bow works like the Infinity enchantment - using it doesn't require arrows.",
+        marksmans_bow: "The Marksmans Bow deals critical damage to enemies that are far away from you.",
+        infantry_bow: "This Bow deals critical damage if the hit enemy is in near-melee range.",
+        quick_bow: "Hold the Quick Bow drawn to continuously fire arrows.",
+        ice_bow: "The Ice Bow fires arrows that freeze the enemies on hit.<br><br>Requires Ice Arrows to shoot.",
+        nerves_of_steel: "This fancy bow deals critical damage if you release the arrow at the right time.<br><br>You should do so right after you hear a sound while holding the bow drawn.",
+        heavy_crossbow: "The Heavy Crossbow is a slow and heavy weapon.<br><br>It loads 3 arrows from your inventory, and fires them as multiple little bolts in front of you in a short-range cone.<br><br>The more bolts hit the enemy, the more damage is dealt.",
+        explosive_crossbow: "The Explosive Crossbow fires bolts that create a small but deadly explosion when they land.<br><br>This weapon requires Explosive Bolts to shoot.",
+        electric_whip: "This whip electrifies enemies in a short distance in front of you.<br><br>This electricity can spread to nearby enemies, so the more enemies you can find in a group, the better the efficiency of this weapon.",
+        lightning_bolt: "Focus the Lightning Bolt on an enemy to deal continuous damage and apply electricity.<br><br>The longer you hold, the more damage you deal. However - after a certain time, you will also hurt yourself.",
+        throwing_knife: "A single-use projectile that applies bleeding.",
+        firebrands: "A single use projectile, setting fire on enemies and blocks it hits.",
+        // Shields
+        cudgel: "The Cudgel applies a short stun effect when you block an enemy's attack.<br><br>The stun lasts longer if you parry the attack instead.",
+        rampart: "This shield makes you invulnerable for a short amount of time after parrying an attack.",
+        bloodthirsty_shield: "The Bloodthirsty Shield applies bleeding on nearby enemies when you parry an attack.",
+        assault_shield: "The Assault Shield launches you forward when you start using it, dealing damage and knocking back enemies.<br><br>It has a longer cooldown than other shields due to this special effect.",
+        greed_shield: "The Greed Shield has a chance to drop some goodies when you parry a melee attack.<br><br>These include: gold and iron nuggets and bars, emeralds, and diamonds!",
+        ice_shield: "The Ice Shield slows down enemies when you block an attack.<br><br>If you parry the attack, it will freeze them instead.",
       }
     },
 
