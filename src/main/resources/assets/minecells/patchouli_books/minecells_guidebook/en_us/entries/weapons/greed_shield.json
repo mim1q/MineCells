@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.greed_shield",
+  "category": "minecells:weapons",
+  "icon": "minecells:greed_shield",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:greed_shield"
+      },
+      "text": "book.minecells.entries.weapons.greed_shield"
+    }
+  ]
+}

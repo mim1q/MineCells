@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_15_undead_archers",
+  "name": "item.minecells.infantry_bow",
+  "category": "minecells:weapons",
+  "icon": "minecells:infantry_bow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:infantry_bow"
+      },
+      "text": "book.minecells.entries.weapons.infantry_bow"
+    }
+  ]
+}

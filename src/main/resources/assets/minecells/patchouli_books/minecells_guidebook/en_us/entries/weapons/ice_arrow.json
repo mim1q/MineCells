@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_50_undead_archers",
+  "name": "item.minecells.ice_arrow",
+  "category": "minecells:weapons",
+  "icon": "minecells:ice_arrow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:ice_arrow"
+      },
+      "text": "book.minecells.entries.weapons.ice_arrow"
+    }
+  ]
+}

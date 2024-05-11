@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.electric_whip",
+  "category": "minecells:weapons",
+  "icon": "minecells:electric_whip",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:electric_whip"
+      },
+      "text": "book.minecells.entries.weapons.electric_whip"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_50_undead_archers",
+  "name": "item.minecells.bow_and_endless_quiver",
+  "category": "minecells:weapons",
+  "icon": "minecells:bow_and_endless_quiver",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:bow_and_endless_quiver"
+      },
+      "text": "book.minecells.entries.weapons.bow_and_endless_quiver"
+    }
+  ]
+}

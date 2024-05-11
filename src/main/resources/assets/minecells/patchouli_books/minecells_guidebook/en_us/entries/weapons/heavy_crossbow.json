@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_concierge",
+  "name": "item.minecells.heavy_crossbow",
+  "category": "minecells:weapons",
+  "icon": "minecells:heavy_crossbow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:heavy_crossbow"
+      },
+      "text": "book.minecells.entries.weapons.heavy_crossbow"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/run_in_the_promenade",
+  "name": "item.minecells.quick_bow",
+  "category": "minecells:weapons",
+  "icon": "minecells:quick_bow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:quick_bow"
+      },
+      "text": "book.minecells.entries.weapons.quick_bow"
+    }
+  ]
+}

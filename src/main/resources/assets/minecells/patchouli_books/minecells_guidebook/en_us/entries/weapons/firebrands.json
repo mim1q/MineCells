@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.firebrands",
+  "category": "minecells:weapons",
+  "icon": "minecells:firebrands",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:firebrands"
+      },
+      "text": "book.minecells.entries.weapons.firebrands"
+    }
+  ]
+}

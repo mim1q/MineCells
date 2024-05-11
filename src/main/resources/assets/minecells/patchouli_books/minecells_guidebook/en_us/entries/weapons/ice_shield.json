@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_30_shieldbearers",
+  "name": "item.minecells.ice_shield",
+  "category": "minecells:weapons",
+  "icon": "minecells:ice_shield",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:ice_shield"
+      },
+      "text": "book.minecells.entries.weapons.ice_shield"
+    }
+  ]
+}

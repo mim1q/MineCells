@@ -1,4 +1,5 @@
 {
+  "advancement": "minecells:unlock/kill_concierge",
   "name": "item.minecells.flint",
   "category": "minecells:weapons",
   "icon": "minecells:flint",

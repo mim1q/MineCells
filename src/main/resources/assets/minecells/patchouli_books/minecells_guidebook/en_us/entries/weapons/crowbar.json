@@ -1,4 +1,5 @@
 {
+  "advancement": "minecells:unlock/kill_30_leaping_zombies",
   "name": "item.minecells.crowbar",
   "category": "minecells:weapons",
   "icon": "minecells:crowbar",

@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:promenade",
+  "name": "item.minecells.explosive_crossbow",
+  "category": "minecells:weapons",
+  "icon": "minecells:explosive_crossbow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:explosive_crossbow"
+      },
+      "text": "book.minecells.entries.weapons.explosive_crossbow"
+    }
+  ]
+}

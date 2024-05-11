@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_10_shieldbearers",
+  "name": "item.minecells.rampart",
+  "category": "minecells:weapons",
+  "icon": "minecells:rampart",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:rampart"
+      },
+      "text": "book.minecells.entries.weapons.rampart"
+    }
+  ]
+}

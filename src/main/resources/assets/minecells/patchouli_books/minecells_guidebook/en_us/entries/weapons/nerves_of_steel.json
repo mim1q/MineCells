@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/fall_from_the_ramparts",
+  "name": "item.minecells.nerves_of_steel",
+  "category": "minecells:weapons",
+  "icon": "minecells:nerves_of_steel",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:nerves_of_steel"
+      },
+      "text": "book.minecells.entries.weapons.nerves_of_steel"
+    }
+  ]
+}
