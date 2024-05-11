@@ -76,7 +76,7 @@ public class CustomShieldType {
         );
         entities.forEach(entity -> {
           ((LivingEntity) entity).takeKnockback(0.5, entity.getX() - user.getX(), entity.getZ() - user.getZ());
-          entity.damage(user.getWorld().getDamageSources().playerAttack(user), 2.0f);
+          entity.damage(user.getWorld().getDamageSources().playerAttack(user), 8.0f);
         });
       }
     };
