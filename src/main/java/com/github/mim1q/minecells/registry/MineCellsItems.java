@@ -13,6 +13,8 @@ import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -276,7 +278,16 @@ public class MineCellsItems {
   public static final Item MONSTER_CELL = registerSimpleItem("monster_cell");
   public static final Item BOSS_STEM_CELL = registerSimpleItem("boss_stem_cell");
   public static final Item EXPLOSIVE_BULB = registerSimpleItem("explosive_bulb");
-  public static final Item INFECTED_FLESH = registerSimpleItem("infected_flesh");
+  public static final Item INFECTED_FLESH = register(new Item(
+    new FabricItemSettings().food(
+      new FoodComponent.Builder()
+        .hunger(2)
+        .saturationModifier(0.3F)
+        .meat()
+        .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1)
+        .build()
+    )
+  ), "infected_flesh");
   public static final Item CELL_INFUSED_STEEL = registerSimpleItem("cell_infused_steel");
   public static final Item METAL_SHARDS = registerSimpleItem("metal_shards");
   public static final Item BUZZCUTTER_FANG = registerSimpleItem("buzzcutter_fang");

@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "other",
+  "input": {
+    "minecells:monster_cell": 48,
+    "minecraft:diamond": 8,
+    "minecraft:emerald": 8
+  },
+  "output": {
+    "id": "minecells:reset_rune",
+    "Count": 1
+  }
+}

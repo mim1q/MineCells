@@ -29,6 +29,11 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecells:cell_infused_steel"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 3,
           "name": "minecraft:gold_ingot"
         },
