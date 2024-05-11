@@ -192,7 +192,7 @@ public class CustomShieldType {
   }
 
   public float getParryTime() {
-    return parryTime;
+    return parryTime + MineCells.COMMON_CONFIG.additionalParryTime;
   }
 
   public float getParryDamage() {

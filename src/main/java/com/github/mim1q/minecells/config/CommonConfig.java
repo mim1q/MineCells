@@ -44,6 +44,10 @@ public class CommonConfig implements Config {
     + " Breaks at large distances (above around 64 blocks), so be careful with high values.")
   public int baseTentacleMaxDistance = 24;
 
+  @Syncing
+  @Comment("The additional time (in ticks) after holding up a shield that allows you to parry an attack")
+  public int additionalParryTime = 0;
+
   @Override
   public void save() {
     elevator.maxAssemblyHeight = MathHelper.clamp(elevator.maxAssemblyHeight, 64, 320);
