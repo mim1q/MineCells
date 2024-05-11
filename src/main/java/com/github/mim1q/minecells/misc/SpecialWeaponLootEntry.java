@@ -72,8 +72,8 @@ public class SpecialWeaponLootEntry extends LootPoolEntry {
         if (dimension == null) break;
 
         var currentDimensionLevel = dimension.getDimensionLevel();
-        if (dimensionLevel < currentDimensionLevel) continue;
-        if (dimensionLevel == currentDimensionLevel) weight *= dimensionLevel;
+        if (dimensionLevel > currentDimensionLevel) continue;
+        if (dimensionLevel == currentDimensionLevel) weight *= 2;
 
         map.put(entry, weight);
         totalWeight += weight;

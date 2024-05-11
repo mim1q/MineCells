@@ -1,0 +1,66 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecells:special_weapon",
+          "entries": [
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:assault_shield"
+              },
+              "advancement": "minecells:promenade",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:bloodthirsty_shield"
+              },
+              "advancement": "minecells:unlock/kill_30_shieldbearers",
+              "weight": 2,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:cudgel"
+              },
+              "weight": 3,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:greed_shield"
+              },
+              "weight": 1,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:ice_shield"
+              },
+              "advancement": "minecells:unlock/kill_30_shieldbearers",
+              "weight": 2,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:rampart"
+              },
+              "advancement": "minecells:unlock/kill_10_shieldbearers",
+              "weight": 3,
+              "dimension_level": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
