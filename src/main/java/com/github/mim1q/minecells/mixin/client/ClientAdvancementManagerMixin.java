@@ -12,8 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientAdvancementManagerMixin {
   @Inject(method = "onAdvancements", at = @At("HEAD"))
   private void minecells$onAdvancements(AdvancementUpdateS2CPacket packet, CallbackInfo ci) {
-    packet.getAdvancementsToEarn().forEach(
-      (id, builder) -> AdvancementHintRenderer.setAdvancementRendered(id, false)
+    packet.getAdvancementsToProgress().forEach(
+      (id, progress) -> {
+        if (progress.isDone()) AdvancementHintRenderer.setAdvancementRendered(id, false);
+      }
     );
     packet.getAdvancementIdsToRemove().forEach(
       id -> AdvancementHintRenderer.setAdvancementRendered(id, true)
