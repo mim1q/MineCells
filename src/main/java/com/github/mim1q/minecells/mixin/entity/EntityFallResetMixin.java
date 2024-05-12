@@ -16,7 +16,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -120,6 +119,7 @@ public abstract class EntityFallResetMixin {
         fallDistance = 0.0f;
         return;
       }
+      //noinspection DataFlowIssue
       if ((Entity) (Object) this instanceof HostileEntity) {
         damage(getWorld().getDamageSources().fall(), 100.0F);
         return;
@@ -160,30 +160,34 @@ public abstract class EntityFallResetMixin {
     var advancement = server.getAdvancementLoader().get(MineCells.createId("unlock/fall_from_the_ramparts"));
     if (advancement == null) return;
 
-    var tracker = ((ServerPlayerEntity)(Object) this).getAdvancementTracker();
+    var tracker = ((ServerPlayerEntity) (Object) this).getAdvancementTracker();
     tracker.grantCriterion(advancement, "teleported_up");
   }
 
   @Unique
   private BlockPos minecells$getResetToPos() {
-    BlockPos resetToPos = null;
-    if (lastSolidBlock != null && lastSolidBlock.isWithinDistance(getBlockPos().withY(lastSolidBlock.getY()), 32)) {
-      resetToPos = lastSolidBlock.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, lastSolidBlock.getX(), lastSolidBlock.getZ()));
-    }
-    if (resetToPos == null || resetToPos.getY() < fallResetY) {
-      var pos = this.getChunkPos().getBlockPos(8, 0, 8);
-      for (var offset : BlockPos.iterateOutwards(BlockPos.ORIGIN, 3, 0, 3)) {
-        var checkedPos = pos.add(offset.multiply(16));
-        checkedPos = checkedPos.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, checkedPos.getX(), checkedPos.getZ()));
-        if (checkedPos.getY() > fallResetY) {
-          resetToPos = checkedPos;
-        }
-      }
-    }
-    if (resetToPos == null || resetToPos.getY() < fallResetY) {
-      resetToPos = BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
-    }
+    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
 
-    return resetToPos;
+    // Intended behavior disabled for now due to some bugs
+
+    // BlockPos resetToPos = null;
+    // if (lastSolidBlock != null && lastSolidBlock.isWithinDistance(getBlockPos().withY(lastSolidBlock.getY()), 32)) {
+    //   resetToPos = lastSolidBlock.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, lastSolidBlock.getX(), lastSolidBlock.getZ()));
+    // }
+    // if (resetToPos == null || resetToPos.getY() < fallResetY) {
+    //   var pos = this.getChunkPos().getBlockPos(8, 0, 8);
+    //   for (var offset : BlockPos.iterateOutwards(BlockPos.ORIGIN, 3, 0, 3)) {
+    //     var checkedPos = pos.add(offset.multiply(16));
+    //     checkedPos = checkedPos.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, checkedPos.getX(), checkedPos.getZ()));
+    //     if (checkedPos.getY() > fallResetY) {
+    //       resetToPos = checkedPos;
+    //     }
+    //   }
+    // }
+    // if (resetToPos == null || resetToPos.getY() < fallResetY) {
+    //   resetToPos = BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
+    // }
+
+    // return resetToPos;
   }
 }
