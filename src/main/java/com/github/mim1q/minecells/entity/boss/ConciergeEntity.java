@@ -125,7 +125,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
           settings.overshoot = 1.5;
           settings.length = 60;
           settings.margin = 1.0;
-          settings.damage = 10.0F;
+          settings.damage = getDamage(2.5f);
           settings.particle = MineCellsParticles.SPECKLE.get(0xFF4000);
           settings.onLand = this::shakeScreenAfterLeap;
         }, e -> e.canAttack()
@@ -150,7 +150,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       settings.releaseSound = MineCellsSounds.CONCIERGE_SHOCKWAVE_RELEASE;
       settings.chance = 0.2F;
       settings.length = 50;
-      settings.shockwaveDamage = 6.0F;
+      settings.shockwaveDamage = getDamage(1.5f);
       settings.actionTick = 30;
     }, ConciergeEntity::canAttack));
 
@@ -167,7 +167,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       settings.length = 120;
       settings.actionTick = 60;
       settings.radius = 4.0;
-      settings.damage = 6.0F;
+      settings.damage = getDamage(1.5f);
       settings.chance = 0.02F;
     }, e -> e.getWorld().getClosestPlayer(e, 5.0) != null));
 
@@ -180,7 +180,7 @@ public class ConciergeEntity extends MineCellsBossEntity {
       settings.releaseSound = MineCellsSounds.CONCIERGE_PUNCH_RELEASE;
       settings.length = 30;
       settings.actionTick = 20;
-      settings.damage = 10.0F;
+      settings.damage = getDamage(2.5f);
       settings.knockback = getStageAdjustedValue(2.0, 3.0, 4.0);
     }));
   }
