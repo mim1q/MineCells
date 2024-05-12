@@ -41,16 +41,16 @@ public class CustomArrowType {
   public static final CustomArrowType MARKSMAN = create("marksman", it -> {
     it.speed = 3;
     it.defaultDamage = 5f;
-    it.additionalCritDamage = 9f;
+    it.additionalCritDamage = 11f;
     it.shouldCrit = context -> {
       var distanceSq = context.shotFromPos.squaredDistanceTo(context.hitPos);
-      return distanceSq > 20 * 20;
+      return distanceSq > 24 * 24;
     };
   });
 
   public static final CustomArrowType INFANTRY = create("infantry", it -> {
     it.defaultDamage = 6f;
-    it.additionalCritDamage = 5f;
+    it.additionalCritDamage = 6f;
     it.shouldCrit = context -> {
       var distanceSq = context.shotFromPos.squaredDistanceTo(context.hitPos);
       return distanceSq < 10 * 10;
@@ -63,7 +63,7 @@ public class CustomArrowType {
       context.target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, 100));
     };
     it.particle = ParticleTypes.SNOWFLAKE;
-    it.ammo = () -> Items.SNOWBALL;
+    it.ammo = () -> MineCellsItems.ICE_ARROW;
   });
 
   public static final CustomArrowType EXPLOSIVE_BOLT = create("explosive_bolt", it -> {
@@ -77,12 +77,12 @@ public class CustomArrowType {
       context.arrow.discard();
     };
     it.particle = ParticleTypes.SMOKE;
-    it.ammo = () -> Items.TNT;
+    it.ammo = () -> MineCellsItems.EXPLOSIVE_BOLT;
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
     it.speed = 2.2f;
-    it.defaultDamage = 5f;
+    it.defaultDamage = 6f;
     it.drawTime = 6;
     it.spread = 3f;
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
@@ -90,8 +90,8 @@ public class CustomArrowType {
 
   public static final CustomArrowType NERVES_OF_STEEL = create("nerves_of_steel", it -> {
     it.drawTime = 10;
-    it.defaultDamage = 4f;
-    it.additionalCritDamage = 7f;
+    it.defaultDamage = 5f;
+    it.additionalCritDamage = 9f;
     it.shouldCrit = context -> {
       var nbt = context.bow().getOrCreateNbt();
       return nbt.getBoolean("crit");
@@ -99,7 +99,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType HEAVY_BOLT = create("heavy_bolt", it -> {
-    it.defaultDamage = 3.5f;
+    it.defaultDamage = 4f;
     it.drawTime = 35;
     it.speed = 0.6f;
     it.maxAge = 10;
@@ -134,7 +134,7 @@ public class CustomArrowType {
   }
 
   public static final CustomArrowType FIREBRANDS = create("firebrands", it -> {
-    it.defaultDamage = 3f;
+    it.defaultDamage = 4f;
     it.speed = 1f;
     it.onEntityHit = context -> context.target.setOnFireFor(5);
     it.onBlockHit = context -> {
@@ -146,11 +146,11 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType THROWING_KNIFE = create("throwing_knife", it -> {
-    it.defaultDamage = 1f;
+    it.defaultDamage = 4f;
     it.speed = 1.75f;
     it.spread = 0.5f;
     it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
-    it.cooldown = 6;
+    it.cooldown = 5;
     it.ammo = () -> MineCellsItems.THROWING_KNIFE;
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
