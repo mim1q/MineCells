@@ -4,11 +4,13 @@ import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.entity.EntityType;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
+  private float damage = 8f;
+
   public ConjunctiviusProjectileEntity(World world, ConjunctiviusEntity owner) {
     super(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, world, owner);
   }
@@ -27,13 +29,14 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
     ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, owner);
     projectile.updatePosition(pos.x, pos.y, pos.z);
     projectile.setVelocity(velocity.multiply(1.2D));
+    projectile.damage = owner.getDamage(1f);
 
     world.spawnEntity(projectile);
   }
 
   @Override
   public float getDamage() {
-    return 8.0f;
+    return this.damage;
   }
 
   @Override
@@ -63,7 +66,15 @@ public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
   }
 
   @Override
-  public void onSpawnPacket(EntitySpawnS2CPacket packet) {
-    super.onSpawnPacket(packet);
+  protected void readCustomDataFromNbt(NbtCompound nbt) {
+    super.readCustomDataFromNbt(nbt);
+    if (nbt.contains("damage"))
+      this.damage = nbt.getFloat("damage");
+  }
+
+  @Override
+  protected void writeCustomDataToNbt(NbtCompound nbt) {
+    super.writeCustomDataToNbt(nbt);
+    nbt.putFloat("damage", this.damage);
   }
 }

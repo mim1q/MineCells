@@ -266,7 +266,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
           if (age - lastHit < 40) continue;
 
-          livingEntity.damage(getWorld().getDamageSources().mobAttack(this), 4.0f);
+          livingEntity.damage(getWorld().getDamageSources().mobAttack(this), getDamage(0.5f));
           this.hitEntities.put(livingEntity, age);
         }
       }
@@ -821,7 +821,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
         var entities = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(0.75));
         for (Entity e : entities) {
           if (e instanceof LivingEntity livingEntity) {
-            livingEntity.damage(entity.getWorld().getDamageSources().mobAttack(entity), 14.0f);
+            livingEntity.damage(entity.getWorld().getDamageSources().mobAttack(entity), entity.getDamage(2f));
             entity.hitEntities.put(livingEntity, entity.age);
           }
         }
