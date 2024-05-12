@@ -39,7 +39,8 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
 
-  modImplementation(include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")!!)
+  modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
+  include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
 
   modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
@@ -49,7 +50,8 @@ dependencies {
   modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
   modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
 
-  modImplementation(include("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
+  modImplementation("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")
+  include("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")
 }
 
 tasks {
