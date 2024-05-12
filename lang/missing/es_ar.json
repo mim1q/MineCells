@@ -164,6 +164,7 @@
   "block.minecells.rift.description": "Return to Overworld",
   "block.minecells.shockwave_flame_player": "Player's Shockwave Flame",
   "block.minecells.shockwave_flame": "Shockwave Flame",
+  "block.minecells.unbreakable_cell_crafter": "Unbreakable Cell Crafter",
   "block.minecells.cell_crafter": "Cell Crafter",
   "block.minecells.cell_crafter.not_enough_of_this_item": "You don't have enough of this item",
   "block.minecells.cell_crafter.not_enough_ingredients": "You don't have all the necessary ingredients",

@@ -82,6 +82,7 @@ fun main(args: Array<String>) {
     }
     add("arrow_sign", BlockState.createSingle("minecells:block/putrid_planks"))
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:cell_crafter"))
+    add(CommonModelPresets.horizontallyRotateableBlock("minecells:unbreakable_cell_crafter", "minecells:cell_crafter"))
     // Flags
     listOf(
       "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt",

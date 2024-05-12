@@ -227,6 +227,7 @@ public class MineCellsRenderers {
       MineCellsBlocks.RUNIC_VINE_PLANT,
       MineCellsBlocks.UNBREAKABLE_CHAIN,
       MineCellsBlocks.CELL_CRAFTER,
+      MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_WOOD.door,

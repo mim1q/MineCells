@@ -175,6 +175,7 @@
     shockwave_flame: "Shockwave Flame",
 
     // Cell Crafter
+    unbreakable_cell_crafter: "Unbreakable Cell Crafter",
     cell_crafter: {
       "": "Cell Crafter",
       not_enough_of_this_item: "You don't have enough of this item",
