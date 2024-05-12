@@ -260,7 +260,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       }
 
     } else {
-      for (Entity e : getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25D))) {
+      for (Entity e : getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.2D))) {
         if (e instanceof LivingEntity livingEntity && !(e instanceof SewersTentacleEntity)) {
           var lastHit = this.hitEntities.getOrDefault(livingEntity, 0);
 
@@ -817,11 +817,11 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
       var delta = (this.ticks() - this.actionTick) / (float) (this.length - this.actionTick - restTime);
       var tickPos = EasingUtils.interpolateVec(startPos, targetPos, delta, Easing::easeInOutCubic);
 
-      if (this.ticks() <= this.length - restTime) {
-        var entities = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(0.5));
+      if (this.ticks() <= this.length - restTime + 2) {
+        var entities = entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(0.75));
         for (Entity e : entities) {
           if (e instanceof LivingEntity livingEntity) {
-            livingEntity.damage(entity.getWorld().getDamageSources().mobAttack(entity), 10.0f);
+            livingEntity.damage(entity.getWorld().getDamageSources().mobAttack(entity), 14.0f);
             entity.hitEntities.put(livingEntity, entity.age);
           }
         }
