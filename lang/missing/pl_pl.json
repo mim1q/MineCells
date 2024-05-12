@@ -57,6 +57,8 @@
   "entity.minecells.custom_arrow.endless": "Endless Arrow",
   "entity.minecells.custom_arrow.firebrands": "Firebrands",
   "entity.minecells.custom_arrow.throwing_knife": "Throwing Knife",
+  "advancements.minecells.cell_crafter": "A crafter that runs on cells...",
+  "advancements.minecells.cell_crafter.description": "Use a Cell Crafter",
   "advancements.minecells.unlock.fall_from_the_ramparts": "Fall from the Ramparts",
   "advancements.minecells.unlock.kill_10_buzzcutters": "Kill 10 Buzzcutters",
   "advancements.minecells.unlock.kill_10_inquisitors": "Kill 10 Inquisitors",

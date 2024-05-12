@@ -269,6 +269,8 @@
   "advancements.minecells.root.description": "Find a portal to the Prisoners' Quarters",
   "advancements.minecells.prison": "Behind bars",
   "advancements.minecells.prison.description": "Enter the Prisoners' Quarters",
+  "advancements.minecells.cell_crafter": "A crafter that runs on cells...",
+  "advancements.minecells.cell_crafter.description": "Use a Cell Crafter",
   "advancements.minecells.promenade": "Love the serenity...",
   "advancements.minecells.promenade.description": "Reach the Promenade of The Condemned",
   "advancements.minecells.insufferable_crypt": "Even the rats avoid this place",

@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.Block;
@@ -12,6 +13,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -61,7 +63,11 @@ public class CellCrafterBlock extends BlockWithEntity {
     }
 
     player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-    return ActionResult.CONSUME;
+    var server = world.getServer();
+    if (server == null) return ActionResult.SUCCESS;
+    var advancement = server.getAdvancementLoader().get(MineCells.createId("cell_crafter"));
+    ((ServerPlayerEntity)player).getAdvancementTracker().grantCriterion(advancement, "use_cell_crafter");
+    return ActionResult.SUCCESS;
   }
 
   @Override

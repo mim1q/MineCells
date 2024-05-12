@@ -82,6 +82,8 @@
   "entity.minecells.custom_arrow.endless": "Endless Arrow",
   "entity.minecells.custom_arrow.firebrands": "Firebrands",
   "entity.minecells.custom_arrow.throwing_knife": "Throwing Knife",
+  "advancements.minecells.cell_crafter": "A crafter that runs on cells...",
+  "advancements.minecells.cell_crafter.description": "Use a Cell Crafter",
   "advancements.minecells.elite": "Elite enemy!",
   "advancements.minecells.elite.description": "Summon an Elite enemy using an Elite Obelisk",
   "advancements.minecells.unlock.fall_from_the_ramparts": "Fall from the Ramparts",

@@ -369,6 +369,8 @@
     "root.description": "Find a portal to the Prisoners' Quarters",
     prison: "Behind bars",
     "prison.description": "Enter the Prisoners' Quarters",
+    cell_crafter: "A crafter that runs on cells...",
+    "cell_crafter.description": "Use a Cell Crafter",
     promenade: "Love the serenity...",
     "promenade.description": "Reach the Promenade of The Condemned",
     insufferable_crypt: "Even the rats avoid this place",

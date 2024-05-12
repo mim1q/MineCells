@@ -196,6 +196,8 @@
   "biome.minecells.black_bridge": "Black Bridge",
   "travelerstitles.minecells.ramparts": "Ramparts",
   "travelerstitles.minecells.black_bridge": "Black Bridge",
+  "advancements.minecells.cell_crafter": "A crafter that runs on cells...",
+  "advancements.minecells.cell_crafter.description": "Use a Cell Crafter",
   "advancements.minecells.ramparts": "A room with a view!",
   "advancements.minecells.ramparts.description": "Reach the Ramparts",
   "advancements.minecells.black_bridge": "Finally, a moment of rest...",

@@ -262,6 +262,8 @@ public class MineCellsRenderers {
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RIFT, RiftBlockEntityRenderer::new);
 
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.CELL_CRAFTER,  ctx -> new CellCrafterBlockEntityRenderer());
+
     BlockEntityRendererFactories.register(MineCellsBlockEntities.SPAWNER_RUNE, SpawnerRuneRenderer.BlockEntity::new);
 
     ModelPredicateProviderRegistry.register(
