@@ -1,15 +1,21 @@
 package com.github.mim1q.minecells.item.weapon.shield;
 
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ToolItem;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL;
 import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
@@ -82,5 +88,11 @@ public class CustomShieldItem extends ToolItem {
   @Override
   public boolean canRepair(ItemStack stack, ItemStack ingredient) {
     return ingredient.isOf(CELL_INFUSED_STEEL);
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
   }
 }

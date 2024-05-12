@@ -2,15 +2,21 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SingleUseProjectileItem extends Item {
   private final CustomArrowType arrowType;
@@ -42,5 +48,11 @@ public class SingleUseProjectileItem extends Item {
     var arrow = new CustomArrowEntity(world, user, arrowType, user.getEyePos(), stack);
     arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(), arrowType.getSpread());
     world.spawnEntity(arrow);
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
   }
 }

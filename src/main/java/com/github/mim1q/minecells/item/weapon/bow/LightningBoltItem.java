@@ -5,7 +5,9 @@ import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.TextUtils;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -15,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -23,6 +26,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class LightningBoltItem extends Item implements CritIndicator {
   private static final int MAX_USE_TIME = 60 * 60 * 20;
@@ -248,5 +253,11 @@ public class LightningBoltItem extends Item implements CritIndicator {
   @Override
   public boolean shouldShowCritIndicator(@Nullable PlayerEntity player, @Nullable LivingEntity target, ItemStack stack) {
     return player != null && player.getItemUseTime() > 40;
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
   }
 }

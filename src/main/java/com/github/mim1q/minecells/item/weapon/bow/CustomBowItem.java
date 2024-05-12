@@ -2,17 +2,22 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class CustomBowItem extends RangedWeaponItem {
@@ -139,5 +144,11 @@ public class CustomBowItem extends RangedWeaponItem {
     var bowItem = (CustomBowItem) bow.getItem();
     if (bowItem.maxProjectileCount == 1) return;
     bow.getOrCreateNbt().putInt("LoadedProjectiles", count);
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description", this.arrowType.getAdditionalCritDamage());
   }
 }

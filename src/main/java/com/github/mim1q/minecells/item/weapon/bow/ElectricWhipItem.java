@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.TextUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,12 +13,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class ElectricWhipItem extends Item {
   public ElectricWhipItem(Settings settings) {
@@ -95,5 +101,11 @@ public class ElectricWhipItem extends Item {
     user.getItemCooldownManager().set(this, 20);
 
     return TypedActionResult.success(user.getStackInHand(hand));
+  }
+
+  @Override
+  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    super.appendTooltip(stack, world, tooltip, context);
+    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
   }
 }
