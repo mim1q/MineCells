@@ -144,5 +144,8 @@ if (secrets.isCurseforgeReady()) {
     tasks.getByName<CurseUploadTask>("curseforge${secrets.curseforgeId}") {
       dependsOn(remapJar)
     }
+    tasks.getByName("modrinth") {
+      dependsOn("optimizeOutputsOfRemapJar")
+    }
   }
 }
