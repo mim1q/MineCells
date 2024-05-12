@@ -6,7 +6,6 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -14,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
+
 public class AssassinsDaggerItem extends SwordItem implements CrittingWeapon {
   public AssassinsDaggerItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, attackDamage, attackSpeed, settings);
   }
 
   @Override

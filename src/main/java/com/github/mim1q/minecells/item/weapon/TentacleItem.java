@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -29,11 +28,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
+
 public class TentacleItem extends SwordItem implements WeaponWithAbility, CrittingWeapon {
   public HitResult hitResult = null;
 
   public TentacleItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, attackDamage, attackSpeed, settings);
   }
 
   @Override

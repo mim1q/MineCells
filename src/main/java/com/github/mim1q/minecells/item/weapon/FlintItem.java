@@ -16,7 +16,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -31,9 +30,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
+
 public class FlintItem extends SwordItem implements WeaponWithAbility {
   public FlintItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, attackDamage, attackSpeed, settings);
   }
 
   @Override

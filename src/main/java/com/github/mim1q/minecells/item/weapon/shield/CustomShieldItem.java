@@ -3,23 +3,25 @@ package com.github.mim1q.minecells.item.weapon.shield;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
+import net.minecraft.item.ToolItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL;
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
 import static java.lang.Math.acos;
 import static java.lang.Math.toDegrees;
 
-public class CustomShieldItem extends Item {
+public class CustomShieldItem extends ToolItem {
   private static final int MAX_USE_DURATION = 60 * 60 * 20;
   public final CustomShieldType shieldType;
 
   public CustomShieldItem(Settings settings, CustomShieldType type) {
-    super(settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, settings);
     this.shieldType = type;
   }
 
@@ -39,7 +41,7 @@ public class CustomShieldItem extends Item {
   public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
     var parried = hasParried(stack);
     var cooldown = shieldType.getCooldown(parried);
-    ((PlayerEntity)user).getItemCooldownManager().set(this, cooldown);
+    ((PlayerEntity) user).getItemCooldownManager().set(this, cooldown);
     setParried(stack, false);
   }
 
@@ -75,5 +77,10 @@ public class CustomShieldItem extends Item {
 
   public static boolean hasParried(ItemStack stack) {
     return stack.getOrCreateNbt().getBoolean("parried");
+  }
+
+  @Override
+  public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+    return ingredient.isOf(CELL_INFUSED_STEEL);
   }
 }

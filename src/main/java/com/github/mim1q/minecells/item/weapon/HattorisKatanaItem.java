@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -28,9 +27,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
+
 public class HattorisKatanaItem extends SwordItem implements WeaponWithAbility {
   public HattorisKatanaItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, attackDamage, attackSpeed, settings);
   }
 
   @Override

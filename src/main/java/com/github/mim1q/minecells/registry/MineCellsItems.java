@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BlockTags;
@@ -92,6 +93,38 @@ public class MineCellsItems {
   );
 
   // Weapons
+  public static final ToolMaterial CELL_INFUSED_STEEL_MATERIAL = new ToolMaterial() {
+    @Override
+    public int getDurability() {
+      return 700;
+    }
+
+    @Override
+    public float getMiningSpeedMultiplier() {
+      return 6f;
+    }
+
+    @Override
+    public float getAttackDamage() {
+      return 2f;
+    }
+
+    @Override
+    public int getMiningLevel() {
+      return 2;
+    }
+
+    @Override
+    public int getEnchantability() {
+      return 18;
+    }
+
+    @Override
+    public Ingredient getRepairIngredient() {
+      return Ingredient.ofItems(CELL_INFUSED_STEEL);
+    }
+  };
+
   public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(2, -2.1F,
       new FabricItemSettings()
         .maxCount(1)
@@ -131,7 +164,7 @@ public class MineCellsItems {
     ), "hattoris_katana"
   );
 
-  public static final Item BROADSWORD = register(new SwordItem(ToolMaterials.IRON, 7, -2.9F,
+  public static final Item BROADSWORD = register(new SwordItem(CELL_INFUSED_STEEL_MATERIAL, 7, -2.9F,
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1000)
@@ -139,7 +172,7 @@ public class MineCellsItems {
     ), "broadsword"
   );
 
-  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(ToolMaterials.IRON, 2, -2.4F,
+  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(CELL_INFUSED_STEEL_MATERIAL, 2, -2.4F,
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
@@ -147,7 +180,7 @@ public class MineCellsItems {
     ), "balanced_blade"
   );
 
-  public static final Item CROWBAR = register(new CrowbarItem(ToolMaterials.IRON, 3, -2.4F,
+  public static final Item CROWBAR = register(new CrowbarItem(CELL_INFUSED_STEEL_MATERIAL, 3, -2.4F,
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1100)

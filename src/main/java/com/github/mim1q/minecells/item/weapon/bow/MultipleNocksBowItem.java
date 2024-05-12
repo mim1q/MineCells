@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.world.World;
 
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL;
+
 public class MultipleNocksBowItem extends CustomBowItem {
   public MultipleNocksBowItem(Settings settings) {
     super(settings, CustomArrowType.MULTIPLE_NOCKS, 3);
@@ -27,5 +29,10 @@ public class MultipleNocksBowItem extends CustomBowItem {
     }
 
     setLoadedProjectiles(stack, 0);
+  }
+
+  @Override
+  public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+    return ingredient.isOf(CELL_INFUSED_STEEL);
   }
 }

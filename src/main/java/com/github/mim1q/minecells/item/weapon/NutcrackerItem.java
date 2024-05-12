@@ -12,8 +12,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -21,11 +21,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class NutcrackerItem extends Item implements CrittingWeapon {
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL;
+import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
+
+public class NutcrackerItem extends ToolItem implements CrittingWeapon {
   private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
 
   public NutcrackerItem(float attackDamage, float attackSpeed, Settings settings) {
-    super(settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, settings);
     this.attributeModifiers = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder()
       .put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", attackDamage, EntityAttributeModifier.Operation.ADDITION))
       .put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION))
@@ -60,5 +63,10 @@ public class NutcrackerItem extends Item implements CrittingWeapon {
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     super.appendTooltip(stack, world, tooltip, context);
     TextUtils.addDescription(tooltip, "item.minecells.nutcracker.description", getAdditionalCritDamage(stack, null, null));
+  }
+
+  @Override
+  public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+    return ingredient.isOf(CELL_INFUSED_STEEL);
   }
 }
