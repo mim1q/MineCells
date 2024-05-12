@@ -129,7 +129,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
-        .rarity(Rarity.UNCOMMON)
     ), "assassins_dagger"
   );
 
@@ -137,7 +136,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
-        .rarity(Rarity.UNCOMMON)
     ), "blood_sword"
   );
 
@@ -160,7 +158,6 @@ public class MineCellsItems {
     new HattorisKatanaItem(4, -2.2F, new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
-      .rarity(Rarity.RARE)
     ), "hattoris_katana"
   );
 
@@ -168,7 +165,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1000)
-        .rarity(Rarity.COMMON)
     ), "broadsword"
   );
 
@@ -176,7 +172,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
-        .rarity(Rarity.COMMON)
     ), "balanced_blade"
   );
 
@@ -184,7 +179,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1100)
-        .rarity(Rarity.COMMON)
     ), "crowbar"
   );
 
@@ -192,7 +186,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1000)
-        .rarity(Rarity.COMMON)
     ), "nutcracker"
   );
 
@@ -200,7 +193,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(32)
-        .rarity(Rarity.COMMON)
     ), "frost_blast"
   );
 
@@ -216,7 +208,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
-        .rarity(Rarity.UNCOMMON)
     ), "spite_sword"
   );
 
@@ -225,7 +216,6 @@ public class MineCellsItems {
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(32)
-        .rarity(Rarity.COMMON)
     ), "phaser"
   );
 
@@ -261,7 +251,7 @@ public class MineCellsItems {
 
   // Crossbows
   public static final CustomBowItem HEAVY_CROSSBOW = registerCrossbowItem(
-    "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(600))
+    "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(600).rarity(Rarity.EPIC))
   );
   public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerCrossbowItem(
     "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(500), CustomArrowType.EXPLOSIVE_BOLT)
