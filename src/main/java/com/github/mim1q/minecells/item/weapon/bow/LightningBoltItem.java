@@ -55,17 +55,17 @@ public class LightningBoltItem extends Item implements CritIndicator {
     var intensity = 0;
 
     if (ticks > 20) {
-      damage = 2.5f;
+      damage = 3.0f;
       intensity = 1;
     }
 
     if (ticks > 40) {
-      damage = 3.0f;
+      damage = 4.0f;
       intensity = 2;
     }
 
     if (ticks > 60) {
-      damage = 4.0f;
+      damage = 6.0f;
       intensity = 3;
     }
 

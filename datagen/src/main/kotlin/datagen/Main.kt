@@ -112,7 +112,7 @@ fun main(args: Array<String>) {
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
       "big_chain", "broken_cage", "prison_doorway", "king_statue", "chain_pile",
-      "putrid_board_block", "arrow_sign"
+      "putrid_board_block", "arrow_sign", "cell_crafter"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }

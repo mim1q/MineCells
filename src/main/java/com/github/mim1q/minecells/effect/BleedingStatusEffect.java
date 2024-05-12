@@ -49,7 +49,7 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
       newLevel = effect.getAmplifier() + 1;
     }
     if (newLevel >= 6) {
-      entity.damage(MineCellsDamageSource.BLEEDING.get(entity.getWorld(), null), 10.0F);
+      entity.damage(MineCellsDamageSource.BLEEDING.get(entity.getWorld(), null), 12.0F);
       entity.removeStatusEffect(MineCellsStatusEffects.BLEEDING);
       return;
     }

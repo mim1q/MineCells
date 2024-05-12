@@ -561,7 +561,7 @@
       },
       "weapons": {
         assassins_dagger: "The Assassin's Dagger is a quick little weapon. It deals critical damage if you backstab an enemy (that is, hit it when it's not facing you).",
-        blood_sword: "The Blood Sword applies Bleeding to enemies, which is similar to the Wither effect. This effect stacks up to level III.<br><br>Instead of applying level IV, it refreshes the duration of level III and applies weakness.",
+        blood_sword: "The Blood Sword applies Bleeding to enemies. Applying this effect when it's already active will increase its level. At 7 stacks, Bleeding gets reset to 0, but deals instant damage.<br><br>The bottled Blood needed to craft this item can be collected from Spikes in the Promenade.",
         broadsword: "A slow and heavy-hitting sword. Nothing less, nothing more.",
         balanced_blade: "The Balanced Blade deals a little more damage each time you attack. It reaches its max damage after 10 consecutvie attacks, dealing more than double its base damage.<br><br>The damage \"stacks\" get reset if you get hit or if too much time passes between attacks.",
         crowbar: "The Crowbar allows you to instantly break doors. After doing so it will deal critical damage for a short period of time.",

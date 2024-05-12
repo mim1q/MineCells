@@ -79,7 +79,7 @@ public class ElectricWhipItem extends Item {
       for (var entity : entities) {
         entity.damage(
           MineCellsDamageSource.ELECTRICITY.get(world, user),
-          4.0f
+          6.0f
         );
         ((LivingEntity) entity).addStatusEffect(
           new StatusEffectInstance(
@@ -94,8 +94,6 @@ public class ElectricWhipItem extends Item {
         );
       }
     }
-
-
 
     world.playSound(null, user.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.PLAYERS, 1f, 1f);
     user.getItemCooldownManager().set(this, 20);
