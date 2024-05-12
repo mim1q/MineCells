@@ -18,6 +18,7 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -170,9 +171,11 @@ public class CustomArrowType {
   private DamageSourceFactory damageSourceFactory = (world, arrow, shooter) -> world.getDamageSources().mobProjectile(arrow, shooter);
   private int cooldown = 0;
   private Supplier<Item> ammo = () -> Items.ARROW;
+  private final String translationKey;
 
   private CustomArrowType(String name) {
     this.name = name;
+    this.translationKey = "entity.minecells.custom_arrow." + name;
   }
 
   public void onEntityHit(ArrowEntityHitContext context) {
@@ -229,6 +232,10 @@ public class CustomArrowType {
 
   public DamageSource getDamageSource(World world, CustomArrowEntity arrow, LivingEntity shooter) {
     return damageSourceFactory.create(world, arrow, shooter);
+  }
+
+  public Text getTranslation() {
+    return Text.translatable(translationKey);
   }
 
   //#endregion

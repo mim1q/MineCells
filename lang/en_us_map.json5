@@ -342,6 +342,19 @@
     spawner_rune: "Spawner Rune",
     elite: "ELITE",
     elite_obelisk: "Elite Obelisk",
+    custom_arrow: {
+      marksman: "Marksman's Bow Arrow",
+      infantry: "Infantry Bow Arrow",
+      ice: "Ice Arrow",
+      explosive_bolt: "Explosive Bolt",
+      quick: "Quick Bow Arrow",
+      nerves_of_steel: "Nerves of Steel Arrow",
+      heavy_bolt: "Heavy Bolt",
+      multiple_nocks: "Multiple-Nocks Bow Arrow",
+      endless: "Endless Arrow",
+      firebrands: "Firebrands",
+      throwing_knife: "Throwing Knife",
+    }
   },
   "dimension.minecells;biome.minecells;travelerstitles.minecells": {
     prison: "Prisoners' Quarters",
@@ -406,7 +419,7 @@
     stunned: "Stunned",
     frozen: "Frozen",
   },
-    "chat.minecells": {
+  "chat.minecells": {
     obelisk_item_message: "Requires %s to activate",
     suffocation_fix_message: "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
     version_mismatch: "It seems like you have installed a new version of Mine Cells! Here's what you should do after updating the mod:\n",
