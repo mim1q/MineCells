@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.item.weapon.shield;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -56,14 +57,26 @@ public class CustomShieldType {
     it.cooldown = 60;
     it.cooldownAfterParry = 20;
     it.onUse = context -> {
-      var user = context.player();
-      user.getWorld().playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.LEAPING_ZOMBIE_RELEASE, user.getSoundCategory(), 1.0f, 1.0f);
-      user.setVelocity(user.getRotationVector()
+      var player = context.player();
+      player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), MineCellsSounds.LEAPING_ZOMBIE_RELEASE, player.getSoundCategory(), 1.0f, 1.0f);
+      player.setVelocity(player.getRotationVector()
         .multiply(0.5, 0.0, 0.5)
         .normalize()
         .multiply(1.5)
         .add(0.0, 0.2, 0.0)
       );
+      var stack = Blocks.AIR.asItem().getDefaultStack();
+      var mainHand = player.getMainHandStack();
+      var offHand = player.getOffHandStack();
+
+      if (mainHand.getItem() instanceof CustomShieldItem shield && shield.shieldType == it) {
+        stack = mainHand;
+      } else if (offHand.getItem() instanceof CustomShieldItem shield && shield.shieldType == it) {
+        stack = offHand;
+      }
+
+      if (stack.isEmpty()) return;
+      stack.damage(1, player, user -> user.sendToolBreakStatus(user.getActiveHand()));
     };
     it.onHold = context -> {
       var user = context.player();
@@ -88,8 +101,8 @@ public class CustomShieldType {
       Box.of(pos, 8, 8, 8),
       entity ->
         entity.squaredDistanceTo(pos) <= 16
-        && entity != user
-        && entity instanceof LivingEntity
+          && entity != user
+          && entity instanceof LivingEntity
     );
     entities.forEach(entity -> {
       ((LivingEntity) entity).addStatusEffect(
@@ -165,15 +178,23 @@ public class CustomShieldType {
 
   private ParticleEffect particle = null;
 
-  private Consumer<ShieldUseContext> onUse = context -> {};
-  private Consumer<DamageContext> onParry = context -> {};
-  private Consumer<MeleeDamageContext> onMeleeParry = context -> {};
-  private Consumer<RangedDamageContext> onRangedParry = context -> {};
+  private Consumer<ShieldUseContext> onUse = context -> {
+  };
+  private Consumer<DamageContext> onParry = context -> {
+  };
+  private Consumer<MeleeDamageContext> onMeleeParry = context -> {
+  };
+  private Consumer<RangedDamageContext> onRangedParry = context -> {
+  };
 
-  private Consumer<ShieldHoldContext> onHold = context -> {};
-  private Consumer<DamageContext> onBlock = context -> {};
-  private Consumer<MeleeDamageContext> onMeleeBlock = context -> {};
-  private Consumer<RangedDamageContext> onRangedBlock = context -> {};
+  private Consumer<ShieldHoldContext> onHold = context -> {
+  };
+  private Consumer<DamageContext> onBlock = context -> {
+  };
+  private Consumer<MeleeDamageContext> onMeleeBlock = context -> {
+  };
+  private Consumer<RangedDamageContext> onRangedBlock = context -> {
+  };
 
   public CustomShieldType(Consumer<CustomShieldType> setup) {
     setup.accept(this);

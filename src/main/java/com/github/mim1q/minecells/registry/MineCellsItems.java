@@ -267,7 +267,7 @@ public class MineCellsItems {
   );
 
   public static final CustomShieldItem ASSAULT_SHIELD = registerShield(
-    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(450), CustomShieldType.ASSAULT)
+    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(600), CustomShieldType.ASSAULT)
   );
 
   public static final CustomShieldItem BLOODTHIRSTY_SHIELD = registerShield(
