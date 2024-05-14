@@ -27,7 +27,7 @@ public class ElectrifiedStatusEffect extends StatusEffect {
 
   @Override
   public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-    if (entity.isDead()) return;
+    if (entity.isDead() || entity.getWorld().isClient) return;
 
     var damage = 1.0F;
     var interval = 15;
@@ -41,21 +41,22 @@ public class ElectrifiedStatusEffect extends StatusEffect {
     entity.damage(MineCellsDamageSource.ELECTRICITY.get(entity.getWorld()), damage);
     entity.getWorld().playSound(null, entity.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
 
-    var serverWorld = (ServerWorld) entity.getWorld();
     var particleSize = 0.3f + entity.getWidth() * 0.15f;
+    if (entity.getWorld() instanceof ServerWorld serverWorld) {
 
-    for (int i = 0; i < 5; ++i) {
-      serverWorld.spawnParticles(
-        MineCellsParticles.ELECTRICITY.get(Vec3d.ZERO.addRandom(entity.getRandom(), 1.0f), 2, 0xFFFFFF, particleSize),
-        entity.getX(),
-        entity.getY() + entity.getHeight() / 2.0D,
-        entity.getZ(),
-        1,
-        entity.getWidth() / 4.0,
-        entity.getHeight() / 4.0,
-        entity.getWidth() / 4.0,
-        0.0D
-      );
+      for (int i = 0; i < 5; ++i) {
+        serverWorld.spawnParticles(
+          MineCellsParticles.ELECTRICITY.get(Vec3d.ZERO.addRandom(entity.getRandom(), 1.0f), 2, 0xFFFFFF, particleSize),
+          entity.getX(),
+          entity.getY() + entity.getHeight() / 2.0D,
+          entity.getZ(),
+          1,
+          entity.getWidth() / 4.0,
+          entity.getHeight() / 4.0,
+          entity.getWidth() / 4.0,
+          0.0D
+        );
+      }
     }
   }
 

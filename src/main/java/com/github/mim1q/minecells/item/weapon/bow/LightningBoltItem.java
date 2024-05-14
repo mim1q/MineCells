@@ -90,6 +90,7 @@ public class LightningBoltItem extends Item implements CritIndicator {
           1.0f
         );
       }
+      stack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
 
       entity.damage(
         MineCellsDamageSource.ELECTRICITY.get(world, user),
@@ -132,7 +133,7 @@ public class LightningBoltItem extends Item implements CritIndicator {
 
       var userPos = user.getPos().add(0, user.getHeight() / 2.0, 0);
       var direction = entity.getPos().add(0, entity.getHeight() / 2.0, 0).subtract(userPos);
-      ((ServerWorld)world).spawnParticles(
+      ((ServerWorld) world).spawnParticles(
         MineCellsParticles.ELECTRICITY.get(direction, (int) direction.length(), color, 1.0f),
         userPos.getX(),
         userPos.getY(),

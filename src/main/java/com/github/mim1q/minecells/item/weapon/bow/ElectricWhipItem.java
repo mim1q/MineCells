@@ -67,6 +67,8 @@ public class ElectricWhipItem extends Item {
       0.0D
     );
 
+    user.getStackInHand(hand).damage(1, user, e -> e.sendToolBreakStatus(hand));
+
     var length = maxPos.subtract(userEyePos).length();
     for (var delta = 0.0; delta < length; delta += 0.5) {
       var center = userEyePos.add(direction.multiply(delta));
