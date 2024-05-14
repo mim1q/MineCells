@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.misc;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
@@ -122,7 +123,8 @@ public class SpecialWeaponLootEntry extends LootPoolEntry {
   public static class Serializer implements JsonSerializer<SpecialWeaponLootEntry> {
     @Override
     public void toJson(JsonObject json, SpecialWeaponLootEntry object, JsonSerializationContext context) {
-      var entries = json.getAsJsonArray("entries");
+      var entries = new JsonArray();
+      json.add("entries", entries);
       for (var entry : object.entryList) {
         var entryJson = new JsonObject();
         entryJson.addProperty("weight", entry.weight());
