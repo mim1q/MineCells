@@ -32,7 +32,7 @@ public class ServerPlayNetworkHandlerMixin {
     }
 
     if (offhandStack.getItem() instanceof CustomShieldItem shield) {
-      player.getItemCooldownManager().set(shield, shield.shieldType.getCooldown(true));
+      player.getItemCooldownManager().set(shield, shield.shieldType.getCooldown(false));
     }
   }
 }
