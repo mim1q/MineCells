@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 99,
+  "category": "other",
+  "input": {
+    "minecells:prison_torch": 2,
+    "minecells:prison_stone": 8,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:prison_dimensional_rune",
+    "Count": 1
+  }
+}

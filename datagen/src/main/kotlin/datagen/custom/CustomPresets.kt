@@ -101,7 +101,7 @@ object CustomPresets {
       key("S", "minecraft:stick")
     })
     add("cracked_prison_bricks", SmeltingRecipe.create("minecells:prison_bricks", "minecells:cracked_prison_bricks"))
-    add(dimensionalRuneRecipes())
+//    add(dimensionalRuneRecipes())
     add("arrow_sign", CraftingRecipe.shaped("minecells:arrow_sign", 4) {
       pattern("PPS")
       pattern("PPS")

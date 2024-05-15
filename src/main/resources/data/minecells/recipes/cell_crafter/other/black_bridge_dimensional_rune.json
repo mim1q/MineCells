@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 99,
+  "category": "other",
+  "advancement": "minecells:black_bridge",
+  "input": {
+    "minecells:prison_bricks": 16,
+    "minecraft:flint": 8,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:black_bridge_dimensional_rune",
+    "Count": 1
+  }
+}

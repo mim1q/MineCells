@@ -1,6 +1,6 @@
 {
   "type": "minecells:cell_forge_recipe",
-  "priority": 100,
+  "priority": 98,
   "category": "other",
   "input": {
     "minecells:monster_cell": 48,

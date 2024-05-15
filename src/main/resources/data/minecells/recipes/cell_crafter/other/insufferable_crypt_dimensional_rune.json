@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 99,
+  "category": "other",
+  "advancement": "minecells:insufferable_crypt",
+  "input": {
+    "minecells:prison_stone": 16,
+    "minecells:monsters_eye": 2,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:insufferable_crypt_dimensional_rune",
+    "Count": 1
+  }
+}

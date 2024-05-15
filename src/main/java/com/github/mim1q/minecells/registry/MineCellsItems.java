@@ -41,10 +41,10 @@ public class MineCellsItems {
     "elevator_mechanism"
   );
 
-  public static final Item BLANK_RUNE = register(
-    new Item(new FabricItemSettings().maxCount(1)),
-    "blank_rune"
-  );
+//  public static final Item BLANK_RUNE = register(
+//    new Item(new FabricItemSettings().maxCount(1)),
+//    "blank_rune"
+//  );
 
   public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = register(
     new Item(new FabricItemSettings().maxCount(1)),

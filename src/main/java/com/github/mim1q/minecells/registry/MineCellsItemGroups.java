@@ -90,7 +90,7 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.ANCIENT_SEWAGE_BUCKET),
       stack(MineCellsItems.ELEVATOR_MECHANISM),
       stack(MineCellsItems.HEALTH_FLASK),
-      stack(MineCellsItems.BLANK_RUNE),
+//      stack(MineCellsItems.BLANK_RUNE),
       stack(MineCellsItems.RESET_RUNE),
       stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE),
       stack(MineCellsItems.CONCIERGE_RESPAWN_RUNE),

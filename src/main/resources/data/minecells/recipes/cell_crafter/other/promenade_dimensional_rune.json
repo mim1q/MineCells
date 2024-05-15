@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 99,
+  "category": "other",
+  "advancement": "minecells:promenade",
+  "input": {
+    "minecells:promenade_torch": 2,
+    "minecells:bloomrock": 8,
+    "minecells:red_putrid_sapling": 4,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:promenade_dimensional_rune",
+    "Count": 1
+  }
+}
