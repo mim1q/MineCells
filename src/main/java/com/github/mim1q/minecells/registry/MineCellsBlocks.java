@@ -139,9 +139,9 @@ public class MineCellsBlocks {
   public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
   public static final Block SOLID_BARRIER = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
   public static final Block CONDITIONAL_BARRIER = registerBlock(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
-  public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
-  public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
-  public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::playerPredicate), "player_barrier_controller");
+  public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).solid().noCollision().nonOpaque(), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
+  public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BOSS_BARRIER_CONTROLLER), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
+  public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BOSS_BARRIER_CONTROLLER), BarrierControllerBlock::playerPredicate), "player_barrier_controller");
 
   // Portals
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
