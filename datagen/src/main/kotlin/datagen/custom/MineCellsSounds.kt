@@ -2,7 +2,6 @@ package datagen.custom
 
 import tada.lib.generator.ResourceGenerator
 import tada.lib.resources.sound.SoundsJsonFile
-import tada.lib.resources.sound.emptySound
 import tada.lib.resources.sound.soundPath
 import tada.lib.resources.sound.sounds
 import tada.lib.util.Id
@@ -32,6 +31,14 @@ fun SoundsJsonFile.modulatedSimpleVariedSound(id: String, variants: Int) {
 fun SoundsJsonFile.chargeReleaseSounds(prefix: String) {
   modulatedSimpleSound("$prefix.charge")
   modulatedSimpleSound("$prefix.release")
+}
+
+fun SoundsJsonFile.dimensionSongs(dimension: String, vararg songs: String) {
+  event("music.$dimension") {
+    songs.forEach {
+      sound("minecraft:music/game/$it", stream = true, volume = 0.6f)
+    }
+  }
 }
 
 fun ResourceGenerator.mineCellsSounds() {
@@ -102,11 +109,11 @@ fun ResourceGenerator.mineCellsSounds() {
     modulatedSimpleSound("curse_death")
     modulatedSimpleSound("obelisk")
 
-    // Music (unused, only for resource pack compatibility)
-    emptySound("music.prisoners_quarters")
-    emptySound("music.promenade")
-    emptySound("music.ramparts")
-    emptySound("music.insufferable_crypt")
-    emptySound("music.black_bridge")
+    // Music
+    dimensionSongs("prisoners_quarters", "nether/nether_wastes/rubedo")
+    dimensionSongs("promenade", "an_ordinary_day")
+    dimensionSongs("ramparts", "ancestry")
+    dimensionSongs("insufferable_crypt", "nether/crimson_forest/chrysopoeia")
+    dimensionSongs("black_bridge", "nether/soulsand_valley/so_below")
   }
 }

@@ -32,6 +32,9 @@ public class ClientConfig implements Config {
     " critical damage on the next hit.")
   public boolean showCritIndicator = true;
 
+  @Comment("Loops the song playing in a given dimension. If disabled, the Vanilla music algorithm will be used.\n")
+  public boolean experimentalMusicLooping = true;
+
   @Override
   public void save() {
     Config.super.save();

@@ -16,6 +16,12 @@
         "color": 12916255
       },
       "probability": 0.002
+    },
+    "music": {
+      "sound": "minecells:music.promenade",
+      "min_delay": 5,
+      "max_delay": 10,
+      "replace_current_music": true
     }
   },
   "spawners": {

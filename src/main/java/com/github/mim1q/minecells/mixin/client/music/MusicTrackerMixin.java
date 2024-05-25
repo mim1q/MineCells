@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.mixin.client.music;
 
+import com.github.mim1q.minecells.MineCellsClient;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicTracker;
@@ -20,7 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MusicTracker.class)
 public abstract class MusicTrackerMixin {
   @Shadow @Final private MinecraftClient client;
+
   @Shadow public abstract void stop();
+
   @Shadow private @Nullable SoundInstance current;
 
   @Unique
@@ -33,14 +36,14 @@ public abstract class MusicTrackerMixin {
   )
   private void minecells$injectOnTick(CallbackInfo ci) {
     var world = this.client.world;
-    if (world == null) {
+    if (world == null || !MineCellsClient.CLIENT_CONFIG.experimentalMusicLooping) {
       this.lastDimension = null;
       return;
     }
 
     var dimension = MineCellsDimension.of(world);
     var dimensionChanged = lastDimension != dimension;
-    var playing =  this.client.getSoundManager().isPlaying(current);
+    var playing = this.client.getSoundManager().isPlaying(current);
     if (dimension != null && !dimension.canMusicStart(this.client.player)) return;
     lastDimension = dimension;
     if (dimension == null) return;

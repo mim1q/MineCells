@@ -9,7 +9,13 @@
     "fog_color": 16756749,
     "sky_color": 16761117,
     "grass_color": 3966855,
-    "foliage_color": 3373439
+    "foliage_color": 3373439,
+    "music": {
+      "sound": "minecells:music.ramparts",
+      "min_delay": 5,
+      "max_delay": 10,
+      "replace_current_music": true
+    }
   },
   "spawners": {},
   "spawn_costs": {},
