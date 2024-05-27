@@ -223,7 +223,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
           .zIndex(300);
         box.child(label);
 
-        itemLabels.put(itemStack, new Pair<>(itemComponent, label));
+        itemLabels.put(itemStack.copyWithCount(ingredient.getValue()), new Pair<>(itemComponent, label));
         child(box);
       }
 
