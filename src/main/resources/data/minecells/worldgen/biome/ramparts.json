@@ -15,7 +15,8 @@
       "min_delay": 5,
       "max_delay": 10,
       "replace_current_music": true
-    }
+    },
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
   },
   "spawners": {},
   "spawn_costs": {},
