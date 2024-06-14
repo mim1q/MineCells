@@ -18,6 +18,7 @@
     "entity.MobEntityMixin",
     "entity.player.PlayerEntityMixin",
     "entity.player.ServerPlayerEntityMixin",
+    "inventory.PlayerInventoryMixin",
     "item.BlockItemMixin",
     "item.CrossbowItemMixin",
     "item.MilkBucketItemMixin",

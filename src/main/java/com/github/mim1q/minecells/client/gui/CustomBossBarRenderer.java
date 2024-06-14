@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.client.gui;
 import com.github.mim1q.minecells.MineCells;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.boss.BossBar;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
