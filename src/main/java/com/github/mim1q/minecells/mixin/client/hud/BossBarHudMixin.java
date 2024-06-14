@@ -33,8 +33,7 @@ public class BossBarHudMixin {
     )
   )
   private Text minecells$modifyGetBossBarName(Text original) {
+    if (!MineCellsClient.CLIENT_CONFIG.customBossBars) return original;
     return CustomBossBarRenderer.getCustomBossBarName(original);
   }
-
-
 }

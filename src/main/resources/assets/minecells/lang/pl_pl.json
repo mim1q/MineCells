@@ -13,6 +13,30 @@
   "item.minecells.rancid_rat_spawn_egg": "Jajo przyzywające odrażającego szczura",
   "item.minecells.runner_spawn_egg": "Jajo przyzywające gońca",
   "item.minecells.scorpion_spawn_egg": "Jajo przyzywające skorpiona",
+  "item.minecells.cell_holder": "Pojemnik na komórki",
+  "item.minecells.cell_holder.cell_count": [
+    {
+      "text": "Przechowane komórki: ",
+      "color": "#46D4FF"
+    },
+    {
+      "index": 0
+    }
+  ],
+  "item.minecells.cell_holder.full": [
+    {
+      "text": "Kliknij PPM, aby wyjąć komórki",
+      "color": "gray"
+    }
+  ],
+  "item.minecells.cell_holder.empty": [
+    {
+      "text": "Pusty. \nKliknij komórką, aby ją przechować",
+      "color": "gray"
+    }
+  ],
+  "advancements.minecells.unlock.have_64_cells": "Miej w ekwipunku pełny stack komórek",
+  "advancements.minecells.unlock.have_64_cells.description": "Miej w ekwipunku pełny stack komórek",
   "block.minecells.putrid_log": "Zgniły pień",
   "block.minecells.putrid_wood": "Zgniłe drewno",
   "block.minecells.stripped_putrid_log": "Okorowany zgniły pień",
