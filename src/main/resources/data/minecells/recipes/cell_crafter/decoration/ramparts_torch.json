@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 80,
+  "category": "decoration",
+  "advancement": "minecells:ramparts",
+  "input": {
+    "minecraft:torch": 8,
+    "minecraft:light_blue_dye": 1
+  },
+  "output": {
+    "id": "minecells:ramparts_torch",
+    "Count": 8
+  }
+}

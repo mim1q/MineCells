@@ -79,6 +79,21 @@ object CustomPresets {
   }
 
   fun customRecipes() = Preset {
+    //region Stone duplication
+    add("prison_stone_duplication", CraftingRecipe.shaped("minecells:prison_stone", 4) {
+      pattern("SP")
+      pattern("PS")
+      key("P", "minecells:prison_stone")
+      key("S", "minecraft:stone")
+    })
+    add("bloomrock_duplication", CraftingRecipe.shaped("minecells:bloomrock", 4) {
+      pattern("SB")
+      pattern("BS")
+      key("B", "minecells:bloomrock")
+      key("S", "minecraft:stone")
+    })
+    //endregion
+
     add(CommonRecipePresets.packed3x3("minecells:putrid_planks", "minecells:putrid_board_block", 9))
     add("putrid_boards", CraftingRecipe.shaped("minecells:putrid_boards", 12) {
       pattern("XXX")
