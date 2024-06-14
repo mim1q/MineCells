@@ -424,6 +424,7 @@
     unlock: {
       "$;$.description": {
         fall_from_the_ramparts: "Fall from the Ramparts",
+        have_64_cells: "Have a full stack of Monster Cells in your inventory",
         kill_10_buzzcutters: "Kill 10 Buzzcutters",
         kill_10_inquisitors: "Kill 10 Inquisitors",
         kill_10_shieldbearers: "Kill 10 Shieldbearers",

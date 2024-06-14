@@ -20,5 +20,7 @@
       "text": "Empty. \nClick with Monster Cells to store them.",
       "color": "gray"
     }
-  ]
+  ],
+  "advancements.minecells.unlock.have_64_cells": "Have a full stack of Monster Cells in your inventory",
+  "advancements.minecells.unlock.have_64_cells.description": "Have a full stack of Monster Cells in your inventory"
 }
