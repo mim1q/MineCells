@@ -39,6 +39,7 @@
     "client.PlayerEntityRendererMixin",
     "client.WorldRendererMixin",
     "client.WorldSessionMixin",
+    "client.hud.BossBarHudMixin",
     "client.music.MusicTrackerMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
     "compat.patchouli.GuiBookEntryMixin",

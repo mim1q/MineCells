@@ -35,6 +35,9 @@ public class ClientConfig implements Config {
   @Comment("Loops the song playing in a given dimension. If disabled, the Vanilla music algorithm will be used.\n")
   public boolean experimentalMusicLooping = true;
 
+  @Comment("Enables the MineCells custom boss bar rendering.")
+  public boolean customBossBars = true;
+
   @Override
   public void save() {
     Config.super.save();
