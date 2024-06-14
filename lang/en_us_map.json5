@@ -32,6 +32,15 @@
     vine_rune: "Vine Rune",
     reset_rune: "Reset Rune",
     "reset_rune.tooltip": "Reset the Spawner Runes in a dimension",
+    cell_holder: {
+      "": "Cell Holder",
+      cell_count: [
+        { text: "Stored Cells: ", color: "#46D4FF" },
+        { index: 0 },
+      ],
+      full: [{ text: "Right-click to take them out", color:  "gray" }],
+      empty: [{ text: "Empty. \nClick with Monster Cells to store them.", color: "gray"}]
+    },
 
     // Doorway items
     "prison_doorway.description": "Place against an empty 3x3 wall",

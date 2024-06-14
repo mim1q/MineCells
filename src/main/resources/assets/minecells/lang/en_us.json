@@ -30,6 +30,28 @@
   "item.minecells.vine_rune": "Vine Rune",
   "item.minecells.reset_rune": "Reset Rune",
   "item.minecells.reset_rune.tooltip": "Reset the Spawner Runes in a dimension",
+  "item.minecells.cell_holder": "Cell Holder",
+  "item.minecells.cell_holder.cell_count": [
+    {
+      "text": "Stored Cells: ",
+      "color": "#46D4FF"
+    },
+    {
+      "index": 0
+    }
+  ],
+  "item.minecells.cell_holder.full": [
+    {
+      "text": "Right-click to take them out",
+      "color": "gray"
+    }
+  ],
+  "item.minecells.cell_holder.empty": [
+    {
+      "text": "Empty. \nClick with Monster Cells to store them.",
+      "color": "gray"
+    }
+  ],
   "item.minecells.prison_doorway.description": "Place against an empty 3x3 wall",
   "item.minecells.prison_doorway.visited": "%s already visited near area: %s",
   "item.minecells.prison_doorway.not_visited": "%s not yet visited near area: %s",

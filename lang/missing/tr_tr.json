@@ -1,5 +1,27 @@
 {
   "item.minecells.concierge_respawn_rune": "Concierge Respawn Rune",
+  "item.minecells.cell_holder": "Cell Holder",
+  "item.minecells.cell_holder.cell_count": [
+    {
+      "text": "Stored Cells: ",
+      "color": "#46D4FF"
+    },
+    {
+      "index": 0
+    }
+  ],
+  "item.minecells.cell_holder.full": [
+    {
+      "text": "Right-click to take them out",
+      "color": "gray"
+    }
+  ],
+  "item.minecells.cell_holder.empty": [
+    {
+      "text": "Empty. \nClick with Monster Cells to store them.",
+      "color": "gray"
+    }
+  ],
   "item.minecells.dimensional_rune.tooltip": "Use on a Doorway in the Overworld\nto change its destination",
   "item.minecells.dimensional_rune.only_usable_in_overworld": "You can only use this rune in the Overworld",
   "item.minecells.dimensional_rune.not_visited": "You can only use this rune to access an area you have already visited",

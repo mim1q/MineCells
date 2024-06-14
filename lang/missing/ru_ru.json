@@ -1,4 +1,26 @@
 {
+  "item.minecells.cell_holder": "Cell Holder",
+  "item.minecells.cell_holder.cell_count": [
+    {
+      "text": "Stored Cells: ",
+      "color": "#46D4FF"
+    },
+    {
+      "index": 0
+    }
+  ],
+  "item.minecells.cell_holder.full": [
+    {
+      "text": "Right-click to take them out",
+      "color": "gray"
+    }
+  ],
+  "item.minecells.cell_holder.empty": [
+    {
+      "text": "Empty. \nClick with Monster Cells to store them.",
+      "color": "gray"
+    }
+  ],
   "item.minecells.multiple_nocks_bow": "Multiple-Nocks Bow",
   "item.minecells.multiple_nocks_bow.description": "Fires 3 arrows at once",
   "item.minecells.bow_and_endless_quiver": "Bow and Endless Quiver",

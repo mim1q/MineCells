@@ -2,10 +2,7 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
-import com.github.mim1q.minecells.item.DimensionalRuneItem;
-import com.github.mim1q.minecells.item.DoorwayItem;
-import com.github.mim1q.minecells.item.HealthFlaskItem;
-import com.github.mim1q.minecells.item.ResetRuneItem;
+import com.github.mim1q.minecells.item.*;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.*;
@@ -90,6 +87,11 @@ public class MineCellsItems {
       .recipeRemainder(Items.BUCKET)
     ),
     "ancient_sewage_bucket"
+  );
+
+  public static final Item CELL_HOLDER = register(
+    new CellHolderItem(new FabricItemSettings().maxCount(1)),
+    "cell_holder"
   );
 
   // Weapons

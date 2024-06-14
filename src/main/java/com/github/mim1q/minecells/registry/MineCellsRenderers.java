@@ -273,6 +273,21 @@ public class MineCellsRenderers {
       (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
 
+    ModelPredicateProviderRegistry.register(
+      MineCellsItems.CELL_HOLDER,
+      MineCells.createId("cells"),
+      (stack, world, entity, seed) -> {
+        var nbt = stack.getNbt();
+        if (nbt == null) return 0f;
+
+        var cells = nbt.getInt("Cells");
+        if (cells > 128) return 1.0f;
+        if (cells > 64) return 0.75f;
+        if (cells > 0) return 0.5f;
+        return 0f;
+      }
+    );
+
     MineCellsItems.BOWS.forEach(MineCellsRenderers::registerBowPredicate);
     MineCellsItems.CROSSBOWS.forEach(MineCellsRenderers::registerCrossbowPredicate);
     MineCellsItems.SHIELDS.forEach(MineCellsRenderers::registerShieldPredicate);

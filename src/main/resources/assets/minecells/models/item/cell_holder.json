@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecells:item/cell_holder/empty"
+  },
+
+  "overrides": [
+    { "predicate": { "minecells:cells": 0.5  }, "model": "minecells:item/cell_holder/1" },
+    { "predicate": { "minecells:cells": 0.75 }, "model": "minecells:item/cell_holder/2" },
+    { "predicate": { "minecells:cells": 1.0  }, "model": "minecells:item/cell_holder/3" }
+  ]
+}

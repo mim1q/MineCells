@@ -1,1 +1,24 @@
-{}
+{
+  "item.minecells.cell_holder": "Cell Holder",
+  "item.minecells.cell_holder.cell_count": [
+    {
+      "text": "Stored Cells: ",
+      "color": "#46D4FF"
+    },
+    {
+      "index": 0
+    }
+  ],
+  "item.minecells.cell_holder.full": [
+    {
+      "text": "Right-click to take them out",
+      "color": "gray"
+    }
+  ],
+  "item.minecells.cell_holder.empty": [
+    {
+      "text": "Empty. \nClick with Monster Cells to store them.",
+      "color": "gray"
+    }
+  ]
+}

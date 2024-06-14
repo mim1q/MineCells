@@ -101,6 +101,7 @@ public class MineCellsItemGroups {
     stacks.addAll(stackList(
       MineCellsItems.MONSTER_CELL,
       MineCellsItems.BOSS_STEM_CELL,
+      MineCellsItems.CELL_HOLDER,
       MineCellsItems.GUTS,
       MineCellsItems.MONSTERS_EYE,
       MineCellsItems.EXPLOSIVE_BULB,
