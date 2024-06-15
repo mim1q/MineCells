@@ -628,4 +628,28 @@
   "book.minecells.entries.weapons.ice_shield": "若格挡攻击，寒冰盾将减速目标。<br><br>若成功招架攻击，它则将冰冻目标。",
   "options.minecells.screenshake": "震屏效果强度",
   "options.minecells.screenshake.tooltip": "更改我的细胞模组的震屏事件效果强度。\n可在minecells-client.json5中为事件单独配置。\n0%等于禁用震屏效果。"
+  "item.minecells.cell_holder": "细胞容器",
+  "item.minecells.cell_holder.cell_count": [
+    {
+      "text": "细胞存量：",
+      "color": "#46D4FF"
+    },
+    {
+      "index": 0
+    }
+  ],
+  "item.minecells.cell_holder.full": [
+    {
+      "text": "右键取出",
+      "color": "gray"
+    }
+  ],
+  "item.minecells.cell_holder.empty": [
+    {
+      "text": "未储存细胞\n用细胞右键此物品以存入",
+      "color": "gray"
+    }
+  ],
+  "advancements.minecells.unlock.have_64_cells": "在物品栏中储存一组细胞",
+  "advancements.minecells.unlock.have_64_cells.description": "在物品栏中储存一组细胞"
 }
