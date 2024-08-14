@@ -24,7 +24,8 @@ version = ModData.VERSION
 
 repositories {
   mavenCentral()
-  maven("https://jitpack.io") // Gimm1q
+  maven("https://maven.mim1q.dev") // Gimm1q
+  maven("https://jitpack.io")
   maven("https://maven.shedaniel.me/")
   maven("https://maven.terraformersmc.com/releases/")
   maven("https://maven.wispforest.io")
@@ -50,8 +51,7 @@ dependencies {
   modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
   modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
 
-  modImplementation("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")
-  include("com.github.mim1q:gimm1q:${Versions.GIMM1Q}")
+  include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 }
 
 tasks {
