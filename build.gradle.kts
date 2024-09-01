@@ -24,11 +24,12 @@ version = ModData.VERSION
 
 repositories {
   mavenCentral()
+  maven("https://maven.draylar.dev/releases") // Omega config
   maven("https://maven.mim1q.dev") // Gimm1q
-  maven("https://jitpack.io")
-  maven("https://maven.shedaniel.me/")
-  maven("https://maven.architectury.dev/")
-  maven("https://maven.terraformersmc.com/releases/")
+  maven("https://redempt.dev") // Crunch in Gimm1q
+  maven("https://maven.shedaniel.me")
+  maven("https://maven.architectury.dev")
+  maven("https://maven.terraformersmc.com/releases")
   maven("https://maven.wispforest.io")
   maven("https://maven.blamejared.com") // Patchouli
 }
@@ -41,8 +42,7 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
 
-  modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
-  include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
+  include(modImplementation("dev.draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")!!)
 
   modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
@@ -52,9 +52,9 @@ dependencies {
   modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
   modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
 
-  modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
-
   include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
+
+  modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
 }
 
 tasks {
