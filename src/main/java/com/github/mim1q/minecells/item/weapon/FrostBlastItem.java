@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
+import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
@@ -29,6 +31,9 @@ import java.util.List;
 import java.util.Set;
 
 public class FrostBlastItem extends Item implements WeaponWithAbility {
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("spells", "frost_blast_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("spells", "frost_blast_cooldown", 0.0);
+
   public FrostBlastItem(Settings settings) {
     super(settings);
   }
@@ -54,7 +59,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
       return stack;
     }
     if (user.isPlayer()) {
-      ((PlayerEntity)user).getItemCooldownManager().set(this, getAbilityCooldown(stack));
+      ((PlayerEntity) user).getItemCooldownManager().set(this, getAbilityCooldown(stack, user, null));
     }
     Set<LivingEntity> entities = new HashSet<>();
     for (int i = 1; i <= 3; ++i) {
@@ -64,7 +69,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
     }
     for (LivingEntity entity : entities) {
       applyFreeze(entity);
-      entity.damage(world.getDamageSources().freeze(), getAbilityDamage(stack));
+      entity.damage(world.getDamageSources().freeze(), getAbilityDamage(stack, user, entity));
     }
     return stack;
   }
@@ -102,12 +107,12 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
   }
 
   @Override
-  public float getBaseAbilityDamage(ItemStack stack) {
-    return 6.0F;
+  public ValueCalculator getAbilityDamageCalculator() {
+    return ABILITY_DAMAGE_CALCULATOR;
   }
 
   @Override
-  public int getBaseAbilityCooldown(ItemStack stack) {
-    return 20 * 15;
+  public ValueCalculator getAbilityCooldownCalculator() {
+    return ABILITY_COOLDOWN_CALCULATOR;
   }
 }

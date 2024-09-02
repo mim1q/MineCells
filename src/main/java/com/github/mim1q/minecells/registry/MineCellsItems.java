@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.item.*;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.*;
+import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -127,21 +128,21 @@ public class MineCellsItems {
     }
   };
 
-  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(2, -2.1F,
+  public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
     ), "assassins_dagger"
   );
 
-  public static final Item BLOOD_SWORD = register(new BloodSwordItem(4, -2.4F,
+  public static final Item BLOOD_SWORD = register(new BloodSwordItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
     ), "blood_sword"
   );
 
-  public static final Item CURSED_SWORD = register(new CursedSwordItem(22, -3.0F,
+  public static final Item CURSED_SWORD = register(new CursedSwordItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(600)
@@ -149,7 +150,7 @@ public class MineCellsItems {
   );
 
   public static final TentacleItem TENTACLE = register(
-    new TentacleItem(5, -3.0F, new FabricItemSettings()
+    new TentacleItem(new FabricItemSettings()
       .maxCount(1)
       .maxDamage(800)
       .rarity(Rarity.EPIC)
@@ -157,34 +158,35 @@ public class MineCellsItems {
   );
 
   public static final Item HATTORIS_KATANA = register(
-    new HattorisKatanaItem(4, -2.2F, new FabricItemSettings()
+    new HattorisKatanaItem(new FabricItemSettings()
       .maxCount(1)
       .maxDamage(1200)
     ), "hattoris_katana"
   );
 
-  public static final Item BROADSWORD = register(new SwordItem(CELL_INFUSED_STEEL_MATERIAL, 7, -2.9F,
+  public static final Item BROADSWORD = register(new CustomMeleeWeapon(
+      "broadsword",
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1000)
     ), "broadsword"
   );
 
-  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(CELL_INFUSED_STEEL_MATERIAL, 2, -2.4F,
+  public static final Item BALANCED_BLADE = register(new BalancedBladeItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)
     ), "balanced_blade"
   );
 
-  public static final Item CROWBAR = register(new CrowbarItem(CELL_INFUSED_STEEL_MATERIAL, 3, -2.4F,
+  public static final Item CROWBAR = register(new CrowbarItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1100)
     ), "crowbar"
   );
 
-  public static final Item NUTCRACKER = register(new NutcrackerItem(7.0F, -3.0F,
+  public static final Item NUTCRACKER = register(new NutcrackerItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1000)
@@ -198,7 +200,7 @@ public class MineCellsItems {
     ), "frost_blast"
   );
 
-  public static final Item FLINT = register(new FlintItem(5, -3.1F,
+  public static final Item FLINT = register(new FlintItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1000)
@@ -206,7 +208,7 @@ public class MineCellsItems {
     ), "flint"
   );
 
-  public static final Item SPITE_SWORD = register(new SpiteSwordItem(4, -2.5f,
+  public static final Item SPITE_SWORD = register(new SpiteSwordItem(
       new FabricItemSettings()
         .maxCount(1)
         .maxDamage(1200)

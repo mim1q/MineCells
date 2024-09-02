@@ -34,7 +34,7 @@ public class ServerPacketHandler {
         player.getWorld().spawnEntity(tentacle);
         player.getItemCooldownManager().set(
           MineCellsItems.TENTACLE,
-          MineCellsItems.TENTACLE.getBaseAbilityCooldown(playerItem)
+          MineCellsItems.TENTACLE.getAbilityCooldownCalculator(playerItem)
         );
       });
     });

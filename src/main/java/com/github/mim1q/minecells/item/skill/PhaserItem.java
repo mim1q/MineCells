@@ -93,12 +93,12 @@ public class PhaserItem extends Item implements WeaponWithAbility {
   }
 
   @Override
-  public float getBaseAbilityDamage(ItemStack stack) {
+  public float getAbilityDamageCalculator(ItemStack stack) {
     return 0.0F;
   }
 
   @Override
-  public int getBaseAbilityCooldown(ItemStack stack) {
+  public int getAbilityCooldownCalculator(ItemStack stack) {
     return 20 * 5;
   }
 }

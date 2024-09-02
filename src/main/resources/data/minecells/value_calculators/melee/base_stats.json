@@ -1,0 +1,39 @@
+{
+  "variables": {
+    "global_multiplier": 1.0
+  },
+  "values": {
+    "assassins_dagger_damage": "4.0 * global_multiplier",
+    "assassins_dagger_speed":  "1.0 * global_multiplier",
+
+    "balanced_blade_damage": "4.0 * global_multiplier",
+    "balanced_blade_speed":  "1.0 * global_multiplier",
+
+    "blood_sword_damage": "4.0 * global_multiplier",
+    "blood_sword_speed":  "1.0 * global_multiplier",
+
+    "broadsword_damage": "4.0 * global_multiplier",
+    "broadsword_speed":  "1.0 * global_multiplier",
+
+    "crowbar_damage": "4.0 * global_multiplier",
+    "crowbar_speed":  "1.0 * global_multiplier",
+
+    "cursed_sword_damage": "4.0 * global_multiplier",
+    "cursed_sword_speed":  "1.0 * global_multiplier",
+
+    "the_flint_damage": "4.0 * global_multiplier",
+    "the_flint_speed":  "1.0 * global_multiplier",
+
+    "hattoris_katana_damage": "4.0 * global_multiplier",
+    "hattoris_katana_speed":  "1.0 * global_multiplier",
+
+    "nutcracker_damage": "4.0 * global_multiplier",
+    "nutcracker_speed":  "1.0 * global_multiplier",
+
+    "spite_sword_damage": "4.0 * global_multiplier",
+    "spite_sword_speed":  "1.0 * global_multiplier",
+
+    "conjunctivius_tentacle_damage": "4.0 * global_multiplier",
+    "conjunctivius_tentacle_speed":  "1.0 * global_multiplier"
+  }
+}

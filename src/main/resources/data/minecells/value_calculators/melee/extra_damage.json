@@ -1,0 +1,29 @@
+{
+  "variables": {
+
+    "blood_power": {
+      "type": "gimm1q:attribute",
+      "attribute": "death_knights:blood"
+    },
+
+    "ice_power": {
+      "type": "gimm1q:attribute",
+      "attribute": "spell_power:frost"
+    },
+
+    "fire_power": {
+      "type": "gimm1q:attribute",
+      "attribute": "spell_power:fire"
+    },
+
+    "lightning_power": {
+      "type": "gimm1q:attribute",
+      "attribute": "spell_power:lightning"
+    }
+  },
+
+  "values": {
+    "blood_sword_extra_damage": "0.5 * blood_power",
+    "flint_extra_damage": "fire_power"
+  }
+}

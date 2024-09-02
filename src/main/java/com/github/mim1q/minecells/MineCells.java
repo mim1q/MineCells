@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.config.CommonConfig;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRunesReloadListener;
 import com.github.mim1q.minecells.dimension.MineCellsDimensionGraph;
+import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.misc.SpecialWeaponLootEntry;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.registry.*;
@@ -14,6 +15,7 @@ import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculatorsReloadedCallback;
 import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -69,7 +71,7 @@ public class MineCells implements ModInitializer {
     ServerPacketHandler.init();
 
     ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(SPAWNER_RUNE_DATA);
-    ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> ((PlayerEntityAccessor)newPlayer).setMineCellsData(
+    ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> ((PlayerEntityAccessor) newPlayer).setMineCellsData(
       new PlayerSpecificMineCellsData(MineCellsData.get((ServerWorld) oldPlayer.getWorld()), newPlayer)
     ));
     ServerWorldEvents.LOAD.register(((server, world) -> {
@@ -77,6 +79,10 @@ public class MineCells implements ModInitializer {
       data.markDirty();
       data.wipeIfVersionMismatched(world);
     }));
+
+    ValueCalculatorsReloadedCallback.EVENT.register(ids -> {
+      CustomMeleeWeapon.updateAttributes();
+    });
   }
 
   public static Identifier createId(String path) {
