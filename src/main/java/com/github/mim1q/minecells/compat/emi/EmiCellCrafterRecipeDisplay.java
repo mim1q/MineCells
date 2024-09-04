@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
-  private static final Identifier ARROW_TEXTURE = MineCells.createId("textures/gui/cell_crafter/emi_arrow.png");
+  public static final Identifier ARROW_TEXTURE = MineCells.createId("textures/gui/cell_crafter/emi_arrow.png");
 
   private final CellForgeRecipe recipe;
 
@@ -53,7 +53,7 @@ public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
 
   @Override
   public int getDisplayHeight() {
-    return 58;
+    return 52;
   }
 
   @Override
@@ -67,7 +67,7 @@ public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
     var hasAdvancement = recipe.requiredAdvancement().isPresent();
 
     var arrow = widgets.addTexture(
-      ARROW_TEXTURE, getDisplayWidth() / 2 - 8, 22,
+      ARROW_TEXTURE, getDisplayWidth() / 2 - 8, 19,
       hasAdvancement ? 24 : 16, 16,
       0, 0,
       hasAdvancement ? 24 : 16, 16,
@@ -84,6 +84,6 @@ public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
         );
       });
     }
-    widgets.addSlot(getOutputs().get(0), getDisplayWidth() / 2 - 8, 40);
+    widgets.addSlot(getOutputs().get(0), getDisplayWidth() / 2 - 8, 34);
   }
 }

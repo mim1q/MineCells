@@ -27,6 +27,7 @@ repositories {
   maven("https://maven.mim1q.dev") // Gimm1q
   maven("https://jitpack.io")
   maven("https://maven.shedaniel.me/")
+  maven("https://maven.architectury.dev/")
   maven("https://maven.terraformersmc.com/releases/")
   maven("https://maven.wispforest.io")
   maven("https://maven.blamejared.com") // Patchouli
@@ -50,6 +51,9 @@ dependencies {
 
   modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
   modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
+
+  modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
+  modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${Versions.REI}")
 
   include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 }
