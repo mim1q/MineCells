@@ -24,6 +24,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -168,8 +169,8 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Override
   protected void initGoals() {
+    this.goalSelector.getRunningGoals().forEach(Goal::stop);
     this.goalSelector.clear(it -> true);
-    this.targetSelector.clear(it -> true);
 
     var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
       s.cooldownGetter = () -> this.auraCooldown;
@@ -204,8 +205,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.goalSelector.add(10, new ConjunctiviusMoveAroundGoal(this));
     addStageGoals(getStage());
 
-    this.targetSelector.add(0, new ConjunctiviusTargetGoal(this));
-    this.targetSelector.add(0, new ActiveTargetGoal<>(this, PigEntity.class, false));
+    if (targetSelector.getGoals().isEmpty()) {
+      this.targetSelector.add(0, new ConjunctiviusTargetGoal(this));
+      this.targetSelector.add(0, new ActiveTargetGoal<>(this, PigEntity.class, false));
+    }
   }
 
   public void addStageGoals(int stage) {
