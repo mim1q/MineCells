@@ -53,10 +53,14 @@ public class MineCellsReiPlugin implements REIClientPlugin {
     @Override
     public List<Widget> setupDisplay(CellCrafterDisplay display, Rectangle bounds) {
       var widgets = new ArrayList<Widget>();
+      widgets.add(Widgets.createRecipeBase(bounds));
 
-      var widgetX = bounds.width / 2 - (display.getInputEntries().size() * 10) + 2;
+      var startX = bounds.x;
+      var startY = bounds.y + 5;
+
+      var widgetX = startX + bounds.width / 2 - (display.getInputEntries().size() * 10) + 2;
       for (var input : display.getInputEntries()) {
-        widgets.add(Widgets.createSlot(new Point(widgetX, 0)).entries(input));
+        widgets.add(Widgets.createSlot(new Point(widgetX, startY)).entries(input));
         widgetX += 20;
       }
 
@@ -64,9 +68,9 @@ public class MineCellsReiPlugin implements REIClientPlugin {
 
       var arrow =
         Widgets.createTexturedWidget(
-          ARROW_TEXTURE, bounds.width / 2 - 8, 19,
-          hasAdvancement ? 24 : 16, 16,
+          ARROW_TEXTURE, startX + bounds.width / 2 - 8, startY + 21,
           0, 0,
+          hasAdvancement ? 24 : 16, 16,
           hasAdvancement ? 24 : 16, 16,
           32, 32
         );
@@ -74,14 +78,16 @@ public class MineCellsReiPlugin implements REIClientPlugin {
 
       if (hasAdvancement) {
         var advancementKey = Util.createTranslationKey("advancements", display.recipe.requiredAdvancement().orElseThrow()) + ".description";
-        widgets.add(Widgets.createTooltip(
-          new Rectangle(bounds.width / 2 - 8, 19, 16, 16),
-          Text.translatable("block.minecells.cell_crafter.requirement").formatted(Formatting.RED),
-          Text.translatable(advancementKey).formatted(Formatting.GRAY)
-        ));
+        widgets.add(
+          Widgets.createTooltip(
+            new Rectangle(startX + bounds.width / 2 - 8, startY + 21, 24, 16),
+            Text.translatable("block.minecells.cell_crafter.requirement").formatted(Formatting.RED),
+            Text.translatable(advancementKey).formatted(Formatting.GRAY)
+          )
+        );
       }
       widgets.add(Widgets.createSlot(
-          new Point(bounds.width / 2 - 8, 34))
+          new Point(startX + bounds.width / 2 - 8, startY + 40))
         .entry(EntryStacks.of(display.recipe.getOutput(null)))
       );
 
