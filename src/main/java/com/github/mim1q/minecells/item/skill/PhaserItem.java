@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -28,6 +30,9 @@ import java.util.List;
 import java.util.Set;
 
 public class PhaserItem extends Item implements WeaponWithAbility {
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("skill", "phaser_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("skill", "phaser_cooldown", 0.0);
+
   public PhaserItem(Settings settings) {
     super(settings);
   }
@@ -79,7 +84,7 @@ public class PhaserItem extends Item implements WeaponWithAbility {
     if (canTeleport) {
       stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
       user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
-      user.getItemCooldownManager().set(this, getAbilityCooldown(stack));
+      user.getItemCooldownManager().set(this, getAbilityCooldown(stack, user));
       return TypedActionResult.success(stack);
     }
     user.getItemCooldownManager().set(this, 20);
@@ -93,12 +98,12 @@ public class PhaserItem extends Item implements WeaponWithAbility {
   }
 
   @Override
-  public float getAbilityDamageCalculator(ItemStack stack) {
-    return 0.0F;
+  public ValueCalculator getAbilityDamageCalculator() {
+    return ABILITY_DAMAGE_CALCULATOR;
   }
 
   @Override
-  public int getAbilityCooldownCalculator(ItemStack stack) {
-    return 20 * 5;
+  public ValueCalculator getAbilityCooldownCalculator() {
+    return ABILITY_COOLDOWN_CALCULATOR;
   }
 }

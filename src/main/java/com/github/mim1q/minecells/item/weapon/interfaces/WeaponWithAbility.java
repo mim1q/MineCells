@@ -21,11 +21,10 @@ public interface WeaponWithAbility {
     );
   }
   ValueCalculator getAbilityCooldownCalculator();
-  default int getAbilityCooldown(ItemStack stack, LivingEntity attacker, @Nullable LivingEntity target) {
+  default int getAbilityCooldown(ItemStack stack, LivingEntity attacker) {
     return (int) getAbilityCooldownCalculator().calculate(
       ValueCalculatorContext.create()
         .with(ValueCalculatorParameter.HOLDER, attacker)
-        .with(ValueCalculatorParameter.TARGET, target)
         .with(ValueCalculatorParameter.HOLDER_STACK, stack)
     );
   }

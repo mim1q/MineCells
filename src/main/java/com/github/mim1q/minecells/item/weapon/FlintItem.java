@@ -55,7 +55,7 @@ public class FlintItem extends CustomMeleeWeapon implements WeaponWithAbility {
     var tick = (3600 * 20) - remainingUseTicks;
     if (user.isPlayer()) {
       var player = (PlayerEntity) user;
-      player.getItemCooldownManager().set(this, tick >= 20 ? getAbilityCooldown(stack, null, null) : 20);
+      player.getItemCooldownManager().set(this, tick >= 20 ? getAbilityCooldown(stack, user) : 20);
     } else return;
 
     if (tick < 20) return;

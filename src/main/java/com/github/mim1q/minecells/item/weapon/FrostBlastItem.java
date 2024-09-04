@@ -59,7 +59,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
       return stack;
     }
     if (user.isPlayer()) {
-      ((PlayerEntity) user).getItemCooldownManager().set(this, getAbilityCooldown(stack, user, null));
+      ((PlayerEntity) user).getItemCooldownManager().set(this, getAbilityCooldown(stack, user));
     }
     Set<LivingEntity> entities = new HashSet<>();
     for (int i = 1; i <= 3; ++i) {

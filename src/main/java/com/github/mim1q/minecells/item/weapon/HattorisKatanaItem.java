@@ -53,7 +53,7 @@ public class HattorisKatanaItem extends CustomMeleeWeapon implements WeaponWithA
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     if (user.isPlayer()) {
       PlayerEntity player = (PlayerEntity) user;
-      player.getItemCooldownManager().set(this, getAbilityCooldown(stack, user, null));
+      player.getItemCooldownManager().set(this, getAbilityCooldown(stack, user));
 
       Vec3d start = player.getPos().add(0.0D, 0.25D, 0.0D);
       Vec3d direction = player.getRotationVec(0.0F).multiply(1.0D, 0.0D, 1.0D).normalize();
