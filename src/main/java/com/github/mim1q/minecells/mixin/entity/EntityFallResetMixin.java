@@ -89,14 +89,14 @@ public abstract class EntityFallResetMixin {
       return;
     }
 
-    if (
-      getWorld().isClient
-        || MineCells.COMMON_CONFIG.disableFallProtection
-        || this.age < 10
-        || fallResetY == null
-        || (((Entity) (Object) this) instanceof PlayerEntity player && (
-        player.isCreative() || player.isSpectator())
-      )) {
+    //noinspection ConstantValue
+    if (getWorld().isClient
+      || MineCells.COMMON_CONFIG.disableFallProtection
+      || this.age < 10
+      || this.age % 2 == 0
+      || fallResetY == null
+      || (((Entity) (Object) this) instanceof PlayerEntity player && (player.isCreative() || player.isSpectator()))
+    ) {
       return;
     }
 
