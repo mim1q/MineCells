@@ -96,8 +96,10 @@ public class ConciergeEntity extends MineCellsBossEntity {
   protected void initGoals() {
     goalsInit = true;
 
-    targetSelector.add(1, new RevengeGoal(this));
-    targetSelector.add(0, new TargetRandomPlayerGoal<>(this));
+    if (targetSelector.getGoals().isEmpty()) {
+      targetSelector.add(1, new RevengeGoal(this));
+      targetSelector.add(0, new TargetRandomPlayerGoal<>(this));
+    }
 
     if (stage == 0) return;
 
