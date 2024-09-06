@@ -7,6 +7,7 @@
     "block.BlockMixin",
     "block.entity.BlockEntityTypeMixin",
     "client.SlotAccessor",
+    "client.hud.BossBarUpdaterMixin",
     "compat.lithium.LithiumEntityCollisionsMixin",
     "entity.BorderEntityCollisionMixin",
     "entity.EntityFallResetMixin",

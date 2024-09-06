@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.network;
 
+import com.github.mim1q.minecells.client.gui.ConjunctiviusClientBossBar;
 import com.github.mim1q.minecells.network.s2c.*;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.MathUtils;
@@ -31,7 +32,9 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(SyncMineCellsPlayerDataS2CPacket.ID, SyncMineCellsPlayerDataS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(ShockwaveClientEventS2CPacket.ID, ShockwaveClientEventS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(SendUnlockedCellCrafterRecipesS2CPacket.ID, SendUnlockedCellCrafterRecipesS2CPacket::apply);
+    ClientPlayNetworking.registerGlobalReceiver(UpdateConjunctiviusBossBarS2CPacket.ID, ClientPacketHandler::handleUpdateConjunctiviusBossBar);
   }
+
   private static void handleCrit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
     Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     client.execute(() -> {
@@ -81,6 +84,19 @@ public class ClientPacketHandler {
         ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.OAK_PLANKS.getDefaultState());
         Box box = new Box(pos.add(-1.0D, 0.0D, -1.0D), pos.add(1.0D, 0.5D, 1.0D));
         ParticleUtils.addInBox(client.world, particle, box, 25, new Vec3d(0.1D, 0.1D, 0.1D));
+      }
+    });
+  }
+
+  private static void handleUpdateConjunctiviusBossBar(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    var barUuid = buf.readUuid();
+    var tentacleCount = buf.readShort();
+    var maxTentacleCount = buf.readShort();
+
+    client.execute(() -> {
+      var bar = client.inGameHud.getBossBarHud().bossBars.get(barUuid);
+      if (bar instanceof ConjunctiviusClientBossBar conjunctiviusBar) {
+        conjunctiviusBar.setTentacleCount(tentacleCount, maxTentacleCount);
       }
     });
   }
