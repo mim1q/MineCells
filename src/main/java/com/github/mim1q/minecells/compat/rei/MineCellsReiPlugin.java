@@ -20,6 +20,7 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 
 import java.util.ArrayList;
@@ -27,9 +28,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.github.mim1q.minecells.compat.emi.EmiCellCrafterRecipeDisplay.ARROW_TEXTURE;
-
 public class MineCellsReiPlugin implements REIClientPlugin {
+  public static final Identifier ARROW_TEXTURE = MineCells.createId("textures/gui/cell_crafter/emi_arrow.png");
+
   private static final CategoryIdentifier<CellCrafterDisplay> CELL_CRAFTER_CATEGORY_ID
     = CategoryIdentifier.of(MineCells.createId("cell_crafter"));
 
