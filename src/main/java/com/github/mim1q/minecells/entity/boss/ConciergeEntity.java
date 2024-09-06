@@ -455,6 +455,9 @@ public class ConciergeEntity extends MineCellsBossEntity {
       spawnPos = BlockPos.fromLong(nbt.getLong("spawnPos"));
     }
     stage = nbt.getInt("stage");
+
+    clearGoals();
+    initGoals();
   }
 
   public static DefaultAttributeContainer.Builder createConciergeAttributes() {

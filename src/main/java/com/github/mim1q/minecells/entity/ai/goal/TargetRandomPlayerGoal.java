@@ -43,7 +43,9 @@ public class TargetRandomPlayerGoal<E extends HostileEntity> extends Goal {
   public void tick() {
     if (this.ticks % 40 == 0) {
       this.targets = this.getTargetablePlayers();
-      this.entity.setTarget(this.selectTarget());
+      var newTarget = this.selectTarget();
+      this.entity.setTarget(newTarget);
+      this.currentTarget = newTarget;
     }
     this.ticks++;
   }
