@@ -53,7 +53,6 @@ dependencies {
   modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
 
   modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
-  modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${Versions.REI}")
 
   include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 }
