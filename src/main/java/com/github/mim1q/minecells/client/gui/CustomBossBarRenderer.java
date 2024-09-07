@@ -19,7 +19,15 @@ public class CustomBossBarRenderer {
       if (!key.startsWith("entity.minecells.")) return false;
 
       return switch (key) {
-        case CONJUNCTIVIUS_KEY -> renderBossBar(context, x, y, bossBar, 0);
+        case CONJUNCTIVIUS_KEY -> {
+          if (bossBar instanceof ConjunctiviusClientBossBar conjuBar) {
+            renderConjunctiviusTentacles(
+              context, x, y, conjuBar.getTentacleCount(), conjuBar.getMaxTentacleCount()
+            );
+          }
+          yield renderBossBar(context, x, y, bossBar, 0);
+        }
+
         case CONCIERGE_KEY -> renderBossBar(context, x, y, bossBar, 1);
         default -> false;
       };
@@ -37,6 +45,24 @@ public class CustomBossBarRenderer {
     context.drawTexture(TEXTURE, x, y, u, v + 32, width, 32, TEXTURE_SIZE, TEXTURE_SIZE);
 
     return true;
+  }
+
+  private static void renderConjunctiviusTentacles(DrawContext context, int x, int y, int count, int maxCount) {
+    var uAlive = 208;
+    var uDead = 224;
+    var v = 0;
+
+    var currentX = (int) (x + 104 - (maxCount * 4.5f));
+    for (var i = 0; i < maxCount; ++i) {
+      if (i < count) {
+        context.drawTexture(TEXTURE, currentX, y + 24, uAlive, v, 8, 16, TEXTURE_SIZE, TEXTURE_SIZE);
+      } else {
+        context.drawTexture(TEXTURE, currentX, y + 24, uDead, v, 8, 16, TEXTURE_SIZE, TEXTURE_SIZE);
+      }
+
+      currentX += 9;
+    }
+
   }
 
   public static Text getCustomBossBarName(Text text) {

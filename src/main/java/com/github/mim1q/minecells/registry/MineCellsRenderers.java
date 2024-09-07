@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.*;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
@@ -27,12 +28,15 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Disgu
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
+import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayFeatureRenderer;
+import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayVertexConsumer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -46,8 +50,11 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -263,7 +270,7 @@ public class MineCellsRenderers {
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RIFT, RiftBlockEntityRenderer::new);
 
-    BlockEntityRendererFactories.register(MineCellsBlockEntities.CELL_CRAFTER,  ctx -> new CellCrafterBlockEntityRenderer());
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.CELL_CRAFTER, ctx -> new CellCrafterBlockEntityRenderer());
 
     BlockEntityRendererFactories.register(MineCellsBlockEntities.SPAWNER_RUNE, SpawnerRuneRenderer.BlockEntity::new);
 
@@ -331,6 +338,27 @@ public class MineCellsRenderers {
             dynamicItemRenderersRegistered = true;
           }
         }
+      })
+    );
+
+
+    // Actual feature renderers:
+
+    final var iceTexture = new Identifier("textures/block/ice.png");
+
+    LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
+
+      ((entityType, entityRenderer, registrationHelper, context) -> {
+
+        //noinspection unchecked
+        registrationHelper.register(ModelOverlayFeatureRenderer.of(
+          (entity) -> ((LivingEntityAccessor) entity).getMineCellsFlag(MineCellsEffectFlags.FROZEN),
+          (entity, vertexConsumers) -> ModelOverlayVertexConsumer
+            .of(vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(iceTexture)))
+            .offset(2.0322f)
+            .skipPlanes(),
+          true
+        ).apply((FeatureRendererContext<LivingEntity, EntityModel<LivingEntity>>) entityRenderer));
       })
     );
   }
