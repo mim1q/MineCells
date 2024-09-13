@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.item.weapon.bow;
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.world.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
@@ -102,7 +103,7 @@ public class CustomArrowType {
     it.defaultDamage = 4f;
     it.drawTime = 35;
     it.speed = 0.6f;
-    it.maxAge = 10;
+    it.maxAge = 15;
     it.spread = 45;
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
@@ -152,6 +153,7 @@ public class CustomArrowType {
     it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
     it.cooldown = 5;
     it.ammo = () -> MineCellsItems.THROWING_KNIFE;
+    it.particle = MineCellsParticles.DROP.get(0xDD3000);
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
 

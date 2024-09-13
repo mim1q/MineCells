@@ -35,13 +35,6 @@ public class CustomArrowEntityRenderer extends EntityRenderer<CustomArrowEntity>
     {
       matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f + entity.getYaw()));
       matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch()));
-      var maxAge = entity.getArrowType().getMaxAge();
-      var age = entity.age + tickDelta;
-
-      if (age >= maxAge - 1) {
-        var scale = 1.0f - (age - (maxAge - 1));
-        matrices.scale(scale, scale, scale);
-      }
 
       if (entity.getArrowType() == CustomArrowType.FIREBRANDS) {
         var time = (entity.age + tickDelta) * -30f;

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -66,8 +67,15 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
       }
     }
 
-    if (!getWorld().isClient && age > arrowType.getMaxAge()) {
+    if (getWorld() instanceof ServerWorld serverWorld && age > arrowType.getMaxAge()) {
       this.discard();
+      var particle = this.getArrowType().getParticle();
+      if (particle == null) particle = ParticleTypes.CRIT;
+      serverWorld.spawnParticles(
+        particle,
+        getX(), getY(), getZ(),
+        3, 0.05, 0.05, 0.05, 0.05
+      );
     }
   }
 
