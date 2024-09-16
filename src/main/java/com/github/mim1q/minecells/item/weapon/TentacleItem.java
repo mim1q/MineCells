@@ -79,7 +79,6 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
   public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
     if (entity instanceof PlayerEntity player) {
       if (!player.isMainPlayer() || player.getItemCooldownManager().isCoolingDown(this)) {
-        this.hitResult = null;
         return;
       }
     } else {
