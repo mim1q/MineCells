@@ -27,6 +27,9 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
   private static final Set<CustomMeleeWeapon> ALL_MELEE_WEAPONS = new HashSet<>();
   private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ImmutableMultimap.of();
 
+  private static final ValueCalculator GLOBAL_DAMAGE_MULTIPLIER = ModValueCalculators.of("melee/base_stats", "global_damage_multiplier", 1.0);
+  private static final ValueCalculator GLOBAL_SPEED_MULTIPLIER = ModValueCalculators.of("melee/base_stats", "global_speed_multiplier", 1.0);
+
   private double damage = 0.0;
   private double speed = 0.0;
 
@@ -40,8 +43,8 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
     ALL_MELEE_WEAPONS.add(this);
     this.damageCalculator = ModValueCalculators.of("melee/base_stats", valueCalculatorName + "_damage", 0.0);
     this.speedCalculator = ModValueCalculators.of("melee/base_stats", valueCalculatorName + "_speed", 0.0);
-    this.extraDamageCalculator = ModValueCalculators.of("melee/extra_damage", valueCalculatorName + "_crit_damage", 0.0);
-    this.critDamageCalculator = ModValueCalculators.of("melee/extra_damage", valueCalculatorName + "_extra_damage", 0.0);
+    this.extraDamageCalculator = ModValueCalculators.of("melee/extra_damage", valueCalculatorName + "_extra_damage", 0.0);
+    this.critDamageCalculator = ModValueCalculators.of("melee/extra_damage", valueCalculatorName + "_crit_damage", 0.0);
   }
 
   @Override
@@ -81,8 +84,8 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
 
   public static void updateAttributes() {
     ALL_MELEE_WEAPONS.forEach(it -> {
-      it.damage = it.damageCalculator.calculate();
-      it.speed = it.speedCalculator.calculate();
+      it.damage = (it.damageCalculator.calculate()) * GLOBAL_DAMAGE_MULTIPLIER.calculate();
+      it.speed = (it.speedCalculator.calculate() - 4.0) * GLOBAL_SPEED_MULTIPLIER.calculate();
       it.attributeModifiers = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder()
         .put(
           GENERIC_ATTACK_DAMAGE,

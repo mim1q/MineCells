@@ -1,6 +1,5 @@
 {
   "variables": {
-
     "blood_power": {
       "type": "gimm1q:attribute",
       "attribute": "death_knights:blood"
@@ -23,7 +22,7 @@
   },
 
   "values": {
-    "blood_sword_extra_damage": "0.5 * blood_power",
+    "blood_sword_extra_damage": "blood_power",
     "flint_extra_damage": "fire_power"
   }
 }
