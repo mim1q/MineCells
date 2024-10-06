@@ -84,7 +84,7 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
 
   public static void updateAttributes() {
     ALL_MELEE_WEAPONS.forEach(it -> {
-      it.damage = (it.damageCalculator.calculate()) * GLOBAL_DAMAGE_MULTIPLIER.calculate();
+      it.damage = (it.damageCalculator.calculate() - 1.0) * GLOBAL_DAMAGE_MULTIPLIER.calculate();
       it.speed = (it.speedCalculator.calculate() - 4.0) * GLOBAL_SPEED_MULTIPLIER.calculate();
       it.attributeModifiers = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder()
         .put(
