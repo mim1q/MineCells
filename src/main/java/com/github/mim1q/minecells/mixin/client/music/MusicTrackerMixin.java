@@ -43,7 +43,7 @@ public abstract class MusicTrackerMixin {
 
     var dimension = MineCellsDimension.of(world);
     var dimensionChanged = lastDimension != dimension;
-    var playing = this.client.getSoundManager().isPlaying(current);
+    var playing = current != null && this.client.getSoundManager().isPlaying(current);
     if (dimension != null && !dimension.canMusicStart(this.client.player)) return;
     lastDimension = dimension;
     if (dimension == null) return;
