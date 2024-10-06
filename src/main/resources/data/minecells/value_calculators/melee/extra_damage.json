@@ -24,7 +24,7 @@
   "values": {
     "assassins_dagger_crit_damage": 4.0,
     "balanced_blade_crit_damage": 0.75,
-    "conjunctivius_tentacle_crit_damage": 4.0,
+    "conjunctivius_tentacle_crit_damage": 6.0,
     "crowbar_crit_damage": 4.0,
     "nutcracker_crit_damage": 6.0,
     "spite_sword_crit_damage": 3.0,
