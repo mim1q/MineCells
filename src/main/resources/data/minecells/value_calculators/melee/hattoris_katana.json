@@ -1,0 +1,9 @@
+{
+  "variables": {},
+  "values": {
+    "damage": 7.0,
+    "speed": 1.8,
+    "ability_damage": 20.0,
+    "ability_cooldown": 10.0
+  }
+}

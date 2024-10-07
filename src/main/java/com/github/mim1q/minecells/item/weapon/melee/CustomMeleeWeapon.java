@@ -27,8 +27,8 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
   private static final Set<CustomMeleeWeapon> ALL_MELEE_WEAPONS = new HashSet<>();
   private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ImmutableMultimap.of();
 
-  private static final ValueCalculator GLOBAL_DAMAGE_MULTIPLIER = ModValueCalculators.of("melee/base_stats", "global_damage_multiplier", 1.0);
-  private static final ValueCalculator GLOBAL_SPEED_MULTIPLIER = ModValueCalculators.of("melee/base_stats", "global_speed_multiplier", 1.0);
+  private static final ValueCalculator GLOBAL_DAMAGE_MULTIPLIER = ModValueCalculators.of("melee/global", "global_damage_multiplier", 1.0);
+  private static final ValueCalculator GLOBAL_SPEED_MULTIPLIER = ModValueCalculators.of("melee/global", "global_speed_multiplier", 1.0);
 
   private double damage = 0.0;
   private double speed = 0.0;
@@ -41,10 +41,10 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
   public CustomMeleeWeapon(String valueCalculatorName, Settings settings) {
     super(CELL_INFUSED_STEEL_MATERIAL, 0, 0f, settings);
     ALL_MELEE_WEAPONS.add(this);
-    this.damageCalculator = ModValueCalculators.of("melee/base_stats", valueCalculatorName + "_damage", 0.0);
-    this.speedCalculator = ModValueCalculators.of("melee/base_stats", valueCalculatorName + "_speed", 0.0);
-    this.extraDamageCalculator = ModValueCalculators.of("melee/extra_damage", valueCalculatorName + "_extra_damage", 0.0);
-    this.critDamageCalculator = ModValueCalculators.of("melee/extra_damage", valueCalculatorName + "_crit_damage", 0.0);
+    this.damageCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "damage", 0.0);
+    this.speedCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "speed", 0.0);
+    this.extraDamageCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "extra_damage", 0.0);
+    this.critDamageCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "crit_damage", 0.0);
   }
 
   @Override

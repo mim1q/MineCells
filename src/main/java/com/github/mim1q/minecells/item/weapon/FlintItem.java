@@ -30,8 +30,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class FlintItem extends CustomMeleeWeapon implements WeaponWithAbility {
-  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/abilities", "flint_damage", 0.0);
-  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/abilities", "flint_cooldown", 0.0);
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/the_flint", "ability_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/the_flint", "ability_cooldown", 0.0);
 
   public FlintItem(Settings settings) {
     super("the_flint", settings);

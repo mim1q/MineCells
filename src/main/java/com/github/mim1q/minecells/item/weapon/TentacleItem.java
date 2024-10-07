@@ -28,8 +28,8 @@ import java.util.Objects;
 public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility {
   public HitResult hitResult = null;
 
-  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/ability_damage", "conjunctivius_tentacle", 0.0);
-  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/ability_cooldown", "conjunctivius_tentacle", 0.0);
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_cooldown", 0.0);
 
   public TentacleItem(Settings settings) {
     super("conjunctivius_tentacle", settings);

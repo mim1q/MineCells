@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HattorisKatanaItem extends CustomMeleeWeapon implements WeaponWithAbility {
-  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/abilities", "hattoris_katana_damage", 0.0);
-  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/abilities", "hattoris_katana_cooldown", 0.0);
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/hattoris_katana", "ability_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/hattoris_katana", "ability_cooldown", 0.0);
 
   public HattorisKatanaItem(Settings settings) {
     super("hattoris_katana", settings);
