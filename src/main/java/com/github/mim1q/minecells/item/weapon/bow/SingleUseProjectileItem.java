@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.item.weapon.bow;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.TextUtils;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +33,10 @@ public class SingleUseProjectileItem extends Item {
     var stack = user.getStackInHand(hand);
     if (!world.isClient) {
       shoot(world, user, stack);
-      user.getItemCooldownManager().set(this, arrowType.getCooldown());
+      var context = ValueCalculatorContext.create()
+        .with(ValueCalculatorParameter.HOLDER, user)
+        .with(ValueCalculatorParameter.HOLDER_STACK, stack);
+      user.getItemCooldownManager().set(this, arrowType.getCooldown(context));
     }
     stack.decrement(1);
     return TypedActionResult.consume(stack);
@@ -46,7 +51,10 @@ public class SingleUseProjectileItem extends Item {
 
   protected void spawnArrow(World world, PlayerEntity user, ItemStack stack, Vec3d velocity) {
     var arrow = new CustomArrowEntity(world, user, arrowType, user.getEyePos(), stack);
-    arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(), arrowType.getSpread());
+    var context = ValueCalculatorContext.create()
+      .with(ValueCalculatorParameter.HOLDER, user)
+      .with(ValueCalculatorParameter.HOLDER_STACK, stack);
+    arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(context), arrowType.getSpread(context));
     world.spawnEntity(arrow);
   }
 

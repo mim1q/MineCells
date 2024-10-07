@@ -5,6 +5,8 @@ import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType.ArrowBlockHitC
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType.ArrowEntityHitContext;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -83,7 +85,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
   protected void onEntityHit(EntityHitResult entityHitResult) {
     if (getWorld().isClient || this.getOwner() == null) return;
 
-    if (entityHitResult.getEntity() instanceof LivingEntity target) {
+    if (entityHitResult.getEntity() instanceof LivingEntity target && getOwner() instanceof LivingEntity holder) {
       var entityHitContext = new ArrowEntityHitContext(
         (ServerWorld) getWorld(),
         bow,
@@ -94,10 +96,15 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
         this
       );
 
-      var damage = arrowType.getDamage();
+      var context = ValueCalculatorContext.create()
+        .with(ValueCalculatorParameter.HOLDER, holder)
+        .with(ValueCalculatorParameter.HOLDER_STACK, bow)
+        .with(ValueCalculatorParameter.TARGET, target);
+
+      var damage = arrowType.getDamage(context);
       if (arrowType.shouldCrit(entityHitContext)) {
         getWorld().playSound(null, getOwner().getBlockPos(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1f, 1f);
-        damage += arrowType.getAdditionalCritDamage();
+        damage += arrowType.getAdditionalCritDamage(context);
       }
       target.damage(arrowType.getDamageSource(getWorld(), this, (LivingEntity) getOwner()), damage);
 

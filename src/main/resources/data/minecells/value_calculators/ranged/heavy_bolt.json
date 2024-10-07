@@ -1,0 +1,11 @@
+{
+  "variables": {},
+  "values": {
+    "damage": 5.0,
+    "crit_damage": 0.0,
+    "draw_time": 1.5,
+    "speed": 0.6,
+    "spread": 45.0,
+    "cooldown": 0.0
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variables": {},
+  "values": {
+    "damage": 5.0,
+    "crit_damage": 11.0,
+    "draw_time": 1.2,
+    "speed": 3.0,
+    "spread": 1.0
+  }
+}

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin.item;
 
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +32,8 @@ public class CrossbowItemMixin {
   )
   private static void minecells$injectGetPullTime(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
     if (stack.getItem() instanceof CustomCrossbowItem customCrossbow) {
-      cir.setReturnValue(customCrossbow.getDrawTime(stack));
+      var user = (stack.getHolder() instanceof LivingEntity player) ? player : null;
+      cir.setReturnValue(customCrossbow.getDrawTime(user, stack));
     }
   }
 }

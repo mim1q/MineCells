@@ -2,22 +2,19 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import com.github.mim1q.minecells.util.TextUtils;
-import net.minecraft.client.item.TooltipContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 public class CustomBowItem extends RangedWeaponItem {
@@ -41,7 +38,8 @@ public class CustomBowItem extends RangedWeaponItem {
     if (world.isClient) return;
 
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
-    if (ticks < getDrawTime(stack) || !user.isPlayer()) return;
+
+    if (ticks < getDrawTime(user, stack) || !user.isPlayer()) return;
 
     var loaded = loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
     setLoadedProjectiles(stack, loaded);
@@ -59,7 +57,11 @@ public class CustomBowItem extends RangedWeaponItem {
 
   protected CustomArrowEntity spawnArrow(World world, PlayerEntity user, ItemStack stack, Vec3d velocity) {
     var arrow = new CustomArrowEntity(world, user, arrowType, user.getEyePos(), stack);
-    arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(), arrowType.getSpread());
+    var context = ValueCalculatorContext.create()
+      .with(ValueCalculatorParameter.HOLDER, user)
+      .with(ValueCalculatorParameter.HOLDER_STACK, stack);
+
+    arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(context), arrowType.getSpread(context));
     world.spawnEntity(arrow);
     return arrow;
   }
@@ -90,9 +92,9 @@ public class CustomBowItem extends RangedWeaponItem {
   protected final int loadMaxProjectiles(World world, PlayerEntity user, ItemStack bow, ItemStack arrow, int maxCount) {
     if (
       user.isCreative()
-      || world.isClient
-      || arrow.isEmpty()
-      || arrowType.getAmmoItem().isEmpty()
+        || world.isClient
+        || arrow.isEmpty()
+        || arrowType.getAmmoItem().isEmpty()
     ) {
       return maxCount;
     }
@@ -121,12 +123,15 @@ public class CustomBowItem extends RangedWeaponItem {
     return MAX_USE_TIME;
   }
 
-  public int getDrawTime(ItemStack stack) {
-    return arrowType.getDrawTime();
+  public int getDrawTime(LivingEntity user, ItemStack stack) {
+    var context = ValueCalculatorContext.create()
+      .with(ValueCalculatorParameter.HOLDER, user)
+      .with(ValueCalculatorParameter.HOLDER_STACK, stack);
+    return arrowType.getDrawTime(context);
   }
 
   public float getFovMultiplier(PlayerEntity player, ItemStack stack) {
-    var multiplier = player.getItemUseTime() / (float) getDrawTime(stack);
+    var multiplier = player.getItemUseTime() / (float) getDrawTime(player, stack);
     if (multiplier > 1.0F) {
       multiplier = 1.0F;
     } else {
@@ -144,11 +149,5 @@ public class CustomBowItem extends RangedWeaponItem {
     var bowItem = (CustomBowItem) bow.getItem();
     if (bowItem.maxProjectileCount == 1) return;
     bow.getOrCreateNbt().putInt("LoadedProjectiles", count);
-  }
-
-  @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description", this.arrowType.getAdditionalCritDamage());
   }
 }

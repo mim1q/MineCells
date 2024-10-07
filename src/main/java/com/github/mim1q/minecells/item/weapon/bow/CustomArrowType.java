@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
@@ -7,6 +8,8 @@ import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.world.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -40,9 +43,6 @@ public class CustomArrowType {
   public static final CustomArrowType DEFAULT = create("default");
 
   public static final CustomArrowType MARKSMAN = create("marksman", it -> {
-    it.speed = 3;
-    it.defaultDamage = 5f;
-    it.additionalCritDamage = 11f;
     it.shouldCrit = context -> {
       var distanceSq = context.shotFromPos.squaredDistanceTo(context.hitPos);
       return distanceSq > 24 * 24;
@@ -50,8 +50,6 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType INFANTRY = create("infantry", it -> {
-    it.defaultDamage = 6f;
-    it.additionalCritDamage = 6f;
     it.shouldCrit = context -> {
       var distanceSq = context.shotFromPos.squaredDistanceTo(context.hitPos);
       return distanceSq < 10 * 10;
@@ -59,7 +57,6 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType ICE = create("ice", it -> {
-    it.defaultDamage = 4f;
     it.onEntityHit = context -> {
       context.target.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, 100));
     };
@@ -68,7 +65,6 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType EXPLOSIVE_BOLT = create("explosive_bolt", it -> {
-    it.defaultDamage = 0f;
     it.onBlockHit = context -> {
       MineCellsExplosion.explode(context.world, context.arrow, context.shooter, context.hitPos, 10f, 4f, Objects::nonNull);
       context.arrow.discard();
@@ -82,17 +78,10 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType QUICK = create("quick", it -> {
-    it.speed = 2.2f;
-    it.defaultDamage = 6f;
-    it.drawTime = 6;
-    it.spread = 3f;
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
 
   public static final CustomArrowType NERVES_OF_STEEL = create("nerves_of_steel", it -> {
-    it.drawTime = 10;
-    it.defaultDamage = 5f;
-    it.additionalCritDamage = 9f;
     it.shouldCrit = context -> {
       var nbt = context.bow().getOrCreateNbt();
       return nbt.getBoolean("crit");
@@ -100,11 +89,7 @@ public class CustomArrowType {
   });
 
   public static final CustomArrowType HEAVY_BOLT = create("heavy_bolt", it -> {
-    it.defaultDamage = 4f;
-    it.drawTime = 35;
-    it.speed = 0.6f;
     it.maxAge = 15;
-    it.spread = 45;
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
   });
 
@@ -135,23 +120,16 @@ public class CustomArrowType {
   }
 
   public static final CustomArrowType FIREBRANDS = create("firebrands", it -> {
-    it.defaultDamage = 4f;
-    it.speed = 1f;
     it.onEntityHit = context -> context.target.setOnFireFor(5);
     it.onBlockHit = context -> {
       placeFire(context);
       context.arrow.discard();
     };
     it.particle = ParticleTypes.FLAME;
-    it.cooldown = 20;
   });
 
   public static final CustomArrowType THROWING_KNIFE = create("throwing_knife", it -> {
-    it.defaultDamage = 4f;
-    it.speed = 1.75f;
-    it.spread = 0.5f;
     it.onEntityHit = context -> BleedingStatusEffect.apply(context.target, 20 * 4);
-    it.cooldown = 5;
     it.ammo = () -> MineCellsItems.THROWING_KNIFE;
     it.particle = MineCellsParticles.DROP.get(0xDD3000);
     it.damageSourceFactory = (world, arrow, shooter) -> MineCellsDamageSource.HEAVY_BOLT.get(world, shooter);
@@ -160,24 +138,33 @@ public class CustomArrowType {
   //#region Class definition
 
   private final String name;
-  private float defaultDamage = 5f;
-  private float additionalCritDamage = 0f;
-  private int drawTime = 20;
-  private float speed = 2f;
+  private final ValueCalculator defaultDamage;
+  private final ValueCalculator additionalCritDamage;
+  private final ValueCalculator drawTime;
+  private final ValueCalculator speed;
+  private final ValueCalculator spread;
+  private final ValueCalculator cooldown;
   private int maxAge = 60 * 20;
-  private float spread = 1f;
   private ParticleEffect particle = null;
-  private Consumer<ArrowEntityHitContext> onEntityHit = context -> {};
-  private Consumer<ArrowBlockHitContext> onBlockHit = context -> {};
+  private Consumer<ArrowEntityHitContext> onEntityHit = context -> {
+  };
+  private Consumer<ArrowBlockHitContext> onBlockHit = context -> {
+  };
   private Function<ArrowEntityHitContext, Boolean> shouldCrit = context -> false;
   private DamageSourceFactory damageSourceFactory = (world, arrow, shooter) -> world.getDamageSources().mobProjectile(arrow, shooter);
-  private int cooldown = 0;
   private Supplier<Item> ammo = () -> Items.ARROW;
   private final String translationKey;
 
   private CustomArrowType(String name) {
     this.name = name;
     this.translationKey = "entity.minecells.custom_arrow." + name;
+
+    defaultDamage = new ValueCalculator(MineCells.createId("ranged/" + name), "damage", 1.0);
+    additionalCritDamage = new ValueCalculator(MineCells.createId("ranged/" + name), "crit_damage", 0.0);
+    drawTime = new ValueCalculator(MineCells.createId("ranged/" + name), "draw_time", 1.0);
+    speed = new ValueCalculator(MineCells.createId("ranged/" + name), "speed", 2.0);
+    spread = new ValueCalculator(MineCells.createId("ranged/" + name), "spread", 1.0);
+    cooldown = new ValueCalculator(MineCells.createId("ranged/" + name), "cooldown", 0.0);
   }
 
   public void onEntityHit(ArrowEntityHitContext context) {
@@ -188,20 +175,20 @@ public class CustomArrowType {
     onBlockHit.accept(context);
   }
 
-  public int getDrawTime() {
-    return drawTime;
+  public int getDrawTime(ValueCalculatorContext context) {
+    return (int) (20 * drawTime.calculate(context));
   }
 
   public boolean shouldCrit(ArrowEntityHitContext context) {
     return shouldCrit.apply(context);
   }
 
-  public float getDamage() {
-    return defaultDamage;
+  public float getDamage(ValueCalculatorContext context) {
+    return (float) defaultDamage.calculate(context);
   }
 
-  public float getAdditionalCritDamage() {
-    return additionalCritDamage;
+  public float getAdditionalCritDamage(ValueCalculatorContext context) {
+    return (float) additionalCritDamage.calculate(context);
   }
 
   public String getName() {
@@ -212,20 +199,20 @@ public class CustomArrowType {
     return particle;
   }
 
-  public float getSpeed() {
-    return speed;
+  public float getSpeed(ValueCalculatorContext context) {
+    return (float) speed.calculate(context);
   }
 
   public int getMaxAge() {
     return maxAge;
   }
 
-  public float getSpread() {
-    return spread;
+  public float getSpread(ValueCalculatorContext context) {
+    return (float) spread.calculate(context);
   }
 
-  public int getCooldown() {
-    return cooldown;
+  public int getCooldown(ValueCalculatorContext context) {
+    return (int) (cooldown.calculate(context) * 20);
   }
 
   public Optional<Item> getAmmoItem() {
@@ -251,7 +238,8 @@ public class CustomArrowType {
   }
 
   protected static CustomArrowType create(String name) {
-    return create(name, it -> {});
+    return create(name, it -> {
+    });
   }
 
   public static CustomArrowType get(String name) {
@@ -277,7 +265,8 @@ public class CustomArrowType {
     Vec3d shotFromPos,
     Vec3d hitPos,
     CustomArrowEntity arrow
-  ) {}
+  ) {
+  }
 
   public record ArrowBlockHitContext(
     ServerWorld world,
@@ -288,6 +277,7 @@ public class CustomArrowType {
     Vec3d hitPos,
     Direction hitFace,
     CustomArrowEntity arrow
-  ) {}
+  ) {
+  }
   //#endregion
 }
