@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CP
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 
 public class ServerPacketHandler {
@@ -18,6 +19,7 @@ public class ServerPacketHandler {
 
     ServerPlayNetworking.registerGlobalReceiver(PacketIdentifiers.USE_TENTACLE, (server, player, handler, buf, responseSender) -> {
       var targetPos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+      var stack = ItemStack.fromNbt(buf.readNbt());
       var playerItem = player.getMainHandStack();
 
       var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance + 2.0;
@@ -30,7 +32,7 @@ public class ServerPacketHandler {
       }
 
       server.execute(() -> {
-        var tentacle = TentacleWeaponEntity.create(player.getWorld(), player, targetPos);
+        var tentacle = TentacleWeaponEntity.create(player.getWorld(), player, targetPos, stack);
         player.getWorld().spawnEntity(tentacle);
         player.getItemCooldownManager().set(
           MineCellsItems.TENTACLE,

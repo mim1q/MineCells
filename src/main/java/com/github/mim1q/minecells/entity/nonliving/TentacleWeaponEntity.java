@@ -1,15 +1,20 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +27,7 @@ public class TentacleWeaponEntity extends Entity {
   private Vec3d startingPos;
   private PlayerEntity owner;
   private boolean pulling = false;
+  private ItemStack stack = ItemStack.EMPTY;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Vector3f> TARGET_POS = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.VECTOR3F);
@@ -33,7 +39,7 @@ public class TentacleWeaponEntity extends Entity {
     this.ignoreCameraFrustum = true;
   }
 
-  public static TentacleWeaponEntity create(World world, PlayerEntity owner, Vec3d targetPos) {
+  public static TentacleWeaponEntity create(World world, PlayerEntity owner, Vec3d targetPos, ItemStack stack) {
     TentacleWeaponEntity entity = MineCellsEntities.TENTACLE_WEAPON.create(world);
     if (entity == null) {
       return null;
@@ -42,6 +48,7 @@ public class TentacleWeaponEntity extends Entity {
     entity.setPos(owner.getX(), owner.getY() + 1.5D, owner.getZ());
     entity.setTargetPos(targetPos);
     entity.startingPos = entity.getPos();
+    entity.stack = stack.copy();
 
     entity.startRiding(owner, true);
 
@@ -90,8 +97,16 @@ public class TentacleWeaponEntity extends Entity {
       );
 
       for (var entity : entitiesHit) {
+        if (!(entity instanceof LivingEntity)) continue;
+
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
-        entity.damage(getWorld().getDamageSources().playerAttack(this.owner), 4.0F);
+        var damage = TentacleItem.ABILITY_DAMAGE_CALCULATOR.calculate(
+          ValueCalculatorContext.create()
+            .with(ValueCalculatorParameter.HOLDER, this.owner)
+            .with(ValueCalculatorParameter.HOLDER_STACK, this.stack)
+            .with(ValueCalculatorParameter.TARGET, (LivingEntity) entity)
+        );
+        entity.damage(getWorld().getDamageSources().playerAttack(this.owner), (float) damage);
         this.setRetracting(true);
         this.pulling = true;
         return;

@@ -8,11 +8,14 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -28,7 +31,7 @@ import java.util.Objects;
 public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility {
   public HitResult hitResult = null;
 
-  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_damage", 0.0);
+  public static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_damage", 0.0);
   private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_cooldown", 0.0);
 
   public TentacleItem(Settings settings) {
@@ -51,6 +54,16 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
         }
 
         world.playSound(user.getX(), user.getY(), user.getZ(), MineCellsSounds.TENTACLE_CHARGE, user.getSoundCategory(), 1.0F, 1.0F, false);
+        var context = ValueCalculatorContext.create()
+          .with(ValueCalculatorParameter.HOLDER, user)
+          .with(ValueCalculatorParameter.HOLDER_STACK, user.getStackInHand(hand));
+
+        var cooldown = ABILITY_DAMAGE_CALCULATOR.calculate(context);
+
+        if (user instanceof ServerPlayerEntity serverPlayer) {
+          serverPlayer.getItemCooldownManager().set(this, (int) cooldown);
+        }
+
         var packet = new UseTentacleWeaponC2SPacket(pos);
         packet.send();
 
