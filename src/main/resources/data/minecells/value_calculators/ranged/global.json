@@ -1,0 +1,8 @@
+{
+  "variables": {
+    "power_enchant": 0.0
+  },
+  "equations": {
+    "global_extra_damage": "BASE_DAMAGE"
+  }
+}
