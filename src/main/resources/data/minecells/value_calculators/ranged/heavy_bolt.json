@@ -1,6 +1,6 @@
 {
   "variables": {},
-  "values": {
+  "equations": {
     "damage": 5.0,
     "crit_damage": 0.0,
     "draw_time": 1.5,

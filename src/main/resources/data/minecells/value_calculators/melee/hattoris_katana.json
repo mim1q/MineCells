@@ -1,6 +1,6 @@
 {
   "variables": {},
-  "values": {
+  "equations": {
     "damage": 7.0,
     "speed": 1.8,
     "ability_damage": 20.0,
