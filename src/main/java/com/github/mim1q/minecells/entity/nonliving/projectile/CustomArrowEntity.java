@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType.ArrowBlockHitContext;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType.ArrowEntityHitContext;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.EntityType;
@@ -28,6 +30,9 @@ import static net.minecraft.entity.data.TrackedDataHandlerRegistry.STRING;
 
 public class CustomArrowEntity extends PersistentProjectileEntity {
   public static final TrackedData<String> ARROW_TYPE = DataTracker.registerData(CustomArrowEntity.class, STRING);
+
+  private static final ValueCalculator GLOBAL_ARROW_EXTRA_DAMAGE =
+    ValueCalculator.of(MineCells.createId("ranged/global"), "global_extra_damage");
 
   private CustomArrowType arrowType = CustomArrowType.DEFAULT;
   private Vec3d shotFromPos;
@@ -102,10 +107,21 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
         .with(ValueCalculatorParameter.TARGET, target);
 
       var damage = arrowType.getDamage(context);
+      var critDamage = 0f;
+
       if (arrowType.shouldCrit(entityHitContext)) {
         getWorld().playSound(null, getOwner().getBlockPos(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1f, 1f);
-        damage += arrowType.getAdditionalCritDamage(context);
+        critDamage = arrowType.getAdditionalCritDamage(context);
       }
+
+      var globalExtraDamage = (float) GLOBAL_ARROW_EXTRA_DAMAGE.calculate(
+        context
+          .withVariable("BASE_DAMAGE", damage)
+          .withVariable("CRIT_DAMAGE", critDamage)
+      );
+
+      damage += critDamage + globalExtraDamage;
+
       target.damage(arrowType.getDamageSource(getWorld(), this, (LivingEntity) getOwner()), damage);
 
       this.getArrowType().onEntityHit(entityHitContext);
