@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -62,6 +64,10 @@ public class CustomBowItem extends RangedWeaponItem {
       .with(ValueCalculatorParameter.HOLDER_STACK, stack);
 
     arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(context), arrowType.getSpread(context));
+    if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
+      arrow.setOnFireFor(1000);
+    }
+    arrow.setPunch(EnchantmentHelper.getLevel(Enchantments.PUNCH, stack));
     world.spawnEntity(arrow);
     return arrow;
   }
@@ -69,11 +75,12 @@ public class CustomBowItem extends RangedWeaponItem {
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
     var stack = user.getStackInHand(hand);
     var projectileStack = user.getProjectileType(stack);
+    var hasInfinity = EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
     var projectileNeeded = arrowType.getAmmoItem().isPresent();
 
     var hasProjectile = !projectileStack.isEmpty();
 
-    if (hasProjectile || !projectileNeeded) {
+    if (hasProjectile || hasInfinity || !projectileNeeded) {
       world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_CHARGE, SoundCategory.PLAYERS, 0.5f, 0.8f);
       user.setCurrentHand(hand);
       return TypedActionResult.consume(stack);

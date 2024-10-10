@@ -144,6 +144,7 @@ fun main(args: Array<String>) {
     TagManager.add("minecells:items/discard_in_high_dimensions",
       "minecraft:stick", "minecells:red_putrid_sapling"
     )
+    bowTags()
     // Loot Tables for Advancements
     MINECELLS_DIMENSIONS.forEach {
       add(CustomHardcodedPresets.advancementDrop(it, "minecells:${it}_dimensional_rune"))
