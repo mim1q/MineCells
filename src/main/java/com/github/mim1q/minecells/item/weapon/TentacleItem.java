@@ -98,7 +98,7 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
       return;
     }
 
-    var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance;
+    var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance();
     var minDistance = 3;
     var targetPos = entity.getEyePos().add(entity.getRotationVec(0.5F).multiply(maxDistance));
     var entityRaycast = ProjectileUtil.raycast(

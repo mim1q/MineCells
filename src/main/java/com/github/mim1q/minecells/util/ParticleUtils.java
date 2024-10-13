@@ -45,7 +45,7 @@ public class ParticleUtils {
   }
 
   public static ParticleTextureSheet getTranslucentParticleType() {
-    return MineCellsClient.CLIENT_CONFIG.rendering.opaqueParticles
+    return MineCellsClient.CLIENT_CONFIG.rendering().opaqueParticles
       ? ParticleTextureSheet.PARTICLE_SHEET_OPAQUE
       : ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
   }

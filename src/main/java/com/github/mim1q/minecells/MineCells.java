@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
-import com.github.mim1q.minecells.config.CommonConfig;
+import com.github.mim1q.minecells.config.MineCellsCommonConfig;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRunesReloadListener;
 import com.github.mim1q.minecells.dimension.MineCellsDimensionGraph;
 import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
@@ -16,7 +16,6 @@ import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculatorsReloadedCallback;
-import draylar.omegaconfig.OmegaConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -32,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 
 public class MineCells implements ModInitializer {
 
-  public static final CommonConfig COMMON_CONFIG = OmegaConfig.register(CommonConfig.class);
+  public static final MineCellsCommonConfig COMMON_CONFIG = MineCellsCommonConfig.createAndLoad();
   public static final SpawnerRunesReloadListener SPAWNER_RUNE_DATA = new SpawnerRunesReloadListener();
 
   public static final String MOD_ID = "minecells";

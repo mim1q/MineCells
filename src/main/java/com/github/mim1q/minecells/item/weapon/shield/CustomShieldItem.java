@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.item.weapon.shield;
 
 import com.github.mim1q.minecells.util.TextUtils;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -46,7 +48,10 @@ public class CustomShieldItem extends ToolItem {
   @Override
   public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
     var parried = hasParried(stack);
-    var cooldown = shieldType.getCooldown(parried);
+    var ctx = ValueCalculatorContext.create()
+      .with(ValueCalculatorParameter.HOLDER, user)
+      .with(ValueCalculatorParameter.HOLDER_STACK, stack);
+    var cooldown = shieldType.getCooldown(ctx, parried);
     ((PlayerEntity) user).getItemCooldownManager().set(this, cooldown);
     setParried(stack, false);
   }

@@ -1,22 +1,13 @@
 package com.github.mim1q.minecells.config;
 
-import draylar.omegaconfig.api.Comment;
-import draylar.omegaconfig.api.Config;
+import blue.endless.jankson.Comment;
+import io.wispforest.owo.config.annotation.Config;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-public class ClientConfig implements Config {
-
-  @Override
-  public String getName() {
-    return "minecells-client";
-  }
-
-  @Override
-  public String getExtension() {
-    return "json5";
-  }
+@Config(name = "minecells-client", wrapperName = "MineCellsClientConfig")
+public class ClientConfigModel {
 
   public Rendering rendering = new Rendering();
 
@@ -37,11 +28,6 @@ public class ClientConfig implements Config {
 
   @Comment("Enables the MineCells custom boss bar rendering.")
   public boolean customBossBars = true;
-
-  @Override
-  public void save() {
-    Config.super.save();
-  }
 
   public static class ScreenShake {
     @Comment(" Affects all screen shake events. Can also be adjusted in the game's accessibility settings.")

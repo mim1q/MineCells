@@ -17,7 +17,7 @@ public class ShockerEntityRenderer extends MineCellsEntityRenderer<ShockerEntity
 
   public ShockerEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new ShockerEntityModel(ctx.getPart(MineCellsRenderers.SHOCKER_LAYER)), 0.5F);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.shockerGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().shockerGlow) {
       this.addFeature(new ShockerGlowFeatureRenderer(this, GLOW_TEXTURE_NORMAL, GLOW_TEXTURE_ANGRY));
     }
   }

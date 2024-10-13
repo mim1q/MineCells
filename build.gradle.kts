@@ -24,7 +24,7 @@ version = ModData.VERSION
 
 repositories {
   mavenCentral()
-  maven("https://maven.draylar.dev/releases") // Omega config
+//  maven("https://maven.draylar.dev/releases") // Omega config
   maven("https://maven.mim1q.dev") // Gimm1q
   maven("https://redempt.dev") // Crunch in Gimm1q
   maven("https://maven.shedaniel.me")
@@ -42,9 +42,9 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
 
-  include(modImplementation("dev.draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")!!)
+//  include(modImplementation("dev.draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")!!)
 
-  modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
+  annotationProcessor(modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")!!)
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
 
   modImplementation("vazkii.patchouli:Patchouli:${Versions.PATCHOULI}")

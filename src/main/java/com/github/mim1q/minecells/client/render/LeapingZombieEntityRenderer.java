@@ -16,7 +16,7 @@ public class LeapingZombieEntityRenderer extends MineCellsEntityRenderer<Leaping
 
   public LeapingZombieEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new LeapingZombieEntityModel(ctx.getPart(MineCellsRenderers.LEAPING_ZOMBIE_LAYER)), 0.35F);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.leapingZombieGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().leapingZombieGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
   }

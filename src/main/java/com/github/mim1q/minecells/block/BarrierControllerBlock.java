@@ -64,7 +64,7 @@ public class BarrierControllerBlock extends ConditionalBarrierBlock implements B
 
   public static boolean bossEntryPredicate(World world, BlockPos pos, BlockState state) {
     return
-      (MineCells.COMMON_CONFIG.unlockedBossEntry && playerPredicate(world, pos, state))
+      (MineCells.COMMON_CONFIG.unlockedBossEntry() && playerPredicate(world, pos, state))
       || bossPredicate(world, pos, state);
   }
 

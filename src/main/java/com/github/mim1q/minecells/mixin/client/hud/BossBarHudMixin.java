@@ -21,7 +21,7 @@ public class BossBarHudMixin {
     cancellable = true
   )
   private void minecells$renderCustomBossBar(DrawContext context, int x, int y, BossBar bossBar, CallbackInfo ci) {
-    if (!MineCellsClient.CLIENT_CONFIG.customBossBars) return;
+    if (!MineCellsClient.CLIENT_CONFIG.customBossBars()) return;
     if (CustomBossBarRenderer.renderCustomBossBar(context, x - 12, y - 8, bossBar)) ci.cancel();
   }
 
@@ -33,7 +33,7 @@ public class BossBarHudMixin {
     )
   )
   private Text minecells$modifyGetBossBarName(Text original) {
-    if (!MineCellsClient.CLIENT_CONFIG.customBossBars) return original;
+    if (!MineCellsClient.CLIENT_CONFIG.customBossBars()) return original;
     return CustomBossBarRenderer.getCustomBossBarName(original);
   }
 }

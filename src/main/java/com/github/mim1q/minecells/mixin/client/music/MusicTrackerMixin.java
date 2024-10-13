@@ -36,7 +36,7 @@ public abstract class MusicTrackerMixin {
   )
   private void minecells$injectOnTick(CallbackInfo ci) {
     var world = this.client.world;
-    if (world == null || !MineCellsClient.CLIENT_CONFIG.experimentalMusicLooping) {
+    if (world == null || !MineCellsClient.CLIENT_CONFIG.experimentalMusicLooping()) {
       this.lastDimension = null;
       return;
     }

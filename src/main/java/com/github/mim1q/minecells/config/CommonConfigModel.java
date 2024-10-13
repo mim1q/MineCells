@@ -1,22 +1,15 @@
 package com.github.mim1q.minecells.config;
 
-import draylar.omegaconfig.api.Comment;
-import draylar.omegaconfig.api.Config;
-import draylar.omegaconfig.api.Syncing;
+import blue.endless.jankson.Comment;
+import io.wispforest.owo.config.Option;
+import io.wispforest.owo.config.annotation.Config;
+import io.wispforest.owo.config.annotation.RangeConstraint;
+import io.wispforest.owo.config.annotation.Sync;
 import net.minecraft.util.math.MathHelper;
 
 @SuppressWarnings("TextBlockMigration")
-public class CommonConfig implements Config {
-  @Override
-  public String getName() {
-    return "minecells-common";
-  }
-
-  @Override
-  public String getExtension() {
-    return "json5";
-  }
-
+@Config(name = "minecells-common", wrapperName = "MineCellsCommonConfig")
+public class CommonConfigModel {
   public Elevator elevator = new Elevator();
 
   @Comment(" Whether the entry door to boss rooms should remain unlocked")
@@ -39,44 +32,39 @@ public class CommonConfig implements Config {
   )
   public boolean disableFallProtection = false;
 
-  @Syncing
+  @Sync(Option.SyncMode.OVERRIDE_CLIENT)
   @Comment(" The maximum distance (in blocks) the Conjunctivius' Tentacle weapon can stretch when activated\n"
     + " Breaks at large distances (above around 64 blocks), so be careful with high values.")
   public int baseTentacleMaxDistance = 24;
 
-  @Syncing
+  @Sync(Option.SyncMode.OVERRIDE_CLIENT)
   @Comment("The additional time (in ticks) after holding up a shield that allows you to parry an attack")
   public int additionalParryTime = 0;
 
-  @Override
-  public void save() {
-    elevator.maxAssemblyHeight = MathHelper.clamp(elevator.maxAssemblyHeight, 64, 320);
-    elevator.minAssemblyHeight = MathHelper.clamp(elevator.minAssemblyHeight, 1, 10);
-    elevator.speed = MathHelper.clamp(elevator.speed, 0.1F, 10.0F);
-    elevator.acceleration = MathHelper.clamp(elevator.acceleration, 0.001F, 0.1F);
-    elevator.damage = MathHelper.clamp(elevator.damage, 0.0F, 20.0F);
-    Config.super.save();
-  }
-
   public static class Elevator {
-    @Syncing
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @Comment(" default: 256, min: 64, max: 320")
+    @RangeConstraint(min = 64, max = 320)
     public int maxAssemblyHeight = 256;
 
-    @Syncing
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @Comment(" default: 1, min: 1, max: 10")
+    @RangeConstraint(min = 1, max = 10)
     public int minAssemblyHeight = 1;
 
-    @Syncing
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @Comment(" default: 1.0, min: 0.1, max: 2.5")
+    @RangeConstraint(min = 0.1, max = 2.5)
     public float speed = 1.0F;
 
-    @Syncing
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @Comment(" default: 0.01, min: 0.001, max: 0.1")
+    @RangeConstraint(min = 0.001, max = 0.1)
     public float acceleration = 0.01F;
 
-    @Syncing
-    @Comment(" default: 10.0, min: 0.0, max: 20.0")
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+    @Comment(" default: 10.0, min: 0.0, max: 100.0")
+    @RangeConstraint(min = 0.0, max = 100.0)
     public float damage = 10.0F;
   }
 

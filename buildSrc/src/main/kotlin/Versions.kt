@@ -10,7 +10,7 @@ object Versions {
   // Required / embedded dependencies
   const val OMEGA_CONFIG = "1.4.0+1.20.1"
   const val OWOLIB = "0.11.2+1.20"
-  const val GIMM1Q = "0.7.5+1.20.1+experimental"
+  const val GIMM1Q = "0.7.6+1.20.1+experimental"
 
   // Optional dependencies
   const val PATCHOULI = "1.20.1-84-FABRIC"

@@ -16,7 +16,7 @@ public class DisgustingWormEntityRenderer extends MineCellsEntityRenderer<Disgus
 
   public DisgustingWormEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new DisgustingWormEntityModel(ctx.getPart(MineCellsRenderers.DISGUSTING_WORM_LAYER)), 0.75F);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.disgustingWormGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().disgustingWormGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
   }

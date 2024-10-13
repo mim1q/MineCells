@@ -20,7 +20,7 @@ public class ServerPacketHandler {
       var targetPos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
       var playerItem = player.getMainHandStack();
 
-      var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance + 2.0;
+      var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance() + 2.0;
 
       if (!playerItem.isOf(MineCellsItems.TENTACLE)
         || targetPos.squaredDistanceTo(player.getPos()) > maxDistance * maxDistance

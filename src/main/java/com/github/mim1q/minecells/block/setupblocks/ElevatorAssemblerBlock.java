@@ -45,8 +45,8 @@ public class ElevatorAssemblerBlock extends SetupBlock {
       return false;
     }
 
-    int maxHeight = MineCells.COMMON_CONFIG.elevator.maxAssemblyHeight;
-    int minHeight = MineCells.COMMON_CONFIG.elevator.minAssemblyHeight;
+    int maxHeight = MineCells.COMMON_CONFIG.elevator().maxAssemblyHeight;
+    int minHeight = MineCells.COMMON_CONFIG.elevator().minAssemblyHeight;
     // Search for another elevator assembler
     int minY = Math.max(world.getBottomY(), pos.getY() - maxHeight);
     int maxY = Math.min(world.getTopY(), pos.getY() + maxHeight);

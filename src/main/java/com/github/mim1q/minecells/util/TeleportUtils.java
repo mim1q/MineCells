@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.util;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.config.CommonConfig.ForceServerThreadMode;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
@@ -9,9 +8,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 
+import static com.github.mim1q.minecells.config.CommonConfigModel.ForceServerThreadMode;
+
 public class TeleportUtils {
   private static boolean shouldRunOnMainThread() {
-    var config = MineCells.COMMON_CONFIG.teleportForceMainThread;
+    var config = MineCells.COMMON_CONFIG.teleportForceMainThread();
     if (config == ForceServerThreadMode.DEFAULT) {
       return FabricLoader.getInstance().isModLoaded("c2me");
     }
