@@ -1,0 +1,6 @@
+{
+  "variables": {},
+  "equations": {
+    "block_damage_reduction": 0.25
+  }
+}

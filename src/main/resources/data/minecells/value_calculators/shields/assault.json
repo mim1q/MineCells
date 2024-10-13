@@ -1,0 +1,8 @@
+{
+  "variables": {},
+  "equations": {
+    "block_damage_reduction": 0.6,
+    "cooldown": 80,
+    "cooldown_after_parry": 20
+  }
+}

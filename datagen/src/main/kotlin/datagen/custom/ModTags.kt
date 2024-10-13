@@ -1,9 +1,8 @@
 package datagen.custom
 
-import tada.lib.generator.ResourceGenerator
 import tada.lib.tags.TagManager
 
-fun ResourceGenerator.bowTags() {
+fun bowTags() {
   val bowsAcceptingInfinity = Constants.BOWS.filter {
     it != "bow_and_endless_quiver" && it != "quick_bow" && it != "ice_bow"
   }
@@ -14,6 +13,7 @@ fun ResourceGenerator.bowTags() {
 
   TagManager.add("minecells:items/bows/accepting_power", *transformToIds(Constants.BOWS))
   TagManager.add("minecells:items/bows/accepting_punch", *transformToIds(Constants.BOWS))
+  TagManager.add("minecells:items/bows/accepting_quick_charge", *transformToIds(Constants.BOWS), *transformToIds(Constants.CROSSBOWS))
   TagManager.add("minecells:items/bows/accepting_infinity", *transformToIds(bowsAcceptingInfinity))
   TagManager.add("minecells:items/bows/accepting_flame", *transformToIds(bowsAcceptingFlame))
 }

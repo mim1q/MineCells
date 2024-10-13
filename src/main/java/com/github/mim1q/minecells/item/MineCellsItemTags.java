@@ -12,6 +12,7 @@ public class MineCellsItemTags {
   public static final TagKey<Item> BOWS_ACCEPTING_PUNCH = of("bows/accepting_punch");
   public static final TagKey<Item> BOWS_ACCEPTING_INFINITY = of("bows/accepting_infinity");
   public static final TagKey<Item> BOWS_ACCEPTING_FLAME = of("bows/accepting_flame");
+  public static final TagKey<Item> BOWS_ACCEPTING_QUICK_CHARGE = of("bows/accepting_quick_charge");
 
   private static TagKey<Item> of(String id) {
     return TagKey.of(RegistryKeys.ITEM, MineCells.createId(id));

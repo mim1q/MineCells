@@ -204,10 +204,10 @@ public class CustomShieldType {
 
     var base = "default".equals(name);
 
-    blockDamageReduction = ValueCalculator.of(MineCells.createId("shields/" + name), "blockDamageReduction", base ? ctx -> 0.5 : ctx -> 0.0);
-    cooldown = ValueCalculator.of(MineCells.createId("shields/" + name), "cooldown", base ? ctx -> 20.0 : ctx -> 0.0);
-    cooldownAfterParry = ValueCalculator.of(MineCells.createId("shields/" + name), "cooldownAfterParry", base ? ctx -> 2.0 : ctx -> 0.0);
-    parryDamage = ValueCalculator.of(MineCells.createId("shields/" + name), "parryDamage", base ? ctx -> 6.0 : ctx -> 0.0);
+    blockDamageReduction = ValueCalculator.of(MineCells.createId("shields/" + name), "block_damage_reduction", base ? ctx -> 0.5 : DEFAULT.blockDamageReduction::calculate);
+    cooldown = ValueCalculator.of(MineCells.createId("shields/" + name), "cooldown", base ? ctx -> 20.0 : DEFAULT.cooldown::calculate);
+    cooldownAfterParry = ValueCalculator.of(MineCells.createId("shields/" + name), "cooldown_after_parry", base ? ctx -> 2.0 : DEFAULT.cooldownAfterParry::calculate);
+    parryDamage = ValueCalculator.of(MineCells.createId("shields/" + name), "parry_damage", base ? ctx -> 6.0 : DEFAULT.parryDamage::calculate);
   }
 
   public float getBlockDamageReduction(ValueCalculatorContext context) {

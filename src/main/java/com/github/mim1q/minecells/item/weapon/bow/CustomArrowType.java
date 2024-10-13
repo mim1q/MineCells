@@ -4,10 +4,10 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
-import com.github.mim1q.minecells.registry.MineCellsParticles;
-import com.github.mim1q.minecells.world.MineCellsExplosion;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.world.MineCellsExplosion;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import net.minecraft.block.Blocks;
@@ -159,12 +159,14 @@ public class CustomArrowType {
     this.name = name;
     this.translationKey = "entity.minecells.custom_arrow." + name;
 
-    defaultDamage = ValueCalculator.of(MineCells.createId("ranged/" + name), "damage", 1.0);
-    additionalCritDamage = ValueCalculator.of(MineCells.createId("ranged/" + name), "crit_damage", 0.0);
-    drawTime = ValueCalculator.of(MineCells.createId("ranged/" + name), "draw_time", 1.0);
-    speed = ValueCalculator.of(MineCells.createId("ranged/" + name), "speed", 2.0);
-    spread = ValueCalculator.of(MineCells.createId("ranged/" + name), "spread", 1.0);
-    cooldown = ValueCalculator.of(MineCells.createId("ranged/" + name), "cooldown", 0.0);
+    var base = "default".equals(name);
+
+    defaultDamage = ValueCalculator.of(MineCells.createId("ranged/" + name), "damage", base ? ctx -> 1.0 : DEFAULT.defaultDamage::calculate);
+    additionalCritDamage = ValueCalculator.of(MineCells.createId("ranged/" + name), "crit_damage", base ? ctx -> 0.0 : DEFAULT.additionalCritDamage::calculate);
+    drawTime = ValueCalculator.of(MineCells.createId("ranged/" + name), "draw_time", base ? ctx -> 1.0 : DEFAULT.drawTime::calculate);
+    speed = ValueCalculator.of(MineCells.createId("ranged/" + name), "speed", base ? ctx -> 2.0 : DEFAULT.speed::calculate);
+    spread = ValueCalculator.of(MineCells.createId("ranged/" + name), "spread", base ? ctx -> 1.0 : DEFAULT.spread::calculate);
+    cooldown = ValueCalculator.of(MineCells.createId("ranged/" + name), "cooldown", base ? ctx -> 0.0 : DEFAULT.cooldown::calculate);
   }
 
   public void onEntityHit(ArrowEntityHitContext context) {
