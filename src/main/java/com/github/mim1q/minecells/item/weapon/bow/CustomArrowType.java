@@ -159,12 +159,12 @@ public class CustomArrowType {
     this.name = name;
     this.translationKey = "entity.minecells.custom_arrow." + name;
 
-    defaultDamage = new ValueCalculator(MineCells.createId("ranged/" + name), "damage", 1.0);
-    additionalCritDamage = new ValueCalculator(MineCells.createId("ranged/" + name), "crit_damage", 0.0);
-    drawTime = new ValueCalculator(MineCells.createId("ranged/" + name), "draw_time", 1.0);
-    speed = new ValueCalculator(MineCells.createId("ranged/" + name), "speed", 2.0);
-    spread = new ValueCalculator(MineCells.createId("ranged/" + name), "spread", 1.0);
-    cooldown = new ValueCalculator(MineCells.createId("ranged/" + name), "cooldown", 0.0);
+    defaultDamage = ValueCalculator.of(MineCells.createId("ranged/" + name), "damage", 1.0);
+    additionalCritDamage = ValueCalculator.of(MineCells.createId("ranged/" + name), "crit_damage", 0.0);
+    drawTime = ValueCalculator.of(MineCells.createId("ranged/" + name), "draw_time", 1.0);
+    speed = ValueCalculator.of(MineCells.createId("ranged/" + name), "speed", 2.0);
+    spread = ValueCalculator.of(MineCells.createId("ranged/" + name), "spread", 1.0);
+    cooldown = ValueCalculator.of(MineCells.createId("ranged/" + name), "cooldown", 0.0);
   }
 
   public void onEntityHit(ArrowEntityHitContext context) {

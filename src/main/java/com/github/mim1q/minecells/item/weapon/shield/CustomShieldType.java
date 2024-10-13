@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.item.weapon.shield;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -24,11 +26,11 @@ import java.util.function.Consumer;
 
 public class CustomShieldType {
   //#region Custom Shield Types
-  public static final CustomShieldType DEFAULT = new CustomShieldType(it -> {
+  public static final CustomShieldType DEFAULT = new CustomShieldType("default", it -> {
   });
 
-  public static final CustomShieldType CUDGEL = new CustomShieldType(it -> {
-    it.blockDamageReduction = 0.3f;
+  public static final CustomShieldType CUDGEL = new CustomShieldType("cudgel", it -> {
+//    it.blockDamageReduction = 0.3f;
     it.onMeleeParry = context -> {
       context.attacker.addStatusEffect(new StatusEffectInstance(
         MineCellsStatusEffects.STUNNED, 30, 0, false, false, true
@@ -41,8 +43,8 @@ public class CustomShieldType {
     };
   });
 
-  public static final CustomShieldType RAMPART = new CustomShieldType(it -> {
-    it.blockDamageReduction = 0.85f;
+  public static final CustomShieldType RAMPART = new CustomShieldType("rampart", it -> {
+//    it.blockDamageReduction = 0.85f;
     it.blockAngle = 100f;
     it.onMeleeParry = context -> {
       context.player().addStatusEffect(new StatusEffectInstance(
@@ -51,11 +53,11 @@ public class CustomShieldType {
     };
   });
 
-  public static final CustomShieldType ASSAULT = new CustomShieldType(it -> {
-    it.blockDamageReduction = 0.6f;
+  public static final CustomShieldType ASSAULT = new CustomShieldType("assault", it -> {
+//    it.blockDamageReduction = 0.6f;
     it.parryAngle = 360f;
-    it.cooldown = 60;
-    it.cooldownAfterParry = 20;
+//    it.cooldown = 60;
+//    it.cooldownAfterParry = 20;
     it.onUse = context -> {
       var player = context.player();
       player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), MineCellsSounds.LEAPING_ZOMBIE_RELEASE, player.getSoundCategory(), 1.0f, 1.0f);
@@ -111,7 +113,7 @@ public class CustomShieldType {
     });
   }
 
-  public static final CustomShieldType BLOOD = new CustomShieldType(it -> {
+  public static final CustomShieldType BLOOD = new CustomShieldType("blood", it -> {
     it.onParry = context -> {
       applyBleedingAround(context.player(), context.player().getPos());
     };
@@ -124,7 +126,7 @@ public class CustomShieldType {
     };
   });
 
-  public static final CustomShieldType ICE = new CustomShieldType(it -> {
+  public static final CustomShieldType ICE = new CustomShieldType("ice", it -> {
     it.onMeleeParry = context -> {
       context.attacker.addStatusEffect(new StatusEffectInstance(
         MineCellsStatusEffects.FROZEN, 100, 0, false, false, true
@@ -138,7 +140,7 @@ public class CustomShieldType {
     it.particle = ParticleTypes.SNOWFLAKE;
   });
 
-  public static final CustomShieldType GREED = new CustomShieldType(it -> {
+  public static final CustomShieldType GREED = new CustomShieldType("greed", it -> {
     it.onMeleeParry = context -> {
       var serverWorld = (ServerWorld) context.player().getWorld();
       var lootTable = serverWorld
@@ -168,13 +170,14 @@ public class CustomShieldType {
   //#endregion
 
   //#region Class Definition
-  private float blockDamageReduction = 0.5f;
+  private final ValueCalculator blockDamageReduction;
+  private final ValueCalculator cooldown;
+  private final ValueCalculator cooldownAfterParry;
+  private final ValueCalculator parryDamage;
+
   private float blockAngle = 90f;
   private float parryAngle = 90f;
   private float parryTime = 5f;
-  private float parryDamage = 6.0f;
-  private int cooldown = 20;
-  private int cooldownAfterParry = 5;
 
   private ParticleEffect particle = null;
 
@@ -196,12 +199,19 @@ public class CustomShieldType {
   private Consumer<RangedDamageContext> onRangedBlock = context -> {
   };
 
-  public CustomShieldType(Consumer<CustomShieldType> setup) {
+  public CustomShieldType(String name, Consumer<CustomShieldType> setup) {
     setup.accept(this);
+
+    var base = "default".equals(name);
+
+    blockDamageReduction = ValueCalculator.of(MineCells.createId("shields/" + name), "blockDamageReduction", base ? ctx -> 0.5 : ctx -> 0.0);
+    cooldown = ValueCalculator.of(MineCells.createId("shields/" + name), "cooldown", base ? ctx -> 20.0 : ctx -> 0.0);
+    cooldownAfterParry = ValueCalculator.of(MineCells.createId("shields/" + name), "cooldownAfterParry", base ? ctx -> 2.0 : ctx -> 0.0);
+    parryDamage = ValueCalculator.of(MineCells.createId("shields/" + name), "parryDamage", base ? ctx -> 6.0 : ctx -> 0.0);
   }
 
-  public float getBlockDamageReduction() {
-    return blockDamageReduction;
+  public float getBlockDamageReduction(ValueCalculatorContext context) {
+    return (float) blockDamageReduction.calculate(context);
   }
 
   public float getBlockAngle() {
@@ -213,19 +223,20 @@ public class CustomShieldType {
   }
 
   public float getParryTime() {
-    return parryTime + MineCells.COMMON_CONFIG.additionalParryTime;
+    return parryTime + MineCells.COMMON_CONFIG.additionalParryTime();
   }
 
-  public float getParryDamage() {
-    return parryDamage;
+  public float getParryDamage(ValueCalculatorContext context) {
+    return (float) parryDamage.calculate(context);
   }
 
   public ParticleEffect getParticle() {
     return particle;
   }
 
-  public int getCooldown(boolean parried) {
-    return parried ? cooldownAfterParry : cooldown;
+  public int getCooldown(ValueCalculatorContext context, boolean parried) {
+    var calculator = parried ? cooldownAfterParry : cooldown;
+    return (int) calculator.calculate(context);
   }
 
   public void onUse(ShieldUseContext context) {
