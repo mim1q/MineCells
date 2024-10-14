@@ -29,4 +29,31 @@ object CustomHardcodedPresets {
       )
     )
   }
+
+  fun cellCrafterRecipe(
+    name: String,
+    priority: Int,
+    category: String,
+    inputs: List<Pair<String, Int>>,
+    output: Pair<String, Int>
+  ) = Preset {
+    add(name, JsonResource(
+      json {
+        "type" to "minecells:cell_forge_recipe"
+        "priority" to priority
+        "category" to category
+        "input" {
+          inputs.forEach { (id, count) ->
+            id to count
+          }
+        }
+        "output" {
+          "id" to output.first
+          "Count" to output.second
+        }
+      },
+      "recipes/",
+      "data"
+    ))
+  }
 }

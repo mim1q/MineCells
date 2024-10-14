@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
@@ -70,7 +71,7 @@ public interface PromenadeTreeHelper {
   }
 
   default void placeFlag(BiConsumer<BlockPos, BlockState> replacer, BlockPos origin, Direction direction, Random random) {
-    var flagBlock = random.nextBoolean() ? MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG : MineCellsBlocks.RED_RIBBON_FLAG;
+    var flagBlock = random.nextBoolean() ? MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG : MineCellsBlocks.RIBBON_FLAGS.get(DyeColor.RED);
     var pole = MineCellsBlocks.FLAG_POLE.getDefaultState().with(FlagPoleBlock.FACING, direction);
     var offset = direction.getVector();
     origin = origin.add(offset);

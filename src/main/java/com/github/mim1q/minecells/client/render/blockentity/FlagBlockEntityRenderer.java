@@ -63,7 +63,6 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
     }
 
     matrices.push();
-
     var offsetZ = 0F;
     switch (placement) {
       case SIDE:

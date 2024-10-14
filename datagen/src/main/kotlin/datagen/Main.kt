@@ -85,10 +85,12 @@ fun main(args: Array<String>) {
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:unbreakable_cell_crafter", "minecells:cell_crafter"))
     // Flags
     listOf(
-      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt",
-      "large_red_ribbon", "red_ribbon"
+      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt"
     ).forEach {
       add(CustomPresets.flag("minecells:${it}_flag"))
+    }
+    Constants.COLORS.forEach {
+      add(CustomPresets.coloredFlags(it))
     }
 
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
@@ -154,6 +156,7 @@ fun main(args: Array<String>) {
 
     // Generated images
     CustomImages.createBowTextures("bow_atlas.png", Path.of(args[0]))
+    CustomImages.createFlagTextures("flag_atlas.png", Path.of(args[0]))
   }
 
   generator.generate()

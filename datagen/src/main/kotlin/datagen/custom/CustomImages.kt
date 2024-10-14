@@ -22,4 +22,31 @@ object CustomImages {
       }
     }
   }
+
+  fun createFlagTextures(
+    atlasName: String,
+    outputDirectory: Path,
+  ) {
+    ImageAtlas.createAndSave(
+      getImageFile(atlasName),
+      outputDirectory.resolve("assets/minecells/textures/blockentity/banner/").toFile(),
+      spriteWidth = 64,
+      spriteHeight = 64
+    ) {
+      Constants.COLORS.forEach { color ->
+        sprite("${color}_ribbon")
+      }
+    }
+
+    ImageAtlas.createAndSave(
+      getImageFile("large_${atlasName}"),
+      outputDirectory.resolve("assets/minecells/textures/blockentity/banner/").toFile(),
+      spriteWidth = 64,
+      spriteHeight = 128
+    ) {
+      Constants.COLORS.forEach { color ->
+        sprite("large_${color}_ribbon")
+      }
+    }
+  }
 }

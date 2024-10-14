@@ -78,6 +78,33 @@ object CustomPresets {
     TagManager.add("minecraft:mineable/axe", id)
   }
 
+  fun coloredFlags(color: String) = Preset {
+    add(flag("minecells:${color}_ribbon_flag"))
+    add(flag("minecells:large_${color}_ribbon_flag"))
+
+    add(CustomHardcodedPresets.cellCrafterRecipe(
+      "${color}_ribbon_flag",
+      91,
+      "decoration",
+      listOf(
+        "minecraft:stick" to 1,
+        "minecraft:${color}_wool" to 2
+      ),
+      "minecells:${color}_ribbon_flag" to 1,
+    ))
+
+    add(CustomHardcodedPresets.cellCrafterRecipe(
+      "large_${color}_ribbon_flag",
+      90,
+      "decoration",
+      listOf(
+        "minecraft:stick" to 1,
+        "minecraft:${color}_wool" to 5
+      ),
+      "minecells:large_${color}_ribbon_flag" to 1,
+    ))
+  }
+
   fun customRecipes() = Preset {
     //region Stone duplication
     add("prison_stone_duplication", CraftingRecipe.shaped("minecells:prison_stone", 4) {

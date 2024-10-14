@@ -20,13 +20,25 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class MineCellsBlocks {
+  private static final List<DyeColor> ORDERED_COLORS = List.of(
+    DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK,
+    DyeColor.BROWN, DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW,
+    DyeColor.LIME, DyeColor.GREEN, DyeColor.CYAN, DyeColor.LIGHT_BLUE,
+    DyeColor.BLUE, DyeColor.PURPLE, DyeColor.MAGENTA, DyeColor.PINK
+  );
+
   public static final List<FlagBlock> FLAG_BLOCKS = new ArrayList<>();
 
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
@@ -130,8 +142,12 @@ public class MineCellsBlocks {
   public static final FlagBlock RAMPARTS_FLAG = registerFlag("ramparts", false);
   public static final FlagBlock INSUFFERABLE_CRYPT_FLAG = registerFlag("insufferable_crypt", false);
   public static final FlagBlock BLACK_BRIDGE_FLAG = registerFlag("black_bridge", false);
-  public static final FlagBlock RED_RIBBON_FLAG = registerFlag("red_ribbon", false);
-  public static final FlagBlock LARGE_RED_RIBBON_FLAG = registerFlag("large_red_ribbon", true);
+
+  public static final Map<DyeColor, FlagBlock> RIBBON_FLAGS = ORDERED_COLORS.stream()
+    .collect(Collectors.toMap(Function.identity(), it -> registerFlag(it.getName() + "_ribbon", false)));
+
+  public static final Map<DyeColor, FlagBlock> LARGE_RIBBON_FLAGS = ORDERED_COLORS.stream()
+    .collect(Collectors.toMap(Function.identity(), it -> registerFlag("large_" + it.getName() + "_ribbon", true)));
 
   public static final SpawnerRuneBlock SPAWNER_RUNE = registerBlock(new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().nonOpaque()), "spawner_rune");
 
