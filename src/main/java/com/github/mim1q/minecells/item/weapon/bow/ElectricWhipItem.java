@@ -1,11 +1,12 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
-import com.github.mim1q.minecells.util.TextUtils;
-import net.minecraft.client.item.TooltipContext;
+import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,18 +14,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+public class ElectricWhipItem extends Item implements WeaponWithAbility {
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("spells/electric_whip", "damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("spells/electric_whip", "cooldown", 0.0);
 
-public class ElectricWhipItem extends Item {
   public ElectricWhipItem(Settings settings) {
     super(settings);
   }
@@ -81,7 +81,7 @@ public class ElectricWhipItem extends Item {
       for (var entity : entities) {
         entity.damage(
           MineCellsDamageSource.ELECTRICITY.get(world, user),
-          6.0f
+          getAbilityDamage(user.getStackInHand(hand), user, (LivingEntity) entity)
         );
         ((LivingEntity) entity).addStatusEffect(
           new StatusEffectInstance(
@@ -98,14 +98,18 @@ public class ElectricWhipItem extends Item {
     }
 
     world.playSound(null, user.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.PLAYERS, 1f, 1f);
-    user.getItemCooldownManager().set(this, 20);
+    user.getItemCooldownManager().set(this, getAbilityCooldown(user.getStackInHand(hand), user));
 
     return TypedActionResult.success(user.getStackInHand(hand));
   }
 
   @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
+  public ValueCalculator getAbilityDamageCalculator() {
+    return ABILITY_DAMAGE_CALCULATOR;
+  }
+
+  @Override
+  public ValueCalculator getAbilityCooldownCalculator() {
+    return ABILITY_COOLDOWN_CALCULATOR;
   }
 }

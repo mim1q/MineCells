@@ -8,8 +8,6 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
-import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
-import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -54,14 +52,11 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
         }
 
         world.playSound(user.getX(), user.getY(), user.getZ(), MineCellsSounds.TENTACLE_CHARGE, user.getSoundCategory(), 1.0F, 1.0F, false);
-        var context = ValueCalculatorContext.create()
-          .with(ValueCalculatorParameter.HOLDER, user)
-          .with(ValueCalculatorParameter.HOLDER_STACK, user.getStackInHand(hand));
 
-        var cooldown = ABILITY_DAMAGE_CALCULATOR.calculate(context);
+        var cooldown = getAbilityCooldown(user.getStackInHand(hand), user);
 
         if (user instanceof ServerPlayerEntity serverPlayer) {
-          serverPlayer.getItemCooldownManager().set(this, (int) cooldown);
+          serverPlayer.getItemCooldownManager().set(this, cooldown);
         }
 
         var packet = new UseTentacleWeaponC2SPacket(pos);

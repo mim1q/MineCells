@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -16,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -24,14 +22,12 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Set;
 
 public class PhaserItem extends Item implements WeaponWithAbility {
-  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("skill", "phaser_damage", 0.0);
-  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("skill", "phaser_cooldown", 0.0);
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("spells/phaser", "damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("spells/phaser", "cooldown", 0.0);
 
   public PhaserItem(Settings settings) {
     super(settings);
@@ -85,16 +81,11 @@ public class PhaserItem extends Item implements WeaponWithAbility {
       stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
       user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
       user.getItemCooldownManager().set(this, getAbilityCooldown(stack, user));
+      closestEntity.damage(user.getDamageSources().mobAttack(user), getAbilityDamage(stack, user, closestEntity));
       return TypedActionResult.success(stack);
     }
     user.getItemCooldownManager().set(this, 20);
     return TypedActionResult.fail(stack);
-  }
-
-  @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    fillTooltip(tooltip, false, "item.minecells.phaser.description", stack);
   }
 
   @Override

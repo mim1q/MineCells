@@ -5,9 +5,11 @@ import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
-import com.github.mim1q.minecells.util.TextUtils;
+import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
-import net.minecraft.client.item.TooltipContext;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -27,9 +28,9 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public class LightningBoltItem extends Item implements CritIndicator {
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("spells/lightning_bolt", "damage", 0.0);
+
   private static final int MAX_USE_TIME = 60 * 60 * 20;
   private static final double SELECT_DISTANCE = 6.0;
   private static final double MAX_DISTANCE = 12.0;
@@ -50,24 +51,18 @@ public class LightningBoltItem extends Item implements CritIndicator {
 
     var ticks = getMaxUseTime(stack) - remainingUseTicks;
 
-
-    var damage = 2.0f;
     var intensity = 0;
+    if (ticks > 20) intensity = 1;
+    if (ticks > 40) intensity = 2;
+    if (ticks > 60) intensity = 3;
 
-    if (ticks > 20) {
-      damage = 3.0f;
-      intensity = 1;
-    }
-
-    if (ticks > 40) {
-      damage = 4.0f;
-      intensity = 2;
-    }
-
-    if (ticks > 60) {
-      damage = 6.0f;
-      intensity = 3;
-    }
+    var damage = (float) ABILITY_DAMAGE_CALCULATOR.calculate(
+      ValueCalculatorContext.create()
+        .with(ValueCalculatorParameter.HOLDER, user)
+        .with(ValueCalculatorParameter.HOLDER_STACK, stack)
+        .with(ValueCalculatorParameter.TARGET, entity)
+        .withVariable("INTENSITY", intensity)
+    );
 
     if (ticks % 5 == 0) {
       ScreenShakeUtils.applyShake(
@@ -254,11 +249,5 @@ public class LightningBoltItem extends Item implements CritIndicator {
   @Override
   public boolean shouldShowCritIndicator(@Nullable PlayerEntity player, @Nullable LivingEntity target, ItemStack stack) {
     return player != null && player.getItemUseTime() > 40;
-  }
-
-  @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
   }
 }

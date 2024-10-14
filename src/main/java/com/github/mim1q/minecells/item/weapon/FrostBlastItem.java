@@ -7,7 +7,6 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,22 +16,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class FrostBlastItem extends Item implements WeaponWithAbility {
-  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("spells", "frost_blast_damage", 0.0);
-  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("spells", "frost_blast_cooldown", 0.0);
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("spells/frost_blast", "damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("spells/frost_blast", "cooldown", 0.0);
 
   public FrostBlastItem(Settings settings) {
     super(settings);
@@ -98,12 +94,6 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
     }
     entity.playSound(MineCellsSounds.FREEZE, 1.0F, 1.0F);
     entity.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.FROZEN, duration, 0, false, false, true));
-  }
-
-  @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    fillTooltip(tooltip, true, "item.minecells.frost_blast.description", stack);
   }
 
   @Override
