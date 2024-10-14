@@ -11,6 +11,7 @@ import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import com.github.mim1q.minecells.registry.featureset.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.mixin.object.builder.AbstractBlockSettingsAccessor;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.block.sapling.SaplingGenerator;
@@ -21,13 +22,14 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -209,11 +211,26 @@ public class MineCellsBlocks {
 
   private static FlagBlock registerFlag(String name, boolean large) {
     var flag = registerBlockWithItem(
-      new FlagBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER), name, large),
+      new FlagBlock((preventZFighting(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER))), name, large),
       name + "_flag"
     );
     FLAG_BLOCKS.add(flag);
     return flag;
+  }
+
+  @SuppressWarnings("UnstableApiUsage") private static FabricBlockSettings preventZFighting(FabricBlockSettings settings) {
+    ((AbstractBlockSettingsAccessor) settings).setOffsetter(Optional.of((state, world, pos) -> {
+      var x = pos.getX() % 3;
+      var y = pos.getY() % 3;
+      var z = pos.getZ() % 3;
+      return (new Vec3d(
+        (z * 0.001) + (y * 0.0015),
+        (x * 0.001) + (z * 0.0015),
+        (y * 0.001) + (x * 0.0015)
+      ));
+    }));
+
+    return settings;
   }
 
   private static FabricItemSettings defaultItemSettings() {

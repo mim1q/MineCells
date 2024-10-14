@@ -45,7 +45,8 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
     var dir = entity.getCachedState().get(FlagBlock.FACING);
     var placement = entity.getCachedState().get(FlagBlock.PLACEMENT);
     var world = entity.getWorld();
-    var offset = entity.getPos().hashCode();
+    var timeOffset = entity.getPos().hashCode();
+    var offset = entity.getCachedState().getModelOffset(world, entity.getPos());
     var large = ((FlagBlock) block).large;
     var usedModel = large ? largeModel : model;
     var strength = (placement == Placement.HORIZONTAL ? 0.2F : 0.125F) * (large ? 0.3F : 1.0F);
@@ -54,7 +55,7 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
       float time = getGlobalAnimationProgress();
       usedModel.wave(
         time * (large ? 0.15F : 0.1F),
-        offset % 100,
+        timeOffset % 100,
         strength * (1.0F + 0.15F * Math.cos(time * 0.13F)),
         true
       );
@@ -64,6 +65,7 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
 
     matrices.push();
     var offsetZ = 0F;
+    matrices.translate(offset.getX(), offset.getY(), offset.getZ());
     switch (placement) {
       case SIDE:
         offsetZ = 7 / 16F;
