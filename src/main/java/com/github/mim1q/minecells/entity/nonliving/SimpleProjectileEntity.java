@@ -72,7 +72,7 @@ public class SimpleProjectileEntity extends Entity {
   }
 
   public void onHitEntity(LivingEntity target) {
-    var owner = ((ServerWorld)getWorld()).getEntity(ownerUuid);
+    var owner = ((ServerWorld) getWorld()).getEntity(ownerUuid);
     target.damage(getWorld().getDamageSources().mobProjectile(this, (LivingEntity) owner), getDamage());
     discard();
   }
@@ -107,11 +107,15 @@ public class SimpleProjectileEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-    this.ownerUuid = nbt.getUuid("owner");
+    if (nbt.contains("owner")) {
+      this.ownerUuid = nbt.getUuid("owner");
+    }
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-    nbt.putUuid("owner", ownerUuid);
+    if (ownerUuid != null) {
+      nbt.putUuid("owner", ownerUuid);
+    }
   }
 }

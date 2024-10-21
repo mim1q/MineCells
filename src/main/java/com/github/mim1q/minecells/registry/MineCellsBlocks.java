@@ -63,6 +63,7 @@ public class MineCellsBlocks {
   public static final StoneSet BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet CRACKED_BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("cracked_bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet BLOOMROCK_TILES = new StoneSet(MineCells.createId("bloomrock_tile"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final Block POLISHED_AWAKENABLE_STONE = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.STONE)), "polished_awakenable_stone");
 
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");

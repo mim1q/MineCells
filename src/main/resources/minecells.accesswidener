@@ -3,3 +3,8 @@ accessWidener v2 named
 extendable class net/minecraft/world/gen/foliage/FoliagePlacer$TreeNode
 # Access current boss bars on the client
 accessible field net/minecraft/client/gui/hud/BossBarHud bossBars Ljava/util/Map;
+# Sprite Content manipulation
+accessible class net/minecraft/client/texture/SpriteContents$Animation
+accessible class net/minecraft/client/texture/SpriteContents$AnimatorImpl
+accessible class net/minecraft/client/texture/SpriteContents$Interpolation
+accessible field net/minecraft/client/texture/SpriteContents$Animation frames Ljava/util/List;

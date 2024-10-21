@@ -106,7 +106,6 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
     );
     if (
       entityRaycast != null
-        && entityRaycast.getType() != HitResult.Type.MISS
         && entityRaycast.getPos().squaredDistanceTo(entity.getEyePos()) >= minDistance * minDistance
     ) {
       this.hitResult = entityRaycast;

@@ -44,6 +44,7 @@
     "client.WorldSessionMixin",
     "client.hud.BossBarHudMixin",
     "client.music.MusicTrackerMixin",
+    "client.texture.SpriteContentsAnimatorImplMixin",
     "compat.firstperson.PlayerAnimatorSupportMixin",
     "compat.patchouli.GuiBookEntryMixin",
     "compat.patchouli.RenderEntityIdleAnimationMixin",

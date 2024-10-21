@@ -8,6 +8,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.stat.Stat;
 
 
 public class MineCellsStatusEffects {
@@ -30,6 +31,10 @@ public class MineCellsStatusEffects {
     new MineCellsStatusEffect(StatusEffectCategory.BENEFICIAL, 0xDA1C1C, false, null, false)
       .addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, ASSASSINS_STRENGTH_UUID, 1.25F, Operation.MULTIPLY_TOTAL),
     "assassins_strength"
+  );
+  public static final StatusEffect AWAKENED = register(
+    new MineCellsStatusEffect(StatusEffectCategory.NEUTRAL, 0xDA5A0A, false, MineCellsEffectFlags.AWAKENED, false),
+    "awakened"
   );
 
   public static void init() { }
