@@ -64,7 +64,7 @@ public class SpriteContentsAnimatorImplMixin {
     if (modSize <= 0) modSize = 1;
 
     if (minecells$condition.get()) {
-      frame = (this.frame + 1) % modSize + halfSize;
+      frame = (this.frame + 1 - halfSize) % modSize + halfSize;
     } else {
       frame = (this.frame + 1) % modSize;
     }
