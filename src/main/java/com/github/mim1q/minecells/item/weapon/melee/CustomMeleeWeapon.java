@@ -11,6 +11,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import org.jetbrains.annotations.Nullable;
@@ -97,5 +98,9 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
         )
         .build();
     });
+  }
+
+  public static Set<Item> getAllMeleeWeapons() {
+    return Set.copyOf(ALL_MELEE_WEAPONS);
   }
 }

@@ -2,25 +2,19 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import com.github.mim1q.minecells.util.TextUtils;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class SingleUseProjectileItem extends Item {
+public class SingleUseProjectileItem extends Item implements CustomArrowShooter {
   private final CustomArrowType arrowType;
 
   public SingleUseProjectileItem(Settings settings, CustomArrowType arrowType) {
@@ -59,8 +53,7 @@ public class SingleUseProjectileItem extends Item {
   }
 
   @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    TextUtils.addDescription(tooltip, this.getTranslationKey() + ".description");
+  public CustomArrowType getArrowType() {
+    return arrowType;
   }
 }

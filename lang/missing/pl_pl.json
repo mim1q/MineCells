@@ -1,1 +1,12 @@
-{}
+{
+  "item.minecells.crit_damage": "Critical Damage: +%sHP",
+  "item.minecells.special_ability_hold": "Hold [Right Click] to use ability: %sHP (%ss cooldown)",
+  "item.minecells.speical_ability_press": "Press [Right Click] to use ability: %sHP (%ss cooldown)",
+  "item.minecells.bow.damage": "Damage: %sHP",
+  "item.minecells.bow.crit_damage": "Critical Damage: +%sHP",
+  "item.minecells.bow.draw_time": "Draw time: %ss",
+  "item.minecells.bow.cooldown": "Cooldown: %ss",
+  "item.minecells.shield.parry_damage": "Parry Damage: %sHP",
+  "item.minecells.shield.damage_reduction": "Blocking reduces damage by %s%%",
+  "item.minecells.shield.cooldown": "Cooldown: %ss"
+}

@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 import java.util.function.Predicate;
 
-public class CustomBowItem extends RangedWeaponItem {
+public class CustomBowItem extends RangedWeaponItem implements CustomArrowShooter {
   private final static int MAX_USE_TIME = 60 * 60 * 20;
 
   protected final CustomArrowType arrowType;
@@ -156,5 +156,10 @@ public class CustomBowItem extends RangedWeaponItem {
     var bowItem = (CustomBowItem) bow.getItem();
     if (bowItem.maxProjectileCount == 1) return;
     bow.getOrCreateNbt().putInt("LoadedProjectiles", count);
+  }
+
+  @Override
+  public CustomArrowType getArrowType() {
+    return arrowType;
   }
 }

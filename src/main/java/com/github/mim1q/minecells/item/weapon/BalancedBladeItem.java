@@ -30,7 +30,7 @@ public class BalancedBladeItem extends CustomMeleeWeapon {
     if (attacker instanceof PlayerEntityAccessor player) {
       return player.getBalancedBladeStacks() * super.getAdditionalCritDamage(stack, target, attacker);
     }
-    return 0.0F;
+    return 9 * super.getAdditionalCritDamage(stack, target, attacker);
   }
 
   @Override
