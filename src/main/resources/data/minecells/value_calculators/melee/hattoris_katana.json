@@ -1,9 +1,21 @@
 {
-  "variables": {},
+  "description": [
+    "TEST"
+  ],
+  "variables": {
+    "player_damage": {
+      "type": "gimm1q:attribute",
+      "attribute": "generic.attack_damage"
+    },
+    "sharpness": {
+      "type": "gimm1q:enchantment",
+      "enchantment": "minecraft:sharpness"
+    }
+  },
   "equations": {
     "damage": 7.0,
     "speed": 1.8,
-    "ability_damage": 20.0,
+    "ability_damage": "player_damage * 3.0 + sharpness * 2.0",
     "ability_cooldown": 10.0
   }
 }
