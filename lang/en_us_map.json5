@@ -240,6 +240,10 @@
       },
     },
 
+    // Colorful blocks
+    "$_ribbon_flag;large_$_ribbon_flag": {
+      "black;gray;light_gray;white;brown;red;orange;yellow;lime;green;light_blue;cyan;blue;purple;pink;magenta": "%"
+    },
     // Automatically generated block names
     putrid_planks: "Putrid Planks",
     putrid_log: "Putrid Log",
@@ -327,8 +331,6 @@
     ramparts_flag: "Ramparts Flag",
     black_bridge_flag: "Black Bridge Flag",
     insufferable_crypt_flag: "Insufferable Crypt Flag",
-    large_red_ribbon_flag: "Large Red Ribbon Flag",
-    red_ribbon_flag: "Red Ribbon Flag",
     prison_doorway: "Prisoners' Quarters Doorway",
     promenade_doorway: "Promenade of The Condemned Doorway",
     insufferable_crypt_doorway: "Insufferable Crypt Doorway",
