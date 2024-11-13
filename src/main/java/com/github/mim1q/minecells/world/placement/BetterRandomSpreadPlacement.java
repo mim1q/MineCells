@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.world.placement;
 
+import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.RegistryKeys;
@@ -7,17 +8,16 @@ import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.StructureSet;
 import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.ChunkRandom;
-import net.minecraft.world.gen.chunk.placement.RandomSpreadStructurePlacement;
-import net.minecraft.world.gen.chunk.placement.SpreadType;
-import net.minecraft.world.gen.chunk.placement.StructurePlacementCalculator;
+import net.minecraft.world.gen.chunk.placement.*;
 
 import java.util.List;
 import java.util.Optional;
 
-public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement {
+public class BetterRandomSpreadPlacement extends StructurePlacement {
   public static final Codec<BetterRandomSpreadPlacement> CODEC = RecordCodecBuilder.create(
     instance -> instance.group(
       Vec3i.createOffsetCodec(16).optionalFieldOf("locate_offset", Vec3i.ZERO).forGetter(BetterRandomSpreadPlacement::getLocateOffset),
@@ -25,14 +25,17 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
       Codecs.NONNEGATIVE_INT.fieldOf("salt").forGetter(BetterRandomSpreadPlacement::getSalt),
       BetterExclusionZone.CODEC.listOf().optionalFieldOf("exclusion_zones", List.of()).forGetter(BetterRandomSpreadPlacement::getExclusionZones),
       // Using the minecells prefix as a workaround for Sparse Structures...
-      Codecs.NONNEGATIVE_INT.fieldOf("minecells_spacing").forGetter(BetterRandomSpreadPlacement::getSpacing),
-      Codecs.NONNEGATIVE_INT.fieldOf("minecells_separation").forGetter(BetterRandomSpreadPlacement::getSeparation),
-      SpreadType.CODEC.optionalFieldOf("spread_type", SpreadType.LINEAR).forGetter(BetterRandomSpreadPlacement::getSpreadType)
+      Codecs.NONNEGATIVE_INT.fieldOf("minecells_spacing").forGetter(it -> it.spacing),
+      Codecs.NONNEGATIVE_INT.fieldOf("minecells_separation").forGetter(it -> it.separation),
+      SpreadType.CODEC.optionalFieldOf("spread_type", SpreadType.LINEAR).forGetter(it -> it.spreadType)
     ).apply(instance, BetterRandomSpreadPlacement::new)
   );
 
   private final List<BetterExclusionZone> exclusionZones;
   private final float actualFrequency;
+  private final int spacing;
+  private final int separation;
+  private final SpreadType spreadType;
 
   private BetterRandomSpreadPlacement(
     Vec3i locateOffset,
@@ -43,9 +46,12 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
     int separation,
     SpreadType spreadType
   ) {
-    super(locateOffset, FrequencyReductionMethod.DEFAULT, 1F, salt, Optional.empty(), spacing, separation, spreadType);
+    super(locateOffset, FrequencyReductionMethod.DEFAULT, 1F, salt, Optional.empty());
     this.exclusionZones = exclusionZones;
     this.actualFrequency = frequency;
+    this.spacing = spacing;
+    this.separation = separation;
+    this.spreadType = spreadType;
   }
 
   private List<BetterExclusionZone> getExclusionZones() {
@@ -60,6 +66,32 @@ public class BetterRandomSpreadPlacement extends RandomSpreadStructurePlacement 
     return result
       && chunkRandom.nextFloat() <= actualFrequency
       && exclusionZones.stream().noneMatch(zone -> zone.shouldExclude(calculator, chunkX, chunkZ));
+  }
+
+  // copied over from the vanilla RandomSpreadStructurePlacement to prevent mods that tweak the vanilla behavior
+  // from breaking this custom structure placement
+  // region Copied
+  public ChunkPos getStartChunk(long seed, int chunkX, int chunkZ) {
+    int i = Math.floorDiv(chunkX, this.spacing);
+    int j = Math.floorDiv(chunkZ, this.spacing);
+    ChunkRandom chunkRandom = new ChunkRandom(new CheckedRandom(0L));
+    chunkRandom.setRegionSeed(seed, i, j, this.getSalt());
+    int k = this.spacing - this.separation;
+    int l = this.spreadType.get(chunkRandom, k);
+    int m = this.spreadType.get(chunkRandom, k);
+    return new ChunkPos(i * this.spacing + l, j * this.spacing + m);
+  }
+
+  @Override
+  protected boolean isStartChunk(StructurePlacementCalculator calculator, int chunkX, int chunkZ) {
+    ChunkPos chunkPos = this.getStartChunk(calculator.getStructureSeed(), chunkX, chunkZ);
+    return chunkPos.x == chunkX && chunkPos.z == chunkZ;
+  }
+  // endregion
+
+  @Override
+  public StructurePlacementType<?> getType() {
+    return MineCellsStructurePlacementTypes.BETTER_RANDOM_SPREAD;
   }
 
   private static class BetterExclusionZone {
