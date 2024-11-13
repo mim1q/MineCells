@@ -7,7 +7,7 @@ import io.wispforest.owo.config.annotation.RangeConstraint;
 import io.wispforest.owo.config.annotation.Sync;
 
 @SuppressWarnings("TextBlockMigration")
-@Config(name = "minecells-common", wrapperName = "MineCellsCommonConfig")
+@Config(name = "minecells/common", wrapperName = "MineCellsCommonConfig")
 public class CommonConfigModel {
   public Elevator elevator = new Elevator();
 
@@ -23,7 +23,7 @@ public class CommonConfigModel {
   public ForceServerThreadMode teleportForceMainThread = ForceServerThreadMode.DEFAULT;
 
   @Comment(" Whether the Mine Cells data should automatically get wiped after major updates")
-  public boolean autoWipeData = true;
+  public boolean autoWipeData = false;
 
   @Comment(" Disable the fall protection feature of the Ramparts. \n"
     + " This will let players explore the bottom of the dimension freely, but keep in mind: \n"

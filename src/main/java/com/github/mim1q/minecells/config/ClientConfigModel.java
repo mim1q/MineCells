@@ -6,7 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-@Config(name = "minecells-client", wrapperName = "MineCellsClientConfig")
+@Config(name = "minecells/client", wrapperName = "MineCellsClientConfig")
 public class ClientConfigModel {
 
   public Rendering rendering = new Rendering();
