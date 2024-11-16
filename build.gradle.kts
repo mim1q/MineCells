@@ -24,7 +24,6 @@ version = ModData.VERSION
 
 repositories {
   mavenCentral()
-//  maven("https://maven.draylar.dev/releases") // Omega config
   maven("https://maven.mim1q.dev") // Gimm1q
   maven("https://redempt.dev") // Crunch in Gimm1q
   maven("https://maven.shedaniel.me")
@@ -41,8 +40,6 @@ dependencies {
 
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
-
-//  include(modImplementation("dev.draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")!!)
 
   annotationProcessor(modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")!!)
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
@@ -95,9 +92,9 @@ val secretsFile = rootProject.file("publishing.properties")
 val secrets = Secrets(secretsFile)
 
 val remapJar = tasks.getByName("remapJar") as RemapJarTask
-val newVersionName = "${ModData.ID}-${ModData.mcVersions[0]}-${ModData.VERSION}"
+val newVersionName = "${ModData.ID}-${ModData.VERSION}+${ModData.mcVersions[0]}"
 val newChangelog = try {
-  rootProject.file("changelogs/${ModData.mcVersions[0]}-${ModData.VERSION}.md").readText()
+  rootProject.file("changelogs/${ModData.VERSION}+${ModData.mcVersions[0]}.md").readText()
 } catch (_: FileNotFoundException) {
   println("No changelog found")
   ""
