@@ -14,7 +14,8 @@ public class ClientAdvancementManagerMixin {
   private void minecells$onAdvancements(AdvancementUpdateS2CPacket packet, CallbackInfo ci) {
     packet.getAdvancementsToProgress().forEach(
       (id, progress) -> {
-        if (progress.isDone()) AdvancementHintRenderer.setAdvancementRendered(id, false);
+        if (!progress.getUnobtainedCriteria().iterator().hasNext())
+          AdvancementHintRenderer.setAdvancementRendered(id, false);
       }
     );
     packet.getAdvancementIdsToRemove().forEach(
