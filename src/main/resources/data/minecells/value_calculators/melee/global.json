@@ -1,0 +1,7 @@
+{
+  "variables": {},
+  "equations": {
+    "global_damage_multiplier": 1.0,
+    "global_speed_multiplier": 1.0
+  }
+}

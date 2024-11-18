@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.client.render.*;
 import com.github.mim1q.minecells.client.render.blockentity.*;
 import com.github.mim1q.minecells.client.render.blockentity.BarrierControllerRenderer.BarrierControllerModel;
@@ -11,7 +12,10 @@ import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlo
 import com.github.mim1q.minecells.client.render.blockentity.portal.TeleporterBlockEntityRenderer.TeleporterModel;
 import com.github.mim1q.minecells.client.render.blockentity.statue.DecorativeStatueBlockEntityRenderer;
 import com.github.mim1q.minecells.client.render.blockentity.statue.KingStatueModel;
-import com.github.mim1q.minecells.client.render.conjunctivius.*;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEntityRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusEyeRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusSpikeRenderer;
+import com.github.mim1q.minecells.client.render.conjunctivius.ConjunctiviusTentacleRenderer;
 import com.github.mim1q.minecells.client.render.item.BiomeBannerItemRenderer;
 import com.github.mim1q.minecells.client.render.model.*;
 import com.github.mim1q.minecells.client.render.model.conjunctivius.ConjunctiviusEntityModel;
@@ -24,9 +28,15 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Disgu
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
+import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
+import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayFeatureRenderer;
+import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayVertexConsumer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -34,13 +44,19 @@ import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.mixin.client.rendering.DimensionEffectsAccessor;
 import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 public class MineCellsRenderers {
@@ -76,7 +92,6 @@ public class MineCellsRenderers {
   public static final EntityModelLayer CONJUNCTIVIUS_EYE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "eye");
   public static final EntityModelLayer CONJUNCTIVIUS_TENTACLE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "tentacle");
   public static final EntityModelLayer CONJUNCTIVIUS_SPIKE_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "spike");
-  public static final EntityModelLayer CONJUNCTIVIUS_CHAIN_LAYER = new EntityModelLayer(MineCells.createId("conjunctivius"), "chain");
 
   public static final EntityModelLayer CONCIERGE_LAYER = registerLayer("concierge", ConciergeEntityModel::getTexturedModelData);
 
@@ -129,7 +144,6 @@ public class MineCellsRenderers {
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_EYE_LAYER, ConjunctiviusEyeRenderer.ConjunctiviusEyeModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_TENTACLE_LAYER, ConjunctiviusTentacleRenderer.ConjunctiviusTentacleModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_SPIKE_LAYER, ConjunctiviusSpikeRenderer.ConjunctiviusSpikeModel::getTexturedModelData);
-    EntityModelLayerRegistry.registerModelLayer(CONJUNCTIVIUS_CHAIN_LAYER, ConjunctiviusChainRenderer.ConjunctiviusChainModel::getTexturedModelData);
 
     EntityModelLayerRegistry.registerModelLayer(GRENADE_LAYER, GrenadeEntityModel::getTexturedModelData);
     EntityModelLayerRegistry.registerModelLayer(BIG_GRENADE_LAYER, BigGrenadeEntityModel::getTexturedModelData);
@@ -165,6 +179,7 @@ public class MineCellsRenderers {
     EntityRendererRegistry.register(MineCellsEntities.MAGIC_ORB, MagicOrbEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.SCORPION_SPIT, ScorpionSpitEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, ConjunctiviusProjectileEntityRenderer::new);
+    EntityRendererRegistry.register(MineCellsEntities.CUSTOM_ARROW, CustomArrowEntityRenderer::new);
 
     EntityRendererRegistry.register(MineCellsEntities.ELEVATOR, ElevatorEntityRenderer::new);
     EntityRendererRegistry.register(MineCellsEntities.CELL, CellEntityRenderer::new);
@@ -179,6 +194,8 @@ public class MineCellsRenderers {
 
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("foggy"), new FoggyDimensionEffects());
     DimensionEffectsAccessor.getIdentifierMap().put(MineCells.createId("promenade"), new PromenadeDimensionEffects());
+
+    HandledScreens.register(MineCellsScreenHandlerTypes.CELL_FORGE_SCREEN_HANDLER, CellCrafterScreen::new);
   }
 
   public static void initBlocks() {
@@ -216,7 +233,8 @@ public class MineCellsRenderers {
       MineCellsBlocks.RUNIC_VINE,
       MineCellsBlocks.RUNIC_VINE_PLANT,
       MineCellsBlocks.UNBREAKABLE_CHAIN,
-//      MineCellsBlocks.CELL_FORGE,
+      MineCellsBlocks.CELL_CRAFTER,
+      MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_0,
       MineCellsBlocks.ALCHEMY_EQUIPMENT_2,
       MineCellsBlocks.PUTRID_WOOD.door,
@@ -252,6 +270,8 @@ public class MineCellsRenderers {
     BlockEntityRendererFactories.register(MineCellsBlockEntities.DOORWAY, DoorwayPortalBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(MineCellsBlockEntities.RIFT, RiftBlockEntityRenderer::new);
 
+    BlockEntityRendererFactories.register(MineCellsBlockEntities.CELL_CRAFTER, ctx -> new CellCrafterBlockEntityRenderer());
+
     BlockEntityRendererFactories.register(MineCellsBlockEntities.SPAWNER_RUNE, SpawnerRuneRenderer.BlockEntity::new);
 
     ModelPredicateProviderRegistry.register(
@@ -259,6 +279,25 @@ public class MineCellsRenderers {
       new Identifier("blocking"),
       (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
+
+    ModelPredicateProviderRegistry.register(
+      MineCellsItems.CELL_HOLDER,
+      MineCells.createId("cells"),
+      (stack, world, entity, seed) -> {
+        var nbt = stack.getNbt();
+        if (nbt == null) return 0f;
+
+        var cells = nbt.getInt("Cells");
+        if (cells > 128) return 1.0f;
+        if (cells > 64) return 0.75f;
+        if (cells > 0) return 0.5f;
+        return 0f;
+      }
+    );
+
+    MineCellsItems.BOWS.forEach(MineCellsRenderers::registerBowPredicate);
+    MineCellsItems.CROSSBOWS.forEach(MineCellsRenderers::registerCrossbowPredicate);
+    MineCellsItems.SHIELDS.forEach(MineCellsRenderers::registerShieldPredicate);
 
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
@@ -300,6 +339,76 @@ public class MineCellsRenderers {
           }
         }
       })
+    );
+
+
+    // Actual feature renderers:
+
+    final var iceTexture = new Identifier("textures/block/ice.png");
+
+    LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
+
+      ((entityType, entityRenderer, registrationHelper, context) -> {
+
+        //noinspection unchecked
+        registrationHelper.register(ModelOverlayFeatureRenderer.of(
+          (entity) -> ((LivingEntityAccessor) entity).getMineCellsFlag(MineCellsEffectFlags.FROZEN),
+          (entity, vertexConsumers) -> ModelOverlayVertexConsumer
+            .of(vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(iceTexture)))
+            .offset(2.0322f)
+            .skipPlanes(),
+          true
+        ).apply((FeatureRendererContext<LivingEntity, EntityModel<LivingEntity>>) entityRenderer));
+      })
+    );
+  }
+
+  private static void registerBowPredicate(CustomBowItem item) {
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("pulling"), (stack, world, entity, seed) ->
+      entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
+    );
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("pull"), (stack, world, entity, seed) -> {
+      if (entity == null) {
+        return 0.0F;
+      } else {
+        var stackItem = (CustomBowItem) stack.getItem();
+        return entity.getActiveItem() != stack
+          ? 0.0F
+          : (float) entity.getItemUseTime() / stackItem.getDrawTime(entity, stack);
+      }
+    });
+  }
+
+  private static void registerCrossbowPredicate(CustomCrossbowItem item) {
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("pull"), (stack, world, entity, seed) -> {
+      if (entity == null) {
+        return 0.0F;
+      } else {
+        var stackItem = (CustomCrossbowItem) stack.getItem();
+        return CrossbowItem.isCharged(stack)
+          ? 0.0F
+          : (float) entity.getItemUseTime() / stackItem.getDrawTime(entity, stack);
+      }
+    });
+
+    ModelPredicateProviderRegistry.register(
+      item,
+      MineCells.createId("pulling"),
+      (stack, world, entity, seed) -> entity != null
+        && entity.isUsingItem()
+        && entity.getActiveItem() == stack
+        && !CrossbowItem.isCharged(stack) ? 1.0F : 0.0F);
+
+    ModelPredicateProviderRegistry.register(
+      item,
+      MineCells.createId("charged"),
+      (stack, world, entity, seed) -> CrossbowItem.isCharged(stack) ? 1.0F : 0.0F
+    );
+  }
+
+  private static void registerShieldPredicate(Item item) {
+    ModelPredicateProviderRegistry.register(item, MineCells.createId("blocking"), (stack, world, entity, seed) ->
+      entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
   }
 }

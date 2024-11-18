@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "OTO",
+    "CCC"
+  ],
+  "key": {
+    "B": { "item": "minecraft:writable_book" },
+    "T": { "item": "minecraft:crafting_table" },
+    "O": { "item": "minecells:monster_cell" },
+    "C": { "item": "minecraft:copper_ingot" }
+  },
+  "result": {
+    "item": "minecells:cell_crafter"
+  }
+}

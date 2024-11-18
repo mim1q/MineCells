@@ -80,7 +80,9 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Inject(method = {"requestTeleport", "requestTeleportAndDismount"}, at = @At("HEAD"), cancellable = true)
   private void minecells$cancelRequestTeleport(double destX, double destY, double destZ, CallbackInfo ci) {
-    if (((MineCellsBorderEntity) this).getMineCellsBorder().getDistanceInsideBorder(destX, destZ) < 2.0D) {
+    if (MineCellsDimension.isMineCellsDimension(this.getWorld())
+      && ((MineCellsBorderEntity) this).getMineCellsBorder().getDistanceInsideBorder(destX, destZ) < 2.0D
+    ) {
       ci.cancel();
     }
   }

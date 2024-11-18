@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecells:buzzcutter_fang"
+    }
+  ],
+  "result": {
+    "item": "minecraft:bone",
+    "count": 4
+  }
+}

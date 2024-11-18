@@ -1,16 +1,11 @@
 {
   "pools": [
     {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecells:flint"
-        }
-      ]
+      "rolls": { "min": 16, "max": 32 },
+      "entries": [{ "type": "minecraft:item", "name": "minecells:monster_cell" }]
     },
     {
-      "rolls": 32,
+      "rolls": 24,
       "entries": [
         {
           "type": "minecraft:item",

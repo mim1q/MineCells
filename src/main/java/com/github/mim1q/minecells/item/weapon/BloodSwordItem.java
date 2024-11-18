@@ -1,38 +1,18 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.effect.BleedingStatusEffect;
-import com.github.mim1q.minecells.util.TextUtils;
-import net.minecraft.client.item.TooltipContext;
+import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class BloodSwordItem extends SwordItem {
-  public BloodSwordItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
+public class BloodSwordItem extends CustomMeleeWeapon {
+  public BloodSwordItem(Settings settings) {
+    super("blood_sword", settings);
   }
 
   @Override
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-    if (attacker instanceof ServerPlayerEntity player) {
-      if (!player.getItemCooldownManager().isCoolingDown(this)) {
-        player.getItemCooldownManager().set(this, 20);
-        BleedingStatusEffect.apply(target, 20 * 5);
-      }
-    }
+    BleedingStatusEffect.apply(target, 20 * 5);
     return super.postHit(stack, target, attacker);
-  }
-
-  @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    TextUtils.addDescription(tooltip, "item.minecells.blood_sword.description");
   }
 }

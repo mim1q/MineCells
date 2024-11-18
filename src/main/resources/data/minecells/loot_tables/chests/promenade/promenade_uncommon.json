@@ -69,13 +69,13 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/promenade/promenade_weapons"
+          "name": "minecells:chests/special/all_weapons"
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:random_chance",
-          "chance": 0.25
+          "chance": 0.1
         }
       ]
     },

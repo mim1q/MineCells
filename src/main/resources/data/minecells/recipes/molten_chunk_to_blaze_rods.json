@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  A",
+    " M ",
+    "M  "
+  ],
+  "key": {
+    "A": { "item": "minecells:arcane_goo" },
+    "M": { "item": "minecells:molten_chunk" }
+  },
+  "result": {
+    "item": "minecraft:blaze_rod",
+    "count": 4
+  }
+}

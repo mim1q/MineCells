@@ -10,12 +10,12 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,14 +33,18 @@ public abstract class EntityFallResetMixin {
   @Shadow public abstract ChunkPos getChunkPos();
   @Shadow public abstract BlockPos getBlockPos();
   @Shadow public abstract void teleport(double destX, double destY, double destZ);
+
   @Shadow public float fallDistance;
+
   @Shadow public abstract boolean damage(DamageSource source, float amount);
   @Shadow public abstract void setVelocity(Vec3d velocity);
   @Shadow public abstract EntityType<?> getType();
   @Shadow public abstract double getX();
   @Shadow public abstract float getYaw(float tickDelta);
   @Shadow public abstract double getZ();
+
   @Shadow public int age;
+
   @Shadow public abstract void discard();
   @Shadow public abstract boolean isPlayer();
   @Shadow public abstract Text getName();
@@ -85,14 +89,14 @@ public abstract class EntityFallResetMixin {
       return;
     }
 
-    if (
-      getWorld().isClient
-        || MineCells.COMMON_CONFIG.disableFallProtection
-        || this.age < 10
-        || fallResetY == null
-        || (((Entity) (Object) this) instanceof PlayerEntity player && (
-        player.isCreative() || player.isSpectator())
-      )) {
+    //noinspection ConstantValue
+    if (getWorld().isClient
+      || MineCells.COMMON_CONFIG.disableFallProtection()
+      || this.age < 10
+      || this.age % 2 == 0
+      || fallResetY == null
+      || (((Entity) (Object) this) instanceof PlayerEntity player && (player.isCreative() || player.isSpectator()))
+    ) {
       return;
     }
 
@@ -115,6 +119,7 @@ public abstract class EntityFallResetMixin {
         fallDistance = 0.0f;
         return;
       }
+      //noinspection DataFlowIssue
       if ((Entity) (Object) this instanceof HostileEntity) {
         damage(getWorld().getDamageSources().fall(), 100.0F);
         return;
@@ -130,6 +135,8 @@ public abstract class EntityFallResetMixin {
           getBlockPos().toShortString(),
           getWorld().getRegistryKey().getValue()
         );
+
+        minecells$grantAdvancementCriterion();
       }
 
       this.teleport(tpPos.getX() + 0.5, tpPos.getY() + 0.5, tpPos.getZ() + 0.5);
@@ -144,26 +151,43 @@ public abstract class EntityFallResetMixin {
     }
   }
 
+  @SuppressWarnings("DataFlowIssue")
+  @Unique
+  private void minecells$grantAdvancementCriterion() {
+    var server = getWorld().getServer();
+    if (server == null) return;
+
+    var advancement = server.getAdvancementLoader().get(MineCells.createId("unlock/fall_from_the_ramparts"));
+    if (advancement == null) return;
+
+    var tracker = ((ServerPlayerEntity) (Object) this).getAdvancementTracker();
+    tracker.grantCriterion(advancement, "teleported_up");
+  }
+
   @Unique
   private BlockPos minecells$getResetToPos() {
-    BlockPos resetToPos = null;
-    if (lastSolidBlock != null && lastSolidBlock.isWithinDistance(getBlockPos().withY(lastSolidBlock.getY()), 32)) {
-      resetToPos = lastSolidBlock.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, lastSolidBlock.getX(), lastSolidBlock.getZ()));
-    }
-    if (resetToPos == null || resetToPos.getY() < fallResetY) {
-      var pos = this.getChunkPos().getBlockPos(8, 0, 8);
-      for (var offset : BlockPos.iterateOutwards(BlockPos.ORIGIN, 3, 0, 3)) {
-        var checkedPos = pos.add(offset.multiply(16));
-        checkedPos = checkedPos.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, checkedPos.getX(), checkedPos.getZ()));
-        if (checkedPos.getY() > fallResetY) {
-          resetToPos = checkedPos;
-        }
-      }
-    }
-    if (resetToPos == null || resetToPos.getY() < fallResetY) {
-      resetToPos = BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
-    }
+    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
 
-    return resetToPos;
+    // Intended behavior disabled for now due to some bugs
+
+    // BlockPos resetToPos = null;
+    // if (lastSolidBlock != null && lastSolidBlock.isWithinDistance(getBlockPos().withY(lastSolidBlock.getY()), 32)) {
+    //   resetToPos = lastSolidBlock.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, lastSolidBlock.getX(), lastSolidBlock.getZ()));
+    // }
+    // if (resetToPos == null || resetToPos.getY() < fallResetY) {
+    //   var pos = this.getChunkPos().getBlockPos(8, 0, 8);
+    //   for (var offset : BlockPos.iterateOutwards(BlockPos.ORIGIN, 3, 0, 3)) {
+    //     var checkedPos = pos.add(offset.multiply(16));
+    //     checkedPos = checkedPos.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, checkedPos.getX(), checkedPos.getZ()));
+    //     if (checkedPos.getY() > fallResetY) {
+    //       resetToPos = checkedPos;
+    //     }
+    //   }
+    // }
+    // if (resetToPos == null || resetToPos.getY() < fallResetY) {
+    //   resetToPos = BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
+    // }
+
+    // return resetToPos;
   }
 }

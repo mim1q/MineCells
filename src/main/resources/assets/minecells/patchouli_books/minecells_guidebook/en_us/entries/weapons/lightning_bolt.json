@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_10_inquisitors",
+  "name": "item.minecells.lightning_bolt",
+  "category": "minecells:weapons",
+  "icon": "minecells:lightning_bolt",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:lightning_bolt"
+      },
+      "text": "book.minecells.entries.weapons.lightning_bolt"
+    }
+  ]
+}

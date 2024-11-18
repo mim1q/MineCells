@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 80,
+  "advancement": "minecells:unlock/kill_15_undead_archers",
+  "input": {
+    "minecraft:stick": 3,
+    "minecraft:string": 3,
+    "minecraft:gold_ingot": 4,
+    "minecells:cell_infused_steel": 4
+  },
+  "output": {
+    "id": "minecells:infantry_bow",
+    "Count": 1
+  }
+}

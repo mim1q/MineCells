@@ -2,64 +2,79 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ConjunctiviusProjectileEntity extends MagicOrbEntity {
-  public ConjunctiviusProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
+  private float damage = 8f;
+
+  public ConjunctiviusProjectileEntity(World world, ConjunctiviusEntity owner) {
+    super(MineCellsEntities.CONJUNCTIVIUS_PROJECTILE, world, owner);
+  }
+
+  public ConjunctiviusProjectileEntity(EntityType<? extends ConjunctiviusProjectileEntity> entityType, World world) {
     super(entityType, world);
   }
 
   @Override
   public void tick() {
-    this.updateRotation();
     super.tick();
-    if (!getWorld().isClient() && getWorld().getBlockCollisions(this, this.getBoundingBox()).iterator().hasNext()) {
-      this.kill();
-    }
-  }
-
-  public void updateRotation() {
-    double e = this.getVelocity().x;
-    double f = this.getVelocity().y;
-    double g = this.getVelocity().z;
-    double l = this.getVelocity().horizontalLength();
-    this.setYaw((float) (-MathHelper.atan2(e, g) * MathHelper.DEGREES_PER_RADIAN));
-    this.setPitch((float) (-MathHelper.atan2(f, l) * MathHelper.DEGREES_PER_RADIAN));
   }
 
   public static void spawn(World world, Vec3d pos, Vec3d target, ConjunctiviusEntity owner) {
-    ConjunctiviusProjectileEntity projectile = MineCellsEntities.CONJUNCTIVIUS_PROJECTILE.create(world);
-    if (projectile != null) {
-      projectile.setPosition(pos);
-      projectile.setVelocity(target.subtract(pos).normalize());
-      projectile.updateRotation();
-      projectile.setOwner(owner);
-      world.spawnEntity(projectile);
-    }
+    var velocity = target.subtract(pos).normalize();
+    ConjunctiviusProjectileEntity projectile = new ConjunctiviusProjectileEntity(world, owner);
+    projectile.updatePosition(pos.x, pos.y, pos.z);
+    projectile.setVelocity(velocity.multiply(1.2D));
+    projectile.damage = owner.getDamage(1f);
+
+    world.spawnEntity(projectile);
   }
 
   @Override
-  protected float getDamage() {
-    if (this.getOwner() instanceof ConjunctiviusEntity owner) {
-      return owner.getDamage(1f);
-    }
-    return 8.0f;
+  public float getDamage() {
+    return this.damage;
   }
 
   @Override
   protected void spawnParticles() {
+    var inverseVelocity = getVelocity().multiply(-0.4 - random.nextDouble() * 0.2);
+    getWorld().addParticle(
+      MineCellsParticles.SPECKLE.get(0x00FF40),
+      this.prevX + (random.nextDouble() - 0.5) * 0.25,
+      this.prevY + getHeight() / 2.0 + (random.nextDouble() - 0.5) * 0.25,
+      this.prevZ + (random.nextDouble() - 0.5) * 0.25,
+      inverseVelocity.x,
+      inverseVelocity.y,
+      inverseVelocity.z
+    );
 
+    if (random.nextFloat() < 0.2) {
+      getWorld().addParticle(
+        MineCellsParticles.ELECTRICITY.get(getRotationVector().multiply(-1), 3, 0x00FF40, 0.25f),
+        prevX,
+        prevY  + getHeight() / 2.0,
+        prevZ,
+        getVelocity().x,
+        getVelocity().y,
+        getVelocity().z
+      );
+    }
   }
 
   @Override
-  public void onSpawnPacket(EntitySpawnS2CPacket packet) {
-    super.onSpawnPacket(packet);
-    this.setVelocity(packet.getVelocityX(), packet.getVelocityY(), packet.getVelocityZ());
-    this.updateRotation();
+  protected void readCustomDataFromNbt(NbtCompound nbt) {
+    super.readCustomDataFromNbt(nbt);
+    if (nbt.contains("damage"))
+      this.damage = nbt.getFloat("damage");
+  }
+
+  @Override
+  protected void writeCustomDataToNbt(NbtCompound nbt) {
+    super.writeCustomDataToNbt(nbt);
+    nbt.putFloat("damage", this.damage);
   }
 }

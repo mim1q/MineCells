@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 60,
+  "input": {
+    "minecells:cell_infused_steel": 4,
+    "minecraft:gold_block": 3
+  },
+  "output": {
+    "id": "minecells:greed_shield",
+    "Count": 1
+  }
+}

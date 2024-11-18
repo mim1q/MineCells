@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 101,
+  "category": "other",
+  "advancement": "minecells:unlock/have_64_cells",
+  "input": {
+    "minecraft:glass": 8,
+    "minecells:cell_infused_steel": 4,
+    "minecells:arcane_goo": 1
+  },
+  "output": {
+    "id": "minecells:cell_holder",
+    "Count": 1
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 80,
+  "advancement": "minecells:unlock/kill_50_undead_archers",
+  "input": {
+    "minecraft:stick": 3,
+    "minecraft:string": 3,
+    "minecraft:packed_ice": 5,
+    "minecells:monster_cell": 12
+  },
+  "output": {
+    "id": "minecells:ice_bow",
+    "Count": 1
+  }
+}

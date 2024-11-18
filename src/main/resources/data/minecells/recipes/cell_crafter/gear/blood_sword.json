@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 90,
+  "advancement": "minecells:unlock/kill_a_leaping_zombie",
+  "input": {
+    "minecraft:stick": 1,
+    "minecells:blood_bottle": 5,
+    "minecells:cell_infused_steel": 4
+  },
+  "output": {
+    "id": "minecells:blood_sword",
+    "Count": 1
+  }
+}

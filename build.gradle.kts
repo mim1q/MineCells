@@ -24,9 +24,11 @@ version = ModData.VERSION
 
 repositories {
   mavenCentral()
-  maven("https://jitpack.io")
-  maven("https://maven.shedaniel.me/")
-  maven("https://maven.terraformersmc.com/releases/")
+  maven("https://maven.mim1q.dev") // Gimm1q
+  maven("https://redempt.dev") // Crunch in Gimm1q
+  maven("https://maven.shedaniel.me")
+  maven("https://maven.architectury.dev")
+  maven("https://maven.terraformersmc.com/releases")
   maven("https://maven.wispforest.io")
   maven("https://maven.blamejared.com") // Patchouli
 }
@@ -39,16 +41,19 @@ dependencies {
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
 
-  include("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
-  modImplementation("com.github.Draylar.omega-config:omega-config-base:${Versions.OMEGA_CONFIG}")
-
-  modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")
+  annotationProcessor(modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")!!)
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
 
   modImplementation("vazkii.patchouli:Patchouli:${Versions.PATCHOULI}")
+
+  modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
+  modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
+
+  include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
+
+  modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
 }
 
-@Suppress("UnstableApiUsage")
 tasks {
   withType<ProcessResources> {
     inputs.property("version", ModData.VERSION)
@@ -87,9 +92,9 @@ val secretsFile = rootProject.file("publishing.properties")
 val secrets = Secrets(secretsFile)
 
 val remapJar = tasks.getByName("remapJar") as RemapJarTask
-val newVersionName = "${ModData.ID}-${ModData.mcVersions[0]}-${ModData.VERSION}"
+val newVersionName = "${ModData.ID}-${ModData.VERSION}+${ModData.mcVersions[0]}"
 val newChangelog = try {
-  rootProject.file("changelogs/${ModData.mcVersions[0]}-${ModData.VERSION}.md").readText()
+  rootProject.file("changelogs/${ModData.VERSION}+${ModData.mcVersions[0]}.md").readText()
 } catch (_: FileNotFoundException) {
   println("No changelog found")
   ""
@@ -138,6 +143,9 @@ if (secrets.isCurseforgeReady()) {
   project.afterEvaluate {
     tasks.getByName<CurseUploadTask>("curseforge${secrets.curseforgeId}") {
       dependsOn(remapJar)
+    }
+    tasks.getByName("modrinth") {
+      dependsOn("optimizeOutputsOfRemapJar")
     }
   }
 }

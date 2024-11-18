@@ -1,0 +1,35 @@
+{
+  "criteria": {
+    "fall_down": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "position": {
+                  "y": {
+                    "min": 0,
+                    "max": 190
+                  }
+                },
+                "dimension": "minecells:ramparts"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "teleported_up": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "fall_down",
+      "teleported_up"
+    ]
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "variables": {},
+  "equations": {
+    "damage": 5.0,
+    "speed": 1.9,
+    "crit_damage": 4.0
+  }
+}

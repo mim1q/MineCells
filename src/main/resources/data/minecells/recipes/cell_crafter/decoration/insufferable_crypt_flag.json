@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "decoration",
+  "advancement": "minecells:insufferable_crypt",
+  "input": {
+    "minecraft:stick": 1,
+    "minecraft:green_wool": 2
+  },
+  "output": {
+    "id": "minecells:insufferable_crypt_flag",
+    "Count": 1
+  }
+}

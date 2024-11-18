@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:promenade",
+  "name": "item.minecells.assault_shield",
+  "category": "minecells:weapons",
+  "icon": "minecells:assault_shield",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:assault_shield"
+      },
+      "text": "book.minecells.entries.weapons.assault_shield"
+    }
+  ]
+}

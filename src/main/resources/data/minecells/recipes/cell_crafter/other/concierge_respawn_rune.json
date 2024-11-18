@@ -1,0 +1,17 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 100,
+  "category": "other",
+  "advancement": "minecells:black_bridge",
+  "input": {
+    "minecells:cell_infused_steel": 16,
+    "minecraft:flint": 8,
+    "minecells:infected_flesh": 16,
+    "minecells:guts": 12,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:concierge_respawn_rune",
+    "Count": 1
+  }
+}

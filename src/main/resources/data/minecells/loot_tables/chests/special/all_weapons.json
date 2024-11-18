@@ -1,0 +1,24 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "minecells:chests/special/melee_weapons",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "minecells:chests/special/ranged_weapons",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "minecells:chests/special/shields",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

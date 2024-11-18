@@ -1,0 +1,9 @@
+{
+  "variables": {},
+  "equations": {
+    "damage": 5.0,
+    "draw_time": 0.3,
+    "speed": 2.2,
+    "spread": 3.0
+  }
+}

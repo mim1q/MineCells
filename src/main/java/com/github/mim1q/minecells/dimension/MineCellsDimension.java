@@ -135,6 +135,14 @@ public enum MineCellsDimension {
     };
   }
 
+  public int getDimensionLevel() {
+    return switch (this) {
+      case PROMENADE_OF_THE_CONDEMNED -> 1;
+      case RAMPARTS -> 2;
+      default -> 0;
+    };
+  }
+
   public MusicSound getMusic() {
     return switch (this) {
       case PRISONERS_QUARTERS -> MineCellsSounds.PRISONERS_QUARTERS;

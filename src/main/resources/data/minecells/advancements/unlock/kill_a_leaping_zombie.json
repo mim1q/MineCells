@@ -1,0 +1,19 @@
+{
+  "criteria": {
+    "leaping_zombie_killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": [],
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecells:leaping_zombie"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

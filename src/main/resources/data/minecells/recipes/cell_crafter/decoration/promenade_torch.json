@@ -1,0 +1,14 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 80,
+  "category": "decoration",
+  "advancement": "minecells:promenade",
+  "input": {
+    "minecraft:torch": 8,
+    "minecraft:yellow_dye": 1
+  },
+  "output": {
+    "id": "minecells:promenade_torch",
+    "Count": 8
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:unlock/kill_30_shieldbearers",
+  "name": "item.minecells.bloodthirsty_shield",
+  "category": "minecells:weapons",
+  "icon": "minecells:bloodthirsty_shield",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:bloodthirsty_shield"
+      },
+      "text": "book.minecells.entries.weapons.bloodthirsty_shield"
+    }
+  ]
+}

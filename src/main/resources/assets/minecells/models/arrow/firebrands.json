@@ -1,0 +1,45 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "minecells:item/arrow_entity/firebrands",
+		"particle": "minecells:item/arrow_entity/firebrands"
+	},
+	"elements": [
+		{
+			"from": [7, 7, 0],
+			"to": [9, 9, 3],
+			"faces": {
+				"north": {"uv": [12, 12, 14, 14], "texture": "#0"},
+				"east": {"uv": [14, 14, 11, 16], "texture": "#0"},
+				"south": {"uv": [14, 11, 16, 13], "texture": "#0"},
+				"west": {"uv": [11, 14, 14, 16], "texture": "#0"},
+				"up": {"uv": [14, 13, 16, 16], "texture": "#0"},
+				"down": {"uv": [14, 16, 16, 13], "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 8, 0],
+			"to": [8, 16, 12],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 8], "texture": "#0"},
+				"east": {"uv": [12, 0, 0, 8], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 8], "texture": "#0"},
+				"west": {"uv": [0, 0, 12, 8], "texture": "#0"},
+				"up": {"uv": [0, 0, 0, 12], "texture": "#0"},
+				"down": {"uv": [0, 0, 0, 12], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.5, 7.5, 3],
+			"to": [8.5, 8.5, 11],
+			"faces": {
+				"north": {"uv": [0, 15, 1, 16], "texture": "#0"},
+				"east": {"uv": [8, 15, 0, 16], "texture": "#0"},
+				"south": {"uv": [7, 15, 8, 16], "texture": "#0"},
+				"west": {"uv": [0, 15, 8, 16], "texture": "#0"},
+				"up": {"uv": [0, 15, 8, 16], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [8, 15, 0, 16], "rotation": 90, "texture": "#0"}
+			}
+		}
+	]
+}

@@ -1,15 +1,20 @@
 package datagen.custom
 
+import com.google.gson.JsonArray
 import tada.lib.presets.Preset
 import tada.lib.presets.common.CommonModelPresets
 import tada.lib.resources.model.ParentedModel
+import tada.lib.util.json
 
 object ModItemModels {
   fun generated() = Preset {
     listOf(
-      "cage", "broken_cage", "blank_rune", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
-      "ancient_sewage_bucket", "phaser", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
+      "cage", "broken_cage", "conjunctivius_respawn_rune", "vine_rune", "guts", "monsters_eye", "sewage_bucket",
+      "ancient_sewage_bucket", "health_flask", "king_statue", "barrier_rune", "elevator_mechanism",
       "reset_rune", "concierge_respawn_rune", "monster_cell", "boss_stem_cell", "arrow_sign", "guidebook",
+      "electric_whip", "throwing_knife", "firebrands", "explosive_bolt", "ice_arrow", "explosive_bulb", "infected_flesh",
+      "cell_infused_steel", "metal_shards", "buzzcutter_fang", "molten_chunk", "sewer_calamari", "cooked_sewer_calamari",
+      "transposition_core", "blood_bottle", "arcane_goo", "cell_holder/1", "cell_holder/2", "cell_holder/3",
     ).forEach {
       if (it.startsWith("block/")) {
         add(CommonModelPresets.generatedItemModel("minecells:${it.removePrefix("block/")}", "block"))
@@ -19,11 +24,12 @@ object ModItemModels {
     }
     add("solid_barrier_rune", ParentedModel.item("minecells:item/barrier_rune"))
     add("unbreakable_chain", ParentedModel.item("minecraft:item/chain"))
+    add("weapon/phaser", ParentedModel.item("minecraft:item/generated").texture("layer0", "minecells:item/phaser"))
   }
 
   fun handheld() = Preset {
     listOf("assassins_dagger", "cursed_sword", "tentacle").forEach {
-      add(it, ParentedModel.item("minecraft:item/handheld") {
+      add("weapon/$it", ParentedModel.item("minecraft:item/handheld") {
         texture("layer0", "minecells:item/$it")
       })
     }
@@ -53,5 +59,85 @@ object ModItemModels {
     Constants.MINECELLS_DIMENSIONS.forEach {
       add("${it}_dimensional_rune", ParentedModel.item("minecells:item/dimensional_rune"))
     }
+  }
+
+  fun bows() = Preset {
+    Constants.BOWS.forEach {
+      add(it, ParentedModel.item("minecells:item/base_bow") {
+        texture("layer0", "minecells:item/bow/$it")
+      }.postProcess {
+        val overrides = JsonArray().apply {
+          add(json {
+            "predicate" { "minecells:pulling" to 1 }
+            "model" to "minecells:item/${it}_pulling_0"
+          })
+          add(json {
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 0.5 }
+            "model" to "minecells:item/${it}_pulling_1"
+          })
+          add(json {
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 1.0 }
+            "model" to "minecells:item/${it}_pulling_2"
+          })
+        }
+        add("overrides", overrides)
+      })
+
+      for (i in 0 until 3) {
+        add("${it}_pulling_$i", ParentedModel.item("minecells:item/base_bow") {
+          texture("layer0", "minecells:item/bow/${it}_pulling_$i")
+        })
+      }
+    }
+  }
+
+  fun crossbows() = Preset {
+    Constants.CROSSBOWS.forEach {
+      add(it, ParentedModel.item("minecells:item/base_crossbow") {
+        texture("layer0", "minecells:item/bow/$it")
+      }.postProcess {
+        val overrides = JsonArray().apply {
+          add(json {
+            "predicate" { "minecells:pulling" to 1 }
+            "model" to "minecells:item/${it}_pulling_0"
+          })
+          add(json {
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 0.5 }
+            "model" to "minecells:item/${it}_pulling_1"
+          })
+          add(json {
+            "predicate" { "minecells:pulling" to 1; "minecells:pull" to 1.0 }
+            "model" to "minecells:item/${it}_pulling_2"
+          })
+          add(json {
+            "predicate" { "minecells:charged" to 1 }
+            "model" to "minecells:item/${it}_charged"
+          })
+        }
+        add("overrides", overrides)
+      })
+
+      for (i in 0 until 3) {
+        add("${it}_pulling_$i", ParentedModel.item("minecells:item/base_crossbow") {
+          texture("layer0", "minecells:item/bow/${it}_pulling_$i")
+        })
+      }
+      add("${it}_charged", ParentedModel.item("minecells:item/base_crossbow_charged") {
+        texture("layer0", "minecells:item/bow/${it}_pulling_2")
+      })
+    }
+  }
+
+  fun shields() = Preset {
+    Constants.SHIELDS.forEach {
+      add(it, ParentedModel.item("minecraft:item/generated").texture("layer0", "minecells:item/shield/$it"))
+    }
+  }
+
+  fun weaponCopies() = Preset {
+    Constants.MELEE_AND_SKILLS.forEach {
+      add(it, ParentedModel.item("minecells:item/weapon/$it"))
+    }
+    add("lightning_bolt", ParentedModel.item("minecells:item/weapon/lightning_bolt"))
   }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 80,
+  "category": "decoration",
+  "input": {
+    "minecraft:torch": 8,
+    "minecraft:lime_dye": 1
+  },
+  "output": {
+    "id": "minecells:prison_torch",
+    "Count": 8
+  }
+}

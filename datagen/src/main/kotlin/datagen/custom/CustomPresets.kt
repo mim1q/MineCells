@@ -78,34 +78,54 @@ object CustomPresets {
     TagManager.add("minecraft:mineable/axe", id)
   }
 
+  fun coloredFlags(color: String) = Preset {
+    add(flag("minecells:${color}_ribbon_flag"))
+    add(flag("minecells:large_${color}_ribbon_flag"))
+
+    add(CustomHardcodedPresets.cellCrafterRecipe(
+      "${color}_ribbon_flag",
+      91,
+      "decoration",
+      listOf(
+        "minecraft:stick" to 1,
+        "minecraft:${color}_wool" to 2
+      ),
+      "minecells:${color}_ribbon_flag" to 1,
+    ))
+
+    add(CustomHardcodedPresets.cellCrafterRecipe(
+      "large_${color}_ribbon_flag",
+      90,
+      "decoration",
+      listOf(
+        "minecraft:stick" to 1,
+        "minecraft:${color}_wool" to 5
+      ),
+      "minecells:large_${color}_ribbon_flag" to 1,
+    ))
+  }
+
   fun customRecipes() = Preset {
+    //region Stone duplication
+    add("prison_stone_duplication", CraftingRecipe.shaped("minecells:prison_stone", 4) {
+      pattern("SP")
+      pattern("PS")
+      key("P", "minecells:prison_stone")
+      key("S", "minecraft:stone")
+    })
+    add("bloomrock_duplication", CraftingRecipe.shaped("minecells:bloomrock", 4) {
+      pattern("SB")
+      pattern("BS")
+      key("B", "minecells:bloomrock")
+      key("S", "minecraft:stone")
+    })
+    //endregion
+
     add(CommonRecipePresets.packed3x3("minecells:putrid_planks", "minecells:putrid_board_block", 9))
     add("putrid_boards", CraftingRecipe.shaped("minecells:putrid_boards", 12) {
       pattern("XXX")
       pattern("XXX")
       key("X", "minecells:putrid_board_block")
-    })
-    add("reset_rune", CraftingRecipe.shapeless("minecells:reset_rune") {
-      ingredient("minecells:blank_rune")
-      ingredient("minecraft:clock")
-      ingredient("minecraft:emerald")
-      ingredient("minecraft:emerald")
-      ingredient("minecraft:emerald")
-      ingredient("minecraft:emerald")
-      ingredient("minecells:monsters_eye")
-      ingredient("minecells:monsters_eye")
-      ingredient("minecells:monsters_eye")
-    })
-    add("concierge_respawn_rune", CraftingRecipe.shapeless("minecells:concierge_respawn_rune") {
-      ingredient("minecraft:flint")
-      ingredient("minecraft:flint_and_steel")
-      ingredient("minecraft:flint")
-      ingredient("minecells:monsters_eye")
-      ingredient("minecells:blank_rune")
-      ingredient("minecells:guts")
-      ingredient("minecraft:iron_ingot")
-      ingredient("minecraft:iron_ingot")
-      ingredient("minecraft:iron_ingot")
     })
     add("prison_doorway", CraftingRecipe.shaped("minecells:prison_doorway") {
       pattern("BBB")
@@ -123,7 +143,7 @@ object CustomPresets {
       key("S", "minecraft:stick")
     })
     add("cracked_prison_bricks", SmeltingRecipe.create("minecells:prison_bricks", "minecells:cracked_prison_bricks"))
-    add(dimensionalRuneRecipes())
+//    add(dimensionalRuneRecipes())
     add("arrow_sign", CraftingRecipe.shaped("minecells:arrow_sign", 4) {
       pattern("PPS")
       pattern("PPS")
@@ -144,7 +164,8 @@ object CustomPresets {
       key("C", "minecells:big_chain")
     })
     add(CommonRecipePresets.packed2x2("minecells:big_chain", "minecells:chain_pile_block", 2))
-
+    add("cooked_sewer_calamari", SmeltingRecipe.create("minecells:sewer_calamari", "minecells:cooked_sewer_calamari", 0.35))
+    add("cooked_sewer_calamari_smoking", SmeltingRecipe.smoking("minecells:sewer_calamari", "minecells:cooked_sewer_calamari", 0.35))
   }
 
   private fun dimensionalRuneRecipes() = Preset {

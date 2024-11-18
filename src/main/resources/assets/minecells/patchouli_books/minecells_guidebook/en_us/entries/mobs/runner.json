@@ -2,7 +2,7 @@
   "name": "entity.minecells.runner",
   "category": "minecells:mobs",
   "icon": "minecells:runner_spawn_egg",
-  "advancement": "minecells:unlock/mobs/runner",
+  "advancement": "minecells:book/mobs/runner",
   "pages": [
     {
       "type": "minecells:entity",

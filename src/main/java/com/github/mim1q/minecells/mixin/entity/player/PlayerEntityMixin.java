@@ -15,7 +15,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -104,17 +103,21 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     ordinal = 0
   )
   private float modifyDamage(float original, Entity target) {
-    ItemStack stack = this.getMainHandStack();
+    var stack = this.getMainHandStack();
+    var damage = original;
     if (stack.getItem() instanceof CrittingWeapon critWeapon
       && target instanceof LivingEntity livingTarget
-      && critWeapon.canCrit(stack, livingTarget, this)
     ) {
-      if (critWeapon.shouldPlayCritSound(stack, livingTarget, this)) {
-        getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+      damage += critWeapon.getExtraDamage(stack, livingTarget, this);
+
+      if (critWeapon.canCrit(stack, livingTarget, this)) {
+        if (critWeapon.shouldPlayCritSound(stack, livingTarget, this)) {
+          getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        }
+        damage += critWeapon.getAdditionalCritDamage(stack, livingTarget, this);
       }
-      return original + critWeapon.getAdditionalCritDamage(stack, livingTarget, this);
     }
-    return original;
+    return damage;
   }
 
   @Inject(method = "damage", at = @At("HEAD"))

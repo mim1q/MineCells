@@ -4,34 +4,15 @@
     {
       "rolls": 1,
       "entries": [
-        { "type": "minecraft:item", "weight": 5, "name": "minecells:assassins_dagger" },
-        { "type": "minecraft:item", "weight": 5, "name": "minecells:broadsword" },
-        { "type": "minecraft:item", "weight": 5, "name": "minecells:balanced_blade" },
-        { "type": "minecraft:item", "weight": 3, "name": "minecells:crowbar" },
-        { "type": "minecraft:item", "weight": 3, "name": "minecells:nutcracker" },
-        { "type": "minecraft:item", "weight": 2, "name": "minecells:hattoris_katana" },
-        { "type": "minecraft:item", "weight": 2, "name": "minecells:frost_blast" }
-      ],
-      "functions": [
         {
-          "function": "minecraft:enchant_with_levels",
-          "levels": {
-            "min": 6,
-            "max": 12
-          },
-          "treasure": true,
+          "type": "minecraft:loot_table",
+          "name": "minecells:chests/special/all_weapons",
           "conditions": [
             {
               "condition": "minecraft:random_chance",
-              "chance": 0.1
+              "chance": 0.075
             }
           ]
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:random_chance",
-          "chance": 0.2
         }
       ]
     },
@@ -153,3 +134,4 @@
     }
   ]
 }
+

@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 80,
+  "advancement": "minecells:unlock/fall_from_the_ramparts",
+  "input": {
+    "minecraft:stick": 3,
+    "minecraft:string": 3,
+    "minecraft:clock": 1,
+    "minecells:cell_infused_steel": 4
+  },
+  "output": {
+    "id": "minecells:nerves_of_steel",
+    "Count": 1
+  }
+}

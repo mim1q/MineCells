@@ -15,7 +15,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -158,14 +157,6 @@ public abstract class ObeliskEntity extends Entity {
     }
     user.sendMessage(Text.translatable("chat.minecells.obelisk_item_message", Text.translatable(this.getActivationItem().getTranslationKey())), true);
     return ActionResult.FAIL;
-  }
-
-  @Override
-  public boolean damage(DamageSource source, float amount) {
-    if (source.getName().equals("player") && source.getAttacker() instanceof PlayerEntity player) {
-      this.interact(player, Hand.MAIN_HAND);
-    }
-    return false;
   }
 
   protected boolean isEntityPresent() {

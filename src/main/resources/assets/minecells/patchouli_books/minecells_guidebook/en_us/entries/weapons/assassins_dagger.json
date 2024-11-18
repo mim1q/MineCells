@@ -1,4 +1,5 @@
 {
+  "advancement": "minecells:promenade",
   "name": "item.minecells.assassins_dagger",
   "category": "minecells:weapons",
   "icon": "minecells:assassins_dagger",

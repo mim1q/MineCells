@@ -2,7 +2,13 @@
   "type": "patchouli:shapeless_book_recipe",
   "ingredients": [
     { "item": "minecraft:book" },
-    { "item": "minecells:prison_bricks" }
+    { "item": "minecells:monster_cell" }
   ],
-  "book": "minecells:minecells_guidebook"
+  "book": "minecells:minecells_guidebook",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": ["patchouli"]
+    }
+  ]
 }

@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.particle.*;
 import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.particle.colored.ColoredParticleType;
+import com.github.mim1q.minecells.particle.electric.ElectricParticle;
+import com.github.mim1q.minecells.particle.electric.ElectricParticleType;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.FlameParticle;
@@ -20,6 +22,9 @@ public class MineCellsParticles {
   public static final DefaultParticleType FLY = FabricParticleTypes.simple();
   public static final ColoredParticleType SPECKLE = ColoredParticleType.create();
   public static final ColoredParticleType FALLING_LEAF = ColoredParticleType.create();
+  public static final ElectricParticleType ELECTRICITY = ElectricParticleType.create();
+  public static final ColoredParticleType DROP = ColoredParticleType.create();
+  public static final ColoredParticleType SMALL_DROP = ColoredParticleType.create();
 
   public static void init() {
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
@@ -29,6 +34,9 @@ public class MineCellsParticles {
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("fly"), FLY);
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("speckle"), SPECKLE);
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("falling_leaf"), FALLING_LEAF);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("electricity"), ELECTRICITY);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("drop"), DROP);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("small_drop"), SMALL_DROP);
   }
 
   public static void initClient() {
@@ -39,5 +47,8 @@ public class MineCellsParticles {
     ParticleFactoryRegistry.getInstance().register(FLY, FlyParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(SPECKLE, ColoredParticle.createFactory(SpeckleParticle::new));
     ParticleFactoryRegistry.getInstance().register(FALLING_LEAF, ColoredParticle.createFactory(FallingLeafParticle::new));
+    ParticleFactoryRegistry.getInstance().register(ELECTRICITY, ElectricParticle.Factory::new);
+    ParticleFactoryRegistry.getInstance().register(DROP, ColoredParticle.createFactory(DropParticle::new));
+    ParticleFactoryRegistry.getInstance().register(SMALL_DROP, ColoredParticle.createFactory(SmallDropParticle::new));
   }
 }

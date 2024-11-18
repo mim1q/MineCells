@@ -3,18 +3,11 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class ScorpionSpitEntity extends MagicOrbEntity {
@@ -30,25 +23,6 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
   public void tick() {
     super.tick();
     if (!getWorld().isClient() && this.horizontalCollision || this.verticalCollision) {
-      this.kill();
-    }
-  }
-
-  @Override
-  protected void onEntityHit(EntityHitResult entityHitResult) {
-    Entity entity = entityHitResult.getEntity();
-
-    if (entity instanceof PlayerEntity playerEntity) {
-      DamageSource damageSource = this.getOwner() == null
-        ? getDamageSources().magic()
-        : getDamageSources().indirectMagic(this, this.getOwner()
-      );
-      entity.damage(damageSource, 8.0F);
-      playerEntity.addStatusEffect(new StatusEffectInstance(
-        StatusEffects.POISON,
-        60 + 20 * (getWorld().getDifficulty().getId() - 1),
-        getWorld().getDifficulty() == Difficulty.HARD ? 1 : 0
-      ));
       this.kill();
     }
   }

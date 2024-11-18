@@ -190,6 +190,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
     if (
       damageSource.isIn(DamageTypeTags.IS_EXPLOSION)
       || damageSource.isOf(DamageTypes.OUT_OF_WORLD)
+      || damageSource.isOf(DamageTypes.GENERIC_KILL)
       || damageSource.isSourceCreativePlayer()
       || damageSource.isOf(DamageTypes.DRY_OUT)
     ) {

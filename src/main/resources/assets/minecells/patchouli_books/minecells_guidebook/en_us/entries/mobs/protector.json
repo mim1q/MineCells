@@ -2,7 +2,7 @@
   "name": "entity.minecells.protector",
   "category": "minecells:mobs",
   "icon": "minecells:protector_spawn_egg",
-  "advancement": "minecells:unlock/mobs/protector",
+  "advancement": "minecells:book/mobs/protector",
   "pages": [
     {
       "type": "minecells:entity",

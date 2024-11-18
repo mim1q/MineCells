@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 90,
+  "advancement": "minecells:unlock/kill_10_buzzcutters",
+  "input": {
+    "minecraft:stick": 1,
+    "minecells:cell_infused_steel": 6,
+    "minecells:buzzcutter_fang": 2,
+    "minecells:infected_flesh": 4
+  },
+  "output": {
+    "id": "minecells:spite_sword",
+    "Count": 1
+  }
+}

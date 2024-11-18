@@ -17,11 +17,11 @@
       "image": "#image",
       "x": 7,
       "y": 30,
-      "width": 512,
-      "height": 512,
-      "texture_width": 512,
-      "texture_height": 512,
-      "scale": 0.1953
+      "width": 256,
+      "height": 256,
+      "texture_width": 256,
+      "texture_height": 256,
+      "scale": 0.5
     },
     {
       "type": "patchouli:frame",

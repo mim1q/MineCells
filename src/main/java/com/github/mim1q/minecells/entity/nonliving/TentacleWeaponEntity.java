@@ -1,38 +1,37 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
-import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 public class TentacleWeaponEntity extends Entity {
-  public static final double BASE_LENGTH = 10.0F;
-
   private Vec3d startingPos;
-  private Vec3d targetPos;
   private PlayerEntity owner;
-  private Vec3d ownerVelocity = null;
+  private boolean pulling = false;
+  private ItemStack stack = ItemStack.EMPTY;
 
   private static final TrackedData<Boolean> RETRACTING = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+  private static final TrackedData<Vector3f> TARGET_POS = DataTracker.registerData(TentacleWeaponEntity.class, TrackedDataHandlerRegistry.VECTOR3F);
+
   private final AnimationProperty length = new AnimationProperty(0.0F, MathUtils::easeOutQuad);
 
   public TentacleWeaponEntity(EntityType<TentacleWeaponEntity> type, World world) {
@@ -40,21 +39,19 @@ public class TentacleWeaponEntity extends Entity {
     this.ignoreCameraFrustum = true;
   }
 
-  public static TentacleWeaponEntity create(World world, PlayerEntity owner) {
+  public static TentacleWeaponEntity create(World world, PlayerEntity owner, Vec3d targetPos, ItemStack stack) {
     TentacleWeaponEntity entity = MineCellsEntities.TENTACLE_WEAPON.create(world);
     if (entity == null) {
       return null;
     }
     entity.owner = owner;
     entity.setPos(owner.getX(), owner.getY() + 1.5D, owner.getZ());
-    entity.setVelocity(Vec3d.ZERO);
-    entity.setPitch(owner.getPitch());
-    entity.prevPitch = owner.getPitch();
-    entity.setYaw(owner.getYaw());
-    entity.prevYaw = owner.getYaw();
-    entity.startRiding(owner, true);
-    entity.targetPos = entity.getPos().add(entity.getRotationVector().multiply(BASE_LENGTH));
+    entity.setTargetPos(targetPos);
     entity.startingPos = entity.getPos();
+    entity.stack = stack.copy();
+
+    entity.startRiding(owner, true);
+
     return entity;
   }
 
@@ -67,10 +64,6 @@ public class TentacleWeaponEntity extends Entity {
       this.length.setupTransitionTo(1.0F, 10.0F);
     }
 
-    if (this.getVehicle() != null) {
-      this.targetPos = this.targetPos.add(this.getVehicle().getVelocity().multiply(0.25D));
-    }
-
     if (getWorld().isClient) {
       this.tickClient();
     } else {
@@ -78,80 +71,79 @@ public class TentacleWeaponEntity extends Entity {
     }
   }
 
-  public void tickClient() { }
+  public void tickClient() {
+  }
 
   public void tickServer() {
     if (this.owner == null || !this.hasVehicle()) {
       this.discard();
       return;
     }
+
     if (this.isRetracting()) {
-      if (this.ownerVelocity != null) {
+      var length = this.getLength(0.0F);
+      if (length >= 0.01F) {
         this.pullOwner();
       }
-      if (this.getLength(0.0f) <= 0.01F) {
+      this.owner.fallDistance = 0.0F;
+      if (length <= 0.01F && this.age > 30) {
         this.discard();
       }
-      return;
-    }
-    if (this.age > 10) {
-      this.owner.getItemCooldownManager().set(MineCellsItems.TENTACLE, 10);
-      this.setRetracting(true);
-    }
+    } else {
+      var entitiesHit = getWorld().getOtherEntities(
+        this,
+        Box.of(getEndPos(this.getLength(1.0F)), 0.75, 0.75, 0.75),
+        entity -> entity != this.owner
+      );
 
-    if (this.targetPos != null && this.startingPos != null) {
-      HitResult collision = this.getCollision();
-      if (collision.getType() != HitResult.Type.MISS) {
-        Vec3d pos = this.getEndPos(this.getLength(0.0F));
+      for (var entity : entitiesHit) {
+        if (!(entity instanceof LivingEntity)) continue;
+
         this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
+        var damage = TentacleItem.ABILITY_DAMAGE_CALCULATOR.calculate(
+          ValueCalculatorContext.create()
+            .with(ValueCalculatorParameter.HOLDER, this.owner)
+            .with(ValueCalculatorParameter.HOLDER_STACK, this.stack)
+            .with(ValueCalculatorParameter.TARGET, (LivingEntity) entity)
+        );
+        entity.damage(getWorld().getDamageSources().playerAttack(this.owner), (float) damage);
         this.setRetracting(true);
-        this.ownerVelocity = pos.subtract(this.owner.getPos()).multiply(0.15D).add(0.0D, 0.075D, 0.0D);
-        if (collision.getType() == HitResult.Type.ENTITY) {
-          Entity entity = ((EntityHitResult) collision).getEntity();
-          entity.damage(getDamageSources().playerAttack(this.owner), 1.0F);
+        this.pulling = true;
+        return;
+      }
+
+      if (this.getLength(1.0F) >= 0.99F) {
+        var targetBlockPos = BlockPos.ofFloored(getTargetPos());
+        var state = getWorld().getBlockState(targetBlockPos);
+        if (!state.getCollisionShape(getWorld(), targetBlockPos).isEmpty()) {
+          pulling = true;
+          this.playSound(MineCellsSounds.TENTACLE_RELEASE, 0.5F, 1.0F);
         }
+        this.setRetracting(true);
       }
     }
-  }
-
-  public HitResult getCollision() {
-    Vec3d pos = this.getEndPos(this.getLength(0.0F));
-    if (pos == null) {
-      return BlockHitResult.createMissed(Vec3d.ZERO, null, null);
-    }
-    var entity = getWorld().getOtherEntities(
-      this,
-      Box.of(pos, 1.0D, 1.0D, 1.0D),
-      e -> e != this.owner && e != this
-    ).stream().findFirst();
-    if (entity.isPresent()) {
-      return new EntityHitResult(entity.get());
-    }
-    if (getWorld().getBlockState(this.getBlockPos()).isSolidBlock(getWorld(), this.getBlockPos())) {
-      return new BlockHitResult(pos, null, this.getBlockPos(), false);
-    }
-    Vec3d minPos = this.getEndPos(this.getLength(0.0F));
-    Vec3d maxPos = this.getEndPos(this.getLength(1.0F));
-    return getWorld().raycast(new RaycastContext(minPos, maxPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
   }
 
   private void pullOwner() {
-    this.owner.setVelocity(this.ownerVelocity);
+    if (!this.pulling) return;
+
+    var ownerPos = this.owner.getPos();
+    var targetPos = this.getTargetPos().add(
+      0.0,
+      2.5,
+      0.0
+    );
+    var direction = targetPos.subtract(ownerPos).multiply(0.15);
+    this.owner.setVelocity(direction);
     this.owner.velocityModified = true;
-    this.owner.fallDistance = 0.0F;
   }
 
   public float getLength(float tickDelta) {
-    if (this.targetPos == null) {
-      return 0.0F;
-    }
-    this.length.update(this.age + tickDelta);
-    float progress = this.length.getValue();
-    return MathHelper.clamp(progress, 0.0F, 1.0F);
+    return this.length.update(this.age + tickDelta);
   }
 
   public Vec3d getEndPos(float length) {
-    return this.targetPos.subtract(this.startingPos).multiply(length).add(this.startingPos);
+    return this.getTargetPos().subtract(this.startingPos).multiply(length).add(this.startingPos);
   }
 
   public Vec3d getStartingPos() {
@@ -161,6 +153,16 @@ public class TentacleWeaponEntity extends Entity {
   @Override
   protected void initDataTracker() {
     this.dataTracker.startTracking(RETRACTING, false);
+    this.dataTracker.startTracking(TARGET_POS, new Vector3f((float) this.getX(), (float) this.getY(), (float) this.getZ()));
+  }
+
+  private Vec3d getTargetPos() {
+    var pos = this.dataTracker.get(TARGET_POS);
+    return new Vec3d(pos.x(), pos.y(), pos.z());
+  }
+
+  private void setTargetPos(Vec3d pos) {
+    this.dataTracker.set(TARGET_POS, new Vector3f((float) pos.x, (float) pos.y, (float) pos.z));
   }
 
   public boolean isRetracting() {
@@ -173,26 +175,28 @@ public class TentacleWeaponEntity extends Entity {
 
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
-    this.targetPos = new Vec3d(nbt.getDouble("TargetX"), nbt.getDouble("TargetY"), nbt.getDouble("TargetZ"));
+    this.setTargetPos(new Vec3d(nbt.getDouble("TargetX"), nbt.getDouble("TargetY"), nbt.getDouble("TargetZ")));
+    this.startingPos = new Vec3d(nbt.getDouble("StartingX"), nbt.getDouble("StartingY"), nbt.getDouble("StartingZ"));
+    this.setRetracting(nbt.getBoolean("Retracting"));
+    this.pulling = nbt.getBoolean("Pulling");
   }
 
   @Override
   protected void writeCustomDataToNbt(NbtCompound nbt) {
-    nbt.putDouble("TargetX", this.targetPos.x);
-    nbt.putDouble("TargetY", this.targetPos.y);
-    nbt.putDouble("TargetZ", this.targetPos.z);
+    nbt.putDouble("TargetX", this.getTargetPos().x);
+    nbt.putDouble("TargetY", this.getTargetPos().y);
+    nbt.putDouble("TargetZ", this.getTargetPos().z);
+    nbt.putDouble("StartingX", this.startingPos.x);
+    nbt.putDouble("StartingY", this.startingPos.y);
+    nbt.putDouble("StartingZ", this.startingPos.z);
+    nbt.putBoolean("Retracting", this.isRetracting());
+    nbt.putBoolean("Pulling", this.pulling);
   }
 
-  @Override
-  public Packet<ClientPlayPacketListener> createSpawnPacket() {
-    return new EntitySpawnS2CPacket(this);
-  }
 
   @Override
   public void onSpawnPacket(EntitySpawnS2CPacket packet) {
     super.onSpawnPacket(packet);
-    Vec3d spawnPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
-    this.targetPos = spawnPos.add(this.getRotationVector().multiply(BASE_LENGTH));
-    this.startingPos = spawnPos;
+    this.startingPos = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
   }
 }

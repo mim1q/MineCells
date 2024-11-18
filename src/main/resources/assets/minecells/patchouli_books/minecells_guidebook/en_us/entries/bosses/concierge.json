@@ -17,7 +17,7 @@
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/black_bridge"
       ]
     }

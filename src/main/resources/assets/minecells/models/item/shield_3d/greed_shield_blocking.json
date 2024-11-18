@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecells:item/shield_3d/greed_shield",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [45, -40, 0],
+			"translation": [4, 4.5, 4.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [45, -40, 0],
+			"translation": [4, 4.5, 4.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [5, 0, -5],
+			"translation": [-6.5, 1.5, -1.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [5, 0, -5],
+			"translation": [-6.5, 1.5, -1.5]
+		}
+	}
+}

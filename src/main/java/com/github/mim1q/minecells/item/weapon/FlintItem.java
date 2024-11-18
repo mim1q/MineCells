@@ -2,11 +2,14 @@ package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.entity.nonliving.ShockwavePlacer;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
+import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.minecraft.client.item.TooltipContext;
+import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
+import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -14,24 +17,24 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FlintItem extends SwordItem implements WeaponWithAbility {
-  public FlintItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
+public class FlintItem extends CustomMeleeWeapon implements WeaponWithAbility {
+  private static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/the_flint", "ability_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/the_flint", "ability_cooldown", 0.0);
+
+  public FlintItem(Settings settings) {
+    super("the_flint", settings);
   }
 
   @Override
@@ -52,7 +55,7 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
     var tick = (3600 * 20) - remainingUseTicks;
     if (user.isPlayer()) {
       var player = (PlayerEntity) user;
-      player.getItemCooldownManager().set(this, tick >= 20 ? getAbilityCooldown(stack) : 20);
+      player.getItemCooldownManager().set(this, tick >= 20 ? getAbilityCooldown(stack, user) : 20);
     } else return;
 
     if (tick < 20) return;
@@ -68,12 +71,12 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
         1.5F,
         MineCellsBlocks.SHOCKWAVE_FLAME_PLAYER.getDefaultState(),
         user.getUuid(),
-        getAbilityDamage(stack)
+        getAbilityDamage(stack, null, null)
       );
       world.spawnEntity(placer);
     });
     world.getEntitiesByClass(LivingEntity.class, Box.of(user.getPos(), 3.0, 2.0, 3.0), e -> e != user).forEach(entity -> {
-      entity.damage(world.getDamageSources().playerAttack((PlayerEntity) user), getAbilityDamage(stack) * 2);
+      entity.damage(world.getDamageSources().playerAttack((PlayerEntity) user), getAbilityDamage(stack, user, entity) * 2);
       if (entity.squaredDistanceTo(user) < 4.0) {
         var knockback = user.getPos().subtract(entity.getPos()).normalize();
         entity.takeKnockback(0.5, knockback.x, knockback.z);
@@ -85,6 +88,16 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.HIT_FLOOR, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
     stack.damage(2, user, p -> p.sendToolBreakStatus(flintHand));
+
+    ScreenShakeUtils.shakeAround(
+      (ServerWorld) world,
+      user.getPos(),
+      3.0f,
+      20,
+      0,
+      5,
+      "minecells:weapon_flint"
+    );
   }
 
   @Override
@@ -109,18 +122,12 @@ public class FlintItem extends SwordItem implements WeaponWithAbility {
   }
 
   @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    fillTooltip(tooltip, true, "item.minecells.flint.description", stack);
+  public ValueCalculator getAbilityDamageCalculator() {
+    return ABILITY_DAMAGE_CALCULATOR;
   }
 
   @Override
-  public float getBaseAbilityDamage(ItemStack stack) {
-    return 16;
-  }
-
-  @Override
-  public int getBaseAbilityCooldown(ItemStack stack) {
-    return 80;
+  public ValueCalculator getAbilityCooldownCalculator() {
+    return ABILITY_COOLDOWN_CALCULATOR;
   }
 }

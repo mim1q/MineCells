@@ -7,7 +7,13 @@
     "water_color": 4159204,
     "water_fog_color": 329011,
     "fog_color": 12638463,
-    "sky_color": 8429823
+    "sky_color": 8429823,
+    "music": {
+      "sound": "minecells:music.prisoners_quarters",
+      "min_delay": 5,
+      "max_delay": 10,
+      "replace_current_music": true
+    }
   },
   "spawners": {},
   "spawn_costs": {},

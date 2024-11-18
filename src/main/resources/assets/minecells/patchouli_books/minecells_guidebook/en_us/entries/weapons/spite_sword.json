@@ -1,4 +1,5 @@
 {
+  "advancement": "minecells:unlock/kill_10_buzzcutters",
   "name": "item.minecells.spite_sword",
   "category": "minecells:weapons",
   "icon": "minecells:spite_sword",

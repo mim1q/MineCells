@@ -31,7 +31,7 @@ public class ConciergeObeliskEntity extends BossObeliskEntity {
 
   @Override
   public Box getBox() {
-    return Box.of(getPos(), 128, 128, 128);
+    return Box.of(getPos(), 256, 256, 256);
   }
 
   @Override

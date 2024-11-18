@@ -18,9 +18,9 @@
     {
       "type": "minecells:references",
       "content": [
-        "# Found in:",
+        "# book.minecells.common.found_in",
         "minecells:dimensions/promenade",
-        "# Grants access to:",
+        "# book.minecells.common.grants_access_to",
         "minecells:dimensions/ramparts",
         "minecells:dimensions/insufferable_crypt"
       ]

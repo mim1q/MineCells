@@ -1,4 +1,5 @@
 {
+  "advancement": "minecells:unlock/kill_20_grenadiers",
   "name": "item.minecells.hattoris_katana",
   "category": "minecells:weapons",
   "icon": "minecells:hattoris_katana",

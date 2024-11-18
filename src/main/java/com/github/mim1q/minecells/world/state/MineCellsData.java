@@ -78,9 +78,9 @@ public class MineCellsData extends PersistentState {
       lastMineCellsVersion != null
       && mineCellsVersion != null
       && !mineCellsVersion.equals(lastMineCellsVersion)
-      && MineCells.COMMON_CONFIG.autoWipeData
+      && MineCells.COMMON_CONFIG.autoWipeData()
     ) {
-      MineCells.LOGGER.warn("Mine Cells version changed from " + lastMineCellsVersion + " to " + mineCellsVersion + "!");
+      MineCells.LOGGER.warn("Mine Cells version changed from {} to {}!", lastMineCellsVersion, mineCellsVersion);
       MineCells.LOGGER.warn("Mine Cells data will be wiped!");
       runs.clear();
       lastMineCellsVersion = mineCellsVersion;

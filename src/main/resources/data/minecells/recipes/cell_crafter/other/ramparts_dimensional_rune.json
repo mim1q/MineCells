@@ -1,0 +1,16 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 99,
+  "category": "other",
+  "advancement": "minecells:ramparts",
+  "input": {
+    "minecells:ramparts_torch": 2,
+    "minecells:prison_bricks": 8,
+    "minecells:red_ribbon_flag": 2,
+    "minecells:monster_cell": 32
+  },
+  "output": {
+    "id": "minecells:ramparts_dimensional_rune",
+    "Count": 1
+  }
+}

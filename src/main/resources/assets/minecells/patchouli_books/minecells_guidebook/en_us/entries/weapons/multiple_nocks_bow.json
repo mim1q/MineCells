@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.multiple_nocks_bow",
+  "category": "minecells:weapons",
+  "icon": "minecells:multiple_nocks_bow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:multiple_nocks_bow"
+      },
+      "text": "book.minecells.entries.weapons.multiple_nocks_bow"
+    }
+  ]
+}

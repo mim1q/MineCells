@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecells:cell_crafter"
+    },
+    "title": {
+      "translate": "advancements.minecells.cell_crafter"
+    },
+    "description": {
+      "translate": "advancements.minecells.cell_crafter.description"
+    }
+  },
+  "parent": "minecells:prison",
+  "criteria": {
+    "use_cell_crafter": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

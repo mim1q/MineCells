@@ -7,7 +7,13 @@
     "water_color": 5853816,
     "water_fog_color": 5853816,
     "fog_color": 5853816,
-    "sky_color": 5853816
+    "sky_color": 5853816,
+    "music": {
+      "sound": "minecells:music.black_bridge",
+      "min_delay": 5,
+      "max_delay": 10,
+      "replace_current_music": true
+    }
   },
   "spawners": {},
   "spawn_costs": {},

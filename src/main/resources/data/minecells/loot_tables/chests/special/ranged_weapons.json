@@ -1,0 +1,151 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecells:special_weapon",
+          "entries": [
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:bow_and_endless_quiver"
+              },
+              "advancement": "minecells:unlock/kill_50_undead_archers",
+              "weight": 3,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:electric_whip"
+              },
+              "weight": 2,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:group",
+                "children": [
+                  { "type": "minecraft:item", "name": "minecells:explosive_crossbow" },
+                  {
+                    "type": "minecraft:item",
+                    "name": "minecells:explosive_bolt",
+                    "functions": [{ "function": "minecraft:set_count", "count": { "min": 4, "max": 8 } }]
+                  }
+                ]
+              },
+              "advancement": "minecells:promenade",
+              "weight": 1,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:firebrands",
+                "functions": [{ "function": "minecraft:set_count", "count": { "min": 12, "max": 16 } }]
+              },
+              "weight": 3,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:frost_blast"
+              },
+              "weight": 3,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:heavy_crossbow"
+              },
+              "advancement": "minecells:unlock/kill_concierge",
+              "weight": 1,
+              "dimension_level": 2
+            },
+            {
+              "loot": {
+                "type": "minecraft:group",
+                "children": [
+                  { "type": "minecraft:item", "name": "minecells:ice_bow" },
+                  {
+                    "type": "minecraft:item",
+                    "name": "minecells:ice_arrow",
+                    "functions": [{ "function": "minecraft:set_count", "count": { "min": 16, "max": 32 } }]
+                  }
+                ]
+              },
+              "advancement": "minecells:unlock/kill_50_undead_archers",
+              "weight": 3,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:infantry_bow"
+              },
+              "advancement": "minecells:unlock/kill_15_undead_archers",
+              "weight": 5,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:lightning_bolt"
+              },
+              "advancement": "minecells:unlock/kill_10_inquisitors",
+              "weight": 2,
+              "dimension_level": 2
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:marksmans_bow"
+              },
+              "advancement": "minecells:ramparts",
+              "weight": 5,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:multiple_nocks_bow"
+              },
+              "weight": 5,
+              "dimension_level": 0
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:nerves_of_steel"
+              },
+              "advancement": "minecells:unlock/fall_from_the_ramparts",
+              "weight": 5,
+              "dimension_level": 2
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:quick_bow"
+              },
+              "advancement": "minecells:unlock/run_in_the_promenade",
+              "weight": 3,
+              "dimension_level": 1
+            },
+            {
+              "loot": {
+                "type": "minecraft:item",
+                "name": "minecells:throwing_knife",
+                "functions": [{ "function": "minecraft:set_count", "count": { "min": 16, "max": 20 } }]
+              },
+              "weight": 5,
+              "dimension_level": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

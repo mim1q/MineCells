@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MineCellsItemGroups {
   private static final Identifier DISCORD_ICON = MineCells.createId("textures/gui/button/discord.png");
@@ -25,6 +26,10 @@ public class MineCellsItemGroups {
 
   private static ItemStack stack(ItemConvertible item) {
     return new ItemStack(item);
+  }
+
+  private static List<ItemStack> stackList(ItemConvertible ...item) {
+    return Stream.of(item).map(MineCellsItemGroups::stack).toList();
   }
 
   private static void generalStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {
@@ -63,7 +68,7 @@ public class MineCellsItemGroups {
       stack(MineCellsBlocks.ROTTING_CORPSE),
       stack(MineCellsBlocks.CORPSE),
       stack(MineCellsBlocks.ELEVATOR_ASSEMBLER),
-      //stack(MineCellsBlocks.CELL_FORGE),
+      stack(MineCellsBlocks.CELL_CRAFTER),
       stack(MineCellsBlocks.HARDSTONE),
       stack(MineCellsBlocks.CHAIN_PILE_BLOCK),
       stack(MineCellsBlocks.CHAIN_PILE),
@@ -84,14 +89,32 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.SEWAGE_BUCKET),
       stack(MineCellsItems.ANCIENT_SEWAGE_BUCKET),
       stack(MineCellsItems.ELEVATOR_MECHANISM),
-      stack(MineCellsItems.GUTS),
-      stack(MineCellsItems.MONSTERS_EYE),
       stack(MineCellsItems.HEALTH_FLASK),
-      stack(MineCellsItems.BLANK_RUNE),
+//      stack(MineCellsItems.BLANK_RUNE),
       stack(MineCellsItems.RESET_RUNE),
       stack(MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE),
       stack(MineCellsItems.CONCIERGE_RESPAWN_RUNE),
       stack(MineCellsItems.VINE_RUNE)
+    ));
+
+    // Crafting ingredients
+    stacks.addAll(stackList(
+      MineCellsItems.MONSTER_CELL,
+      MineCellsItems.BOSS_STEM_CELL,
+      MineCellsItems.CELL_HOLDER,
+      MineCellsItems.GUTS,
+      MineCellsItems.MONSTERS_EYE,
+      MineCellsItems.EXPLOSIVE_BULB,
+      MineCellsItems.INFECTED_FLESH,
+      MineCellsItems.CELL_INFUSED_STEEL,
+      MineCellsItems.METAL_SHARDS,
+      MineCellsItems.BUZZCUTTER_FANG,
+      MineCellsItems.MOLTEN_CHUNK,
+      MineCellsItems.SEWER_CALAMARI,
+      MineCellsItems.COOKED_SEWER_CALAMARI,
+      MineCellsItems.TRANSPOSITION_CORE,
+      MineCellsItems.BLOOD_BOTTLE,
+      MineCellsItems.ARCANE_GOO
     ));
   }
 
@@ -111,6 +134,12 @@ public class MineCellsItemGroups {
       stack(MineCellsItems.FLINT),
       stack(MineCellsItems.PHASER)
     ));
+    stacks.addAll(MineCellsItems.BOWS.stream().map(MineCellsItemGroups::stack).toList());
+    stacks.add(stack(MineCellsItems.ICE_ARROW));
+    stacks.addAll(MineCellsItems.CROSSBOWS.stream().map(MineCellsItemGroups::stack).toList());
+    stacks.add(stack(MineCellsItems.EXPLOSIVE_BOLT));
+    stacks.addAll(MineCellsItems.OTHER_RANGED.stream().map(MineCellsItemGroups::stack).toList());
+    stacks.addAll(MineCellsItems.SHIELDS.stream().map(MineCellsItemGroups::stack).toList());
   }
 
   private static void spawnEggStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {

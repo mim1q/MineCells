@@ -1,0 +1,16 @@
+{
+  "variables": {
+    "quick_charge_enchant": {
+      "type": "gimm1q:enchantment",
+      "enchantment": "minecraft:quick_charge"
+    }
+  },
+  "equations": {
+    "damage": 5.0,
+    "crit_damage": 0.0,
+    "draw_time": "1.6 - 0.2 * quick_charge_enchant",
+    "speed": 0.6,
+    "spread": 45.0,
+    "cooldown": 0.0
+  }
+}

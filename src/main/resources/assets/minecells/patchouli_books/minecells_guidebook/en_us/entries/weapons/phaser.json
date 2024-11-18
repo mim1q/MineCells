@@ -1,4 +1,5 @@
 {
+  "advancement": "minecells:unlock/kill_15_runners",
   "name": "item.minecells.phaser",
   "category": "minecells:weapons",
   "icon": "minecells:phaser",

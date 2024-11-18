@@ -1,0 +1,14 @@
+{
+  "name": "item.minecells.throwing_knife",
+  "category": "minecells:weapons",
+  "icon": "minecells:throwing_knife",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:throwing_knife"
+      },
+      "text": "book.minecells.entries.weapons.throwing_knife"
+    }
+  ]
+}

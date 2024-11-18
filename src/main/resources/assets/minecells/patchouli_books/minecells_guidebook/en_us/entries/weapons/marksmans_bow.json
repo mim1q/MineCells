@@ -1,0 +1,15 @@
+{
+  "advancement": "minecells:ramparts",
+  "name": "item.minecells.marksmans_bow",
+  "category": "minecells:weapons",
+  "icon": "minecells:marksmans_bow",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecells:marksmans_bow"
+      },
+      "text": "book.minecells.entries.weapons.marksmans_bow"
+    }
+  ]
+}

@@ -81,12 +81,16 @@ fun main(args: Array<String>) {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
     }
     add("arrow_sign", BlockState.createSingle("minecells:block/putrid_planks"))
+    add(CommonModelPresets.horizontallyRotateableBlock("minecells:cell_crafter"))
+    add(CommonModelPresets.horizontallyRotateableBlock("minecells:unbreakable_cell_crafter", "minecells:cell_crafter"))
     // Flags
     listOf(
-      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt",
-      "large_red_ribbon", "red_ribbon"
+      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt"
     ).forEach {
       add(CustomPresets.flag("minecells:${it}_flag"))
+    }
+    Constants.COLORS.forEach {
+      add(CustomPresets.coloredFlags(it))
     }
 
     add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
@@ -101,12 +105,16 @@ fun main(args: Array<String>) {
     add(ModItemModels.spawnEggs())
     add(ModItemModels.blockModels())
     add(ModItemModels.dimensionalRunes())
-    add("flint", ParentedModel.item("minecells:item/balanced_blade").texture("layer0", "minecells:item/flint"))
+    add(ModItemModels.bows())
+    add(ModItemModels.crossbows())
+    add(ModItemModels.shields())
+    add("weapon/flint", ParentedModel.item("minecells:item/weapon/balanced_blade").texture("layer0", "minecells:item/flint"))
+    add(ModItemModels.weaponCopies())
     // Block drops
     listOf(
       "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
       "big_chain", "broken_cage", "prison_doorway", "king_statue", "chain_pile",
-      "putrid_board_block", "arrow_sign"
+      "putrid_board_block", "arrow_sign", "cell_crafter"
     ).forEach {
       add(CommonDropPresets.simpleDrop("minecells:$it"))
     }
@@ -138,12 +146,17 @@ fun main(args: Array<String>) {
     TagManager.add("minecells:items/discard_in_high_dimensions",
       "minecraft:stick", "minecells:red_putrid_sapling"
     )
+    bowTags()
     // Loot Tables for Advancements
     MINECELLS_DIMENSIONS.forEach {
       add(CustomHardcodedPresets.advancementDrop(it, "minecells:${it}_dimensional_rune"))
     }
     // Sounds
     mineCellsSounds()
+
+    // Generated images
+    CustomImages.createBowTextures("bow_atlas.png", Path.of(args[0]))
+    CustomImages.createFlagTextures("flag_atlas.png", Path.of(args[0]))
   }
 
   generator.generate()
@@ -165,8 +178,5 @@ fun main(args: Array<String>) {
     generateMissingLangEntries()
   }
 }
-
-
-
 
 

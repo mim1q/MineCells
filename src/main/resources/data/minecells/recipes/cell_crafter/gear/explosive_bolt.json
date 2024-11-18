@@ -1,0 +1,15 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "category": "gear",
+  "priority": 50,
+  "advancement": "minecells:promenade",
+  "input": {
+    "minecraft:arrow": 16,
+    "minecells:explosive_bulb": 4,
+    "minecraft:gunpowder": 4
+  },
+  "output": {
+    "id": "minecells:explosive_bolt",
+    "Count": 16
+  }
+}

@@ -29,7 +29,7 @@ public class ProtectorEntityRenderer extends MineCellsEntityRenderer<ProtectorEn
 
   public ProtectorEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new ProtectorEntityModel(ctx.getPart(MineCellsRenderers.PROTECTOR_LAYER)), 0.35F);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.protectorGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().protectorGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
   }

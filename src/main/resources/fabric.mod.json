@@ -17,6 +17,12 @@
     ],
     "main": [
       "com.github.mim1q.minecells.MineCells"
+    ],
+    "emi": [
+      "com.github.mim1q.minecells.compat.emi.MineCellsEmiPlugin"
+    ],
+    "rei_client": [
+      "com.github.mim1q.minecells.compat.rei.MineCellsReiPlugin"
     ]
   },
   "mixins": [

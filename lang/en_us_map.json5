@@ -32,6 +32,15 @@
     vine_rune: "Vine Rune",
     reset_rune: "Reset Rune",
     "reset_rune.tooltip": "Reset the Spawner Runes in a dimension",
+    cell_holder: {
+      "": "Cell Holder",
+      cell_count: [
+        { text: "Stored Cells: ", color: "#46D4FF" },
+        { index: 0 },
+      ],
+      full: [{ text: "Right-click to take them out", color:  "gray" }],
+      empty: [{ text: "Empty. \nClick with Monster Cells to store them.", color: "gray"}]
+    },
 
     // Doorway items
     "prison_doorway.description": "Place against an empty 3x3 wall",
@@ -55,33 +64,111 @@
 
     // Weapons
     assassins_dagger: "Assassin's Dagger",
-    "assassins_dagger.description": "Deals critical (+%sHP) damage\nwhen hitting enemies in the back",
+    "assassins_dagger.description": "Deals critical damage when hitting enemies in the back",
     blood_sword: "Blood Sword",
-    "blood_sword.description": "Applies Bleeding to enemies.\nThe effect stacks up to level III",
+    "blood_sword.description": "Applies Bleeding to enemies. The effect stacks up to level 3",
     cursed_sword: "Cursed Sword",
     "cursed_sword.description": "One hit and you're dead",
     tentacle: "Conjunctivius's Tentacle",
-    "tentacle.description": "Swing the tentacle, pulling\nyourself towards its target",
+    "tentacle.description": "Swing the tentacle, pulling yourself towards its target",
     hattoris_katana: "Hattori's Katana",
-    "hattoris_katana.description": "Slash through enemies\nin front of you",
+    "hattoris_katana.description": "Slash through enemies in front of you",
     broadsword: "Broadsword",
     balanced_blade: "Balanced Blade",
-    "balanced_blade.description": "Deals more damage with\neach consecutive attack.\nMax (+%sHP) at 10 stacks",
+    "balanced_blade.description": "Deals more damage with each consecutive attack. Max at 10 stacks",
     crowbar: "Crowbar",
-    "crowbar.description": "Deals critical damage (+%sHP)\nafter breaking a door",
+    "crowbar.description": "Deals critical damage after breaking a door",
     frost_blast: "Frost Blast",
     "frost_blast.description": "Freeze enemies in front of you",
     nutcracker: "Nutcracker",
-    "nutcracker.description": "Deals critical damage (+%sHP)\nto Frozen and Stunned enemies",
+    "nutcracker.description": "Deals critical damage to Frozen and Stunned enemies",
     flint: "The Flint",
     "flint.description": "Send a shockwave in front of you",
     spite_sword: "Spite Sword",
-    "spite_sword.description": "Deals critical damage (+%sHP)\nIf you've recently taken damage",
+    "spite_sword.description": "Deals critical damage If you've recently taken damage",
     phaser: "Phaser",
-    "phaser.description": "Teleport to a nearby enemy,\nstunning it briefly.\nYour next attack deals\nadditional damage",
+    "phaser.description": "Teleport to a nearby enemy, stunning it briefly. Your next attack deals additional damage",
+
+    "crit_damage": "Critical Damage: +%sHP",
+    "special_ability_hold": "Hold [Right Click] to use ability: %sHP (%ss cooldown)",
+    "speical_ability_press": "Press [Right Click] to use ability: %sHP (%ss cooldown)",
+
+    // Bows
+    multiple_nocks_bow: "Multiple-Nocks Bow",
+    "multiple_nocks_bow.description": "Fires 3 arrows at once",
+    bow_and_endless_quiver: "Bow and Endless Quiver",
+    "bow_and_endless_quiver.description": "Doesn't require arrows to shoot",
+    marksmans_bow: "Marksman's Bow",
+    "marksmans_bow.description": "Deals critical damage to targets far away",
+    infantry_bow: "Infantry Bow",
+    "infantry_bow.description": "Deals critical damage to targets in near-melee range",
+    quick_bow: "Quick Bow",
+    "quick_bow.description": "Shoots arrows continuously",
+    ice_bow: "Ice Bow",
+    "ice_bow.description": "Freezes targets. Ammo: Ice Arrows",
+    nerves_of_steel: "Nerves of Steel",
+    "nerves_of_steel.description": "Deals critical damage if you fire at the right time",
+    ice_arrow: "Ice Arrow",
+    heavy_crossbow: "Heavy Crossbow",
+    "heavy_crossbow.description": "Loads up to 3 arrows to deal heavy, short-ranged damage",
+    explosive_crossbow: "Explosive Crossbow",
+    "explosive_crossbow.description": "Bolts explode on hit. Ammo: Explosive Bolts",
+    explosive_bolt: "Explosive Bolt",
+    electric_whip: "Electric Whip",
+    "electric_whip.description": "Electrifies enemies in front of you",
+    lightning_bolt: "Lightning Bolt",
+    "lightning_bolt.description": "Focuses lightning on a single enemy, dealing more damage over time",
+    throwing_knife: "Throwing Knife",
+    "throwing_knife.description": "Applies Bleeding",
+    firebrands: "Firebrands",
+    "firebrands.description": "Sets targets on fire",
+
+    "bow": {
+      "damage": "Damage: %sHP",
+      "crit_damage": "Critical Damage: +%sHP",
+      "draw_time": "Draw time: %ss",
+      "cooldown": "Cooldown: %ss",
+    },
+
+    // Shields
+    cudgel: "Cudgel",
+    "cudgel.description": "Stuns enemies briefly",
+    rampart: "Rampart",
+    "rampart.description": "Parries make you invulnerable for a short time",
+    assault_shield: "Assault Shield",
+    "assault_shield.description": "Blocking launches you forward",
+    bloodthirsty_shield: "Bloodthirsty Shield",
+    "bloodthirsty_shield.description": "Parrying applies bleeding to nearby enemies",
+    greed_shield: "Greed Shield",
+    "greed_shield.description": "Parrying melee attacks has a chance to drop some goodies",
+    ice_shield: "Ice Shield",
+    "ice_shield.description": "Slows blocked enemies and freezes parried ones",
+
+    "shield": {
+      "parry_damage": "Parry Damage: %sHP",
+      "damage_reduction": "Blocking reduces damage by %s%%",
+      "cooldown": "Cooldown: %ss",
+    },
+
+    // Text
     hold: "Hold ",
     ability_damage: "Damage: %sHP",
     ability_cooldown: "Cooldown: %ss",
+
+    // Crafting ingredients
+    monster_cell: "Monster Cell",
+    boss_stem_cell: "Boss Stem Cell",
+    explosive_bulb: "Explosive Bulb",
+    infected_flesh: "Infected Flesh",
+    cell_infused_steel: "Cell-infused Steel",
+    metal_shards: "Metal Shards",
+    buzzcutter_fang: "Buzzcutter Fang",
+    molten_chunk: "Molten Chunk",
+    sewer_calamari: "Sewer Calamari",
+    cooked_sewer_calamari: "Cooked Sewer Calamari",
+    transposition_core: "Transposition Core",
+    blood_bottle: "Blood Bottle",
+    arcane_goo: "Arcane Goo",
 
     // Spawn eggs
     shocker_spawn_egg: "Shocker Spawn Egg",
@@ -132,6 +219,31 @@
     shockwave_flame_player: "Player's Shockwave Flame",
     shockwave_flame: "Shockwave Flame",
 
+    // Cell Crafter
+    unbreakable_cell_crafter: "Unbreakable Cell Crafter",
+    cell_crafter: {
+      "": "Cell Crafter",
+      not_enough_of_this_item: "You don't have enough of this item",
+      not_enough_ingredients: "You don't have all the necessary ingredients",
+      view_recipes: "View Recipes",
+      craft: "Craft",
+      select_recipe: "Select Recipe",
+      requirement: "Requirement",
+      return: "Return",
+      scroll_up: "Scroll Up",
+      scroll_down: "Scroll Down",
+
+      category: {
+        gear: "Gear recipes",
+        decoration: "Decoration recipes",
+        other: "Other recipes",
+      },
+    },
+
+    // Colorful blocks
+    "$_ribbon_flag;large_$_ribbon_flag": {
+      "black;gray;light_gray;white;brown;red;orange;yellow;lime;green;light_blue;cyan;blue;purple;pink;magenta": "%"
+    },
     // Automatically generated block names
     putrid_planks: "Putrid Planks",
     putrid_log: "Putrid Log",
@@ -219,8 +331,6 @@
     ramparts_flag: "Ramparts Flag",
     black_bridge_flag: "Black Bridge Flag",
     insufferable_crypt_flag: "Insufferable Crypt Flag",
-    large_red_ribbon_flag: "Large Red Ribbon Flag",
-    red_ribbon_flag: "Red Ribbon Flag",
     prison_doorway: "Prisoners' Quarters Doorway",
     promenade_doorway: "Promenade of The Condemned Doorway",
     insufferable_crypt_doorway: "Insufferable Crypt Doorway",
@@ -280,8 +390,21 @@
     spawner_rune: "Spawner Rune",
     elite: "ELITE",
     elite_obelisk: "Elite Obelisk",
+    custom_arrow: {
+      marksman: "Marksman's Bow Arrow",
+      infantry: "Infantry Bow Arrow",
+      ice: "Ice Arrow",
+      explosive_bolt: "Explosive Bolt",
+      quick: "Quick Bow Arrow",
+      nerves_of_steel: "Nerves of Steel Arrow",
+      heavy_bolt: "Heavy Bolt",
+      multiple_nocks: "Multiple-Nocks Bow Arrow",
+      endless: "Endless Arrow",
+      firebrands: "Firebrands",
+      throwing_knife: "Throwing Knife",
+    }
   },
-  "dimension.minecells": {
+  "dimension.minecells;biome.minecells;travelerstitles.minecells": {
     prison: "Prisoners' Quarters",
     insufferable_crypt: "Insufferable Crypt",
     promenade: "Promenade of The Condemned",
@@ -289,25 +412,13 @@
     black_bridge: "Black Bridge",
   },
   "dimension.minecraft.overworld": "Overworld",
-  "travelerstitles.minecells": {
-    prison: "Prisoners' Quarters",
-    insufferable_crypt: "Insufferable Crypt",
-    promenade: "Promenade of The Condemned",
-    ramparts: "Ramparts",
-    black_bridge: "Black Bridge",
-  },
-  "biome.minecells": {
-    prison: "Prisoners' Quarters",
-    insufferable_crypt: "Insufferable Crypt",
-    promenade: "Promenade of The Condemned",
-    ramparts: "Ramparts",
-    black_bridge: "Black Bridge",
-  },
   "advancements.minecells": {
     root: "Mine Cells",
     "root.description": "Find a portal to the Prisoners' Quarters",
     prison: "Behind bars",
     "prison.description": "Enter the Prisoners' Quarters",
+    cell_crafter: "A crafter that runs on cells...",
+    "cell_crafter.description": "Use a Cell Crafter",
     promenade: "Love the serenity...",
     "promenade.description": "Reach the Promenade of The Condemned",
     insufferable_crypt: "Even the rats avoid this place",
@@ -327,7 +438,27 @@
     concierge: "Steam rolled",
     "concierge.description": "Defeat the Concierge",
     elite: "Elite enemy!",
-    "elite.description": "Summon an Elite enemy using an Elite Obelisk"
+    "elite.description": "Summon an Elite enemy using an Elite Obelisk",
+
+    unlock: {
+      "$;$.description": {
+        fall_from_the_ramparts: "Fall from the Ramparts",
+        have_64_cells: "Have a full stack of Monster Cells in your inventory",
+        kill_10_buzzcutters: "Kill 10 Buzzcutters",
+        kill_10_inquisitors: "Kill 10 Inquisitors",
+        kill_10_shieldbearers: "Kill 10 Shieldbearers",
+        kill_15_runners: "Kill 15 Runners",
+        kill_15_undead_archers: "Kill 15 Undead Archers",
+        kill_20_grenadiers: "Kill 20 Grenadiers",
+        kill_30_leaping_zombies: "Kill 30 Leaping Zombies",
+        kill_30_shieldbearers: "Kill 30 Shieldbearers",
+        kill_50_undead_archers: "Kill 50 Undead Archers",
+        kill_a_leaping_zombie: "Kill a Leaping Zombie",
+        kill_concierge: "Kill the Concierge",
+        kill_conjunctivius: "Kill Conjunctivius",
+        run_in_the_promenade: "Run in the Promenade of The Condemned",
+      }
+    }
   },
   "effect.minecells": {
     electrified: "Electrified",
@@ -339,7 +470,7 @@
     stunned: "Stunned",
     frozen: "Frozen",
   },
-    "chat.minecells": {
+  "chat.minecells": {
     obelisk_item_message: "Requires %s to activate",
     suffocation_fix_message: "You have been teleported to your spawnpoint! This may be related to a dimension being reset, or you just got stuck in a wall",
     version_mismatch: "It seems like you have installed a new version of Mine Cells! Here's what you should do after updating the mod:\n",
@@ -362,6 +493,10 @@
     bleeding: "%1$s bled to death",
     katana: "%1$s was sliced by %2$s",
   },
+  "toast.minecells": {
+    recipe_unlocked: "New Cell Crafter Recipe:"
+  },
+  "emi.category.minecells.cell_crafter": "Cell Crafting",
   "book.minecells": {
     name: "Mine Cells Guidebook",
     description: "Mysterious doorways to otherworldly dungeons have been appearing all over the world.<br>They seem to resemble areas from the world of $(l:https://dead-cells.com)Dead Cells$()...<br><br>Just how many secrets do these dungeons hide...?",
@@ -407,7 +542,7 @@
         prison: {
           title0: "Prisoners' Quarters",
           title1: "",
-          description: "The Prison was where criminals and people who showed symptopms of any mutation or disease were thrown. Some of those less unfortunate who survived in these cells are still dwelling around here to this day.",
+          description: "The Prison was where criminals and people who showed symptoms of any mutation or disease were thrown. Some of those less unfortunate who survived in these cells are still dwelling around here to this day.",
         },
         promenade: {
           title0: "Promenade",
@@ -417,7 +552,7 @@
         ramparts: {
           title0: "Ramparts",
           title1: "",
-          description: "This series of walls and towers used to be a resting spot for guards once they couldn't handle the overfilled prisons. The beautiful suset doesn't match the current vibe of this place, though. <br><br>The ramparts are full of dangerous monsters. If you manage to get to the end, don't think your fight here is over. There will be one more former guard waiting for you...",
+          description: "This series of walls and towers used to be a resting spot for guards once they couldn't handle the overfilled prisons. The beautiful sunset doesn't match the current vibe of this place, though. <br><br>The ramparts are full of dangerous monsters. If you manage to get to the end, don't think your fight here is over. There will be one more former guard waiting for you...",
         },
         insufferable_crypt: {
           title0: "Insufferable Crypt",
@@ -455,9 +590,9 @@
       },
       "weapons": {
         assassins_dagger: "The Assassin's Dagger is a quick little weapon. It deals critical damage if you backstab an enemy (that is, hit it when it's not facing you).",
-        blood_sword: "The Blood Sword applies Bleeding to enemies, which is similar to the Wither effect. This effect stacks up to level III.<br><br>Instead of applying level IV, it refreshes the duration of level III and applies weakness.",
+        blood_sword: "The Blood Sword applies Bleeding to enemies. Applying this effect when it's already active will increase its level. At 7 stacks, Bleeding gets reset to 0, but deals instant damage.<br><br>The bottled Blood needed to craft this item can be collected from Spikes in the Promenade.",
         broadsword: "A slow and heavy-hitting sword. Nothing less, nothing more.",
-        balanced_blade: "The Balanced Blade deals a little more damage each time you attack. It reaches its max damage after 10 consecutvie attacks, dealing more than double its base damage.<br><br>The damage \"stacks\" get reset if you get hit or if too much time passes between attacks.",
+        balanced_blade: "The Balanced Blade deals a little more damage each time you attack. It reaches its max damage after 10 consecutive attacks, dealing more than double its base damage.<br><br>The damage \"stacks\" get reset if you get hit or if too much time passes between attacks.",
         crowbar: "The Crowbar allows you to instantly break doors. After doing so it will deal critical damage for a short period of time.",
         cursed_sword: "The Cursed Sword is a very powerful weapon, but its power comes at a cost.<br><br>If you get hit while holding it, you will instantly die, no matter how much health you have and how little damage you would have normally taken.",
         flint: "A blunt weapon resembling the Concierge's gauntlet. Charging it will let you send a line of flames in front of you.",
@@ -467,6 +602,27 @@
         phaser: "Using the phaser will teleport you behind one of the nearby enemies, briefly stunning it.<br><br>If you attack an enemy within a few seconds of using the Phaser, your attack will deal additional damage.",
         spite_sword: "The Spite Sword deals a bit more damage if you've recently taken a hit yourself.",
         tentacle: "While the Tentacle can be used to slap enemies, and it isn't the weakest of weapons, its main use is not an offensive one.<br><br>Using this item, you can pull yourself towards enemies and terrain, allowing you to perform some crazy maneuvers.",
+        // Ranged
+        multiple_nocks_bow: "The Multiple-Nocks Bow uses up to 3 arrows (less if you don't have enough) and shoots them in front of you, in a horizontal plane.",
+        bow_and_endless_quiver: "This bow works like the Infinity enchantment - using it doesn't require arrows.",
+        marksmans_bow: "The Marksman's Bow deals critical damage to enemies that are far away from you.",
+        infantry_bow: "This Bow deals critical damage if the hit enemy is in near-melee range.",
+        quick_bow: "Hold the Quick Bow drawn to continuously fire arrows.",
+        ice_bow: "The Ice Bow fires arrows that freeze the enemies on hit.<br><br>Requires Ice Arrows to shoot.",
+        nerves_of_steel: "This fancy bow deals critical damage if you release the arrow at the right time.<br><br>You should do so right after you hear a sound while holding the bow drawn.",
+        heavy_crossbow: "The Heavy Crossbow is a slow and heavy weapon.<br><br>It loads 3 arrows from your inventory, and fires them as multiple little bolts in front of you in a short-range cone.<br><br>The more bolts hit the enemy, the more damage is dealt.",
+        explosive_crossbow: "The Explosive Crossbow fires bolts that create a small but deadly explosion when they land.<br><br>This weapon requires Explosive Bolts to shoot.",
+        electric_whip: "This whip electrifies enemies in a short distance in front of you.<br><br>This electricity can spread to nearby enemies, so the more enemies you can find in a group, the better the efficiency of this weapon.",
+        lightning_bolt: "Focus the Lightning Bolt on an enemy to deal continuous damage and apply electricity.<br><br>The longer you hold, the more damage you deal. However - after a certain time, you will also hurt yourself.",
+        throwing_knife: "A single-use projectile that applies bleeding.",
+        firebrands: "A single use projectile, setting fire on enemies and blocks it hits.",
+        // Shields
+        cudgel: "The Cudgel applies a short stun effect when you block an enemy's attack.<br><br>The stun lasts longer if you parry the attack instead.",
+        rampart: "This shield makes you invulnerable for a short amount of time after parrying an attack.",
+        bloodthirsty_shield: "The Bloodthirsty Shield applies bleeding on nearby enemies when you parry an attack.",
+        assault_shield: "The Assault Shield launches you forward when you start using it, dealing damage and knocking back enemies.<br><br>It has a longer cooldown than other shields due to this special effect.",
+        greed_shield: "The Greed Shield has a chance to drop some goodies when you parry a melee attack.<br><br>These include: gold and iron nuggets and bars, emeralds, and diamonds!",
+        ice_shield: "The Ice Shield slows down enemies when you block an attack.<br><br>If you parry the attack, it will freeze them instead.",
       }
     },
 
@@ -479,5 +635,9 @@
       summons: "Summons:",
       tips: "Tips"
     }
+  },
+  "options.minecells.screenshake": {
+    "": "Mine Cells Screen Shake",
+    "tooltip": "Modify the global intensity of screen shake events added by Mine Cells.\nIndividual events can be tweaked in the minecells-client.json5 file.\n0% disables all Mine Cells screen shakes.",
   }
 }

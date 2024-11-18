@@ -49,7 +49,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/ramparts/ramparts_weapons"
+          "name": "minecells:chests/special/all_weapons"
         }
       ],
       "functions": [

@@ -1,0 +1,64 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecells:item/shield_3d/cudgel",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "minecells:item/shield/3d/assault_shield"
+	},
+	"elements": [
+		{
+			"from": [2, -9.5, 7.5],
+			"to": [14, 9.5, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 0.5, 6.5, 10], "texture": "#0"},
+				"east": {"uv": [0, 0.5, 0.5, 10], "texture": "#0"},
+				"south": {"uv": [7, 0.5, 13, 10], "texture": "#0"},
+				"west": {"uv": [6.5, 0.5, 7, 10], "texture": "#0"},
+				"up": {"uv": [6.5, 0.5, 0.5, 0], "texture": "#0"},
+				"down": {"uv": [12.5, 0, 6.5, 0.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, -3, 8.5],
+			"to": [9, 3, 14.5],
+			"faces": {
+				"north": {"uv": [11, 13, 12, 16], "texture": "#0"},
+				"east": {"uv": [8, 13, 11, 16], "texture": "#0"},
+				"south": {"uv": [15, 13, 16, 16], "texture": "#0"},
+				"west": {"uv": [12, 13, 15, 16], "texture": "#0"},
+				"up": {"uv": [8, 16, 7, 13], "texture": "#0"},
+				"down": {"uv": [7, 13, 6, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [9, 9.5, 7.5],
+			"to": [14, 11.5, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 10.5, 3, 11.5], "texture": "#0"},
+				"east": {"uv": [0, 10.5, 0.5, 11.5], "texture": "#0"},
+				"south": {"uv": [3.5, 10.5, 6, 11.5], "texture": "#0"},
+				"west": {"uv": [3, 10.5, 3.5, 11.5], "texture": "#0"},
+				"up": {"uv": [3, 10.5, 0.5, 10], "texture": "#0"},
+				"down": {"uv": [5.5, 10, 3, 10.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2, 9.5, 7.5],
+			"to": [7, 11.5, 8.5],
+			"faces": {
+				"north": {"uv": [0.5, 12, 3, 13], "texture": "#0"},
+				"east": {"uv": [0, 12, 0.5, 13], "texture": "#0"},
+				"south": {"uv": [3.5, 12, 6, 13], "texture": "#0"},
+				"west": {"uv": [3, 12, 3.5, 13], "texture": "#0"},
+				"up": {"uv": [3, 12, 0.5, 11.5], "texture": "#0"},
+				"down": {"uv": [5.5, 11.5, 3, 12], "texture": "#0"}
+			}
+		}
+	],
+	"overrides": [
+		{
+			"predicate": { "minecells:blocking": 1 },
+			"model": "minecells:item/shield_3d/assault_shield_blocking"
+		}
+	]
+}

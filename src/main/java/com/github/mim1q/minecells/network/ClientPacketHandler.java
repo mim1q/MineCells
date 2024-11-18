@@ -1,9 +1,7 @@
 package com.github.mim1q.minecells.network;
 
-import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
-import com.github.mim1q.minecells.network.s2c.ShockwaveClientEventS2CPacket;
-import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
-import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
+import com.github.mim1q.minecells.client.gui.ConjunctiviusClientBossBar;
+import com.github.mim1q.minecells.network.s2c.*;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -33,7 +31,10 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(ObeliskActivationS2CPacket.ID, ObeliskActivationS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(SyncMineCellsPlayerDataS2CPacket.ID, SyncMineCellsPlayerDataS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(ShockwaveClientEventS2CPacket.ID, ShockwaveClientEventS2CPacket::apply);
+    ClientPlayNetworking.registerGlobalReceiver(SendUnlockedCellCrafterRecipesS2CPacket.ID, SendUnlockedCellCrafterRecipesS2CPacket::apply);
+    ClientPlayNetworking.registerGlobalReceiver(UpdateConjunctiviusBossBarS2CPacket.ID, ClientPacketHandler::handleUpdateConjunctiviusBossBar);
   }
+
   private static void handleCrit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
     Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     client.execute(() -> {
@@ -48,8 +49,15 @@ public class ClientPacketHandler {
     double radius = buf.readDouble();
     client.execute(() -> {
       if (client.player != null && client.world != null) {
-        ParticleUtils.addParticle(client.world, MineCellsParticles.EXPLOSION, pos, Vec3d.ZERO);
-        ParticleUtils.addAura(client.world, pos, ParticleTypes.CRIT, 20, 0.0D, radius);
+        client.world.addParticle(MineCellsParticles.EXPLOSION, true, pos.x, pos.y, pos.z, 0, 0, 0);
+        client.world.addParticle(ParticleTypes.EXPLOSION, true, pos.x + 0.01, pos.y + 0.01, pos.z + 0.01, 0, 0, 0);
+        var random = client.world.random;
+        for (int i = 0; i < 20; ++i) {
+          double vx = (random.nextDouble() - 0.5) * radius;
+          double vy = (random.nextDouble() - 0.5) * radius;
+          double vz = (random.nextDouble() - 0.5) * radius;
+          client.world.addParticle(ParticleTypes.CRIT, true, pos.x, pos.y, pos.z, vx, vy, vz);
+        }
       }
     });
   }
@@ -76,6 +84,19 @@ public class ClientPacketHandler {
         ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.OAK_PLANKS.getDefaultState());
         Box box = new Box(pos.add(-1.0D, 0.0D, -1.0D), pos.add(1.0D, 0.5D, 1.0D));
         ParticleUtils.addInBox(client.world, particle, box, 25, new Vec3d(0.1D, 0.1D, 0.1D));
+      }
+    });
+  }
+
+  private static void handleUpdateConjunctiviusBossBar(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    var barUuid = buf.readUuid();
+    var tentacleCount = buf.readShort();
+    var maxTentacleCount = buf.readShort();
+
+    client.execute(() -> {
+      var bar = client.inGameHud.getBossBarHud().bossBars.get(barUuid);
+      if (bar instanceof ConjunctiviusClientBossBar conjunctiviusBar) {
+        conjunctiviusBar.setTentacleCount(tentacleCount, maxTentacleCount);
       }
     });
   }

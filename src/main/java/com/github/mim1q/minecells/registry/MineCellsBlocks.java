@@ -11,6 +11,7 @@ import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import com.github.mim1q.minecells.registry.featureset.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.mixin.object.builder.AbstractBlockSettingsAccessor;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.block.sapling.SaplingGenerator;
@@ -20,17 +21,31 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class MineCellsBlocks {
+  private static final List<DyeColor> ORDERED_COLORS = List.of(
+    DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK,
+    DyeColor.BROWN, DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW,
+    DyeColor.LIME, DyeColor.GREEN, DyeColor.CYAN, DyeColor.LIGHT_BLUE,
+    DyeColor.BLUE, DyeColor.PURPLE, DyeColor.MAGENTA, DyeColor.PINK
+  );
+
   public static final List<FlagBlock> FLAG_BLOCKS = new ArrayList<>();
 
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
-  //  public static final Block CELL_FORGE = registerBlockWithItem(new CellForgeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD)), "cell_forge");
+  public static final Block CELL_CRAFTER = registerBlockWithItem(new CellCrafterBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()), "cell_crafter");
+  public static final Block UNBREAKABLE_CELL_CRAFTER = registerBlockWithItem(new CellCrafterBlock(FabricBlockSettings.copyOf(CELL_CRAFTER).strength(-1.0F, 3600000.0F)), "unbreakable_cell_crafter");
   public static final Block BIG_CHAIN = registerBlockWithItem(new BigChainBlock(FabricBlockSettings.copyOf(Blocks.CHAIN)), "big_chain");
   public static final Block HARDSTONE = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.BEDROCK)), "hardstone");
   public static final Block WILTED_GRASS_BLOCK = registerBlockWithItem(new Block(FabricBlockSettings.copyOf(Blocks.GRASS_BLOCK).mapColor(MapColor.TEAL)), "wilted_grass_block");
@@ -129,8 +144,12 @@ public class MineCellsBlocks {
   public static final FlagBlock RAMPARTS_FLAG = registerFlag("ramparts", false);
   public static final FlagBlock INSUFFERABLE_CRYPT_FLAG = registerFlag("insufferable_crypt", false);
   public static final FlagBlock BLACK_BRIDGE_FLAG = registerFlag("black_bridge", false);
-  public static final FlagBlock RED_RIBBON_FLAG = registerFlag("red_ribbon", false);
-  public static final FlagBlock LARGE_RED_RIBBON_FLAG = registerFlag("large_red_ribbon", true);
+
+  public static final Map<DyeColor, FlagBlock> RIBBON_FLAGS = ORDERED_COLORS.stream()
+    .collect(Collectors.toMap(Function.identity(), it -> registerFlag(it.getName() + "_ribbon", false)));
+
+  public static final Map<DyeColor, FlagBlock> LARGE_RIBBON_FLAGS = ORDERED_COLORS.stream()
+    .collect(Collectors.toMap(Function.identity(), it -> registerFlag("large_" + it.getName() + "_ribbon", true)));
 
   public static final SpawnerRuneBlock SPAWNER_RUNE = registerBlock(new SpawnerRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision().nonOpaque()), "spawner_rune");
 
@@ -138,9 +157,9 @@ public class MineCellsBlocks {
   public static final Block BARRIER_RUNE = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).noCollision(), false), "barrier_rune");
   public static final Block SOLID_BARRIER = registerBlockWithItem(new BarrierRuneBlock(FabricBlockSettings.copyOf(Blocks.BARRIER), true), "solid_barrier_rune");
   public static final Block CONDITIONAL_BARRIER = registerBlock(new ConditionalBarrierBlock(FabricBlockSettings.copyOf(Blocks.BARRIER)), "conditional_barrier");
-  public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
-  public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
-  public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BARRIER_RUNE), BarrierControllerBlock::playerPredicate), "player_barrier_controller");
+  public static final Block BOSS_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).solid().noCollision().nonOpaque(), BarrierControllerBlock::bossPredicate), "boss_barrier_controller");
+  public static final Block BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BOSS_BARRIER_CONTROLLER), BarrierControllerBlock::bossEntryPredicate), "boss_entry_barrier_controller");
+  public static final Block PLAYER_BARRIER_CONTROLLER = registerBlock(new BarrierControllerBlock(FabricBlockSettings.copyOf(BOSS_BARRIER_CONTROLLER), BarrierControllerBlock::playerPredicate), "player_barrier_controller");
 
   // Portals
   public static final TeleporterBlock TELEPORTER_CORE = registerBlock(new TeleporterBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).noCollision()), "teleporter_core");
@@ -192,11 +211,26 @@ public class MineCellsBlocks {
 
   private static FlagBlock registerFlag(String name, boolean large) {
     var flag = registerBlockWithItem(
-      new FlagBlock(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER), name, large),
+      new FlagBlock((preventZFighting(FabricBlockSettings.copyOf(Blocks.WHITE_BANNER))), name, large),
       name + "_flag"
     );
     FLAG_BLOCKS.add(flag);
     return flag;
+  }
+
+  @SuppressWarnings("UnstableApiUsage") private static FabricBlockSettings preventZFighting(FabricBlockSettings settings) {
+    ((AbstractBlockSettingsAccessor) settings).setOffsetter(Optional.of((state, world, pos) -> {
+      var x = pos.getX() % 3;
+      var y = pos.getY() % 3;
+      var z = pos.getZ() % 3;
+      return (new Vec3d(
+        (z * 0.001) + (y * 0.0015),
+        (x * 0.001) + (z * 0.0015),
+        (y * 0.001) + (x * 0.0015)
+      ));
+    }));
+
+    return settings;
   }
 
   private static FabricItemSettings defaultItemSettings() {

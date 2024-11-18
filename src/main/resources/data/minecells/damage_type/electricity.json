@@ -1,0 +1,5 @@
+{
+  "message_id": "minecells.electricity",
+  "exhaustion": 0.15,
+  "scaling": "when_caused_by_living_non_player"
+}
