@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.mixin.network;
 
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,12 +29,16 @@ public class ServerPlayNetworkHandlerMixin {
     var mainhandStack = this.player.getMainHandStack();
     var offhandStack = this.player.getOffHandStack();
 
+    var ctx = ValueCalculatorContext.create()
+      .with(ValueCalculatorParameter.HOLDER, player)
+      .with(ValueCalculatorParameter.HOLDER_STACK, mainhandStack);
+
     if (mainhandStack.getItem() instanceof CustomShieldItem shield) {
-      player.getItemCooldownManager().set(shield, shield.shieldType.getCooldown(false));
+      player.getItemCooldownManager().set(shield, shield.shieldType.getCooldown(ctx, false));
     }
 
     if (offhandStack.getItem() instanceof CustomShieldItem shield) {
-      player.getItemCooldownManager().set(shield, shield.shieldType.getCooldown(false));
+      player.getItemCooldownManager().set(shield, shield.shieldType.getCooldown(ctx, false));
     }
   }
 }

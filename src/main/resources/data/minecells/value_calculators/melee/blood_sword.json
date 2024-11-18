@@ -1,0 +1,13 @@
+{
+  "variables": {
+    "blood_power": {
+      "type": "gimm1q:attribute",
+      "attribute": "death_knights:blood"
+    }
+  },
+  "equations": {
+    "damage": 7.0,
+    "speed": 1.6,
+    "extra_damage": "blood_power"
+  }
+}

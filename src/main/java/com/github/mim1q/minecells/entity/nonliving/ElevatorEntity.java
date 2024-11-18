@@ -60,9 +60,9 @@ public class ElevatorEntity extends Entity {
   boolean poweredTop = true;
   boolean poweredBottom = true;
 
-  float maxSpeed = MineCells.COMMON_CONFIG.elevator.speed;
-  float acceleration = MineCells.COMMON_CONFIG.elevator.acceleration;
-  float damage = MineCells.COMMON_CONFIG.elevator.damage;
+  float maxSpeed = MineCells.COMMON_CONFIG.elevator().speed;
+  float acceleration = MineCells.COMMON_CONFIG.elevator().acceleration;
+  float damage = MineCells.COMMON_CONFIG.elevator().damage;
 
   protected ArrayList<LivingEntity> hitEntities = new ArrayList<>();
 

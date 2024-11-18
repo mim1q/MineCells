@@ -16,7 +16,7 @@ public class GrenadierEntityRenderer extends MineCellsEntityRenderer<GrenadierEn
 
   public GrenadierEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new GrenadierEntityModel(ctx.getPart(MineCellsRenderers.GRENADIER_LAYER)), 0.35F);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.grenadierGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().grenadierGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
   }

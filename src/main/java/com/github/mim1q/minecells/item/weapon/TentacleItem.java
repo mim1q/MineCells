@@ -1,19 +1,19 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
+import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.minecraft.client.item.TooltipContext;
+import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.text.Text;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -23,18 +23,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Objects;
 
-import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
-
-public class TentacleItem extends SwordItem implements WeaponWithAbility, CrittingWeapon {
+public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility {
   public HitResult hitResult = null;
 
-  public TentacleItem(int attackDamage, float attackSpeed, Settings settings) {
-    super(CELL_INFUSED_STEEL_MATERIAL, attackDamage, attackSpeed, settings);
+  public static final ValueCalculator ABILITY_DAMAGE_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_damage", 0.0);
+  private static final ValueCalculator ABILITY_COOLDOWN_CALCULATOR = ModValueCalculators.of("melee/conjunctivius_tentacle", "ability_cooldown", 0.0);
+
+  public TentacleItem(Settings settings) {
+    super("conjunctivius_tentacle", settings);
   }
 
   @Override
@@ -44,15 +43,22 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
         var pos = this.hitResult.getPos();
 
         if (this.hitResult.getType() == HitResult.Type.ENTITY) {
-          var targetEntity = ((EntityHitResult)this.hitResult).getEntity();
+          var targetEntity = ((EntityHitResult) this.hitResult).getEntity();
           pos = targetEntity.getPos().add(0.0D, targetEntity.getHeight() / 2.0D, 0.0D);
         }
 
         if (this.hitResult.getType() == HitResult.Type.BLOCK) {
-          pos = ((BlockHitResult)hitResult).getBlockPos().toCenterPos();
+          pos = ((BlockHitResult) hitResult).getBlockPos().toCenterPos();
         }
 
         world.playSound(user.getX(), user.getY(), user.getZ(), MineCellsSounds.TENTACLE_CHARGE, user.getSoundCategory(), 1.0F, 1.0F, false);
+
+        var cooldown = getAbilityCooldown(user.getStackInHand(hand), user);
+
+        if (user instanceof ServerPlayerEntity serverPlayer) {
+          serverPlayer.getItemCooldownManager().set(this, cooldown);
+        }
+
         var packet = new UseTentacleWeaponC2SPacket(pos);
         packet.send();
 
@@ -68,33 +74,26 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
   }
 
   @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
-    fillTooltip(tooltip, false, "item.minecells.tentacle.description", stack);
+  public ValueCalculator getAbilityDamageCalculator() {
+    return ABILITY_DAMAGE_CALCULATOR;
   }
 
   @Override
-  public float getBaseAbilityDamage(ItemStack stack) {
-    return 0.0F;
-  }
-
-  @Override
-  public int getBaseAbilityCooldown(ItemStack stack) {
-    return 30;
+  public ValueCalculator getAbilityCooldownCalculator() {
+    return ABILITY_COOLDOWN_CALCULATOR;
   }
 
   @Override
   public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-    if (!(world.isClient && selected)) return;
-
     if (entity instanceof PlayerEntity player) {
-      if (player.getItemCooldownManager().isCoolingDown(this)) {
-        this.hitResult = null;
+      if (!player.isMainPlayer() || player.getItemCooldownManager().isCoolingDown(this)) {
         return;
       }
+    } else {
+      return;
     }
 
-    var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance;
+    var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance();
     var minDistance = 3;
     var targetPos = entity.getEyePos().add(entity.getRotationVec(0.5F).multiply(maxDistance));
     var entityRaycast = ProjectileUtil.raycast(
@@ -107,8 +106,8 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
     );
     if (
       entityRaycast != null
-      && entityRaycast.getType() != HitResult.Type.MISS
-      && entityRaycast.getPos().squaredDistanceTo(entity.getEyePos()) >= minDistance * minDistance
+        && entityRaycast.getType() != HitResult.Type.MISS
+        && entityRaycast.getPos().squaredDistanceTo(entity.getEyePos()) >= minDistance * minDistance
     ) {
       this.hitResult = entityRaycast;
       return;
@@ -123,7 +122,7 @@ public class TentacleItem extends SwordItem implements WeaponWithAbility, Critti
 
     if (
       this.hitResult != null
-      && BlockPos.ofFloored(this.hitResult.getPos()).getSquaredDistance(entity.getPos()) <= minDistance * minDistance
+        && BlockPos.ofFloored(this.hitResult.getPos()).getSquaredDistance(entity.getPos()) <= minDistance * minDistance
     ) {
       this.hitResult = null;
     }

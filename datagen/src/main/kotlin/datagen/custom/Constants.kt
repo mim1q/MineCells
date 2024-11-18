@@ -1,6 +1,11 @@
 package datagen.custom
 
 object Constants {
+  val COLORS = setOf(
+    "black", "gray", "light_gray", "white", "red", "orange", "yellow", "lime",
+    "green", "cyan", "light_blue", "blue", "purple", "magenta", "pink", "brown",
+  )
+
   val MINECELLS_DIMENSIONS = setOf(
     "prison", "promenade", "insufferable_crypt", "ramparts", "black_bridge"
   )

@@ -1,0 +1,11 @@
+{
+  "variables": {
+    "power_enchant": {
+      "type": "gimm1q:enchantment",
+      "enchantment": "minecraft:power"
+    }
+  },
+  "equations": {
+    "global_extra_damage": "(BASE_DAMAGE + CRIT_DAMAGE) * 0.2 * power_enchant"
+  }
+}

@@ -9,6 +9,7 @@
     "client.SlotAccessor",
     "client.hud.BossBarUpdaterMixin",
     "compat.lithium.LithiumEntityCollisionsMixin",
+    "enchant.EnchantmentMixin",
     "entity.BorderEntityCollisionMixin",
     "entity.EntityFallResetMixin",
     "entity.EntityMixin",

@@ -16,9 +16,9 @@ public class GameOptionsMixin implements GameOptionsAccessor {
     SimpleOption.constantTooltip(Text.translatable("options.minecells.screenshake.tooltip")),
     GameOptionsMixin::getPercentValueText,
     SimpleOption.DoubleSliderCallbacks.INSTANCE,
-    (double) MineCellsClient.CLIENT_CONFIG.screenShake.global,
+    (double) MineCellsClient.CLIENT_CONFIG.screenShake().global,
     (it) -> {
-      MineCellsClient.CLIENT_CONFIG.screenShake.global = it.floatValue();
+      MineCellsClient.CLIENT_CONFIG.screenShake().global = it.floatValue();
       MineCellsClient.CLIENT_CONFIG.save();
       MineCellsClient.setupScreenShakeModifiers(it.floatValue());
     }

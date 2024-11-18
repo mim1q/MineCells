@@ -1,0 +1,7 @@
+{
+  "variables": {},
+  "equations": {
+    "damage": 25.0,
+    "speed": 1.0
+  }
+}

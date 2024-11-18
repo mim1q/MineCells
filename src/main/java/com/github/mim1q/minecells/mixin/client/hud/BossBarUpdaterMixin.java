@@ -33,7 +33,7 @@ public class BossBarUpdaterMixin {
     boolean thickenFog,
     Operation<ClientBossBar> original
   ) {
-    if (MineCellsClient.CLIENT_CONFIG.customBossBars
+    if (MineCellsClient.CLIENT_CONFIG.customBossBars()
       && name.getContent() instanceof TranslatableTextContent content
       && content.getKey().equals("entity.minecells.conjunctivius")
     ) {

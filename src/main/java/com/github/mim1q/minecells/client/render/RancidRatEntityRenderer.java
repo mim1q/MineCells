@@ -16,7 +16,7 @@ public class RancidRatEntityRenderer extends MineCellsEntityRenderer<RancidRatEn
 
   public RancidRatEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new RancidRatEntityModel(context.getPart(MineCellsRenderers.RANCID_RAT_LAYER)), 0.35f);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.rancidRatGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().rancidRatGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, GLOW_TEXTURE));
     }
   }

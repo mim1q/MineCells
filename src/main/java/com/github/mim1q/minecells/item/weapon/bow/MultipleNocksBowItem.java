@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -19,7 +21,10 @@ public class MultipleNocksBowItem extends CustomBowItem {
   protected void shoot(World world, LivingEntity user, ItemStack stack) {
     world.playSound(null, user.getBlockPos(), MineCellsSounds.BOW_RELEASE, SoundCategory.PLAYERS, 0.7f, 0.9f);
 
-    var velocity = user.getRotationVec(1f).multiply(arrowType.getSpeed());
+    var context = ValueCalculatorContext.create()
+      .with(ValueCalculatorParameter.HOLDER, user)
+      .with(ValueCalculatorParameter.HOLDER_STACK, stack);
+    var velocity = user.getRotationVec(1f).multiply(arrowType.getSpeed(context));
     var angle = 15;
     var loaded = getLoadedProjectiles(stack);
 

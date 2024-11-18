@@ -1,12 +1,19 @@
 package com.github.mim1q.minecells.entity.nonliving.projectile;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType.ArrowBlockHitContext;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType.ArrowEntityHitContext;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,9 +34,13 @@ import static net.minecraft.entity.data.TrackedDataHandlerRegistry.STRING;
 public class CustomArrowEntity extends PersistentProjectileEntity {
   public static final TrackedData<String> ARROW_TYPE = DataTracker.registerData(CustomArrowEntity.class, STRING);
 
+  private static final ValueCalculator GLOBAL_ARROW_EXTRA_DAMAGE =
+    ValueCalculator.of(MineCells.createId("ranged/global"), "global_extra_damage");
+
   private CustomArrowType arrowType = CustomArrowType.DEFAULT;
   private Vec3d shotFromPos;
   private ItemStack bow;
+  private ItemStack item = ItemStack.EMPTY;
 
   public CustomArrowEntity(EntityType<? extends CustomArrowEntity> entityType, World world) {
     super(entityType, world);
@@ -44,6 +55,9 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
     setPosition(owner.getEyePos().subtract(0.0, 0.2, 0.0));
     this.shotFromPos = shotFromPos;
     this.bow = bow.copy();
+    this.item = EnchantmentHelper.getLevel(Enchantments.INFINITY, bow) > 0
+      ? ItemStack.EMPTY
+      : arrowType.getAmmoItem().map(ItemStack::new).orElse(ItemStack.EMPTY);
   }
 
   @Override
@@ -83,7 +97,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
   protected void onEntityHit(EntityHitResult entityHitResult) {
     if (getWorld().isClient || this.getOwner() == null) return;
 
-    if (entityHitResult.getEntity() instanceof LivingEntity target) {
+    if (entityHitResult.getEntity() instanceof LivingEntity target && getOwner() instanceof LivingEntity holder) {
       var entityHitContext = new ArrowEntityHitContext(
         (ServerWorld) getWorld(),
         bow,
@@ -94,12 +108,39 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
         this
       );
 
-      var damage = arrowType.getDamage();
+      var context = ValueCalculatorContext.create()
+        .with(ValueCalculatorParameter.HOLDER, holder)
+        .with(ValueCalculatorParameter.HOLDER_STACK, bow)
+        .with(ValueCalculatorParameter.TARGET, target);
+
+      var damage = arrowType.getDamage(context);
+      var critDamage = 0f;
+
       if (arrowType.shouldCrit(entityHitContext)) {
         getWorld().playSound(null, getOwner().getBlockPos(), MineCellsSounds.CRIT, SoundCategory.PLAYERS, 1f, 1f);
-        damage += arrowType.getAdditionalCritDamage();
+        critDamage = arrowType.getAdditionalCritDamage(context);
       }
+
+      var globalExtraDamage = (float) GLOBAL_ARROW_EXTRA_DAMAGE.calculate(
+        context
+          .withVariable("BASE_DAMAGE", damage)
+          .withVariable("CRIT_DAMAGE", critDamage)
+      );
+
+      damage += critDamage + globalExtraDamage;
+
       target.damage(arrowType.getDamageSource(getWorld(), this, (LivingEntity) getOwner()), damage);
+      if (this.getPunch() > 0) {
+        double d = Math.max(0.0, 1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+        Vec3d vec3d = this.getVelocity().multiply(1.0, 0.0, 1.0).normalize().multiply(this.getPunch() * 0.6 * d);
+        if (vec3d.lengthSquared() > 0.0) {
+          target.addVelocity(vec3d.x, 0.1, vec3d.z);
+        }
+      }
+
+      if (isOnFire()) {
+        target.setOnFireFor(5);
+      }
 
       this.getArrowType().onEntityHit(entityHitContext);
       this.discard();
@@ -132,7 +173,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
 
   @Override
   protected ItemStack asItemStack() {
-    return arrowType.getAmmoItem().map(ItemStack::new).orElse(ItemStack.EMPTY);
+    return item.copy();
   }
 
   @Override

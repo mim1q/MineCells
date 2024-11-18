@@ -91,7 +91,7 @@ public abstract class EntityFallResetMixin {
 
     //noinspection ConstantValue
     if (getWorld().isClient
-      || MineCells.COMMON_CONFIG.disableFallProtection
+      || MineCells.COMMON_CONFIG.disableFallProtection()
       || this.age < 10
       || this.age % 2 == 0
       || fallResetY == null

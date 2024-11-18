@@ -7,6 +7,8 @@ import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType.MeleeDamag
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType.RangedDamageContext;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
+import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -57,6 +59,14 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
 
     var activeItem = getActiveItem();
     if (activeItem.getItem() instanceof CustomShieldItem shield) {
+      var ctx = ValueCalculatorContext.create()
+        .with(ValueCalculatorParameter.HOLDER, getThis())
+        .with(ValueCalculatorParameter.HOLDER_STACK, activeItem);
+
+      if (source.getAttacker() instanceof LivingEntity attacker) {
+        ctx.with(ValueCalculatorParameter.TARGET, attacker);
+      }
+
       var angleDifference = CustomShieldItem.getAngleDifference(getThis(), source);
       var parryTime = shield.shieldType.getParryTime();
       var damageContext = new DamageContext(source, getThis(), amount);
@@ -75,7 +85,8 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
           shield.shieldType::onParry,
           shield.shieldType::onMeleeParry,
           shield.shieldType::onRangedParry,
-          true
+          true,
+          ctx
         );
         getWorld().playSound(null, getX(), getY(), getZ(), MineCellsSounds.CRIT, getSoundCategory(), 1f, 1f);
         CustomShieldItem.setParried(activeItem, true);
@@ -85,7 +96,7 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
 
         minecells$shieldBlocking = true;
 
-        var reduction = shield.shieldType.getBlockDamageReduction();
+        var reduction = shield.shieldType.getBlockDamageReduction(ctx);
         var result = damage(source, amount * (1f - reduction));
 
         applyShieldEffects(
@@ -94,7 +105,8 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
           shield.shieldType::onBlock,
           shield.shieldType::onMeleeBlock,
           shield.shieldType::onRangedBlock,
-          false
+          false,
+          ctx
         );
 
         cir.setReturnValue(result);
@@ -109,7 +121,8 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
     Consumer<DamageContext> baseEffect,
     Consumer<MeleeDamageContext> meleeEffect,
     Consumer<RangedDamageContext> rangedEffect,
-    boolean isParry
+    boolean isParry,
+    ValueCalculatorContext ctx
   ) {
     this.minecells$lastBlockedTime = age;
     this.minecells$lastBlockedEntity = context.source().getSource() instanceof LivingEntity entity ? entity : null;
@@ -159,7 +172,7 @@ public abstract class ShieldPlayerEntityMixin extends LivingEntity {
         if (isParry) {
           livingAttacker.setVelocity(Vec3d.ZERO);
           livingAttacker.takeKnockback(1, livingAttacker.getX() - getX(), livingAttacker.getZ() - getZ());
-          livingAttacker.damage(getWorld().getDamageSources().playerAttack(getThis()), shieldType.getParryDamage());
+          livingAttacker.damage(getWorld().getDamageSources().playerAttack(getThis()), shieldType.getParryDamage(ctx));
         }
         meleeEffect.accept(context.toMelee(livingAttacker));
       }

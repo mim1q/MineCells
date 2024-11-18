@@ -18,7 +18,7 @@ public class ScorpionEntityRenderer extends MineCellsEntityRenderer<ScorpionEnti
 
   public ScorpionEntityRenderer(EntityRendererFactory.Context context) {
     super(context, new ScorpionEntityModel(context.getPart(MineCellsRenderers.SCORPION_LAYER)), 0.75F);
-    if (MineCellsClient.CLIENT_CONFIG.rendering.scorpionGlow) {
+    if (MineCellsClient.CLIENT_CONFIG.rendering().scorpionGlow) {
       this.addFeature(new GlowFeatureRenderer<>(this, TEXTURE_GLOW));
     }
   }

@@ -374,7 +374,7 @@ public class MineCellsRenderers {
         var stackItem = (CustomBowItem) stack.getItem();
         return entity.getActiveItem() != stack
           ? 0.0F
-          : (float) entity.getItemUseTime() / stackItem.getDrawTime(stack);
+          : (float) entity.getItemUseTime() / stackItem.getDrawTime(entity, stack);
       }
     });
   }
@@ -387,7 +387,7 @@ public class MineCellsRenderers {
         var stackItem = (CustomCrossbowItem) stack.getItem();
         return CrossbowItem.isCharged(stack)
           ? 0.0F
-          : (float) entity.getItemUseTime() / stackItem.getDrawTime(stack);
+          : (float) entity.getItemUseTime() / stackItem.getDrawTime(entity, stack);
       }
     });
 

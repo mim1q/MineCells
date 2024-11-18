@@ -20,7 +20,7 @@ public class ServerPacketHandler {
       var targetPos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
       var playerItem = player.getMainHandStack();
 
-      var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance + 2.0;
+      var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance() + 2.0;
 
       if (!playerItem.isOf(MineCellsItems.TENTACLE)
         || targetPos.squaredDistanceTo(player.getPos()) > maxDistance * maxDistance
@@ -30,11 +30,11 @@ public class ServerPacketHandler {
       }
 
       server.execute(() -> {
-        var tentacle = TentacleWeaponEntity.create(player.getWorld(), player, targetPos);
+        var tentacle = TentacleWeaponEntity.create(player.getWorld(), player, targetPos, playerItem);
         player.getWorld().spawnEntity(tentacle);
         player.getItemCooldownManager().set(
           MineCellsItems.TENTACLE,
-          MineCellsItems.TENTACLE.getBaseAbilityCooldown(playerItem)
+          MineCellsItems.TENTACLE.getAbilityCooldown(playerItem, player)
         );
       });
     });

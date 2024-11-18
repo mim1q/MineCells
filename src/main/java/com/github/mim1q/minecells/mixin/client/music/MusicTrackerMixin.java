@@ -36,14 +36,14 @@ public abstract class MusicTrackerMixin {
   )
   private void minecells$injectOnTick(CallbackInfo ci) {
     var world = this.client.world;
-    if (world == null || !MineCellsClient.CLIENT_CONFIG.experimentalMusicLooping) {
+    if (world == null || !MineCellsClient.CLIENT_CONFIG.experimentalMusicLooping()) {
       this.lastDimension = null;
       return;
     }
 
     var dimension = MineCellsDimension.of(world);
     var dimensionChanged = lastDimension != dimension;
-    var playing = this.client.getSoundManager().isPlaying(current);
+    var playing = current != null && this.client.getSoundManager().isPlaying(current);
     if (dimension != null && !dimension.canMusicStart(this.client.player)) return;
     lastDimension = dimension;
     if (dimension == null) return;

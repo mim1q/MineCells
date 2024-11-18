@@ -420,8 +420,10 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
           40,
           "minecells:conjunctivius_death"
         );
-
         this.playSound(MineCellsSounds.CONJUNCTIVIUS_DEATH, 2.0F, 1.0F);
+      }
+
+      if (deathTime >= 60) {
         this.remove(RemovalReason.KILLED);
       }
     }

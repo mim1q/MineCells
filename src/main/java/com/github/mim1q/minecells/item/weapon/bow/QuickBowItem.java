@@ -27,7 +27,8 @@ public class QuickBowItem extends CustomBowItem {
 
   @Override
   public int getMaxUseTime(ItemStack stack) {
-    return this.getDrawTime(stack) + 2;
+    var user = (stack.getHolder() instanceof LivingEntity living) ? living : null;
+    return this.getDrawTime(user, stack) + 2;
   }
 
   @Override

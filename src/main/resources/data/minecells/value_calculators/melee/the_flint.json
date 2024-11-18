@@ -1,0 +1,15 @@
+{
+  "variables": {
+    "fire_power": {
+      "type": "gimm1q:attribute",
+      "attribute": "spell_power:fire"
+    }
+  },
+  "equations": {
+    "damage": 8.0,
+    "speed": 1.0,
+    "ability_damage": 8.0,
+    "ability_cooldown": 5.0,
+    "extra_damage": "fire_power"
+  }
+}
