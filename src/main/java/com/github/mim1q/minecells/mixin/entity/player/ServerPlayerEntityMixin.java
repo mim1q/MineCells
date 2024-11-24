@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.TeleportUtils;
-import com.github.mim1q.minecells.world.state.MineCellsData;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -85,11 +84,5 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     ) {
       ci.cancel();
     }
-  }
-
-  @Inject(method = "onSpawn", at = @At("HEAD"))
-  void minecells$injectOnSpawn(CallbackInfo ci) {
-    MineCellsData.syncCurrentPlayerData((ServerPlayerEntity) (Object) this, this.getServerWorld());
-    MineCells.DIMENSION_GRAPH.saveStuckPlayer((ServerPlayerEntity) (Object) this);
   }
 }

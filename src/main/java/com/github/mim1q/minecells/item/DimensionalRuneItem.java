@@ -2,16 +2,13 @@ package com.github.mim1q.minecells.item;
 
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
-import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -62,16 +59,7 @@ public class DimensionalRuneItem extends Item {
     var posOverride = ((DoorwayPortalBlockEntity) doorway).getPosOverride();
     if (posOverride == null) posOverride = new BlockPos(getClosestMultiplePosition(context.getBlockPos(), 1024));
 
-    var playerData = MineCellsData.getPlayerData(
-      (ServerPlayerEntity) context.getPlayer(),
-      (ServerWorld) world,
-      posOverride
-    );
-
-    if (portalBlock.type.dimension != MineCellsDimension.PRISONERS_QUARTERS && !playerData.hasVisitedDimension(portalBlock.type.dimension)) {
-      context.getPlayer().sendMessage(Text.translatable(NOT_VISITED_KEY), true);
-      return ActionResult.PASS;
-    }
+    // todo
 
     var pos = Vec3d.ofCenter(context.getBlockPos());
     ((ServerWorld) world).spawnParticles(MineCellsParticles.SPECKLE.get(portalBlock.type.color), pos.getX(), pos.getY(), pos.getZ(), 50, 0.5F, 0.1F, 0.5F, 0.1F);

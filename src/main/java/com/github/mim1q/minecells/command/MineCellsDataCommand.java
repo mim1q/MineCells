@@ -1,9 +1,6 @@
 package com.github.mim1q.minecells.command;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
-import com.github.mim1q.minecells.world.state.MineCellsData;
-import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -61,7 +58,7 @@ public class MineCellsDataCommand {
     } catch (CommandSyntaxException e) {
       return 1;
     }
-    MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
+    // todo
     ctx.getSource().sendFeedback(() -> Text.literal("Mine Cells data synchronized for player " + player.getName().getString()), false);
     return 0;
   }
@@ -73,13 +70,7 @@ public class MineCellsDataCommand {
     } catch (CommandSyntaxException e) {
       return 1;
     }
-    var data = MineCellsData.get(ctx.getSource().getWorld());
-    data.runs.forEach((k, v) -> {
-      v.players.remove(player.getUuid());
-      data.markDirty();
-      MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
-    });
-    MineCellsData.syncCurrentPlayerData(player, ctx.getSource().getWorld());
+    // todo
     MineCells.DIMENSION_GRAPH.saveStuckPlayer(player);
     ctx.getSource().sendFeedback(() -> Text.literal("Mine Cells data cleared for player " + player.getName().getString()), false);
     return 0;
@@ -88,8 +79,7 @@ public class MineCellsDataCommand {
   private static int printServerPlayerData(CommandContext<ServerCommandSource> ctx) {
     try {
       var player = EntityArgumentType.getPlayer(ctx, "player");
-      var data = ((PlayerEntityAccessor)player).getMineCellsData();
-      sendData(ctx.getSource(), player.getName().getString(), data);
+      // todo
     } catch (CommandSyntaxException e) {
       return 1;
     }
@@ -104,8 +94,7 @@ public class MineCellsDataCommand {
   private static int printServerWorldData(CommandContext<ServerCommandSource> ctx) {
     try {
       var player = EntityArgumentType.getPlayer(ctx, "player");
-      var data = new PlayerSpecificMineCellsData(MineCellsData.get(ctx.getSource().getWorld()), player);
-      sendData(ctx.getSource(), player.getName().getString(), data);
+      // todo
     } catch (CommandSyntaxException e) {
       return 1;
     }
@@ -116,26 +105,7 @@ public class MineCellsDataCommand {
     var world = ctx.getSource().getWorld();
     var player = ctx.getSource().getPlayer();
     if (world == null || player == null) return 1;
-    MineCellsData.get(world).wipe(world, player);
+    // todo
     return 0;
-  }
-
-  private static void sendData(
-    ServerCommandSource source,
-    String playerName,
-    PlayerSpecificMineCellsData data
-  ) {
-    source.sendMessage(Text.of("=== Mine Cells Data for " + playerName + " ==="));
-    data.map.forEach((key, value) -> {
-      source.sendMessage(Text.of(key));
-      source.sendMessage(Text.of(" Portals:"));
-      value.portals.forEach(it -> source.sendMessage(Text.of("  " + it.fromDimension() + " [" + it.fromPos().toShortString() + "] -> " + it.toDimension() + " [" + it.toPos().toShortString() + "]")));
-      source.sendMessage(Text.of(" Activated Spawner Runes:"));
-      value.activatedSpawnerRunes.forEach((k, v) -> {
-        var runesString = new StringBuilder();
-        v.forEach(it -> runesString.append("[").append(it.toShortString()).append("] "));
-        source.sendMessage(Text.of("  " + k + ": " + runesString));
-      });
-    });
   }
 }

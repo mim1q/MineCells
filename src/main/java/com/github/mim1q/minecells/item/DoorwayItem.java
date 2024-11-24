@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.item;
 
-import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
@@ -111,10 +110,11 @@ public class DoorwayItem extends AliasedBlockItem {
       var x = Math.round(entity.getPos().x / 1024F) * 1024;
       var z = Math.round(entity.getPos().z / 1024F) * 1024;
       var area = "[x: " + x + ", z: " + z + "]";
-      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(doorwayBlock.type.dimension)
-        ? TOOLTIP_VISITED
-        : TOOLTIP_NOT_VISITED;
-      player.sendMessage(Text.translatable(message, Text.translatable(doorwayBlock.type.dimension.translationKey), area), true);
+      // todo
+//      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(doorwayBlock.type.dimension)
+//        ? TOOLTIP_VISITED
+//        : TOOLTIP_NOT_VISITED;
+//      player.sendMessage(Text.translatable(message, Text.translatable(doorwayBlock.type.dimension.translationKey), area), true);
     }
   }
 

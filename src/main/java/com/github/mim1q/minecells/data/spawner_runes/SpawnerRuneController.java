@@ -1,17 +1,13 @@
 package com.github.mim1q.minecells.data.spawner_runes;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData.EntitySpawnData;
-import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -44,8 +40,6 @@ public class SpawnerRuneController {
       var d = data.playerDistance();
       for (var player : world.getEntitiesByClass(ServerPlayerEntity.class, Box.of(Vec3d.ofCenter(pos), d, d, d), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)) {
         if (canPlayerActivate(player, world, pos)) {
-          MineCellsData.getPlayerData(player, (ServerWorld) world, null).addActivatedSpawnerRune(MineCellsDimension.of(world), pos);
-          MineCellsData.syncCurrentPlayerData(player, (ServerWorld) world);
           spawnEntities(data, pos, player);
           break;
         }
@@ -105,21 +99,13 @@ public class SpawnerRuneController {
   }
 
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
-    var dimensionData = ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData();
-    if (dimensionData == null) {
-      return false;
-    }
-    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
+    // TODO: player check
+    return true;
   }
 
   private boolean canClientPlayerActivate(World world, BlockPos pos) {
-    var player = MinecraftClient.getInstance().player;
-    if (player == null) return false;
-    var dimensionData = ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData();
-    if (dimensionData == null) {
-      return false;
-    }
-    return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
+    // TODO: player check
+    return true;
   }
 
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {

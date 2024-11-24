@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.dimension;
 
-import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
@@ -56,9 +55,7 @@ public class MineCellsDimensionGraph {
     if (!MineCellsDimension.isMineCellsDimension(player.getWorld())) {
       return;
     }
-    var stuck = !canTraverseToOverworld(
-      MineCellsDimension.of(player.getWorld()), (from, to) -> ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData().getPortalData(from, to).isPresent()
-    );
+    var stuck = false; // todo
     if (stuck) {
       player.server.execute(() -> {
         player.sendMessage(Text.translatable("chat.minecells.stuck_message"));

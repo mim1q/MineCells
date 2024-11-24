@@ -5,8 +5,6 @@ import com.github.mim1q.minecells.accessor.PlayerEntityAccessor;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import com.github.mim1q.minecells.world.state.MineCellsData;
-import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -41,7 +39,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   private int balancedBladeStacks = 0;
   private int balancedBladeTimer = 0;
   private int minecells$invincibilityFrames = 0;
-  private PlayerSpecificMineCellsData mineCellsPlayerData = new PlayerSpecificMineCellsData(new NbtCompound());
 
   protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -73,21 +70,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     if (minecells$invincibilityFrames > 0) {
       minecells$invincibilityFrames--;
     }
-  }
-
-  @Override
-  public PlayerSpecificMineCellsData getMineCellsData() {
-    return mineCellsPlayerData;
-  }
-
-  @Override
-  public MineCellsData.PlayerData getCurrentMineCellsPlayerData() {
-    return mineCellsPlayerData.get(this.getBlockPos());
-  }
-
-  @Override
-  public void setMineCellsData(PlayerSpecificMineCellsData data) {
-    mineCellsPlayerData = data;
   }
 
   @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
