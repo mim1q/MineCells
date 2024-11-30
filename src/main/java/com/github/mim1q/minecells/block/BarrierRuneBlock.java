@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
@@ -59,7 +60,7 @@ public class BarrierRuneBlock extends BarrierBlock {
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     var item = this.asItem();
     if (item == Blocks.AIR.asItem()) return VoxelShapes.empty();
-    return context.isHolding(item) ? VoxelShapes.fullCube() : VoxelShapes.empty();
+    return (context.isHolding(item) || context.isHolding(Items.DEBUG_STICK)) ? VoxelShapes.fullCube() : VoxelShapes.empty();
   }
 
   @Nullable
