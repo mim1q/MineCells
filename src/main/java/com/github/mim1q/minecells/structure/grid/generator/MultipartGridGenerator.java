@@ -20,8 +20,6 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
 
   @Override
   public List<RoomData> generate(Structure.Context context) {
-    var seed = getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024).hashCode() + context.seed();
-    context.random().setSeed(seed);
     return super.generate(context);
   }
 
