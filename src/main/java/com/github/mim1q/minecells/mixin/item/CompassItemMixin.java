@@ -1,9 +1,12 @@
 package com.github.mim1q.minecells.mixin.item;
 
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.CompassItem;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
@@ -24,8 +27,10 @@ public class CompassItemMixin {
       var dimension = MineCellsDimension.of(world);
       var player = MinecraftClient.getInstance().player;
       if (player == null) return;
-      var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024).add(dimension.spawnOffset);
-      cir.setReturnValue(GlobalPos.create(dimension.key, new BlockPos(pos.getX(), pos.getY(), pos.getZ())));
+      var point = GridBasedStructureUtils.getSpecialPoint((ServerWorld) world, player.getBlockPos(), dimension, SpecialPointIds.ENTRANCE);
+      if (point.isEmpty()) return;
+      var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
+      cir.setReturnValue(GlobalPos.create(dimension.key, new BlockPos(point.get().offset().add(pos))));
     }
   }
 }

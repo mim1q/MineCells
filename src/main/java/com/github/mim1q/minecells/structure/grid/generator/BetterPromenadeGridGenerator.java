@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -40,9 +41,17 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   }
 
   @Override
+  public int getVersion() {
+    return 1;
+  }
+
+  @Override
   protected void addRooms(Random random) {
     addRoom(room(32, 0, 32, PATH_HALF).terrainFit().rotation(BlockRotation.CLOCKWISE_180));
-    addRoom(room(32, 0, 32, SPAWN).terrainFit().terrainFitOffset(8, 0, 15).offset(0, -7, 0));
+    addRoom(room(32, 0, 32, SPAWN)
+      .offset(0, -7, 0)
+      .specialPoint(SpecialPointIds.ENTRANCE, new Vec3i(0, 0, 0), BlockRotation.NONE)
+    );
     // Main road
     final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 23, random, 3, BEFORE_CROSSROADS_POST, AFTER_CROSSROADS_POST);
     final var mainRoadEnd = mainRoad.getLeft();
@@ -54,7 +63,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     final var sideRoad = addPath(mainRoadSkipped.add(1, 0, 0), BlockRotation.COUNTERCLOCKWISE_90, 9, random, -1, VINE_RUNE_POST, VINE_RUNE_POST);
     final var sideRoadEnd = sideRoad.getLeft();
     // End
-    addRoom(room(mainRoadEnd.add(0, 0, 1), RAMPARTS_TOWER).terrainFit(mainRoadEnd).terrainSampleOffset(8, 0, 15));
+    addRoom(room(mainRoadEnd.add(0, 0, 1), RAMPARTS_TOWER).specialPoint(SpecialPointIds.EXIT, new Vec3i(0, 0, 0), BlockRotation.NONE));
     addRoom(room(sideRoadEnd, VINE_RUNE).terrainFit().terrainSampleOffset(14, 0, 8).offset(0, -21, 0).rotation(BlockRotation.CLOCKWISE_90));
 
     // Additional buildings

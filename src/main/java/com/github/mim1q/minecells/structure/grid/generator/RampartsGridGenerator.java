@@ -43,6 +43,11 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
   }
 
   @Override
+  public int getVersion() {
+    return 1;
+  }
+
+  @Override
   protected void addRooms(Random random) {
     var turns = new boolean[]{random.nextBoolean(), random.nextBoolean(), random.nextBoolean(), random.nextBoolean()};
     if ((turns[0] && turns[1] && turns[2] && turns[3])

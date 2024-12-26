@@ -123,7 +123,7 @@ public class GridPiecesGenerator {
     protected abstract void addRooms(Random random);
 
     public List<RoomData> generate(Structure.Context context) {
-      var seed = getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024).hashCode() + context.seed();
+      var seed = getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024).hashCode() ^ context.seed();
       context.random().setSeed(seed);
 
       rooms.clear();
@@ -178,12 +178,14 @@ public class GridPiecesGenerator {
       return usedPositions.contains(pos);
     }
 
-    public static RoomGridGenerator single(Identifier roomId) {
-      return single(roomId, Vec3i.ZERO);
+    public abstract int getVersion();
+
+    public static RoomGridGenerator single(Identifier roomId, int version) {
+      return single(roomId, Vec3i.ZERO, version);
     }
 
-    public static RoomGridGenerator single(Identifier roomId, Vec3i offset) {
-      return new Single(roomId, offset);
+    public static RoomGridGenerator single(Identifier roomId, Vec3i offset, int version) {
+      return new Single(roomId, offset, version);
     }
 
     protected static RoomData room(int x, int y, int z, Identifier poolId) {
@@ -197,15 +199,22 @@ public class GridPiecesGenerator {
     public static final class Single extends RoomGridGenerator {
       private final Identifier roomId;
       private final Vec3i offset;
+      private final int version;
 
-      Single(Identifier roomId, Vec3i offset) {
+      Single(Identifier roomId, Vec3i offset, int version) {
         this.roomId = roomId;
         this.offset = offset;
+        this.version = version;
       }
 
       @Override
       protected void addRooms(Random random) {
         addRoom(Vec3i.ZERO, BlockRotation.random(random), roomId, offset);
+      }
+
+      @Override
+      public int getVersion() {
+        return version;
       }
     }
   }

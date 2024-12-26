@@ -12,6 +12,11 @@ public class PromenadeSpawnGridGenerator extends GridPiecesGenerator.RoomGridGen
   private static final Identifier RAMPARTS_TOWER = MineCells.createId("promenade/ramparts_tower");
 
   @Override
+  public int getVersion() {
+    return 1;
+  }
+
+  @Override
   protected void addRooms(Random random) {
     addRoom(new Vec3i(0, 0, 0), BlockRotation.NONE, SPAWN);
     addRoom(new Vec3i(-1, 0, 1), BlockRotation.CLOCKWISE_90, RAMPARTS_TOWER);

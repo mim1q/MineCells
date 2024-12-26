@@ -26,6 +26,11 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
 //    generateFloor(end2.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean(), false);
   }
 
+  @Override
+  public int getVersion() {
+    return 1;
+  }
+
   protected Vec3i generateFloor(Vec3i pos, BlockRotation rotation, Identifier startPool, Identifier endPool, Random random, boolean specialLeft, boolean sewersExit) {
     addRoom(pos, BlockRotation.NONE.rotate(rotation), startPool);
     Vec3i unit = rotation.rotate(Direction.SOUTH).getVector();

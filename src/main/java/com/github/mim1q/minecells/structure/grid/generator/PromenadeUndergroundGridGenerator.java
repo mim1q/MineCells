@@ -21,6 +21,11 @@ public class PromenadeUndergroundGridGenerator extends GridPiecesGenerator.RoomG
   public static final Identifier END = MineCells.createId("promenade/underground_buildings/end");
 
   @Override
+  public int getVersion() {
+    return 1;
+  }
+
+  @Override
   protected void addRooms(Random random) {
     addRoom(new Vec3i(0, 0, 0), BlockRotation.NONE, ENTRY);
     addRoom(new Vec3i(0, -1, 0), BlockRotation.NONE, SHAFT);

@@ -47,7 +47,7 @@ public enum MineCellsDimension {
   private final Identifier id;
   public final String translationKey;
   public final double borderSize;
-  private final GridPiecesGenerator.RoomGridGenerator baseGenerator;
+  public final GridPiecesGenerator.RoomGridGenerator baseGenerator;
 
   MineCellsDimension(Identifier id, double borderSize, GridPiecesGenerator.RoomGridGenerator baseGenerator) {
     this.key = RegistryKey.of(RegistryKeys.WORLD, id);
