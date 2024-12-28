@@ -11,6 +11,7 @@ import net.minecraft.world.gen.structure.Structure;
 import java.util.*;
 
 import static com.github.mim1q.minecells.util.MathUtils.getClosestMultiplePosition;
+import static com.github.mim1q.minecells.util.MathUtils.getRotatedOffsetWithinChunk;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridPiecesGenerator {
@@ -103,6 +104,7 @@ public class GridPiecesGenerator {
     }
 
     public RoomData specialPoint(Identifier id, Vec3i offset, BlockRotation facing) {
+      if (id == null) return this;
       this.specialPoint = new RoomGridGenerator.SpecialPoint(id, offset, facing);
       return this;
     }
@@ -168,7 +170,7 @@ public class GridPiecesGenerator {
       if (roomData.specialPoint != null) {
         specialPoints.add(new SpecialPoint(
           roomData.specialPoint.id(),
-          roomData.pos.multiply(16).add(new BlockPos(roomData.specialPoint.offset()).rotate(roomData.rotation)),
+          roomData.pos.multiply(16).add(getRotatedOffsetWithinChunk(roomData.specialPoint.offset, roomData.rotation)),
           roomData.specialPoint.facing().rotate(roomData.rotation)
         ));
       }

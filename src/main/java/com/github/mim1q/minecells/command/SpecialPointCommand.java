@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandRegistryAccess;
@@ -34,22 +35,26 @@ public class SpecialPointCommand {
   ) {
     dispatcher.register(literal("minecells:special_point").then(
       argument("id", IdentifierArgumentType.identifier())
-        .executes(specialPointAllArgs(false, false)).then(
+        .executes(specialPointAllArgs(false, false, false)).then(
           argument("dimension", StringArgumentType.string()).suggests(suggestDimension())
-            .executes(specialPointAllArgs(true, false)).then(
+            .executes(specialPointAllArgs(true, false, false)).then(
               argument("pos", BlockPosArgumentType.blockPos())
-                .executes(specialPointAllArgs(true, true))
+                .executes(specialPointAllArgs(true, true, false)).then(
+                  argument("clear", BoolArgumentType.bool())
+                    .executes(specialPointAllArgs(true, true, true))
+                )
             )
         )
     ));
 
     dispatcher.register(literal("minecells:clear_special_point_cache").executes(ctx -> {
       GridBasedStructureUtils.clearSpecialPointsCache();
+      ctx.getSource().sendFeedback(() -> Text.literal("Cleared special point cache"), true);
       return 0;
     }));
   }
 
-  private static Command<ServerCommandSource> specialPointAllArgs(boolean hasDimension, boolean hasPos) {
+  private static Command<ServerCommandSource> specialPointAllArgs(boolean hasDimension, boolean hasPos, boolean hasClear) {
     return (ctx) -> {
       var id = IdentifierArgumentType.getIdentifier(ctx, "id");
 
@@ -65,6 +70,11 @@ public class SpecialPointCommand {
       var searchPos = hasPos
         ? BlockPosArgumentType.getBlockPos(ctx, "pos")
         : BlockPos.ofFloored(ctx.getSource().getPosition());
+
+      if (!hasClear || BoolArgumentType.getBool(ctx, "clear")) {
+        GridBasedStructureUtils.clearSpecialPointsCache();
+        ctx.getSource().sendFeedback(() -> Text.literal("Cleared special point cache"), true);
+      }
 
       return findSpecialPoint(ctx, dimension.get(), id, searchPos);
     };

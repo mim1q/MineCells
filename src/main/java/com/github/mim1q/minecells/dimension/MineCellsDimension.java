@@ -3,7 +3,10 @@ package com.github.mim1q.minecells.dimension;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
@@ -27,6 +30,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
@@ -59,7 +63,18 @@ public enum MineCellsDimension {
 
   public Vec3d getTeleportPosition(BlockPos pos, ServerWorld world) {
     var destination = getWorld(world);
+    Optional<SpecialPoint> point = Optional.empty();
+    try {
+      point = GridBasedStructureUtils.getSpecialPoint(destination, pos, SpecialPointIds.ENTRANCE);
+    } catch (Exception e) {
+      MineCells.LOGGER.error("Failed to get entrance point", e);
+    }
     var runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
+
+    if (point.isPresent()) {
+      return Vec3d.ofCenter(runCenter.add((point.get().offset())));
+    }
+
     var spawnOffset = getOffset();
     var tpPos = runCenter.add(spawnOffset.getLeft());
     if (DIMENSIONS_WITH_SURFACE.contains(this)) {
@@ -76,7 +91,12 @@ public enum MineCellsDimension {
       if (player.getSpawnPointDimension() == OVERWORLD.key && player.getSpawnPointPosition() != null) {
         teleportPos = Vec3d.ofCenter(player.getSpawnPointPosition());
       } else {
-        teleportPos = Vec3d.ofCenter(world.getSpawnPos());
+        var dimension = MineCellsDimension.of(world);
+        if (dimension != null) {
+          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world);
+        } else {
+          teleportPos = Vec3d.ofCenter(world.getSpawnPos());
+        }
       }
     } else {
       teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world);

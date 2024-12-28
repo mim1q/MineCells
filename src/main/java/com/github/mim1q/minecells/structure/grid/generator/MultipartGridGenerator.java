@@ -2,13 +2,12 @@ package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.structure.Structure;
 
 import java.util.List;
 
-import static com.github.mim1q.minecells.util.MathUtils.getClosestMultiplePosition;
+import static com.github.mim1q.minecells.util.MathUtils.getRotatedOffsetWithinChunk;
 
 public abstract class MultipartGridGenerator extends RoomGridGenerator {
   private final int xPart;
@@ -46,7 +45,7 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
 
       specialPoints.add(new SpecialPoint(
         newData.specialPoint.id(),
-        newData.pos.multiply(16).add(new BlockPos(newData.specialPoint.offset()).rotate(newData.rotation)),
+        newData.pos.add(-24, 0, -24).multiply(16).add(getRotatedOffsetWithinChunk(newData.specialPoint.offset(), newData.rotation)),
         newData.specialPoint.facing().rotate(newData.rotation)
       ));
     }

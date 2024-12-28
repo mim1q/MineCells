@@ -50,7 +50,7 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     addRoom(room(32, 0, 32, PATH_HALF).terrainFit().rotation(BlockRotation.CLOCKWISE_180));
     addRoom(room(32, 0, 32, SPAWN)
       .offset(0, -7, 0)
-      .specialPoint(SpecialPointIds.ENTRANCE, new Vec3i(0, 0, 0), BlockRotation.NONE)
+      .specialPoint(SpecialPointIds.ENTRANCE, new Vec3i(6, 9, 5), BlockRotation.NONE)
     );
     // Main road
     final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 23, random, 3, BEFORE_CROSSROADS_POST, AFTER_CROSSROADS_POST);
