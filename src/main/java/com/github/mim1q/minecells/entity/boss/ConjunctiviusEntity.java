@@ -116,7 +116,6 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     this.navigation = new BirdNavigation(this, getWorld());
     this.setNoGravity(true);
     this.ignoreCameraFrustum = true;
-    this.experiencePoints = 5000;
     this.noClip = true;
     this.setRotation(180.0F, 0.0F);
     this.bodyYaw = 180.0F;
