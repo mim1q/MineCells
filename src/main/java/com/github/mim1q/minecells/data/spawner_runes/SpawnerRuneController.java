@@ -135,7 +135,6 @@ public class SpawnerRuneController {
           instance.setBaseValue(value);
         }
       });
-      livingEntity.setHealth(livingEntity.getMaxHealth());
       final var currentEntityNbt = new NbtCompound();
       livingEntity.writeCustomDataToNbt(currentEntityNbt);
       for (var entry : entityData.nbt().getKeys()) {
@@ -143,6 +142,7 @@ public class SpawnerRuneController {
       }
       livingEntity.readCustomDataFromNbt(currentEntityNbt);
       entityConsumer.accept(livingEntity);
+      livingEntity.heal(livingEntity.getMaxHealth());
     }
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;
