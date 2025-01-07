@@ -25,7 +25,7 @@ public record SpawnerRuneData(
 ) {
   public static final Codec<SpawnerRuneData> CODEC = RecordCodecBuilder.create(instance ->
     instance.group(
-      Codec.FLOAT.optionalFieldOf("cooldown", 60F).forGetter(SpawnerRuneData::cooldown),
+      Codec.FLOAT.optionalFieldOf("cooldown", 0F).forGetter(SpawnerRuneData::cooldown),
       Codec.FLOAT.optionalFieldOf("spawnDistance", 0F).forGetter(SpawnerRuneData::spawnDistance),
       Codec.FLOAT.fieldOf("playerDistance").forGetter(SpawnerRuneData::playerDistance),
       Pool.CODEC.listOf().fieldOf("pools").forGetter(SpawnerRuneData::pools)

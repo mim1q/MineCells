@@ -30,6 +30,7 @@ public class SpawnerRuneEntity extends Entity {
           it -> {
             it.controller.setDataId(getWorld(), getBlockPos(), controller.getDataId());
             it.controller.setVisible(this.controller.isVisible());
+            it.controller.setLastActivationTime(this.controller.getLastActivationTime());
             it.markDirty();
           }
         );

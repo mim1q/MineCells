@@ -38,6 +38,7 @@ public class SpawnerRuneController {
   private Identifier dataId = null;
   private SpawnerRuneData data = null;
   private boolean isVisible = false;
+  private long lastActivationTime = 0;
 
   public void tick(BlockPos pos, World world) {
     if (!world.isClient && data != null) {
@@ -74,6 +75,14 @@ public class SpawnerRuneController {
     isVisible = visible;
   }
 
+  public long getLastActivationTime() {
+    return lastActivationTime;
+  }
+
+  public void setLastActivationTime(long lastActivationTime) {
+    this.lastActivationTime = lastActivationTime;
+  }
+
   private void spawnEntities(SpawnerRuneData data, BlockPos pos, PlayerEntity spawningPlayer) {
     var world = spawningPlayer.getWorld();
     var entities = data.getSelectedEntities(world.getRandom());
@@ -90,6 +99,7 @@ public class SpawnerRuneController {
         hostile.setTarget(spawningPlayer);
       }
     }
+    lastActivationTime = world.getTime();
   }
 
   public static List<Entity> spawnEntities(ServerWorld world, Identifier dataId, BlockPos pos, Consumer<Entity> entityConsumer) {
@@ -107,6 +117,9 @@ public class SpawnerRuneController {
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
     var dimensionData = ((PlayerEntityAccessor) player).getCurrentMineCellsPlayerData();
     if (dimensionData == null) {
+      return false;
+    }
+    if (data.cooldown() != 0 && world.getTime() - lastActivationTime < data.cooldown() * 20) {
       return false;
     }
     return !dimensionData.hasActivatedSpawnerRune(MineCellsDimension.of(world), pos);
