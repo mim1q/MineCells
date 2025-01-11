@@ -29,7 +29,6 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.ELEVATOR_DESTROYED, ClientPacketHandler::handleElevatorDestroyed);
     ClientPlayNetworking.registerGlobalReceiver(SpawnRuneParticlesS2CPacket.ID, SpawnRuneParticlesS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(ObeliskActivationS2CPacket.ID, ObeliskActivationS2CPacket::apply);
-    ClientPlayNetworking.registerGlobalReceiver(SyncMineCellsPlayerDataS2CPacket.ID, SyncMineCellsPlayerDataS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(ShockwaveClientEventS2CPacket.ID, ShockwaveClientEventS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(SendUnlockedCellCrafterRecipesS2CPacket.ID, SendUnlockedCellCrafterRecipesS2CPacket::apply);
     ClientPlayNetworking.registerGlobalReceiver(UpdateConjunctiviusBossBarS2CPacket.ID, ClientPacketHandler::handleUpdateConjunctiviusBossBar);

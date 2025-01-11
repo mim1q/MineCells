@@ -3,6 +3,13 @@ package com.github.mim1q.minecells.dimension;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.TeleportUtils;
 import net.minecraft.client.MinecraftClient;
@@ -14,6 +21,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.MusicSound;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -22,17 +30,18 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 
 public enum MineCellsDimension {
-  OVERWORLD(new Identifier("overworld"), 0, 0, 0, 0.0),
-  PRISONERS_QUARTERS(MineCells.createId("prison"), 2, 43, 3, 1024.0, -90F),
-  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 6, 41, 2, 1024.0, 90F),
-  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 6, -5, 6, 1024.0),
-  RAMPARTS(MineCells.createId("ramparts"), -54, 212, -265, 384.0, 180F),
-  BLACK_BRIDGE(MineCells.createId("black_bridge"), 32, 70, 11, 384.0);
+  OVERWORLD(new Identifier("overworld"), 0.0, null),
+  PRISONERS_QUARTERS(MineCells.createId("prison"), 1024.0, new PrisonGridGenerator()),
+  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 1024.0, null),
+  PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 1024.0, new BetterPromenadeGridGenerator(0, 0)),
+  RAMPARTS(MineCells.createId("ramparts"), -384.0, new RampartsGridGenerator(0)),
+  BLACK_BRIDGE(MineCells.createId("black_bridge"), 384.0, null);
 
   private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
     PROMENADE_OF_THE_CONDEMNED
@@ -41,27 +50,33 @@ public enum MineCellsDimension {
   public final RegistryKey<World> key;
   private final Identifier id;
   public final String translationKey;
-  public final Vec3i spawnOffset;
   public final double borderSize;
-  public final float yaw;
+  public final GridPiecesGenerator.RoomGridGenerator baseGenerator;
 
-  MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize, float yaw) {
+  MineCellsDimension(Identifier id, double borderSize, GridPiecesGenerator.RoomGridGenerator baseGenerator) {
     this.key = RegistryKey.of(RegistryKeys.WORLD, id);
     this.id = id;
     this.translationKey = (id.toTranslationKey("dimension"));
-    this.spawnOffset = new Vec3i(offsetX, offsetY, offsetZ);
     this.borderSize = borderSize;
-    this.yaw = yaw;
-  }
-
-  MineCellsDimension(Identifier id, int offsetX, int offsetY, int offsetZ, double borderSize) {
-    this(id, offsetX, offsetY, offsetZ, borderSize, 0F);
+    this.baseGenerator = baseGenerator;
   }
 
   public Vec3d getTeleportPosition(BlockPos pos, ServerWorld world) {
     var destination = getWorld(world);
+    Optional<SpecialPoint> point = Optional.empty();
+    try {
+      point = GridBasedStructureUtils.getSpecialPoint(destination, pos, SpecialPointIds.ENTRANCE);
+    } catch (Exception e) {
+      MineCells.LOGGER.error("Failed to get entrance point", e);
+    }
     var runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
-    var tpPos = runCenter.add(spawnOffset.getX(), spawnOffset.getY(), spawnOffset.getZ());
+
+    if (point.isPresent()) {
+      return Vec3d.ofCenter(runCenter.add((point.get().offset())));
+    }
+
+    var spawnOffset = getOffset();
+    var tpPos = runCenter.add(spawnOffset.getLeft());
     if (DIMENSIONS_WITH_SURFACE.contains(this)) {
       var y = destination.getChunk(tpPos).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, tpPos.getX(), tpPos.getZ());
       return Vec3d.ofCenter(tpPos).add(0.0, y, 0.0);
@@ -76,12 +91,21 @@ public enum MineCellsDimension {
       if (player.getSpawnPointDimension() == OVERWORLD.key && player.getSpawnPointPosition() != null) {
         teleportPos = Vec3d.ofCenter(player.getSpawnPointPosition());
       } else {
-        teleportPos = Vec3d.ofCenter(world.getSpawnPos());
+        var dimension = MineCellsDimension.of(world);
+        if (dimension != null) {
+          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world);
+        } else {
+          teleportPos = Vec3d.ofCenter(world.getSpawnPos());
+        }
       }
     } else {
       teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world);
     }
-    TeleportUtils.teleportToDimension(player, destination, teleportPos, yaw);
+    TeleportUtils.teleportToDimension(player, destination, teleportPos, 0f);
+  }
+
+  private Pair<Vec3i, Float> getOffset() {
+    return new Pair<>(Vec3i.ZERO, 0f);
   }
 
   public ServerWorld getWorld(ServerWorld world) {

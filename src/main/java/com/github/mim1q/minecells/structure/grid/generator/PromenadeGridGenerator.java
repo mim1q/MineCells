@@ -28,6 +28,11 @@ public class PromenadeGridGenerator extends GridPiecesGenerator.RoomGridGenerato
   };
 
   @Override
+  public int getVersion() {
+    return 1;
+  }
+
+  @Override
   protected void addRooms(Random random) {
     Vec3i offset = getOffset(random);
     addMain(random, offset);

@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
-import com.github.mim1q.minecells.network.c2s.RequestSyncMineCellsPlayerDataC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
@@ -14,8 +13,6 @@ import net.minecraft.util.math.Vec3d;
 
 public class ServerPacketHandler {
   public static void init() {
-    ServerPlayNetworking.registerGlobalReceiver(RequestSyncMineCellsPlayerDataC2SPacket.ID, RequestSyncMineCellsPlayerDataC2SPacket::apply);
-
     ServerPlayNetworking.registerGlobalReceiver(PacketIdentifiers.USE_TENTACLE, (server, player, handler, buf, responseSender) -> {
       var targetPos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
       var playerItem = player.getMainHandStack();

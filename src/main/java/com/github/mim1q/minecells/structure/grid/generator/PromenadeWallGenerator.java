@@ -20,6 +20,11 @@ public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerato
   }
 
   @Override
+  public int getVersion() {
+    return 1;
+  }
+
+  @Override
   protected void addRooms(Random random) {
     var rotation = zAxis ? BlockRotation.CLOCKWISE_90 : BlockRotation.NONE;
     var offset = zAxis ? new Vec3i(-7, -4, 0) : new Vec3i(0, -4, -7);

@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -37,15 +36,7 @@ public class ResetRuneItem extends Item {
   @Override
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
     if (user instanceof ServerPlayerEntity player && world instanceof ServerWorld serverWorld) {
-      var data = MineCellsData.getPlayerData(player, serverWorld, null);
-      var dimension = MineCellsDimension.of(world);
-      var runes = data.activatedSpawnerRunes.get(dimension);
-      if (runes != null) {
-        runes.clear();
-        MineCellsData.syncCurrentPlayerData(player, serverWorld);
-      }
-      var tpPos = dimension.getTeleportPosition(user.getBlockPos(), serverWorld);
-      player.teleport(serverWorld, tpPos.getX(), tpPos.getY(), tpPos.getZ(), player.getYaw(), player.getPitch());
+      // todo
       player.getItemCooldownManager().set(this, 20 * 120);
       world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.TELEPORT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
       stack.setCount(stack.getCount() - 1);

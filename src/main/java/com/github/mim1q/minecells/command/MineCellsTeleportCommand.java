@@ -4,13 +4,17 @@ import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+
+import java.util.Optional;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -38,27 +42,37 @@ public class MineCellsTeleportCommand {
 
   private static Command<ServerCommandSource> teleport(boolean specifiedPlayer, boolean specifiedPosition) {
     return (ctx) -> {
-      var dimension = StringArgumentType.getString(ctx, "dimension");
-      MineCellsDimension dimensionType = null;
-      for (var type : MineCellsDimension.values()) {
-        if (type.key.getValue().getPath().equals(dimension)) {
-          dimensionType = type;
-          break;
-        }
-      }
-      if (dimensionType == null) {
-        ctx.getSource().sendError(Text.of("Invalid dimension"));
-        return 1;
-      }
+      var dimensionType = getDimensionFromString(ctx, "dimension");
       var player = specifiedPlayer ? EntityArgumentType.getPlayer(ctx, "player") : ctx.getSource().getPlayerOrThrow();
       var position = specifiedPosition ? BlockPosArgumentType.getBlockPos(ctx, "position") : null;
-      dimensionType.teleportPlayer(player, ctx.getSource().getWorld(), position);
+
+      if (dimensionType.isEmpty()) {
+        ctx.getSource().sendError(Text.of("Invalid dimension"));
+        return 0;
+      }
+
+      dimensionType.get().teleportPlayer(player, ctx.getSource().getWorld(), position);
 
       return 0;
     };
   }
 
-  private static SuggestionProvider<ServerCommandSource> suggestDimension() {
+  public static Optional<MineCellsDimension> getDimensionFromString(CommandContext<ServerCommandSource> ctx, String key) {
+    var dimension = StringArgumentType.getString(ctx, key);
+    MineCellsDimension dimensionType = null;
+    for (var type : MineCellsDimension.values()) {
+      if (type.key.getValue().getPath().equals(dimension)) {
+        dimensionType = type;
+        break;
+      }
+    }
+    if (dimensionType == null) {
+      return Optional.empty();
+    }
+    return Optional.of(dimensionType);
+  }
+
+  public static SuggestionProvider<ServerCommandSource> suggestDimension() {
     return (ctx, builder) -> {
       for (var type : MineCellsDimension.values()) {
         builder.suggest(type.key.getValue().getPath());

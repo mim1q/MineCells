@@ -10,6 +10,9 @@ import net.minecraft.world.gen.structure.Structure;
 
 import java.util.*;
 
+import static com.github.mim1q.minecells.util.MathUtils.getClosestMultiplePosition;
+import static com.github.mim1q.minecells.util.MathUtils.getRotatedOffsetWithinChunk;
+
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridPiecesGenerator {
   public static List<GridPiece> generatePieces(BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size, RoomGridGenerator generator) {
@@ -43,6 +46,7 @@ public class GridPiecesGenerator {
     public boolean terrainFit = false;
     public Vec3i terrainSamplePos;
     public Vec3i terrainSampleOffset = new Vec3i(8, 0, 8);
+    public RoomGridGenerator.SpecialPoint specialPoint = null;
 
     public RoomData(Vec3i pos, Identifier poolId) {
       this.pos = pos;
@@ -98,19 +102,42 @@ public class GridPiecesGenerator {
       terrainSampleOffset = new Vec3i(x, y, z);
       return this;
     }
+
+    public RoomData specialPoint(Identifier id, Vec3i offset, BlockRotation facing) {
+      if (id == null) return this;
+      this.specialPoint = new RoomGridGenerator.SpecialPoint(id, offset, facing);
+      return this;
+    }
   }
 
   public static abstract class RoomGridGenerator {
+    public record SpecialPoint(
+      Identifier id,
+      Vec3i offset,
+      BlockRotation facing
+    ) {
+    }
+
     protected final List<RoomData> rooms = new ArrayList<>();
     protected final Set<Vec3i> usedPositions = new HashSet<>();
+    protected final List<SpecialPoint> specialPoints = new ArrayList<>();
 
     protected abstract void addRooms(Random random);
 
     public List<RoomData> generate(Structure.Context context) {
+      var seed = getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024).hashCode() ^ context.seed();
+      context.random().setSeed(seed);
+
       rooms.clear();
       usedPositions.clear();
+      specialPoints.clear();
       addRooms(context.random());
       return rooms;
+    }
+
+    public List<SpecialPoint> generateSpecialPoints(Structure.Context context) {
+      generate(context);
+      return specialPoints;
     }
 
     protected final void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
@@ -140,18 +167,27 @@ public class GridPiecesGenerator {
     protected void addRoom(RoomData roomData) {
       rooms.add(roomData);
       usedPositions.add(roomData.pos);
+      if (roomData.specialPoint != null) {
+        specialPoints.add(new SpecialPoint(
+          roomData.specialPoint.id(),
+          roomData.pos.multiply(16).add(getRotatedOffsetWithinChunk(roomData.specialPoint.offset, roomData.rotation)),
+          roomData.specialPoint.facing().rotate(roomData.rotation)
+        ));
+      }
     }
 
     protected boolean isPositionUsed(Vec3i pos) {
       return usedPositions.contains(pos);
     }
 
-    public static RoomGridGenerator single(Identifier roomId) {
-      return single(roomId, Vec3i.ZERO);
+    public abstract int getVersion();
+
+    public static RoomGridGenerator single(Identifier roomId, int version) {
+      return single(roomId, Vec3i.ZERO, version);
     }
 
-    public static RoomGridGenerator single(Identifier roomId, Vec3i offset) {
-      return new Single(roomId, offset);
+    public static RoomGridGenerator single(Identifier roomId, Vec3i offset, int version) {
+      return new Single(roomId, offset, version);
     }
 
     protected static RoomData room(int x, int y, int z, Identifier poolId) {
@@ -165,15 +201,22 @@ public class GridPiecesGenerator {
     public static final class Single extends RoomGridGenerator {
       private final Identifier roomId;
       private final Vec3i offset;
+      private final int version;
 
-      Single(Identifier roomId, Vec3i offset) {
+      Single(Identifier roomId, Vec3i offset, int version) {
         this.roomId = roomId;
         this.offset = offset;
+        this.version = version;
       }
 
       @Override
       protected void addRooms(Random random) {
         addRoom(Vec3i.ZERO, BlockRotation.random(random), roomId, offset);
+      }
+
+      @Override
+      public int getVersion() {
+        return version;
       }
     }
   }
