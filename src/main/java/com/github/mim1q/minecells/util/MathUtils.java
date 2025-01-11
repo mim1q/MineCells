@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.util;
 
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -93,15 +92,19 @@ public class MathUtils {
   }
 
   public static Vec3i getRotatedOffsetWithinChunk(Vec3i offset, BlockRotation rotation) {
-//    if (true) return Vec3i.ZERO;
-    var start = switch (rotation) {
-      case NONE -> new Vec3i(0, 0, 0);
-      case CLOCKWISE_90 -> new Vec3i(16, 0, 0);
-      case COUNTERCLOCKWISE_90 -> new Vec3i(16, 0, 16);
-      case CLOCKWISE_180 -> new Vec3i(0, 0, 16);
+    var x = offset.getX();
+    var y = offset.getY();
+    var z = offset.getZ();
+    return switch (rotation) {
+      case NONE ->
+        new Vec3i(x, y, z);
+      case CLOCKWISE_90 ->
+        new Vec3i(z, y, x);
+      case COUNTERCLOCKWISE_90 ->
+        new Vec3i(z, y, 15 - x);
+      case CLOCKWISE_180 ->
+        new Vec3i(15- x, y, 15 - z);
     };
-
-    return start.add(new BlockPos(offset).rotate(rotation));
   }
 
   public static class PosRotScale {

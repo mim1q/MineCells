@@ -113,6 +113,11 @@ public class SpawnerRuneController {
     return true;
   }
 
+  private boolean canClientPlayerActivate(World world, BlockPos pos) {
+    // TODO: player check
+    return true;
+  }
+
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
     Entity spawnedEntity = entityData.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity == null) return null;

@@ -89,7 +89,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
   @Inject(method = "onSpawn", at = @At("HEAD"))
   void minecells$injectOnSpawn(CallbackInfo ci) {
-    MineCellsData.syncCurrentPlayerData((ServerPlayerEntity) (Object) this, this.getServerWorld());
+    // MineCellsData.syncCurrentPlayerData((ServerPlayerEntity) (Object) this, this.getServerWorld());
   }
 
   @Inject(
