@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
-import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
@@ -26,11 +25,7 @@ public class SkeletonDecorationBlock extends Block {
   private final Block hangingBlock;
 
   public static final VoxelShape SHAPE = createCuboidShape(
-    1.0D, 5.0D, 8.0D, 15.0D, 16.0D, 12.0D
-  );
-
-  public static final VoxelShape SITTING_SHAPE = createCuboidShape(
-    1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 5.0D
+    3.0, 3.0, 3.0, 13.0, 13.0, 13.0
   );
 
   public SkeletonDecorationBlock(Settings settings) {
@@ -92,7 +87,7 @@ public class SkeletonDecorationBlock extends Block {
   @Override
   @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    return ModelUtils.rotateShape(Direction.SOUTH, state.get(FACING), this.sitting ? SITTING_SHAPE : SHAPE);
+    return SHAPE;
   }
 
   @Override
