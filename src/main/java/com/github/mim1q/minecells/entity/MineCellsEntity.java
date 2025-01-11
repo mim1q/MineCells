@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal.State;
 import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
@@ -176,15 +175,18 @@ public class MineCellsEntity extends HostileEntity {
       if (server == null) return;
 
       var lootTable = server.getLootManager().getLootTable(additionalLootTable);
-      var damageSource = this.getRecentDamageSource();
-      if (damageSource == null) return;
 
       LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld) this.getWorld())
         .add(LootContextParameters.THIS_ENTITY, this)
         .add(LootContextParameters.ORIGIN, this.getPos())
-        .add(LootContextParameters.DAMAGE_SOURCE, damageSource)
-        .addOptional(LootContextParameters.KILLER_ENTITY, damageSource.getAttacker())
-        .addOptional(LootContextParameters.DIRECT_KILLER_ENTITY, damageSource.getSource());
+        .add(LootContextParameters.DAMAGE_SOURCE, this.getDamageSources().generic());
+
+      var damageSource = this.getRecentDamageSource();
+      if (damageSource != null) {
+        builder = builder.add(LootContextParameters.DAMAGE_SOURCE, damageSource)
+          .addOptional(LootContextParameters.KILLER_ENTITY, damageSource.getAttacker())
+          .addOptional(LootContextParameters.DIRECT_KILLER_ENTITY, damageSource.getSource());
+      }
 
       if (getLastAttacker() != null && getLastAttacker().isPlayer() && this.attackingPlayer != null) {
         builder = builder.add(LootContextParameters.LAST_DAMAGE_PLAYER, this.attackingPlayer).luck(this.attackingPlayer.getLuck());

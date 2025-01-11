@@ -34,6 +34,7 @@ public class SpawnerRuneController {
   private Identifier dataId = null;
   private SpawnerRuneData data = null;
   private boolean isVisible = false;
+  private long lastActivationTime = 0;
 
   public void tick(BlockPos pos, World world) {
     if (!world.isClient && data != null) {
@@ -68,6 +69,14 @@ public class SpawnerRuneController {
     isVisible = visible;
   }
 
+  public long getLastActivationTime() {
+    return lastActivationTime;
+  }
+
+  public void setLastActivationTime(long lastActivationTime) {
+    this.lastActivationTime = lastActivationTime;
+  }
+
   private void spawnEntities(SpawnerRuneData data, BlockPos pos, PlayerEntity spawningPlayer) {
     var world = spawningPlayer.getWorld();
     var entities = data.getSelectedEntities(world.getRandom());
@@ -84,6 +93,7 @@ public class SpawnerRuneController {
         hostile.setTarget(spawningPlayer);
       }
     }
+    lastActivationTime = world.getTime();
   }
 
   public static List<Entity> spawnEntities(ServerWorld world, Identifier dataId, BlockPos pos, Consumer<Entity> entityConsumer) {
@@ -103,11 +113,6 @@ public class SpawnerRuneController {
     return true;
   }
 
-  private boolean canClientPlayerActivate(World world, BlockPos pos) {
-    // TODO: player check
-    return true;
-  }
-
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
     Entity spawnedEntity = entityData.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
     if (spawnedEntity == null) return null;
@@ -121,7 +126,6 @@ public class SpawnerRuneController {
           instance.setBaseValue(value);
         }
       });
-      livingEntity.setHealth(livingEntity.getMaxHealth());
       final var currentEntityNbt = new NbtCompound();
       livingEntity.writeCustomDataToNbt(currentEntityNbt);
       for (var entry : entityData.nbt().getKeys()) {
@@ -129,6 +133,7 @@ public class SpawnerRuneController {
       }
       livingEntity.readCustomDataFromNbt(currentEntityNbt);
       entityConsumer.accept(livingEntity);
+      livingEntity.heal(livingEntity.getMaxHealth());
     }
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;

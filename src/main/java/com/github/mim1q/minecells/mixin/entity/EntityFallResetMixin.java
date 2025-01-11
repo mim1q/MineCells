@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin.entity;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.FallResetEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
 import net.minecraft.entity.Entity;
@@ -14,7 +15,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,12 +25,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static java.lang.Math.abs;
+
 
 @Mixin(Entity.class)
-public abstract class EntityFallResetMixin {
+public abstract class EntityFallResetMixin implements FallResetEntity {
   @Shadow public abstract double getY();
   @Shadow public abstract World getWorld();
-  @Shadow public abstract ChunkPos getChunkPos();
   @Shadow public abstract BlockPos getBlockPos();
   @Shadow public abstract void teleport(double destX, double destY, double destZ);
 
@@ -53,6 +54,7 @@ public abstract class EntityFallResetMixin {
   @Unique private Double fallResetY = 0.0;
   @Unique private BlockPos lastSolidBlock;
   @Unique private RegistryKey<World> lastWorld;
+  @Unique private BlockPos dimensionTpPos = BlockPos.ORIGIN;
 
   @Inject(
     method = "<init>",
@@ -60,6 +62,7 @@ public abstract class EntityFallResetMixin {
   )
   private void minecells$injectInit(EntityType<?> type, World world, CallbackInfo ci) {
     this.fallResetY = MineCellsDimension.getFallResetHeight(world);
+    this.dimensionTpPos = getBlockPos();
   }
 
   @Inject(
@@ -68,10 +71,17 @@ public abstract class EntityFallResetMixin {
   )
   private void minecells$injectMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
     var result = cir.getReturnValue();
-    if (result == null) {
-      return;
+    if (result != null) {
+      minecells$initDimensionChange(result, destination);
     }
+  }
+
+  @SuppressWarnings("DataFlowIssue")
+  @Override
+  public void minecells$initDimensionChange(Entity result, ServerWorld destination) {
     ((EntityFallResetMixin) (Object) result).fallResetY = MineCellsDimension.getFallResetHeight(destination);
+    ((EntityFallResetMixin) (Object) result).dimensionTpPos = result.getBlockPos();
+
     lastSolidBlock = null;
   }
 
@@ -95,6 +105,7 @@ public abstract class EntityFallResetMixin {
       || this.age < 10
       || this.age % 2 == 0
       || fallResetY == null
+      || (abs(dimensionTpPos.getX() - getX()) < 4 && abs(dimensionTpPos.getZ() - getZ()) < 4)
       || (((Entity) (Object) this) instanceof PlayerEntity player && (player.isCreative() || player.isSpectator()))
     ) {
       return;

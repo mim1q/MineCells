@@ -115,9 +115,9 @@ public class MineCellsBlocks {
   public static final Block CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), false), "cage");
   public static final Block BROKEN_CAGE = registerBlockWithItem(new CageBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS), true), "broken_cage");
   public static final Block SPIKES = registerBlockWithItem(new SpikesBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).solid()), "spikes");
-  public static final Block HANGED_SKELETON = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).strength(0.5F).sounds(BlockSoundGroup.BONE)), "hanged_skeleton");
+  public static final Block HANGED_SKELETON = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).noCollision().strength(0.5F).sounds(BlockSoundGroup.BONE)), "hanged_skeleton");
   public static final Block SKELETON = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_SKELETON).dropsLike(HANGED_SKELETON), HANGED_SKELETON), "skeleton");
-  public static final Block HANGED_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).strength(0.5F).sounds(BlockSoundGroup.MUD).ticksRandomly()), "hanged_corpse");
+  public static final Block HANGED_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(Blocks.DIRT).noCollision().strength(0.5F).sounds(BlockSoundGroup.MUD).ticksRandomly()), "hanged_corpse");
   public static final Block CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_CORPSE).ticksRandomly(), HANGED_CORPSE), "corpse");
   public static final Block HANGED_ROTTING_CORPSE = registerBlock(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).ticksRandomly()), "hanged_rotting_corpse");
   public static final Block ROTTING_CORPSE = registerBlockWithItem(new SkeletonDecorationBlock(FabricBlockSettings.copyOf(HANGED_CORPSE).dropsLike(HANGED_ROTTING_CORPSE).ticksRandomly(), HANGED_ROTTING_CORPSE), "rotting_corpse");

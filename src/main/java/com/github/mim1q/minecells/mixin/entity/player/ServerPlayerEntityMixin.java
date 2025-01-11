@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.mixin.entity.player;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.accessor.FallResetEntity;
 import com.github.mim1q.minecells.accessor.MineCellsBorderEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
@@ -83,6 +84,22 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
       && ((MineCellsBorderEntity) this).getMineCellsBorder().getDistanceInsideBorder(destX, destZ) < 2.0D
     ) {
       ci.cancel();
+    }
+  }
+
+  @Inject(method = "onSpawn", at = @At("HEAD"))
+  void minecells$injectOnSpawn(CallbackInfo ci) {
+    MineCellsData.syncCurrentPlayerData((ServerPlayerEntity) (Object) this, this.getServerWorld());
+  }
+
+  @Inject(
+    method = "moveToWorld",
+    at = @At("RETURN")
+  )
+  private void minecells$injectMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
+    var result = cir.getReturnValue();
+    if (result != null) {
+      ((FallResetEntity) this).minecells$initDimensionChange(result, destination);
     }
   }
 }

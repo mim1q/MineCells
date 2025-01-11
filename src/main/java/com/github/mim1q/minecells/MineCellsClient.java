@@ -27,6 +27,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
@@ -69,6 +72,16 @@ public class MineCellsClient implements ClientModInitializer {
     ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
       setupScreenShakeModifiers(CLIENT_CONFIG.screenShake().global);
     });
+
+    FabricLoader.getInstance()
+      .getModContainer(MineCells.MOD_ID)
+      .ifPresent(modContainer -> ResourceManagerHelper.registerBuiltinResourcePack(
+        MineCells.createId("ribcages"),
+        modContainer,
+        Text.literal("[Mine Cells]").setStyle(Style.EMPTY.withColor(Formatting.RED))
+          .append(Text.literal(" Ribcages").setStyle(Style.EMPTY.withColor(Formatting.GOLD))),
+        ResourcePackActivationType.NORMAL
+      ));
   }
 
   private void setupTooltips() {

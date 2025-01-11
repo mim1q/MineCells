@@ -36,6 +36,7 @@ public class SpawnerRuneBlock extends BlockWithEntity {
         world.spawnEntity(entity);
         entity.controller.setDataId(world, pos, blockEntity.get().controller.getDataId());
         entity.controller.setVisible(blockEntity.get().controller.isVisible());
+        entity.controller.setLastActivationTime(blockEntity.get().controller.getLastActivationTime());
       }
     }
     super.onStateReplaced(state, world, pos, newState, moved);
