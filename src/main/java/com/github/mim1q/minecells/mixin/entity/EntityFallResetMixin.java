@@ -177,7 +177,7 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
 
   @Unique
   private BlockPos minecells$getResetToPos() {
-    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
+    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld(), false).getLeft());
 
     // Intended behavior disabled for now due to some bugs
 

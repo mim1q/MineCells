@@ -10,6 +10,5 @@
   "use_expansion_hack": false,
   "start_height": {
     "absolute": 0
-  },
-  "project_start_to_heightmap": "MOTION_BLOCKING_NO_LEAVES"
+  }
 }

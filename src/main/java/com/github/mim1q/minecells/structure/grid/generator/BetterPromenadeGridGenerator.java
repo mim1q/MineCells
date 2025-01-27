@@ -26,9 +26,12 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
   private static final Identifier BUILDING_UNDERGROUND_END = pool("underground_end");
 
   // Special buildings
-  private static final Identifier RAMPARTS_TOWER = pool("ramparts_tower");
   private static final Identifier VINE_RUNE = pool("special/vine_rune");
   private static final Identifier SPAWN = pool("spawn");
+  private static final Identifier SPAWN_STAIRS = pool("stairs/spawn");
+  private static final Identifier END_STAIRS = pool("stairs/end");
+  private static final Identifier END_BOTTOM = pool("end/bottom");
+  private static final Identifier END_TOP = pool("end/top");
 
   // Posts
   private static final Identifier CROSSROADS_POST = pool("path/crossroads_post");
@@ -47,13 +50,22 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
 
   @Override
   protected void addRooms(Random random) {
-    addRoom(room(32, 0, 32, PATH_HALF).terrainFit().rotation(BlockRotation.CLOCKWISE_180));
-    addRoom(room(32, 0, 32, SPAWN)
-      .offset(0, -7, 0)
-      .specialPoint(SpecialPointIds.ENTRANCE, new Vec3i(6, 9, 5), BlockRotation.NONE)
+    addRoom(room(32, 4, 31, SPAWN)
+      .offset(0, -2, 0)
+      .specialPoint(SpecialPointIds.ENTRANCE, new Vec3i(14, 13, 5), BlockRotation.CLOCKWISE_90)
+      .rotation(BlockRotation.CLOCKWISE_180)
     );
+    addRoom(room(32, 4, 32, SPAWN_STAIRS)
+      .offset(0, -2, 0)
+      .rotation(BlockRotation.CLOCKWISE_180)
+    );
+    addRoom(room(32, 0, 32, PATH_HALF)
+      .terrainFit()
+      .rotation(BlockRotation.CLOCKWISE_180)
+    );
+
     // Main road
-    final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 23, random, 3, BEFORE_CROSSROADS_POST, AFTER_CROSSROADS_POST);
+    final var mainRoad = addPath(new Vec3i(32, 0, 33), BlockRotation.NONE, 22, random, 3, BEFORE_CROSSROADS_POST, AFTER_CROSSROADS_POST);
     final var mainRoadEnd = mainRoad.getLeft();
     final var mainRoadSkipped = mainRoad.getRight();
     // Crossroads
@@ -63,7 +75,18 @@ public class BetterPromenadeGridGenerator extends MultipartGridGenerator {
     final var sideRoad = addPath(mainRoadSkipped.add(1, 0, 0), BlockRotation.COUNTERCLOCKWISE_90, 9, random, -1, VINE_RUNE_POST, VINE_RUNE_POST);
     final var sideRoadEnd = sideRoad.getLeft();
     // End
-    addRoom(room(mainRoadEnd.add(0, 0, 1), RAMPARTS_TOWER).specialPoint(SpecialPointIds.EXIT, new Vec3i(0, 0, 0), BlockRotation.NONE));
+    addRoom(room(mainRoadEnd.add(0, 4, 1), END_STAIRS)
+      .offset(0, -2, 0)
+    );
+    addRoom(room(mainRoadEnd.add(0, 4, 2), END_BOTTOM)
+      .offset(0, -2, 0)
+    );
+    addRoom(room(mainRoadEnd.add(0, 7, 2), END_TOP)
+      .offset(0, -2, 0)
+      .specialPoint(SpecialPointIds.EXIT, new Vec3i(4, 36, 12), BlockRotation.CLOCKWISE_180)
+    );
+    addRoom(room(mainRoadEnd.add(0, 0, 1), PATH_HALF).terrainFit());
+
     addRoom(room(sideRoadEnd, VINE_RUNE).terrainFit().terrainSampleOffset(14, 0, 8).offset(0, -21, 0).rotation(BlockRotation.CLOCKWISE_90));
 
     // Additional buildings

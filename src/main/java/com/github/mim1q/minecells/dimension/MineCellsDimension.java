@@ -23,6 +23,7 @@ import net.minecraft.sound.MusicSound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.Heightmap;
@@ -61,47 +62,54 @@ public enum MineCellsDimension {
     this.baseGenerator = baseGenerator;
   }
 
-  public Vec3d getTeleportPosition(BlockPos pos, ServerWorld world) {
+  public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, boolean toExit) {
+    return getTeleportPosition(pos, world, toExit, true);
+  }
+
+    public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, boolean toExit, boolean applySafeOffset) {
     var destination = getWorld(world);
     Optional<SpecialPoint> point = Optional.empty();
     try {
-      point = GridBasedStructureUtils.getSpecialPoint(destination, pos, SpecialPointIds.ENTRANCE);
+      point = GridBasedStructureUtils.getSpecialPoint(destination, pos, toExit ? SpecialPointIds.EXIT : SpecialPointIds.ENTRANCE);
     } catch (Exception e) {
       MineCells.LOGGER.error("Failed to get entrance point", e);
     }
     var runCenter = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
 
     if (point.isPresent()) {
-      return Vec3d.ofCenter(runCenter.add((point.get().offset())));
+      var tpPos = Vec3d.ofBottomCenter(runCenter.add((point.get().offset())));
+      if (applySafeOffset) {
+        tpPos = tpPos.add(Vec3d.of(point.get().facing().rotate(Direction.NORTH).getVector()).multiply(-0.5));
+      }
+      return new Pair<>(
+        tpPos,
+        point.get().facing().rotate(0, 360)
+      );
     }
 
     var spawnOffset = getOffset();
     var tpPos = runCenter.add(spawnOffset.getLeft());
-    if (DIMENSIONS_WITH_SURFACE.contains(this)) {
-      var y = destination.getChunk(tpPos).sampleHeightmap(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, tpPos.getX(), tpPos.getZ());
-      return Vec3d.ofCenter(tpPos).add(0.0, y, 0.0);
-    }
-    return Vec3d.ofCenter(tpPos);
+    return new Pair<>(Vec3d.ofBottomCenter(tpPos), spawnOffset.getRight().intValue());
   }
 
-  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, @Nullable BlockPos posOverride) {
+  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, @Nullable BlockPos posOverride, boolean toExit) {
     var destination = getWorld(world);
-    Vec3d teleportPos;
+    Pair<Vec3d, Integer> teleportPos;
     if (this == OVERWORLD) {
       if (player.getSpawnPointDimension() == OVERWORLD.key && player.getSpawnPointPosition() != null) {
-        teleportPos = Vec3d.ofCenter(player.getSpawnPointPosition());
+        teleportPos = new Pair<>(Vec3d.ofCenter(player.getSpawnPointPosition()), (int) player.getSpawnAngle());
       } else {
         var dimension = MineCellsDimension.of(world);
         if (dimension != null) {
-          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world);
+          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world, toExit);
         } else {
-          teleportPos = Vec3d.ofCenter(world.getSpawnPos());
+          teleportPos = new Pair<>(Vec3d.ofBottomCenter(world.getSpawnPos()), 0);
         }
       }
     } else {
-      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world);
+      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world, toExit);
     }
-    TeleportUtils.teleportToDimension(player, destination, teleportPos, 0f);
+    TeleportUtils.teleportToDimension(player, destination, teleportPos.getLeft(), teleportPos.getRight());
   }
 
   private Pair<Vec3i, Float> getOffset() {

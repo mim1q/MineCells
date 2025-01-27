@@ -22,6 +22,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -218,7 +220,8 @@ public class MineCellsBlocks {
     return flag;
   }
 
-  @SuppressWarnings("UnstableApiUsage") private static FabricBlockSettings preventZFighting(FabricBlockSettings settings) {
+  @SuppressWarnings("UnstableApiUsage")
+  private static FabricBlockSettings preventZFighting(FabricBlockSettings settings) {
     ((AbstractBlockSettingsAccessor) settings).setOffsetter(Optional.of((state, world, pos) -> {
       var x = pos.getX() % 3;
       var y = pos.getY() % 3;
@@ -228,6 +231,28 @@ public class MineCellsBlocks {
         (x * 0.001) + (z * 0.0015),
         (y * 0.001) + (x * 0.0015)
       ));
+    }));
+
+    return settings;
+  }
+
+  @SuppressWarnings({"UnstableApiUsage", "deprecation"})
+  public static FabricBlockSettings wallLeafOffset(FabricBlockSettings settings) {
+    ((AbstractBlockSettingsAccessor) settings).setOffsetter(Optional.of((state, world, pos) -> {
+      long l = MathHelper.hashCode(pos.getX(), pos.getY(), pos.getZ());
+      var offset = 0.3f;
+      var localZScale = 0.2f;
+      double x = MathHelper.clamp((((l & 15L) / 15.0F) - 0.5) * 0.5, -offset, offset);
+      double y = MathHelper.clamp((((l >> 8 & 15L) / 15.0F) - 0.5) * 0.5, (-offset), offset);
+      double z = MathHelper.clamp((((l >> 4 & 15L) / 15.0F) - 0.5) * 0.5, (-offset), offset);
+
+      var direction = state.get(WallLeavesBlock.DIRECTION);
+
+      if (direction.getOffsetX() != 0) x = localZScale * Math.abs(x) * -direction.getOffsetX();
+      if (direction.getOffsetY() != 0) y = localZScale * Math.abs(y) * -direction.getOffsetY();
+      if (direction.getOffsetZ() != 0) z = localZScale * Math.abs(z) * -direction.getOffsetZ();
+
+      return new Vec3d(x, y, z);
     }));
 
     return settings;

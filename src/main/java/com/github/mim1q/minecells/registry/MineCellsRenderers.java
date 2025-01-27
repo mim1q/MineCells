@@ -58,6 +58,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class MineCellsRenderers {
   private static boolean dynamicItemRenderersRegistered = false;
@@ -302,8 +303,25 @@ public class MineCellsRenderers {
     MineCellsItems.SHIELDS.forEach(MineCellsRenderers::registerShieldPredicate);
 
     ColorProviderRegistry.BLOCK.register(
-      (state, world, pos, tintIndex) -> world == null ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
-      MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves
+      (state, world, pos, tintIndex) -> (world == null || pos == null) ? 0x80CC80 : BiomeColors.getFoliageColor(world, pos),
+      MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves
+    );
+
+    ColorProviderRegistry.BLOCK.register(
+      (state, world, pos, tintIndex) -> {
+        if (world == null || pos == null) return 0x80CC80;
+        //noinspection deprecation
+        long l = MathHelper.hashCode(pos.getX(), pos.getY(), pos.getZ());
+        double x = MathHelper.clamp((((l & 15L) / 15.0F) - 0.5) * 0.5, -1, 1);
+        x *= 0.5;
+        x += 1;
+        var color = BiomeColors.getFoliageColor(world, pos);
+        var r = (int)((color >> 16 & 0xFF) * x);
+        var g = (int)((color >> 8 & 0xFF) * x);
+        var b = (int)((color & 0xFF) * x);
+        return (r << 16) | (g << 8) | b;
+      },
+      MineCellsBlocks.WILTED_LEAVES.wallLeaves
     );
 
     ColorProviderRegistry.BLOCK.register(

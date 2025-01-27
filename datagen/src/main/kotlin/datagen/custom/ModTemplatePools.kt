@@ -52,8 +52,12 @@ object ModTemplatePools {
 
   fun promenadeOfTheCondemned() = Preset {
     val processors = "minecells:promenade"
-    // Spawn
+    // Spawn and end
     add(Presets.single("minecells:promenade/spawn", processors))
+    add(Presets.single("minecells:promenade/stairs/spawn", processors))
+    add(Presets.single("minecells:promenade/stairs/end", processors))
+    add(Presets.single("minecells:promenade/end/bottom", processors))
+    add(Presets.single("minecells:promenade/end/top", processors))
     // Overground decorations
     add(Presets.indexed("minecells:promenade/chain_pile", 1, 2, 2, 2, terrainMatching = true))
     add(Presets.indexed("minecells:promenade/gallows", 1, 2, 2, 2, processors = processors))
@@ -73,7 +77,7 @@ object ModTemplatePools {
     add(Presets.single("minecells:promenade/border_wall/top", processors = processors))
     add(Presets.indexed("minecells:promenade/wall_segment", 28, 2, 2, 1, 1, 1, processors = processors))
     // Ramparts tower
-    add(Presets.single("minecells:promenade/ramparts_tower", processors))
+//    add(Presets.single("minecells:promenade/ramparts_tower", processors))
     // Paths
     val pathProc = "minecells:promenade/path"
     add(Presets.indexed("minecells:promenade/path/straight", 1, 1, 1, processors = pathProc, terrainMatching = true))

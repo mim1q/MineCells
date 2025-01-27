@@ -19,7 +19,7 @@ public class GridPiecesGenerator {
     List<RoomData> roomDataList = generator.generate(context);
     List<GridPiece> pieces = new ArrayList<>();
     for (RoomData data : roomDataList) {
-      if (projectStartToHeightmap.isPresent() && data.terrainFit) {
+      if (data.terrainFit) {
         pieces.add(getTerrainFitPiece(data, startPos, projectStartToHeightmap, context, size));
       } else {
         pieces.add(new GridPiece(context, data.poolId, startPos.add(data.pos.multiply(size)).add(data.offset), data.rotation, size));
@@ -31,9 +31,7 @@ public class GridPiecesGenerator {
   public static GridPiece getTerrainFitPiece(RoomData data, BlockPos startPos, Optional<Heightmap.Type> projectStartToHeightmap, Structure.Context context, int size) {
     final var pos = startPos.add(data.terrainSamplePos.multiply(size));
     final var heightmapPos = pos.add(data.terrainSampleOffset);
-    final var heightmapY = projectStartToHeightmap.map(
-      type -> context.chunkGenerator().getHeightOnGround(heightmapPos.getX(), heightmapPos.getZ(), type, context.world(), context.noiseConfig())
-    ).orElse(0);
+    final var heightmapY = context.chunkGenerator().getHeightOnGround(heightmapPos.getX(), heightmapPos.getZ(), projectStartToHeightmap.orElse(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES), context.world(), context.noiseConfig());
     final var heightDiff = heightmapY - startPos.getY();
     return new GridPiece(context, data.poolId, startPos.add(data.pos.multiply(size)).add(data.offset).add(0, heightDiff, 0), data.rotation, size);
   }
