@@ -26,13 +26,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 
@@ -43,10 +41,6 @@ public enum MineCellsDimension {
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 1024.0, new BetterPromenadeGridGenerator(0, 0)),
   RAMPARTS(MineCells.createId("ramparts"), -384.0, new RampartsGridGenerator(0)),
   BLACK_BRIDGE(MineCells.createId("black_bridge"), 384.0, null);
-
-  private static final Set<MineCellsDimension> DIMENSIONS_WITH_SURFACE = Set.of(
-    PROMENADE_OF_THE_CONDEMNED
-  );
 
   public final RegistryKey<World> key;
   private final Identifier id;
