@@ -96,14 +96,10 @@ public class MathUtils {
     var y = offset.getY();
     var z = offset.getZ();
     return switch (rotation) {
-      case NONE ->
-        new Vec3i(x, y, z);
-      case CLOCKWISE_90 ->
-        new Vec3i(z, y, x);
-      case COUNTERCLOCKWISE_90 ->
-        new Vec3i(z, y, 15 - x);
-      case CLOCKWISE_180 ->
-        new Vec3i(15- x, y, 15 - z);
+      case NONE -> new Vec3i(x, y, z);
+      case CLOCKWISE_90 -> new Vec3i(15 - z, y, x);
+      case CLOCKWISE_180 -> new Vec3i(15 - x, y, 15 - z);
+      case COUNTERCLOCKWISE_90 -> new Vec3i(z, y, 15 - x);
     };
   }
 

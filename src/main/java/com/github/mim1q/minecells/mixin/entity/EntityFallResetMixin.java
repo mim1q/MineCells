@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.FallResetEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -177,7 +178,7 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
 
   @Unique
   private BlockPos minecells$getResetToPos() {
-    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld(), false).getLeft());
+    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld(), SpecialPointIds.ENTRANCE).getLeft());
 
     // Intended behavior disabled for now due to some bugs
 

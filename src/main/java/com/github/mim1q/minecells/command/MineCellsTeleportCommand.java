@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.command;
 
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -55,7 +56,12 @@ public class MineCellsTeleportCommand {
         return 0;
       }
 
-      dimensionType.get().teleportPlayer(player, ctx.getSource().getWorld(), position, toExit);
+      dimensionType.get().teleportPlayer(
+        player,
+        ctx.getSource().getWorld(),
+        position,
+        toExit ? SpecialPointIds.EXIT : SpecialPointIds.ENTRANCE
+      );
 
       return 0;
     };

@@ -2,7 +2,10 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.util.MathUtils;
+import com.github.mim1q.minecells.util.TeleportUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -18,18 +21,15 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
-  private boolean upstream = false;
-  private boolean clientVisited = false;
-  private BlockPos posOverride = null;
-  private List<MutableText> label = null;
+  private Identifier specialPointTarget = SpecialPointIds.ENTRANCE;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
     this(MineCellsBlockEntities.DOORWAY, pos, state);
@@ -47,66 +47,35 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return ((DoorwayPortalBlock) getCachedState().getBlock()).type.backgroundTexture;
   }
 
-  public boolean hasClientVisited() {
-    return clientVisited;
-  }
-
-  public void updateClientVisited() {
-    if (world != null && world.isClient) {
-      // todo
-    }
-  }
-
   public List<MutableText> getLabel() {
-    if (label != null) {
-      return label;
-    }
-    var result = new ArrayList<MutableText>();
-    var text = Text.translatable(((DoorwayPortalBlock) getCachedState().getBlock()).type.dimension.translationKey);
-    if (!hasClientVisited()) {
-      text.append(Text.literal("*"));
-    }
-    var parts = text.getString().split(" ");
-    if (parts.length >= 4) {
-      result.add(Text.literal(parts[0] + " " + parts[1]));
-      result.add(Text.literal(parts[2] + " " + parts[3]));
-    } else {
-      result.add(text);
-    }
-    var portalPos = posOverride == null ? MathUtils.getClosestMultiplePosition(this.getPos(), 1024) : posOverride;
-    result.add(Text.literal("[x: " + portalPos.getX() + ", z: " + portalPos.getZ() + "]"));
-    label = result;
-    return result;
+    return List.of(Text.of("label").copy());
   }
 
   @Override
   public void setStackNbt(ItemStack stack) {
     super.setStackNbt(stack);
-    stack.getOrCreateSubNbt("BlockEntityTag").putLong(
-      "posOverride",
-      posOverride == null ? new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024)).asLong() : posOverride.asLong()
-    );
   }
 
   public boolean canPlayerEnter(PlayerEntity player) {
-    // todo
     return true;
   }
 
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, MineCellsDimension targetDimension) {
-    // todo
+    var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
+    var point = GridBasedStructureUtils.getSpecialPoint(world, pos, specialPointTarget);
+
+    var targetWorld = targetDimension.getWorld(world);
+
+    point.ifPresent(it -> TeleportUtils.teleportToDimension(
+      player,
+      targetWorld,
+      Vec3d.ofBottomCenter(it.offset()),
+      it.facing().rotate(0, 360)
+    ));
   }
 
   public float getRotation() {
     return getCachedState().get(FACING).asRotation();
-  }
-
-  public boolean isUpstream() {
-    return upstream;
-  }
-
-  public boolean isDownstream() {
-    return !isUpstream();
   }
 
   @Override
@@ -120,29 +89,21 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return BlockEntityUpdateS2CPacket.create(this);
   }
 
-  public BlockPos getPosOverride() {
-    return posOverride;
-  }
-
-  public void setPosOverride(BlockPos posOverride) {
-    this.posOverride = posOverride;
-    markDirty();
-  }
-
   @Override
   public void readNbt(NbtCompound nbt) {
-    upstream = nbt.getBoolean("upstream");
-    updateClientVisited();
-    if (nbt.contains("posOverride")) {
-      posOverride = BlockPos.fromLong(nbt.getLong("posOverride"));
+    super.readNbt(nbt);
+
+    if (nbt.contains("special_point_target")) {
+      specialPointTarget = Identifier.tryParse(nbt.getString("special_point_target"));
+    } else if (nbt.contains("upstream")) {
+      specialPointTarget = nbt.getBoolean("upstream") ? SpecialPointIds.EXIT : SpecialPointIds.ENTRANCE;
     }
   }
 
   @Override
   protected void writeNbt(NbtCompound nbt) {
-    nbt.putBoolean("upstream", upstream);
-    if (posOverride != null) {
-      nbt.putLong("posOverride", posOverride.asLong());
-    }
+    super.writeNbt(nbt);
+
+    nbt.putString("special_point_target", specialPointTarget.toString());
   }
 }

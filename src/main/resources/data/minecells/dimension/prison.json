@@ -9,7 +9,7 @@
       "layers": [
         {
           "block": "minecells:hardstone",
-          "height": 64
+          "height": 256
         }
       ]
     }

@@ -14,7 +14,7 @@
   "effects": "minecells:foggy",
   "infiniburn": "#minecraft:infiniburn_overworld",
   "min_y": 0,
-  "height": 64,
+  "height": 256,
   "monster_spawn_light_level": {
     "type": "minecraft:uniform",
     "value": {

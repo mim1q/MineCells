@@ -95,7 +95,7 @@ public class SpecialPointCommand {
     var dimensionKey = dimension.key.getValue().toString();
     var command = "/execute in " + dimensionKey + " run tp @s " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
     ctx.getSource().sendMessage(
-      Text.literal("Found " + id + " at " + pos + " in " + dimensionKey)
+      Text.literal("Found " + id + " at " + pos + ", rotation: " + posOpt.get().facing() + " in " + dimensionKey)
         .styled(it -> it.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)))
     );
     return 0;

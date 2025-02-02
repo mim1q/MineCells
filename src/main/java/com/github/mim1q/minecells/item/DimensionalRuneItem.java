@@ -13,14 +13,12 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.github.mim1q.minecells.util.MathUtils.getClosestMultiplePosition;
 import static com.github.mim1q.minecells.util.TextUtils.addDescription;
 
 public class DimensionalRuneItem extends Item {
@@ -56,9 +54,6 @@ public class DimensionalRuneItem extends Item {
     var doorway = world.getBlockEntity(context.getBlockPos());
     if (!(doorway instanceof DoorwayPortalBlockEntity)) return ActionResult.PASS;
 
-    var posOverride = ((DoorwayPortalBlockEntity) doorway).getPosOverride();
-    if (posOverride == null) posOverride = new BlockPos(getClosestMultiplePosition(context.getBlockPos(), 1024));
-
     // todo
 
     var pos = Vec3d.ofCenter(context.getBlockPos());
@@ -72,7 +67,7 @@ public class DimensionalRuneItem extends Item {
 
     var newDoorwayEntity = world.getBlockEntity(context.getBlockPos());
     if (newDoorwayEntity instanceof DoorwayPortalBlockEntity newDoorway) {
-      newDoorway.setPosOverride(posOverride);
+//      newDoorway.setPosOverride(posOverride);
     }
 
     world.playSound(

@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
-import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
@@ -56,15 +55,15 @@ public enum MineCellsDimension {
     this.baseGenerator = baseGenerator;
   }
 
-  public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, boolean toExit) {
-    return getTeleportPosition(pos, world, toExit, true);
+  public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, Identifier specialPoint) {
+    return getTeleportPosition(pos, world, specialPoint, true);
   }
 
-    public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, boolean toExit, boolean applySafeOffset) {
+    public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, Identifier specialPoint, boolean applySafeOffset) {
     var destination = getWorld(world);
     Optional<SpecialPoint> point = Optional.empty();
     try {
-      point = GridBasedStructureUtils.getSpecialPoint(destination, pos, toExit ? SpecialPointIds.EXIT : SpecialPointIds.ENTRANCE);
+      point = GridBasedStructureUtils.getSpecialPoint(destination, pos, specialPoint);
     } catch (Exception e) {
       MineCells.LOGGER.error("Failed to get entrance point", e);
     }
@@ -86,7 +85,7 @@ public enum MineCellsDimension {
     return new Pair<>(Vec3d.ofBottomCenter(tpPos), spawnOffset.getRight().intValue());
   }
 
-  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, @Nullable BlockPos posOverride, boolean toExit) {
+  public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, @Nullable BlockPos posOverride, Identifier specialPoint) {
     var destination = getWorld(world);
     Pair<Vec3d, Integer> teleportPos;
     if (this == OVERWORLD) {
@@ -95,13 +94,13 @@ public enum MineCellsDimension {
       } else {
         var dimension = MineCellsDimension.of(world);
         if (dimension != null) {
-          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world, toExit);
+          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world, specialPoint);
         } else {
           teleportPos = new Pair<>(Vec3d.ofBottomCenter(world.getSpawnPos()), 0);
         }
       }
     } else {
-      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world, toExit);
+      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world, specialPoint);
     }
     TeleportUtils.teleportToDimension(player, destination, teleportPos.getLeft(), teleportPos.getRight());
   }

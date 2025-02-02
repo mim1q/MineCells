@@ -130,7 +130,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
     return (entityWorld, entityPos, entityState, entity) -> {
       if (entityWorld.getTime() % 40 == 0 && entity instanceof DoorwayPortalBlockEntity doorway) {
-        doorway.updateClientVisited();
+//        doorway.updateClientVisited();
       }
     };
   }

@@ -26,11 +26,11 @@ public class CompassItemMixin {
     if (world.isClient && MineCellsDimension.isMineCellsDimension(world)) {
       var dimension = MineCellsDimension.of(world);
       var player = MinecraftClient.getInstance().player;
-      if (player == null) return;
-//      var point = GridBasedStructureUtils.getSpecialPoint((ServerWorld) world, player.getBlockPos(), dimension, SpecialPointIds.ENTRANCE);
-//      if (point.isEmpty()) return;
+      if (dimension == null || player == null) return;
+      var point = GridBasedStructureUtils.getSpecialPoint((ServerWorld) world, player.getBlockPos(), dimension, SpecialPointIds.ENTRANCE);
+      if (point.isEmpty()) return;
       var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
-      cir.setReturnValue(GlobalPos.create(dimension.key, new BlockPos(pos)));
+      cir.setReturnValue(GlobalPos.create(dimension.key, new BlockPos(point.get().offset().add(pos))));
     }
   }
 }
