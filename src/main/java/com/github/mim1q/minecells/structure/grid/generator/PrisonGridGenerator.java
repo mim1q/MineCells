@@ -56,7 +56,7 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
       if (i == specialCorridor && specialLeft) {
         addRoom(RoomData.create(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), endPool)
           .rotation(BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation))
-          .specialPoint(endPool == END ? SpecialPointIds.EXIT : null, new Vec3i(3, 1, 11), BlockRotation.NONE)
+          .specialPoint(endPool == END ? SpecialPointIds.EXIT : null, new Vec3i(3, 1, 11), BlockRotation.COUNTERCLOCKWISE_90)
         );
         endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1));
       } else {
@@ -70,7 +70,7 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
       if (i == specialCorridor && !specialLeft) {
         addRoom(RoomData.create(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1)), endPool)
           .rotation(BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation))
-          .specialPoint(endPool == END ? SpecialPointIds.EXIT : null, new Vec3i(3, 1, 11), BlockRotation.NONE)
+          .specialPoint(endPool == END ? SpecialPointIds.EXIT : null, new Vec3i(3, 1, 11), BlockRotation.COUNTERCLOCKWISE_90)
         );
         endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1));
       } else {

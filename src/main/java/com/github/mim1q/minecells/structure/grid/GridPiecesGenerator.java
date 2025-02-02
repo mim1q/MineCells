@@ -125,6 +125,7 @@ public class GridPiecesGenerator {
     public List<RoomData> generate(Structure.Context context) {
       var seed = getClosestMultiplePosition(context.chunkPos().getStartPos(), 1024).hashCode() ^ context.seed();
       context.random().setSeed(seed);
+      System.out.println(seed);
 
       rooms.clear();
       usedPositions.clear();

@@ -39,8 +39,7 @@ public class GridBasedStructure extends Structure {
 
   public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
     BetterPromenadeGridGenerator::new,
-    () -> MineCellsStructures.PROMENADE,
-    -32, -32, 4, 4
+    () -> MineCellsStructures.PROMENADE
   );
 
   public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
@@ -56,9 +55,8 @@ public class GridBasedStructure extends Structure {
       && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
   public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
-    (x, z) -> new RampartsGridGenerator(z),
-    () -> MineCellsStructures.RAMPARTS,
-    -12, -18, 1, 2
+    (x, z) -> new RampartsGridGenerator(x, z),
+    () -> MineCellsStructures.RAMPARTS
   );
 
   public static Codec<GridBasedStructure> createGridBasedStructureCodec(
@@ -80,6 +78,13 @@ public class GridBasedStructure extends Structure {
         Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(GridBasedStructure::getProjectStartToHeightmap)
       ).apply(instance, (config, heightProvider, projectStartToHeightmap) -> new GridBasedStructure(config, heightProvider, projectStartToHeightmap, generatorProvider, typeSupplier, spawnPredicate))
     )).codec();
+  }
+
+  public static Codec<GridBasedStructure> createMultipartGridBasedStructureCodec(
+    BiFunction<Integer, Integer, RoomGridGenerator> generatorProvider,
+    Supplier<StructureType<?>> typeSupplier
+  ) {
+    return createMultipartGridBasedStructureCodec(generatorProvider, typeSupplier, -32, -32, 4, 4);
   }
 
   public static Codec<GridBasedStructure> createMultipartGridBasedStructureCodec(

@@ -2,10 +2,7 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
-import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
-import com.github.mim1q.minecells.util.MathUtils;
-import com.github.mim1q.minecells.util.TeleportUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -21,7 +18,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -61,17 +57,12 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, MineCellsDimension targetDimension) {
-    var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
-    var point = GridBasedStructureUtils.getSpecialPoint(world, pos, specialPointTarget);
-
-    var targetWorld = targetDimension.getWorld(world);
-
-    point.ifPresent(it -> TeleportUtils.teleportToDimension(
+    targetDimension.teleportPlayer(
       player,
-      targetWorld,
-      Vec3d.ofBottomCenter(it.offset()),
-      it.facing().rotate(0, 360)
-    ));
+      world,
+      null,
+      this.specialPointTarget
+    );
   }
 
   public float getRotation() {

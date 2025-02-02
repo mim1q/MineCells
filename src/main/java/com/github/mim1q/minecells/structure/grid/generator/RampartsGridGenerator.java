@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
+import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -35,11 +37,11 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
   private static final Identifier PLATFORM = MineCells.createId("ramparts/platform");
   private static final Identifier PLATFORM_UP = MineCells.createId("ramparts/platform_up");
 
-  private static final int LOWER_BASE_HEIGHT = 4;
-  private static final int BASE_HEIGHT = 12;
+  private static final int LOWER_BASE_HEIGHT = 6;
+  private static final int BASE_HEIGHT = 14;
 
-  public RampartsGridGenerator(int z) {
-    super(0, z);
+  public RampartsGridGenerator(int x, int z) {
+    super(x, z);
   }
 
   @Override
@@ -55,10 +57,10 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
     ) {
       turns[random.nextInt(4)] ^= true;
     }
-    addWall(8, 0, BASE_HEIGHT, 3, true);
+    addWall(40, 24, BASE_HEIGHT, 3, true);
 
-    int x = 8;
-    int z = 2;
+    int x = 40;
+    int z = 26;
     int height = BASE_HEIGHT;
     for (int i = 0; i < 4; ++i) {
       var up = random.nextBoolean();
@@ -183,7 +185,9 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
     for (int i = 0; i < 10; i++) {
       addRoom(new Vec3i(x, i, z), NONE, TOWER_BASE);
     }
-    addRoom(new Vec3i(x, 10, z), NONE, END_TOWER_EXIT);
+    addRoom(RoomData.create(new Vec3i(x, 10, z), END_TOWER_EXIT)
+      .specialPoint(SpecialPointIds.EXIT, new Vec3i(0, 0, 0), NONE)
+    );
     for (int i = 11; i < y; i++) {
       addRoom(new Vec3i(x, i, z), NONE, END_TOWER_ELEVATOR_SHAFT);
     }
@@ -212,19 +216,14 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
       addRoom(new Vec3i(x, i, z), rotation, bottom);
     }
     if (second != null) {
-      addRoom(new Vec3i(x, height - 1, z), rotation, second);
+      var room = RoomData.create(new Vec3i(x, height - 1, z), second).rotation(rotation);
+      if (second == SPAWN) {
+        room.specialPoint(SpecialPointIds.ENTRANCE, new Vec3i(10, 3, 8), CLOCKWISE_180);
+      }
+      addRoom(room);
     }
     if (top != null) {
       addRoom(new Vec3i(x, height, z), rotation, top);
     }
   }
-
-//  @Override
-//  protected void addRoom(Vec3i pos, BlockRotation rotation, Identifier poolId, Vec3i offset, boolean terrainFit) {
-//    var newPos = pos.add(0, 0, this.secondPart ? -16 : 0);
-//    if (newPos.getZ() < -8 || newPos.getZ() > 8) {
-//      return;
-//    }
-//    super.addRoom(newPos, rotation, poolId, offset, terrainFit);
-//  }
 }

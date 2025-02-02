@@ -6,6 +6,6 @@
   "step": "underground_structures",
   "spawn_overrides": {},
   "start_height": {
-    "absolute": 32
+    "absolute": 0
   }
 }

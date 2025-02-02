@@ -38,7 +38,7 @@ public enum MineCellsDimension {
   PRISONERS_QUARTERS(MineCells.createId("prison"), 1024.0, new PrisonGridGenerator()),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 1024.0, null),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 1024.0, new BetterPromenadeGridGenerator(0, 0)),
-  RAMPARTS(MineCells.createId("ramparts"), -384.0, new RampartsGridGenerator(0)),
+  RAMPARTS(MineCells.createId("ramparts"), -384.0, new RampartsGridGenerator(0, 0)),
   BLACK_BRIDGE(MineCells.createId("black_bridge"), 384.0, null);
 
   public final RegistryKey<World> key;
