@@ -116,6 +116,8 @@ public class GridPiecesGenerator {
     ) {
     }
 
+    protected static final Identifier EMPTY = Identifier.of("minecraft", "empty");
+
     protected final List<RoomData> rooms = new ArrayList<>();
     protected final Set<Vec3i> usedPositions = new HashSet<>();
     protected final List<SpecialPoint> specialPoints = new ArrayList<>();

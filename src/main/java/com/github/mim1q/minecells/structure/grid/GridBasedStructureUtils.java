@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGen
 import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public class GridBasedStructureUtils {
   private static long prevSeed = 0;
-  private static final HashMap<Vec3i, List<SpecialPoint>> SPECIAL_POINTS_CACHE = new HashMap<>();
+  private static final HashMap<Pair<GridPiecesGenerator.RoomGridGenerator, Vec3i>, List<SpecialPoint>> SPECIAL_POINTS_CACHE = new HashMap<>();
 
   public static List<SpecialPoint> getSpecialPoints(
     ServerWorld world,
@@ -30,7 +31,7 @@ public class GridBasedStructureUtils {
     }
 
     var pos = MathUtils.getClosestMultiplePosition(structureOrigin, 1024);
-    return SPECIAL_POINTS_CACHE.computeIfAbsent(pos, it -> {
+    return SPECIAL_POINTS_CACHE.computeIfAbsent(new Pair<>(generator, pos), it -> {
       var registryManager = world.getRegistryManager();
       var chunkGenerator = world.getChunkManager().getChunkGenerator();
       var noiseConfig = world.getChunkManager().getNoiseConfig();
