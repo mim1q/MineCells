@@ -22,10 +22,8 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.*;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -54,6 +52,13 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(FACING);
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    System.out.println("clicked");
+    return ActionResult.SUCCESS;
   }
 
   @Override
@@ -262,13 +267,30 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
       super.onStateReplaced(state, world, pos, newState, moved);
       if (world.isClient()) return;
+      var breakPos = getBreakPos(state, pos);
+      world.getBlockState(breakPos).getBlock().onBroken(world, breakPos, world.getBlockState(breakPos));
+      world.breakBlock(breakPos, true);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+      var portalPos = getBreakPos(state, pos);
+      var portal = world.getBlockState(portalPos);
+
+      if (portal.getBlock() instanceof DoorwayPortalBlock || portal.getBlock() instanceof Frame) {
+        return portal.getBlock().onUse(portal, world, portalPos, player, hand, hit);
+      }
+
+      return ActionResult.PASS;
+    }
+
+    private BlockPos getBreakPos(BlockState state, BlockPos pos) {
       var direction = state.get(FACING);
       var offset = state.get(TYPE).breakOffset;
       var x = direction.rotateYCounterclockwise().getOffsetX();
       var z = direction.rotateYCounterclockwise().getOffsetZ();
-      var breakPos = pos.add(offset.getX() * x, offset.getY(), offset.getX() * z);
-      world.getBlockState(breakPos).getBlock().onBroken(world, breakPos, world.getBlockState(breakPos));
-      world.breakBlock(breakPos, true);
+      return pos.add(offset.getX() * x, offset.getY(), offset.getX() * z);
     }
 
     public enum FillerType implements StringIdentifiable {
