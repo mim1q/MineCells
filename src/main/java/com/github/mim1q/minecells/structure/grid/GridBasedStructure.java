@@ -27,14 +27,9 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridBasedStructure extends Structure {
-  private static boolean awayFromWallsPredicate(Structure.Context ctx) {
-    var x = MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64));
-    var z = MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().z, 64));
-    return x != 32 && x != 31 && z != 32 && z != 31;
-  }
-
-  public static final Codec<GridBasedStructure> PRISON_CODEC = createGridBasedStructureCodec(
-    ctx -> new PrisonGridGenerator(), () -> MineCellsStructures.PRISON
+  public static final Codec<GridBasedStructure> PRISON_CODEC = createMultipartGridBasedStructureCodec(
+    PrisonGridGenerator::new,
+    () -> MineCellsStructures.PRISON
   );
 
   public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
@@ -55,7 +50,7 @@ public class GridBasedStructure extends Structure {
       && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
   public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
-    (x, z) -> new RampartsGridGenerator(x, z),
+    RampartsGridGenerator::new,
     () -> MineCellsStructures.RAMPARTS
   );
 

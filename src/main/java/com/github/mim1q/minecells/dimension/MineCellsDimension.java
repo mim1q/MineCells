@@ -35,7 +35,7 @@ import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0.0, null),
-  PRISONERS_QUARTERS(MineCells.createId("prison"), 1024.0, new PrisonGridGenerator()),
+  PRISONERS_QUARTERS(MineCells.createId("prison"), 1024.0, new PrisonGridGenerator(0, 0)),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 1024.0, null),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 1024.0, new BetterPromenadeGridGenerator(0, 0)),
   RAMPARTS(MineCells.createId("ramparts"), -384.0, new RampartsGridGenerator(0, 0)),

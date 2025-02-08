@@ -10,7 +10,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
-public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
+public class PrisonGridGenerator extends MultipartGridGenerator {
   private static final Identifier SPAWN = MineCells.createId("prison/spawn");
   private static final Identifier MAIN_CORRIDOR = MineCells.createId("prison/main_corridor");
   private static final Identifier MAIN_CORRIDOR_END = MineCells.createId("prison/main_corridor_end");
@@ -21,9 +21,13 @@ public class PrisonGridGenerator extends GridPiecesGenerator.RoomGridGenerator {
   private static final Identifier END = MineCells.createId("prison/end");
   private static final Identifier END_SEWERS = MineCells.createId("prison/end_sewers");
 
+  public PrisonGridGenerator(int xPart, int zPart) {
+    super(xPart, zPart);
+  }
+
   @Override
   protected void addRooms(Random random) {
-    Vec3i end1 = generateFloor(new Vec3i(0, 2, 0), BlockRotation.NONE, SPAWN, CHAIN_UPPER, random, random.nextBoolean(), true);
+    Vec3i end1 = generateFloor(new Vec3i(32, 2, 32), BlockRotation.NONE, SPAWN, CHAIN_UPPER, random, random.nextBoolean(), true);
     generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean(), false);
 //    generateFloor(end2.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean(), false);
   }
