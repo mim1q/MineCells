@@ -23,14 +23,14 @@ public class CompassItemMixin {
     cancellable = true
   )
   private static void minecells$createSpawnPos(World world, CallbackInfoReturnable<GlobalPos> cir) {
-    if (world.isClient && MineCellsDimension.isMineCellsDimension(world)) {
-      var dimension = MineCellsDimension.of(world);
-      var player = MinecraftClient.getInstance().player;
-      if (dimension == null || player == null) return;
-      var point = GridBasedStructureUtils.getSpecialPoint((ServerWorld) world, player.getBlockPos(), dimension, SpecialPointIds.ENTRANCE);
-      if (point.isEmpty()) return;
-      var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
-      cir.setReturnValue(GlobalPos.create(dimension.key, new BlockPos(point.get().offset().add(pos))));
-    }
+//    if (world.isClient && MineCellsDimension.isMineCellsDimension(world)) {
+//      var dimension = MineCellsDimension.of(world);
+//      var player = MinecraftClient.getInstance().player;
+//      if (dimension == null || player == null) return;
+//      var point = GridBasedStructureUtils.getSpecialPoint((ServerWorld) world, player.getBlockPos(), dimension, SpecialPointIds.ENTRANCE);
+//      if (point.isEmpty()) return;
+//      var pos = MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024);
+//      cir.setReturnValue(GlobalPos.create(dimension.key, new BlockPos(point.get().offset().add(pos))));
+//    }
   }
 }
