@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.dynamic.CodecHolder;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
 public record RingDensityFunction(
@@ -34,8 +35,13 @@ public record RingDensityFunction(
 
   @Override
   public double sample(NoisePos pos) {
-    var centerX = MathUtils.getClosestMultiple(pos.blockX() - (offsetGrid ? offsetX : 0), gridSize);
-    var centerZ = MathUtils.getClosestMultiple(pos.blockZ() - (offsetGrid ? offsetZ : 0), gridSize);
+    var center = MathUtils.getClosestMultiplePosition(new Vec3i(
+      pos.blockX() - (offsetGrid ? offsetX : 0),
+      0,
+      pos.blockZ() - (offsetGrid ? offsetZ : 0)), gridSize
+    );
+    var centerX = center.getX();
+    var centerZ = center.getZ();
     var distX = pos.blockX() - centerX - (offsetGrid ? 0 : offsetX);
     var distZ = pos.blockZ() - centerZ - (offsetGrid ? 0 : offsetZ);
     var distSquared = distX * distX + distZ * distZ;

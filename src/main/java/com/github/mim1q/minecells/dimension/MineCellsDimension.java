@@ -59,8 +59,7 @@ public enum MineCellsDimension {
     return getTeleportPosition(pos, world, specialPoint, true);
   }
 
-    public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld world, Identifier specialPoint, boolean applySafeOffset) {
-    var destination = getWorld(world);
+    public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld destination, Identifier specialPoint, boolean applySafeOffset) {
     Optional<SpecialPoint> point = Optional.empty();
     try {
       point = GridBasedStructureUtils.getSpecialPoint(destination, pos, specialPoint);
@@ -92,15 +91,15 @@ public enum MineCellsDimension {
       if (player.getSpawnPointDimension() == OVERWORLD.key && player.getSpawnPointPosition() != null) {
         teleportPos = new Pair<>(Vec3d.ofCenter(player.getSpawnPointPosition()), (int) player.getSpawnAngle());
       } else {
-        var dimension = MineCellsDimension.of(world);
+        var dimension = MineCellsDimension.of(destination);
         if (dimension != null) {
-          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), world, specialPoint);
+          teleportPos = dimension.getTeleportPosition(player.getBlockPos(), destination, specialPoint);
         } else {
-          teleportPos = new Pair<>(Vec3d.ofBottomCenter(world.getSpawnPos()), 0);
+          teleportPos = new Pair<>(Vec3d.ofBottomCenter(destination.getSpawnPos()), 0);
         }
       }
     } else {
-      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, world, specialPoint);
+      teleportPos = getTeleportPosition(posOverride == null ? player.getBlockPos() : posOverride, destination, specialPoint);
     }
     TeleportUtils.teleportToDimension(player, destination, teleportPos.getLeft(), teleportPos.getRight());
   }

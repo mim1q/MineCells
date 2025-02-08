@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.dynamic.CodecHolder;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
 import java.util.Optional;
@@ -37,7 +38,7 @@ public record CliffDensityFunction(
   public double sample(NoisePos pos) {
     var coord = (zAxis ? pos.blockZ() : pos.blockX()) - offset;
     var y = pos.blockY();
-    var center = MathUtils.getClosestMultiple(coord, gridSize);
+    var center = MathUtils.getClosestMultiplePosition(new Vec3i(coord, 0, 0), gridSize).getX();
     var dist = Math.abs(coord - center);
     var maxDist = width / 2.0;
     if (dist > maxDist) {
