@@ -6,9 +6,7 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
-import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.*;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.TeleportUtils;
 import net.minecraft.client.MinecraftClient;
@@ -36,10 +34,10 @@ import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0.0, null),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 1024.0, new PrisonGridGenerator(0, 0)),
-  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 1024.0, null),
+  INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 1024.0, new InsufferableCryptGridGenerator(0, 0)),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 1024.0, new BetterPromenadeGridGenerator(0, 0)),
   RAMPARTS(MineCells.createId("ramparts"), -384.0, new RampartsGridGenerator(0, 0)),
-  BLACK_BRIDGE(MineCells.createId("black_bridge"), 384.0, null);
+  BLACK_BRIDGE(MineCells.createId("black_bridge"), 384.0, new BlackBridgeGridGenerator(0, 0));
 
   public final RegistryKey<World> key;
   private final Identifier id;

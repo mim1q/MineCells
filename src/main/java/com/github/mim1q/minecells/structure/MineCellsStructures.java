@@ -27,6 +27,9 @@ public class MineCellsStructures {
   // Ramparts
   public static final StructureType<GridBasedStructure> RAMPARTS = registerStructure("ramparts", GridBasedStructure.RAMPARTS_CODEC);
 
+  // Black Bridge
+  public static final StructureType<GridBasedStructure> BLACK_BRIDGE = registerStructure("black_bridge", GridBasedStructure.BLACK_BRIDGE_CODEC);
+
   // Structure Pieces
   public static final StructurePieceType GRID_PIECE = registerPiece(GridPiece::new, "grid_generator_piece");
 

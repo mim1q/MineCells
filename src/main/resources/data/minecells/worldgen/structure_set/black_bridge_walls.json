@@ -1,7 +1,7 @@
 {
   "structures": [
     {
-      "structure": "minecells:prison",
+      "structure": "minecells:black_bridge_walls",
       "weight": 1
     }
   ],
@@ -9,6 +9,6 @@
     "type": "minecells:better_random_spread",
     "minecells_spacing": 1,
     "minecells_separation": 0,
-    "salt": 2043237655
+    "salt": 2043237625
   }
 }

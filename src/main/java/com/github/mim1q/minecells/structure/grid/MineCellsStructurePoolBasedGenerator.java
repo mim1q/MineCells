@@ -57,6 +57,9 @@ public class MineCellsStructurePoolBasedGenerator {
     Random random = context.random();
     Registry<StructurePool> registry = dynamicRegistryManager.get(RegistryKeys.TEMPLATE_POOL);
     StructurePool structurePool2 = structurePool.value();
+    if (structurePool2.getElementCount() == 0) {
+      return Optional.empty();
+    }
     StructurePoolElement structurePoolElement = structurePool2.getRandomElement(random);
     if (structurePoolElement == EmptyPoolElement.INSTANCE) {
       return Optional.empty();

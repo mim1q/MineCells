@@ -2,10 +2,7 @@ package com.github.mim1q.minecells.structure.grid;
 
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.PromenadeWallGenerator;
-import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
@@ -28,13 +25,11 @@ import java.util.function.Supplier;
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridBasedStructure extends Structure {
   public static final Codec<GridBasedStructure> PRISON_CODEC = createMultipartGridBasedStructureCodec(
-    PrisonGridGenerator::new,
-    () -> MineCellsStructures.PRISON
+    PrisonGridGenerator::new, () -> MineCellsStructures.PRISON
   );
 
   public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
-    BetterPromenadeGridGenerator::new,
-    () -> MineCellsStructures.PROMENADE
+    BetterPromenadeGridGenerator::new, () -> MineCellsStructures.PROMENADE
   );
 
   public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
@@ -49,9 +44,13 @@ public class GridBasedStructure extends Structure {
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64)) == 32
       && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
+
   public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
-    RampartsGridGenerator::new,
-    () -> MineCellsStructures.RAMPARTS
+    RampartsGridGenerator::new, () -> MineCellsStructures.RAMPARTS
+  );
+
+  public static final Codec<GridBasedStructure> BLACK_BRIDGE_CODEC = createMultipartGridBasedStructureCodec(
+    BlackBridgeGridGenerator::new, () -> MineCellsStructures.BLACK_BRIDGE
   );
 
   public static Codec<GridBasedStructure> createGridBasedStructureCodec(

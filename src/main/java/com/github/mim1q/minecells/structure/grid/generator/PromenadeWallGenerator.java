@@ -8,10 +8,10 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
 public class PromenadeWallGenerator extends GridPiecesGenerator.RoomGridGenerator {
-  private static final Identifier TOP = MineCells.createId("promenade/border_wall/top");
-  private static final Identifier MIDDLE = MineCells.createId("promenade/border_wall/middle");
-  private static final Identifier BOTTOM = MineCells.createId("promenade/border_wall/bottom");
-  private static final Identifier UNDERGROUND = MineCells.createId("promenade/border_wall/underground");
+  public static final Identifier TOP = MineCells.createId("promenade/border_wall/top");
+  public static final Identifier MIDDLE = MineCells.createId("promenade/border_wall/middle");
+  public static final Identifier BOTTOM = MineCells.createId("promenade/border_wall/bottom");
+  public static final Identifier UNDERGROUND = MineCells.createId("promenade/border_wall/underground");
 
   private final boolean zAxis;
 
