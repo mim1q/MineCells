@@ -25,6 +25,7 @@ public class MineCellsParticles {
   public static final ElectricParticleType ELECTRICITY = ElectricParticleType.create();
   public static final ColoredParticleType DROP = ColoredParticleType.create();
   public static final ColoredParticleType SMALL_DROP = ColoredParticleType.create();
+  public static final ColoredParticleType RISING_BUBBLE = ColoredParticleType.create();
 
   public static void init() {
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("aura"), AURA);
@@ -37,6 +38,7 @@ public class MineCellsParticles {
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("electricity"), ELECTRICITY);
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("drop"), DROP);
     Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("small_drop"), SMALL_DROP);
+    Registry.register(Registries.PARTICLE_TYPE, MineCells.createId("rising_bubble"), RISING_BUBBLE);
   }
 
   public static void initClient() {
@@ -50,5 +52,6 @@ public class MineCellsParticles {
     ParticleFactoryRegistry.getInstance().register(ELECTRICITY, ElectricParticle.Factory::new);
     ParticleFactoryRegistry.getInstance().register(DROP, ColoredParticle.createFactory(DropParticle::new));
     ParticleFactoryRegistry.getInstance().register(SMALL_DROP, ColoredParticle.createFactory(SmallDropParticle::new));
+    ParticleFactoryRegistry.getInstance().register(RISING_BUBBLE, ColoredParticle.createFactory(RisingBubbleParticle::new));
   }
 }

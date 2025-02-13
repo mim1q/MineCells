@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.block.fluid;
 
+import com.github.mim1q.minecells.registry.MineCellsFluids;
+import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -8,6 +10,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -53,5 +56,23 @@ public abstract class AbstractSewageFluid extends FlowableFluid {
   @Override
   protected float getBlastResistance() {
     return 100.0F;
+  }
+
+  @Override
+  protected void randomDisplayTick(World world, BlockPos pos, FluidState state, Random random) {
+    super.randomDisplayTick(world, pos, state, random);
+
+    if (!world.getFluidState(pos.up()).isEmpty()) return;
+    if (random.nextFloat() > 0.05) return;
+    int color = state.isOf(MineCellsFluids.FLOWING_ANCIENT_SEWAGE) || state.isOf(MineCellsFluids.STILL_ANCIENT_SEWAGE)
+      ? 0xBB8020
+      : 0x30AA10;
+    world.addParticle(
+      MineCellsParticles.RISING_BUBBLE.get(color),
+      pos.getX() + random.nextDouble(),
+      pos.getY() + state.getLevel() * 0.0625 - random.nextDouble() * 0.2,
+      pos.getZ() + random.nextDouble(),
+      0.0, 0.05 + random.nextDouble() * 0.02, 0.0
+    );
   }
 }
