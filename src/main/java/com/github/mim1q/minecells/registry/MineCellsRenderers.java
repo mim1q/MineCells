@@ -201,14 +201,14 @@ public class MineCellsRenderers {
 
   public static void initBlocks() {
     FluidRenderHandlerRegistry.INSTANCE.register(MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE, new SimpleFluidRenderHandler(
-      new Identifier("block/water_still"),
-      new Identifier("block/water_flow"),
-      0xA2E751
+      MineCells.createId("block/fluid/toxic_sewage"),
+      MineCells.createId("block/fluid/toxic_sewage_flowing"),
+      0xFFFFFF
     ));
     FluidRenderHandlerRegistry.INSTANCE.register(MineCellsFluids.STILL_ANCIENT_SEWAGE, MineCellsFluids.FLOWING_ANCIENT_SEWAGE, new SimpleFluidRenderHandler(
-      new Identifier("block/water_still"),
-      new Identifier("block/water_flow"),
-      0xE0C93B
+      MineCells.createId("block/fluid/ancient_sewage"),
+      MineCells.createId("block/fluid/ancient_sewage_flowing"),
+      0xFFFFFF
     ));
 
     BlockRenderLayerMap.INSTANCE.putBlocks(
