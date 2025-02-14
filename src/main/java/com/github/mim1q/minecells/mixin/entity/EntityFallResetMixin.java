@@ -4,19 +4,22 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.accessor.FallResetEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
+import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Comparator;
 
 import static java.lang.Math.abs;
 
@@ -52,9 +57,9 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
   @Shadow public abstract Text getName();
   @Shadow public abstract void dismountVehicle();
 
+  @Shadow public abstract Vec3d getPos();
+
   @Unique private Double fallResetY = 0.0;
-  @Unique private BlockPos lastSolidBlock;
-  @Unique private RegistryKey<World> lastWorld;
   @Unique private BlockPos dimensionTpPos = BlockPos.ORIGIN;
 
   @Inject(
@@ -82,8 +87,6 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
   public void minecells$initDimensionChange(Entity result, ServerWorld destination) {
     ((EntityFallResetMixin) (Object) result).fallResetY = MineCellsDimension.getFallResetHeight(destination);
     ((EntityFallResetMixin) (Object) result).dimensionTpPos = result.getBlockPos();
-
-    lastSolidBlock = null;
   }
 
   @Inject(
@@ -91,15 +94,6 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
     at = @At("HEAD")
   )
   private void minecells$injectTick(CallbackInfo ci) {
-    var worldKey = getWorld().getRegistryKey();
-    if (!worldKey.equals(lastWorld)) {
-      lastSolidBlock = null;
-      lastWorld = worldKey;
-      fallResetY = MineCellsDimension.getFallResetHeight(getWorld());
-
-      return;
-    }
-
     //noinspection ConstantValue
     if (getWorld().isClient
       || MineCells.COMMON_CONFIG.disableFallProtection()
@@ -155,11 +149,6 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
       this.setVelocity(Vec3d.ZERO);
       fallDistance = 0.0f;
       damage(getWorld().getDamageSources().fall(), 5.0F);
-    } else if (
-      getY() > fallResetY + 5
-        && getWorld().getBlockState(getBlockPos().down()).isSolidBlock(getWorld(), getBlockPos())
-    ) {
-      lastSolidBlock = getBlockPos();
     }
   }
 
@@ -178,28 +167,28 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
 
   @Unique
   private BlockPos minecells$getResetToPos() {
-    return BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld(), SpecialPointIds.ENTRANCE).getLeft());
+    var serverWorld = (ServerWorld) getWorld();
+    var dimension = MineCellsDimension.of(getWorld());
+    var pos = MathUtils.getClosestMultiplePosition(getBlockPos(), 1024);
+    var specialPoints = GridBasedStructureUtils.getSpecialPoints(serverWorld, pos, dimension.baseGenerator);
 
-    // Intended behavior disabled for now due to some bugs
+    var point = specialPoints.stream()
+      .filter(it -> it.id().equals(SpecialPointIds.CHECKPOINT))
+      .map(it -> {
+        BlockPos result = new BlockPos(it.offset().add(pos));
+        result = new BlockPos(
+          result.getX(),
+          getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, result.getX(), result.getZ()),
+          result.getZ());
+        return result;
+      })
+      .filter(it -> it.getZ() < getZ()
+        && getWorld().getBlockState(it.down()).isSideSolidFullSquare(getWorld(), it.down(), Direction.UP)
+      )
+      .min(Comparator.comparingDouble(it -> it.getSquaredDistance(getPos())));
 
-    // BlockPos resetToPos = null;
-    // if (lastSolidBlock != null && lastSolidBlock.isWithinDistance(getBlockPos().withY(lastSolidBlock.getY()), 32)) {
-    //   resetToPos = lastSolidBlock.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, lastSolidBlock.getX(), lastSolidBlock.getZ()));
-    // }
-    // if (resetToPos == null || resetToPos.getY() < fallResetY) {
-    //   var pos = this.getChunkPos().getBlockPos(8, 0, 8);
-    //   for (var offset : BlockPos.iterateOutwards(BlockPos.ORIGIN, 3, 0, 3)) {
-    //     var checkedPos = pos.add(offset.multiply(16));
-    //     checkedPos = checkedPos.withY(getWorld().getTopY(Heightmap.Type.MOTION_BLOCKING, checkedPos.getX(), checkedPos.getZ()));
-    //     if (checkedPos.getY() > fallResetY) {
-    //       resetToPos = checkedPos;
-    //     }
-    //   }
-    // }
-    // if (resetToPos == null || resetToPos.getY() < fallResetY) {
-    //   resetToPos = BlockPos.ofFloored(MineCellsDimension.of(getWorld()).getTeleportPosition(getBlockPos(), (ServerWorld) getWorld()));
-    // }
-
-    // return resetToPos;
+    return point.orElse(BlockPos.ofFloored(
+      dimension.getTeleportPosition(getBlockPos(), serverWorld, SpecialPointIds.ENTRANCE).getLeft())
+    );
   }
 }

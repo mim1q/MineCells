@@ -223,7 +223,10 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
       addRoom(room);
     }
     if (top != null) {
-      addRoom(new Vec3i(x, height, z), rotation, top);
+      addRoom(room(new Vec3i(x, height, z), top)
+        .rotation(rotation)
+        .specialPoint(SpecialPointIds.CHECKPOINT, new Vec3i(8, 0, 4), NONE)
+      );
     }
   }
 }
