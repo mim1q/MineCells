@@ -65,12 +65,12 @@ public abstract class AbstractSewageFluid extends FlowableFluid {
     if (!world.getFluidState(pos.up()).isEmpty()) return;
     if (random.nextFloat() > 0.05) return;
     int color = state.isOf(MineCellsFluids.FLOWING_ANCIENT_SEWAGE) || state.isOf(MineCellsFluids.STILL_ANCIENT_SEWAGE)
-      ? 0xBB8020
-      : 0x30AA10;
+      ? 0xebc331
+      : 0x68dc47;
     world.addParticle(
       MineCellsParticles.RISING_BUBBLE.get(color),
       pos.getX() + random.nextDouble(),
-      pos.getY() + state.getLevel() * 0.0625 - random.nextDouble() * 0.2,
+      pos.getY() + state.getLevel() * 0.125 - random.nextDouble() * 0.2,
       pos.getZ() + random.nextDouble(),
       0.0, 0.05 + random.nextDouble() * 0.02, 0.0
     );

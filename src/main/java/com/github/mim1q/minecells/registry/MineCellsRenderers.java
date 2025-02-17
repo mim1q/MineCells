@@ -37,6 +37,7 @@ import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayFeatureRenderer;
 import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayVertexConsumer;
+import dev.mim1q.gimm1q.client.render.overlay.OverlayUvMapper;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -199,7 +200,7 @@ public class MineCellsRenderers {
     HandledScreens.register(MineCellsScreenHandlerTypes.CELL_FORGE_SCREEN_HANDLER, CellCrafterScreen::new);
   }
 
-  public static void initBlocks() {
+  @SuppressWarnings("unchecked") public static void initBlocks() {
     FluidRenderHandlerRegistry.INSTANCE.register(MineCellsFluids.STILL_SEWAGE, MineCellsFluids.FLOWING_SEWAGE, new SimpleFluidRenderHandler(
       MineCells.createId("block/fluid/toxic_sewage"),
       MineCells.createId("block/fluid/toxic_sewage_flowing"),
@@ -365,17 +366,26 @@ public class MineCellsRenderers {
     // Actual feature renderers:
 
     final var iceTexture = new Identifier("textures/block/ice.png");
+    final var bloodOverlay = MineCells.createId("textures/entity/effect/blood_overlay.png");
 
     LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
 
       ((entityType, entityRenderer, registrationHelper, context) -> {
-
-        //noinspection unchecked
         registrationHelper.register(ModelOverlayFeatureRenderer.of(
           (entity) -> ((LivingEntityAccessor) entity).getMineCellsFlag(MineCellsEffectFlags.FROZEN),
           (entity, vertexConsumers) -> ModelOverlayVertexConsumer
             .of(vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(iceTexture)))
             .offset(2.0322f)
+            .skipPlanes(),
+          true
+        ).apply((FeatureRendererContext<LivingEntity, EntityModel<LivingEntity>>) entityRenderer));
+
+        registrationHelper.register(ModelOverlayFeatureRenderer.of(
+          (entity) -> ((LivingEntityAccessor) entity).getMineCellsFlag(MineCellsEffectFlags.BLEEDING),
+          (entity, vertexConsumers) -> ModelOverlayVertexConsumer
+            .of(vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(bloodOverlay)))
+            .offset(0.0321f)
+            .mapUv(OverlayUvMapper.verticalScrollAnimation(-0.06f))
             .skipPlanes(),
           true
         ).apply((FeatureRendererContext<LivingEntity, EntityModel<LivingEntity>>) entityRenderer));
