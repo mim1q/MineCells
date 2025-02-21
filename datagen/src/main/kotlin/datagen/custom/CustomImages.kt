@@ -49,4 +49,22 @@ object CustomImages {
       }
     }
   }
+
+  fun createSeptiteTextures(
+    atlasName: String,
+    outputDirectory: Path,
+  ) {
+    ImageAtlas.createAndSave(
+      getImageFile(atlasName),
+      outputDirectory.resolve("assets/minecells/textures/block/").toFile()
+    ) {
+      listOf("", "ancient_").forEach {
+        sprite("${it}septite")
+        sprite("cobbled_${it}septite")
+        sprite("polished_${it}septite")
+        sprite("${it}septite_bricks")
+        sprite("small_${it}septite_bricks")
+      }
+    }
+  }
 }

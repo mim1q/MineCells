@@ -50,9 +50,19 @@ fun main(args: Array<String>) {
     add(BlockSets.basicStoneSet("minecells:bloomrock_tile", baseSuffix = "s"))
     add(BlockSets.basicStoneSet("minecells:bloomrock_brick", baseSuffix = "s"))
     add(BlockSets.basicStoneSet("minecells:cracked_bloomrock_brick", baseSuffix = "s"))
+    // Sewers
+    listOf("ancient_", "").forEach {
+      add(BlockSets.basicStoneSet("minecells:${it}septite"))
+      add(BlockSets.basicStoneSet("minecells:cobbled_${it}septite"))
+      add(BlockSets.basicStoneSet("minecells:polished_${it}septite"))
+      add(BlockSets.basicStoneSet("minecells:${it}septite_brick", baseSuffix = "s"))
+      add(BlockSets.basicStoneSet("minecells:small_${it}septite_brick", baseSuffix = "s"))
+    }
     // Torches
     val torches = listOf("prison", "promenade", "ramparts")
     torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
+    val copperTorches = listOf("sewers")
+    copperTorches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
     // Other
     add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
     add(BlockSets.basicSet("minecells:putrid_board", "_block"))
@@ -157,6 +167,7 @@ fun main(args: Array<String>) {
     // Generated images
     CustomImages.createBowTextures("bow_atlas.png", Path.of(args[0]))
     CustomImages.createFlagTextures("flag_atlas.png", Path.of(args[0]))
+    CustomImages.createSeptiteTextures("septite_atlas.png", Path.of(args[0]))
   }
 
   generator.generate()

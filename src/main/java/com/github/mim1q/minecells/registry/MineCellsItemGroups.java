@@ -49,6 +49,18 @@ public class MineCellsItemGroups {
     stacks.addAll(MineCellsBlocks.BLOOMROCK_TILES.getStacks());
     stacks.add(stack(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK));
 
+    stacks.addAll(MineCellsBlocks.SEPTITE.getStacks());
+    stacks.addAll(MineCellsBlocks.COBBLED_SEPTITE.getStacks());
+    stacks.addAll(MineCellsBlocks.POLISHED_SEPTITE.getStacks());
+    stacks.addAll(MineCellsBlocks.SEPTITE_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.SMALL_SEPTITE_BRICKS.getStacks());
+
+    stacks.addAll(MineCellsBlocks.ANCIENT_SEPTITE.getStacks());
+    stacks.addAll(MineCellsBlocks.COBBLED_ANCIENT_SEPTITE.getStacks());
+    stacks.addAll(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE.getStacks());
+    stacks.addAll(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS.getStacks());
+    stacks.addAll(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS.getStacks());
+
     stacks.addAll(MineCellsBlocks.PUTRID_WOOD.getStacks());
     stacks.add(MineCellsBlocks.ARROW_SIGN);
     stacks.add(stack(MineCellsBlocks.PUTRID_BOARDS));

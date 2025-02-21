@@ -15,7 +15,7 @@ import tada.lib.tags.TagManager
 import tada.lib.util.Id
 
 object CustomPresets {
-  fun torch(id: String, texture: String) = Preset {
+  fun torch(id: String, texture: String, ) = Preset {
     val (ns, name) = Id(id)
     add("${name}_torch", ParentedModel.block("minecells:block/template/colored_torch").texture("flame", Id(texture).toString()))
     add("${name}_torch_standing", ParentedModel.block("minecells:block/template/colored_torch_standing").texture("flame", Id(texture).toString()))

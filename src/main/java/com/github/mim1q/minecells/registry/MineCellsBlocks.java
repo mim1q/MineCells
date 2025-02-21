@@ -64,6 +64,16 @@ public class MineCellsBlocks {
   public static final StoneSet BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet CRACKED_BLOOMROCK_BRICKS = new StoneSet(MineCells.createId("cracked_bloomrock_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
   public static final StoneSet BLOOMROCK_TILES = new StoneSet(MineCells.createId("bloomrock_tile"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet SEPTITE = new StoneSet(MineCells.createId("septite"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet SEPTITE_BRICKS = new StoneSet(MineCells.createId("septite_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet SMALL_SEPTITE_BRICKS = new StoneSet(MineCells.createId("small_septite_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet POLISHED_SEPTITE = new StoneSet(MineCells.createId("polished_septite"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet COBBLED_SEPTITE = new StoneSet(MineCells.createId("cobbled_septite"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet ANCIENT_SEPTITE = new StoneSet(MineCells.createId("ancient_septite"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet ANCIENT_SEPTITE_BRICKS = new StoneSet(MineCells.createId("ancient_septite_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet SMALL_ANCIENT_SEPTITE_BRICKS = new StoneSet(MineCells.createId("small_ancient_septite_brick"), "s", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE_BRICKS));
+  public static final StoneSet POLISHED_ANCIENT_SEPTITE = new StoneSet(MineCells.createId("polished_ancient_septite"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
+  public static final StoneSet COBBLED_ANCIENT_SEPTITE = new StoneSet(MineCells.createId("cobbled_ancient_septite"), "", MineCellsBlocks::defaultItemSettings, () -> FabricBlockSettings.copyOf(Blocks.STONE));
 
   // Putrid boards
   public static final Block PUTRID_BOARDS = registerBlockWithItem(new WoodenBoardBlock(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()), "putrid_boards");
@@ -129,7 +139,9 @@ public class MineCellsBlocks {
   public static final Block ALCHEMY_EQUIPMENT_2 = registerBlockWithItem(new AlchemyEquipmentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).offset(AbstractBlock.OffsetType.XZ)), "alchemy_equipment_2");
   public static final ColoredTorchBlock PRISON_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(Blocks.TORCH).breakInstantly().luminance(15).emissiveLighting((s, w, p) -> true).ticksRandomly().noCollision()), "prison_torch");
   public static final ColoredTorchBlock PROMENADE_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "promenade_torch");
-  public static final ColoredTorchBlock RAMPARTS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PROMENADE_TORCH)), "ramparts_torch");
+  public static final ColoredTorchBlock RAMPARTS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "ramparts_torch");
+  public static final ColoredTorchBlock SEWERS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "sewers_torch");
+  public static final ColoredTorchBlock ANCIENT_SEWERS_TORCH = registerBlockWithItem(new ColoredTorchBlock(FabricBlockSettings.copyOf(PRISON_TORCH)), "sewers_torch");
   public static final ReturnStoneBlock RETURN_STONE = registerBlockWithItem(new ReturnStoneBlock(FabricBlockSettings.copyOf(Blocks.BEDROCK).luminance(7)), "return_stone");
   public static final Block KINGDOM_PORTAL_CORE = registerBlock(new Block(FabricBlockSettings.copyOf(Blocks.DIRT)), "kingdom_portal_core");
   public static final Block CONJUNCTIVIUS_BOX = registerBlock(new MonsterBoxBlock(MineCells.createId("boss/conjunctivius")), "conjunctivius_box");
