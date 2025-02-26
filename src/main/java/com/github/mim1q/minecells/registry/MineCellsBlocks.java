@@ -22,15 +22,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,6 +41,7 @@ public class MineCellsBlocks {
   );
 
   public static final List<FlagBlock> FLAG_BLOCKS = new ArrayList<>();
+  public static final HashMap<Identifier, DoorwayPortalBlock> DOORWAY_PORTALS = new HashMap<>();
 
   public static final Block ELEVATOR_ASSEMBLER = registerBlockWithItem(new ElevatorAssemblerBlock(), "elevator_assembler");
   public static final Block CELL_CRAFTER = registerBlockWithItem(new CellCrafterBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()), "cell_crafter");

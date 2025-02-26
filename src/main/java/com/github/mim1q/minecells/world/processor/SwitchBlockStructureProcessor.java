@@ -68,6 +68,13 @@ public class SwitchBlockStructureProcessor extends StructureProcessor {
     return new StructureBlockInfo(currentBlockInfo.pos(), newState, currentBlockInfo.nbt());
   }
 
+  public static BlockState copyAllProperties(BlockState from, BlockState to) {
+    for (var property : from.getProperties()) {
+      to = copyProperty(from, to, property);
+    }
+    return to;
+  }
+
   private static <T extends Comparable<T>> BlockState copyProperty(BlockState copyFrom, BlockState copyTo, Property<T> property) {
     if (copyFrom.contains(property)) {
       return copyTo.with(property, copyFrom.get(property));

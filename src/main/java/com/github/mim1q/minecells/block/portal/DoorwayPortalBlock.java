@@ -6,11 +6,15 @@ import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.screen.ScreenUtils;
+import com.github.mim1q.minecells.screen.doorway.DoorwaySelectionScreen;
 import com.github.mim1q.minecells.util.ModelUtils;
+import dev.mim1q.gimm1q.interpolation.Easing;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -19,15 +23,13 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -39,6 +41,8 @@ import java.util.List;
 
 public class DoorwayPortalBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+  public static final BooleanProperty CLOSED = BooleanProperty.of("closed");
+
   private static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
   private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
   public final DoorwayType type;
@@ -52,12 +56,16 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(FACING);
+    builder.add(CLOSED);
   }
 
   @Override
   @SuppressWarnings("deprecation")
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    System.out.println("clicked");
+    if (world.isClient()) {
+      ScreenUtils.openDoorwaySelectionScreen();
+      return ActionResult.SUCCESS;
+    }
     return ActionResult.SUCCESS;
   }
 
@@ -134,8 +142,17 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @Override
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
     return (entityWorld, entityPos, entityState, entity) -> {
-      if (entityWorld.getTime() % 40 == 0 && entity instanceof DoorwayPortalBlockEntity doorway) {
-//        doorway.updateClientVisited();
+      if (entityWorld.getTime() % 5 == 0 && entity instanceof DoorwayPortalBlockEntity doorway) {
+        if (entityWorld.isClient()) {
+          var closed = doorway.getCachedState().get(CLOSED);
+          doorway.closedBarsAnimation.transitionTo(closed ? 1f : 0f, 10f, closed ? Easing::easeOutBounce : Easing::easeOutCubic);
+          return;
+        }
+
+        var dir = Vec3d.of(entityState.get(FACING).getVector().multiply(2));
+        var players = entityWorld.getEntitiesByClass(PlayerEntity.class, Box.of(entityPos.toCenterPos(), 3.0, 2.0, 3.0).offset(dir), it -> true);
+        var closed = players.isEmpty() || players.stream().anyMatch(it -> !doorway.canPlayerEnter(it));
+        entityWorld.setBlockState(entityPos, entityState.with(CLOSED, closed));
       }
     };
   }

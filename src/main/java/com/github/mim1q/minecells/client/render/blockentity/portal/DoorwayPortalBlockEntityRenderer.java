@@ -50,7 +50,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     matrices.translate(0.0, 0.0, -0.01);
     RenderUtils.drawBillboard(foregroundVertices, matrices, 0xF000F0, 1.5F, 2.5F, 104F / 128, 1F, 0, 40F / 128, 0xFFFFFFFF);
 
-    var barsProgress = entity.canPlayerEnter(MinecraftClient.getInstance().player) ? 0.25F : 1.0F;
+    var barsProgress = 0.25f + entity.closedBarsAnimation.update(entity.getWorld().getTime() + tickDelta) * 0.75f;
     var minY = 1.25F - barsProgress * 2.5F;
     var minV = (40 - 40F * barsProgress) / 128;
 
