@@ -107,22 +107,22 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     public static List<PortalData> getPortals(ServerPlayerEntity player) {
-      return PORTALS.get(player).portalMap.get(player.getUuid());
+      return PORTALS.get(player.server.getScoreboard()).portalMap.get(player.getUuid());
     }
 
     public static boolean createPortal(ServerPlayerEntity player) {
-      var component = PORTALS.get(player);
+      var component = PORTALS.get(player.server.getScoreboard());
       return component.createPortalDataForPlayer(player).isPresent();
     }
 
-    public static boolean createPortalIfMissing(ServerPlayerEntity player) {
-      var component = PORTALS.get(player);
+    public static PortalData getOrCreatePortal(ServerPlayerEntity player) {
+      var component = PORTALS.get(player.server.getScoreboard());
       var list = component.portalMap.get(player.getUuid());
       if (list == null || list.isEmpty()) {
-        return component.createPortalDataForPlayer(player).isPresent();
+        return component.createPortalDataForPlayer(player).get();
       }
 
-      return true;
+      return list.get(0);
     }
   }
 

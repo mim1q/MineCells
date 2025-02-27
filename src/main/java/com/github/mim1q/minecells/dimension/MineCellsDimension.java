@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
@@ -9,8 +8,6 @@ import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGen
 import com.github.mim1q.minecells.structure.grid.generator.*;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.TeleportUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
@@ -28,8 +25,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Optional;
-
-import static com.github.mim1q.minecells.effect.MineCellsEffectFlags.DISARMED;
 
 public enum MineCellsDimension {
   OVERWORLD(new Identifier("overworld"), 0.0, null),
@@ -175,11 +170,11 @@ public enum MineCellsDimension {
     };
   }
 
-  public boolean canMusicStart(ClientPlayerEntity player) {
-    return switch (this) {
-      case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor) player).getMineCellsFlag(DISARMED);
-      case BLACK_BRIDGE -> player != null && MinecraftClient.getInstance().inGameHud.getBossBarHud() != null;
-      default -> true;
-    };
-  }
+//  public boolean canMusicStart(ClientPlayerEntity player) {
+//    return switch (this) {
+//      case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor) player).getMineCellsFlag(DISARMED);
+//      case BLACK_BRIDGE -> player != null && MinecraftClient.getInstance().inGameHud.getBossBarHud() != null;
+//      default -> true;
+//    };
+//  }
 }

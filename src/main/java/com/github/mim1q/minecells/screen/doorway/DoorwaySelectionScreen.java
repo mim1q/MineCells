@@ -73,4 +73,9 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
     exitButtons.add(button);
     return button;
   }
+
+  @Override
+  public boolean shouldPause() {
+    return false;
+  }
 }

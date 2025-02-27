@@ -67,15 +67,16 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, MineCellsDimension targetDimension) {
     if (onlyOwnerCanEnter && ownerId != null && !player.getUuid().equals(ownerId)) return;
 
-    targetDimension.teleportPlayer(player, world, getPos(), this.specialPointTarget);
+    targetDimension.teleportPlayer(player, world, posOverride == null ? getPos() : posOverride, this.specialPointTarget);
   }
 
   public float getRotation() {
     return getCachedState().get(FACING).asRotation();
   }
 
-  public void update(PlayerEntity owner, boolean onlyOwnerCanEnter) {
+  public void update(PlayerEntity owner, BlockPos posOverride, boolean onlyOwnerCanEnter) {
     this.ownerId = owner.getUuid();
+    this.posOverride = posOverride;
     this.onlyOwnerCanEnter = onlyOwnerCanEnter;
   }
 

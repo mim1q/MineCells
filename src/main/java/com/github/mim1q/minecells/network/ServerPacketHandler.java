@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.network;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
+import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
@@ -29,7 +30,8 @@ public class ServerPacketHandler {
 
         var newState = MineCellsBlocks.DOORWAY_PORTALS.get(msg.dimensionId()).getDefaultState();
         world.setBlockState(msg.doorwayPos(), copyAllProperties(state, newState));
-        doorway.update(ctx.player(), msg.onlyOwnerCanUse());
+        var pos = MineCellsLevelCC.PortalsCC.getOrCreatePortal(ctx.player()).runCenter();
+        doorway.update(ctx.player(), pos, msg.onlyOwnerCanUse());
       }
     });
 
