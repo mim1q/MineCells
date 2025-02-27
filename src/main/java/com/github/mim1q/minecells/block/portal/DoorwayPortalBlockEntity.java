@@ -24,10 +24,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
+import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.CLOSED;
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
-  public final AnimatedProperty closedBarsAnimation = new AnimatedProperty(1f);
+  public final AnimatedProperty closedBarsAnimation = new AnimatedProperty(getCachedState().get(CLOSED) ? 1f : 0f);
 
   private Identifier specialPointTarget = SpecialPointIds.ENTRANCE;
   private @Nullable BlockPos posOverride = null;
@@ -75,7 +76,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public void update(PlayerEntity owner, boolean onlyOwnerCanEnter) {
     this.ownerId = owner.getUuid();
-    this.onlyOwnerCanEnter = true;
+    this.onlyOwnerCanEnter = onlyOwnerCanEnter;
   }
 
   @Override

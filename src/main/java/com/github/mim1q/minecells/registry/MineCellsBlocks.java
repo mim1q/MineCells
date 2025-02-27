@@ -180,12 +180,12 @@ public class MineCellsBlocks {
   public static final DoorwayPortalBlock.Frame UNBREAKABLE_DOORWAY_FRAME = registerBlock(new DoorwayPortalBlock.Frame(FabricBlockSettings.copyOf(DOORWAY_FRAME).strength(-1.0F, 3600000.0F).solid()), "unbreakable_doorway_frame");
   public static final RiftBlock RIFT = registerBlock(new RiftBlock(FabricBlockSettings.copyOf(Blocks.BARRIER).solid()), "rift");
 
-  public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.OVERWORLD), "overworld_doorway");
-  public static final DoorwayPortalBlock PRISON_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.PRISON), "prison_doorway");
-  public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.PROMENADE), "promenade_doorway");
-  public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.INSUFFERABLE_CRYPT), "insufferable_crypt_doorway");
-  public static final DoorwayPortalBlock RAMPARTS_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.RAMPARTS), "ramparts_doorway");
-  public static final DoorwayPortalBlock BLACK_BRIDGE_DOORWAY = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), DoorwayType.BLACK_BRIDGE), "black_bridge_doorway");
+  public static final DoorwayPortalBlock OVERWORLD_DOORWAY = registerDoorway(DoorwayType.OVERWORLD, "overworld_doorway");
+  public static final DoorwayPortalBlock PRISON_DOORWAY = registerDoorway(DoorwayType.PRISON, "prison_doorway");
+  public static final DoorwayPortalBlock PROMENADE_DOORWAY = registerDoorway(DoorwayType.PROMENADE, "promenade_doorway");
+  public static final DoorwayPortalBlock INSUFFERABLE_CRYPT_DOORWAY = registerDoorway(DoorwayType.INSUFFERABLE_CRYPT, "insufferable_crypt_doorway");
+  public static final DoorwayPortalBlock RAMPARTS_DOORWAY = registerDoorway(DoorwayType.RAMPARTS, "ramparts_doorway");
+  public static final DoorwayPortalBlock BLACK_BRIDGE_DOORWAY = registerDoorway(DoorwayType.BLACK_BRIDGE, "black_bridge_doorway");
 
   public static void init() {
     Registry.register(Registries.BLOCK, MineCells.createId("sewage"), SEWAGE);
@@ -228,6 +228,12 @@ public class MineCellsBlocks {
     );
     FLAG_BLOCKS.add(flag);
     return flag;
+  }
+
+  private static DoorwayPortalBlock registerDoorway(DoorwayType type, String name) {
+    var doorway = registerBlock(new DoorwayPortalBlock(FabricBlockSettings.copyOf(UNBREAKABLE_DOORWAY_FRAME), type), name);
+    DOORWAY_PORTALS.put(type.dimension.key.getValue(), doorway);
+    return doorway;
   }
 
   @SuppressWarnings("UnstableApiUsage")

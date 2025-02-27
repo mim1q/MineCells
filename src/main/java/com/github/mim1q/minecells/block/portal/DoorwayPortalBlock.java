@@ -7,14 +7,12 @@ import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.screen.ScreenUtils;
-import com.github.mim1q.minecells.screen.doorway.DoorwaySelectionScreen;
 import com.github.mim1q.minecells.util.ModelUtils;
 import dev.mim1q.gimm1q.interpolation.Easing;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -63,7 +61,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     if (world.isClient()) {
-      ScreenUtils.openDoorwaySelectionScreen();
+      ScreenUtils.openDoorwaySelectionScreen(pos);
       return ActionResult.SUCCESS;
     }
     return ActionResult.SUCCESS;

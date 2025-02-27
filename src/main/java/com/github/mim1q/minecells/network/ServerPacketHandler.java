@@ -6,7 +6,7 @@ import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
-import com.github.mim1q.minecells.network.c2s.UpdateDoorwayPacket;
+import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
@@ -21,13 +21,13 @@ public class ServerPacketHandler {
   public static OwoNetChannel CHANNEL = OwoNetChannel.create(MineCells.createId("main"));
 
   public static void init() {
-    CHANNEL.registerServerbound(UpdateDoorwayPacket.class, (msg, ctx) -> {
+    CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
       var entity = world.getBlockEntity(msg.doorwayPos());
       if (entity instanceof DoorwayPortalBlockEntity doorway) {
         var state = world.getBlockState(msg.doorwayPos());
 
-        var newState = MineCellsBlocks.DOORWAYS.msg.dimensionId().getDefaultState();
+        var newState = MineCellsBlocks.DOORWAY_PORTALS.get(msg.dimensionId()).getDefaultState();
         world.setBlockState(msg.doorwayPos(), copyAllProperties(state, newState));
         doorway.update(ctx.player(), msg.onlyOwnerCanUse());
       }
