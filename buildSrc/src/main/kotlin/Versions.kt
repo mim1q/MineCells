@@ -8,9 +8,9 @@ object Versions {
   const val LOOM = "1.6-SNAPSHOT"
 
   // Required / embedded dependencies
-  const val OMEGA_CONFIG = "1.4.0+1.20.1"
   const val OWOLIB = "0.11.2+1.20"
   const val GIMM1Q = "0.7.9+1.20.1"
+  const val CARDINAL_COMPONENTS = "5.2.2"
 
   // Optional dependencies
   const val PATCHOULI = "1.20.1-84-FABRIC"

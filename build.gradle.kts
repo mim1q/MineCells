@@ -29,8 +29,9 @@ repositories {
   maven("https://maven.shedaniel.me")
   maven("https://maven.architectury.dev")
   maven("https://maven.terraformersmc.com/releases")
-  maven("https://maven.wispforest.io")
+  maven("https://maven.wispforest.io") // owo-lib
   maven("https://maven.blamejared.com") // Patchouli
+  maven("https://maven.ladysnake.org/releases") // Cardinal Components
 }
 
 dependencies {
@@ -40,6 +41,9 @@ dependencies {
 
   modImplementation("net.fabricmc:fabric-loader:${Versions.FABRIC_LOADER}")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${Versions.FABRIC_API}")
+
+  include(modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${Versions.CARDINAL_COMPONENTS}")!!)
+  include(modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${Versions.CARDINAL_COMPONENTS}")!!)
 
   annotationProcessor(modImplementation("io.wispforest:owo-lib:${Versions.OWOLIB}")!!)
   include("io.wispforest:owo-sentinel:${Versions.OWOLIB}")
