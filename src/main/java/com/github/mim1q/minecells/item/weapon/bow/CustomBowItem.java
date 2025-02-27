@@ -102,6 +102,7 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
         || world.isClient
         || arrow.isEmpty()
         || arrowType.getAmmoItem().isEmpty()
+        || EnchantmentHelper.getLevel(Enchantments.INFINITY, bow) > 0
     ) {
       return maxCount;
     }
