@@ -103,6 +103,45 @@ public class MathUtils {
     };
   }
 
+  // Thank you, GolamMazid Sajib!
+  // https://stackoverflow.com/a/61231766
+  public static Vec3i getSpiralPosition(int i) {
+    i += 1;
+    int k = (int) Math.ceil((Math.sqrt(i) - 1) / 2);
+    int t = 2 * k + 1;
+    int m = t * t;
+    t -= 1;
+    if (i >= m - t) {
+      return new Vec3i(k - (m - i), 0, -k);
+    }
+    m -= t;
+    if (i >= m - t) {
+      return new Vec3i(-k, 0, -k + (m - i));
+    }
+    m -= t;
+    if (i >= m - t) {
+      return new Vec3i(-k + (m - i), 0, k);
+    }
+    return new Vec3i(k, 0, k - (m - i - t));
+  }
+
+  // Thank you, MBo!
+  // https://stackoverflow.com/a/9971465/20281585
+  public static int getSpiralIndex(int x, int z) {
+    if (z * z >= x * x) {
+      int p = 4 * z * z - z - x;
+      if (z < x) {
+        return p - 2 * (z - x);
+      }
+      return p;
+    }
+    int p = 4 * x * x - z - x;
+    if (z < x) {
+      return p + 2 * (z - x);
+    }
+    return p;
+  }
+
   public static class PosRotScale {
     private final Vector3f pos;
     private final Vector3f rot;
