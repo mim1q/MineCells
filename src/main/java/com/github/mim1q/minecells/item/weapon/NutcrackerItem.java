@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
-import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -22,6 +21,6 @@ public class NutcrackerItem extends CustomMeleeWeapon {
     if (target == null) return false;
 
     return target instanceof LivingEntityAccessor living
-      && (living.getMineCellsFlag(MineCellsEffectFlags.FROZEN) || living.getMineCellsFlag(MineCellsEffectFlags.STUNNED));
+      && (living.shouldActFrozen() || target.inPowderSnow);
   }
 }
