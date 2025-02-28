@@ -21,6 +21,6 @@ public class NutcrackerItem extends CustomMeleeWeapon {
     if (target == null) return false;
 
     return target instanceof LivingEntityAccessor living
-      && (living.shouldActFrozen() || target.inPowderSnow);
+      && (living.shouldActFrozen() || target.getFrozenTicks() >= target.getMinFreezeDamageTicks());
   }
 }
