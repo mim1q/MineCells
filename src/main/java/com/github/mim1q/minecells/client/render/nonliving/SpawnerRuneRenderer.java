@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
@@ -24,8 +25,16 @@ public interface SpawnerRuneRenderer {
     matrices.translate(0.0D, yOffset, 0.0D);
     var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
     matrices.multiply(dispatcher.getRotation());
-    var consumer = vertices.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
-    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 0xC8FFFFFF);
+    var consumer = vertices.getBuffer(RenderLayer.getEntityTranslucentEmissive(TEXTURE));
+    var color = 0xFF8000;
+    var world = MinecraftClient.getInstance().world;
+    if (world != null) {
+      var dim = MineCellsDimension.of(world);
+      if (dim != null) {
+        color = dim.getColor();
+      }
+    }
+    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 0x80 << 24 | color);
     matrices.pop();
   }
 

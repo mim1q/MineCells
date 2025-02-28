@@ -52,7 +52,7 @@ public enum MineCellsDimension {
     return getTeleportPosition(pos, world, specialPoint, true);
   }
 
-    public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld destination, Identifier specialPoint, boolean applySafeOffset) {
+  public Pair<Vec3d, Integer> getTeleportPosition(BlockPos pos, ServerWorld destination, Identifier specialPoint, boolean applySafeOffset) {
     Optional<SpecialPoint> point = Optional.empty();
     try {
       point = GridBasedStructureUtils.getSpecialPoint(destination, pos, specialPoint);
@@ -167,6 +167,17 @@ public enum MineCellsDimension {
       case RAMPARTS -> MineCellsSounds.RAMPARTS;
       case INSUFFERABLE_CRYPT -> MineCellsSounds.INSUFFERABLE_CRYPT;
       default -> null;
+    };
+  }
+
+  public int getColor() {
+    return switch (this) {
+      case OVERWORLD -> 0x8EF96D;
+      case PRISONERS_QUARTERS -> 0x54EF88;
+      case PROMENADE_OF_THE_CONDEMNED -> 0x93FFF7;
+      case INSUFFERABLE_CRYPT -> 0xFF4CF4;
+      case RAMPARTS -> 0xFFC540;
+      case BLACK_BRIDGE -> 0x623cc9;
     };
   }
 
