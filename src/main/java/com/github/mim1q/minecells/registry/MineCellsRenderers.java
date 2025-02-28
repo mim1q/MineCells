@@ -28,6 +28,7 @@ import com.github.mim1q.minecells.client.render.model.nonliving.projectile.Disgu
 import com.github.mim1q.minecells.client.render.model.nonliving.projectile.GrenadeEntityModel;
 import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
@@ -60,6 +61,7 @@ import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class MineCellsRenderers {
   private static boolean dynamicItemRenderersRegistered = false;
@@ -308,6 +310,19 @@ public class MineCellsRenderers {
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves
     );
 
+    // Blocks colored by dimension
+    ColorProviderRegistry.BLOCK.register(
+      (state, world, pos, tintIndex) -> {
+        if (world instanceof World realWorld) {
+          var dim = MineCellsDimension.of(realWorld);
+          if (dim == null) return 0xFFC540;
+          return dim.getColor();
+        }
+        return 0xFFC540;
+      },
+      MineCellsBlocks.SPAWNER_RUNE
+    );
+
     ColorProviderRegistry.BLOCK.register(
       (state, world, pos, tintIndex) -> {
         if (world == null || pos == null) return 0x80CC80;
@@ -317,9 +332,9 @@ public class MineCellsRenderers {
         x *= 0.5;
         x += 1;
         var color = BiomeColors.getFoliageColor(world, pos);
-        var r = (int)((color >> 16 & 0xFF) * x);
-        var g = (int)((color >> 8 & 0xFF) * x);
-        var b = (int)((color & 0xFF) * x);
+        var r = (int) ((color >> 16 & 0xFF) * x);
+        var g = (int) ((color >> 8 & 0xFF) * x);
+        var b = (int) ((color & 0xFF) * x);
         return (r << 16) | (g << 8) | b;
       },
       MineCellsBlocks.WILTED_LEAVES.wallLeaves

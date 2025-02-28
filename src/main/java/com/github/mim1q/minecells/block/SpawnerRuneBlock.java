@@ -3,10 +3,7 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.EntityShapeContext;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -75,5 +72,10 @@ public class SpawnerRuneBlock extends BlockWithEntity {
       return VoxelShapes.empty();
     }
     return super.getOutlineShape(state, world, pos, context);
+  }
+
+  @Override
+  public BlockRenderType getRenderType(BlockState state) {
+    return BlockRenderType.INVISIBLE;
   }
 }

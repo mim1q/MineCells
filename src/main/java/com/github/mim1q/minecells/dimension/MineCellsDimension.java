@@ -181,6 +181,13 @@ public enum MineCellsDimension {
     };
   }
 
+  public static int getColor(@Nullable World world, int defaultColor) {
+    if (world == null) return defaultColor;
+    var dim = of(world);
+    if (dim == null) return defaultColor;
+    return dim.getColor();
+  }
+
 //  public boolean canMusicStart(ClientPlayerEntity player) {
 //    return switch (this) {
 //      case INSUFFERABLE_CRYPT -> player != null && ((LivingEntityAccessor) player).getMineCellsFlag(DISARMED);

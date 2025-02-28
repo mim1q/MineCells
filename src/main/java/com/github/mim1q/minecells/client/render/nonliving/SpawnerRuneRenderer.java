@@ -2,10 +2,12 @@ package com.github.mim1q.minecells.client.render.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
-import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.RenderUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -14,27 +16,37 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RotationAxis;
 
 public interface SpawnerRuneRenderer {
-  Identifier TEXTURE = MineCells.createId("textures/entity/spawner_rune.png");
+  Identifier TEXTURE = MineCells.createId("textures/block/spawner_rune.png");
 
-  private static void render(MatrixStack matrices, VertexConsumerProvider vertices) {
+  private static void render(
+    BlockState state,
+    BlockPos pos,
+    MatrixStack matrices,
+    VertexConsumerProvider vertices
+  ) {
     matrices.push();
     var age = RenderUtils.getGlobalAnimationProgress();
     var yOffset = 0.5 + Math.sin(0.1F * age) * 0.15F;
-    matrices.translate(0.0D, yOffset, 0.0D);
-    var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
-    matrices.multiply(dispatcher.getRotation());
-    var consumer = vertices.getBuffer(RenderLayer.getEntityTranslucentEmissive(TEXTURE));
-    var color = 0xFF8000;
+    matrices.scale(0.75f, 0.75f, 0.75f);
+    matrices.translate(0.0, yOffset, 0.0);
+    matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(age + pos.hashCode()));
+    matrices.translate(-0.5, 0.0, -0.5);
+
     var world = MinecraftClient.getInstance().world;
-    if (world != null) {
-      var dim = MineCellsDimension.of(world);
-      if (dim != null) {
-        color = dim.getColor();
-      }
+    if (world == null) {
+      matrices.pop();
+      return;
     }
-    RenderUtils.drawBillboard(consumer, matrices, 0xF000F0, 0.75F, 0.75F, 0x80 << 24 | color);
+
+    var blockRenderer = MinecraftClient.getInstance().getBlockRenderManager();
+    var model = blockRenderer.getModel(state);
+    blockRenderer.getModelRenderer().render(
+      world, model, state, pos, matrices, vertices.getBuffer(RenderLayer.getTranslucentNoCrumbling()), true, world.getRandom().split(), 0, OverlayTexture.DEFAULT_UV
+    );
     matrices.pop();
   }
 
@@ -46,7 +58,7 @@ public interface SpawnerRuneRenderer {
     @Override
     public void render(SpawnerRuneEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
       if (!entity.controller.isVisible()) return;
-      SpawnerRuneRenderer.render(matrices, vertexConsumers);
+      SpawnerRuneRenderer.render(MineCellsBlocks.SPAWNER_RUNE.getDefaultState(), entity.getBlockPos(), matrices, vertexConsumers);
     }
 
     @Override
@@ -65,7 +77,7 @@ public interface SpawnerRuneRenderer {
       if (world == null || !entity.controller.isVisible()) return;
       matrices.push();
       matrices.translate(0.5, 0.0, 0.5);
-      SpawnerRuneRenderer.render(matrices, vertexConsumers);
+      SpawnerRuneRenderer.render(entity.getCachedState(), entity.getPos(), matrices, vertexConsumers);
       matrices.pop();
     }
   }

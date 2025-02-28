@@ -78,15 +78,17 @@ fun main(args: Array<String>) {
     add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
     listOf("conjunctivius_box", "concierge_box", "beam_placer", "doorway_frame", "unbreakable_doorway_frame",
       "solid_barrier_rune", "conditional_barrier", "boss_barrier_controller", "boss_entry_barrier_controller",
-      "player_barrier_controller", "spawner_rune", "rift", "arrow_sign"
+      "player_barrier_controller", "rift", "arrow_sign"
     ).forEach {
       add(it, BlockState.createSingle("minecells:block/invisible_stone"))
+    }
+    listOf("spawner_rune", "runic_vine_plant").forEach {
+      add(it, BlockState.createSingle("minecells:block/$it"))
     }
     listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts", "black_bridge").forEach {
       add(CustomPresets.doorway("minecells:$it"))
       add("${it}_doorway", ParentedModel.item("minecells:item/doorway"))
     }
-    add("runic_vine_plant", BlockState.createSingle("minecells:block/runic_vine_plant"))
     listOf("runic_vine", "runic_vine_top").forEach {
       add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
     }
