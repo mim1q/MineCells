@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import net.minecraft.util.BlockRotation;

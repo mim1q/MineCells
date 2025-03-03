@@ -135,6 +135,13 @@ public class GridPiecesGenerator {
       return rooms;
     }
 
+    void generateForTesting(Random random) {
+      rooms.clear();
+      usedPositions.clear();
+      specialPoints.clear();
+      addRooms(random);
+    }
+
     public List<SpecialPoint> generateSpecialPoints(Structure.Context context) {
       generate(context);
       return specialPoints;

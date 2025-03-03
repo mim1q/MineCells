@@ -56,6 +56,9 @@ dependencies {
   include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 
   modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
+
+  // Testing
+  testImplementation("net.fabricmc:fabric-loader-junit:${Versions.FABRIC_LOADER}")
 }
 
 tasks {
@@ -73,6 +76,14 @@ tasks {
   register("runDatagenScript") {
     group = "fabric"
     dependsOn("datagen:run")
+  }
+
+  named<Test>("test") {
+    useJUnitPlatform()
+    maxHeapSize = "1G"
+    testLogging {
+      events("passed")
+    }
   }
 }
 
