@@ -1,0 +1,14 @@
+{
+  "cooldown": 60.0,
+  "spawnDistance": 1.0,
+  "playerDistance": 18.0,
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "weight": 3, "entity": "minecells:leaping_zombie" },
+        { "weight": 1, "entity": "minecells:shieldbearer" }
+      ]
+    }
+  ]
+}
