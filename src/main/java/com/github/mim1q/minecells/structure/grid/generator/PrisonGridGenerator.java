@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+import com.github.mim1q.minecells.structure.grid.util.Vec3iCursor;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -10,15 +10,13 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 
 public class PrisonGridGenerator extends MultipartGridGenerator {
-  private static final Identifier SPAWN = MineCells.createId("prison/spawn");
-  private static final Identifier MAIN_CORRIDOR = MineCells.createId("prison/main_corridor");
-  private static final Identifier MAIN_CORRIDOR_END = MineCells.createId("prison/main_corridor_end");
-  private static final Identifier CORRIDOR = MineCells.createId("prison/corridor");
-  private static final Identifier CORRIDOR_END = MineCells.createId("prison/corridor_end");
-  private static final Identifier CHAIN_UPPER = MineCells.createId("prison/chain_upper");
-  private static final Identifier CHAIN_LOWER = MineCells.createId("prison/chain_lower");
-  private static final Identifier END = MineCells.createId("prison/end");
-  private static final Identifier END_SEWERS = MineCells.createId("prison/end_sewers");
+  private static final Identifier SPAWN = id("spawn/spawn");
+  private static final Identifier SPAWN_OUTSIDE_NEAR = id("spawn/outside_near");
+  private static final Identifier SPAWN_OUTSIDE_FAR = id("spawn/outside_far");
+
+  private static final Identifier STAIRS = id("stairs");
+  private static final Identifier STRAIGHT = id("straight");
+  private static final Identifier TURN = id("turn");
 
   public PrisonGridGenerator(int xPart, int zPart) {
     super(xPart, zPart);
@@ -26,9 +24,20 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
 
   @Override
   protected void addRooms(Random random) {
-    Vec3i end1 = generateFloor(new Vec3i(32, 2, 32), BlockRotation.NONE, SPAWN, CHAIN_UPPER, random, random.nextBoolean(), true);
-    generateFloor(end1.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean(), false);
-//    generateFloor(end2.add(0, -1, 0), BlockRotation.CLOCKWISE_180, CHAIN_LOWER, END, random, random.nextBoolean(), false);
+    var cursor = new Vec3iCursor(new Vec3i(32, 15, 32), Direction.SOUTH);
+
+    var spawnCursor = cursor.split();
+    addRoom(room(spawnCursor, SPAWN).offset(0, -2, 0).specialPoint(
+      SpecialPointIds.ENTRANCE, new Vec3i(0, 0, 0), BlockRotation.NONE
+    ));
+    addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_NEAR).offset(0, -2, 0));
+    addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_FAR).offset(0, -2, 0));
+
+    for (int i = 0; i < 20; ++i) {
+      addRoom(room(cursor.forward(), random.nextBoolean() ? STRAIGHT : TURN)
+        .rotation(random.nextBoolean() ? BlockRotation.NONE : BlockRotation.CLOCKWISE_180)
+      );
+    }
   }
 
   @Override
@@ -36,53 +45,7 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
     return 1;
   }
 
-  protected Vec3i generateFloor(Vec3i pos, BlockRotation rotation, Identifier startPool, Identifier endPool, Random random, boolean specialLeft, boolean sewersExit) {
-    addRoom(
-      RoomData.create(pos, startPool)
-        .rotation(BlockRotation.CLOCKWISE_90.rotate(rotation))
-        .specialPoint(startPool == SPAWN ? SpecialPointIds.ENTRANCE : null, new Vec3i(1, 2, 3), BlockRotation.COUNTERCLOCKWISE_90)
-    );
-    Vec3i unit = rotation.rotate(Direction.SOUTH).getVector();
-    Vec3i rotatedUnit = rotation.rotate(Direction.EAST).getVector();
-
-    Vec3i endPos = pos.add(0, -1, 0);
-
-    int specialCorridor = random.nextInt(4) + 1;
-
-    for (int i = 1; i < 5; i++) {
-      addRoom(pos.add(unit.multiply(i)), BlockRotation.NONE.rotate(rotation), MAIN_CORRIDOR);
-      // Left corridors
-      int length1 = random.nextInt(2) + 1;
-      for (int j = 1; j <= length1; j++) {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(j)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR);
-      }
-      if (i == specialCorridor && specialLeft) {
-        addRoom(RoomData.create(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), endPool)
-          .rotation(BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation))
-          .specialPoint(endPool == END ? SpecialPointIds.EXIT : null, new Vec3i(3, 1, 11), BlockRotation.COUNTERCLOCKWISE_90)
-        );
-        endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1));
-      } else {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(length1 + 1)), BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation), CORRIDOR_END);
-      }
-      // Right corridors
-      int length2 = random.nextInt(2) + 1;
-      for (int j = 1; j <= length2; j++) {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-j)), BlockRotation.CLOCKWISE_90.rotate(rotation), CORRIDOR);
-      }
-      if (i == specialCorridor && !specialLeft) {
-        addRoom(RoomData.create(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1)), endPool)
-          .rotation(BlockRotation.COUNTERCLOCKWISE_90.rotate(rotation))
-          .specialPoint(endPool == END ? SpecialPointIds.EXIT : null, new Vec3i(3, 1, 11), BlockRotation.COUNTERCLOCKWISE_90)
-        );
-        endPos = pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1));
-      } else {
-        addRoom(pos.add(unit.multiply(i)).add(rotatedUnit.multiply(-length2 - 1)), BlockRotation.CLOCKWISE_90.rotate(rotation), CORRIDOR_END);
-      }
-    }
-
-    addRoom(pos.add(unit.multiply(5)), BlockRotation.NONE.rotate(rotation), sewersExit ? END_SEWERS : MAIN_CORRIDOR_END);
-
-    return endPos;
+  private static Identifier id(String path) {
+    return MineCells.createId("better_prison/" + path);
   }
 }

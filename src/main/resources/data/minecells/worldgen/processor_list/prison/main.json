@@ -1,0 +1,31 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:protected_blocks",
+      "value": "#minecells:protected"
+    },
+    {
+      "processor_type": "minecells:switch_block",
+      "default_namespace": "minecells",
+      "rules": [
+        { "from": "prison_bricks",       "to": { "prison_bricks": 3,       "cracked_prison_bricks": 1       }},
+        { "from": "prison_brick_stairs", "to": { "prison_brick_stairs": 3, "cracked_prison_brick_stairs": 1 }},
+        { "from": "prison_brick_slab",   "to": { "prison_brick_slab": 3,   "cracked_prison_brick_slab": 1   }},
+        { "from": "prison_brick_wall",   "to": { "prison_brick_wall": 3,   "cracked_prison_brick_wall": 1   }},
+
+        { "from": "prison_stone",        "to": { "prison_stone": 3,        "small_prison_bricks": 1       }},
+        { "from": "prison_stone_stairs", "to": { "prison_stone_stairs": 3, "small_prison_brick_stairs": 1 }},
+        { "from": "prison_stone_slab",   "to": { "prison_stone_slab": 3,   "small_prison_brick_slab": 1   }},
+        { "from": "prison_stone_wall",   "to": { "prison_stone_wall": 3,   "small_prison_brick_wall": 1   }},
+
+        { "from": "corpse", "to":        { "corpse": 1,        "rotting_corpse": 1,        "skeleton": 1,        "minecraft:air": 2 }},
+        { "from": "hanged_corpse", "to": { "hanged_corpse": 1, "hanged_rotting_corpse": 1, "hanged_skeleton": 1, "minecraft:air": 2 }}
+      ]
+    },
+    {
+      "processor_type": "minecells:randomize_property",
+      "blocks": [ "minecells:small_crate" ],
+      "property_name": "rotation"
+    }
+  ]
+}

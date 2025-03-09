@@ -109,12 +109,10 @@ public class SpawnerRuneController {
   }
 
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
-    // TODO: player check
-    return true;
+    return world.getTime() - lastActivationTime > data.cooldown() * 20;
   }
 
   private boolean canClientPlayerActivate(World world, BlockPos pos) {
-    // TODO: player check
     return true;
   }
 

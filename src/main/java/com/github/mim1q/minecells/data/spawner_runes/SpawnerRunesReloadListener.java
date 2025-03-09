@@ -35,7 +35,7 @@ public class SpawnerRunesReloadListener implements SimpleSynchronousResourceRelo
           stream
         );
       } catch (IOException e) {
-        MineCells.LOGGER.error("Failed to read resource: " + id.toString(), e);
+        MineCells.LOGGER.error("Failed to read resource: {}", id.toString(), e);
       }
     });
   }
@@ -50,7 +50,7 @@ public class SpawnerRunesReloadListener implements SimpleSynchronousResourceRelo
 
   private void addResource(Identifier id, InputStream stream) {
     SpawnerRuneData.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(new InputStreamReader(stream)))
-      .resultOrPartial(MineCells.LOGGER::error)
+      .resultOrPartial(it -> MineCells.LOGGER.error("Failed to parse spawner rune data {}: {}", id, it))
       .ifPresent(result -> data.put(id, result));
   }
 }

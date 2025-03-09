@@ -6,8 +6,10 @@
     {
       "rolls": {
         "type": "uniform",
-        "min_inclusive": 1,
-        "max_inclusive": 2
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 2
+        }
       },
       "entries": [
         { "weight": 12, "entity": "minecells:leaping_zombie" },
