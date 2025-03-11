@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.block.portal;
 
+import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+import com.github.mim1q.minecells.util.MathUtils;
 import dev.mim1q.gimm1q.interpolation.AnimatedProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,6 +28,7 @@ import java.util.UUID;
 
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.CLOSED;
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
+import static com.github.mim1q.minecells.cc.MineCellsLevelCC.PortalsCC.findDataOfPosition;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
   public final AnimatedProperty closedBarsAnimation = new AnimatedProperty(getCachedState().get(CLOSED) ? 1f : 0f);
@@ -61,13 +64,26 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   public boolean canPlayerEnter(PlayerEntity player) {
-    return !onlyOwnerCanEnter || (ownerId == null || ownerId.equals(player.getUuid()));
+    if (ownerId == null || !onlyOwnerCanEnter) return true;
+
+    return player.getUuid().equals(ownerId);
   }
 
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, MineCellsDimension targetDimension) {
-    if (onlyOwnerCanEnter && ownerId != null && !player.getUuid().equals(ownerId)) return;
+    if (!canPlayerEnter(player)) return;
 
-    targetDimension.teleportPlayer(player, world, posOverride == null ? getPos() : posOverride, this.specialPointTarget);
+    var data = findDataOfPosition(world, getTargetPos());
+    if (data.isPresent() && data.get().owner().equals(player.getUuid())) {
+      MineCellsLevelCC.PortalsCC.visitDimension(world, getTargetPos(), targetDimension);
+    }
+
+    targetDimension.teleportPlayer(player, world, getTargetPos(), this.specialPointTarget);
+  }
+
+  private BlockPos getTargetPos() {
+    return posOverride == null
+      ? new BlockPos(MathUtils.getClosestMultiplePosition(getPos(), 1024))
+      : posOverride;
   }
 
   public float getRotation() {

@@ -16,6 +16,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -123,6 +124,20 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
       }
 
       return list.get(0);
+    }
+
+    public static Optional<PortalData> findDataOfPosition(ServerWorld world, BlockPos pos) {
+      return PORTALS.get(world.getScoreboard()).portals
+        .stream()
+        .filter(p -> p.runCenter.equals(pos))
+        .findFirst();
+    }
+
+    public static void visitDimension(ServerWorld world, BlockPos posOverride, MineCellsDimension dimension) {
+      var data = findDataOfPosition(world, posOverride);
+      data.ifPresent(it -> it.visitedDimensions.add(dimension));
+
+      PORTALS.sync(world.getScoreboard());
     }
   }
 
