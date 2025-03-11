@@ -188,7 +188,7 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
       .min(Comparator.comparingDouble(it -> it.getSquaredDistance(getPos())));
 
     return point.orElse(BlockPos.ofFloored(
-      dimension.getTeleportPosition(getBlockPos(), serverWorld, SpecialPointIds.ENTRANCE).getLeft())
+      dimension.getNonOverworldTeleportPosition(getBlockPos(), serverWorld, SpecialPointIds.ENTRANCE).getLeft())
     );
   }
 }

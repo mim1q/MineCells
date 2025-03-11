@@ -29,6 +29,7 @@ import java.util.UUID;
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.CLOSED;
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 import static com.github.mim1q.minecells.cc.MineCellsLevelCC.PortalsCC.findDataOfPosition;
+import static net.minecraft.world.World.OVERWORLD;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
   public final AnimatedProperty closedBarsAnimation = new AnimatedProperty(getCachedState().get(CLOSED) ? 1f : 0f);
@@ -75,6 +76,16 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     var data = findDataOfPosition(world, getTargetPos());
     if (data.isPresent() && data.get().owner().equals(player.getUuid())) {
       MineCellsLevelCC.PortalsCC.visitDimension(world, getTargetPos(), targetDimension);
+    }
+
+    if (world.getRegistryKey().equals(OVERWORLD)) {
+      MineCellsLevelCC.OverworldEntriesCC.setPlayerEntrancePoint(
+        player,
+        getPos(),
+        getTargetPos(),
+        getCachedState().get(FACING).asRotation(),
+        world
+      );
     }
 
     targetDimension.teleportPlayer(player, world, getTargetPos(), this.specialPointTarget);

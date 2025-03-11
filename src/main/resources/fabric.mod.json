@@ -43,7 +43,8 @@
   },
   "custom": {
     "cardinal-components": [
-      "minecells:portals"
+      "minecells:portals",
+      "minecells:overworld_entries"
     ]
   }
 }

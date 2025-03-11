@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.cc;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.util.MathUtils;
+import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -17,6 +18,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -25,10 +27,12 @@ import java.util.*;
 
 public class MineCellsLevelCC implements ScoreboardComponentInitializer {
   public static final ComponentKey<PortalsCC> PORTALS = ComponentRegistry.getOrCreate(MineCells.createId("portals"), PortalsCC.class);
+  public static final ComponentKey<OverworldEntriesCC> OVERWORLD_ENTRIES = ComponentRegistry.getOrCreate(MineCells.createId("overworld_entries"), OverworldEntriesCC.class);
 
   @Override
   public void registerScoreboardComponentFactories(ScoreboardComponentFactoryRegistry registry) {
     registry.registerScoreboardComponent(PORTALS, PortalsCC::new);
+    registry.registerScoreboardComponent(OVERWORLD_ENTRIES, (sb, sv) -> new OverworldEntriesCC());
   }
 
   public static class PortalsCC implements AutoSyncedComponent {
@@ -127,10 +131,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     public static Optional<PortalData> findDataOfPosition(ServerWorld world, BlockPos pos) {
-      return PORTALS.get(world.getScoreboard()).portals
-        .stream()
-        .filter(p -> p.runCenter.equals(pos))
-        .findFirst();
+      return PORTALS.get(world.getScoreboard()).portals.stream().filter(p -> p.runCenter.equals(pos)).findFirst();
     }
 
     public static void visitDimension(ServerWorld world, BlockPos posOverride, MineCellsDimension dimension) {
@@ -141,11 +142,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
   }
 
-  public record PortalData(
-    UUID owner,
-    BlockPos runCenter,
-    EnumSet<MineCellsDimension> visitedDimensions
-  ) {
+  public record PortalData(UUID owner, BlockPos runCenter, EnumSet<MineCellsDimension> visitedDimensions) {
     public NbtCompound createNbt() {
       var nbt = new NbtCompound();
       nbt.putString("owner", owner.toString());
@@ -164,11 +161,56 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
       for (var dim : dimensions) {
         set.add(MineCellsDimension.of(Identifier.tryParse(dim.asString())));
       }
-      return new PortalData(
-        UUID.fromString(nbt.getString("owner")),
-        BlockPos.fromLong(nbt.getLong("run_center")),
-        set
-      );
+      return new PortalData(UUID.fromString(nbt.getString("owner")), BlockPos.fromLong(nbt.getLong("run_center")), set);
+    }
+  }
+
+  public static class OverworldEntriesCC implements Component {
+    private final HashMap<UUID, Data> entries = new HashMap<>();
+
+    public static Optional<Data> getPlayerEntrancePoint(ServerPlayerEntity player, BlockPos pos, ServerWorld world) {
+      var entries = OVERWORLD_ENTRIES.get(world.getScoreboard());
+      var entry = entries.entries.get(player.getUuid());
+      if (entry == null || !entry.entrancePos.equals(pos)) return Optional.empty();
+
+      return Optional.of(entry);
+    }
+
+    public static void setPlayerEntrancePoint(
+      ServerPlayerEntity player,
+      BlockPos portalPos,
+      BlockPos entrancePos,
+      float entranceRot,
+      ServerWorld world
+    ) {
+      var entries = OVERWORLD_ENTRIES.get(world.getScoreboard());
+      entries.entries.put(player.getUuid(), new Data(portalPos, entrancePos, entranceRot));
+    }
+
+    @Override
+    public void readFromNbt(NbtCompound tag) {
+      entries.clear();
+      for (var key : tag.getKeys()) {
+        var data = tag.getLongArray(key);
+        entries.put(
+          UUID.fromString(key),
+          new Data(
+            BlockPos.fromLong(data[0]),
+            BlockPos.fromLong(data[1]),
+            (float) data[2]
+          )
+        );
+      }
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag) {
+      entries.forEach((k, v) -> {
+        tag.putLongArray(k.toString(), new long[]{v.posOverride.asLong(), v.entrancePos.asLong(), (long) v.entranceRotation});
+      });
+    }
+
+    public record Data(BlockPos posOverride, BlockPos entrancePos, float entranceRotation) {
     }
   }
 }
