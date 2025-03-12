@@ -1,9 +1,12 @@
 package com.github.mim1q.minecells.screen.doorway;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.FlagBlock;
+import com.github.mim1q.minecells.block.blockentity.FlagBlockEntity;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
@@ -16,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
   private final BlockPos pos;
@@ -26,7 +30,7 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
 
   public DoorwaySelectionScreen(BlockPos pos) {
     this.pos = pos;
-    this.body = (FlowLayout) Containers.verticalFlow(Sizing.fixed(160), Sizing.fixed(150))
+    this.body = (FlowLayout) Containers.horizontalFlow(Sizing.fixed(160), Sizing.fixed(150))
       .horizontalAlignment(HorizontalAlignment.CENTER);
   }
 
@@ -58,21 +62,49 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
     var exitButtons = Containers.horizontalFlow(Sizing.content(), Sizing.content());
     exitButtons.child(createExitButton("apply_only_me", true));
     exitButtons.child(createExitButton("apply_everyone", false));
-    exitButtons.child(createExitButton("close", false));
+    exitButtons.child(createButton("close", b -> {
+
+    }));
     rootComponent.child(exitButtons);
+  }
+
+  private static FlagBlock getFlagForDimension(MineCellsDimension dim) {
+    return switch (dim) {
+      case PROMENADE_OF_THE_CONDEMNED -> MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG;
+      case RAMPARTS -> MineCellsBlocks.RAMPARTS_FLAG;
+      case BLACK_BRIDGE -> MineCellsBlocks.BLACK_BRIDGE_FLAG;
+      case INSUFFERABLE_CRYPT -> MineCellsBlocks.INSUFFERABLE_CRYPT_FLAG;
+      default -> MineCellsBlocks.TORN_KINGS_CREST_FLAG;
+    };
   }
 
   private void updateBody() {
     body.clearChildren();
     if (selectedDimension == null) return;
 
+    var block = getFlagForDimension(selectedDimension);
     body.child(
-      Components.label(Text.literal("Ramparts").styled(it -> it.withBold(true).withColor(0xffcd2c)))
+      Components.block(
+        block.getDefaultState(),
+        new FlagBlockEntity(BlockPos.ORIGIN, block.getDefaultState())
+      )
+    );
+
+    var text = Containers.verticalFlow(Sizing.content(), Sizing.content());
+    text.child(
+      Components
+        .label(
+          Text.translatable(selectedDimension.translationKey)
+            .styled(it -> it.withBold(true).withColor(selectedDimension.getColor()))
+        )
         .horizontalTextAlignment(HorizontalAlignment.CENTER)
         .margins(Insets.vertical(10))
     );
-    body.child(Components.label(Text.literal("The tower type area")).horizontalSizing(Sizing.fill(100)));
-    body.child(Components.label(Text.literal("Proper description goes here")).horizontalSizing(Sizing.fill(100)));
+    text.child(Components.label(
+      Text.translatable("book.minecells.entries.dimensions." + selectedDimension.key.getValue().getPath() + ".description")
+    ).horizontalSizing(Sizing.fill(100)));
+
+    body.child(text);
   }
 
   private ButtonComponent createDimensionButton(MineCellsDimension dim) {
@@ -92,12 +124,16 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
   }
 
   private ButtonComponent createExitButton(String name, boolean onlyOwnerCanEnter) {
-    var button = Components.button(Text.empty(), b -> {
-        if (selectedDimension == null) return;
-        ServerPacketHandler.CHANNEL.clientHandle()
-          .send(new UpdateDoorwayC2SPacket(pos, selectedDimension.key.getValue(), onlyOwnerCanEnter));
-        close();
-      }).active(false)
+    return createButton(name, b -> {
+      if (selectedDimension == null) return;
+      ServerPacketHandler.CHANNEL.clientHandle()
+        .send(new UpdateDoorwayC2SPacket(pos, selectedDimension.key.getValue(), onlyOwnerCanEnter));
+      close();
+    });
+  }
+
+  private ButtonComponent createButton(String name, Consumer<ButtonComponent> consumer) {
+    var button = Components.button(Text.empty(), consumer).active(false)
       .renderer(new DimensionButton.Renderer(
         MineCells.createId("textures/gui/doorway_selection/" + name + ".png")
       ));
