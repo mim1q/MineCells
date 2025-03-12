@@ -1,19 +1,20 @@
 package com.github.mim1q.minecells.screen.doorway;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.FlagBlock;
-import com.github.mim1q.minecells.block.blockentity.FlagBlockEntity;
+import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
-import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import io.wispforest.owo.ui.base.BaseComponent;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +31,7 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
 
   public DoorwaySelectionScreen(BlockPos pos) {
     this.pos = pos;
-    this.body = (FlowLayout) Containers.horizontalFlow(Sizing.fixed(160), Sizing.fixed(150))
+    this.body = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.fixed(150))
       .horizontalAlignment(HorizontalAlignment.CENTER);
   }
 
@@ -45,8 +46,9 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
 
   @Override
   protected void build(FlowLayout rootComponent) {
+
     rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
-    rootComponent.child(Components.label(Text.literal("Select a dimension")));
+    rootComponent.child(Components.label(Text.literal("Select a dimension")).margins(Insets.bottom(16)));
 
     var dimensions = Containers.horizontalFlow(Sizing.content(), Sizing.content());
 
@@ -63,18 +65,17 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
     exitButtons.child(createExitButton("apply_only_me", true));
     exitButtons.child(createExitButton("apply_everyone", false));
     exitButtons.child(createButton("close", b -> {
-
-    }));
+    }).active(true));
     rootComponent.child(exitButtons);
   }
 
-  private static FlagBlock getFlagForDimension(MineCellsDimension dim) {
+  private static String getFlagNameForDimension(MineCellsDimension dim) {
     return switch (dim) {
-      case PROMENADE_OF_THE_CONDEMNED -> MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG;
-      case RAMPARTS -> MineCellsBlocks.RAMPARTS_FLAG;
-      case BLACK_BRIDGE -> MineCellsBlocks.BLACK_BRIDGE_FLAG;
-      case INSUFFERABLE_CRYPT -> MineCellsBlocks.INSUFFERABLE_CRYPT_FLAG;
-      default -> MineCellsBlocks.TORN_KINGS_CREST_FLAG;
+      case PROMENADE_OF_THE_CONDEMNED -> "promenade_of_the_condemned";
+      case RAMPARTS -> "ramparts";
+      case BLACK_BRIDGE -> "black_bridge";
+      case INSUFFERABLE_CRYPT -> "insufferable_crypt";
+      default -> "torn_kings_crest";
     };
   }
 
@@ -82,15 +83,13 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
     body.clearChildren();
     if (selectedDimension == null) return;
 
-    var block = getFlagForDimension(selectedDimension);
     body.child(
-      Components.block(
-        block.getDefaultState(),
-        new FlagBlockEntity(BlockPos.ORIGIN, block.getDefaultState())
-      )
+      new FlagComponent(getFlagNameForDimension(selectedDimension))
+        .sizing(Sizing.fixed(48), Sizing.fixed(144))
+        .margins(Insets.both(16, 8))
     );
 
-    var text = Containers.verticalFlow(Sizing.content(), Sizing.content());
+    var text = Containers.verticalFlow(Sizing.fixed(200), Sizing.content());
     text.child(
       Components
         .label(
@@ -108,6 +107,12 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
   }
 
   private ButtonComponent createDimensionButton(MineCellsDimension dim) {
+    var player = MinecraftClient.getInstance().player;
+    var world = MinecraftClient.getInstance().world;
+    if (player == null || world == null) return null;
+
+    var data = MineCellsLevelCC.PortalsCC.findDataOfPosition(world, pos);
+
     var button = new DimensionButton(dim, b -> {
       selectedDimension = dim;
       exitButtons.forEach(it -> it.active(true));
@@ -118,18 +123,20 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
       b.setFocused(true);
       ((DimensionButton) b).setSelected(true);
       updateBody();
-    });
+    }, !dim.canEnter(player, data.orElse(null)));
     dimensionButtons.add(button);
     return button;
   }
 
   private ButtonComponent createExitButton(String name, boolean onlyOwnerCanEnter) {
-    return createButton(name, b -> {
+    var button = createButton(name, b -> {
       if (selectedDimension == null) return;
       ServerPacketHandler.CHANNEL.clientHandle()
         .send(new UpdateDoorwayC2SPacket(pos, selectedDimension.key.getValue(), onlyOwnerCanEnter));
       close();
     });
+    exitButtons.add(button);
+    return button;
   }
 
   private ButtonComponent createButton(String name, Consumer<ButtonComponent> consumer) {
@@ -139,12 +146,31 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
       ));
     button.sizing(Sizing.fixed(32), Sizing.fixed(32));
     button.cursorStyle(CursorStyle.POINTER);
-    exitButtons.add(button);
     return button;
   }
 
   @Override
   public boolean shouldPause() {
     return false;
+  }
+
+  private static class FlagComponent extends BaseComponent {
+    private final Identifier texture;
+
+    protected FlagComponent(String name) {
+      texture = MineCells.createId("textures/blockentity/banner/" + name + ".png");
+    }
+
+    @Override
+    public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
+      var matrices = context.getMatrices();
+      matrices.push();
+      matrices.translate(x, y, 0);
+      var size = width / 16f;
+      matrices.scale(size, size, size);
+      context.drawTexture(texture, 0, 0, 2, 2, 16, 2, 64, 64);
+      context.drawTexture(texture, 0, 2, 0, 16, 16, 48, 64, 64);
+      matrices.pop();
+    }
   }
 }

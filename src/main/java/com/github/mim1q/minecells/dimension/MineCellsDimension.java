@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.cc.MineCellsLevelCC;
+import com.github.mim1q.minecells.dimension.DimensionRequirement.AccessFromDimension;
+import com.github.mim1q.minecells.dimension.DimensionRequirement.GetAdvancement;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator;
@@ -9,6 +11,8 @@ import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGen
 import com.github.mim1q.minecells.structure.grid.generator.*;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.TeleportUtils;
+import com.google.common.collect.ImmutableMap;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
@@ -25,6 +29,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public enum MineCellsDimension {
@@ -79,7 +85,14 @@ public enum MineCellsDimension {
   }
 
   public void teleportPlayer(ServerPlayerEntity player, ServerWorld world, @Nullable BlockPos posOverride, Identifier specialPoint) {
-    var teleportPos = getNonOverworldTeleportPosition(player, posOverride, world, specialPoint);
+    var teleportPos = getNonOverworldTeleportPosition(
+      player,
+      posOverride == null
+        ? new BlockPos(MathUtils.getClosestMultiplePosition(player.getBlockPos(), 1024))
+        : posOverride,
+      world,
+      specialPoint
+    );
     var destination = getWorld(world);
     TeleportUtils.teleportToDimension(player, destination, teleportPos.getLeft(), teleportPos.getRight());
   }
@@ -191,6 +204,24 @@ public enum MineCellsDimension {
     if (dim == null) return defaultColor;
     return dim.getColor();
   }
+
+  public List<DimensionRequirement> getRequirements() {
+    return requirements.getOrDefault(this, List.of());
+  }
+
+  public boolean canEnter(PlayerEntity player, @Nullable MineCellsLevelCC.PortalData portal) {
+    return getRequirements().stream().allMatch(requirement -> requirement.isMet(this, player, portal));
+  }
+
+  private static final Map<MineCellsDimension, List<DimensionRequirement>> requirements =
+    ImmutableMap.<MineCellsDimension, List<DimensionRequirement>>builder()
+      .put(OVERWORLD, List.of())
+      .put(PRISONERS_QUARTERS, List.of())
+      .put(PROMENADE_OF_THE_CONDEMNED, List.of(new AccessFromDimension(PRISONERS_QUARTERS)))
+      .put(INSUFFERABLE_CRYPT, List.of(new GetAdvancement(MineCells.createId("vine_rune"))))
+      .put(RAMPARTS, List.of(new AccessFromDimension(PROMENADE_OF_THE_CONDEMNED)))
+      .put(BLACK_BRIDGE, List.of(new AccessFromDimension(RAMPARTS)))
+      .build();
 
 //  public boolean canMusicStart(ClientPlayerEntity player) {
 //    return switch (this) {

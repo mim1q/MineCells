@@ -38,5 +38,9 @@
   "block.minecells.large_blue_ribbon_flag": "Large Blue Ribbon Flag",
   "block.minecells.large_purple_ribbon_flag": "Large Purple Ribbon Flag",
   "block.minecells.large_pink_ribbon_flag": "Large Pink Ribbon Flag",
-  "block.minecells.large_magenta_ribbon_flag": "Large Magenta Ribbon Flag"
+  "block.minecells.large_magenta_ribbon_flag": "Large Magenta Ribbon Flag",
+  "gui.minecells.doorway_selection.locked": "Locked - requirements:",
+  "gui.minecells.doorway_selection.boss": "Boss Dungeon",
+  "gui.minecells.doorway_selection.requirement.visit": "Access from %s",
+  "gui.minecells.doorway_selection.requirement.advancement.vine_rune": "Obtain the Vine Rune in Promenade"
 }

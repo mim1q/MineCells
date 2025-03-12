@@ -21,6 +21,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.*;
 
@@ -130,8 +131,9 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
       return list.get(0);
     }
 
-    public static Optional<PortalData> findDataOfPosition(ServerWorld world, BlockPos pos) {
-      return PORTALS.get(world.getScoreboard()).portals.stream().filter(p -> p.runCenter.equals(pos)).findFirst();
+    public static Optional<PortalData> findDataOfPosition(World world, BlockPos pos) {
+      var centerPos = new BlockPos(MathUtils.getClosestMultiplePosition(pos, 1024));
+      return PORTALS.get(world.getScoreboard()).portals.stream().filter(p -> p.runCenter.equals(centerPos)).findFirst();
     }
 
     public static void visitDimension(ServerWorld world, BlockPos posOverride, MineCellsDimension dimension) {
@@ -142,7 +144,9 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
   }
 
-  public record PortalData(UUID owner, BlockPos runCenter, EnumSet<MineCellsDimension> visitedDimensions) {
+  public record PortalData(
+    UUID owner, BlockPos runCenter, EnumSet<MineCellsDimension> visitedDimensions
+  ) {
     public NbtCompound createNbt() {
       var nbt = new NbtCompound();
       nbt.putString("owner", owner.toString());

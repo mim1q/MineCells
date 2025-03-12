@@ -645,7 +645,9 @@
     boss: "Boss Dungeon",
     requirement: {
       visit: "Access from %s",
-      vine_rune: "Obtain the Vine Rune in Promenade"
+      advancement: {
+        vine_rune: "Obtain the Vine Rune in Promenade"
+      }
     }
   }
 }

@@ -62,5 +62,9 @@
   "block.minecells.large_pink_ribbon_flag": "Large Pink Ribbon Flag",
   "block.minecells.large_magenta_ribbon_flag": "Large Magenta Ribbon Flag",
   "advancements.minecells.unlock.have_64_cells": "Have a full stack of Monster Cells in your inventory",
-  "advancements.minecells.unlock.have_64_cells.description": "Have a full stack of Monster Cells in your inventory"
+  "advancements.minecells.unlock.have_64_cells.description": "Have a full stack of Monster Cells in your inventory",
+  "gui.minecells.doorway_selection.locked": "Locked - requirements:",
+  "gui.minecells.doorway_selection.boss": "Boss Dungeon",
+  "gui.minecells.doorway_selection.requirement.visit": "Access from %s",
+  "gui.minecells.doorway_selection.requirement.advancement.vine_rune": "Obtain the Vine Rune in Promenade"
 }
