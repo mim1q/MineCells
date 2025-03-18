@@ -419,8 +419,12 @@
   "book.minecells.common.tips": "Tips",
   "options.minecells.screenshake": "Mine Cells Screen Shake",
   "options.minecells.screenshake.tooltip": "Modify the global intensity of screen shake events added by Mine Cells.\nIndividual events can be tweaked in the minecells-client.json5 file.\n0% disables all Mine Cells screen shakes.",
+  "gui.minecells.doorway_selection.title": "Select a dimension",
   "gui.minecells.doorway_selection.locked": "Locked - requirements:",
   "gui.minecells.doorway_selection.boss": "Boss Dungeon",
   "gui.minecells.doorway_selection.requirement.visit": "Access from %s",
-  "gui.minecells.doorway_selection.requirement.advancement.vine_rune": "Obtain the Vine Rune in Promenade"
+  "gui.minecells.doorway_selection.requirement.advancement.vine_rune": "Obtain the Vine Rune in Promenade",
+  "gui.minecells.doorway_selection.buttons.apply_only_me": "Open portal for myself only",
+  "gui.minecells.doorway_selection.buttons.apply_everyone": "Open portal for everyone",
+  "gui.minecells.doorway_selection.buttons.close": "Close portal"
 }

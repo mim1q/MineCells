@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.dimension;
 
 import com.github.mim1q.minecells.cc.MineCellsLevelCC;
+import com.github.mim1q.minecells.client.render.misc.AdvancementHintRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -36,6 +37,9 @@ public interface DimensionRequirement {
       if (player instanceof ServerPlayerEntity serverPlayer) {
         var advancement = serverPlayer.server.getAdvancementLoader().get(advancementId);
         return serverPlayer.getAdvancementTracker().getProgress(advancement).isDone();
+      } else if (player.getWorld().isClient()) {
+        // Workaround
+        return !AdvancementHintRenderer.isAdvancementRendered(advancementId);
       }
       return false;
     }

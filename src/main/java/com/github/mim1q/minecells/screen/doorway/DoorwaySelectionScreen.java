@@ -95,13 +95,14 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
         .label(
           Text.translatable(selectedDimension.translationKey)
             .styled(it -> it.withBold(true).withColor(selectedDimension.getColor()))
-        )
+        ).shadow(true)
         .horizontalTextAlignment(HorizontalAlignment.CENTER)
         .margins(Insets.vertical(10))
     );
     text.child(Components.label(
       Text.translatable("book.minecells.entries.dimensions." + selectedDimension.key.getValue().getPath() + ".description")
-    ).horizontalSizing(Sizing.fill(100)));
+    ).shadow(true)
+      .horizontalSizing(Sizing.fill(100)));
 
     body.child(text);
   }
@@ -144,6 +145,7 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
       .renderer(new DimensionButton.Renderer(
         MineCells.createId("textures/gui/doorway_selection/" + name + ".png")
       ));
+    button.tooltip(Text.translatable("gui.minecells.doorway_selection.buttons." + name));
     button.sizing(Sizing.fixed(32), Sizing.fixed(32));
     button.cursorStyle(CursorStyle.POINTER);
     return button;

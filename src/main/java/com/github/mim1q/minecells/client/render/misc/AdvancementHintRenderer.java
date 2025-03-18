@@ -73,4 +73,8 @@ public class AdvancementHintRenderer {
   public static void setAdvancementRendered(Identifier advancementId, boolean rendered) {
     RENDER_ADVANCEMENT_MAP.replace(advancementId, rendered);
   }
+
+  public static boolean isAdvancementRendered(Identifier advancementId) {
+    return RENDER_ADVANCEMENT_MAP.getOrDefault(advancementId, true);
+  }
 }

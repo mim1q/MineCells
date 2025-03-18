@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.network.s2c;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import io.netty.buffer.Unpooled;
@@ -38,9 +39,14 @@ public class SpawnRuneParticlesS2CPacket extends PacketByteBuf {
     Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
     client.execute(() -> {
       ClientWorld world = handler.getWorld();
+      var color = 0xFF6A00;
+      var dimension = MineCellsDimension.of(world);
+      if (dimension != null) {
+        color = dimension.getColor();
+      }
       ParticleUtils.addInBox(
         world,
-        MineCellsParticles.SPECKLE.get(0xFF6A00),
+        MineCellsParticles.SPECKLE.get(color),
         box,
         10,
         new Vec3d(-0.1D, -0.1D, -0.1D).multiply(world.random.nextDouble() * 0.5D + 0.5D)
