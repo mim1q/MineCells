@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.structure.grid.util;
 
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
@@ -27,6 +28,11 @@ public class Vec3iCursor extends BlockPos.Mutable {
 
   public Vec3iCursor turnRight() {
     direction = direction.rotateYClockwise();
+    return this;
+  }
+
+  public Vec3iCursor turn(BlockRotation rotation) {
+    direction = rotation.rotate(direction);
     return this;
   }
 
@@ -58,5 +64,14 @@ public class Vec3iCursor extends BlockPos.Mutable {
   public Vec3iCursor down() {
     this.move(0, -1, 0);
     return this;
+  }
+
+  public BlockRotation getRotation() {
+    return switch (direction) {
+      case SOUTH -> BlockRotation.CLOCKWISE_180;
+      case WEST -> BlockRotation.COUNTERCLOCKWISE_90;
+      case EAST -> BlockRotation.CLOCKWISE_90;
+      default -> BlockRotation.NONE;
+    };
   }
 }

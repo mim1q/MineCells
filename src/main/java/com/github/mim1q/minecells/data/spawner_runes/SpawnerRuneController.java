@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.data.spawner_runes;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData.EntitySpawnData;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
@@ -49,9 +50,11 @@ public class SpawnerRuneController {
     if (world.isClient) {
       var visible = canClientPlayerActivate(world, pos);
       if (isVisible != visible) {
+
+        var color = MineCellsDimension.getColor(world, 0xFF6A00);
         ParticleUtils.addInBox(
           (ClientWorld) world,
-          MineCellsParticles.SPECKLE.get(0xFF6A00),
+          MineCellsParticles.SPECKLE.get(color),
           Box.of(Vec3d.ofCenter(pos), 0.5, 0.5, 0.5),
           15,
           new Vec3d(-0.2D, -0.2D, -0.2D).multiply(world.getRandom().nextDouble() * 0.5D + 0.5D)
