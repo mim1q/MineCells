@@ -22,6 +22,8 @@ object ModTemplatePools {
         add(Presets.prefixed("minecells:better_prison/stairs", "centered" to 1, "hole" to 1, "spiral" to 1, processors = processors))
         add(Presets.prefixed("minecells:better_prison/straight", "simple" to 1, processors = processors))
         add(Presets.prefixed("minecells:better_prison/turn", "big_doors" to 1, "small_doors" to 1, "pillar_room" to 1, "hole" to 1, processors = processors))
+
+        add(Presets.prefixed("minecells:better_prison/terminal", "canteen" to 1, "storage" to 2, "cells" to 4, processors = processors))
     }
 
     fun promenadeOfTheCondemned() = Preset {

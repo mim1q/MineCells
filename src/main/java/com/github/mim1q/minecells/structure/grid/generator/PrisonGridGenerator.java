@@ -18,6 +18,8 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
   private static final Identifier STRAIGHT = id("straight");
   private static final Identifier TURN = id("turn");
 
+  private static final Identifier TERMINAL = id("terminal");
+
   public PrisonGridGenerator(int xPart, int zPart) {
     super(xPart, zPart);
   }
@@ -36,7 +38,7 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
     addFloor(random, cursor, 4);
   }
 
-  private Vec3iCursor addCorridor(Random random, Vec3iCursor cursor, boolean allowTurns, int length) {
+  private Vec3iCursor addCorridor(Random random, Vec3iCursor cursor, boolean allowTurns, boolean hasEnd, int length) {
     for (int i = 0; i < length; ++i) {
       var turn = allowTurns && random.nextBoolean();
       var rotation = (turn ? BlockRotation.NONE : BlockRotation.CLOCKWISE_180).rotate(cursor.getRotation());
@@ -45,19 +47,25 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
       );
 
       if (turn) {
-        addCorridor(random, cursor.split().turn(rotation).turnLeft(), false, 5);
+        addCorridor(random, cursor.split().turn(rotation).turnLeft(), false, true, 5);
       }
+    }
+    if (hasEnd) {
+      addRoom(room(cursor.forward(), TERMINAL).rotation(cursor.getRotation().rotate(BlockRotation.CLOCKWISE_180)));
     }
 
     return cursor.split();
   }
 
   private void addFloor(Random random, Vec3iCursor cursor, int index) {
-    var endCursor = addCorridor(random, cursor, true, 10);
+    var endCursor = addCorridor(random, cursor, true, false, 10);
     if (index > 0) {
-      addRoom(room(endCursor.down(), STAIRS));
-      addFloor(random, endCursor.turn(BlockRotation.CLOCKWISE_180), index - 1);
+      var newCursor = endCursor.split();
+      addRoom(room(newCursor.down(), STAIRS));
+      addCorridor(random, newCursor, true, true, 3);
+      addFloor(random, newCursor.turn(BlockRotation.CLOCKWISE_180), index - 1);
     }
+    addCorridor(random, endCursor.forward(), true, true, 10);
   }
 
   @Override
