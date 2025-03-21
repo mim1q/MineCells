@@ -32,6 +32,7 @@ repositories {
   maven("https://maven.wispforest.io") // owo-lib
   maven("https://maven.blamejared.com") // Patchouli
   maven("https://maven.ladysnake.org/releases") // Cardinal Components
+  maven("https://api.modrinth.com/maven") // Wayland Fix
 }
 
 dependencies {
@@ -52,6 +53,7 @@ dependencies {
 
   modCompileOnly("dev.emi:emi-fabric:${Versions.EMI}:api")
   modLocalRuntime("dev.emi:emi-fabric:${Versions.EMI}")
+  modLocalRuntime("maven.modrinth:wayland-fix:1.1") // Lets me launch the game on Wayland :')
 
   include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
 
