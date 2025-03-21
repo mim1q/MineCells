@@ -41,13 +41,13 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
   private Vec3iCursor addCorridor(Random random, Vec3iCursor cursor, boolean allowTurns, boolean hasEnd, int length) {
     for (int i = 0; i < length; ++i) {
       var turn = allowTurns && random.nextBoolean();
-      var rotation = (turn ? BlockRotation.NONE : BlockRotation.CLOCKWISE_180).rotate(cursor.getRotation());
+      var rotation = (random.nextBoolean() ? BlockRotation.NONE : BlockRotation.CLOCKWISE_180);
       addRoom(room(cursor.forward(), turn ? TURN : STRAIGHT)
-        .rotation(rotation)
+        .rotation(rotation.rotate(cursor.getRotation()))
       );
 
       if (turn) {
-        addCorridor(random, cursor.split().turn(rotation).turnLeft(), false, true, 5);
+        addCorridor(random, cursor.split().turn(rotation).turnRight(), false, true, 5);
       }
     }
     if (hasEnd) {
@@ -62,10 +62,10 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
     if (index > 0) {
       var newCursor = endCursor.split();
       addRoom(room(newCursor.down(), STAIRS));
-      addCorridor(random, newCursor, true, true, 3);
+//      addCorridor(random, newCursor, true, true, 3);
       addFloor(random, newCursor.turn(BlockRotation.CLOCKWISE_180), index - 1);
     }
-    addCorridor(random, endCursor.forward(), true, true, 10);
+    addCorridor(random, endCursor, true, true, 10);
   }
 
   @Override
