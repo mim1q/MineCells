@@ -26,11 +26,17 @@ public record ElectricParticleEffect(
     ) throws CommandSyntaxException {
       stringReader.expect(' ');
       var x = stringReader.readDouble();
+      stringReader.expect(' ');
       var y = stringReader.readDouble();
+      stringReader.expect(' ');
       var z = stringReader.readDouble();
+      stringReader.expect(' ');
       var length = stringReader.readInt();
+      stringReader.expect(' ');
       var color = stringReader.readInt();
+      stringReader.expect(' ');
       var size = stringReader.readFloat();
+      stringReader.expect(' ');
       var isMainBranch = stringReader.readBoolean();
       return new ElectricParticleEffect(new Vec3d(x, y, z), length, color, size, isMainBranch);
     }
