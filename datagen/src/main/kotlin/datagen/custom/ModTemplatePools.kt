@@ -14,17 +14,19 @@ object ModTemplatePools {
 
     fun prisonersQuarters() = Preset {
         val processors = "minecells:prison/main"
+        val path = "minecells:better_prison"
         // Spawn
-        add(Presets.single("minecells:better_prison/spawn/spawn", processors))
-        add(Presets.single("minecells:better_prison/spawn/outside_near", processors))
-        add(Presets.single("minecells:better_prison/spawn/outside_far", processors))
+        add(Presets.single("$path/spawn/spawn", processors))
+        add(Presets.single("$path/spawn/outside_near", processors))
+        add(Presets.single("$path/spawn/outside_far", processors))
 
-        add(Presets.prefixed("minecells:better_prison/stairs", "centered" to 1, "hole" to 1, "spiral" to 1, processors = processors))
-        add(Presets.prefixed("minecells:better_prison/straight", "simple" to 1, processors = processors))
-        add(Presets.prefixed("minecells:better_prison/turn", "big_doors" to 1, "small_doors" to 1, "pillar_room" to 1, "hole" to 1, processors = processors))
-        add(Presets.prefixed("minecells:better_prison/curve", "simple" to 1, processors = processors))
+        add(Presets.prefixed("$path/stairs", "centered" to 1, "hole" to 1, "spiral" to 1, processors = processors))
+        add(Presets.prefixed("$path/straight", "simple" to 1, processors = processors))
+        add(Presets.prefixed("$path/turn", "big_doors" to 1, "small_doors" to 1, "pillar_room" to 1, "hole" to 1, processors = processors))
+        add(Presets.prefixed("$path/curve", "simple" to 1, processors = processors))
 
-        add(Presets.prefixed("minecells:better_prison/terminal", "canteen" to 1, "storage" to 2, "cells" to 4, processors = processors))
+        add(Presets.prefixed("$path/terminal", "canteen" to 1, "storage" to 2, "cells" to 4, processors = processors))
+        add(Presets.single("$path/promenade"))
     }
 
     fun promenadeOfTheCondemned() = Preset {

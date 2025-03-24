@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class PrisonGridGenerator extends MultipartGridGenerator {
   private static final Identifier SPAWN = id("spawn/spawn");
@@ -20,6 +21,7 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
   private static final Identifier CURVE = id("curve");
 
   private static final Identifier TERMINAL = id("terminal");
+  private static final Identifier PROMENADE = id("promenade");
 
   public PrisonGridGenerator(int xPart, int zPart) {
     super(xPart, zPart);
@@ -36,10 +38,10 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
     addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_NEAR).offset(0, -2, 0));
     addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_FAR).offset(0, -2, 0));
 
-    addFloor(random, cursor, random.nextBetween(4, 5));
+    addFloor(random, cursor, random.nextBetween(3, 4));
   }
 
-  private Vec3iCursor addCorridor(Random random, Vec3iCursor cursor, boolean allowTurns, boolean hasEnd, int length) {
+  private Vec3iCursor addCorridor(Random random, Vec3iCursor cursor, boolean allowTurns, @Nullable Identifier end, int length) {
     for (int i = 0; i < length; ++i) {
       if (random.nextFloat() < 0.2f && allowTurns && i < length - 1 && i > 0) {
         var left = random.nextBoolean();
@@ -66,26 +68,32 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
       );
 
       if (turn) {
-        addCorridor(random, cursor.split().turn(rotation).turnRight(), false, true, random.nextBetween(2, 4));
+        addCorridor(random, cursor.split().turn(rotation).turnRight(), false, TERMINAL, random.nextBetween(2, 4));
       }
     }
-    if (hasEnd) {
-      addRoom(room(cursor.forward(), TERMINAL).rotation(cursor.getRotation().rotate(BlockRotation.CLOCKWISE_180)));
+    if (end != null) {
+      var endRoom = room(cursor.forward(), end).rotation(cursor.getRotation().rotate(BlockRotation.CLOCKWISE_180));
+      if (end == PROMENADE) {
+        endRoom.specialPoint(SpecialPointIds.EXIT, new Vec3i(0, 0, 0), BlockRotation.NONE);
+      }
+      addRoom(endRoom);
     }
 
     return cursor.split();
   }
 
   private void addFloor(Random random, Vec3iCursor cursor, int index) {
-    var endCursor = addCorridor(random, cursor, true, false, random.nextBetween(3, 5));
+    var endCursor = addCorridor(random, cursor, true, null, random.nextBetween(3, 5));
     endCursor.forward();
     if (index > 0) {
       var newCursor = endCursor.split();
       addRoom(room(newCursor.down(), STAIRS));
-      addCorridor(random, newCursor.split(), true, true, random.nextBetween(0, 2));
+      addCorridor(random, newCursor.split(), true, TERMINAL, random.nextBetween(0, 2));
       addFloor(random, newCursor.turn(BlockRotation.CLOCKWISE_180), index - 1);
+      addCorridor(random, endCursor, true, TERMINAL, random.nextBetween(0, 2));
+    } else {
+      addCorridor(random, endCursor.back(), true, PROMENADE, random.nextBetween(0, 2));
     }
-    addCorridor(random, endCursor, true, true, random.nextBetween(0, 2));
   }
 
   @Override
