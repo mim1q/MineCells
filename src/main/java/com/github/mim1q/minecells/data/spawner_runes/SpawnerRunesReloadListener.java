@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SpawnerRunesReloadListener implements SimpleSynchronousResourceReloadListener {
@@ -52,5 +53,9 @@ public class SpawnerRunesReloadListener implements SimpleSynchronousResourceRelo
     SpawnerRuneData.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(new InputStreamReader(stream)))
       .resultOrPartial(it -> MineCells.LOGGER.error("Failed to parse spawner rune data {}: {}", id, it))
       .ifPresent(result -> data.put(id, result));
+  }
+
+  public List<Identifier> getIds() {
+    return List.copyOf(data.keySet());
   }
 }

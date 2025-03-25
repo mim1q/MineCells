@@ -27,6 +27,10 @@ public class SpawnerRuneCommand {
     dispatcher.register(literal("minecells:spawnerrune").requires(source -> source.hasPermissionLevel(2))
       .then(literal("spawn")
         .then(argument("id", IdentifierArgumentType.identifier())
+          .suggests((ctx, builder) -> {
+            MineCells.SPAWNER_RUNE_DATA.getIds().forEach(it -> builder.suggest(it.toString()));
+            return builder.buildFuture();
+          })
           .executes(SpawnerRuneCommand::spawn)
           .then(argument("pos", Vec3ArgumentType.vec3())
             .executes(SpawnerRuneCommand::spawnAtPos)
