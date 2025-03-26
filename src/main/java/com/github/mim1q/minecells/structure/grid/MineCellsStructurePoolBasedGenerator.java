@@ -172,7 +172,7 @@ public class MineCellsStructurePoolBasedGenerator {
       this.chunkGenerator = chunkGenerator;
       this.structureTemplateManager = structureTemplateManager;
       this.children = children;
-      this.random = random;
+      this.random = random.split();
     }
 
     void generatePiece(PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape, int minY, HeightLimitView world, NoiseConfig noiseConfig) {

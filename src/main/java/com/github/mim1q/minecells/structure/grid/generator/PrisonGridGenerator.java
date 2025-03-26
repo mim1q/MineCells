@@ -33,7 +33,7 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
 
     var spawnCursor = cursor.split();
     addRoom(room(spawnCursor, SPAWN).offset(0, -2, 0).specialPoint(
-      SpecialPointIds.ENTRANCE, new Vec3i(0, 0, 0), BlockRotation.NONE
+      SpecialPointIds.ENTRANCE, new Vec3i(12, 1, 1), BlockRotation.NONE
     ));
     addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_NEAR).offset(0, -2, 0));
     addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_FAR).offset(0, -2, 0));
@@ -74,7 +74,7 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
     if (end != null) {
       var endRoom = room(cursor.forward(), end).rotation(cursor.getRotation().rotate(BlockRotation.CLOCKWISE_180));
       if (end == PROMENADE) {
-        endRoom.specialPoint(SpecialPointIds.EXIT, new Vec3i(0, 0, 0), BlockRotation.NONE);
+        endRoom.specialPoint(SpecialPointIds.EXIT, new Vec3i(9, 0, 14), BlockRotation.CLOCKWISE_180);
       }
       addRoom(endRoom);
     }
