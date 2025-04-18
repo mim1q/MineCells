@@ -38,7 +38,7 @@ public class PrisonGridGenerator extends MultipartGridGenerator {
     addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_NEAR).offset(0, -2, 0));
     addRoom(room(spawnCursor.stepLeft(), SPAWN_OUTSIDE_FAR).offset(0, -2, 0));
 
-    addFloor(random, cursor, random.nextBetween(3, 4));
+    addFloor(random, cursor, 3);
   }
 
   private Vec3iCursor addCorridor(Random random, Vec3iCursor cursor, boolean allowTurns, @Nullable Identifier end, int length) {
