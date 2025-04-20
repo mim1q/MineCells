@@ -75,7 +75,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
       var list = portalMap.get(recipient.getUuid());
       if (list == null) return;
 
-      buf.writeVarInt(list.size());
+      buf.writeInt(list.size());
       for (var portal : list) {
         buf.writeNbt(portal.createNbt());
       }
@@ -83,7 +83,10 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
 
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
-      var size = buf.readVarInt();
+      portals.clear();
+      portalMap.clear();
+
+      var size = buf.readInt();
       for (int i = 0; i < size; i++) {
         var portalNbt = buf.readNbt();
         if (portalNbt == null) continue;
