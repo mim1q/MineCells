@@ -21,7 +21,14 @@ object ModTemplatePools {
         add(Presets.single("$path/spawn/outside_far", processors))
 
         add(Presets.prefixed("$path/stairs", "centered" to 1, "hole" to 1, "spiral" to 1, processors = processors))
-        add(Presets.prefixed("$path/straight", "simple" to 1, "room" to 1, processors = processors))
+        add(Presets.prefixed("$path/straight",
+            "simple" to 2,
+            "room" to 3,
+            "hole" to 1,
+            "platform" to 1,
+            "door" to 2,
+            processors = processors
+        ))
         add(Presets.prefixed("$path/straight/room/layout", "storage" to 1, "cells" to 1, "towers" to 1, processors = processors))
         add(Presets.prefixed("$path/turn", "big_doors" to 1, "small_doors" to 1, "pillar_room" to 1, "hole" to 1, processors = processors))
         add(Presets.prefixed("$path/curve", "simple" to 1, processors = processors))
