@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 
 public class ScreenUtils {
-  public static void openDoorwaySelectionScreen(BlockPos pos) {
-    MinecraftClient.getInstance().setScreen(new DoorwaySelectionScreen(pos));
+  public static void openDoorwaySelectionScreen(BlockPos pos, BlockPos posOverride) {
+    MinecraftClient.getInstance().setScreen(new DoorwaySelectionScreen(pos, posOverride));
   }
 }

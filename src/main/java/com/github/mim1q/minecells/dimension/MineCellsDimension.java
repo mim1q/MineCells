@@ -102,7 +102,7 @@ public enum MineCellsDimension {
     if (this == OVERWORLD) {
       var data = MineCellsLevelCC.OverworldEntriesCC.getPlayerEntrancePoint(player, pos, world);
       if (data.isPresent()) {
-        return new Pair<>(Vec3d.ofCenter(data.get().entrancePos()), (int) data.get().entranceRotation());
+        return new Pair<>(Vec3d.ofCenter(data.get().posOverride()), (int) data.get().entranceRotation());
       }
       if (player.getSpawnPointDimension() == OVERWORLD.key && player.getSpawnPointPosition() != null) {
         return new Pair<>(Vec3d.ofCenter(player.getSpawnPointPosition()), (int) player.getSpawnAngle());

@@ -18,8 +18,8 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -194,6 +194,27 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     ) {
       var entries = OVERWORLD_ENTRIES.get(world.getScoreboard());
       entries.entries.put(player.getUuid(), new Data(portalPos, entrancePos, entranceRot));
+    }
+
+    public static Pair<BlockPos, Float> getPlayerEntrancePos(
+      ServerPlayerEntity player
+    ) {
+      var world = player.getServerWorld();
+      var entries = OVERWORLD_ENTRIES.get(world.getScoreboard());
+
+      var entry = entries.entries.get(player.getUuid());
+      if (entry != null) {
+        return new Pair<>(entry.entrancePos, entry.entranceRotation);
+      }
+
+      if (player.getSpawnPointDimension() == MineCellsDimension.OVERWORLD.key) {
+        var spawnPoint = player.getSpawnPointPosition();
+        var spawnRot = player.getSpawnAngle();
+        if (spawnPoint != null) return new Pair<>(spawnPoint, spawnRot);
+      }
+
+      return new Pair<>(world.getServer().getOverworld().getSpawnPos(), world.getServer().getOverworld().getSpawnAngle());
+
     }
 
     @Override

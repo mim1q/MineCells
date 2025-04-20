@@ -30,9 +30,10 @@ public class ServerPacketHandler {
       var state = world.getBlockState(msg.doorwayPos());
       if (!(state.getBlock() instanceof DoorwayPortalBlock)) {
         MineCells.LOGGER.error(
-          "{} tried to modify a Doorway that doesn't exist at x={}, y={}, z={}",
+          "{} tried to modify a Doorway that doesn't exist at x={}, y={}, z={} in {}",
           ctx.player().getName().getString(),
-          msg.doorwayPos().getX(), msg.doorwayPos().getY(), msg.doorwayPos().getZ()
+          msg.doorwayPos().getX(), msg.doorwayPos().getY(), msg.doorwayPos().getZ(),
+          world.getRegistryKey().getValue().toString()
         );
         return;
       }
@@ -41,7 +42,16 @@ public class ServerPacketHandler {
       var entity = world.getBlockEntity(msg.doorwayPos());
       if (entity instanceof DoorwayPortalBlockEntity doorway) {
         var pos = MineCellsLevelCC.PortalsCC.getOrCreatePortal(ctx.player()).runCenter();
-        doorway.update(ctx.player(), pos, msg.onlyOwnerCanUse());
+        if (doorway.canEdit(ctx.player())) {
+          doorway.update(ctx.player(), pos, msg.onlyOwnerCanUse());
+        } else {
+          MineCells.LOGGER.warn(
+            "{} tried to illegally edit portal at x={}, y={}, z={} in {}",
+            ctx.player().getName().getString(),
+            msg.doorwayPos().getX(), msg.doorwayPos().getY(), msg.doorwayPos().getZ(),
+            world.getRegistryKey().getValue().toString()
+          );
+        }
       }
     });
 

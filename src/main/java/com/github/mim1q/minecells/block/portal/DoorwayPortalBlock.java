@@ -61,7 +61,10 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
     if (world.isClient()) {
-      ScreenUtils.openDoorwaySelectionScreen(pos);
+      var entity = world.getBlockEntity(pos);
+      if (entity instanceof DoorwayPortalBlockEntity doorway && doorway.canEdit(player)) {
+        ScreenUtils.openDoorwaySelectionScreen(pos, doorway.getOverridePos());
+      }
       return ActionResult.SUCCESS;
     }
     return ActionResult.SUCCESS;
@@ -148,7 +151,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
         }
 
         var dir = Vec3d.of(entityState.get(FACING).getVector().multiply(2));
-        var players = entityWorld.getEntitiesByClass(PlayerEntity.class, Box.of(entityPos.toCenterPos(), 3.0, 2.0, 3.0).offset(dir), it -> true);
+        var players = entityWorld.getEntitiesByClass(PlayerEntity.class, Box.of(entityPos.toCenterPos(), 3.0, 2.0, 3.0).offset(dir.multiply(0.5)), it -> true);
         var closed = players.isEmpty() || players.stream().anyMatch(it -> !doorway.canPlayerEnter(it));
         entityWorld.setBlockState(entityPos, entityState.with(CLOSED, closed));
       }

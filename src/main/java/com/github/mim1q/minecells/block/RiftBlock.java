@@ -1,7 +1,7 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
-import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.TeleportUtils;
 import net.minecraft.block.BlockState;
@@ -50,26 +50,14 @@ public class RiftBlock extends BlockWithEntity {
         && world instanceof ServerWorld serverWorld
         && player.squaredDistanceTo(Vec3d.ofBottomCenter(pos)) < 1.1
     ) {
-      var teleportPos = getPlayerTeleportPosition(player, serverWorld);
-      TeleportUtils.teleportToDimension(player, serverWorld.getServer().getOverworld(), Vec3d.ofCenter(teleportPos), 0.0F);
+      var teleportPos = MineCellsLevelCC.OverworldEntriesCC.getPlayerEntrancePos(player);
+      TeleportUtils.teleportToDimension(
+        player,
+        serverWorld.getServer().getOverworld(),
+        Vec3d.ofCenter(teleportPos.getLeft()),
+        teleportPos.getRight()
+      );
     }
-  }
-
-  private BlockPos getPlayerTeleportPosition(ServerPlayerEntity player, ServerWorld world) {
-    // todo
-//    var data = MineCellsData.getPlayerData(player, world, null);
-//
-//    var currentToOverworld = data.getPortalData(MineCellsDimension.of(world), MineCellsDimension.OVERWORLD);
-//    if (currentToOverworld.isPresent()) return currentToOverworld.get().toPos();
-//
-//    var prisonToOverworld = data.getPortalData(MineCellsDimension.PRISONERS_QUARTERS, MineCellsDimension.OVERWORLD);
-//    if (prisonToOverworld.isPresent()) return prisonToOverworld.get().toPos();
-
-    if (player.getSpawnPointDimension() == MineCellsDimension.OVERWORLD.key) {
-      var spawnPoint = player.getSpawnPointPosition();
-      if (spawnPoint != null) return spawnPoint;
-    }
-    return world.getServer().getOverworld().getSpawnPos();
   }
 
   @Nullable

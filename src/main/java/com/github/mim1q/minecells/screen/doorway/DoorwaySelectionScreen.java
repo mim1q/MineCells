@@ -24,13 +24,15 @@ import java.util.function.Consumer;
 
 public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
   private final BlockPos pos;
+  private final BlockPos targetPos;
   private @Nullable MineCellsDimension selectedDimension;
   private final ArrayList<ButtonComponent> exitButtons = new ArrayList<>();
   private final ArrayList<ButtonComponent> dimensionButtons = new ArrayList<>();
   private final FlowLayout body;
 
-  public DoorwaySelectionScreen(BlockPos pos) {
-    this.pos = pos;
+  public DoorwaySelectionScreen(BlockPos blockEntityPos, BlockPos targetPos) {
+    this.pos = blockEntityPos;
+    this.targetPos = targetPos;
     this.body = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.fixed(150))
       .horizontalAlignment(HorizontalAlignment.CENTER);
   }
@@ -99,8 +101,9 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
         .horizontalTextAlignment(HorizontalAlignment.CENTER)
         .margins(Insets.vertical(10))
     );
+    var description = Text.translatable("book.minecells.entries.dimensions." + selectedDimension.key.getValue().getPath() + ".description");
     text.child(Components.label(
-      Text.translatable("book.minecells.entries.dimensions." + selectedDimension.key.getValue().getPath() + ".description")
+      Text.literal(description.getString().replace("<br><br>", " "))
     ).shadow(true)
       .horizontalSizing(Sizing.fill(100)));
 
@@ -112,7 +115,7 @@ public class DoorwaySelectionScreen extends BaseOwoScreen<FlowLayout> {
     var world = MinecraftClient.getInstance().world;
     if (player == null || world == null) return null;
 
-    var data = MineCellsLevelCC.PortalsCC.findDataOfPosition(world, pos);
+    var data = MineCellsLevelCC.PortalsCC.findDataOfPosition(world, targetPos);
 
     var button = new DimensionButton(dim, b -> {
       selectedDimension = dim;

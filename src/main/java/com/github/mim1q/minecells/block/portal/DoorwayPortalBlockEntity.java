@@ -63,6 +63,10 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return ((DoorwayPortalBlock) getCachedState().getBlock()).type.backgroundTexture;
   }
 
+  public BlockPos getOverridePos() {
+    return posOverride == null ? pos : posOverride;
+  }
+
   public List<MutableText> getLabel() {
     var dimension = getDoorwayType().dimension;
     var list = new ArrayList<MutableText>();
@@ -127,6 +131,11 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     this.onlyOwnerCanEnter = onlyOwnerCanEnter;
     this.markDirty();
     owner.getWorld().updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 0);
+  }
+
+  public boolean canEdit(PlayerEntity player) {
+    return player.getWorld().getRegistryKey().equals(MineCellsDimension.OVERWORLD.key)
+      && (ownerId == null || ownerId.equals(player.getUuid()));
   }
 
   @Override
