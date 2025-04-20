@@ -19,6 +19,8 @@ public interface DimensionRequirement {
 
     @Override
     public boolean isMet(MineCellsDimension dimension, PlayerEntity player, MineCellsLevelCC.PortalData portal) {
+      if (true) return true;
+
       if (portal == null) return false;
       return portal.visitedDimensions().contains(dimension);
     }

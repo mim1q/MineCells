@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.network;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
@@ -24,12 +25,21 @@ public class ServerPacketHandler {
   public static void init() {
     CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
+
+      var newState = MineCellsBlocks.DOORWAY_PORTALS.get(msg.dimensionId()).getDefaultState();
+      var state = world.getBlockState(msg.doorwayPos());
+      if (!(state.getBlock() instanceof DoorwayPortalBlock)) {
+        MineCells.LOGGER.error(
+          "{} tried to modify a Doorway that doesn't exist at x={}, y={}, z={}",
+          ctx.player().getName().getString(),
+          msg.doorwayPos().getX(), msg.doorwayPos().getY(), msg.doorwayPos().getZ()
+        );
+        return;
+      }
+      world.setBlockState(msg.doorwayPos(), copyAllProperties(state, newState));
+
       var entity = world.getBlockEntity(msg.doorwayPos());
       if (entity instanceof DoorwayPortalBlockEntity doorway) {
-        var state = world.getBlockState(msg.doorwayPos());
-
-        var newState = MineCellsBlocks.DOORWAY_PORTALS.get(msg.dimensionId()).getDefaultState();
-        world.setBlockState(msg.doorwayPos(), copyAllProperties(state, newState));
         var pos = MineCellsLevelCC.PortalsCC.getOrCreatePortal(ctx.player()).runCenter();
         doorway.update(ctx.player(), pos, msg.onlyOwnerCanUse());
       }

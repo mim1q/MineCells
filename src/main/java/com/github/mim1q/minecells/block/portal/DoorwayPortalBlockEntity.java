@@ -19,16 +19,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.CLOSED;
 import static com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.FACING;
 import static com.github.mim1q.minecells.cc.MineCellsLevelCC.PortalsCC.findDataOfPosition;
+import static dev.mim1q.gimm1q.client.tooltip.TooltipResolverRegistry.TooltipHelper.splitTextIfExceeds;
 import static net.minecraft.world.World.OVERWORLD;
 
 public class DoorwayPortalBlockEntity extends BlockEntity {
@@ -37,6 +40,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   private Identifier specialPointTarget = SpecialPointIds.ENTRANCE;
   private @Nullable BlockPos posOverride = null;
   private @Nullable UUID ownerId = null;
+  private @Nullable String ownerName = null;
   private boolean onlyOwnerCanEnter = false;
 
   public DoorwayPortalBlockEntity(BlockPos pos, BlockState state) {
@@ -51,12 +55,27 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return ((DoorwayPortalBlock) getCachedState().getBlock()).type.texture;
   }
 
+  private DoorwayPortalBlock.DoorwayType getDoorwayType() {
+    return ((DoorwayPortalBlock) getCachedState().getBlock()).type;
+  }
+
   public Identifier getBackgroundTexture() {
     return ((DoorwayPortalBlock) getCachedState().getBlock()).type.backgroundTexture;
   }
 
   public List<MutableText> getLabel() {
-    return List.of(Text.of("label").copy());
+    var dimension = getDoorwayType().dimension;
+    var list = new ArrayList<MutableText>();
+    if (ownerName != null)
+      list.add(Text.literal(ownerName).styled(it -> it.withColor(Formatting.GRAY)));
+    var dimensionName = Text.translatable(
+      dimension.translationKey).styled(it -> it.withColor(dimension.getColor())
+    );
+    var dimensionTooltip = splitTextIfExceeds(dimensionName, 20);
+    for (var text : dimensionTooltip) {
+      list.add(text.copy());
+    }
+    return list;
   }
 
   @Override
@@ -103,8 +122,11 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
 
   public void update(PlayerEntity owner, BlockPos posOverride, boolean onlyOwnerCanEnter) {
     this.ownerId = owner.getUuid();
+    this.ownerName = owner.getName().getString();
     this.posOverride = posOverride;
     this.onlyOwnerCanEnter = onlyOwnerCanEnter;
+    this.markDirty();
+    owner.getWorld().updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 0);
   }
 
   @Override
@@ -128,6 +150,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
       specialPointTarget = nbt.getBoolean("upstream") ? SpecialPointIds.EXIT : SpecialPointIds.ENTRANCE;
     if (nbt.contains("pos_override")) posOverride = BlockPos.fromLong(nbt.getLong("pos_override"));
     if (nbt.contains("owner_id")) ownerId = UUID.fromString(nbt.getString("owner_id"));
+    if (nbt.contains("owner_name")) ownerName = nbt.getString("owner_name");
     if (nbt.contains("only_owner_can_enter")) onlyOwnerCanEnter = nbt.getBoolean("only_owner_can_enter");
   }
 
@@ -138,6 +161,7 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     nbt.putString("special_point_target", specialPointTarget.toString());
     if (posOverride != null) nbt.putLong("pos_override", posOverride.asLong());
     if (ownerId != null) nbt.putString("owner_id", ownerId.toString());
+    if (ownerName != null) nbt.putString("owner_name", ownerName);
     nbt.putBoolean("only_owner_can_enter", onlyOwnerCanEnter);
   }
 }
