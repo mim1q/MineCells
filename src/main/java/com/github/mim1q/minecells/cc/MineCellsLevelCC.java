@@ -204,7 +204,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
 
       var entry = entries.entries.get(player.getUuid());
       if (entry != null) {
-        return new Pair<>(entry.entrancePos, entry.entranceRotation);
+        return new Pair<>(entry.posOverride, entry.entranceRotation);
       }
 
       if (player.getSpawnPointDimension() == MineCellsDimension.OVERWORLD.key) {
