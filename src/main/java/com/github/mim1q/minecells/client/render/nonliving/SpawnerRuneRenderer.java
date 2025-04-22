@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.client.render.nonliving;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneController;
 import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.RenderUtils;
@@ -23,11 +24,14 @@ public interface SpawnerRuneRenderer {
   Identifier TEXTURE = MineCells.createId("textures/block/spawner_rune.png");
 
   private static void render(
+    SpawnerRuneController controller,
     BlockState state,
     BlockPos pos,
     MatrixStack matrices,
     VertexConsumerProvider vertices
   ) {
+    if (!controller.isVisible()) return;
+
     matrices.push();
     var age = RenderUtils.getGlobalAnimationProgress();
     var yOffset = 0.5 + Math.sin(0.1F * age) * 0.15F;
@@ -58,7 +62,7 @@ public interface SpawnerRuneRenderer {
     @Override
     public void render(SpawnerRuneEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
       if (!entity.controller.isVisible()) return;
-      SpawnerRuneRenderer.render(MineCellsBlocks.SPAWNER_RUNE.getDefaultState(), entity.getBlockPos(), matrices, vertexConsumers);
+      SpawnerRuneRenderer.render(entity.controller, MineCellsBlocks.SPAWNER_RUNE.getDefaultState(), entity.getBlockPos(), matrices, vertexConsumers);
     }
 
     @Override
@@ -77,7 +81,7 @@ public interface SpawnerRuneRenderer {
       if (world == null || !entity.controller.isVisible()) return;
       matrices.push();
       matrices.translate(0.5, 0.0, 0.5);
-      SpawnerRuneRenderer.render(entity.getCachedState(), entity.getPos(), matrices, vertexConsumers);
+      SpawnerRuneRenderer.render(entity.controller, entity.getCachedState(), entity.getPos(), matrices, vertexConsumers);
       matrices.pop();
     }
   }

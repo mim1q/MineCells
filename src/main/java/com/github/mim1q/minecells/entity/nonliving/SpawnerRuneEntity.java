@@ -47,6 +47,7 @@ public class SpawnerRuneEntity extends Entity {
   @Override
   protected void readCustomDataFromNbt(NbtCompound nbt) {
     controller.setDataId(getWorld(), getBlockPos(), Identifier.tryParse(nbt.getString("dataId")));
+    controller.setLastActivationTime(nbt.getLong("last_activation_time"));
   }
 
   @Override
@@ -54,5 +55,6 @@ public class SpawnerRuneEntity extends Entity {
     if (controller.getDataId() != null) {
       nbt.putString("dataId", controller.getDataId().toString());
     }
+    nbt.putLong("last_activation_time", controller.getLastActivationTime());
   }
 }

@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
+import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -21,8 +22,11 @@ import static com.github.mim1q.minecells.world.processor.SwitchBlockStructurePro
 
 public class ServerPacketHandler {
   public static OwoNetChannel CHANNEL = OwoNetChannel.create(MineCells.createId("main"));
+  public static OwoNetChannel CLIENT_CHANNEL = OwoNetChannel.create(MineCells.createId("client_main"));
 
   public static void init() {
+    CLIENT_CHANNEL.registerClientboundDeferred(SpawnerRuneUpdateS2CPacket.class);
+
     CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
 

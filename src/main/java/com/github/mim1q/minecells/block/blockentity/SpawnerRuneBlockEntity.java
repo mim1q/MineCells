@@ -25,6 +25,7 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
     controller.setDataId(getWorld(), getPos(), Identifier.tryParse(nbt.getString("dataId")));
+    controller.setLastActivationTime(nbt.getLong("last_activation_time"));
   }
 
   @Override
@@ -33,5 +34,6 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
     if (controller.getDataId() != null) {
       nbt.putString("dataId", controller.getDataId().toString());
     }
+    nbt.putLong("last_activation_time", controller.getLastActivationTime());
   }
 }

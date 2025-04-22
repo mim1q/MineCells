@@ -3,12 +3,15 @@ package com.github.mim1q.minecells.data.spawner_runes;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData.EntitySpawnData;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
+import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -46,21 +49,26 @@ public class SpawnerRuneController {
           break;
         }
       }
+      sendUpdatePacket(world, pos);
     }
     if (world.isClient) {
       var visible = canClientPlayerActivate(world, pos);
+      var particleAmount = 2;
+      var particleSpeed = 0.1f;
       if (isVisible != visible) {
-
-        var color = MineCellsDimension.getColor(world, 0xFF6A00);
-        ParticleUtils.addInBox(
-          (ClientWorld) world,
-          MineCellsParticles.SPECKLE.get(color),
-          Box.of(Vec3d.ofCenter(pos), 0.5, 0.5, 0.5),
-          15,
-          new Vec3d(-0.2D, -0.2D, -0.2D).multiply(world.getRandom().nextDouble() * 0.5D + 0.5D)
-        );
+        particleAmount = 15;
         isVisible = visible;
+      } else if (!isVisible) {
+        particleAmount = 1;
       }
+      var color = MineCellsDimension.getColor(world, 0xFF6A00);
+      ParticleUtils.addInBox(
+        (ClientWorld) world,
+        MineCellsParticles.SPECKLE.get(color),
+        Box.of(Vec3d.ofCenter(pos), 0.5, 0.5, 0.5),
+        particleAmount,
+        Vec3d.ZERO.addRandom(world.random, particleSpeed)
+      );
     }
   }
 
@@ -97,6 +105,7 @@ public class SpawnerRuneController {
       }
     }
     lastActivationTime = world.getTime();
+    sendUpdatePacket(world, pos);
   }
 
   public static List<Entity> spawnEntities(ServerWorld world, Identifier dataId, BlockPos pos, Consumer<Entity> entityConsumer) {
@@ -112,11 +121,12 @@ public class SpawnerRuneController {
   }
 
   private boolean canPlayerActivate(PlayerEntity player, World world, BlockPos pos) {
+    if (data == null) return false;
     return world.getTime() - lastActivationTime > data.cooldown() * 20;
   }
 
   private boolean canClientPlayerActivate(World world, BlockPos pos) {
-    return true;
+    return canPlayerActivate(MinecraftClient.getInstance().player, world, pos);
   }
 
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
@@ -140,6 +150,12 @@ public class SpawnerRuneController {
       livingEntity.readCustomDataFromNbt(currentEntityNbt);
       entityConsumer.accept(livingEntity);
       livingEntity.heal(livingEntity.getMaxHealth());
+      var random = world.getRandom();
+      livingEntity.addVelocity(
+        (random.nextDouble() - 0.5) * 0.1,
+        0.05 + random.nextDouble() * 0.05,
+        (random.nextDouble() - 0.5) * 0.1
+      );
     }
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;
@@ -172,10 +188,26 @@ public class SpawnerRuneController {
 
     if (world == null || world.isClient) return;
     if (newData == null) {
-      MineCells.LOGGER.warn("Tried to load unknown spawner rune data with id: " + id
-        + " at pos " + pos.toShortString()
-        + " in dimension " + world.getRegistryKey().getValue().toString()
+      MineCells.LOGGER.warn(
+        "Tried to load unknown spawner rune data with id: {} at pos {} in dimension {}",
+        id,
+        pos.toShortString(),
+        world.getRegistryKey().getValue().toString()
       );
+    }
+
+    sendUpdatePacket(world, pos);
+  }
+
+  private void sendUpdatePacket(World world, BlockPos pos) {
+    if (world instanceof ServerWorld serverWorld) {
+      var packet = new SpawnerRuneUpdateS2CPacket(
+        pos,
+        lastActivationTime,
+        dataId
+      );
+      ServerPacketHandler.CLIENT_CHANNEL.serverHandle(serverWorld, pos)
+        .send(packet);
     }
   }
 
