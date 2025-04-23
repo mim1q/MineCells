@@ -105,7 +105,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @Override
   @SuppressWarnings("deprecation")
   public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-    if (world instanceof ServerWorld serverWorld) {
+    if (world instanceof ServerWorld serverWorld && !state.get(CLOSED)) {
       var box = ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), COLLISION_SHAPE).getBoundingBox()
         .offset(pos)
         .expand(0.01);

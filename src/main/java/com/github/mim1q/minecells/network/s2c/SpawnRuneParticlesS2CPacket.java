@@ -28,36 +28,4 @@ public class SpawnRuneParticlesS2CPacket extends PacketByteBuf {
     writeDouble(box.maxY);
     writeDouble(box.maxZ);
   }
-
-  public static void apply(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    double minX = buf.readDouble();
-    double minY = buf.readDouble();
-    double minZ = buf.readDouble();
-    double maxX = buf.readDouble();
-    double maxY = buf.readDouble();
-    double maxZ = buf.readDouble();
-    Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
-    client.execute(() -> {
-      ClientWorld world = handler.getWorld();
-      var color = 0xFF6A00;
-      var dimension = MineCellsDimension.of(world);
-      if (dimension != null) {
-        color = dimension.getColor();
-      }
-      ParticleUtils.addInBox(
-        world,
-        MineCellsParticles.SPECKLE.get(color),
-        box,
-        10,
-        new Vec3d(-0.1D, -0.1D, -0.1D).multiply(world.random.nextDouble() * 0.5D + 0.5D)
-      );
-      ParticleUtils.addInBox(
-        world,
-        ParticleTypes.CLOUD,
-        box.shrink(0.1D, 0.1D, 0.1D),
-        10,
-        new Vec3d(-0.02D, -0.02D, -0.02D).multiply(world.random.nextDouble() * 0.5D + 0.5D)
-      );
-    });
-  }
 }

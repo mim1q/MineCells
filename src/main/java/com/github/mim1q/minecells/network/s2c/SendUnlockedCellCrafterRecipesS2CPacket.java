@@ -33,26 +33,4 @@ public class SendUnlockedCellCrafterRecipesS2CPacket extends PacketByteBuf {
       }).orElse(true));
     }
   }
-
-  public static void apply(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    var size = buf.readInt();
-
-    List<DisplayedRecipe> recipes = new ArrayList<>();
-
-    var recipeManager = handler.getRecipeManager();
-
-    for (int i = 0; i < size; i++) {
-      var recipeId = buf.readIdentifier();
-      var recipe = (CellForgeRecipe) recipeManager.get(recipeId).orElseThrow();
-      var isUnlocked = buf.readBoolean();
-      recipes.add(new DisplayedRecipe(recipe, isUnlocked));
-    }
-
-    client.execute(() -> {
-      var screen = client.currentScreen;
-      if (screen instanceof CellCrafterScreen cellCrafterScreen) {
-        cellCrafterScreen.updateRecipes(recipes);
-      }
-    });
-  }
 }

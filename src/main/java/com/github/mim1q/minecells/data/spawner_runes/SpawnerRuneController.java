@@ -125,7 +125,7 @@ public class SpawnerRuneController {
   }
 
   private boolean canClientPlayerActivate(World world, BlockPos pos) {
-    return canPlayerActivate(ClientUtil.getClientPlayer(), world, pos);
+    return canPlayerActivate(null, world, pos);
   }
 
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {

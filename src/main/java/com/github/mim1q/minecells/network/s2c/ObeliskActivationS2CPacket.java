@@ -17,14 +17,4 @@ public class ObeliskActivationS2CPacket extends PacketByteBuf {
     super(Unpooled.buffer());
     writeInt(entityId);
   }
-
-  public static void apply(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    int entityId = buf.readInt();
-    client.execute(() -> {
-      Entity entity = handler.getWorld().getEntityById(entityId);
-      if (entity instanceof ObeliskEntity obelisk) {
-        obelisk.resetActivatedTicks();
-      }
-    });
-  }
 }

@@ -24,29 +24,6 @@ public class ShockwaveClientEventS2CPacket extends PacketByteBuf {
     writeBoolean(end);
   }
 
-  public static void apply(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    var blockId = buf.readInt();
-    var blockPos = buf.readBlockPos();
-    var end = buf.readBoolean();
-    client.execute(() -> {
-      var world = client.world;
-      if (world == null) {
-        return;
-      }
-      var block = Registries.BLOCK.getEntry(blockId);
-      if (
-        block.isPresent() &&
-        block.get().value() instanceof ShockwaveBlock shockwaveBlock
-      ) {
-        if (end) {
-          shockwaveBlock.onClientEndShockwave(world, blockPos);
-        } else {
-          shockwaveBlock.onClientStartShockwave(world, blockPos);
-        }
-      }
-    });
-  }
-
   public static void send(ServerPlayerEntity player, Block block, BlockPos pos, boolean end) {
     var packet = new ShockwaveClientEventS2CPacket(block, pos, end);
     ServerPlayNetworking.send(player, ID, packet);

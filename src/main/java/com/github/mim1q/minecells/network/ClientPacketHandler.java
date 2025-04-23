@@ -1,11 +1,17 @@
 package com.github.mim1q.minecells.network;
 
+import com.github.mim1q.minecells.block.ShockwaveBlock;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.client.gui.ConjunctiviusClientBossBar;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
+import com.github.mim1q.minecells.entity.nonliving.obelisk.ObeliskEntity;
 import com.github.mim1q.minecells.network.s2c.*;
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.screen.ScreenUtils;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import io.wispforest.owo.network.OwoNetChannel;
@@ -16,12 +22,18 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ClientPacketHandler {
@@ -58,7 +70,7 @@ public class ClientPacketHandler {
         var world = handler.netHandler().getWorld();
         var blockEntity = world.getBlockEntity(msg.pos());
 //        if (blockEntity instanceof DoorwayPortalBlockEntity) {
-          ScreenUtils.openDoorwaySelectionScreen(msg.pos(), msg.posOverride());
+        ScreenUtils.openDoorwaySelectionScreen(msg.pos(), msg.posOverride());
 //        }
       }
     );
@@ -67,10 +79,10 @@ public class ClientPacketHandler {
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.EXPLOSION, ClientPacketHandler::handleExplosion);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CONNECT, ClientPacketHandler::handleConnect);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.ELEVATOR_DESTROYED, ClientPacketHandler::handleElevatorDestroyed);
-    ClientPlayNetworking.registerGlobalReceiver(SpawnRuneParticlesS2CPacket.ID, SpawnRuneParticlesS2CPacket::apply);
-    ClientPlayNetworking.registerGlobalReceiver(ObeliskActivationS2CPacket.ID, ObeliskActivationS2CPacket::apply);
-    ClientPlayNetworking.registerGlobalReceiver(ShockwaveClientEventS2CPacket.ID, ShockwaveClientEventS2CPacket::apply);
-    ClientPlayNetworking.registerGlobalReceiver(SendUnlockedCellCrafterRecipesS2CPacket.ID, SendUnlockedCellCrafterRecipesS2CPacket::apply);
+    ClientPlayNetworking.registerGlobalReceiver(SpawnRuneParticlesS2CPacket.ID, ClientPacketHandler::applySpawnRuneParticles);
+    ClientPlayNetworking.registerGlobalReceiver(ObeliskActivationS2CPacket.ID, ClientPacketHandler::applyObeliskActivation);
+    ClientPlayNetworking.registerGlobalReceiver(ShockwaveClientEventS2CPacket.ID, ClientPacketHandler::applyShockwaveClientEvent);
+    ClientPlayNetworking.registerGlobalReceiver(SendUnlockedCellCrafterRecipesS2CPacket.ID, ClientPacketHandler::applySendUnlockedCellCrafterRecipes);
     ClientPlayNetworking.registerGlobalReceiver(UpdateConjunctiviusBossBarS2CPacket.ID, ClientPacketHandler::handleUpdateConjunctiviusBossBar);
   }
 
@@ -136,6 +148,93 @@ public class ClientPacketHandler {
       var bar = client.inGameHud.getBossBarHud().bossBars.get(barUuid);
       if (bar instanceof ConjunctiviusClientBossBar conjunctiviusBar) {
         conjunctiviusBar.setTentacleCount(tentacleCount, maxTentacleCount);
+      }
+    });
+  }
+
+  public static void applySpawnRuneParticles(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    double minX = buf.readDouble();
+    double minY = buf.readDouble();
+    double minZ = buf.readDouble();
+    double maxX = buf.readDouble();
+    double maxY = buf.readDouble();
+    double maxZ = buf.readDouble();
+    Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
+    client.execute(() -> {
+      ClientWorld world = handler.getWorld();
+      var color = 0xFF6A00;
+      var dimension = MineCellsDimension.of(world);
+      if (dimension != null) {
+        color = dimension.getColor();
+      }
+      ParticleUtils.addInBox(
+        world,
+        MineCellsParticles.SPECKLE.get(color),
+        box,
+        10,
+        new Vec3d(-0.1D, -0.1D, -0.1D).multiply(world.random.nextDouble() * 0.5D + 0.5D)
+      );
+      ParticleUtils.addInBox(
+        world,
+        ParticleTypes.CLOUD,
+        box.shrink(0.1D, 0.1D, 0.1D),
+        10,
+        new Vec3d(-0.02D, -0.02D, -0.02D).multiply(world.random.nextDouble() * 0.5D + 0.5D)
+      );
+    });
+  }
+
+  public static void applyObeliskActivation(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    int entityId = buf.readInt();
+    client.execute(() -> {
+      Entity entity = handler.getWorld().getEntityById(entityId);
+      if (entity instanceof ObeliskEntity obelisk) {
+        obelisk.resetActivatedTicks();
+      }
+    });
+  }
+
+  public static void applyShockwaveClientEvent(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    var blockId = buf.readInt();
+    var blockPos = buf.readBlockPos();
+    var end = buf.readBoolean();
+    client.execute(() -> {
+      var world = client.world;
+      if (world == null) {
+        return;
+      }
+      var block = Registries.BLOCK.getEntry(blockId);
+      if (
+        block.isPresent() &&
+          block.get().value() instanceof ShockwaveBlock shockwaveBlock
+      ) {
+        if (end) {
+          shockwaveBlock.onClientEndShockwave(world, blockPos);
+        } else {
+          shockwaveBlock.onClientStartShockwave(world, blockPos);
+        }
+      }
+    });
+  }
+
+  public static void applySendUnlockedCellCrafterRecipes(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+    var size = buf.readInt();
+
+    List<CellCrafterRecipeList.DisplayedRecipe> recipes = new ArrayList<>();
+
+    var recipeManager = handler.getRecipeManager();
+
+    for (int i = 0; i < size; i++) {
+      var recipeId = buf.readIdentifier();
+      var recipe = (CellForgeRecipe) recipeManager.get(recipeId).orElseThrow();
+      var isUnlocked = buf.readBoolean();
+      recipes.add(new CellCrafterRecipeList.DisplayedRecipe(recipe, isUnlocked));
+    }
+
+    client.execute(() -> {
+      var screen = client.currentScreen;
+      if (screen instanceof CellCrafterScreen cellCrafterScreen) {
+        cellCrafterScreen.updateRecipes(recipes);
       }
     });
   }
