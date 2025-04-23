@@ -1,0 +1,9 @@
+package com.github.mim1q.minecells.network.s2c;
+
+import net.minecraft.util.math.BlockPos;
+
+public record OpenDoorwayScreenS2CPacket(
+  BlockPos pos,
+  BlockPos posOverride
+) {
+}

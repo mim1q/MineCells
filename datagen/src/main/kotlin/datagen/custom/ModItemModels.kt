@@ -55,12 +55,6 @@ object ModItemModels {
     add("flag_pole", ParentedModel.item("minecells:block/flag_pole_connecting"))
   }
 
-  fun dimensionalRunes() = Preset {
-    Constants.MINECELLS_DIMENSIONS.forEach {
-      add("${it}_dimensional_rune", ParentedModel.item("minecells:item/dimensional_rune"))
-    }
-  }
-
   fun bows() = Preset {
     Constants.BOWS.forEach {
       add(it, ParentedModel.item("minecells:item/base_bow") {

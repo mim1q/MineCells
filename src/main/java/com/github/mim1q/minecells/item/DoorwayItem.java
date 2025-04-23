@@ -1,7 +1,11 @@
 package com.github.mim1q.minecells.item;
 
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
+import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
+import com.github.mim1q.minecells.network.s2c.OpenDoorwayScreenS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
@@ -71,6 +75,10 @@ public class DoorwayItem extends AliasedBlockItem {
 
   @Override
   protected boolean place(ItemPlacementContext context, BlockState state) {
+    if (context.getWorld().isClient) {
+      return true;
+    }
+
     var frameBlock = (context.getPlayer() != null && context.getPlayer().isCreative())
       ? MineCellsBlocks.UNBREAKABLE_DOORWAY_FRAME
       : MineCellsBlocks.DOORWAY_FRAME;
@@ -82,9 +90,20 @@ public class DoorwayItem extends AliasedBlockItem {
     var dy = world.getBlockState(pos.down()).isOpaqueFullCube(world, pos) ? 0 : -1;
     var rightVec = direction.rotateYCounterclockwise().getVector();
     var leftVec = direction.rotateYClockwise().getVector();
-    world.setBlockState(pos.add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
+
+    // Place and configure doorway block entity
     world.setBlockState(pos.add(0, dy + 1, 0), doorwayBlock.getDefaultState().with(DoorwayPortalBlock.FACING, direction));
     writeNbtToBlockEntity(world, context.getPlayer(), pos.add(0, dy + 1, 0), context.getStack());
+    var blockEntity = world.getBlockEntity(pos.add(0, dy + 1, 0));
+    if (blockEntity instanceof DoorwayPortalBlockEntity doorway && context.getPlayer() != null) {
+      var posOverride = MineCellsLevelCC.PortalsCC.getOrCreatePortal((ServerPlayerEntity) context.getPlayer()).runCenter();
+      doorway.update(context.getPlayer(), posOverride, true);
+      ServerPacketHandler.CLIENT_CHANNEL.serverHandle(context.getPlayer())
+        .send(new OpenDoorwayScreenS2CPacket(pos.add(0, dy + 1, 0), posOverride));
+    }
+
+    // Place frames
+    world.setBlockState(pos.add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
     world.setBlockState(pos.add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
     world.setBlockState(pos.add(leftVec).add(0, dy, 0),  frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
     world.setBlockState(pos.add(leftVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
@@ -92,6 +111,7 @@ public class DoorwayItem extends AliasedBlockItem {
     world.setBlockState(pos.add(rightVec).add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
     world.setBlockState(pos.add(rightVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
     world.setBlockState(pos.add(rightVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_RIGHT, direction));
+
     return true;
   }
 

@@ -116,7 +116,6 @@ fun main(args: Array<String>) {
     add(ModItemModels.handheld())
     add(ModItemModels.spawnEggs())
     add(ModItemModels.blockModels())
-    add(ModItemModels.dimensionalRunes())
     add(ModItemModels.bows())
     add(ModItemModels.crossbows())
     add(ModItemModels.shields())
@@ -161,7 +160,7 @@ fun main(args: Array<String>) {
     bowTags()
     // Loot Tables for Advancements
     MINECELLS_DIMENSIONS.forEach {
-      add(CustomHardcodedPresets.advancementDrop(it, "minecells:${it}_dimensional_rune"))
+      add(CustomHardcodedPresets.advancementDrop(it, ""))
     }
     // Sounds
     mineCellsSounds()

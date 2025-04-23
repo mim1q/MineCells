@@ -1,5 +1,6 @@
 package datagen.custom
 
+import com.google.gson.JsonArray
 import tada.lib.presets.Preset
 import tada.lib.presets.hardcoded.JsonResource
 import tada.lib.util.Id
@@ -12,17 +13,7 @@ object CustomHardcodedPresets {
       name,
       JsonResource(
         json {
-          "pools" to array[
-            json {
-              "rolls" to 1
-              "entries" to array[
-                json {
-                  "type" to "minecraft:item"
-                  "name" to item
-                }
-              ]
-            }
-          ]
+          "pools" to JsonArray()
         },
         "loot_tables/advancements",
         "data"

@@ -34,7 +34,6 @@ public class MineCellsItemGroups {
 
   private static void generalStacks(ItemGroup.DisplayContext ctx, ItemGroup.Entries stacks) {
     stacks.addAll(MineCellsItems.DOORWAY_COLORS.keySet().stream().map(MineCellsItemGroups::stack).toList());
-    stacks.addAll(MineCellsItems.DIMENSIONAL_RUNES.stream().map(MineCellsItemGroups::stack).toList());
 
     stacks.addAll(MineCellsBlocks.PRISON_STONE.getStacks());
     stacks.addAll(MineCellsBlocks.PRISON_COBBLESTONE.getStacks());

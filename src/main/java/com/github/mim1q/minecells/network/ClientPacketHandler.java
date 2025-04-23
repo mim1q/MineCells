@@ -1,10 +1,13 @@
 package com.github.mim1q.minecells.network;
 
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.client.gui.ConjunctiviusClientBossBar;
 import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.network.s2c.*;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.github.mim1q.minecells.screen.ScreenUtils;
+import com.github.mim1q.minecells.screen.doorway.DoorwaySelectionScreen;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import io.wispforest.owo.network.OwoNetChannel;
@@ -48,6 +51,17 @@ public class ClientPacketHandler {
           it.controller.setLastActivationTime(msg.lastActivationTime());
           it.controller.setDataId(world, msg.pos(), msg.dataId());
         });
+      }
+    );
+
+    CHANNEL.registerClientbound(
+      OpenDoorwayScreenS2CPacket.class,
+      (msg, handler) -> {
+        var world = handler.netHandler().getWorld();
+        var blockEntity = world.getBlockEntity(msg.pos());
+//        if (blockEntity instanceof DoorwayPortalBlockEntity) {
+          ScreenUtils.openDoorwaySelectionScreen(msg.pos(), msg.posOverride());
+//        }
       }
     );
 

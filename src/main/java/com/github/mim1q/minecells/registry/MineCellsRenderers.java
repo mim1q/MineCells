@@ -30,7 +30,6 @@ import com.github.mim1q.minecells.client.render.nonliving.*;
 import com.github.mim1q.minecells.client.render.nonliving.projectile.*;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
-import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
@@ -348,13 +347,6 @@ public class MineCellsRenderers {
     ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x80CC80,
       MineCellsBlocks.WILTED_LEAVES.leaves, MineCellsBlocks.WILTED_LEAVES.hangingLeaves, MineCellsBlocks.WILTED_LEAVES.wallLeaves,
       MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK
-    );
-
-    ColorProviderRegistry.ITEM.register(
-      (stack, tintIndex) -> tintIndex == 1
-        ? ((DimensionalRuneItem) stack.getItem()).portalBlock.type.color
-        : 0xFFFFFF,
-      MineCellsItems.DIMENSIONAL_RUNES.toArray(new DimensionalRuneItem[0])
     );
 
     for (var entry : MineCellsItems.DOORWAY_COLORS.entrySet()) {

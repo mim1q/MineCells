@@ -28,7 +28,6 @@ import java.util.Map;
 
 public class MineCellsItems {
   public static Map<DoorwayItem, Integer> DOORWAY_COLORS = new LinkedHashMap<>();
-  public static List<DimensionalRuneItem> DIMENSIONAL_RUNES = new ArrayList<>();
   public static List<CustomBowItem> BOWS = new ArrayList<>();
   public static List<CustomCrossbowItem> CROSSBOWS = new ArrayList<>();
   public static List<Item> OTHER_RANGED = new ArrayList<>();
@@ -339,12 +338,6 @@ public class MineCellsItems {
     registerDoorwayItem(MineCellsBlocks.RAMPARTS_DOORWAY);
     registerDoorwayItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
     registerDoorwayItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
-
-    registerDimensionalRuneItem(MineCellsBlocks.PRISON_DOORWAY);
-    registerDimensionalRuneItem(MineCellsBlocks.PROMENADE_DOORWAY);
-    registerDimensionalRuneItem(MineCellsBlocks.RAMPARTS_DOORWAY);
-    registerDimensionalRuneItem(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
-    registerDimensionalRuneItem(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
   }
 
   public static void init() {
@@ -379,15 +372,6 @@ public class MineCellsItems {
       doorway.type.dimension.key.getValue().getPath() + "_doorway"
     );
     DOORWAY_COLORS.put(item, doorway.type.color);
-    return item;
-  }
-
-  public static DimensionalRuneItem registerDimensionalRuneItem(DoorwayPortalBlock doorway) {
-    var item = register(
-      new DimensionalRuneItem(new FabricItemSettings(), doorway),
-      doorway.type.dimension.key.getValue().getPath() + "_dimensional_rune"
-    );
-    DIMENSIONAL_RUNES.add(item);
     return item;
   }
 

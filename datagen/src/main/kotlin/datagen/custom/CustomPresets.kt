@@ -167,19 +167,4 @@ object CustomPresets {
     add("cooked_sewer_calamari", SmeltingRecipe.create("minecells:sewer_calamari", "minecells:cooked_sewer_calamari", 0.35))
     add("cooked_sewer_calamari_smoking", SmeltingRecipe.smoking("minecells:sewer_calamari", "minecells:cooked_sewer_calamari", 0.35))
   }
-
-  private fun dimensionalRuneRecipes() = Preset {
-    fun add(dimension: String, parent: String?, vararg ingredients: String) = add(
-      "${dimension}_dimensional_rune",
-      CraftingRecipe.shapeless("minecells:${dimension}_dimensional_rune", 1) {
-        ingredient(parent?.let { "minecells:${parent}_dimensional_rune" } ?: "minecells:blank_rune")
-        ingredients.forEach { ingredient(it) }
-      }
-    )
-    add("prison", null, "minecells:prison_torch")
-    add("promenade", "prison", "minecells:promenade_torch")
-    add("insufferable_crypt", "prison", "minecells:monsters_eye")
-    add("ramparts", "prison", "minecells:ramparts_torch")
-    add("black_bridge", "ramparts", "minecraft:flint")
-  }
 }

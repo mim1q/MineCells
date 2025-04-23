@@ -9,6 +9,7 @@ import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
+import com.github.mim1q.minecells.network.s2c.OpenDoorwayScreenS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
@@ -26,6 +27,7 @@ public class ServerPacketHandler {
 
   public static void init() {
     CLIENT_CHANNEL.registerClientboundDeferred(SpawnerRuneUpdateS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(OpenDoorwayScreenS2CPacket.class);
 
     CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
