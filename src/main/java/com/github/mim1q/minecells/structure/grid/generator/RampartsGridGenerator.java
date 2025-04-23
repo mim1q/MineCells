@@ -182,13 +182,15 @@ public class RampartsGridGenerator extends MultipartGridGenerator {
   }
 
   private void addEndTower(int x, int y, int z) {
-    for (int i = 0; i < 10; i++) {
+    var height = 13;
+
+    for (int i = 0; i < height; i++) {
       addRoom(new Vec3i(x, i, z), NONE, TOWER_BASE);
     }
-    addRoom(RoomData.create(new Vec3i(x, 10, z), END_TOWER_EXIT)
+    addRoom(RoomData.create(new Vec3i(x, height, z), END_TOWER_EXIT)
       .specialPoint(SpecialPointIds.EXIT, new Vec3i(4, 0, 4), NONE)
     );
-    for (int i = 11; i < y; i++) {
+    for (int i = height + 1; i < y; i++) {
       addRoom(new Vec3i(x, i, z), NONE, END_TOWER_ELEVATOR_SHAFT);
     }
     addRoom(new Vec3i(x, y, z), NONE, END_TOWER_ENTRANCE);

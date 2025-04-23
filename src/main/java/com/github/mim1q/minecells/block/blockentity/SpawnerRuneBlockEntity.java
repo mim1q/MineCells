@@ -18,6 +18,7 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   public void tick(World world, BlockPos pos, BlockState state) {
     if (world.getTime() % 10 == 0) {
       controller.tick(pos, world);
+      markDirty();
     }
   }
 
@@ -25,6 +26,7 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   public void readNbt(NbtCompound nbt) {
     super.readNbt(nbt);
     controller.setDataId(getWorld(), getPos(), Identifier.tryParse(nbt.getString("dataId")));
+    controller.setLastActivationTime(nbt.getLong("last_activation_time"));
   }
 
   @Override
@@ -33,5 +35,6 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
     if (controller.getDataId() != null) {
       nbt.putString("dataId", controller.getDataId().toString());
     }
+    nbt.putLong("last_activation_time", controller.getLastActivationTime());
   }
 }

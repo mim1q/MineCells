@@ -59,7 +59,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     RenderUtils.drawBillboard(barsVertices, matrices, light, -0.75F, 0.75F, minY, 1.25F, 80F / 128, 104F / 128, minV, 40F / 128, 0xFFFFFFFF, OverlayTexture.DEFAULT_UV);
 
     var text = entity.getLabel();
-    renderLabel(text, matrices, vertexConsumers, shouldShowPosition(entity.getWorld(), entity.getPos(), entity.getCachedState().getBlock()));
+    renderLabel(text, matrices, vertexConsumers, true);
     matrices.pop();
   }
 

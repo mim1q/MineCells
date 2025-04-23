@@ -1,10 +1,13 @@
 package com.github.mim1q.minecells.network;
 
+import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.client.gui.ConjunctiviusClientBossBar;
+import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
 import com.github.mim1q.minecells.network.s2c.*;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
+import io.wispforest.owo.network.OwoNetChannel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -21,8 +24,33 @@ import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class ClientPacketHandler {
+  public static final OwoNetChannel CHANNEL = ServerPacketHandler.CLIENT_CHANNEL;
 
   public static void init() {
+    CHANNEL.registerClientbound(
+      SpawnerRuneUpdateS2CPacket.class,
+      (msg, handler) -> {
+        var world = handler.netHandler().getWorld();
+        var blockEntity = world.getBlockEntity(msg.pos());
+        if (blockEntity instanceof SpawnerRuneBlockEntity spawner) {
+          spawner.controller.setLastActivationTime(msg.lastActivationTime());
+          spawner.controller.setDataId(world, msg.pos(), msg.dataId());
+          return;
+        }
+        var box = Box.of(Vec3d.ofCenter(msg.pos()), 1.5, 1.5, 1.5);
+        var entity = world.getEntitiesByClass(
+          SpawnerRuneEntity.class,
+          box,
+          it -> it.getBlockPos().equals(msg.pos())
+        ).stream().findFirst();
+
+        entity.ifPresent(it -> {
+          it.controller.setLastActivationTime(msg.lastActivationTime());
+          it.controller.setDataId(world, msg.pos(), msg.dataId());
+        });
+      }
+    );
+
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CRIT, ClientPacketHandler::handleCrit);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.EXPLOSION, ClientPacketHandler::handleExplosion);
     ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CONNECT, ClientPacketHandler::handleConnect);

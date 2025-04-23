@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.network;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
@@ -9,6 +10,7 @@ import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
+import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -20,18 +22,40 @@ import static com.github.mim1q.minecells.world.processor.SwitchBlockStructurePro
 
 public class ServerPacketHandler {
   public static OwoNetChannel CHANNEL = OwoNetChannel.create(MineCells.createId("main"));
+  public static OwoNetChannel CLIENT_CHANNEL = OwoNetChannel.create(MineCells.createId("client_main"));
 
   public static void init() {
+    CLIENT_CHANNEL.registerClientboundDeferred(SpawnerRuneUpdateS2CPacket.class);
+
     CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
+
+      var newState = MineCellsBlocks.DOORWAY_PORTALS.get(msg.dimensionId()).getDefaultState();
+      var state = world.getBlockState(msg.doorwayPos());
+      if (!(state.getBlock() instanceof DoorwayPortalBlock)) {
+        MineCells.LOGGER.error(
+          "{} tried to modify a Doorway that doesn't exist at x={}, y={}, z={} in {}",
+          ctx.player().getName().getString(),
+          msg.doorwayPos().getX(), msg.doorwayPos().getY(), msg.doorwayPos().getZ(),
+          world.getRegistryKey().getValue().toString()
+        );
+        return;
+      }
+      world.setBlockState(msg.doorwayPos(), copyAllProperties(state, newState));
+
       var entity = world.getBlockEntity(msg.doorwayPos());
       if (entity instanceof DoorwayPortalBlockEntity doorway) {
-        var state = world.getBlockState(msg.doorwayPos());
-
-        var newState = MineCellsBlocks.DOORWAY_PORTALS.get(msg.dimensionId()).getDefaultState();
-        world.setBlockState(msg.doorwayPos(), copyAllProperties(state, newState));
         var pos = MineCellsLevelCC.PortalsCC.getOrCreatePortal(ctx.player()).runCenter();
-        doorway.update(ctx.player(), pos, msg.onlyOwnerCanUse());
+        if (doorway.canEdit(ctx.player())) {
+          doorway.update(ctx.player(), pos, msg.onlyOwnerCanUse());
+        } else {
+          MineCells.LOGGER.warn(
+            "{} tried to illegally edit portal at x={}, y={}, z={} in {}",
+            ctx.player().getName().getString(),
+            msg.doorwayPos().getX(), msg.doorwayPos().getY(), msg.doorwayPos().getZ(),
+            world.getRegistryKey().getValue().toString()
+          );
+        }
       }
     });
 
