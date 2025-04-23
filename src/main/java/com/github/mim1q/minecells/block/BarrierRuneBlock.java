@@ -3,7 +3,6 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.*;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -48,7 +47,7 @@ public class BarrierRuneBlock extends BarrierBlock {
     if (solid) return VoxelShapes.fullCube();
     if (
       context instanceof EntityShapeContext entityCtx
-      && (entityCtx.getEntity() instanceof HostileEntity || entityCtx.getEntity() instanceof ProjectileEntity)
+        && (entityCtx.getEntity() instanceof HostileEntity || entityCtx.getEntity() instanceof ProjectileEntity)
     ) {
       return VoxelShapes.fullCube();
     }
@@ -75,7 +74,7 @@ public class BarrierRuneBlock extends BarrierBlock {
       return;
     }
     ParticleUtils.addParticle(
-      (ClientWorld) world,
+      world,
       MineCellsParticles.SPECKLE.get(0x00AAEE),
       Vec3d.ofBottomCenter(pos).add(random.nextDouble() - 0.5F, 0.05F, random.nextFloat() - 0.5F),
       new Vec3d(0.0F, 0.01F + random.nextDouble() * 0.05F, 0.0F)

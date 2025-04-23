@@ -16,7 +16,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -146,8 +145,8 @@ public class ElevatorEntity extends Entity {
             double rx = this.random.nextDouble() - 0.5D;
             double rz = this.random.nextDouble() - 0.5D;
             Vec3d vel = new Vec3d(rx, 0.1D, rz).normalize();
-            ParticleUtils.addParticle((ClientWorld) getWorld(), particle, this.getPos().add(vel), vel.multiply(10.0D));
-            ParticleUtils.addParticle((ClientWorld) getWorld(), ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
+            ParticleUtils.addParticle(getWorld(), particle, this.getPos().add(vel), vel.multiply(10.0D));
+            ParticleUtils.addParticle(getWorld(), ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getPos().add(vel), vel.multiply(0.01D));
           }
         }
       }
@@ -243,7 +242,7 @@ public class ElevatorEntity extends Entity {
     for (int i = 0; i < 5; i++) {
       double rx = (this.random.nextDouble() - 0.5D) * 0.5D;
       double rz = (this.random.nextDouble() - 0.5D) * 0.5D;
-      ParticleUtils.addParticle((ClientWorld) getWorld(),
+      ParticleUtils.addParticle(getWorld(),
         ParticleTypes.ELECTRIC_SPARK,
         this.getPos().add(offset),
         new Vec3d(rx, this.isGoingUp() ? -1.0D : 1.0D, rz));

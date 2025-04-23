@@ -5,7 +5,6 @@ import com.github.mim1q.minecells.entity.interfaces.IAuraEntity;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -61,11 +60,11 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
       Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
       if (this.isAuraCharging()) {
         for (int i = 0; i < 10; i++) {
-          ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.CHARGE, pos, Vec3d.ZERO);
+          ParticleUtils.addParticle(getWorld(), MineCellsParticles.CHARGE, pos, Vec3d.ZERO);
         }
       } else if (this.isAuraReleasing()) {
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 100, 5.5D, 0.01D);
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
+        ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 100, 5.5D, 0.01D);
+        ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
 
         var direction = Vec3d.ZERO.addRandom(random, 1.0f);
         getWorld().addParticle(

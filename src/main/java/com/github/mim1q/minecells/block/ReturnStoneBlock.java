@@ -11,7 +11,6 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleEffect;
@@ -80,7 +79,7 @@ public class ReturnStoneBlock extends Block implements BlockEntityProvider {
   @Override
   public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
     ParticleUtils.addParticle(
-      (ClientWorld) world,
+      world,
       PARTICLE,
       Vec3d.ofCenter(pos).add(0.0D, 0.75D, 0.0D),
       Vec3d.fromPolar(random.nextFloat() * 360.0F, random.nextFloat() * 360.0F).multiply(0.03D)
@@ -92,7 +91,7 @@ public class ReturnStoneBlock extends Block implements BlockEntityProvider {
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
     return type == MineCellsBlockEntities.RETURN_STONE
       ? (entityWorld, entityPos, entityState, entity) ->
-      ((ReturnStoneBlockEntity)entity).tick(entityWorld, entityPos, entityState)
+      ((ReturnStoneBlockEntity) entity).tick(entityWorld, entityPos, entityState)
       : null;
   }
 

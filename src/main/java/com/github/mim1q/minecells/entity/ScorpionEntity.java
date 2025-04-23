@@ -9,7 +9,6 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -124,7 +123,7 @@ public class ScorpionEntity extends MineCellsEntity {
     if (blockState != null && blockState.isOpaque()) {
       ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState);
       ParticleUtils.addInBox(
-        (ClientWorld) getWorld(),
+        getWorld(),
         particle,
         Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),
         5,

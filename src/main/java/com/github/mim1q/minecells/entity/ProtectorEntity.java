@@ -4,7 +4,6 @@ import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -72,7 +71,7 @@ public class ProtectorEntity extends MineCellsEntity {
           ((LivingEntity) e).addStatusEffect(effect);
         }
       } else if (!this.trackedEntities.isEmpty()) {
-        ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle(getWorld(), MineCellsParticles.PROTECTOR, this.getPos().add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
       }
     }
     if (!getWorld().isClient) {

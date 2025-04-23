@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -29,6 +28,6 @@ public class ScorpionSpitEntity extends MagicOrbEntity {
 
   @Override
   protected void spawnParticles() {
-    ParticleUtils.addParticle((ClientWorld) getWorld(), PARTICLE, this.getPos().add(0.0F, 0.25F, 0.0F), Vec3d.ZERO);
+    ParticleUtils.addParticle(getWorld(), PARTICLE, this.getPos().add(0.0F, 0.25F, 0.0F), Vec3d.ZERO);
   }
 }

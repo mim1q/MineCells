@@ -14,7 +14,6 @@ import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.github.mim1q.minecells.util.animation.AnimationProperty.EasingFunction;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
@@ -217,10 +216,10 @@ public class ConciergeEntity extends MineCellsBossEntity {
     if (getWorld().isClient()) {
       var pos = getPos().add(0.0, 1.0, 0.0);
       if (dataTracker.get(AURA_CHARGING)) {
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 5, 4.5D, -0.03D);
+        ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 5, 4.5D, -0.03D);
       } else if (dataTracker.get(AURA_RELEASING)) {
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 40, 4.0D, 0.01D);
-        ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
+        ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 40, 4.0D, 0.01D);
+        ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.3D);
       }
     } else {
       if (spawnPos != null && getTarget() == null && canChangeStage()) {

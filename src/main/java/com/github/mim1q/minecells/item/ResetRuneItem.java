@@ -66,7 +66,7 @@ public class ResetRuneItem extends Item {
   public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
     if (world.isClient) {
       ParticleUtils.addAura(
-        (ClientWorld) world,
+         world,
         user.getPos().add(0.0, 1.25, 0.0),
         PARTICLE,
         MathHelper.clamp(20 - remainingUseTicks, 5, 20),

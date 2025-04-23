@@ -37,7 +37,7 @@ public class HattorisKatanaItem extends CustomMeleeWeapon implements WeaponWithA
   @Override
   public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
     if (world.isClient()) {
-      ParticleUtils.addAura((ClientWorld) world, user.getPos().add(0.0D, 1.0D, 0.0D), ParticleTypes.END_ROD, 1, 3.0D, -0.2D);
+      ParticleUtils.addAura(world, user.getPos().add(0.0D, 1.0D, 0.0D), ParticleTypes.END_ROD, 1, 3.0D, -0.2D);
     }
   }
 
@@ -75,12 +75,12 @@ public class HattorisKatanaItem extends CustomMeleeWeapon implements WeaponWithA
   private void spawnTrailParticles(World world, Vec3d start, Vec3d hitPos) {
     List<Vec3d> increments = getIncrements(start, hitPos, 20);
     for (Vec3d increment : increments) {
-      ParticleUtils.addAura((ClientWorld) world, increment, ParticleTypes.END_ROD, 2, 3.0D, -0.1D);
+      ParticleUtils.addAura(world, increment, ParticleTypes.END_ROD, 2, 3.0D, -0.1D);
       float speed = (float) (increment.distanceTo(hitPos) / 200.0F);
-      ParticleUtils.addAura((ClientWorld) world, increment, ParticleTypes.CAMPFIRE_COSY_SMOKE, 3, 0.5D, speed);
+      ParticleUtils.addAura(world, increment, ParticleTypes.CAMPFIRE_COSY_SMOKE, 3, 0.5D, speed);
     }
-    ParticleUtils.addParticle((ClientWorld) world, ParticleTypes.FLASH, start.add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
-    ParticleUtils.addParticle((ClientWorld) world, ParticleTypes.FLASH, hitPos.add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+    ParticleUtils.addParticle(world, ParticleTypes.FLASH, start.add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
+    ParticleUtils.addParticle(world, ParticleTypes.FLASH, hitPos.add(0.0D, 1.0D, 0.0D), Vec3d.ZERO);
   }
 
   private Vec3d getHitPos(PlayerEntity player, Vec3d start, Vec3d direction, double distance) {

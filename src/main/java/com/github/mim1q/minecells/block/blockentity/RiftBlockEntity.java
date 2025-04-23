@@ -36,7 +36,7 @@ public class RiftBlockEntity extends MineCellsBlockEntity {
         xzPos * -Math.sin(radians(getRotation(0)))
       );
       ParticleUtils.addParticle(
-        (ClientWorld) world,
+         world,
         MineCellsParticles.SPECKLE.get(0x33DDFF),
         center.add(particlePos),
         particlePos.normalize().multiply(world.getRandom().nextFloat() * 0.01)

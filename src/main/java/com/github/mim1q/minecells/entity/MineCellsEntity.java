@@ -8,7 +8,6 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
@@ -124,7 +123,7 @@ public class MineCellsEntity extends HostileEntity {
       speed = 0.25;
     }
     ParticleUtils.addAura(
-      (ClientWorld) getWorld(),
+      getWorld(),
       getPos().add(0.0D, getHeight() * 0.5D, 0.0D),
       MineCellsParticles.AURA,
       amount,
@@ -132,7 +131,7 @@ public class MineCellsEntity extends HostileEntity {
       0.0
     );
     ParticleUtils.addAura(
-      (ClientWorld) getWorld(),
+      getWorld(),
       getPos().add(0.0D, getHeight() * 0.5D, 0.0D),
       MineCellsParticles.AURA,
       amount,

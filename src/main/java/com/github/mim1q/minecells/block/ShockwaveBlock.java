@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SideShapeType;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -52,9 +51,9 @@ public abstract class ShockwaveBlock extends Block {
     );
   }
 
-  public abstract void onClientStartShockwave(ClientWorld world, BlockPos pos);
+  public abstract void onClientStartShockwave(World world, BlockPos pos);
 
-  public abstract void onClientEndShockwave(ClientWorld world, BlockPos pos);
+  public abstract void onClientEndShockwave(World world, BlockPos pos);
 
   public static class ShockwaveFlame extends ShockwaveBlock {
     private final boolean playerPlaced;
@@ -84,7 +83,7 @@ public abstract class ShockwaveBlock extends Block {
     }
 
     @Override
-    public void onClientStartShockwave(ClientWorld world, BlockPos pos) {
+    public void onClientStartShockwave(World world, BlockPos pos) {
       world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.15f, 0.6f + world.getRandom().nextFloat() * 0.4F, true);
       ParticleUtils.addAura(
         world,
@@ -108,7 +107,7 @@ public abstract class ShockwaveBlock extends Block {
     }
 
     @Override
-    public void onClientEndShockwave(ClientWorld world, BlockPos pos) {
+    public void onClientEndShockwave(World world, BlockPos pos) {
       world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.1f, 0.6f + world.getRandom().nextFloat() * 0.4F, true);
       ParticleUtils.addAura(
         world,

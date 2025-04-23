@@ -10,7 +10,6 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -123,7 +122,7 @@ public abstract class ObeliskEntity extends Entity {
   protected void spawnRiseParticles() {
     var stateBelow = getWorld().getBlockState(getBlockPos().down());
     ParticleUtils.addInBox(
-      (ClientWorld) getWorld(),
+      getWorld(),
       new BlockStateParticleEffect(ParticleTypes.BLOCK, stateBelow),
       Box.of(this.getPos(), 2.5D, 0.25D, 2.0D),
       50,

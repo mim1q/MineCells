@@ -5,7 +5,6 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -92,7 +91,7 @@ public class MutatedBatEntity extends MineCellsEntity {
     super.tick();
     if (this.dataTracker.get(DASH_CHARGING) && getWorld().isClient()) {
       for (int i = 0; i < 5; i++) {
-        ParticleUtils.addParticle((ClientWorld) getWorld(), MineCellsParticles.CHARGE, this.getPos().add(0.0D, 0.2D, 0.0D), Vec3d.ZERO);
+        ParticleUtils.addParticle(getWorld(), MineCellsParticles.CHARGE, this.getPos().add(0.0D, 0.2D, 0.0D), Vec3d.ZERO);
       }
     }
     this.dashCooldown = Math.max(0, --this.dashCooldown);

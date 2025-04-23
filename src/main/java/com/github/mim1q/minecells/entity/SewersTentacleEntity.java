@@ -8,7 +8,6 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import com.google.common.collect.HashMultimap;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
@@ -176,7 +175,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
     if (blockState != null && blockState.isOpaque()) {
       ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, blockState);
       ParticleUtils.addInBox(
-        (ClientWorld) getWorld(),
+        getWorld(),
         particle,
         Box.of(this.getPos().add(0.0D, 0.125D, 0.0D), 1.0D, 0.25D, 1.0D),
         this.isBuried() ? 10 : 5,

@@ -41,7 +41,7 @@ public class FlintItem extends CustomMeleeWeapon implements WeaponWithAbility {
   public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
     var tick = (3600 * 20) - remainingUseTicks;
     if (world.isClient()) {
-      ParticleUtils.addAura((ClientWorld) world, user.getPos().add(0.0D, 1.0D, 0.0D), ParticleTypes.FLAME, 1, 2.0, -0.1);
+      ParticleUtils.addAura(world, user.getPos().add(0.0D, 1.0D, 0.0D), ParticleTypes.FLAME, 1, 2.0, -0.1);
       if (tick == 20) {
         user.playSound(MineCellsSounds.CRIT, 0.5F, 0.9F);
       }

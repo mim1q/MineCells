@@ -6,14 +6,15 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 public class ParticleUtils {
 
-  public static void addParticle(ClientWorld world, ParticleEffect particle, Vec3d pos, Vec3d vel) {
+  public static void addParticle(World world, ParticleEffect particle, Vec3d pos, Vec3d vel) {
     world.addParticle(particle, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
   }
 
-  public static void addAura(ClientWorld world, Vec3d position, ParticleEffect particle, int amount, double radius, double speed) {
+  public static void addAura(World world, Vec3d position, ParticleEffect particle, int amount, double radius, double speed) {
     for (int i = 0; i < amount; i++) {
       Vec3d offset = new Vec3d(
         world.random.nextDouble() * 2.0d - 1.0d,
@@ -31,7 +32,7 @@ public class ParticleUtils {
     }
   }
 
-  public static void addInBox(ClientWorld world, ParticleEffect effect, Box box, int amount, Vec3d velScale) {
+  public static void addInBox(World world, ParticleEffect effect, Box box, int amount, Vec3d velScale) {
     for (int i = 0; i < amount; i++) {
       double x = box.minX + world.random.nextDouble() * (box.maxX - box.minX);
       double y = box.minY + world.random.nextDouble() * (box.maxY - box.minY);

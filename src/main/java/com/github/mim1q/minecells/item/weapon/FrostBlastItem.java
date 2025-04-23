@@ -46,7 +46,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
           user.getYaw() + (user.getRandom().nextFloat() - 0.5F) * 45.0F
         );
         ParticleUtils.addParticle(
-          (ClientWorld) world,
+           world,
           ParticleTypes.SNOWFLAKE,
           pos,
           vel.multiply(0.25D + user.getRandom().nextDouble() * 0.25D).add(0.0D, 0.1D, 0.0D)

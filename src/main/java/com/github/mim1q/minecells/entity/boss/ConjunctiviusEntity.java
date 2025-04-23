@@ -20,7 +20,6 @@ import dev.mim1q.gimm1q.interpolation.Easing;
 import dev.mim1q.gimm1q.interpolation.EasingUtils;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -499,15 +498,15 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   protected void spawnParticles() {
     Vec3d pos = this.getPos().add(0.0D, this.getHeight() * 0.5D, 0.0D);
     if (this.getAuraState() == TimedActionGoal.State.CHARGE) {
-      ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 2, 7.5D, -0.01D);
+      ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 2, 7.5D, -0.01D);
     } else if (this.getAuraState() == TimedActionGoal.State.RELEASE) {
-      ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 50, 7.0D, 0.01D);
-      ParticleUtils.addAura((ClientWorld) getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
+      ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 50, 7.0D, 0.01D);
+      ParticleUtils.addAura(getWorld(), pos, MineCellsParticles.AURA, 10, 1.0D, 0.5D);
     }
 
     if ((this.getEyeState() == SHAKING || this.age % 5 == 0) && random.nextFloat() < 0.33f) {
       ParticleUtils.addInBox(
-        (ClientWorld) getWorld(),
+        getWorld(),
         ParticleTypes.FALLING_WATER,
         Box.of(getPos().add(0.0, 0.25, 0.0), 2.0, 0.5, 2.0),
         this.getEyeState() == SHAKING ? 3 : 1,

@@ -7,7 +7,6 @@ import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -81,7 +80,7 @@ public class RunnerEntity extends MineCellsEntity {
     if (this.dataTracker.get(TELEPORT_CHARGING) && getWorld().isClient()) {
       for (int i = 0; i < 5; i++) {
         ParticleUtils.addParticle(
-          (ClientWorld) getWorld(),
+          getWorld(),
           MineCellsParticles.CHARGE,
           this.getPos().add(0.0D, this.getHeight() * 0.5F, 0.0D),
           Vec3d.ZERO

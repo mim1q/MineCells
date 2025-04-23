@@ -8,11 +8,10 @@ import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
+import com.github.mim1q.minecells.util.client.ClientUtil;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -63,7 +62,7 @@ public class SpawnerRuneController {
       }
       var color = MineCellsDimension.getColor(world, 0xFF6A00);
       ParticleUtils.addInBox(
-        (ClientWorld) world,
+        world,
         MineCellsParticles.SPECKLE.get(color),
         Box.of(Vec3d.ofCenter(pos), 0.5, 0.5, 0.5),
         particleAmount,
@@ -126,7 +125,7 @@ public class SpawnerRuneController {
   }
 
   private boolean canClientPlayerActivate(World world, BlockPos pos) {
-    return canPlayerActivate(MinecraftClient.getInstance().player, world, pos);
+    return canPlayerActivate(ClientUtil.getClientPlayer(), world, pos);
   }
 
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
