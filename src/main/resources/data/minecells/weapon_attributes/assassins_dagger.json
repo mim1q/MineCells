@@ -1,7 +1,7 @@
 {
   "attributes": {
     "attack_range": 1.75,
-    "category": "sword",
+    "category": "dagger",
     "attacks": [
       {
         "hitbox": "VERTICAL_PLANE",
