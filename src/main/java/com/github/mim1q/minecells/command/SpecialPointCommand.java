@@ -33,25 +33,29 @@ public class SpecialPointCommand {
     CommandRegistryAccess registryAccess,
     CommandManager.RegistrationEnvironment environment
   ) {
-    dispatcher.register(literal("minecells:special_point").then(
-      argument("id", IdentifierArgumentType.identifier())
-        .executes(specialPointAllArgs(false, false, false)).then(
-          argument("dimension", StringArgumentType.string()).suggests(suggestDimension())
-            .executes(specialPointAllArgs(true, false, false)).then(
-              argument("pos", BlockPosArgumentType.blockPos())
-                .executes(specialPointAllArgs(true, true, false)).then(
-                  argument("clear", BoolArgumentType.bool())
-                    .executes(specialPointAllArgs(true, true, true))
-                )
-            )
-        )
-    ));
+    dispatcher.register(literal("minecells:special_point")
+      .requires(source -> source.hasPermissionLevel(2))
+      .then(
+        argument("id", IdentifierArgumentType.identifier())
+          .executes(specialPointAllArgs(false, false, false)).then(
+            argument("dimension", StringArgumentType.string()).suggests(suggestDimension())
+              .executes(specialPointAllArgs(true, false, false)).then(
+                argument("pos", BlockPosArgumentType.blockPos())
+                  .executes(specialPointAllArgs(true, true, false)).then(
+                    argument("clear", BoolArgumentType.bool())
+                      .executes(specialPointAllArgs(true, true, true))
+                  )
+              )
+          )
+      ));
 
-    dispatcher.register(literal("minecells:clear_special_point_cache").executes(ctx -> {
-      GridBasedStructureUtils.clearSpecialPointsCache();
-      ctx.getSource().sendFeedback(() -> Text.literal("Cleared special point cache"), true);
-      return 0;
-    }));
+    dispatcher.register(literal("minecells:clear_special_point_cache")
+      .requires(source -> source.hasPermissionLevel(2))
+      .executes(ctx -> {
+        GridBasedStructureUtils.clearSpecialPointsCache();
+        ctx.getSource().sendFeedback(() -> Text.literal("Cleared special point cache"), true);
+        return 0;
+      }));
   }
 
   private static Command<ServerCommandSource> specialPointAllArgs(boolean hasDimension, boolean hasPos, boolean hasClear) {
