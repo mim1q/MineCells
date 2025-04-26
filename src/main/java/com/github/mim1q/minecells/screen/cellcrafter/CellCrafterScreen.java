@@ -1,9 +1,11 @@
 package com.github.mim1q.minecells.screen.cellcrafter;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
+import com.github.mim1q.minecells.recipe.PlayerInventoryInput;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList.DisplayedRecipe;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
@@ -14,10 +16,12 @@ import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -44,16 +48,15 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     super(handler, inventory, title);
     recipeList = new CellCrafterRecipeList(this);
 
-    ClientPlayNetworking.send(
-      RequestUnlockedCellCrafterRecipesC2SPacket.ID,
-      new RequestUnlockedCellCrafterRecipesC2SPacket(inventory.player)
-    );
+    ServerPacketHandler.CLIENT_CHANNEL.clientHandle().send(new RequestUnlockedCellCrafterRecipesC2SPacket(inventory.player.getId()));
 
     handler.blockPos.observe(it -> blockPos = it);
 
     forgeButton = new TexturedButton(it -> {
       if (selectedRecipe != null && blockPos != null) {
-        new CellCrafterCraftRequestC2SPacket(selectedRecipe.getId(), blockPos).send();
+        ServerPacketHandler.CHANNEL.clientHandle().send(
+          new CellCrafterCraftRequestC2SPacket(selectedRecipe.id(), blockPos)
+        );
       }
     }, SCREEN_TEXTURE, 208, 0);
   }
@@ -109,7 +112,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
             .showOverlay(true)
             .sizing(Sizing.fixed(16))
             .positioning(Positioning.absolute(100, 44))
-            .tooltip(selectedRecipe.output().getTooltip(this.handler.player(), TooltipContext.BASIC))
+            .tooltip(selectedRecipe.output().getTooltip(Item.TooltipContext.create(this.handler.entity.getWorld()), this.handler.player(), TooltipType.BASIC))
         );
 
         container.child(
@@ -127,7 +130,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     // Update the forge button state, skip the super call
     forgeButton.active(
       selectedRecipe != null
-        && selectedRecipe.matches(this.handler.player().getInventory(), this.handler.player().getWorld())
+        && selectedRecipe.matches(new PlayerInventoryInput(this.handler.player().getInventory()), this.handler.player().getWorld())
     );
 
     forgeButton.tooltip(
@@ -161,10 +164,10 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
   }
 
   @Override
-  public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-    if (amount > 0) {
+  public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+    if (verticalAmount > 0) {
       recipeList.scrollUp();
-    } else if (amount < 0) {
+    } else if (verticalAmount < 0) {
       recipeList.scrollDown();
     }
 
@@ -234,7 +237,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       for (var entry : itemLabels.entrySet()) {
         var ingredient = entry.getKey();
 
-        var tooltip = ingredient.getTooltip(null, TooltipContext.BASIC);
+        var tooltip = ingredient.getTooltip(null, MinecraftClient.getInstance().player, TooltipType.BASIC);
         var itemComponent = entry.getValue().getLeft();
         var label = entry.getValue().getRight();
 

@@ -10,9 +10,9 @@ public class ProtectedStatusEffect extends MineCellsStatusEffect {
   }
 
   @Override
-  public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+  public void onApplied(LivingEntity entity, int amplifier) {
     entity.setInvulnerable(true);
-    super.onApplied(entity, attributes, amplifier);
+    super.onApplied(entity, amplifier);
   }
 
   @Override

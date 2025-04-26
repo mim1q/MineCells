@@ -1,17 +1,16 @@
 package com.github.mim1q.minecells.item;
 
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import com.github.mim1q.minecells.util.TextUtils;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -55,8 +54,8 @@ public class CellHolderItem extends Item {
     return super.onStackClicked(stack, slot, clickType, player);
   }
 
-  @Override public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
+  @Override public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    super.appendTooltip(stack, context, tooltip, type);
 
     var count = getCellCount(stack);
     if (count == 0) {
@@ -68,14 +67,12 @@ public class CellHolderItem extends Item {
   }
 
   public static int getCellCount(ItemStack stack) {
-    var nbt = stack.getNbt();
+    var nbt = LegacyUtil.getOrCreateNbt(stack);
     if (nbt == null) return 0;
     return nbt.getInt("Cells");
   }
 
   public static void setCellCount(ItemStack stack, int count) {
-    stack.getOrCreateNbt().putInt("Cells", count);
+    LegacyUtil.getOrCreateNbt(stack).putInt("Cells", count);
   }
-
-
 }

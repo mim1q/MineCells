@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -41,7 +42,7 @@ public class SpawnerRuneEntity extends Entity {
   }
 
   @Override
-  protected void initDataTracker() {
+  protected void initDataTracker(DataTracker.Builder builder) {
   }
 
   @Override

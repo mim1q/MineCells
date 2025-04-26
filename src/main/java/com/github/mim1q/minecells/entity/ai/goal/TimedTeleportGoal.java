@@ -37,7 +37,7 @@ public class TimedTeleportGoal<E extends HostileEntity> extends TimedActionGoal<
 
   @Override
   protected void runAction() {
-    this.entity.teleport(this.target.getX(), this.target.getY(), this.target.getZ());
+    this.entity.teleport(this.target.getX(), this.target.getY(), this.target.getZ(), true);
   }
 
   @Override

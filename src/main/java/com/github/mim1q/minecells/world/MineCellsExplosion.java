@@ -1,17 +1,13 @@
 package com.github.mim1q.minecells.world;
 
-import com.github.mim1q.minecells.network.PacketIdentifiers;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
+import com.github.mim1q.minecells.network.s2c.ExplosionS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -59,14 +55,7 @@ public class MineCellsExplosion {
       "minecells:explosion"
     );
 
-    PacketByteBuf buf = PacketByteBufs.create();
-    buf.writeDouble(position.x);
-    buf.writeDouble(position.y);
-    buf.writeDouble(position.z);
-    buf.writeDouble(radius);
-    for (ServerPlayerEntity player : PlayerLookup.tracking(world, BlockPos.ofFloored(position))) {
-      ServerPlayNetworking.send(player, PacketIdentifiers.EXPLOSION, buf);
-    }
+    ServerPacketHandler.CHANNEL.serverHandle(world, BlockPos.ofFloored(position)).send(new ExplosionS2CPacket(position, radius));
   }
 
   protected static void damageEntities(

@@ -5,12 +5,14 @@ import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,7 +51,7 @@ public class LightningBoltItem extends Item implements CritIndicator {
       return;
     }
 
-    var ticks = getMaxUseTime(stack) - remainingUseTicks;
+    var ticks = getMaxUseTime(stack, user) - remainingUseTicks;
 
     var intensity = 0;
     if (ticks > 20) intensity = 1;
@@ -85,7 +87,7 @@ public class LightningBoltItem extends Item implements CritIndicator {
           1.0f
         );
       }
-      stack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
+      stack.damage(1, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 
       entity.damage(
         MineCellsDamageSource.ELECTRICITY.get(world, user),
@@ -219,23 +221,23 @@ public class LightningBoltItem extends Item implements CritIndicator {
   }
 
   @Override
-  public int getMaxUseTime(ItemStack stack) {
+  public int getMaxUseTime(ItemStack stack, LivingEntity user) {
     return MAX_USE_TIME;
   }
 
   private static void setTargetedEntity(ItemStack stack, @Nullable LivingEntity entity) {
-    stack.getOrCreateNbt().putInt("targetId", entity == null ? -1 : entity.getId());
+    LegacyUtil.getOrCreateNbt(stack).putInt("targetId", entity == null ? -1 : entity.getId());
   }
 
   public static LivingEntity getTargetedEntity(ItemStack stack, World world) {
-    var id = stack.getOrCreateNbt().getInt("targetId");
+    var id = LegacyUtil.getOrCreateNbt(stack).getInt("targetId");
     return id == -1
       ? null
-      : (LivingEntity) world.getEntityById(stack.getOrCreateNbt().getInt("targetId"));
+      : (LivingEntity) world.getEntityById(LegacyUtil.getOrCreateNbt(stack).getInt("targetId"));
   }
 
   @Override
-  public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+  public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
     return false;
   }
 

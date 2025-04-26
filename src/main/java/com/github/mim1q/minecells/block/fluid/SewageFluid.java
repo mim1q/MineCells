@@ -9,6 +9,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.world.WorldView;
 
 public abstract class SewageFluid extends AbstractSewageFluid {
 
@@ -40,6 +41,11 @@ public abstract class SewageFluid extends AbstractSewageFluid {
     }
 
     @Override
+    protected int getMaxFlowDistance(WorldView world) {
+      return 15;
+    }
+
+    @Override
     public int getLevel(FluidState state) {
       return state.get(LEVEL);
     }
@@ -51,6 +57,11 @@ public abstract class SewageFluid extends AbstractSewageFluid {
   }
 
   public static class Still extends SewageFluid {
+    @Override
+    protected int getMaxFlowDistance(WorldView world) {
+      return 15;
+    }
+
     @Override
     public int getLevel(FluidState state) {
       return 8;

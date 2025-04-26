@@ -48,10 +48,10 @@ public class KamikazeEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(FUSE, -1);
-    this.dataTracker.startTracking(SLEEPING, true);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(FUSE, -1);
+    builder.add(SLEEPING, true);
   }
 
   @Override
@@ -65,9 +65,9 @@ public class KamikazeEntity extends MineCellsEntity {
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     this.setPos(this.getX(), this.getY() + 0.25D, this.getZ());
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    return super.initialize(world, difficulty, spawnReason, entityData);
   }
 
   @Override

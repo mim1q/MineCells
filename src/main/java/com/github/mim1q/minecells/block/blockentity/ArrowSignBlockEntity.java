@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,19 +59,21 @@ public class ArrowSignBlockEntity extends MineCellsBlockEntity {
   }
 
   @Override
-  public void readNbt(NbtCompound nbt) {
-    super.readNbt(nbt);
-    itemStack = ItemStack.fromNbt(nbt.getCompound("itemStack"));
+  public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.readNbt(nbt, lookup);
+    itemStack = ItemStack.fromNbt(lookup, nbt.getCompound("itemStack")).orElse(ItemStack.EMPTY);
     verticalRotation = nbt.getInt("verticalRotation");
     chainState = BlockState.CODEC.parse(NbtOps.INSTANCE, nbt.get("chainState")).result().orElse(Blocks.AIR.getDefaultState());
   }
 
   @Override
-  protected void writeNbt(NbtCompound nbt) {
-    super.writeNbt(nbt);
-    nbt.put("itemStack", itemStack.writeNbt(new NbtCompound()));
+  protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.writeNbt(nbt, lookup);
+    var itemStackNbt = ItemStack.CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
+      .result().orElse(new NbtCompound());
+    nbt.put("itemStack", itemStackNbt);
     nbt.putInt("verticalRotation", verticalRotation);
-    nbt.put("chainState", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, chainState).getOrThrow(false, System.err::println));
+    nbt.put("chainState", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, chainState).result().orElse(new NbtCompound()));
   }
 
   @Nullable
@@ -80,7 +83,7 @@ public class ArrowSignBlockEntity extends MineCellsBlockEntity {
   }
 
   @Override
-  public NbtCompound toInitialChunkDataNbt() {
-    return createNbt();
+  public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+    return createNbt(registryLookup);
   }
 }

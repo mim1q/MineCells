@@ -40,12 +40,13 @@ public class ObeliskEntityModel extends EntityModel<ObeliskEntity> {
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    this.main.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+    this.main.render(matrices, vertices, light, overlay, color);
   }
 
-  public void renderGlow(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    if (alpha <= 0) return;
-    this.glowMain.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+  public void renderGlow(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+    var alpha = color >> 24 & 0xFF;
+    if (alpha == 0) return;
+    this.glowMain.render(matrices, vertices, light, overlay, color);
   }
 }

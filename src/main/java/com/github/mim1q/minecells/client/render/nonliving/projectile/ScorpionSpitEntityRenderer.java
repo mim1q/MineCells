@@ -32,13 +32,11 @@ public class ScorpionSpitEntityRenderer extends EntityRenderer<ScorpionSpitEntit
     matrixStack.multiply(this.dispatcher.getRotation());
     matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     MatrixStack.Entry entry = matrixStack.peek();
-    Matrix4f matrix4f = entry.getPositionMatrix();
-    Matrix3f matrix3f = entry.getNormalMatrix();
     VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(LAYER);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, light, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 0xFF);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, light, 0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 0xFF);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, light, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, 0xFF);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, light, -0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 0xFF);
+    RenderUtils.produceVertex(vertexConsumer, entry, light, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 0xFF);
+    RenderUtils.produceVertex(vertexConsumer, entry, light, 0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 0xFF);
+    RenderUtils.produceVertex(vertexConsumer, entry, light, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, 0xFF);
+    RenderUtils.produceVertex(vertexConsumer, entry, light, -0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 0xFF);
     matrixStack.pop();
   }
 

@@ -1,6 +1,9 @@
 package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ChargedProjectilesComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CrossbowItem;
@@ -25,9 +28,14 @@ public class CustomCrossbowItem extends CustomBowItem {
   public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
     if (world.isClient) return;
 
-    var ticks = getMaxUseTime(stack) - remainingUseTicks;
+    var ticks = getMaxUseTime(stack, user) - remainingUseTicks;
     if (!CrossbowItem.isCharged(stack) && ticks > getDrawTime(user, stack) && user.isPlayer()) {
-      CrossbowItem.setCharged(stack, true);
+      this.arrowType.getAmmoItem().ifPresent(it ->
+        stack.set(
+          DataComponentTypes.CHARGED_PROJECTILES,
+          ChargedProjectilesComponent.of(getDefaultStack().copyWithCount(maxProjectileCount))
+        )
+      );
       var loaded = loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
       CustomBowItem.setLoadedProjectiles(stack, loaded);
     }
@@ -39,8 +47,14 @@ public class CustomCrossbowItem extends CustomBowItem {
 
     if (CrossbowItem.isCharged(stack)) {
       shoot(world, user, stack);
-      CrossbowItem.setCharged(stack, false);
-      stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
+      this.arrowType.getAmmoItem().ifPresent(it ->
+        stack.set(
+          DataComponentTypes.CHARGED_PROJECTILES,
+          ChargedProjectilesComponent.of(getDefaultStack().copyWithCount(maxProjectileCount))
+        )
+      );
+
+      stack.damage(1, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
       return TypedActionResult.consume(stack);
     }
 
@@ -53,7 +67,8 @@ public class CustomCrossbowItem extends CustomBowItem {
     return ItemUsage.consumeHeldItem(world, user, hand);
   }
 
-  @Override public UseAction getUseAction(ItemStack stack) {
+  @Override
+  public UseAction getUseAction(ItemStack stack) {
     return UseAction.CROSSBOW;
   }
 

@@ -12,6 +12,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -34,8 +35,8 @@ public class ReturnStoneBlockEntity extends MineCellsBlockEntity {
   }
 
   @Override
-  public NbtCompound toInitialChunkDataNbt() {
-    return createNbt();
+  public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup lookup) {
+    return createNbt(lookup);
   }
 
   @Nullable
@@ -45,17 +46,17 @@ public class ReturnStoneBlockEntity extends MineCellsBlockEntity {
   }
 
   @Override
-  public void readNbt(NbtCompound nbt) {
-    super.readNbt(nbt);
+  public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.readNbt(nbt, lookup);
     var structureKey = nbt.getString("structure");
     if (!structureKey.isBlank()) {
-      structure = new Identifier(structureKey);
+      structure = Identifier.of(structureKey);
     }
   }
 
   @Override
-  protected void writeNbt(NbtCompound nbt) {
-    super.writeNbt(nbt);
+  protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.writeNbt(nbt, lookup);
     if (structure != null) {
       nbt.putString("structure", structure.toString());
     }
@@ -76,7 +77,7 @@ public class ReturnStoneBlockEntity extends MineCellsBlockEntity {
         var structurePos = found.getFirst();
         world.getChunk(structurePos);
         var y = world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, structurePos.getX(), structurePos.getZ());
-        player.teleport(structurePos.getX() + 0.5, y, structurePos.getZ() + 0.5);
+        player.teleport(structurePos.getX() + 0.5, y, structurePos.getZ() + 0.5, true);
         world.playSound(null, player.getBlockPos(), MineCellsSounds.TELEPORT_RELEASE, SoundCategory.BLOCKS, 1F, 1F);
         world.spawnParticles(ReturnStoneBlock.PARTICLE, player.getX(), player.getY() + 1.0, player.getZ(), 30, 0.5, 1.0, 0.5, 0.025);
       }
@@ -95,7 +96,7 @@ public class ReturnStoneBlockEntity extends MineCellsBlockEntity {
       return;
     }
     Vec3d tpPos = Vec3d.ofBottomCenter(targetPos);
-    player.teleport(tpPos.x, tpPos.y, tpPos.z);
+    player.teleport(tpPos.x, tpPos.y, tpPos.z, true);
     world.playSound(null, player.getBlockPos(), MineCellsSounds.TELEPORT_RELEASE, SoundCategory.BLOCKS, 1F, 1F);
     world.spawnParticles(ReturnStoneBlock.PARTICLE, player.getX(), player.getY() + 1.0, player.getZ(), 30, 0.5, 1.0, 0.5, 0.025);
   }

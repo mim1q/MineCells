@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.processor;
 
 import com.github.mim1q.minecells.registry.MineCellsStructureProcessorTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,8 +23,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SwitchBlockStructureProcessor extends StructureProcessor {
-  public static final Codec<SwitchBlockStructureProcessor> CODEC =
-    RecordCodecBuilder.create(instance -> instance.group(
+  public static final MapCodec<SwitchBlockStructureProcessor> CODEC =
+    RecordCodecBuilder.mapCodec(instance -> instance.group(
       Codec.STRING.optionalFieldOf("default_namespace", "minecraft").forGetter(it -> it.defaultNamespace),
       SwitchBlockRule.CODEC.listOf().fieldOf("rules").forGetter(it -> it.rules)
     ).apply(instance, SwitchBlockStructureProcessor::new));
@@ -139,7 +140,7 @@ public class SwitchBlockStructureProcessor extends StructureProcessor {
     }
 
     private static Identifier getBlockId(String id, String defaultNamespace) {
-      return new Identifier(id.contains(":") ? id : defaultNamespace + ":" + id);
+      return Identifier.of(id.contains(":") ? id : defaultNamespace + ":" + id);
     }
   }
 }

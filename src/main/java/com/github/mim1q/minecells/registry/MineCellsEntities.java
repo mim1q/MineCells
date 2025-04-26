@@ -4,12 +4,14 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.*;
 import com.github.mim1q.minecells.entity.boss.ConciergeEntity;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
-import com.github.mim1q.minecells.entity.nonliving.*;
+import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
+import com.github.mim1q.minecells.entity.nonliving.ShockwavePlacer;
+import com.github.mim1q.minecells.entity.nonliving.SpawnerRuneEntity;
+import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ConciergeObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.ConjunctiviusObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.obelisk.EliteObeliskEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.*;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
@@ -108,7 +110,7 @@ public final class MineCellsEntities {
     var egg = Registry.register(
       Registries.ITEM,
       MineCells.createId(EntityType.getId(type).getPath() + "_spawn_egg"),
-      new SpawnEggItem(type, 0xFFFFFF, 0xFFFFFF, new FabricItemSettings())
+      new SpawnEggItem(type, 0xFFFFFF, 0xFFFFFF, new Item.Settings())
     );
     SPAWN_EGGS.add(egg);
     return egg;

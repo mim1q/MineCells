@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.feature.tree;
 
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class PromenadeShrubTrunkPlacer extends TrunkPlacer {
-  public static final Codec<PromenadeShrubTrunkPlacer> CODEC = RecordCodecBuilder.create(
+  public static final MapCodec<PromenadeShrubTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
     (instance) -> fillTrunkPlacerFields(instance).apply(instance, PromenadeShrubTrunkPlacer::new)
   );
 

@@ -57,17 +57,17 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(SHOOT_CHARGING, false);
-    this.dataTracker.startTracking(SHOOT_RELEASING, false);
-    this.dataTracker.startTracking(SHOOT_COOLDOWN, 0);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(SHOOT_CHARGING, false);
+    builder.add(SHOOT_RELEASING, false);
+    builder.add(SHOOT_COOLDOWN, 0);
   }
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-    EntityData result = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+    EntityData result = super.initialize(world, difficulty, spawnReason, entityData);
     this.setStackInHand(this.getActiveHand(), Items.BOW.getDefaultStack());
     this.setLeftHanded(false);
     return result;
@@ -187,7 +187,8 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     @Override
     public void shoot(LivingEntity target) {
       super.shoot(target);
-      PersistentProjectileEntity persistentProjectileEntity = new ArrowEntity(this.entity.getWorld(), this.entity);
+      PersistentProjectileEntity persistentProjectileEntity = new ArrowEntity(EntityType.ARROW, this.entity.getWorld());
+      persistentProjectileEntity.setOwner(this.entity);
       double d = target.getX() - this.entity.getX();
       double e = target.getBodyY(0.33D) - persistentProjectileEntity.getY();
       double f = target.getZ() - this.entity.getZ();

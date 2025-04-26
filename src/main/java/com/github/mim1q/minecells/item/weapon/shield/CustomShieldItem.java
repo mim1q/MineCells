@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.item.weapon.shield;
 
+import com.github.mim1q.minecells.util.LegacyUtil;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.entity.LivingEntity;
@@ -56,7 +57,7 @@ public class CustomShieldItem extends ToolItem {
   }
 
   @Override
-  public int getMaxUseTime(ItemStack stack) {
+  public int getMaxUseTime(ItemStack stack, LivingEntity user) {
     return MAX_USE_DURATION;
   }
 
@@ -77,11 +78,11 @@ public class CustomShieldItem extends ToolItem {
   }
 
   public static void setParried(ItemStack stack, boolean parried) {
-    stack.getOrCreateNbt().putBoolean("parried", parried);
+    LegacyUtil.getOrCreateNbt(stack).putBoolean("parried", parried);
   }
 
   public static boolean hasParried(ItemStack stack) {
-    return stack.getOrCreateNbt().getBoolean("parried");
+    return LegacyUtil.getOrCreateNbt(stack).getBoolean("parried");
   }
 
   @Override

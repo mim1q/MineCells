@@ -1,9 +1,9 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.ShockwaveClientEventS2CPacket;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -33,7 +33,7 @@ public abstract class ShockwaveBlock extends Block {
   @SuppressWarnings("deprecation")
   public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
     super.scheduledTick(state, world, pos, random);
-    PlayerLookup.tracking(world, pos).forEach(player -> ShockwaveClientEventS2CPacket.send(player, this, pos, true));
+    ServerPacketHandler.CHANNEL.serverHandle(world, pos).send(new ShockwaveClientEventS2CPacket(this, pos, false));
     world.breakBlock(pos, false);
   }
 

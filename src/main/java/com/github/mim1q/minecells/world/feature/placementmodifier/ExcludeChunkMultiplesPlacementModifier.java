@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.feature.placementmodifier;
 
 import com.github.mim1q.minecells.world.feature.MineCellsPlacementModifiers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -13,14 +14,14 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifierType;
 import java.util.stream.Stream;
 
 public class ExcludeChunkMultiplesPlacementModifier extends PlacementModifier {
-  public static final Codec<ExcludeChunkMultiplesPlacementModifier> CODEC = RecordCodecBuilder
+  public static final MapCodec<ExcludeChunkMultiplesPlacementModifier> CODEC = RecordCodecBuilder
     .<ExcludeChunkMultiplesPlacementModifier>mapCodec(
       instance -> instance.group(
         Codec.INT.fieldOf("multiple").forGetter(it -> it.multiple),
         Codec.INT.optionalFieldOf("x_offset", 0).forGetter(it -> it.xOffset),
         Codec.INT.optionalFieldOf("z_offset", 0).forGetter(it -> it.zOffset)
       ).apply(instance, ExcludeChunkMultiplesPlacementModifier::new)
-    ).codec();
+    );
 
   private final int multiple;
   private final int xOffset;

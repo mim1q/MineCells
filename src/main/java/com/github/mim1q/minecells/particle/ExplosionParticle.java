@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.MathHelper;
 
 public class ExplosionParticle extends SpriteBillboardParticle {
@@ -48,14 +48,14 @@ public class ExplosionParticle extends SpriteBillboardParticle {
   }
 
   @Environment(EnvType.CLIENT)
-  public static class Factory implements ParticleFactory<DefaultParticleType> {
+  public static class Factory implements ParticleFactory<SimpleParticleType> {
     private final SpriteProvider spriteProvider;
 
     public Factory(SpriteProvider spriteProvider) {
       this.spriteProvider = spriteProvider;
     }
 
-    public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+    public Particle createParticle(SimpleParticleType SimpleParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
       ExplosionParticle explosionParticle = new ExplosionParticle(clientWorld, d, e, f);
       explosionParticle.setSprite(this.spriteProvider);
       return explosionParticle;

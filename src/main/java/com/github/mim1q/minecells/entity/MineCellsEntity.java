@@ -8,16 +8,14 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,6 +23,7 @@ import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -88,12 +87,12 @@ public class MineCellsEntity extends HostileEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(IS_ELITE, false);
-    this.dataTracker.startTracking(ELITE_AURA_CHARGING, false);
-    this.dataTracker.startTracking(ELITE_AURA_RELEASING, false);
-    this.dataTracker.startTracking(FOR_DISPLAY, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(IS_ELITE, false);
+    builder.add(ELITE_AURA_CHARGING, false);
+    builder.add(ELITE_AURA_RELEASING, false);
+    builder.add(FOR_DISPLAY, false);
   }
 
   @Override
@@ -148,10 +147,10 @@ public class MineCellsEntity extends HostileEntity {
   }
 
   @Override
-  public EntityDimensions getDimensions(EntityPose pose) {
+  public EntityDimensions getBaseDimensions(EntityPose pose) {
     var result = super.getDimensions(pose);
     if (isElite()) {
-      return new EntityDimensions(result.width * ELITE_SCALE, result.height * ELITE_SCALE, result.fixed);
+      return EntityDimensions.fixed(result.width() * ELITE_SCALE, result.height() * ELITE_SCALE);
     }
     return result;
   }
@@ -174,13 +173,14 @@ public class MineCellsEntity extends HostileEntity {
   }
 
   @Override
-  protected void dropXp() {
-    super.dropXp();
+  protected void dropXp(Entity attacker) {
+    super.dropXp(attacker);
     if (additionalLootTable != null) {
       var server = this.getWorld().getServer();
       if (server == null) return;
 
-      var lootTable = server.getLootManager().getLootTable(additionalLootTable);
+      var lootTable = server.getRegistryManager().get(RegistryKeys.LOOT_TABLE).get(additionalLootTable);
+      if (lootTable == null) return;
 
       LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld) this.getWorld())
         .add(LootContextParameters.THIS_ENTITY, this)
@@ -190,8 +190,8 @@ public class MineCellsEntity extends HostileEntity {
       var damageSource = this.getRecentDamageSource();
       if (damageSource != null) {
         builder = builder.add(LootContextParameters.DAMAGE_SOURCE, damageSource)
-          .addOptional(LootContextParameters.KILLER_ENTITY, damageSource.getAttacker())
-          .addOptional(LootContextParameters.DIRECT_KILLER_ENTITY, damageSource.getSource());
+          .addOptional(LootContextParameters.ATTACKING_ENTITY, damageSource.getAttacker())
+          .addOptional(LootContextParameters.DIRECT_ATTACKING_ENTITY, damageSource.getSource());
       }
 
       if (getLastAttacker() != null && getLastAttacker().isPlayer() && this.attackingPlayer != null) {

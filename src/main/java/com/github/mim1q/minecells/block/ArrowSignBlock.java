@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.block.blockentity.ArrowSignBlockEntity;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
@@ -26,9 +27,15 @@ import static java.lang.Math.round;
 public class ArrowSignBlock extends BlockWithEntity {
   public static final IntProperty ROTATION = Properties.ROTATION;
   public static final BooleanProperty MIDDLE = BooleanProperty.of("middle");
+  public static final MapCodec<ArrowSignBlock> CODEC = createCodec(ArrowSignBlock::new);
 
   public ArrowSignBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @Nullable
@@ -43,15 +50,14 @@ public class ArrowSignBlock extends BlockWithEntity {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     if (world.isClient) {
       return ActionResult.SUCCESS;
     }
     var blockEntity = world.getBlockEntity(pos);
     if (blockEntity instanceof ArrowSignBlockEntity arrowSignBlockEntity) {
       if (arrowSignBlockEntity.getItemStack().isEmpty()) {
-        var itemStack = player.getStackInHand(hand);
+        var itemStack = player.getStackInHand(player.getActiveHand());
         if (!itemStack.isEmpty()) {
           arrowSignBlockEntity.setItemStack(itemStack.copy());
           return ActionResult.SUCCESS;
@@ -69,7 +75,6 @@ public class ArrowSignBlock extends BlockWithEntity {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
     super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
     updateChainState(world, pos, state);
@@ -105,7 +110,6 @@ public class ArrowSignBlock extends BlockWithEntity {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public BlockState rotate(BlockState state, BlockRotation rotation) {
     return state.with(ROTATION, floorMod(state.get(ROTATION) + rotation.ordinal() * 4, 16));
   }

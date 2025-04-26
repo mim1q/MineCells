@@ -57,7 +57,7 @@ public class TentacleWeaponEntityRenderer extends EntityRenderer<TentacleWeaponE
     matrices.push();
     var size = MathUtils.easeInOutQuad(1.1F, 0.5F, length) * scale;
     matrices.scale(size, size, length * 16F);
-    this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
     matrices.pop();
   }
 

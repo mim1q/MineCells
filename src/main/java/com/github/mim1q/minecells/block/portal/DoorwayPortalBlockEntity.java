@@ -10,11 +10,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
@@ -82,11 +82,6 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
     return list;
   }
 
-  @Override
-  public void setStackNbt(ItemStack stack) {
-    super.setStackNbt(stack);
-  }
-
   public boolean canPlayerEnter(PlayerEntity player) {
     if (ownerId == null || !onlyOwnerCanEnter) return true;
 
@@ -139,8 +134,8 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   @Override
-  public NbtCompound toInitialChunkDataNbt() {
-    return createNbt();
+  public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup lookup) {
+    return createNbt(lookup);
   }
 
   @Nullable
@@ -150,8 +145,8 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   @Override
-  public void readNbt(NbtCompound nbt) {
-    super.readNbt(nbt);
+  public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.readNbt(nbt, lookup);
 
     if (nbt.contains("special_point_target"))
       specialPointTarget = Identifier.tryParse(nbt.getString("special_point_target"));
@@ -164,8 +159,8 @@ public class DoorwayPortalBlockEntity extends BlockEntity {
   }
 
   @Override
-  protected void writeNbt(NbtCompound nbt) {
-    super.writeNbt(nbt);
+  protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.writeNbt(nbt, lookup);
 
     nbt.putString("special_point_target", specialPointTarget.toString());
     if (posOverride != null) nbt.putLong("pos_override", posOverride.asLong());

@@ -7,6 +7,8 @@ import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.screen.ScreenUtils;
 import com.github.mim1q.minecells.util.ModelUtils;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.mim1q.gimm1q.interpolation.Easing;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -39,6 +41,11 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   public static final BooleanProperty CLOSED = BooleanProperty.of("closed");
 
+  public static final MapCodec<DoorwayPortalBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    createSettingsCodec(),
+    StringIdentifiable.createBasicCodec(DoorwayType::values).fieldOf("type").forGetter(it -> it.type)
+  ).apply(instance, DoorwayPortalBlock::new));
+
   private static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 8.0, 16.0, 16.0, 16.0);
   private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
   public final DoorwayType type;
@@ -57,7 +64,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     if (world.isClient()) {
       var entity = world.getBlockEntity(pos);
       if (entity instanceof DoorwayPortalBlockEntity doorway && doorway.canEdit(player)) {
@@ -93,6 +100,11 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @Override
   public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
     return new DoorwayPortalBlockEntity(pos, state);
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @Override
@@ -197,7 +209,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
     return stacks;
   }
 
-  public enum DoorwayType {
+  public enum DoorwayType implements StringIdentifiable {
     OVERWORLD(MineCellsDimension.OVERWORLD, 0x8EF96D),
     PRISON(MineCellsDimension.PRISONERS_QUARTERS, 0x54EF88),
     PROMENADE(MineCellsDimension.PROMENADE_OF_THE_CONDEMNED, 0x93FFF7),
@@ -215,6 +227,11 @@ public class DoorwayPortalBlock extends BlockWithEntity {
       this.texture = MineCells.createId("textures/block/doorway/" + dimension.key.getValue().getPath() + ".png");
       this.backgroundTexture = MineCells.createId("textures/block/doorway/" + dimension.key.getValue().getPath() + "_background.png");
       this.color = color;
+    }
+
+    @Override
+    public String asString() {
+      return dimension.key.getValue().getPath();
     }
   }
 
@@ -284,12 +301,12 @@ public class DoorwayPortalBlock extends BlockWithEntity {
 
     @Override
     @SuppressWarnings("deprecation")
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
       var portalPos = getBreakPos(state, pos);
       var portal = world.getBlockState(portalPos);
 
       if (portal.getBlock() instanceof DoorwayPortalBlock || portal.getBlock() instanceof Frame) {
-        return portal.getBlock().onUse(portal, world, portalPos, player, hand, hit);
+        return portal.onUse(world, player, hit);
       }
 
       return ActionResult.PASS;

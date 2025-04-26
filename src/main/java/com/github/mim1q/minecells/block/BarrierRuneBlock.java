@@ -36,8 +36,7 @@ public class BarrierRuneBlock extends BarrierBlock {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
-  public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+  protected boolean canPathfindThrough(BlockState state, NavigationType type) {
     return false;
   }
 

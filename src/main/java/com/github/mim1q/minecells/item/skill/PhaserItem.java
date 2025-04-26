@@ -78,7 +78,7 @@ public class PhaserItem extends Item implements WeaponWithAbility {
     }
 
     if (canTeleport) {
-      stack.damage(1, user, e -> e.sendEquipmentBreakStatus(user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
+      stack.damage(1, user, hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
       user.addStatusEffect(new StatusEffectInstance(MineCellsStatusEffects.ASSASSINS_STRENGTH, 20 * 5));
       user.getItemCooldownManager().set(this, getAbilityCooldown(stack, user));
       closestEntity.damage(user.getDamageSources().mobAttack(user), getAbilityDamage(stack, user, closestEntity));

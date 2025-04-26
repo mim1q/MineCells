@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.book;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import vazkii.patchouli.api.IComponentRenderContext;
@@ -76,10 +77,11 @@ public class ReferenceListComponent implements ICustomComponent {
   }
 
 
+
   @Override
-  public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
+  public void onVariablesAvailable(UnaryOperator<IVariable> lookup, RegistryWrapper.WrapperLookup registries) {
     var tempList = lookup.apply(content)
-      .asList()
+      .asList(registries)
       .stream()
       .map(IVariable::asString)
       .toList();
@@ -89,7 +91,7 @@ public class ReferenceListComponent implements ICustomComponent {
       if (entry.startsWith("# ")) {
         titles.put(i, entry.substring(2));
       } else {
-        referencesList.add(new Identifier(entry));
+        referencesList.add(Identifier.of(entry));
         i++;
       }
     }

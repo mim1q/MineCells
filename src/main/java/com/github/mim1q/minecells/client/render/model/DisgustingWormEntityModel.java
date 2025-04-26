@@ -147,32 +147,32 @@ public class DisgustingWormEntityModel extends EntityModel<DisgustingWormEntity>
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
     matrices.push();
     float scale1 = MathHelper.sin(this.limbAngle) * this.limbDistance * 0.5F;
     matrices.translate(0.0F, 0.0F, -0.4F);
     matrices.scale(1.0F, 1.0F, 1.0F + scale1);
-    this.frontSegment.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    this.frontSegment.render(matrices, vertices, light, overlay, color);
     matrices.pop();
 
     matrices.push();
     float scale2 = MathHelper.sin(this.limbAngle + MathHelper.PI * 0.33F) * this.limbDistance * 0.5F;
     matrices.translate(0.0F, 0.0F, -0.025F + scale1 * 0.375F);
     matrices.scale(1.0F, 1.0F, 1.0F + scale2);
-    this.middleSegment.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    this.middleSegment.render(matrices, vertices, light, overlay, color);
     matrices.pop();
 
     matrices.push();
     float scale3 = MathHelper.sin(this.limbAngle + MathHelper.PI * 0.66F) * this.limbDistance * 0.5F;
     matrices.translate(0.0F, 0.0F, 0.35F + (scale1 + scale2) * 0.375F);
     matrices.scale(1.0F, 1.0F, 1.0F + scale3);
-    this.backSegment.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    this.backSegment.render(matrices, vertices, light, overlay, color);
     matrices.pop();
 
     matrices.push();
     matrices.translate(0.0F, 1.5F, -0.4F);
     matrices.scale(1.0F, 1.0F + scale2 * 0.25F, 1.0F);
-    this.head.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    this.head.render(matrices, vertices, light, overlay, color);
     matrices.pop();
   }
 }

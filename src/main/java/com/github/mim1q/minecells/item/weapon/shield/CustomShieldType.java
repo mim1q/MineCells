@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -18,7 +19,9 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -78,7 +81,7 @@ public class CustomShieldType {
       }
 
       if (stack.isEmpty()) return;
-      stack.damage(1, player, user -> user.sendToolBreakStatus(user.getActiveHand()));
+      stack.damage(1, player, player.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
     };
     it.onHold = context -> {
       var user = context.player();
@@ -144,9 +147,11 @@ public class CustomShieldType {
     it.onMeleeParry = context -> {
       var serverWorld = (ServerWorld) context.player().getWorld();
       var lootTable = serverWorld
-        .getServer()
-        .getLootManager()
-        .getLootTable(MineCells.createId("gameplay/greed_shield_parry"));
+        .getRegistryManager()
+        .get(RegistryKeys.LOOT_TABLE)
+        .getEntry(MineCells.createId("gameplay/greed_shield_parry"));
+
+      if (lootTable.isEmpty()) return;
 
       var attacker = context.attacker();
 
@@ -154,11 +159,11 @@ public class CustomShieldType {
         .add(LootContextParameters.THIS_ENTITY, attacker)
         .add(LootContextParameters.ORIGIN, attacker.getPos())
         .add(LootContextParameters.DAMAGE_SOURCE, context.source())
-        .addOptional(LootContextParameters.KILLER_ENTITY, context.player())
-        .addOptional(LootContextParameters.DIRECT_KILLER_ENTITY, context.player())
+        .addOptional(LootContextParameters.ATTACKING_ENTITY, context.player())
+        .addOptional(LootContextParameters.DIRECT_ATTACKING_ENTITY, context.player())
         .build(LootContextTypes.ENTITY);
 
-      lootTable.generateLoot(lootContext, stack -> {
+      lootTable.get().value().generateLoot(lootContext, stack -> {
         var item = new ItemEntity(serverWorld, attacker.getX(), attacker.getY() + attacker.getHeight() / 2.0, attacker.getZ(), stack);
         item.setPickupDelay(20);
         serverWorld.spawnEntity(item);

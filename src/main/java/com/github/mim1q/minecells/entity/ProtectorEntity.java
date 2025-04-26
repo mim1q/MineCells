@@ -39,9 +39,9 @@ public class ProtectorEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(ACTIVE, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(ACTIVE, false);
   }
 
   @Override
@@ -88,12 +88,12 @@ public class ProtectorEntity extends MineCellsEntity {
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     float rotation = this.random.nextFloat() * 360.0F;
     this.bodyYaw = rotation;
     this.headYaw = rotation;
-    this.updateTrackedPositionAndAngles(this.getX(), this.getY(), this.getZ(), rotation, 0.0F, 1, false);
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    this.updateTrackedPositionAndAngles(this.getX(), this.getY(), this.getZ(), rotation, 0.0F, 1);
+    return super.initialize(world, difficulty, spawnReason, entityData);
   }
 
   protected static boolean canProtect(Entity e) {

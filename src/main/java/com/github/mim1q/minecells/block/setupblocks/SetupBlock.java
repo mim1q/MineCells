@@ -29,6 +29,6 @@ public abstract class SetupBlock extends BlockWithEntity {
   @Nullable
   @Override
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-    return checkType(type, MineCellsBlockEntities.SETUP_BLOCK_ENTITY, SetupBlockEntity::tick);
+    return validateTicker(type, MineCellsBlockEntities.SETUP_BLOCK_ENTITY, SetupBlockEntity::tick);
   }
 }

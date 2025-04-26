@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
@@ -92,25 +94,29 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
   }
 
   @Override
-  public NbtCompound toInitialChunkDataNbt() {
-    return createNbt();
+  public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+    return createNbt(registryLookup);
   }
-
   @Override
-  public void readNbt(NbtCompound nbt) {
-    super.readNbt(nbt);
+  public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.readNbt(nbt, lookup);
     for (var itemStackNbt : nbt.getList("CraftedItems", NbtElement.COMPOUND_TYPE)) {
-      craftedItems.add(ItemStack.fromNbt((NbtCompound) itemStackNbt));
+      craftedItems.add(ItemStack.fromNbt(lookup, itemStackNbt).orElse(ItemStack.EMPTY));
     }
     cooldown = nbt.getInt("Cooldown");
   }
 
   @Override
-  protected void writeNbt(NbtCompound nbt) {
-    super.writeNbt(nbt);
+  protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.writeNbt(nbt, lookup);
     var craftedItems = new NbtList();
     for (var itemStack : this.craftedItems) {
-      craftedItems.add(itemStack.writeNbt(new NbtCompound()));
+      if (itemStack.isEmpty()) continue;
+
+      var itemStackNbt = ItemStack.CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
+        .result().orElse(new NbtCompound());
+
+      craftedItems.add(itemStackNbt);
     }
     nbt.put("CraftedItems", craftedItems);
     nbt.putInt("Cooldown", cooldown);

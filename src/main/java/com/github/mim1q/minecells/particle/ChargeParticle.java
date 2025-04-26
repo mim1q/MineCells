@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.particle;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +36,7 @@ public class ChargeParticle extends SpriteBillboardParticle {
     return ParticleUtils.getTranslucentParticleType();
   }
 
-  public static class Factory implements ParticleFactory<DefaultParticleType> {
+  public static class Factory implements ParticleFactory<SimpleParticleType> {
     private final SpriteProvider spriteProvider;
 
     public Factory(SpriteProvider spriteProvider) {
@@ -45,7 +45,7 @@ public class ChargeParticle extends SpriteBillboardParticle {
 
     @Nullable
     @Override
-    public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+    public Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
       ChargeParticle chargeParticle = new ChargeParticle(world, x, y, z);
       chargeParticle.setSprite(spriteProvider);
       return chargeParticle;

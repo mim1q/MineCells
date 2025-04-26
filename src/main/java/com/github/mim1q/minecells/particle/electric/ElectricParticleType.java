@@ -1,19 +1,14 @@
 package com.github.mim1q.minecells.particle.electric;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.particle.ParticleEffect;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.util.math.Vec3d;
 
-@SuppressWarnings("deprecation")
 public class ElectricParticleType extends ParticleType<ElectricParticleEffect> {
-  protected ElectricParticleType(boolean alwaysShow, ParticleEffect.Factory<ElectricParticleEffect> parametersFactory) {
-    super(alwaysShow, parametersFactory);
-  }
-
-  @Override
-  public Codec<ElectricParticleEffect> getCodec() {
-    return ElectricParticleEffect.CODEC;
+  protected ElectricParticleType(boolean alwaysShow) {
+    super(alwaysShow);
   }
 
   public ElectricParticleEffect get(Vec3d direction, int length, int color, float size) {
@@ -21,6 +16,16 @@ public class ElectricParticleType extends ParticleType<ElectricParticleEffect> {
   }
 
   public static ElectricParticleType create() {
-    return new ElectricParticleType(true, ElectricParticleEffect.PARAMETERS_FACTORY);
+    return new ElectricParticleType(true);
+  }
+
+  @Override
+  public MapCodec<ElectricParticleEffect> getCodec() {
+    return ElectricParticleEffect.CODEC;
+  }
+
+  @Override
+  public PacketCodec<? super RegistryByteBuf, ElectricParticleEffect> getPacketCodec() {
+    return ElectricParticleEffect.PACKET_CODEC;
   }
 }

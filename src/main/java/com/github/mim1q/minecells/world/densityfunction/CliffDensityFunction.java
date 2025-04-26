@@ -22,7 +22,7 @@ public record CliffDensityFunction(
 ) implements DensityFunction {
 
   public static final CodecHolder<CliffDensityFunction> CODEC_HOLDER = CodecHolder.of(
-    RecordCodecBuilder.create(instance -> instance.group(
+    RecordCodecBuilder.mapCodec(instance -> instance.group(
       Codec.INT.optionalFieldOf("grid_size", 1024).forGetter(it -> it.gridSize),
       Codec.BOOL.optionalFieldOf("z_axis", false).forGetter(it -> it.zAxis),
       Codec.INT.fieldOf("width").forGetter(it -> it.width),

@@ -41,7 +41,7 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
       posRotScale.apply(matrices);
       this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
       boolean hurt = entity.hurtTime > 0;
-      this.model.render(matrices, vertexConsumers.getBuffer(model.getLayer(TEXTURE)), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumers.getBuffer(model.getLayer(TEXTURE)), light, OverlayTexture.getUv(0.0F, hurt), 0xFFFFFFFF);
       matrices.pop();
     }
   }
@@ -87,8 +87,8 @@ public class ConjunctiviusSpikeRenderer extends FeatureRenderer<ConjunctiviusEnt
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-      this.base.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+      this.base.render(matrices, vertices, light, overlay, color);
     }
   }
 }

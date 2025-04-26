@@ -2,20 +2,25 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
@@ -39,14 +44,14 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
   public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
     if (world.isClient) return;
 
-    var ticks = getMaxUseTime(stack) - remainingUseTicks;
+    var ticks = getMaxUseTime(stack, user) - remainingUseTicks;
 
     if (ticks < getDrawTime(user, stack) || !user.isPlayer()) return;
 
     var loaded = loadMaxProjectiles(world, (PlayerEntity) user, stack, user.getProjectileType(stack), maxProjectileCount);
     setLoadedProjectiles(stack, loaded);
     shoot(world, user, stack);
-    stack.damage(1, user, player -> player.sendToolBreakStatus(user.getActiveHand()));
+    stack.damage(1, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
   }
 
   protected void shoot(World world, LivingEntity user, ItemStack stack) {
@@ -64,10 +69,17 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
       .with(ValueCalculatorParameter.HOLDER_STACK, stack);
 
     arrow.setVelocity(velocity.getX(), velocity.getY(), velocity.getZ(), arrowType.getSpeed(context), arrowType.getSpread(context));
-    if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
+
+    var flame = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.FLAME);
+    var punch = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.PUNCH);
+
+    var flameLevel = flame.map(it -> EnchantmentHelper.getLevel(it, stack)).orElse(0);
+    var punchLevel = punch.map(it -> EnchantmentHelper.getLevel(it, stack)).orElse(0);
+
+    if (flameLevel > 0) {
       arrow.setOnFireFor(1000);
     }
-    arrow.setPunch(EnchantmentHelper.getLevel(Enchantments.PUNCH, stack));
+//    arrow.setPunch(punchLevel, stack);
     world.spawnEntity(arrow);
     return arrow;
   }
@@ -75,7 +87,8 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
   public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
     var stack = user.getStackInHand(hand);
     var projectileStack = user.getProjectileType(stack);
-    var hasInfinity = EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
+    var infinity = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.INFINITY);
+    boolean hasInfinity = infinity.map(it -> EnchantmentHelper.getLevel(it, stack) > 0).orElse(false);
     var projectileNeeded = arrowType.getAmmoItem().isPresent();
 
     var hasProjectile = !projectileStack.isEmpty();
@@ -97,12 +110,14 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
   }
 
   protected final int loadMaxProjectiles(World world, PlayerEntity user, ItemStack bow, ItemStack arrow, int maxCount) {
+    var infinity = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.INFINITY);
+    var hasInfinity = infinity.map(it -> EnchantmentHelper.getLevel(it, bow) > 0).orElse(false);
     if (
       user.isCreative()
         || world.isClient
         || arrow.isEmpty()
         || arrowType.getAmmoItem().isEmpty()
-        || EnchantmentHelper.getLevel(Enchantments.INFINITY, bow) > 0
+        || hasInfinity
     ) {
       return maxCount;
     }
@@ -122,12 +137,16 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
   }
 
   @Override
+  protected void shoot(LivingEntity shooter, ProjectileEntity projectile, int index, float speed, float divergence, float yaw, @Nullable LivingEntity target) {
+  }
+
+  @Override
   public UseAction getUseAction(ItemStack stack) {
     return UseAction.BOW;
   }
 
   @Override
-  public int getMaxUseTime(ItemStack stack) {
+  public int getMaxUseTime(ItemStack stack, LivingEntity user) {
     return MAX_USE_TIME;
   }
 
@@ -150,13 +169,13 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
 
   public static int getLoadedProjectiles(ItemStack bow) {
     var bowItem = (CustomBowItem) bow.getItem();
-    return bowItem.maxProjectileCount == 1 ? 1 : bow.getOrCreateNbt().getInt("LoadedProjectiles");
+    return bowItem.maxProjectileCount == 1 ? 1 : LegacyUtil.getOrCreateNbt(bow).getInt("LoadedProjectiles");
   }
 
   public static void setLoadedProjectiles(ItemStack bow, int count) {
     var bowItem = (CustomBowItem) bow.getItem();
     if (bowItem.maxProjectileCount == 1) return;
-    bow.getOrCreateNbt().putInt("LoadedProjectiles", count);
+    LegacyUtil.getOrCreateNbt(bow).putInt("LoadedProjectiles", count);
   }
 
   @Override

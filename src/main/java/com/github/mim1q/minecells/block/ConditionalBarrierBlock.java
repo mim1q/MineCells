@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -15,9 +16,15 @@ import net.minecraft.world.WorldAccess;
 public class ConditionalBarrierBlock extends HorizontalFacingBlock {
   public static final BooleanProperty OPEN = BooleanProperty.of("open");
   public static final VoxelShape SHAPE = createCuboidShape(0, 0, 6, 16, 16, 10);
+  public static final MapCodec<ConditionalBarrierBlock> CODEC = createCodec(ConditionalBarrierBlock::new);
 
   public ConditionalBarrierBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
+    return CODEC;
   }
 
   @Override
@@ -27,13 +34,11 @@ public class ConditionalBarrierBlock extends HorizontalFacingBlock {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return state.get(OPEN) ? VoxelShapes.empty() : ModelUtils.rotateShape(Direction.NORTH, state.get(FACING), SHAPE);
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
     return state.get(OPEN) || (context instanceof EntityShapeContext entityCtx && entityCtx.getEntity() instanceof SewersTentacleEntity)
       ? VoxelShapes.empty()
@@ -41,7 +46,6 @@ public class ConditionalBarrierBlock extends HorizontalFacingBlock {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
     if (neighborState.getBlock() instanceof ConditionalBarrierBlock) {
       return state.with(OPEN, neighborState.get(OPEN));
@@ -50,7 +54,6 @@ public class ConditionalBarrierBlock extends HorizontalFacingBlock {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public BlockRenderType getRenderType(BlockState state) {
     return BlockRenderType.INVISIBLE;
   }

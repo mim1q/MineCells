@@ -49,7 +49,7 @@ public interface SpawnerRuneRenderer {
     var blockRenderer = MinecraftClient.getInstance().getBlockRenderManager();
     var model = blockRenderer.getModel(state);
     blockRenderer.getModelRenderer().render(
-      world, model, state, pos, matrices, vertices.getBuffer(RenderLayer.getTranslucentNoCrumbling()), true, world.getRandom().split(), 0, OverlayTexture.DEFAULT_UV
+      world, model, state, pos, matrices, vertices.getBuffer(RenderLayer.getTranslucent()), true, world.getRandom().split(), 0, OverlayTexture.DEFAULT_UV
     );
     matrices.pop();
   }

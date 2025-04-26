@@ -23,6 +23,6 @@ public class GlowFeatureRenderer<E extends Entity, M extends EntityModel<E>> ext
   @Override
   public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, E entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(glowLayer);
-    this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.getContextModel().render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
   }
 }

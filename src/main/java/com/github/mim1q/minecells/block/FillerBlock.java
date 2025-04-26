@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -34,16 +33,16 @@ public abstract class FillerBlock extends Block {
   }
 
   @Override
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     if (!this.usable) {
       return ActionResult.PASS;
     }
-    BlockPos targetPos = this.findTarget(world, pos,0);
+    BlockPos targetPos = this.findTarget(world, pos, 0);
     if (targetPos == null) {
       return ActionResult.FAIL;
     }
     BlockState targetState = world.getBlockState(targetPos);
-    return targetState.getBlock().onUse(targetState, world, targetPos, player, hand, hit);
+    return targetState.onUse(world, player, hit);
   }
 
   @Override

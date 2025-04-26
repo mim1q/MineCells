@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Comparator;
 
@@ -36,31 +35,61 @@ import static java.lang.Math.abs;
 
 @Mixin(Entity.class)
 public abstract class EntityFallResetMixin implements FallResetEntity {
-  @Shadow public abstract double getY();
-  @Shadow public abstract World getWorld();
-  @Shadow public abstract BlockPos getBlockPos();
-  @Shadow public abstract void teleport(double destX, double destY, double destZ);
+  @Shadow
+  public abstract double getY();
 
-  @Shadow public float fallDistance;
+  @Shadow
+  public abstract World getWorld();
 
-  @Shadow public abstract boolean damage(DamageSource source, float amount);
-  @Shadow public abstract void setVelocity(Vec3d velocity);
-  @Shadow public abstract EntityType<?> getType();
-  @Shadow public abstract double getX();
-  @Shadow public abstract float getYaw(float tickDelta);
-  @Shadow public abstract double getZ();
+  @Shadow
+  public abstract BlockPos getBlockPos();
 
-  @Shadow public int age;
+  @Shadow
+  public float fallDistance;
 
-  @Shadow public abstract void discard();
-  @Shadow public abstract boolean isPlayer();
-  @Shadow public abstract Text getName();
-  @Shadow public abstract void dismountVehicle();
+  @Shadow
+  public abstract boolean damage(DamageSource source, float amount);
 
-  @Shadow public abstract Vec3d getPos();
+  @Shadow
+  public abstract void setVelocity(Vec3d velocity);
 
-  @Unique private Double fallResetY = 0.0;
-  @Unique private BlockPos dimensionTpPos = BlockPos.ORIGIN;
+  @Shadow
+  public abstract EntityType<?> getType();
+
+  @Shadow
+  public abstract double getX();
+
+  @Shadow
+  public abstract float getYaw(float tickDelta);
+
+  @Shadow
+  public abstract double getZ();
+
+  @Shadow
+  public int age;
+
+  @Shadow
+  public abstract void discard();
+
+  @Shadow
+  public abstract boolean isPlayer();
+
+  @Shadow
+  public abstract Text getName();
+
+  @Shadow
+  public abstract void dismountVehicle();
+
+  @Shadow
+  public abstract Vec3d getPos();
+
+  @Shadow
+  public abstract void requestTeleportAndDismount(double destX, double destY, double destZ);
+
+  @Unique
+  private Double fallResetY = 0.0;
+  @Unique
+  private BlockPos dimensionTpPos = BlockPos.ORIGIN;
 
   @Inject(
     method = "<init>",
@@ -72,13 +101,12 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
   }
 
   @Inject(
-    method = "moveToWorld",
-    at = @At("RETURN")
+    method = "setWorld",
+    at = @At("HEAD")
   )
-  private void minecells$injectMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
-    var result = cir.getReturnValue();
-    if (result != null) {
-      minecells$initDimensionChange(result, destination);
+  private void minecells$injectMoveToWorld(World world, CallbackInfo ci) {
+    if (world instanceof ServerWorld serverWorld && world != getWorld()) {
+      minecells$initDimensionChange((Entity) (Object) this, serverWorld);
     }
   }
 
@@ -120,7 +148,7 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
         if (nearestPlayer == null) {
           return;
         }
-        this.teleport(nearestPlayer.getX(), nearestPlayer.getY(), nearestPlayer.getZ());
+        this.requestTeleportAndDismount(nearestPlayer.getX(), nearestPlayer.getY(), nearestPlayer.getZ());
         this.setVelocity(Vec3d.ZERO);
         fallDistance = 0.0f;
         return;
@@ -145,7 +173,7 @@ public abstract class EntityFallResetMixin implements FallResetEntity {
         minecells$grantAdvancementCriterion();
       }
 
-      this.teleport(tpPos.getX() + 0.5, tpPos.getY() + 0.5, tpPos.getZ() + 0.5);
+      this.requestTeleportAndDismount(tpPos.getX() + 0.5, tpPos.getY() + 0.5, tpPos.getZ() + 0.5);
       this.setVelocity(Vec3d.ZERO);
       fallDistance = 0.0f;
       damage(getWorld().getDamageSources().fall(), 5.0F);

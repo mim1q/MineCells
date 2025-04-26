@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import com.github.mim1q.minecells.world.MineCellsExplosion;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
@@ -83,7 +84,7 @@ public class CustomArrowType {
 
   public static final CustomArrowType NERVES_OF_STEEL = create("nerves_of_steel", it -> {
     it.shouldCrit = context -> {
-      var nbt = context.bow().getOrCreateNbt();
+      var nbt = LegacyUtil.getOrCreateNbt(context.bow());
       return nbt.getBoolean("crit");
     };
   });

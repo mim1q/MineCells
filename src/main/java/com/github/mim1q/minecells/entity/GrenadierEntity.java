@@ -38,12 +38,12 @@ public class GrenadierEntity extends MineCellsEntity implements IShootEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
 
-    this.dataTracker.startTracking(SHOOT_COOLDOWN, 50);
-    this.dataTracker.startTracking(SHOOT_CHARGING, false);
-    this.dataTracker.startTracking(SHOOT_RELEASING, false);
+    builder.add(SHOOT_COOLDOWN, 50);
+    builder.add(SHOOT_CHARGING, false);
+    builder.add(SHOOT_RELEASING, false);
   }
 
   @Override

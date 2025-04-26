@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.item.weapon;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
@@ -59,8 +60,7 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
           serverPlayer.getItemCooldownManager().set(this, cooldown);
         }
 
-        var packet = new UseTentacleWeaponC2SPacket(pos);
-        packet.send();
+        ServerPacketHandler.CLIENT_CHANNEL.clientHandle().send(new UseTentacleWeaponC2SPacket(pos));
 
         return TypedActionResult.success(user.getStackInHand(hand));
       }

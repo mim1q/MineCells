@@ -37,7 +37,7 @@ public class ElevatorEntityRenderer extends EntityRenderer<ElevatorEntity> {
       matrices.multiply(new Quaternionf().rotationYXZ(MathHelper.HALF_PI, 0.0F, 0.0F));
     }
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(LAYER);
-    this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
     matrices.pop();
   }
 }

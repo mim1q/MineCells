@@ -84,7 +84,7 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
     }
 
     Identifier texture = ((FlagBlock) block).texture;
-    usedModel.render(matrices, vertexConsumers.getBuffer(usedModel.getLayer(texture)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    usedModel.render(matrices, vertexConsumers.getBuffer(usedModel.getLayer(texture)), light, overlay, 0xFFFFFFFF);
     matrices.pop();
   }
 
@@ -159,8 +159,8 @@ public class FlagBlockEntityRenderer implements BlockEntityRenderer<FlagBlockEnt
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-      this.main.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+      this.main.render(matrices, vertices, light, overlay, color);
     }
   }
 }

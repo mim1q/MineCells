@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.feature.tree;
 
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +25,7 @@ public class PromenadeFoliagePlacer extends FoliagePlacer {
     new BlockPos(0, 0, -1)
   );
 
-  public static final Codec<PromenadeFoliagePlacer> CODEC = RecordCodecBuilder.create(
+  public static final MapCodec<PromenadeFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(
     (instance) -> fillFoliagePlacerFields(instance).apply(instance, PromenadeFoliagePlacer::new)
   );
 

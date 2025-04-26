@@ -64,10 +64,10 @@ public class ShieldbearerEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(DASH_CHARGING, false);
-    this.dataTracker.startTracking(DASH_RELEASING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(DASH_CHARGING, false);
+    builder.add(DASH_RELEASING, false);
   }
 
   @Override
@@ -83,8 +83,8 @@ public class ShieldbearerEntity extends MineCellsEntity {
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-    EntityData result = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+    EntityData result = super.initialize(world, difficulty, spawnReason, entityData);
     this.setLeftHanded(false);
     this.setStackInHand(Hand.MAIN_HAND, Items.SHIELD.getDefaultStack());
     return result;

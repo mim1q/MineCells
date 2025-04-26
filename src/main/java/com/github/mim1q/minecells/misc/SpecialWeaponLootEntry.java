@@ -2,20 +2,18 @@ package com.github.mim1q.minecells.misc;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootChoice;
-import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.entry.LootPoolEntryType;
+import net.minecraft.loot.entry.LootPoolEntryTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonSerializer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +27,14 @@ import java.util.function.Consumer;
  * the world of Mine Cells.
  */
 public class SpecialWeaponLootEntry extends LootPoolEntry {
+  public static final MapCodec<SpecialWeaponLootEntry> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    Entry.CODEC.codec().listOf().fieldOf("entries").forGetter(it -> it.entryList)
+  ).apply(instance, SpecialWeaponLootEntry::new));
+
   private final List<Entry> entryList;
 
   private SpecialWeaponLootEntry(List<Entry> entryList) {
-    super(new LootCondition[0]);
+    super(List.of());
     this.entryList = entryList;
   }
 
@@ -106,6 +108,12 @@ public class SpecialWeaponLootEntry extends LootPoolEntry {
     int dimensionLevel,
     Optional<Identifier> advancement
   ) implements LootChoice {
+    public static final MapCodec<Entry> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+      LootPoolEntryTypes.CODEC.fieldOf("loot").forGetter(Entry::loot),
+      Codec.INT.fieldOf("weight").orElse(1).forGetter(Entry::weight),
+      Codec.INT.fieldOf("dimension_level").orElse(0).forGetter(Entry::dimensionLevel),
+      Identifier.CODEC.optionalFieldOf("advancement").orElse(null).forGetter(Entry::advancement)
+    ).apply(instance, Entry::new));
 
     @Override
     public int getWeight(float luck) {
@@ -117,39 +125,6 @@ public class SpecialWeaponLootEntry extends LootPoolEntry {
       List<LootChoice> choices = new ArrayList<>();
       loot.expand(context, choices::add);
       choices.forEach(choice -> choice.generateLoot(lootConsumer, context));
-    }
-  }
-
-  public static class Serializer implements JsonSerializer<SpecialWeaponLootEntry> {
-    @Override
-    public void toJson(JsonObject json, SpecialWeaponLootEntry object, JsonSerializationContext context) {
-      var entries = new JsonArray();
-      json.add("entries", entries);
-      for (var entry : object.entryList) {
-        var entryJson = new JsonObject();
-        entryJson.addProperty("weight", entry.weight());
-        entryJson.addProperty("dimension_level", entry.dimensionLevel());
-        entryJson.addProperty("advancement", entry.advancement().map(Identifier::toString).orElse(null));
-        entryJson.add("loot", context.serialize(entry.loot()));
-        entries.add(entryJson);
-      }
-    }
-
-    @Override
-    public SpecialWeaponLootEntry fromJson(JsonObject json, JsonDeserializationContext context) {
-      var entries = json.getAsJsonArray("entries");
-      var entryList = entries.asList().stream()
-        .map(entry -> {
-          var entryJson = entry.getAsJsonObject();
-          return new Entry(
-            context.deserialize(entryJson.get("loot"), LootPoolEntry.class),
-            entryJson.get("weight").getAsInt(),
-            entryJson.get("dimension_level").getAsInt(),
-            Optional.ofNullable(entryJson.get("advancement")).map(e -> new Identifier(e.getAsString()))
-          );
-        })
-        .toList();
-      return new SpecialWeaponLootEntry(entryList);
     }
   }
 }

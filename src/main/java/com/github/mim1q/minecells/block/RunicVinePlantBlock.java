@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -29,8 +30,15 @@ import org.jetbrains.annotations.Nullable;
 public class RunicVinePlantBlock extends BlockWithEntity {
   public static final ParticleEffect PARTICLE = MineCellsParticles.SPECKLE.get(0x49b74a);
 
+  public static final MapCodec<RunicVinePlantBlock> CODEC = createCodec(RunicVinePlantBlock::new);
+
   public RunicVinePlantBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   public static final BooleanProperty ACTIVATED = BooleanProperty.of("activated");
@@ -43,10 +51,10 @@ public class RunicVinePlantBlock extends BlockWithEntity {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     var entity = world.getBlockEntity(pos);
     if (entity instanceof RunicVinePlantBlockEntity blockEntity) {
-      return blockEntity.use(state, world, pos, player, hand);
+      return blockEntity.use(state, world, pos, player);
     }
     return ActionResult.FAIL;
   }
@@ -93,6 +101,6 @@ public class RunicVinePlantBlock extends BlockWithEntity {
   @Nullable
   @Override
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-    return checkType(type, MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntity::tick);
+    return validateTicker(type, MineCellsBlockEntities.RUNIC_VINE_PLANT, RunicVinePlantBlockEntity::tick);
   }
 }

@@ -36,11 +36,11 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
   }
 
   @Override
-  public void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(AURA_COOLDOWN, 50);
-    this.dataTracker.startTracking(AURA_CHARGING, false);
-    this.dataTracker.startTracking(AURA_RELEASING, false);
+  public void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(AURA_COOLDOWN, 50);
+    builder.add(AURA_CHARGING, false);
+    builder.add(AURA_RELEASING, false);
   }
 
   @Override
@@ -81,14 +81,14 @@ public class ShockerEntity extends MineCellsEntity implements IAuraEntity {
   }
 
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     this.setNoGravity(true);
     this.setPosition(this.getPos().add(0.0d, 1.5d, 0.0d));
     float yaw = this.random.nextFloat() * 360.0F;
     this.setYaw(yaw);
     this.setHeadYaw(yaw);
     this.setBodyYaw(yaw);
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    return super.initialize(world, difficulty, spawnReason, entityData);
   }
 
   @Override

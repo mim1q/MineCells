@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public enum MineCellsDimension {
-  OVERWORLD(new Identifier("overworld"), 0.0, null),
+  OVERWORLD(Identifier.of("overworld"), 0.0, null),
   PRISONERS_QUARTERS(MineCells.createId("prison"), 1024.0, new PrisonGridGenerator(0, 0)),
   INSUFFERABLE_CRYPT(MineCells.createId("insufferable_crypt"), 1024.0, new InsufferableCryptGridGenerator(0, 0)),
   PROMENADE_OF_THE_CONDEMNED(MineCells.createId("promenade"), 1024.0, new BetterPromenadeGridGenerator(0, 0)),
@@ -153,7 +153,7 @@ public enum MineCellsDimension {
   }
 
   public static String getTranslationKey(String key) {
-    Identifier id = new Identifier(key);
+    Identifier id = Identifier.of(key);
     return "dimension." + id.getNamespace() + "." + id.getPath();
   }
 

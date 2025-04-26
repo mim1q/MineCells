@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.placement;
 
 import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryElementCodec;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class BetterRandomSpreadPlacement extends StructurePlacement {
-  public static final Codec<BetterRandomSpreadPlacement> CODEC = RecordCodecBuilder.create(
+  public static final MapCodec<BetterRandomSpreadPlacement> CODEC = RecordCodecBuilder.mapCodec(
     instance -> instance.group(
       Vec3i.createOffsetCodec(16).optionalFieldOf("locate_offset", Vec3i.ZERO).forGetter(BetterRandomSpreadPlacement::getLocateOffset),
       Codec.floatRange(0.0F, 1.0F).optionalFieldOf("frequency", 1.0F).forGetter(BetterRandomSpreadPlacement::getFrequency),

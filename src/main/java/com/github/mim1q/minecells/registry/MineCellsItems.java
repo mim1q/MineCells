@@ -2,15 +2,21 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
-import com.github.mim1q.minecells.item.*;
+import com.github.mim1q.minecells.item.CellHolderItem;
+import com.github.mim1q.minecells.item.DoorwayItem;
+import com.github.mim1q.minecells.item.HealthFlaskItem;
+import com.github.mim1q.minecells.item.ResetRuneItem;
 import com.github.mim1q.minecells.item.skill.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.*;
 import com.github.mim1q.minecells.item.weapon.bow.*;
 import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Block;
+import net.minecraft.component.type.FoodComponent;
+import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
@@ -18,6 +24,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 
@@ -34,47 +41,47 @@ public class MineCellsItems {
   public static List<Item> SHIELDS = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
-    new Item(new FabricItemSettings()),
+    new Item(new Item.Settings()),
     "elevator_mechanism"
   );
 
 //  public static final Item BLANK_RUNE = register(
-//    new Item(new FabricItemSettings().maxCount(1)),
+//    new Item(new Item.Settings().maxCount(1)),
 //    "blank_rune"
 //  );
 
   public static final Item CONJUNCTIVIUS_RESPAWN_RUNE = register(
-    new Item(new FabricItemSettings().maxCount(1)),
+    new Item(new Item.Settings().maxCount(1)),
     "conjunctivius_respawn_rune"
   );
 
   public static final Item CONCIERGE_RESPAWN_RUNE = register(
-    new Item(new FabricItemSettings().maxCount(1)),
+    new Item(new Item.Settings().maxCount(1)),
     "concierge_respawn_rune"
   );
 
   public static final Item VINE_RUNE = register(
-    new Item(new FabricItemSettings().maxCount(1).maxDamage(8)),
+    new Item(new Item.Settings().maxCount(1).maxDamage(8)),
     "vine_rune"
   );
 
   public static final Item RESET_RUNE = register(
-    new ResetRuneItem(new FabricItemSettings().maxCount(1)),
+    new ResetRuneItem(new Item.Settings().maxCount(1)),
     "reset_rune"
   );
 
   public static final Item GUTS = register(
-    new Item(new FabricItemSettings().food(FoodComponents.BEEF)),
+    new Item(new Item.Settings().food(FoodComponents.BEEF)),
     "guts"
   );
 
   public static final Item MONSTERS_EYE = register(
-    new Item(new FabricItemSettings().food(FoodComponents.COOKED_BEEF)),
+    new Item(new Item.Settings().food(FoodComponents.COOKED_BEEF)),
     "monsters_eye"
   );
 
   public static final Item SEWAGE_BUCKET = register(
-    new BucketItem(MineCellsFluids.STILL_SEWAGE, new FabricItemSettings()
+    new BucketItem(MineCellsFluids.STILL_SEWAGE, new Item.Settings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
     ),
@@ -82,7 +89,7 @@ public class MineCellsItems {
   );
 
   public static final Item ANCIENT_SEWAGE_BUCKET = register(
-    new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new FabricItemSettings()
+    new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new Item.Settings()
       .maxCount(1)
       .recipeRemainder(Items.BUCKET)
     ),
@@ -90,7 +97,7 @@ public class MineCellsItems {
   );
 
   public static final Item CELL_HOLDER = register(
-    new CellHolderItem(new FabricItemSettings().maxCount(1)),
+    new CellHolderItem(new Item.Settings().maxCount(1)),
     "cell_holder"
   );
 
@@ -112,8 +119,8 @@ public class MineCellsItems {
     }
 
     @Override
-    public int getMiningLevel() {
-      return 2;
+    public TagKey<Block> getInverseTag() {
+      return BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
     }
 
     @Override
@@ -128,28 +135,28 @@ public class MineCellsItems {
   };
 
   public static final Item ASSASSINS_DAGGER = register(new AssassinsDaggerItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1200)
     ), "assassins_dagger"
   );
 
   public static final Item BLOOD_SWORD = register(new BloodSwordItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1200)
     ), "blood_sword"
   );
 
   public static final Item CURSED_SWORD = register(new CursedSwordItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(600)
     ), "cursed_sword"
   );
 
   public static final TentacleItem TENTACLE = register(
-    new TentacleItem(new FabricItemSettings()
+    new TentacleItem(new Item.Settings()
       .maxCount(1)
       .maxDamage(800)
       .rarity(Rarity.EPIC)
@@ -157,7 +164,7 @@ public class MineCellsItems {
   );
 
   public static final Item HATTORIS_KATANA = register(
-    new HattorisKatanaItem(new FabricItemSettings()
+    new HattorisKatanaItem(new Item.Settings()
       .maxCount(1)
       .maxDamage(1200)
     ), "hattoris_katana"
@@ -165,42 +172,42 @@ public class MineCellsItems {
 
   public static final Item BROADSWORD = register(new CustomMeleeWeapon(
       "broadsword",
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1000)
     ), "broadsword"
   );
 
   public static final Item BALANCED_BLADE = register(new BalancedBladeItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1200)
     ), "balanced_blade"
   );
 
   public static final Item CROWBAR = register(new CrowbarItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1100)
     ), "crowbar"
   );
 
   public static final Item NUTCRACKER = register(new NutcrackerItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1000)
     ), "nutcracker"
   );
 
   public static final Item FROST_BLAST = register(new FrostBlastItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(32)
     ), "frost_blast"
   );
 
   public static final Item FLINT = register(new FlintItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1000)
         .rarity(Rarity.EPIC)
@@ -208,7 +215,7 @@ public class MineCellsItems {
   );
 
   public static final Item SPITE_SWORD = register(new SpiteSwordItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(1200)
     ), "spite_sword"
@@ -216,14 +223,14 @@ public class MineCellsItems {
 
   // Skills
   public static final PhaserItem PHASER = register(new PhaserItem(
-      new FabricItemSettings()
+      new Item.Settings()
         .maxCount(1)
         .maxDamage(32)
     ), "phaser"
   );
 
   public static final Item HEALTH_FLASK = register(
-    new HealthFlaskItem(new FabricItemSettings()
+    new HealthFlaskItem(new Item.Settings()
       .maxCount(16)
     ), "health_flask"
   );
@@ -231,72 +238,72 @@ public class MineCellsItems {
   //#region Ranged weapons
   // Bows
   public static final CustomBowItem MULTIPLE_NOCKS_BOW = registerBowItem(
-    "multiple_nocks_bow", new MultipleNocksBowItem(new FabricItemSettings().maxCount(1).maxDamage(500))
+    "multiple_nocks_bow", new MultipleNocksBowItem(new Item.Settings().maxCount(1).maxDamage(500))
   );
   public static final CustomBowItem BOW_AND_ENDLESS_QUIVER = registerBowItem(
-    "bow_and_endless_quiver", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(400), CustomArrowType.ENDLESS)
+    "bow_and_endless_quiver", new CustomBowItem(new Item.Settings().maxCount(1).maxDamage(400), CustomArrowType.ENDLESS)
   );
   public static final CustomBowItem MARKSMANS_BOW = registerBowItem(
-    "marksmans_bow", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(450), CustomArrowType.MARKSMAN)
+    "marksmans_bow", new CustomBowItem(new Item.Settings().maxCount(1).maxDamage(450), CustomArrowType.MARKSMAN)
   );
   public static final CustomBowItem INFANTRY_BOW = registerBowItem(
-    "infantry_bow", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(450), CustomArrowType.INFANTRY)
+    "infantry_bow", new CustomBowItem(new Item.Settings().maxCount(1).maxDamage(450), CustomArrowType.INFANTRY)
   );
   public static final CustomBowItem QUICK_BOW = registerBowItem(
-    "quick_bow", new QuickBowItem(new FabricItemSettings().maxCount(1).maxDamage(800))
+    "quick_bow", new QuickBowItem(new Item.Settings().maxCount(1).maxDamage(800))
   );
   public static final CustomBowItem ICE_BOW = registerBowItem(
-    "ice_bow", new CustomBowItem(new FabricItemSettings().maxCount(1).maxDamage(400), CustomArrowType.ICE)
+    "ice_bow", new CustomBowItem(new Item.Settings().maxCount(1).maxDamage(400), CustomArrowType.ICE)
   );
   public static final CustomBowItem NERVES_OF_STEEL = registerBowItem(
-    "nerves_of_steel", new NervesOfSteelItem(new FabricItemSettings().maxCount(1).maxDamage(450))
+    "nerves_of_steel", new NervesOfSteelItem(new Item.Settings().maxCount(1).maxDamage(450))
   );
 
   // Crossbows
   public static final CustomBowItem HEAVY_CROSSBOW = registerCrossbowItem(
-    "heavy_crossbow", new HeavyCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(600).rarity(Rarity.EPIC))
+    "heavy_crossbow", new HeavyCrossbowItem(new Item.Settings().maxCount(1).maxDamage(600).rarity(Rarity.EPIC))
   );
   public static final CustomBowItem EXPLOSIVE_CROSSBOW = registerCrossbowItem(
-    "explosive_crossbow", new CustomCrossbowItem(new FabricItemSettings().maxCount(1).maxDamage(500), CustomArrowType.EXPLOSIVE_BOLT)
+    "explosive_crossbow", new CustomCrossbowItem(new Item.Settings().maxCount(1).maxDamage(500), CustomArrowType.EXPLOSIVE_BOLT)
   );
 
   // Shields
   public static final CustomShieldItem CUDGEL = registerShield(
-    "cudgel", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(500), CustomShieldType.CUDGEL)
+    "cudgel", new CustomShieldItem(new Item.Settings().maxCount(1).maxDamage(500), CustomShieldType.CUDGEL)
   );
 
   public static final CustomShieldItem RAMPART = registerShield(
-    "rampart", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(400), CustomShieldType.RAMPART)
+    "rampart", new CustomShieldItem(new Item.Settings().maxCount(1).maxDamage(400), CustomShieldType.RAMPART)
   );
 
   public static final CustomShieldItem ASSAULT_SHIELD = registerShield(
-    "assault_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(600), CustomShieldType.ASSAULT)
+    "assault_shield", new CustomShieldItem(new Item.Settings().maxCount(1).maxDamage(600), CustomShieldType.ASSAULT)
   );
 
   public static final CustomShieldItem BLOODTHIRSTY_SHIELD = registerShield(
-    "bloodthirsty_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(500), CustomShieldType.BLOOD)
+    "bloodthirsty_shield", new CustomShieldItem(new Item.Settings().maxCount(1).maxDamage(500), CustomShieldType.BLOOD)
   );
 
   public static final CustomShieldItem GREED_SHIELD = registerShield(
-    "greed_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(300), CustomShieldType.GREED)
+    "greed_shield", new CustomShieldItem(new Item.Settings().maxCount(1).maxDamage(300), CustomShieldType.GREED)
   );
 
   public static final CustomShieldItem ICE_SHIELD = registerShield(
-    "ice_shield", new CustomShieldItem(new FabricItemSettings().maxCount(1).maxDamage(360), CustomShieldType.ICE)
+    "ice_shield", new CustomShieldItem(new Item.Settings().maxCount(1).maxDamage(360), CustomShieldType.ICE)
   );
 
   // Other
   public static final Item ELECTRIC_WHIP = registerOtherRanged(
-    "electric_whip", new ElectricWhipItem(new FabricItemSettings().maxCount(1).maxDamage(450))
+    "electric_whip", new ElectricWhipItem(new Item.Settings().maxCount(1).maxDamage(450))
   );
   public static final Item LIGHTNING_BOLT = registerOtherRanged(
-    "lightning_bolt", new LightningBoltItem(new FabricItemSettings().maxCount(1).maxDamage(600))
+    "lightning_bolt", new LightningBoltItem(new Item.Settings().maxCount(1).maxDamage(600))
   );
   public static final Item THROWING_KNIFE = registerOtherRanged(
-    "throwing_knife", new SingleUseProjectileItem(new FabricItemSettings(), CustomArrowType.THROWING_KNIFE)
+    "throwing_knife", new SingleUseProjectileItem(new Item.Settings(), CustomArrowType.THROWING_KNIFE)
   );
   public static final Item FIREBRANDS = registerOtherRanged(
-    "firebrands", new SingleUseProjectileItem(new FabricItemSettings(), CustomArrowType.FIREBRANDS)
+    "firebrands", new SingleUseProjectileItem(new Item.Settings(), CustomArrowType.FIREBRANDS)
   );
   //#endregion
 
@@ -305,11 +312,10 @@ public class MineCellsItems {
   public static final Item BOSS_STEM_CELL = registerSimpleItem("boss_stem_cell");
   public static final Item EXPLOSIVE_BULB = registerSimpleItem("explosive_bulb");
   public static final Item INFECTED_FLESH = register(new Item(
-    new FabricItemSettings().food(
+    new Item.Settings().food(
       new FoodComponent.Builder()
-        .hunger(2)
+        .nutrition(2)
         .saturationModifier(0.3F)
-        .meat()
         .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0), 1)
         .build()
     )
@@ -319,10 +325,10 @@ public class MineCellsItems {
   public static final Item BUZZCUTTER_FANG = registerSimpleItem("buzzcutter_fang");
   public static final Item MOLTEN_CHUNK = registerSimpleItem("molten_chunk");
   public static final Item SEWER_CALAMARI = register(new Item(
-    new FabricItemSettings().food((new FoodComponent.Builder()).hunger(3).saturationModifier(0.3F).meat().build())
+    new Item.Settings().food((new FoodComponent.Builder()).nutrition(3).saturationModifier(0.3F).build())
   ), "sewer_calamari");
   public static final Item COOKED_SEWER_CALAMARI = register(new Item(
-    new FabricItemSettings().food((new FoodComponent.Builder()).hunger(8).saturationModifier(0.8F).meat().build())
+    new Item.Settings().food((new FoodComponent.Builder()).nutrition(8).saturationModifier(0.8F).build())
   ), "cooked_sewer_calamari");
   public static final Item TRANSPOSITION_CORE = registerSimpleItem("transposition_core");
   public static final Item BLOOD_BOTTLE = registerSimpleItem("blood_bottle");
@@ -343,13 +349,13 @@ public class MineCellsItems {
   public static void init() {
     AttackBlockCallback.EVENT.register(
       (player, world, hand, pos, direction) -> {
-        ItemStack stack = player.getStackInHand(hand);
+        ItemStack stack = player.getStackInHand(player.getActiveHand());
         if (stack.isOf(CROWBAR) && world.getBlockState(pos).isIn(BlockTags.WOODEN_DOORS)) {
           if (world.getBlockState(pos.down()).isIn(BlockTags.WOODEN_DOORS)) {
             world.breakBlock(pos.down(), false, player);
           }
           world.breakBlock(pos, false, player);
-          stack.getOrCreateNbt().putLong("lastDoorBreakTime", world.getTime());
+          LegacyUtil.getOrCreateNbt(stack).putLong("lastDoorBreakTime", world.getTime());
           return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
@@ -363,12 +369,12 @@ public class MineCellsItems {
   }
 
   public static Item registerSimpleItem(String name) {
-    return register(new Item(new FabricItemSettings()), name);
+    return register(new Item(new Item.Settings()), name);
   }
 
   public static DoorwayItem registerDoorwayItem(DoorwayPortalBlock doorway) {
     var item = register(
-      new DoorwayItem(new FabricItemSettings(), doorway),
+      new DoorwayItem(new Item.Settings(), doorway),
       doorway.type.dimension.key.getValue().getPath() + "_doorway"
     );
     DOORWAY_COLORS.put(item, doorway.type.color);

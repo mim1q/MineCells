@@ -1,15 +1,16 @@
 package com.github.mim1q.minecells.entity.nonliving;
 
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.ShockwaveClientEventS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
@@ -30,7 +31,8 @@ public class ShockwavePlacer extends Entity {
   private final Map<Integer, Set<BlockPos>> positions; // age mapped to positions
   private int maxAge;
   private BlockState block;
-  @Nullable private UUID ownerUuid;
+  @Nullable
+  private UUID ownerUuid;
   private float damage;
   private int blockAge;
 
@@ -67,9 +69,8 @@ public class ShockwavePlacer extends Entity {
         var placedPos = tryPlace(pos);
         if (placedPos != null) {
           getWorld().scheduleBlockTick(placedPos, block.getBlock(), blockAge);
-          PlayerLookup
-            .tracking((ServerWorld) getWorld(), placedPos)
-            .forEach(player -> ShockwaveClientEventS2CPacket.send(player, block.getBlock(), placedPos, false));
+          ServerPacketHandler.CHANNEL.serverHandle((ServerWorld) getWorld(), placedPos)
+            .send(new ShockwaveClientEventS2CPacket(block.getBlock(), placedPos, true));
           damageEntities(placedPos);
         }
       }
@@ -112,7 +113,7 @@ public class ShockwavePlacer extends Entity {
   }
 
   @Override
-  protected void initDataTracker() {
+  protected void initDataTracker(DataTracker.Builder builder) {
 
   }
 

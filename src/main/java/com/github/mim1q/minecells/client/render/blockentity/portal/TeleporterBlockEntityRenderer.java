@@ -12,7 +12,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 
 public class TeleporterBlockEntityRenderer implements BlockEntityRenderer<TeleporterBlockEntity> {
   private static final Identifier TEXTURE = MineCells.createId("textures/blockentity/teleporter_core.png");
@@ -84,25 +83,15 @@ public class TeleporterBlockEntityRenderer implements BlockEntityRenderer<Telepo
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) { }
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) { }
 
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int fillColor, int outlineColor) {
       portalFill.setPivot(0, 24, 0);
-      var fill = new float[] {
-        ColorHelper.Argb.getRed(fillColor) / 255F,
-        ColorHelper.Argb.getGreen(fillColor) / 255F,
-        ColorHelper.Argb.getBlue(fillColor) / 255F
-      };
-      var outline = new float[] {
-        ColorHelper.Argb.getRed(outlineColor) / 255F,
-        ColorHelper.Argb.getGreen(outlineColor) / 255F,
-        ColorHelper.Argb.getBlue(outlineColor) / 255F
-      };
 
-      portalFill.render(matrices, vertices, 0xF000F0, overlay, fill[0], fill[1], fill[2], 1.0F);
-      portalOutline.render(matrices, vertices, 0xF000D0, overlay, outline[0], outline[1], outline[2], 1.0F);
-      runesFill.render(matrices, vertices, 0xF000F0, overlay, fill[0], fill[1], fill[2], 1.0F);
-      runesOutline.render(matrices, vertices, 0xF000D0, overlay, outline[0], outline[1], outline[2], 1.0F);
+      portalFill.render(matrices, vertices, 0xF000F0, overlay, fillColor);
+      portalOutline.render(matrices, vertices, 0xF000D0, overlay, outlineColor);
+      runesFill.render(matrices, vertices, 0xF000F0, overlay, fillColor);
+      runesOutline.render(matrices, vertices, 0xF000D0, overlay, outlineColor);
     }
   }
 }

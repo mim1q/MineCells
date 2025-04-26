@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -18,8 +19,15 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class SpawnerRuneBlock extends BlockWithEntity {
+  public static final MapCodec<SpawnerRuneBlock> CODEC = createCodec(SpawnerRuneBlock::new);
+
   public SpawnerRuneBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @SuppressWarnings("deprecation")
@@ -54,7 +62,7 @@ public class SpawnerRuneBlock extends BlockWithEntity {
   @Nullable
   @Override
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-    return checkType(
+    return validateTicker(
       type,
       MineCellsBlockEntities.SPAWNER_RUNE,
       (entityWorld, pos, entityState, entity) -> entity.tick(entityWorld, pos, entityState)

@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity.boss;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.boss.BossBar;
@@ -65,7 +66,7 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void dropXp() {
+  protected void dropXp(Entity attacker) {
     if (!getWorld().isClient) {
       this.bossBar.getPlayers().forEach(player -> {
         var item = new ItemEntity(getWorld(), getX(), getY(), getZ(), MineCellsItems.BOSS_STEM_CELL.getDefaultStack());
@@ -74,7 +75,7 @@ public abstract class MineCellsBossEntity extends MineCellsEntity {
         getWorld().spawnEntity(item);
       });
     }
-    super.dropXp();
+    super.dropXp(attacker);
   }
 
   @Override

@@ -206,9 +206,9 @@ public class ConciergeEntityModel extends EntityModel<ConciergeEntity> {
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
     var overlayUv = entityAlive ? overlay : OverlayTexture.DEFAULT_UV;
-    this.root.render(matrices, vertices, light, overlayUv, red, green, blue, alpha);
+    this.root.render(matrices, vertices, light, overlayUv, color);
   }
 
   public static TexturedModelData getTexturedModelData() {

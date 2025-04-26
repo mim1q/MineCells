@@ -15,7 +15,7 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
   }
 
   @Override
-  public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+  public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
     entity.damage(MineCellsDamageSource.BLEEDING.get(entity.getWorld(), null), 0.5F);
     if (entity.getWorld() instanceof ServerWorld serverWorld) {
       serverWorld.spawnParticles(
@@ -30,6 +30,7 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
         0.1D
       );
     }
+    return false;
   }
 
   @Override

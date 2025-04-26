@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
@@ -27,6 +28,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -50,31 +52,32 @@ public class SewersTentacleEntity extends MineCellsEntity {
   private static final TrackedData<Boolean> DASH_CHARGING = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
   private static final TrackedData<Boolean> DASH_RELEASING = DataTracker.registerData(SewersTentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
-  private static final HashMultimap<EntityAttribute, EntityAttributeModifier> bossModifiers = HashMultimap.create();
+  private static final HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> bossModifiers = HashMultimap.create();
 
   static {
-    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier("boss_armor", 5.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier("boss_damage", 4.0D, EntityAttributeModifier.Operation.ADDITION));
-    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("boss_speed", 0.05D, EntityAttributeModifier.Operation.ADDITION));
+    bossModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MineCells.createId("boss_armor"), 5.0D, EntityAttributeModifier.Operation.ADD_VALUE));
+    bossModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(MineCells.createId("boss_damage"), 4.0D, EntityAttributeModifier.Operation.ADD_VALUE));
+    bossModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(MineCells.createId("boss_speed"), 0.05D, EntityAttributeModifier.Operation.ADD_VALUE));
   }
 
   private int buriedTicks = 0;
   private int dashCooldown = 100;
+  private float stepHeight = 0.5F;
 
   public SewersTentacleEntity(EntityType<SewersTentacleEntity> entityType, World world) {
     super(entityType, world);
-    this.setStepHeight(0.5F);
+    stepHeight = (0.5F);
     this.updateAttributeModifiers();
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(VARIANT, 0);
-    this.dataTracker.startTracking(BURIED, true);
-    this.dataTracker.startTracking(SPAWNED_BY_BOSS, false);
-    this.dataTracker.startTracking(DASH_CHARGING, false);
-    this.dataTracker.startTracking(DASH_RELEASING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(VARIANT, 0);
+    builder.add(BURIED, true);
+    builder.add(SPAWNED_BY_BOSS, false);
+    builder.add(DASH_CHARGING, false);
+    builder.add(DASH_RELEASING, false);
   }
 
   @Override
@@ -102,11 +105,11 @@ public class SewersTentacleEntity extends MineCellsEntity {
   private void switchDashState(TimedActionGoal.State state, boolean value) {
     if (state == TimedActionGoal.State.CHARGE && value) {
       setBuried(false);
-      this.setStepHeight(0.0F);
+      stepHeight = (0.0F);
     }
     if (state == TimedActionGoal.State.RELEASE && !value) {
       setBuried(true);
-      this.setStepHeight(1.0F);
+      stepHeight = (1.0F);
     }
     switch (state) {
       case CHARGE -> this.dataTracker.set(DASH_CHARGING, value);
@@ -116,7 +119,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     this.updateAttributeModifiers();
     float chance = this.random.nextFloat();
     int variant = 0;
@@ -128,7 +131,12 @@ public class SewersTentacleEntity extends MineCellsEntity {
       }
     }
     this.setVariant(variant);
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    return super.initialize(world, difficulty, spawnReason, entityData);
+  }
+
+  @Override
+  public float getStepHeight() {
+    return stepHeight;
   }
 
   @Override
@@ -297,7 +305,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
         if (ticks > 15) {
           ((SewersTentacleEntity) this.mob).setBuried(false);
           for (PlayerEntity player : this.mob.getWorld().getPlayers(TargetPredicate.DEFAULT, this.mob, this.mob.getBoundingBox().expand(0.75D, 0.0D, 0.75D))) {
-            this.attack(player, player.squaredDistanceTo(this.mob));
+            this.attack(player);
           }
           if (ticks > 80) {
             this.attacking = false;
@@ -323,7 +331,7 @@ public class SewersTentacleEntity extends MineCellsEntity {
     }
 
     @Override
-    protected void attack(LivingEntity target, double squaredDistance) {
+    protected void attack(LivingEntity target) {
       if (this.attacking) {
         float damage = (float) this.mob.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         target.damage(target.getDamageSources().mobAttack(this.mob), damage);

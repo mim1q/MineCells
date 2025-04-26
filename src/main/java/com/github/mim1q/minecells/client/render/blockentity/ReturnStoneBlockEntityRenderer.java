@@ -47,15 +47,14 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
     matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(rotation)));
     VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityShadow(TEXTURE));
     matrices.translate(0.0F, 0.5F / 16F, 5.01F / 16F);
-    Matrix3f m3f = matrices.peek().getNormalMatrix();
-    Matrix4f m4f = matrices.peek().getPositionMatrix();
+    var entry = matrices.peek();
 
     float dx = 5.0F / 16.0F;
     float dy = 3.5F / 16.0F;
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -dx, -dy, 0F, 19 / 32F, 17 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, dx, -dy, 0F, 9 / 32F, 17 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, dx, dy, 0F, 9 / 32F, 24 / 32F, 255);
-    RenderUtils.produceVertex(consumer, m4f, m3f, 0xF000F0, -dx, dy, 0F, 19 / 32F, 24 / 32F, 255);
+    RenderUtils.produceVertex(consumer, entry, 0xF000F0, -dx, -dy, 0F, 19 / 32F, 17 / 32F, 255);
+    RenderUtils.produceVertex(consumer, entry, 0xF000F0, dx, -dy, 0F, 9 / 32F, 17 / 32F, 255);
+    RenderUtils.produceVertex(consumer, entry, 0xF000F0, dx, dy, 0F, 9 / 32F, 24 / 32F, 255);
+    RenderUtils.produceVertex(consumer, entry, 0xF000F0, -dx, dy, 0F, 19 / 32F, 24 / 32F, 255);
     matrices.pop();
   }
 

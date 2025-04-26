@@ -11,15 +11,14 @@ import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -137,14 +136,15 @@ public class SpawnerRuneController {
   }
 
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
-    Entity spawnedEntity = entityData.entityType().create(world, null, null, pos, SpawnReason.NATURAL, false, false);
+    Entity spawnedEntity = entityData.entityType().create(world);
     if (spawnedEntity == null) return null;
     if (spawnedEntity instanceof LivingEntity livingEntity) {
       for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
-        ServerPlayNetworking.send(player, SpawnRuneParticlesS2CPacket.ID, new SpawnRuneParticlesS2CPacket(livingEntity.getBoundingBox().expand(0.5D)));
+        ServerPacketHandler.CHANNEL.serverHandle(player).send(new SpawnRuneParticlesS2CPacket(livingEntity.getBoundingBox().expand(0.5D)));
       }
       entityData.attributeOverrides().forEach((attribute, value) -> {
-        var instance = livingEntity.getAttributeInstance(attribute);
+        var entry = Registries.ATTRIBUTE.getEntry(attribute);
+        var instance = livingEntity.getAttributeInstance(entry);
         if (instance != null) {
           instance.setBaseValue(value);
         }

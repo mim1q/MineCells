@@ -48,7 +48,7 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
       this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
       RenderLayer renderLayer = RenderLayer.getEntityCutout(this.getTexture(entity));
       VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
-      this.model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
     }
     matrices.pop();
   }
@@ -139,7 +139,7 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
 
       Entity player = MinecraftClient.getInstance().getCameraEntity();
       if (player != null) {
-        Vec3d rotatedDiff = entity.getEyeOffset(MinecraftClient.getInstance().getTickDelta());
+        Vec3d rotatedDiff = entity.getEyeOffset(MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false));
 
         this.eye.pivotX = (float) rotatedDiff.x;
         this.eye.pivotY = (float) rotatedDiff.y;
@@ -148,10 +148,10 @@ public class ConjunctiviusEyeRenderer extends FeatureRenderer<ConjunctiviusEntit
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
       matrices.push();
-      this.eye.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-      this.highlight.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+      this.eye.render(matrices, vertices, light, overlay, color);
+      this.highlight.render(matrices, vertices, light, overlay, color);
       matrices.pop();
     }
   }

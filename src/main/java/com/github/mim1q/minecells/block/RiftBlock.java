@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.cc.MineCellsLevelCC;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.util.TeleportUtils;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.EntityShapeContext;
@@ -24,8 +25,15 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class RiftBlock extends BlockWithEntity {
+  public static final MapCodec<RiftBlock> CODEC = createCodec(RiftBlock::new);
+
   public RiftBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @Nullable
@@ -62,6 +70,6 @@ public class RiftBlock extends BlockWithEntity {
 
   @Nullable
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-    return checkType(type, MineCellsBlockEntities.RIFT, RiftBlockEntity::tick);
+    return validateTicker(type, MineCellsBlockEntities.RIFT, RiftBlockEntity::tick);
   }
 }

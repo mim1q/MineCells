@@ -72,10 +72,10 @@ public class FlyEntity extends MineCellsEntity {
     this.targetSelector.add(0, new RevengeGoal(this));  }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(BITE_CHARGING, false);
-    this.dataTracker.startTracking(BITE_RELEASING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(BITE_CHARGING, false);
+    builder.add(BITE_RELEASING, false);
   }
 
   @Override

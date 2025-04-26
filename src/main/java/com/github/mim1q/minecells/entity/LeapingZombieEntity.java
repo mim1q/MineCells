@@ -32,11 +32,11 @@ public class LeapingZombieEntity extends MineCellsEntity implements ILeapEntity 
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(LEAP_COOLDOWN, 50);
-    this.dataTracker.startTracking(LEAP_CHARGING, false);
-    this.dataTracker.startTracking(LEAP_RELEASING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(LEAP_COOLDOWN, 50);
+    builder.add(LEAP_CHARGING, false);
+    builder.add(LEAP_RELEASING, false);
   }
 
   @Override

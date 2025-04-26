@@ -10,17 +10,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityClientMixin extends Entity {
-  @Shadow public abstract Random getRandom();
 
   protected LivingEntityClientMixin(EntityType<? extends LivingEntity> entityType, World world) {
     super(entityType, world);
@@ -31,7 +28,7 @@ public abstract class LivingEntityClientMixin extends Entity {
     if (!getWorld().isClient || this.getRandom().nextFloat() < 0.2F) {
       return;
     }
-    LivingEntityAccessor accessor = ((LivingEntityAccessor)this);
+    LivingEntityAccessor accessor = ((LivingEntityAccessor) this);
     ParticleEffect particle = null;
 
     if (accessor.getMineCellsFlag(MineCellsEffectFlags.FROZEN)) {
@@ -40,7 +37,7 @@ public abstract class LivingEntityClientMixin extends Entity {
 
     if (particle != null) {
       ParticleUtils.addInBox(
-        (ClientWorld) getWorld(),
+        getWorld(),
         particle,
         this.getBoundingBox().expand(0.1D),
         1,

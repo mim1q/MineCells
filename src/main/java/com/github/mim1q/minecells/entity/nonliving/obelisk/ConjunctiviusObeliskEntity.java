@@ -43,7 +43,7 @@ public class ConjunctiviusObeliskEntity extends BossObeliskEntity {
   @Override
   protected void postProcessEntity(Entity entity) {
     entity.refreshPositionAndAngles(this.getX(), this.getY() + 10, this.getZ(), 180F, 0F);
-    ((ConjunctiviusEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null, null);
+    ((ConjunctiviusEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.SPAWNER, null);
   }
 
   @Override

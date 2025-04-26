@@ -8,6 +8,7 @@ import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarrageGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.UpdateConjunctiviusBossBarS2CPacket;
 import com.github.mim1q.minecells.registry.*;
 import com.github.mim1q.minecells.util.MathUtils;
@@ -24,11 +25,11 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
@@ -127,7 +128,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     this.spawnPos = Vec3d.ofCenter(this.getBlockPos());
     this.roomBox = this.createBox();
     this.direction = Direction.NORTH;
@@ -136,7 +137,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
     BlockPos leftAnchor = this.getBlockPos().add(11, 0, 0);
     BlockPos rightAnchor = this.getBlockPos().add(-11, 0, 0);
     this.setAnchors(topAnchor, leftAnchor, rightAnchor);
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    return super.initialize(world, difficulty, spawnReason, entityData);
   }
 
   protected BlockBox createBox() {
@@ -151,27 +152,29 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(DASH_RELEASING, false);
-    this.dataTracker.startTracking(DASH_CHARGING, false);
-    this.dataTracker.startTracking(AURA_RELEASING, false);
-    this.dataTracker.startTracking(AURA_CHARGING, false);
-    this.dataTracker.startTracking(BARRAGE_ACTIVE, false);
-    this.dataTracker.startTracking(ANCHOR_TOP, this.getBlockPos());
-    this.dataTracker.startTracking(ANCHOR_LEFT, this.getBlockPos());
-    this.dataTracker.startTracking(ANCHOR_RIGHT, this.getBlockPos());
-    this.dataTracker.startTracking(STAGE, 0);
-    this.dataTracker.startTracking(TARGET_ID, -1);
-    this.dataTracker.startTracking(DASH_TARGET, new Vector3f(0.0F, 0.0F, 0.0F));
-    this.dataTracker.startTracking(MAX_TENTACLE_COUNT, 0);
-    this.dataTracker.startTracking(TENTACLE_COUNT, 0);
-    this.dataTracker.startTracking(BOSSBAR_UUID, bossBar == null ? Optional.empty() : Optional.of(bossBar.getUuid()));
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(DASH_RELEASING, false);
+    builder.add(DASH_CHARGING, false);
+    builder.add(AURA_RELEASING, false);
+    builder.add(AURA_CHARGING, false);
+    builder.add(BARRAGE_ACTIVE, false);
+    builder.add(ANCHOR_TOP, this.getBlockPos());
+    builder.add(ANCHOR_LEFT, this.getBlockPos());
+    builder.add(ANCHOR_RIGHT, this.getBlockPos());
+    builder.add(STAGE, 0);
+    builder.add(TARGET_ID, -1);
+    builder.add(DASH_TARGET, new Vector3f(0.0F, 0.0F, 0.0F));
+    builder.add(MAX_TENTACLE_COUNT, 0);
+    builder.add(TENTACLE_COUNT, 0);
+    builder.add(BOSSBAR_UUID, bossBar == null ? Optional.empty() : Optional.of(bossBar.getUuid()));
   }
 
   @Override
   protected void initGoals() {
-    this.goalSelector.getRunningGoals().forEach(Goal::stop);
+    this.goalSelector.getGoals().forEach(it -> {
+      if (it.isRunning()) it.stop();
+    });
     this.goalSelector.clear(it -> true);
 
     var auraGoal = new ConjunctiviusAuraGoal(this, s -> {
@@ -559,14 +562,12 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
   }
 
   private void updateBossBarForPlayers() {
-    for (ServerPlayerEntity player : bossBar.getPlayers()) {
-      UpdateConjunctiviusBossBarS2CPacket.send(
-        player,
+    ServerPacketHandler.CHANNEL.serverHandle(bossBar.getPlayers()).send(
+      new UpdateConjunctiviusBossBarS2CPacket(
         bossBar.getUuid(),
         dataTracker.get(TENTACLE_COUNT),
         dataTracker.get(MAX_TENTACLE_COUNT)
-      );
-    }
+      ));
   }
 
   protected void switchDashState(TimedActionGoal.State state, boolean value) {
@@ -878,7 +879,7 @@ public class ConjunctiviusEntity extends MineCellsBossEntity {
             40D,
             "minecells:conjunctivius_smash"
           );
-          serverWorld.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 2.0F, 1.0F);
+          serverWorld.playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.HOSTILE, 2.0F, 1.0F);
         }
       }
 

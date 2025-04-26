@@ -11,6 +11,7 @@ import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.screenshake.ScreenShakeUtils;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -87,7 +88,7 @@ public class FlintItem extends CustomMeleeWeapon implements WeaponWithAbility {
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.FLINT_RELEASE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     world.playSound(null, user.getX(), user.getY(), user.getZ(), MineCellsSounds.HIT_FLOOR, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-    stack.damage(2, user, p -> p.sendToolBreakStatus(flintHand));
+    stack.damage(2, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 
     ScreenShakeUtils.shakeAround(
       (ServerWorld) world,
@@ -111,7 +112,7 @@ public class FlintItem extends CustomMeleeWeapon implements WeaponWithAbility {
   }
 
   @Override
-  public int getMaxUseTime(ItemStack stack) {
+  public int getMaxUseTime(ItemStack stack, LivingEntity user) {
     return 3600 * 20;
   }
 

@@ -28,7 +28,7 @@ public class MineCellsDumpCommand {
     var world = context.getSource().getWorld();
     var component = MineCellsLevelCC.PORTALS.get(world.getScoreboard());
     var nbt = new NbtCompound();
-    component.writeToNbt(nbt);
+    component.writeToNbt(nbt, world.getRegistryManager());
 
     var path = FabricLoader.getInstance().getGameDir().resolve("minecells_dumps/portals.json");
     try {

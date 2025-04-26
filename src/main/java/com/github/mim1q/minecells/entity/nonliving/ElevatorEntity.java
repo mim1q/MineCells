@@ -4,15 +4,14 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
-import com.github.mim1q.minecells.network.PacketIdentifiers;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
+import com.github.mim1q.minecells.network.s2c.ElevatorDestroyedS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
@@ -25,7 +24,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -89,13 +87,13 @@ public class ElevatorEntity extends Entity {
   }
 
   @Override
-  protected void initDataTracker() {
-    this.dataTracker.startTracking(MOVING, false);
-    this.dataTracker.startTracking(GOING_UP, false);
-    this.dataTracker.startTracking(ROTATED, false);
-    this.dataTracker.startTracking(VELOCITY_MODIFIER, 0.0F);
-    this.dataTracker.startTracking(MIN_Y, (int) this.getY());
-    this.dataTracker.startTracking(MAX_Y, (int) this.getY());
+  protected void initDataTracker(DataTracker.Builder builder) {
+    builder.add(MOVING, false);
+    builder.add(GOING_UP, false);
+    builder.add(ROTATED, false);
+    builder.add(VELOCITY_MODIFIER, 0.0F);
+    builder.add(MIN_Y, (int) this.getY());
+    builder.add(MAX_Y, (int) this.getY());
   }
 
   @Override
@@ -220,19 +218,15 @@ public class ElevatorEntity extends Entity {
         getWorld().spawnEntity(entity);
       }
       this.playSound(SoundEvents.BLOCK_WOOD_BREAK, 1.0F, 1.0F);
-      PacketByteBuf buf = PacketByteBufs.create();
-      buf.writeDouble(this.getX());
-      buf.writeDouble(this.getY());
-      buf.writeDouble(this.getZ());
       for (ServerPlayerEntity player : PlayerLookup.tracking(this)) {
-        ServerPlayNetworking.send(player, PacketIdentifiers.ELEVATOR_DESTROYED, buf);
+        ServerPacketHandler.CHANNEL.serverHandle(player).send(new ElevatorDestroyedS2CPacket(getPos()));
       }
       super.kill();
     }
   }
 
   @Override
-  public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+  public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
     this.setPosition(x, this.getY(), z);
     this.serverY = y;
     this.interpolationSteps = interpolationSteps;

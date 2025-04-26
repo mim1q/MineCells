@@ -36,11 +36,11 @@ public class InquisitorEntity extends MineCellsEntity implements IShootEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(SHOOT_COOLDOWN, 0);
-    this.dataTracker.startTracking(SHOOT_CHARGING, false);
-    this.dataTracker.startTracking(SHOOT_RELEASING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(SHOOT_COOLDOWN, 0);
+    builder.add(SHOOT_CHARGING, false);
+    builder.add(SHOOT_RELEASING, false);
   }
 
   @Override

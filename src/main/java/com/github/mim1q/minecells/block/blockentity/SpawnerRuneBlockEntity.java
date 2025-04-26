@@ -4,6 +4,8 @@ import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneController;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryEntryLookup;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,15 +25,17 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   }
 
   @Override
-  public void readNbt(NbtCompound nbt) {
-    super.readNbt(nbt);
+  public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.readNbt(nbt, lookup);
     controller.setDataId(getWorld(), getPos(), Identifier.tryParse(nbt.getString("dataId")));
     controller.setLastActivationTime(nbt.getLong("last_activation_time"));
   }
 
+
+
   @Override
-  protected void writeNbt(NbtCompound nbt) {
-    super.writeNbt(nbt);
+  protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    super.writeNbt(nbt, lookup);
     if (controller.getDataId() != null) {
       nbt.putString("dataId", controller.getDataId().toString());
     }

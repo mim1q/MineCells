@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.world.placement;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.world.feature.MineCellsStructurePlacementTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +24,7 @@ public class InsideGridPlacement extends StructurePlacement {
   private static final Map<CacheKey, List<ChunkPos>> CACHE = new ConcurrentHashMap<>(512);
   private static long cachedSeed = 0;
 
-  public static final Codec<InsideGridPlacement> CODEC = RecordCodecBuilder.create(instance ->
+  public static final MapCodec<InsideGridPlacement> CODEC = RecordCodecBuilder.mapCodec(instance ->
     instance.group(
       Vec3i.createOffsetCodec(16).optionalFieldOf("locate_offset", Vec3i.ZERO).forGetter(InsideGridPlacement::getLocateOffset),
       Codecs.NONNEGATIVE_INT.optionalFieldOf("salt", 0).forGetter(InsideGridPlacement::getSalt),

@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.effect;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
+import com.github.mim1q.minecells.mixin.entity.LivingEntityMixin;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.registry.RegistryKeys;
 
 public class MineCellsStatusEffect extends StatusEffect {
 
@@ -24,20 +26,18 @@ public class MineCellsStatusEffect extends StatusEffect {
     return this.shouldApplyUpdateEffect;
   }
 
-  @Override
   public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
     if (flag != null) {
       ((LivingEntityAccessor) entity).setMineCellsFlag(flag, false);
     }
-    super.onRemoved(entity, attributes, amplifier);
   }
 
   @Override
-  public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+  public void onApplied(LivingEntity entity, int amplifier) {
     if (flag != null) {
       ((LivingEntityAccessor) entity).setMineCellsFlag(flag, true);
     }
-    super.onApplied(entity, attributes, amplifier);
+    super.onApplied(entity, amplifier);
   }
 
   public boolean isIncurable() {

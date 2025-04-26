@@ -1,17 +1,24 @@
 package com.github.mim1q.minecells.particle.colored;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 
 public class ColoredParticleType extends ParticleType<ColoredParticleEffect> {
   protected ColoredParticleType() {
-    super(true, ColoredParticleEffect.PARAMETERS_FACTORY);
+    super(true);
   }
 
   @Override
-  public Codec<ColoredParticleEffect> getCodec() {
+  public MapCodec<ColoredParticleEffect> getCodec() {
     return ColoredParticleEffect.createCodec(this);
+  }
+
+  @Override
+  public PacketCodec<? super RegistryByteBuf, ColoredParticleEffect> getPacketCodec() {
+    return ColoredParticleEffect.createPacketCodec(this);
   }
 
   public static ColoredParticleType create() {

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.feature;
 
 import com.github.mim1q.minecells.world.feature.placementmodifier.ExcludeChunkMultiplesPlacementModifier;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.placementmodifier.PlacementModifier;
@@ -15,7 +16,7 @@ public class MineCellsPlacementModifiers {
 
   public static void init() { }
 
-  private static <P extends PlacementModifier> PlacementModifierType<P> register(String id, Codec<P> codec) {
+  private static <P extends PlacementModifier> PlacementModifierType<P> register(String id, MapCodec<P> codec) {
     return Registry.register(Registries.PLACEMENT_MODIFIER_TYPE, id, () -> codec);
   }
 }

@@ -31,12 +31,10 @@ public class MineCells implements ModInitializer {
   public static final String MOD_ID = "minecells";
   public static final Logger LOGGER = LogManager.getLogger();
 
-  public static final MineCellsDimensionGraph DIMENSION_GRAPH = new MineCellsDimensionGraph();
-
   public static final LootPoolEntryType SPECIAL_WEAPON_LOOT_ENTRY = Registry.register(
     Registries.LOOT_POOL_ENTRY_TYPE,
     createId("special_weapon"),
-    new LootPoolEntryType(new SpecialWeaponLootEntry.Serializer())
+    new LootPoolEntryType(SpecialWeaponLootEntry.CODEC)
   );
 
   @Override
@@ -71,6 +69,6 @@ public class MineCells implements ModInitializer {
   }
 
   public static Identifier createId(String path) {
-    return new Identifier(MOD_ID, path);
+    return Identifier.of(MOD_ID, path);
   }
 }

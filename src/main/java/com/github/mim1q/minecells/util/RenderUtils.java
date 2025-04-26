@@ -8,18 +8,16 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 import java.util.List;
 
 public class RenderUtils {
-  public static void produceVertex(VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, int light, float x, float y, float z, float textureU, float textureV, int alpha) {
-    vertexConsumer.vertex(positionMatrix, x, y, z).color(255, 255, 255, alpha).texture(textureU, textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
+  public static void produceVertex(VertexConsumer vertexConsumer, MatrixStack.Entry entry, int light, float x, float y, float z, float textureU, float textureV, int alpha) {
+    vertexConsumer.vertex(entry, x, y, z).color(255, 255, 255, alpha).texture(textureU, textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(entry, 0.0F, 1.0F, 0.0F);
   }
 
-  public static void produceVertex(VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, int light, int argb, float x, float y, float z, float textureU, float textureV, int overlay) {
-    vertexConsumer.vertex(positionMatrix, x, y, z).color(argb).texture(textureU, textureV).overlay(overlay).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
+  public static void produceVertex(VertexConsumer vertexConsumer, MatrixStack.Entry entry, int light, int argb, float x, float y, float z, float textureU, float textureV, int overlay) {
+    vertexConsumer.vertex(entry, x, y, z).color(argb).texture(textureU, textureV).overlay(overlay).light(light).normal(entry, 0.0F, 1.0F, 0.0F);
   }
 
   public static void drawBillboard(VertexConsumer consumer, MatrixStack matrices, int light, float width, float height, int argb) {
@@ -42,17 +40,16 @@ public class RenderUtils {
   }
 
   public static float getGlobalAnimationProgress() {
-    return MinecraftClient.getInstance().inGameHud.getTicks() + MinecraftClient.getInstance().getTickDelta();
+    return MinecraftClient.getInstance().inGameHud.getTicks() + MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
   }
 
   public static void drawBillboard(VertexConsumer consumer, MatrixStack matrices, int light, float minX, float maxX, float minY, float maxY, float minU, float maxU, float minV, float maxV, int argb, int overlay) {
-    Matrix3f m3f = matrices.peek().getNormalMatrix();
-    Matrix4f m4f = matrices.peek().getPositionMatrix();
+    var entry = matrices.peek();
 
-    RenderUtils.produceVertex(consumer, m4f, m3f, light, argb, minX, maxY, 0F, minU, minV, overlay);
-    RenderUtils.produceVertex(consumer, m4f, m3f, light, argb, maxX, maxY, 0F, maxU, minV, overlay);
-    RenderUtils.produceVertex(consumer, m4f, m3f, light, argb, maxX, minY, 0F, maxU, maxV, overlay);
-    RenderUtils.produceVertex(consumer, m4f, m3f, light, argb, minX, minY, 0F, minU, maxV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, minX, maxY, 0F, minU, minV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, maxX, maxY, 0F, maxU, minV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, maxX, minY, 0F, maxU, maxV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, minX, minY, 0F, minU, maxV, overlay);
   }
 
   public static void renderBakedModel(
@@ -82,7 +79,7 @@ public class RenderUtils {
         matrices.peek(),
         quad,
         new float[]{1.0F, 1.0F, 1.0F, 1.0F},
-        1f, 1f, 1f,
+        1f, 1f, 1f, 1f,
         new int[]{light, light, light, light},
         OverlayTexture.DEFAULT_UV,
         false

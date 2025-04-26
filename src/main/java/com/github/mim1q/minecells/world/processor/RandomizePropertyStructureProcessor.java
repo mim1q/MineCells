@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.world.processor;
 
 import com.github.mim1q.minecells.registry.MineCellsStructureProcessorTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
@@ -20,7 +21,7 @@ public class RandomizePropertyStructureProcessor extends StructureProcessor {
   private final List<Block> blocks;
   private final String propertyName;
 
-  public static final Codec<RandomizePropertyStructureProcessor> CODEC = RecordCodecBuilder.create(instance ->
+  public static final MapCodec<RandomizePropertyStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance ->
     instance.group(
       Registries.BLOCK.getCodec().listOf().fieldOf("blocks").forGetter(it -> it.blocks),
       Codec.STRING.fieldOf("property_name").forGetter(it -> it.propertyName)

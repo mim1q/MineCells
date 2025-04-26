@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.block.portal;
 import com.github.mim1q.minecells.block.FillerBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.ModelUtils;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -24,8 +26,15 @@ public class TeleporterBlock extends BlockWithEntity {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
   private static final VoxelShape SHAPE = createCuboidShape(0, 0, 6, 16, 16, 10);
 
+  public static final MapCodec<TeleporterBlock> CODEC = createCodec(TeleporterBlock::new);
+
   public TeleporterBlock(Settings settings) {
     super(settings.nonOpaque().luminance(state -> 8));
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return null;
   }
 
   @Nullable

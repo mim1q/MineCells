@@ -1,12 +1,21 @@
 package com.github.mim1q.minecells.block.setupblocks;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BeamPlacerBlock extends SetupBlock {
   public BeamPlacerBlock(Settings settings) {
     super(settings);
+  }
+
+  public static final MapCodec<BeamPlacerBlock> CODEC = createCodec(BeamPlacerBlock::new);
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @Override

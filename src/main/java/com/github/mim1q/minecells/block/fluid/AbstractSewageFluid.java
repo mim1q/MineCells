@@ -39,11 +39,6 @@ public abstract class AbstractSewageFluid extends FlowableFluid {
   }
 
   @Override
-  protected int getFlowSpeed(WorldView worldView) {
-    return 4;
-  }
-
-  @Override
   protected int getLevelDecreasePerBlock(WorldView worldView) {
     return 1;
   }

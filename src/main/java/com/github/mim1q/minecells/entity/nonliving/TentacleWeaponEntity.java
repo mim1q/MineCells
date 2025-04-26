@@ -151,9 +151,9 @@ public class TentacleWeaponEntity extends Entity {
   }
 
   @Override
-  protected void initDataTracker() {
-    this.dataTracker.startTracking(RETRACTING, false);
-    this.dataTracker.startTracking(TARGET_POS, new Vector3f((float) this.getX(), (float) this.getY(), (float) this.getZ()));
+  protected void initDataTracker(DataTracker.Builder builder) {
+    builder.add(RETRACTING, false);
+    builder.add(TARGET_POS, new Vector3f((float) this.getX(), (float) this.getY(), (float) this.getZ()));
   }
 
   private Vec3d getTargetPos() {

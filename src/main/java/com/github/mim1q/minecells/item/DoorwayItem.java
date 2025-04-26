@@ -7,18 +7,17 @@ import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.OpenDoorwayScreenS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class DoorwayItem extends AliasedBlockItem {
     var pos = context.getBlockPos();
     if (
       world.getBlockState(pos.down()).isOpaqueFullCube(world, pos)
-      || world.getBlockState(pos.down(2)).isOpaqueFullCube(world, pos)
+        || world.getBlockState(pos.down(2)).isOpaqueFullCube(world, pos)
     ) {
       var side = context.getSide().getAxis().isVertical()
         ? context.getHorizontalPlayerFacing().getOpposite()
@@ -104,7 +103,7 @@ public class DoorwayItem extends AliasedBlockItem {
     // Place frames
     world.setBlockState(pos.add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.MIDDLE, direction));
     world.setBlockState(pos.add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP, direction));
-    world.setBlockState(pos.add(leftVec).add(0, dy, 0),  frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
+    world.setBlockState(pos.add(leftVec).add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
     world.setBlockState(pos.add(leftVec).add(0, dy + 1, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.LEFT, direction));
     world.setBlockState(pos.add(leftVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_LEFT, direction));
     world.setBlockState(pos.add(rightVec).add(0, dy, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.RIGHT, direction));
@@ -116,15 +115,15 @@ public class DoorwayItem extends AliasedBlockItem {
 
   @Override
   public boolean hasGlint(ItemStack stack) {
-    return super.hasGlint(stack) || stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride");
+    return super.hasGlint(stack) || LegacyUtil.getOrCreateSubNbt(stack, "BlockEntityTag").contains("posOverride");
   }
 
   @Override
-  public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-    super.appendTooltip(stack, world, tooltip, context);
+  public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    super.appendTooltip(stack, context, tooltip, type);
     tooltip.add(Text.translatable(DESCRIPTION).formatted(Formatting.DARK_GRAY));
-    if (stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride")) {
-      var posOverride = BlockPos.fromLong(stack.getOrCreateSubNbt("BlockEntityTag").getLong("posOverride"));
+    if (LegacyUtil.getOrCreateSubNbt(stack, "BlockEntityTag").contains("posOverride")) {
+      var posOverride = BlockPos.fromLong(LegacyUtil.getOrCreateSubNbt(stack, "BlockEntityTag").getLong("posOverride"));
       var x = posOverride.getX();
       var z = posOverride.getZ();
       var area = "[x: " + x + ", z: " + z + "]";

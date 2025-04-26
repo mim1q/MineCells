@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
@@ -101,7 +102,7 @@ public class SimpleProjectileEntity extends Entity {
   }
 
   @Override
-  protected void initDataTracker() {
+  protected void initDataTracker(DataTracker.Builder builder) {
 
   }
 

@@ -43,7 +43,7 @@ public class EmiCellCrafterRecipeDisplay implements EmiRecipe {
 
   @Override
   public List<EmiStack> getOutputs() {
-    return List.of(EmiStack.of(recipe.getOutput(null)));
+    return List.of(EmiStack.of(recipe.getResult(null)));
   }
 
   @Override

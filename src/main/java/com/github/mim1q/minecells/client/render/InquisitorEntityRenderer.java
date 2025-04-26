@@ -56,12 +56,10 @@ public class InquisitorEntityRenderer extends MineCellsEntityRenderer<Inquisitor
       matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     }
     MatrixStack.Entry entry = matrixStack.peek();
-    Matrix4f matrix4f = entry.getPositionMatrix();
-    Matrix3f matrix3f = entry.getNormalMatrix();
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, 0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, 255);
-    RenderUtils.produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF000F0, -0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, entry, 0xF000F0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, entry, 0xF000F0, 0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, entry, 0xF000F0, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, 255);
+    RenderUtils.produceVertex(vertexConsumer, entry, 0xF000F0, -0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 255);
     matrixStack.pop();
   }
 

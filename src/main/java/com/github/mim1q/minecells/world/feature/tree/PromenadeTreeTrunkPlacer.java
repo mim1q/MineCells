@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.world.feature.tree;
 import com.github.mim1q.minecells.world.feature.MineCellsPlacerTypes;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeFoliagePlacer.PromenadeLeafNode;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
 import net.minecraft.block.BlockState;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class PromenadeTreeTrunkPlacer extends StraightTrunkPlacer implements PromenadeTreeHelper {
-  public static final Codec<PromenadeTreeTrunkPlacer> CODEC = RecordCodecBuilder.create(
+  public static final MapCodec<PromenadeTreeTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
     (instance) -> fillTrunkPlacerFields(instance).apply(instance, PromenadeTreeTrunkPlacer::new)
   );
 

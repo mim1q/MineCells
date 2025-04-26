@@ -2,14 +2,13 @@ package com.github.mim1q.minecells.block.setupblocks;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.ElevatorEntity;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,8 +17,10 @@ public class ElevatorAssemblerBlock extends SetupBlock {
   public static final Property<Boolean> WAITING = BooleanProperty.of("waiting");
   public static final Property<Boolean> UNBREAKABLE = BooleanProperty.of("unbreakable");
 
+  public static final MapCodec<ElevatorAssemblerBlock> CODEC = createCodec(s -> new ElevatorAssemblerBlock());
+
   public ElevatorAssemblerBlock() {
-    super(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).hardness(0.5F));
+    super(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS).hardness(0.5F));
     this.setDefaultState(
       this.stateManager.getDefaultState()
         .with(WAITING, false)
@@ -29,12 +30,13 @@ public class ElevatorAssemblerBlock extends SetupBlock {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     boolean result = this.setup(world, pos, state);
     return result ? ActionResult.SUCCESS : ActionResult.FAIL;
   }
 
-  @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+  @Override
+  protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
     super.appendProperties(builder);
     builder.add(WAITING, UNBREAKABLE);
   }
@@ -87,6 +89,11 @@ public class ElevatorAssemblerBlock extends SetupBlock {
       return true;
     }
     return false;
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @Override

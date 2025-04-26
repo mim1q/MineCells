@@ -33,6 +33,7 @@ import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
+import com.github.mim1q.minecells.util.LegacyUtil;
 import com.github.mim1q.minecells.world.FoggyDimensionEffects;
 import com.github.mim1q.minecells.world.PromenadeDimensionEffects;
 import dev.mim1q.gimm1q.client.render.overlay.ModelOverlayFeatureRenderer;
@@ -280,7 +281,7 @@ public class MineCellsRenderers {
 
     ModelPredicateProviderRegistry.register(
       MineCellsItems.HATTORIS_KATANA,
-      new Identifier("blocking"),
+      Identifier.of("blocking"),
       (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
     );
 
@@ -288,7 +289,7 @@ public class MineCellsRenderers {
       MineCellsItems.CELL_HOLDER,
       MineCells.createId("cells"),
       (stack, world, entity, seed) -> {
-        var nbt = stack.getNbt();
+        var nbt = LegacyUtil.getOrCreateNbt(stack);
         if (nbt == null) return 0f;
 
         var cells = nbt.getInt("Cells");
@@ -371,7 +372,7 @@ public class MineCellsRenderers {
 
     // Actual feature renderers:
 
-    final var iceTexture = new Identifier("textures/block/ice.png");
+    final var iceTexture = Identifier.of("textures/block/ice.png");
     final var bloodOverlay = MineCells.createId("textures/entity/effect/blood_overlay.png");
 
     LivingEntityFeatureRendererRegistrationCallback.EVENT.register(

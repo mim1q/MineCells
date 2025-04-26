@@ -11,8 +11,6 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
@@ -32,18 +30,16 @@ public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
     matrixStack.multiply(this.dispatcher.getRotation());
     matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     MatrixStack.Entry entry = matrixStack.peek();
-    Matrix4f matrix4f = entry.getPositionMatrix();
-    Matrix3f matrix3f = entry.getNormalMatrix();
     VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(LAYER);
-    produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, 0.0F, 0, 0, 1);
-    produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, 1.0F, 0, 1, 1);
-    produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, 1.0F, 1, 1, 0);
-    produceVertex(vertexConsumer, matrix4f, matrix3f, 0xF0, 0.0F, 1, 0, 0);
+    produceVertex(vertexConsumer, entry, 0xF0, 0.0F, 0, 0, 1);
+    produceVertex(vertexConsumer, entry, 0xF0, 1.0F, 0, 1, 1);
+    produceVertex(vertexConsumer, entry, 0xF0, 1.0F, 1, 1, 0);
+    produceVertex(vertexConsumer, entry, 0xF0, 0.0F, 1, 0, 0);
     matrixStack.pop();
   }
 
-  public static void produceVertex(VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, int light, float x, int y, int textureU, int textureV) {
-    vertexConsumer.vertex(positionMatrix, x - 0.5F, (float) y - 0.25F, 0.0F).color(255, 255, 255, 255).texture((float) textureU, (float) textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).next();
+  public static void produceVertex(VertexConsumer vertexConsumer, MatrixStack.Entry entry, int light, float x, int y, int textureU, int textureV) {
+    vertexConsumer.vertex(entry, x - 0.5F, (float) y - 0.25F, 0.0F).color(255, 255, 255, 255).texture((float) textureU, (float) textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(entry, 0.0F, 1.0F, 0.0F);
   }
 
   @Override

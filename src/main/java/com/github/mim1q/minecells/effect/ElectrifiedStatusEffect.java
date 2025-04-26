@@ -6,7 +6,6 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -26,8 +25,8 @@ public class ElectrifiedStatusEffect extends StatusEffect {
   }
 
   @Override
-  public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-    if (entity.isDead() || entity.getWorld().isClient) return;
+  public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
+    if (entity.isDead() || entity.getWorld().isClient) return false;
 
     var damage = 1.0F;
     var interval = 15;
@@ -36,7 +35,7 @@ public class ElectrifiedStatusEffect extends StatusEffect {
       interval = 10;
     }
 
-    if (entity.age % interval != 0) return;
+    if (entity.age % interval != 0) return false;
 
     entity.damage(MineCellsDamageSource.ELECTRICITY.get(entity.getWorld()), damage);
     entity.getWorld().playSound(null, entity.getBlockPos(), MineCellsSounds.SHOCK, SoundCategory.NEUTRAL, 0.5F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
@@ -58,10 +57,12 @@ public class ElectrifiedStatusEffect extends StatusEffect {
         );
       }
     }
+
+    return true;
   }
 
   @Override
-  public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+  public void onApplied(LivingEntity entity, int amplifier) {
     if ((amplifier == 1 && entity.isInsideWaterOrBubbleColumn()) || amplifier >= 2) {
 
       var entities = entity.getWorld().getOtherEntities(

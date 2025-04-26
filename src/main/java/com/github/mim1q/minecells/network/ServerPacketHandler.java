@@ -9,15 +9,13 @@ import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
-import com.github.mim1q.minecells.network.s2c.OpenDoorwayScreenS2CPacket;
-import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
-import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
+import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
+import com.github.mim1q.minecells.network.s2c.*;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
+import com.github.mim1q.minecells.recipe.PlayerInventoryInput;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import io.wispforest.owo.network.OwoNetChannel;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.util.math.Vec3d;
 
 import static com.github.mim1q.minecells.world.processor.SwitchBlockStructureProcessor.copyAllProperties;
 
@@ -28,6 +26,12 @@ public class ServerPacketHandler {
   public static void init() {
     CLIENT_CHANNEL.registerClientboundDeferred(SpawnerRuneUpdateS2CPacket.class);
     CLIENT_CHANNEL.registerClientboundDeferred(OpenDoorwayScreenS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(SpawnRuneParticlesS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(ObeliskActivationS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(ShockwaveClientEventS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(SendUnlockedCellCrafterRecipesS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(UpdateConjunctiviusBossBarS2CPacket.class);
+    CLIENT_CHANNEL.registerClientboundDeferred(CritS2CPacket.class);
 
     CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
@@ -62,8 +66,9 @@ public class ServerPacketHandler {
     });
 
 
-    ServerPlayNetworking.registerGlobalReceiver(PacketIdentifiers.USE_TENTACLE, (server, player, handler, buf, responseSender) -> {
-      var targetPos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+    CHANNEL.registerServerbound(UseTentacleWeaponC2SPacket.class, (msg, handler) -> {
+      var targetPos = msg.targetPos();
+      var player = handler.player();
       var playerItem = player.getMainHandStack();
 
       var maxDistance = MineCells.COMMON_CONFIG.baseTentacleMaxDistance() + 2.0;
@@ -75,6 +80,7 @@ public class ServerPacketHandler {
         return;
       }
 
+      var server = handler.runtime();
       server.execute(() -> {
         var tentacle = TentacleWeaponEntity.create(player.getWorld(), player, targetPos, playerItem);
         player.getWorld().spawnEntity(tentacle);
@@ -85,36 +91,38 @@ public class ServerPacketHandler {
       });
     });
 
-    ServerPlayNetworking.registerGlobalReceiver(RequestUnlockedCellCrafterRecipesC2SPacket.ID, ((server, player, handler, buf, responseSender) -> {
-      responseSender.sendPacket(SendUnlockedCellCrafterRecipesS2CPacket.ID, new SendUnlockedCellCrafterRecipesS2CPacket(player));
+    CHANNEL.registerServerbound(RequestUnlockedCellCrafterRecipesC2SPacket.class, ((msg, handler) -> {
+      CLIENT_CHANNEL.serverHandle(handler.player()).send(new SendUnlockedCellCrafterRecipesS2CPacket(handler.player()));
     }));
 
-    ServerPlayNetworking.registerGlobalReceiver(CellCrafterCraftRequestC2SPacket.ID, (server, player, handler, buf, responseSender) -> {
-      var pos = buf.readBlockPos();
-      var recipeId = buf.readIdentifier();
+    CHANNEL.registerServerbound(CellCrafterCraftRequestC2SPacket.class, (msg, handler) -> {
+      var pos = msg.pos();
+      var recipeId = msg.recipeId();
+      var player = handler.player();
+      var server = handler.runtime();
+
       server.execute(() -> {
         var blockEntity = player.getWorld().getBlockEntity(pos);
-        var recipe = server.getRecipeManager().get(recipeId);
+        var recipe = server.getRecipeManager().get(recipeId).get().value();
         if (
           blockEntity instanceof CellCrafterBlockEntity cellCrafter
-            && recipe.isPresent()
-            && recipe.get() instanceof CellForgeRecipe cellForgeRecipe
+            && recipe instanceof CellForgeRecipe cellForgeRecipe
         ) {
-          var canCraft = cellForgeRecipe.matches(player.getInventory(), player.getWorld());
+          var canCraft = cellForgeRecipe.matches(new PlayerInventoryInput(player.getInventory()), player.getWorld());
           if (!canCraft) {
             MineCells.LOGGER.warn(
               "Player {} tried to craft {} without having the required items",
               player.getName().getString(),
-              cellForgeRecipe.getId().toString()
+              cellForgeRecipe.id().toString()
             );
             return;
           }
-          var output = cellForgeRecipe.craft(player.getInventory(), player.getWorld().getRegistryManager());
+          var output = cellForgeRecipe.craft(new PlayerInventoryInput(player.getInventory()), player.getWorld().getRegistryManager());
           if (output == null) {
             MineCells.LOGGER.warn(
               "Player {} tried to craft {} but failed",
               player.getName().getString(),
-              cellForgeRecipe.getId().toString()
+              cellForgeRecipe.id().toString()
             );
             return;
           }

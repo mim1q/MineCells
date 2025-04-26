@@ -14,26 +14,19 @@ import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
+import io.wispforest.owo.network.ClientAccess;
 import io.wispforest.owo.network.OwoNetChannel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ClientPacketHandler {
@@ -42,26 +35,7 @@ public class ClientPacketHandler {
   public static void init() {
     CHANNEL.registerClientbound(
       SpawnerRuneUpdateS2CPacket.class,
-      (msg, handler) -> {
-        var world = handler.netHandler().getWorld();
-        var blockEntity = world.getBlockEntity(msg.pos());
-        if (blockEntity instanceof SpawnerRuneBlockEntity spawner) {
-          spawner.controller.setLastActivationTime(msg.lastActivationTime());
-          spawner.controller.setDummyData(msg.cooldown());
-          return;
-        }
-        var box = Box.of(Vec3d.ofCenter(msg.pos()), 1.5, 1.5, 1.5);
-        var entity = world.getEntitiesByClass(
-          SpawnerRuneEntity.class,
-          box,
-          it -> it.getBlockPos().equals(msg.pos())
-        ).stream().findFirst();
-
-        entity.ifPresent(it -> {
-          it.controller.setLastActivationTime(msg.lastActivationTime());
-          it.controller.setDummyData(msg.cooldown());
-        });
-      }
+      ClientPacketHandler::handleSpawnerRuneUpdate
     );
 
     CHANNEL.registerClientbound(
@@ -71,29 +45,50 @@ public class ClientPacketHandler {
       }
     );
 
-    ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CRIT, ClientPacketHandler::handleCrit);
-    ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.EXPLOSION, ClientPacketHandler::handleExplosion);
-    ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.CONNECT, ClientPacketHandler::handleConnect);
-    ClientPlayNetworking.registerGlobalReceiver(PacketIdentifiers.ELEVATOR_DESTROYED, ClientPacketHandler::handleElevatorDestroyed);
-    ClientPlayNetworking.registerGlobalReceiver(SpawnRuneParticlesS2CPacket.ID, ClientPacketHandler::applySpawnRuneParticles);
-    ClientPlayNetworking.registerGlobalReceiver(ObeliskActivationS2CPacket.ID, ClientPacketHandler::applyObeliskActivation);
-    ClientPlayNetworking.registerGlobalReceiver(ShockwaveClientEventS2CPacket.ID, ClientPacketHandler::applyShockwaveClientEvent);
-    ClientPlayNetworking.registerGlobalReceiver(SendUnlockedCellCrafterRecipesS2CPacket.ID, ClientPacketHandler::applySendUnlockedCellCrafterRecipes);
-    ClientPlayNetworking.registerGlobalReceiver(UpdateConjunctiviusBossBarS2CPacket.ID, ClientPacketHandler::handleUpdateConjunctiviusBossBar);
+    CHANNEL.registerClientbound(
+      SpawnRuneParticlesS2CPacket.class,
+      ClientPacketHandler::applySpawnRuneParticles
+    );
+
+    CHANNEL.registerClientbound(
+      ObeliskActivationS2CPacket.class,
+      ClientPacketHandler::applyObeliskActivation
+    );
+
+    CHANNEL.registerClientbound(
+      ShockwaveClientEventS2CPacket.class,
+      ClientPacketHandler::applyShockwaveClientEvent
+    );
+
+    CHANNEL.registerClientbound(
+      SendUnlockedCellCrafterRecipesS2CPacket.class,
+      ClientPacketHandler::applySendUnlockedCellCrafterRecipes
+    );
+
+    CHANNEL.registerClientbound(
+      UpdateConjunctiviusBossBarS2CPacket.class,
+      ClientPacketHandler::handleUpdateConjunctiviusBossBar
+    );
+
+    CHANNEL.registerClientbound(
+      CritS2CPacket.class,
+      ClientPacketHandler::handleCrit
+    );
   }
 
-  private static void handleCrit(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-    client.execute(() -> {
-      if (client.player != null) {
-        ParticleUtils.addAura(client.world, pos, ParticleTypes.CRIT, 8, 0.0D, 1.0D);
+  private static void handleCrit(CritS2CPacket msg, ClientAccess handler) {
+    Vec3d pos = msg.pos();
+    handler.runtime().execute(() -> {
+      if (handler.runtime().player != null) {
+        ParticleUtils.addAura(handler.runtime().world, pos, ParticleTypes.CRIT, 8, 0.0D, 1.0D);
       }
     });
   }
 
-  private static void handleExplosion(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-    double radius = buf.readDouble();
+  private static void handleExplosion(ExplosionS2CPacket msg, ClientAccess handler) {
+    Vec3d pos = msg.pos();
+    double radius = msg.radius();
+    var client = handler.runtime();
     client.execute(() -> {
       if (client.player != null && client.world != null) {
         client.world.addParticle(MineCellsParticles.EXPLOSION, true, pos.x, pos.y, pos.z, 0, 0, 0);
@@ -109,9 +104,10 @@ public class ClientPacketHandler {
     });
   }
 
-  private static void handleConnect(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    Vec3d pos0 = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-    Vec3d pos1 = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+  private static void handleConnect(ConnectS2CPacket msg, ClientAccess handler) {
+    Vec3d pos0 = msg.pos0();
+    Vec3d pos1 = msg.pos1();
+    var client = handler.runtime();
     client.execute(() -> {
       if (client.player != null && client.world != null) {
         double amount = pos0.distanceTo(pos1);
@@ -124,8 +120,9 @@ public class ClientPacketHandler {
     });
   }
 
-  private static void handleElevatorDestroyed(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    Vec3d pos = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+  private static void handleElevatorDestroyed(ElevatorDestroyedS2CPacket msg, ClientAccess handler) {
+    Vec3d pos = msg.pos();
+    var client = handler.runtime();
     client.execute(() -> {
       if (client.world != null) {
         ParticleEffect particle = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.OAK_PLANKS.getDefaultState());
@@ -135,29 +132,30 @@ public class ClientPacketHandler {
     });
   }
 
-  private static void handleUpdateConjunctiviusBossBar(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    var barUuid = buf.readUuid();
-    var tentacleCount = buf.readShort();
-    var maxTentacleCount = buf.readShort();
+  private static void handleUpdateConjunctiviusBossBar(UpdateConjunctiviusBossBarS2CPacket msg, ClientAccess handler) {
+    var barUuid = msg.uuid();
+    var tentacleCount = msg.tentacleCount();
+    var maxTentacleCount = msg.maxTentacleCount();
 
-    client.execute(() -> {
-      var bar = client.inGameHud.getBossBarHud().bossBars.get(barUuid);
+    handler.runtime().execute(() -> {
+      var bar = handler.runtime().inGameHud.getBossBarHud().bossBars.get(barUuid);
       if (bar instanceof ConjunctiviusClientBossBar conjunctiviusBar) {
         conjunctiviusBar.setTentacleCount(tentacleCount, maxTentacleCount);
       }
     });
   }
 
-  public static void applySpawnRuneParticles(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    double minX = buf.readDouble();
-    double minY = buf.readDouble();
-    double minZ = buf.readDouble();
-    double maxX = buf.readDouble();
-    double maxY = buf.readDouble();
-    double maxZ = buf.readDouble();
+  public static void applySpawnRuneParticles(SpawnRuneParticlesS2CPacket msg, ClientAccess handler) {
+    double minX = msg.minX();
+    double minY = msg.minY();
+    double minZ = msg.minZ();
+    double maxX = msg.maxX();
+    double maxY = msg.maxY();
+    double maxZ = msg.maxZ();
+
     Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
-    client.execute(() -> {
-      ClientWorld world = handler.getWorld();
+    handler.runtime().execute(() -> {
+      ClientWorld world = handler.player().clientWorld;
       var color = 0xFF6A00;
       var dimension = MineCellsDimension.of(world);
       if (dimension != null) {
@@ -180,22 +178,22 @@ public class ClientPacketHandler {
     });
   }
 
-  public static void applyObeliskActivation(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    int entityId = buf.readInt();
-    client.execute(() -> {
-      Entity entity = handler.getWorld().getEntityById(entityId);
+  public static void applyObeliskActivation(ObeliskActivationS2CPacket msg, ClientAccess handler) {
+    int entityId = msg.entityId();
+    handler.runtime().execute(() -> {
+      Entity entity = handler.player().clientWorld.getEntityById(entityId);
       if (entity instanceof ObeliskEntity obelisk) {
         obelisk.resetActivatedTicks();
       }
     });
   }
 
-  public static void applyShockwaveClientEvent(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    var blockId = buf.readInt();
-    var blockPos = buf.readBlockPos();
-    var end = buf.readBoolean();
-    client.execute(() -> {
-      var world = client.world;
+  public static void applyShockwaveClientEvent(ShockwaveClientEventS2CPacket msg, ClientAccess handler) {
+    var blockId = msg.blockId();
+    var blockPos = msg.pos();
+    var end = msg.end();
+    handler.runtime().execute(() -> {
+      var world = handler.runtime().world;
       if (world == null) {
         return;
       }
@@ -213,25 +211,39 @@ public class ClientPacketHandler {
     });
   }
 
-  public static void applySendUnlockedCellCrafterRecipes(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-    var size = buf.readInt();
+  public static void applySendUnlockedCellCrafterRecipes(SendUnlockedCellCrafterRecipesS2CPacket msg, ClientAccess handler) {
+    var recipes = msg.requiredAdvancements();
 
-    List<CellCrafterRecipeList.DisplayedRecipe> recipes = new ArrayList<>();
+    var recipeManager = handler.netHandler().getRecipeManager();
 
-    var recipeManager = handler.getRecipeManager();
-
-    for (int i = 0; i < size; i++) {
-      var recipeId = buf.readIdentifier();
-      var recipe = (CellForgeRecipe) recipeManager.get(recipeId).orElseThrow();
-      var isUnlocked = buf.readBoolean();
-      recipes.add(new CellCrafterRecipeList.DisplayedRecipe(recipe, isUnlocked));
-    }
-
-    client.execute(() -> {
-      var screen = client.currentScreen;
+    handler.runtime().execute(() -> {
+      var screen = handler.runtime().currentScreen;
       if (screen instanceof CellCrafterScreen cellCrafterScreen) {
-        cellCrafterScreen.updateRecipes(recipes);
+        cellCrafterScreen.updateRecipes(recipes.entrySet().stream().map(entry -> new CellCrafterRecipeList.DisplayedRecipe(
+          (CellForgeRecipe) recipeManager.get(entry.getKey()).get().value(), entry.getValue())
+        ).toList());
       }
+    });
+  }
+
+  private static void handleSpawnerRuneUpdate(SpawnerRuneUpdateS2CPacket msg, ClientAccess handler) {
+    var world = handler.netHandler().getWorld();
+    var blockEntity = world.getBlockEntity(msg.pos());
+    if (blockEntity instanceof SpawnerRuneBlockEntity spawner) {
+      spawner.controller.setLastActivationTime(msg.lastActivationTime());
+      spawner.controller.setDummyData(msg.cooldown());
+      return;
+    }
+    var box = Box.of(Vec3d.ofCenter(msg.pos()), 1.5, 1.5, 1.5);
+    var entity = world.getEntitiesByClass(
+      SpawnerRuneEntity.class,
+      box,
+      it -> it.getBlockPos().equals(msg.pos())
+    ).stream().findFirst();
+
+    entity.ifPresent(it -> {
+      it.controller.setLastActivationTime(msg.lastActivationTime());
+      it.controller.setDummyData(msg.cooldown());
     });
   }
 }

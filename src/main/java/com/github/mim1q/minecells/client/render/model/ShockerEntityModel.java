@@ -112,7 +112,7 @@ public class ShockerEntityModel extends EntityModel<ShockerEntity> {
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+    this.root.render(matrices, vertices, light, overlay, color);
   }
 }

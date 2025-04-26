@@ -39,11 +39,11 @@ public class RunnerEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(TIMED_ATTACK_CHARGING, false);
-    this.dataTracker.startTracking(TIMED_ATTACK_RELEASING, false);
-    this.dataTracker.startTracking(TELEPORT_CHARGING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(TIMED_ATTACK_CHARGING, false);
+    builder.add(TIMED_ATTACK_RELEASING, false);
+    builder.add(TELEPORT_CHARGING, false);
   }
 
   @Override

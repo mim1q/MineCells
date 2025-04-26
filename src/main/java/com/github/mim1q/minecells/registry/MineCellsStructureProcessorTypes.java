@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.world.processor.RandomizePropertyStructureProcessor;
 import com.github.mim1q.minecells.world.processor.SwitchBlockStructureProcessor;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.structure.processor.StructureProcessor;
@@ -22,7 +23,7 @@ public class MineCellsStructureProcessorTypes {
   public static void init() {
   }
 
-  static <P extends StructureProcessor> StructureProcessorType<P> register(String id, Codec<P> codec) {
+  static <P extends StructureProcessor> StructureProcessorType<P> register(String id, MapCodec<P> codec) {
     return Registry.register(Registries.STRUCTURE_PROCESSOR, "minecells:" + id, () -> codec);
   }
 }

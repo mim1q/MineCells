@@ -32,15 +32,15 @@ public class TentacleWeaponEntityModel extends EntityModel<TentacleWeaponEntity>
 
   @Override
   public void setAngles(TentacleWeaponEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-    float tickDelta = MinecraftClient.getInstance().getTickDelta();
+    float tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
     this.main.yaw = MathUtils.radians(entity.getYaw(tickDelta));
     this.main.pitch = MathUtils.radians(-entity.getPitch(tickDelta));
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
     matrices.push();
-    this.main.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    this.main.render(matrices, vertices, light, overlay, color);
     matrices.pop();
   }
 }

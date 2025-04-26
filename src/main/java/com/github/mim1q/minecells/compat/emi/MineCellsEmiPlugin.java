@@ -14,6 +14,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
@@ -39,6 +40,7 @@ public class MineCellsEmiPlugin implements EmiPlugin {
     var recipes = registry.getRecipeManager()
       .listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE)
       .stream()
+      .map(RecipeEntry::value)
       .sorted(Comparator
         .comparingInt((CellForgeRecipe a) -> a.category().ordinal())
         .thenComparing((a, b) -> b.priority() - a.priority()))

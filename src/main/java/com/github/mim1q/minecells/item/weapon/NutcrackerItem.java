@@ -2,8 +2,10 @@ package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.accessor.LivingEntityAccessor;
 import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 
 public class NutcrackerItem extends CustomMeleeWeapon {
   public NutcrackerItem(Settings settings) {
@@ -12,7 +14,7 @@ public class NutcrackerItem extends CustomMeleeWeapon {
 
   @Override
   public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-    stack.damage(1, attacker, (user) -> user.sendToolBreakStatus(user.getActiveHand()));
+    stack.damage(1, attacker, attacker.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
     return super.postHit(stack, target, attacker);
   }
 

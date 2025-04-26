@@ -38,15 +38,12 @@ public class ProtectorEntityRenderer extends MineCellsEntityRenderer<ProtectorEn
   public void render(ProtectorEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
     super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
     MatrixStack.Entry entry = matrixStack.peek();
-    Matrix4f matrix4f = entry.getPositionMatrix();
-    Matrix3f matrix3f = entry.getNormalMatrix();
 
     if (mobEntity.isActive()) {
       for (Entity e : mobEntity.trackedEntities) {
         renderConnection(
           vertexConsumerProvider.getBuffer(CONNECTION_LAYER),
-          matrix4f,
-          matrix3f,
+          entry,
           new Vec3d(0.0D, 1.25D, 0.0D),
           e.getPos().subtract(mobEntity.getPos()).add(0.0D, e.getHeight() * 0.5D, 0.0D),
           (e.age) % 8,
@@ -56,7 +53,7 @@ public class ProtectorEntityRenderer extends MineCellsEntityRenderer<ProtectorEn
     }
   }
 
-  protected void renderConnection(VertexConsumer vertexConsumer, Matrix4f positionMatrix, Matrix3f normalMatrix, Vec3d p0, Vec3d p1, int frame, int light) {
+  protected void renderConnection(VertexConsumer vertexConsumer, MatrixStack.Entry entry, Vec3d p0, Vec3d p1, int frame, int light) {
     float x0 = (float) p0.x;
     float y0 = (float) p0.y;
     float z0 = (float) p0.z;
@@ -91,7 +88,7 @@ public class ProtectorEntityRenderer extends MineCellsEntityRenderer<ProtectorEn
 
     int[] indices = {0, 1, 2, 3, 3, 2, 1, 0};
     for (int i : indices) {
-      RenderUtils.produceVertex(vertexConsumer, positionMatrix, normalMatrix, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, 255);
+      RenderUtils.produceVertex(vertexConsumer, entry, 0xF0, vertices[i].x, vertices[i].y, vertices[i].z, vertices[i].u, vertices[i].v, 255);
     }
   }
 

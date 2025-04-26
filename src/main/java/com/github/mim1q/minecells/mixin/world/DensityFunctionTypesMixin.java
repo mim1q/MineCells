@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.mixin.world;
 import com.github.mim1q.minecells.world.densityfunction.CliffDensityFunction;
 import com.github.mim1q.minecells.world.densityfunction.RingDensityFunction;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.dynamic.CodecHolder;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
@@ -15,9 +16,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DensityFunctionTypes.class)
 public abstract class DensityFunctionTypesMixin {
+
   @Shadow
-  private static Codec<? extends DensityFunction> register(Registry<Codec<? extends DensityFunction>> registry, String id, CodecHolder<? extends DensityFunction> codecHolder) {
-    throw new Error("Not implemented");
+  private static MapCodec<? extends DensityFunction> register(Registry<MapCodec<? extends DensityFunction>> registry, String id, CodecHolder<? extends DensityFunction> codecHolder) {
+    return null;
   }
 
   @Inject(
@@ -25,8 +27,8 @@ public abstract class DensityFunctionTypesMixin {
     at = @At("RETURN")
   )
   private static void minecells$registerDensityFunctions(
-    Registry<Codec<? extends DensityFunction>> registry,
-    CallbackInfoReturnable<Codec<? extends DensityFunction>> cir
+    Registry<MapCodec<? extends DensityFunction>> registry,
+    CallbackInfoReturnable<MapCodec<? extends DensityFunction>> cir
   ) {
     register(registry, "minecells:ring", RingDensityFunction.CODEC_HOLDER);
     register(registry, "minecells:cliff", CliffDensityFunction.CODEC_HOLDER);

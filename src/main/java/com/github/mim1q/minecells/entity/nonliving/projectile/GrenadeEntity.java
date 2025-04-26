@@ -34,8 +34,8 @@ public class GrenadeEntity extends ProjectileEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    this.dataTracker.startTracking(FUSE, this.getMaxFuse());
+  protected void initDataTracker(DataTracker.Builder builder) {
+    builder.add(FUSE, this.getMaxFuse());
   }
 
   protected MoveEffect getMoveEffect() {

@@ -9,9 +9,7 @@ import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -19,8 +17,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.BlockStateParticleEffect;
@@ -45,10 +41,10 @@ public class ScorpionEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(SLEEPING, true);
-    this.dataTracker.startTracking(SHOOT_CHARGING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(SLEEPING, true);
+    builder.add(SHOOT_CHARGING, false);
   }
 
   @Override
@@ -104,18 +100,6 @@ public class ScorpionEntity extends MineCellsEntity {
     }
 
     this.shootCooldown = Math.max(0, --this.shootCooldown);
-  }
-
-  @Override
-  public void applyDamageEffects(LivingEntity attacker, Entity target) {
-    if (target instanceof LivingEntity livingEntity) {
-      StatusEffectInstance effectInstance = new StatusEffectInstance(
-        StatusEffects.POISON,
-        100 + 20 * getWorld().getDifficulty().getId() - 1,
-        0
-      );
-      livingEntity.addStatusEffect(effectInstance);
-    }
   }
 
   public void spawnUnburyingParticles() {

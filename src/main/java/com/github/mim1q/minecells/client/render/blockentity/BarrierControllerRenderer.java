@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 import org.joml.Quaternionf;
 
 public class BarrierControllerRenderer implements BlockEntityRenderer<BarrierControllerBlockEntity> {
-  private final Identifier TEXTURE = new Identifier("minecells", "textures/blockentity/big_door.png");
+  private final Identifier TEXTURE = Identifier.of("minecells", "textures/blockentity/big_door.png");
   private final BarrierControllerModel model;
 
   public BarrierControllerRenderer(BlockEntityRendererFactory.Context ctx) {
@@ -32,7 +32,7 @@ public class BarrierControllerRenderer implements BlockEntityRenderer<BarrierCon
     matrices.translate(0.5F, 0F, 0.5F);
     matrices.multiply(new Quaternionf().rotationY(MathUtils.radians(dir.asRotation())));
     model.setAngles(entity.openProgress.getValue());
-    model.render(matrices, vertices, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    model.render(matrices, vertices, light, overlay, 0xFFFFFFFF);
     matrices.pop();
   }
 
@@ -45,11 +45,11 @@ public class BarrierControllerRenderer implements BlockEntityRenderer<BarrierCon
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
       matrices.push();
       matrices.scale(-1F, -1F, 1F);
       matrices.translate(0F, -1.5F, 0F);
-      root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+      root.render(matrices, vertices, light, overlay, color);
       matrices.pop();
     }
 

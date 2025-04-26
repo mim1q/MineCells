@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.tag.BlockTags;
@@ -13,9 +14,15 @@ import org.jetbrains.annotations.Nullable;
 
 public class HangingLeavesBlock extends HorizontalFacingBlock {
   public static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 6.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+  public static final MapCodec<HangingLeavesBlock> CODEC = HorizontalFacingBlock.createCodec(HangingLeavesBlock::new);
 
   public HangingLeavesBlock(Settings settings) {
     super(settings.offset(Block.OffsetType.XZ));
+  }
+
+  @Override
+  protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
+    return CODEC;
   }
 
   @Override

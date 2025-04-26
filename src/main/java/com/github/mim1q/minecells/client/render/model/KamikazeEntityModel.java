@@ -99,14 +99,14 @@ public class KamikazeEntityModel extends EntityModel<KamikazeEntity> {
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+    this.root.render(matrices, vertices, light, overlay, color);
 
     matrices.push();
     if (this.fuse < 30 && this.fuse >= 0 && this.fuse / 2 % 3 == 0) {
       overlay = OverlayTexture.packUv(OverlayTexture.getU(1.0F), 10);
     }
-    this.bulb.render(matrices, vertices, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.bulb.render(matrices, vertices, light, overlay, 0xFFFFFFFF);
     matrices.pop();
   }
 }

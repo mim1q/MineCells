@@ -13,7 +13,6 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -56,8 +55,8 @@ public class WoodenBoardBlock extends Block {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    if (player.getStackInHand(hand).getItem() instanceof AxeItem) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+    if (player.getStackInHand(player.getActiveHand()).getItem() instanceof AxeItem) {
       world.setBlockState(pos, state.cycle(TYPE));
       return ActionResult.SUCCESS;
     }

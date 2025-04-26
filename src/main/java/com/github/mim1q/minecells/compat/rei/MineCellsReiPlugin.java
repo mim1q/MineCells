@@ -18,6 +18,8 @@ import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -89,7 +91,7 @@ public class MineCellsReiPlugin implements REIClientPlugin {
       }
       widgets.add(Widgets.createSlot(
           new Point(startX + bounds.width / 2 - 8, startY + 40))
-        .entry(EntryStacks.of(display.recipe.getOutput(null)))
+        .entry(EntryStacks.of(display.recipe.getResult(null)))
       );
 
       return widgets;
@@ -108,12 +110,11 @@ public class MineCellsReiPlugin implements REIClientPlugin {
       .listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE)
       .stream()
       .sorted(Comparator
-        .comparingInt((CellForgeRecipe a) -> a.category().ordinal())
-        .thenComparing((a, b) -> b.priority() - a.priority()))
+        .<RecipeEntry<CellForgeRecipe>>comparingInt(a -> a.value().category().ordinal())
+        .thenComparing((a, b) -> b.value().priority() - a.value().priority()))
       .toList();
-
     for (var recipe : recipes) {
-      registry.add(new CellCrafterDisplay(recipe));
+      registry.add(new CellCrafterDisplay(recipe.value()));
     }
   }
 
@@ -123,7 +124,7 @@ public class MineCellsReiPlugin implements REIClientPlugin {
     public CellCrafterDisplay(CellForgeRecipe recipe) {
       super(
         mapStacksToIngredient(recipe.getIngredients()),
-        List.of(EntryIngredient.of(EntryStacks.of(recipe.getOutput(null))))
+        List.of(EntryIngredient.of(EntryStacks.of(recipe.getResult(null))))
       );
 
       this.recipe = recipe;

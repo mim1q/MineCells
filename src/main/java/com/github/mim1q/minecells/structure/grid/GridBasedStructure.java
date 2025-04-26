@@ -3,7 +3,7 @@ package com.github.mim1q.minecells.structure.grid;
 import com.github.mim1q.minecells.structure.MineCellsStructures;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.*;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -24,64 +24,64 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridBasedStructure extends Structure {
-  public static final Codec<GridBasedStructure> PRISON_CODEC = createMultipartGridBasedStructureCodec(
+  public static final MapCodec<GridBasedStructure> PRISON_CODEC = createMultipartGridBasedStructureCodec(
     PrisonGridGenerator::new, () -> MineCellsStructures.PRISON
   );
 
-  public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
+  public static final MapCodec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
     BetterPromenadeGridGenerator::new, () -> MineCellsStructures.PROMENADE
   );
 
-  public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
+  public static final MapCodec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
     ctx -> new PromenadeWallGenerator(false),
     () -> MineCellsStructures.PROMENADE_WALL_X,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().z, 64)) == 32
       && MathHelper.floorMod(ctx.chunkPos().x, 16) == 0
   );
-  public static final Codec<GridBasedStructure> PROMENADE_WALL_Z_CODEC = createGridBasedStructureCodec(
+  public static final MapCodec<GridBasedStructure> PROMENADE_WALL_Z_CODEC = createGridBasedStructureCodec(
     ctx -> new PromenadeWallGenerator(true),
     () -> MineCellsStructures.PROMENADE_WALL_Z,
     ctx -> MathHelper.abs(MathHelper.floorMod(ctx.chunkPos().x, 64)) == 32
       && MathHelper.floorMod(ctx.chunkPos().z, 16) == 0
   );
 
-  public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
+  public static final MapCodec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
     RampartsGridGenerator::new, () -> MineCellsStructures.RAMPARTS
   );
 
-  public static final Codec<GridBasedStructure> BLACK_BRIDGE_CODEC = createMultipartGridBasedStructureCodec(
+  public static final MapCodec<GridBasedStructure> BLACK_BRIDGE_CODEC = createMultipartGridBasedStructureCodec(
     BlackBridgeGridGenerator::new, () -> MineCellsStructures.BLACK_BRIDGE
   );
 
-  public static Codec<GridBasedStructure> createGridBasedStructureCodec(
+  public static MapCodec<GridBasedStructure> createGridBasedStructureCodec(
     Function<Context, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier
   ) {
     return createGridBasedStructureCodec(generatorProvider, typeSupplier, ctx -> true);
   }
 
-  public static Codec<GridBasedStructure> createGridBasedStructureCodec(
+  public static MapCodec<GridBasedStructure> createGridBasedStructureCodec(
     Function<Context, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier,
     Predicate<Structure.Context> spawnPredicate
   ) {
-    return RecordCodecBuilder.<GridBasedStructure>mapCodec((instance ->
+    return RecordCodecBuilder.mapCodec((instance ->
       instance.group(
         Structure.configCodecBuilder(instance),
         HeightProvider.CODEC.fieldOf("start_height").forGetter(GridBasedStructure::getHeightProvider),
         Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(GridBasedStructure::getProjectStartToHeightmap)
       ).apply(instance, (config, heightProvider, projectStartToHeightmap) -> new GridBasedStructure(config, heightProvider, projectStartToHeightmap, generatorProvider, typeSupplier, spawnPredicate))
-    )).codec();
+    ));
   }
 
-  public static Codec<GridBasedStructure> createMultipartGridBasedStructureCodec(
+  public static MapCodec<GridBasedStructure> createMultipartGridBasedStructureCodec(
     BiFunction<Integer, Integer, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier
   ) {
     return createMultipartGridBasedStructureCodec(generatorProvider, typeSupplier, -32, -32, 4, 4);
   }
 
-  public static Codec<GridBasedStructure> createMultipartGridBasedStructureCodec(
+  public static MapCodec<GridBasedStructure> createMultipartGridBasedStructureCodec(
     BiFunction<Integer, Integer, RoomGridGenerator> generatorProvider,
     Supplier<StructureType<?>> typeSupplier,
     int startX,

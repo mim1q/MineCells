@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.structure;
 
 import com.github.mim1q.minecells.structure.grid.MineCellsStructurePoolBasedGenerator;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.pool.StructurePool;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class MineCellsBigJigsawStructure extends Structure {
-  public static Codec<MineCellsBigJigsawStructure> CODEC = RecordCodecBuilder.<MineCellsBigJigsawStructure>mapCodec((instance) ->
+  public static MapCodec<MineCellsBigJigsawStructure> CODEC = RecordCodecBuilder.mapCodec((instance) ->
     instance
       .group(
         MineCellsBigJigsawStructure.configCodecBuilder(instance),
@@ -28,7 +29,7 @@ public class MineCellsBigJigsawStructure extends Structure {
         Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter((structure) -> structure.projectStartToHeightmap),
         Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
       )
-      .apply(instance, MineCellsBigJigsawStructure::new)).codec();
+      .apply(instance, MineCellsBigJigsawStructure::new));
 
   private final RegistryEntry<StructurePool> startPool;
   private final int size;

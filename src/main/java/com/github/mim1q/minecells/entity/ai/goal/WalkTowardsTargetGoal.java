@@ -28,6 +28,6 @@ public class WalkTowardsTargetGoal extends MeleeAttackGoal {
   }
 
   @Override
-  public void attack(LivingEntity target, double squaredDistance) {
+  public void attack(LivingEntity target) {
   }
 }

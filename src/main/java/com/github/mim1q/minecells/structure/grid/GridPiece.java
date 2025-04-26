@@ -55,7 +55,7 @@ public class GridPiece extends StructurePiece {
     this.rotation = BlockRotation.valueOf(nbt.getString("Rot"));
     this.size = nbt.getInt("Size");
     this.registryManager = context.registryManager();
-    this.template = new Identifier(nbt.getString("Template"));
+    this.template = Identifier.of(nbt.getString("Template"));
   }
 
   @Override

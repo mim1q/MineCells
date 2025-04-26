@@ -3,6 +3,9 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.FlagBlockEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -17,6 +20,7 @@ import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
+import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,11 +39,19 @@ public class FlagBlock extends BlockWithEntity {
   public static final VoxelShape CENTERED_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 7.0D, 16.0D, 16.0D, 9.0D);
   public static final VoxelShape HORIZONTAL_SHAPE = createCuboidShape(7.0, 0.0, 0.0, 9.0, 16.0, 16.0);
 
+  public static final MapCodec<FlagBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    createSettingsCodec(),
+    Codecs.NON_EMPTY_STRING.fieldOf("texture").forGetter(it -> it.name),
+    Codec.BOOL.fieldOf("large").forGetter(it -> it.large)
+  ).apply(instance, FlagBlock::new));
+
   public final Identifier texture;
+  private final String name;
   public final boolean large;
 
   public FlagBlock(Settings settings, String name, boolean large) {
     super(settings);
+    this.name = name;
     this.texture = MineCells.createId("textures/blockentity/banner/" + name + ".png");
     this.large = large;
     this.setDefaultState(getDefaultState()
@@ -93,7 +105,7 @@ public class FlagBlock extends BlockWithEntity {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     world.setBlockState(pos, state.with(WAVING, !state.get(WAVING)));
     return ActionResult.SUCCESS;
   }
@@ -112,6 +124,11 @@ public class FlagBlock extends BlockWithEntity {
   @Override
   public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
     return true;
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   public enum Placement implements StringIdentifiable {

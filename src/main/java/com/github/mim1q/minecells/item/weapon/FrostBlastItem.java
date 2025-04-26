@@ -8,6 +8,7 @@ import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,7 +37,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
 
   @Override
   public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-    stack.damage(1, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
+    stack.damage(1, user, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
     user.playSound(MineCellsSounds.FROST_BLAST, 1.0F, 1.1F);
     if (user.getWorld().isClient()) {
       for (int i = 0; i < 20; i++) {
@@ -76,7 +77,7 @@ public class FrostBlastItem extends Item implements WeaponWithAbility {
   }
 
   @Override
-  public int getMaxUseTime(ItemStack stack) {
+  public int getMaxUseTime(ItemStack stack, LivingEntity user) {
     return 20;
   }
 

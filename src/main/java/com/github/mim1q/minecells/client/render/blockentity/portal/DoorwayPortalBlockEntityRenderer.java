@@ -72,7 +72,7 @@ public class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<Doo
     if (player != null) {
       var pos = Vec3d.ofCenter(entity.getPos());
       var direction = new Vec3d(0, 0, 1).rotateY(MathUtils.radians(90F - entity.getRotation()));
-      var playerPos = player.getLerpedPos(MinecraftClient.getInstance().getTickDelta());
+      var playerPos = player.getLerpedPos(MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false));
       var playerVector = playerPos.subtract(pos);
       var playerVectorLength = playerVector.length();
       playerVector = playerVector.normalize().multiply(min(playerVectorLength * 0.33F, 1.0));

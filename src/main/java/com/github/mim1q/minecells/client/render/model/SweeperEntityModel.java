@@ -88,15 +88,15 @@ public class SweeperEntityModel extends EntityModel<SweeperEntity> {
     rightArm.pitch -= radians(rollAnimation * 50F);
     rightArm.roll -= radians(rollAnimation * 15F);
 
-    var rollPitch = entity.getRollAnimation(MinecraftClient.getInstance().getTickDelta());
+    var rollPitch = entity.getRollAnimation(MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false));
     torsoWrapper.pitch = -radians(rollPitch);
     rightLeg.pitch += torsoWrapper.pitch;
 //    root.pivotY = -rollAnimation * 8F;
   }
 
   @Override
-  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-    this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+  public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+    this.root.render(matrices, vertices, light, overlay, color);
   }
 
   public static TexturedModelData getTexturedModelData() {

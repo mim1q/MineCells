@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.placement.BetterRandomSpreadPlacement;
 import com.github.mim1q.minecells.world.placement.InsideGridPlacement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.chunk.placement.StructurePlacement;
@@ -15,7 +16,7 @@ public class MineCellsStructurePlacementTypes {
 
   public static void init() { }
 
-  private static <SP extends StructurePlacement> StructurePlacementType<SP> register(String name, Codec<SP> codec) {
+  private static <SP extends StructurePlacement> StructurePlacementType<SP> register(String name, MapCodec<SP> codec) {
     return Registry.register(Registries.STRUCTURE_PLACEMENT, MineCells.createId(name), () -> codec);
   }
 }

@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.effect;
 
 import com.github.mim1q.minecells.mixin.entity.MobEntityAccessor;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -18,8 +17,8 @@ public class FrozenStatusEffect extends MineCellsStatusEffect {
   }
 
   @Override
-  public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-    super.onApplied(entity, attributes, amplifier);
+  public void onApplied(LivingEntity entity, int amplifier) {
+    super.onApplied(entity, amplifier);
     if (entity instanceof MobEntity mob) {
       mob.getNavigation().stop();
       mob.setMovementSpeed(0.0F);
@@ -33,7 +32,9 @@ public class FrozenStatusEffect extends MineCellsStatusEffect {
       entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100 * (amplifier + 1), amplifier, false, false, true));
     }
     if (entity instanceof MobEntity mob) {
-      ((MobEntityAccessor)mob).getGoalSelector().getRunningGoals().forEach(PrioritizedGoal::stop);
+      ((MobEntityAccessor) mob).getGoalSelector().getGoals().forEach(it -> {
+        if (it.isRunning()) it.stop();
+      });
     }
   }
 }

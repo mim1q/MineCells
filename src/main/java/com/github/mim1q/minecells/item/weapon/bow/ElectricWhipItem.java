@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -67,7 +68,7 @@ public class ElectricWhipItem extends Item implements WeaponWithAbility {
       0.0D
     );
 
-    user.getStackInHand(hand).damage(1, user, e -> e.sendToolBreakStatus(hand));
+    user.getStackInHand(hand).damage(1, user, hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 
     var length = maxPos.subtract(userEyePos).length();
     for (var delta = 0.0; delta < length; delta += 0.5) {

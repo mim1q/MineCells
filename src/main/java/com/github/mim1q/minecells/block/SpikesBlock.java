@@ -81,8 +81,8 @@ public class SpikesBlock extends Block {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-    var stack = player.getStackInHand(hand);
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+    var stack = player.getStackInHand(player.getActiveHand());
     if (stack.isOf(Items.GLASS_BOTTLE) && state.get(BLOODY)) {
       if (!world.isClient) {
         if (!player.isCreative()) {

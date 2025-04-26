@@ -93,11 +93,11 @@ public class SweeperEntity extends MineCellsEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    dataTracker.startTracking(SWEEP_CHARGING, false);
-    dataTracker.startTracking(SWEEP_RELEASING, false);
-    dataTracker.startTracking(JUMPBACK_RELEASING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(SWEEP_CHARGING, false);
+    builder.add(SWEEP_RELEASING, false);
+    builder.add(JUMPBACK_RELEASING, false);
   }
 
   @Override

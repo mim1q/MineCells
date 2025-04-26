@@ -21,6 +21,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -55,15 +56,16 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
     setPosition(owner.getEyePos().subtract(0.0, 0.2, 0.0));
     this.shotFromPos = shotFromPos;
     this.bow = bow.copy();
-    this.item = EnchantmentHelper.getLevel(Enchantments.INFINITY, bow) > 0
+    var enchant = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).entryOf(Enchantments.INFINITY);
+    this.item = EnchantmentHelper.getLevel(enchant, bow) > 0
       ? ItemStack.EMPTY
       : arrowType.getAmmoItem().map(ItemStack::new).orElse(ItemStack.EMPTY);
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(ARROW_TYPE, CustomArrowType.DEFAULT.getName());
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(ARROW_TYPE, CustomArrowType.DEFAULT.getName());
   }
 
   @Override
@@ -128,11 +130,16 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
       );
 
       damage += critDamage + globalExtraDamage;
+      var source = arrowType.getDamageSource(getWorld(), this, holder);
+      target.damage(source, damage);
+      var knockback = this.getKnockback(target, source);
 
-      target.damage(arrowType.getDamageSource(getWorld(), this, (LivingEntity) getOwner()), damage);
-      if (this.getPunch() > 0) {
+      if (knockback.leftDouble() > 0.0 || knockback.rightDouble() > 0.0) {
         double d = Math.max(0.0, 1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-        Vec3d vec3d = this.getVelocity().multiply(1.0, 0.0, 1.0).normalize().multiply(this.getPunch() * 0.6 * d);
+        Vec3d vec3d = this.getVelocity()
+          .multiply(1.0, 0.0, 1.0)
+          .normalize()
+          .multiply(knockback.leftDouble() * 0.6 * d, 0.0, knockback.rightDouble() * 0.6 * d);
         if (vec3d.lengthSquared() > 0.0) {
           target.addVelocity(vec3d.x, 0.1, vec3d.z);
         }
@@ -174,6 +181,11 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
   @Override
   protected ItemStack asItemStack() {
     return item.copy();
+  }
+
+  @Override
+  protected ItemStack getDefaultItemStack() {
+    return asItemStack();
   }
 
   @Override

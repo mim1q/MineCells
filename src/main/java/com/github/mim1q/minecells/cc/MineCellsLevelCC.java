@@ -3,17 +3,12 @@ package com.github.mim1q.minecells.cc;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.util.MathUtils;
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.scoreboard.ScoreboardComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.scoreboard.ScoreboardComponentInitializer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,6 +17,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.Component;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.scoreboard.ScoreboardComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.scoreboard.ScoreboardComponentInitializer;
 
 import java.util.*;
 
@@ -46,7 +48,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     @Override
-    public void readFromNbt(NbtCompound nbt) {
+    public void readFromNbt(NbtCompound nbt, @NotNull RegistryWrapper.WrapperLookup registryLookup) {
       portals.clear();
       portalMap.clear();
 
@@ -57,7 +59,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     @Override
-    public void writeToNbt(NbtCompound nbt) {
+    public void writeToNbt(@NotNull NbtCompound nbt, @NotNull RegistryWrapper.WrapperLookup registryLookup) {
       var list = new NbtList();
       for (var portal : portals) {
         list.add(portal.createNbt());
@@ -71,7 +73,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     @Override
-    public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
+    public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
       var list = portalMap.get(recipient.getUuid());
       if (list == null) list = List.of();
 
@@ -82,7 +84,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     @Override
-    public void applySyncPacket(PacketByteBuf buf) {
+    public void applySyncPacket(RegistryByteBuf buf) {
       portals.clear();
       portalMap.clear();
 
@@ -218,7 +220,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, @NotNull RegistryWrapper.WrapperLookup registryLookup) {
       entries.clear();
       for (var key : tag.getKeys()) {
         var data = tag.getLongArray(key);
@@ -234,7 +236,7 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(@NotNull NbtCompound tag, @NotNull RegistryWrapper.WrapperLookup registryLookup) {
       entries.forEach((k, v) -> {
         tag.putLongArray(k.toString(), new long[]{v.posOverride.asLong(), v.entrancePos.asLong(), (long) v.entranceRotation});
       });

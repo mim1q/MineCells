@@ -158,10 +158,10 @@ public class ElectricParticle extends SpriteBillboardParticle {
     var b = this.color & 0xFF;
 
     for (int i = 0; i <= 3; ++i) {
-      vertexConsumer.vertex(vector3fs[i].x(), vector3fs[i].y(), vector3fs[i].z()).texture(u[i], v[i]).color(r, g, b, alpha).light(o).next();
+      vertexConsumer.vertex(vector3fs[i].x(), vector3fs[i].y(), vector3fs[i].z()).texture(u[i], v[i]).color(r, g, b, alpha).light(o);
     }
     for (int i = 3; i >= 0; --i) {
-      vertexConsumer.vertex(vector3fs[i].x(), vector3fs[i].y(), vector3fs[i].z()).texture(u[i], v[i]).color(r, g, b, alpha).light(o).next();
+      vertexConsumer.vertex(vector3fs[i].x(), vector3fs[i].y(), vector3fs[i].z()).texture(u[i], v[i]).color(r, g, b, alpha).light(o);
     }
 
   }

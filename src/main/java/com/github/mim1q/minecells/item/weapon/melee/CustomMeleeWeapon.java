@@ -1,15 +1,14 @@
 package com.github.mim1q.minecells.item.weapon.melee;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,13 +19,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.github.mim1q.minecells.registry.MineCellsItems.CELL_INFUSED_STEEL_MATERIAL;
-import static net.minecraft.entity.attribute.EntityAttributeModifier.Operation.ADDITION;
+import static net.minecraft.entity.attribute.EntityAttributeModifier.Operation.ADD_VALUE;
 import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_DAMAGE;
 import static net.minecraft.entity.attribute.EntityAttributes.GENERIC_ATTACK_SPEED;
 
 public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
   private static final Set<CustomMeleeWeapon> ALL_MELEE_WEAPONS = new HashSet<>();
-  private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ImmutableMultimap.of();
+  private AttributeModifiersComponent attributeModifiers = AttributeModifiersComponent.DEFAULT;
 
   private static final ValueCalculator GLOBAL_DAMAGE_MULTIPLIER = ModValueCalculators.of("melee/global", "global_damage_multiplier", 1.0);
   private static final ValueCalculator GLOBAL_SPEED_MULTIPLIER = ModValueCalculators.of("melee/global", "global_speed_multiplier", 1.0);
@@ -40,7 +39,7 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
   private final ValueCalculator speedCalculator;
 
   public CustomMeleeWeapon(String valueCalculatorName, Settings settings) {
-    super(CELL_INFUSED_STEEL_MATERIAL, 0, 0f, settings);
+    super(CELL_INFUSED_STEEL_MATERIAL, settings);
     ALL_MELEE_WEAPONS.add(this);
     this.damageCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "damage", 0.0);
     this.speedCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "speed", 0.0);
@@ -48,14 +47,10 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
     this.critDamageCalculator = ModValueCalculators.of("melee/" + valueCalculatorName, "crit_damage", 0.0);
   }
 
-  @Override
-  public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
-    return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
-  }
 
   @Override
-  public float getAttackDamage() {
-    return (float) this.damage;
+  public AttributeModifiersComponent getAttributeModifiers() {
+    return this.attributeModifiers;
   }
 
   @Override
@@ -87,14 +82,16 @@ public class CustomMeleeWeapon extends SwordItem implements CrittingWeapon {
     ALL_MELEE_WEAPONS.forEach(it -> {
       it.damage = (it.damageCalculator.calculate() - 1.0) * GLOBAL_DAMAGE_MULTIPLIER.calculate();
       it.speed = (it.speedCalculator.calculate() - 4.0) * GLOBAL_SPEED_MULTIPLIER.calculate();
-      it.attributeModifiers = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder()
-        .put(
+      it.attributeModifiers = AttributeModifiersComponent.builder()
+        .add(
           GENERIC_ATTACK_DAMAGE,
-          new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", it.damage, ADDITION)
+          new EntityAttributeModifier(MineCells.createId("attack_damage"), it.damage, ADD_VALUE),
+          AttributeModifierSlot.HAND
         )
-        .put(
+        .add(
           GENERIC_ATTACK_SPEED,
-          new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", it.speed, ADDITION)
+          new EntityAttributeModifier(MineCells.createId("attack_speed"), it.speed, ADD_VALUE),
+          AttributeModifierSlot.HAND
         )
         .build();
     });

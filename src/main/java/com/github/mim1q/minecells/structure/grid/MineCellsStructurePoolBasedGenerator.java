@@ -80,7 +80,15 @@ public class MineCellsStructurePoolBasedGenerator {
 
       Vec3i vec3i = blockPos.subtract(pos);
       BlockPos blockPos2 = pos.subtract(vec3i);
-      PoolStructurePiece poolStructurePiece = new PoolStructurePiece(structureTemplateManager, structurePoolElement, blockPos2, structurePoolElement.getGroundLevelDelta(), rotation, structurePoolElement.getBoundingBox(structureTemplateManager, blockPos2, rotation));
+      PoolStructurePiece poolStructurePiece = new PoolStructurePiece(
+        structureTemplateManager,
+        structurePoolElement,
+        blockPos2,
+        structurePoolElement.getGroundLevelDelta(),
+        rotation,
+        structurePoolElement.getBoundingBox(structureTemplateManager, blockPos2, rotation),
+        StructureLiquidSettings.IGNORE_WATERLOGGING
+      );
       BlockBox blockBox = poolStructurePiece.getBoundingBox();
       int i = (blockBox.getMaxX() + blockBox.getMinX()) / 2;
       int j = (blockBox.getMaxZ() + blockBox.getMinZ()) / 2;
@@ -123,7 +131,7 @@ public class MineCellsStructurePoolBasedGenerator {
     StructurePoolGenerator structurePoolGenerator = new StructurePoolGenerator(structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
     structurePoolGenerator.structurePieces.addLast(new ShapedPoolStructurePiece(firstPiece, new MutableObject<>(pieceShape), 0));
 
-    while(!structurePoolGenerator.structurePieces.isEmpty()) {
+    while (!structurePoolGenerator.structurePieces.isEmpty()) {
       ShapedPoolStructurePiece shapedPoolStructurePiece = structurePoolGenerator.structurePieces.removeFirst();
       structurePoolGenerator.generatePiece(shapedPoolStructurePiece.piece, shapedPoolStructurePiece.pieceShape, shapedPoolStructurePiece.currentSize, heightLimitView, noiseConfig);
     }
@@ -187,14 +195,14 @@ public class MineCellsStructurePoolBasedGenerator {
       Iterator<StructureTemplate.StructureBlockInfo> var15 = structurePoolElement.getStructureBlockInfos(this.structureTemplateManager, blockPos, blockRotation, this.random).iterator();
 
       label93:
-      while(var15.hasNext()) {
+      while (var15.hasNext()) {
         StructureTemplate.StructureBlockInfo structureBlockInfo = var15.next();
         Direction direction = JigsawBlock.getFacing(structureBlockInfo.state());
         BlockPos blockPos2 = structureBlockInfo.pos();
         BlockPos blockPos3 = blockPos2.offset(direction);
         int j = blockPos2.getY() - i;
         int k = -1;
-        Identifier identifier = new Identifier(structureBlockInfo.nbt().getString("pool"));
+        Identifier identifier = Identifier.of(structureBlockInfo.nbt().getString("pool"));
         Optional<StructurePool> optional = this.registry.getOrEmpty(identifier);
         if (optional.isPresent() && (optional.get().getElementCount() != 0 || Objects.equals(identifier, StructurePools.EMPTY.getValue()))) {
           RegistryEntry<StructurePool> fallback = optional.get().getFallback();
@@ -281,7 +289,15 @@ public class MineCellsStructurePoolBasedGenerator {
                   s = structurePoolElement2.getGroundLevelDelta();
                 }
 
-                PoolStructurePiece poolStructurePiece = new PoolStructurePiece(this.structureTemplateManager, structurePoolElement2, blockPos6, s, blockRotation2, blockBox4);
+                PoolStructurePiece poolStructurePiece = new PoolStructurePiece(
+                  this.structureTemplateManager,
+                  structurePoolElement2,
+                  blockPos6,
+                  s,
+                  blockRotation2,
+                  blockBox4,
+                  StructureLiquidSettings.IGNORE_WATERLOGGING
+                );
                 int t;
                 if (bl) {
                   t = i + j;
@@ -314,6 +330,7 @@ public class MineCellsStructurePoolBasedGenerator {
     }
   }
 
-  private record ShapedPoolStructurePiece(PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape, int currentSize) {
+  private record ShapedPoolStructurePiece(PoolStructurePiece piece, MutableObject<VoxelShape> pieceShape,
+                                          int currentSize) {
   }
 }

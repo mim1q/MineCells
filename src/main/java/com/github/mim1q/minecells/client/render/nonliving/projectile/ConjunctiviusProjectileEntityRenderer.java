@@ -32,7 +32,7 @@ public class ConjunctiviusProjectileEntityRenderer extends EntityRenderer<Conjun
 
     matrices.push();
     this.model.setAngles(entity, 0.0F, 0.0F, entity.age + tickDelta, 0.0F, 0.0F);
-    this.model.render(matrices, vertices, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertices, light, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
     matrices.pop();
   }
 

@@ -15,7 +15,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -71,14 +70,15 @@ public class RunicVinePlantBlockEntity extends MineCellsBlockEntity {
     blockEntity.tick(world, pos, state);
   }
 
-  public ActionResult use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand) {
+  public ActionResult use(BlockState state, World world, BlockPos pos, PlayerEntity player) {
     usedTicks = MAX_BLOCKS_ABOVE;
     world.playSound(null, pos, SoundEvents.BLOCK_WET_GRASS_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
     if (state.get(ACTIVATED) || world.isClient) {
       return ActionResult.SUCCESS;
     }
-    if (player.getStackInHand(hand).isOf(MineCellsItems.VINE_RUNE)) {
-      player.getStackInHand(hand).damage(1, player, (user) -> user.sendToolBreakStatus(hand));
+    if (player.getStackInHand(player.getActiveHand()).isOf(MineCellsItems.VINE_RUNE)) {
+      player.getStackInHand(player.getActiveHand()).damage(1, (ServerWorld) world, (ServerPlayerEntity) player, (user) -> {
+      });
       blocksAbove = 1;
       world.setBlockState(pos, state.with(ACTIVATED, true));
       var advancement = ((ServerWorld) world).getServer().getAdvancementLoader().get(ADVANCEMENT_ID);

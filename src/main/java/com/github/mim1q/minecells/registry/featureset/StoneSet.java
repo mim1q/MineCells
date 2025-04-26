@@ -1,8 +1,7 @@
 package com.github.mim1q.minecells.registry.featureset;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -19,7 +18,7 @@ public class StoneSet extends FeatureSet {
 
   private final List<ItemStack> stacks;
 
-  public StoneSet(Identifier identifier, String baseSuffix, Supplier<FabricItemSettings> defaultItemSettings, Supplier<FabricBlockSettings> defaultBlockSettings) {
+  public StoneSet(Identifier identifier, String baseSuffix, Supplier<Item.Settings> defaultItemSettings, Supplier<AbstractBlock.Settings> defaultBlockSettings) {
     super(identifier, defaultItemSettings, defaultBlockSettings);
     blockSetType = new BlockSetType(identifier.getPath());
     block = registerBlockWithItem(name + baseSuffix, new Block(defaultBlockSettings()));

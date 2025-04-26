@@ -1,11 +1,10 @@
 package com.github.mim1q.minecells.registry.featureset;
 
 import com.github.mim1q.minecells.MineCells;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SignItem;
 import net.minecraft.util.Identifier;
@@ -25,14 +24,14 @@ public class WoodSet extends FeatureSet {
   public final PillarBlock strippedWood = registerBlockWithItem("stripped_" + name + "_wood", new PillarBlock(defaultBlockSettings()));
   public final StairsBlock stairs = registerBlockWithItem(name + "_stairs", new StairsBlock(planks.getDefaultState(), defaultBlockSettings()));
   public final SlabBlock slab = registerBlockWithItem(name + "_slab", new SlabBlock(defaultBlockSettings()));
-  public final DoorBlock door = registerBlockWithItem(name + "_door", new DoorBlock(defaultBlockSettings().nonOpaque(), blockSetType));
-  public final TrapdoorBlock trapdoor = registerBlockWithItem(name + "_trapdoor", new TrapdoorBlock(defaultBlockSettings().nonOpaque(), blockSetType));
+  public final DoorBlock door = registerBlockWithItem(name + "_door", new DoorBlock(blockSetType, defaultBlockSettings().nonOpaque()));
+  public final TrapdoorBlock trapdoor = registerBlockWithItem(name + "_trapdoor", new TrapdoorBlock(blockSetType, defaultBlockSettings().nonOpaque()));
   public final FenceBlock fence = registerBlockWithItem(name + "_fence", new FenceBlock(defaultBlockSettings()));
-  public final FenceGateBlock fenceGate = registerBlockWithItem(name + "_fence_gate", new FenceGateBlock(defaultBlockSettings(), woodType));
-  public final ButtonBlock button = registerBlockWithItem(name + "_button", new ButtonBlock(defaultBlockSettings().noCollision(), blockSetType, 20, true));
-  public final PressurePlateBlock pressurePlate = registerBlockWithItem(name + "_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, defaultBlockSettings().noCollision(), blockSetType));
-  public final SignBlock sign = registerBlock(name + "_sign", new SignBlock(defaultBlockSettings().nonOpaque().noCollision(), woodType));
-  public final WallSignBlock wallSign = registerBlock(name + "_wall_sign", new WallSignBlock(defaultBlockSettings().nonOpaque().noCollision(), woodType));
+  public final FenceGateBlock fenceGate = registerBlockWithItem(name + "_fence_gate", new FenceGateBlock(woodType, defaultBlockSettings()));
+  public final ButtonBlock button = registerBlockWithItem(name + "_button", new ButtonBlock(blockSetType, 20, defaultBlockSettings().noCollision()));
+  public final PressurePlateBlock pressurePlate = registerBlockWithItem(name + "_pressure_plate", new PressurePlateBlock(blockSetType, defaultBlockSettings().noCollision()));
+  public final SignBlock sign = registerBlock(name + "_sign", new SignBlock(woodType, defaultBlockSettings().nonOpaque().noCollision()));
+  public final WallSignBlock wallSign = registerBlock(name + "_wall_sign", new WallSignBlock(woodType, defaultBlockSettings().nonOpaque().noCollision()));
   public final SignItem signItem = registerItem(name + "_sign", new SignItem(defaultItemSettings().maxCount(16), sign, wallSign));
 
   private final List<ItemStack> stacks = Stream.of(
@@ -41,8 +40,8 @@ public class WoodSet extends FeatureSet {
 
   public WoodSet(
     Identifier identifier,
-    Supplier<FabricItemSettings> defaultItemSettings,
-    Supplier<FabricBlockSettings> defaultBlockSettings
+    Supplier<Item.Settings> defaultItemSettings,
+    Supplier<AbstractBlock.Settings> defaultBlockSettings
   ) {
     super(identifier, defaultItemSettings, defaultBlockSettings);
     StrippableBlockRegistry.register(log, strippedLog);

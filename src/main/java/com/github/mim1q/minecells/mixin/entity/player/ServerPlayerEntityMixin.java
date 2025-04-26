@@ -31,14 +31,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
-  @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
-  @Shadow public abstract ServerWorld getServerWorld();
-  @Shadow public abstract RegistryKey<World> getSpawnPointDimension();
-  @Shadow public abstract @Nullable BlockPos getSpawnPointPosition();
-  @Shadow public abstract float getSpawnAngle();
-  @Shadow public abstract boolean isCreative();
-  @Shadow public abstract boolean isSpectator();
-  @Shadow public abstract void sendMessage(Text message);
+  @Shadow
+  public abstract boolean isInvulnerableTo(DamageSource damageSource);
+
+  @Shadow
+  public abstract ServerWorld getServerWorld();
+
+  @Shadow
+  public abstract RegistryKey<World> getSpawnPointDimension();
+
+  @Shadow
+  public abstract @Nullable BlockPos getSpawnPointPosition();
+
+  @Shadow
+  public abstract float getSpawnAngle();
+
+  @Shadow
+  public abstract boolean isCreative();
+
+  @Shadow
+  public abstract boolean isSpectator();
+
+  @Shadow
+  public abstract void sendMessage(Text message);
 
   public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile) {
     super(world, pos, yaw, gameProfile);
@@ -93,13 +108,12 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
   }
 
   @Inject(
-    method = "moveToWorld",
-    at = @At("RETURN")
+    method = "setServerWorld",
+    at = @At("HEAD")
   )
-  private void minecells$injectMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
-    var result = cir.getReturnValue();
-    if (result != null) {
-      ((FallResetEntity) this).minecells$initDimensionChange(result, destination);
+  private void minecells$injectMoveToWorld(ServerWorld world, CallbackInfo ci) {
+    if (world != null && world != getWorld()) {
+      ((FallResetEntity) this).minecells$initDimensionChange(this, world);
     }
   }
 }

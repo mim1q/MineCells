@@ -9,6 +9,7 @@ import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.valuecalculators.ModValueCalculators;
 import dev.mim1q.gimm1q.valuecalculators.ValueCalculator;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -63,8 +64,8 @@ public class HattorisKatanaItem extends CustomMeleeWeapon implements WeaponWithA
       if (world.isClient()) {
         spawnTrailParticles(world, start, hitPos);
       } else {
-        stack.damage(1, player, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
-        player.teleport(hitPos.x, hitPos.y, hitPos.z);
+        stack.damage(1, player, user.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+        player.teleport(hitPos.x, hitPos.y, hitPos.z, false);
         ((PlayerEntityAccessor) player).setInvincibilityFrames(10);
       }
       user.playSound(MineCellsSounds.KATANA_RELEASE, 2.0F, 1.0F);
@@ -136,7 +137,7 @@ public class HattorisKatanaItem extends CustomMeleeWeapon implements WeaponWithA
   }
 
   @Override
-  public int getMaxUseTime(ItemStack stack) {
+  public int getMaxUseTime(ItemStack stack, LivingEntity user) {
     return 20;
   }
 

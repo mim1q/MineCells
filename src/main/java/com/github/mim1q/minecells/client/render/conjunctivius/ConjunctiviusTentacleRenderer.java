@@ -49,7 +49,7 @@ public class ConjunctiviusTentacleRenderer extends FeatureRenderer<Conjunctivius
       offset++;
       this.model.setAngles(entity, limbAngle, limbDistance, entity.isForDisplay() ? 140F : (animationProgress * 0.75F), headYaw, headPitch);
       boolean hurt = entity.hurtTime > 0;
-      this.model.render(matrices, vertexConsumers.getBuffer(layer), light, OverlayTexture.getUv(0.0F, hurt), 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumers.getBuffer(layer), light, OverlayTexture.getUv(0.0F, hurt), 0xFFFFFFFF);
       matrices.pop();
     }
   }
@@ -83,8 +83,8 @@ public class ConjunctiviusTentacleRenderer extends FeatureRenderer<Conjunctivius
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-      this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+      this.root.render(matrices, vertices, light, overlay, color);
     }
   }
 }

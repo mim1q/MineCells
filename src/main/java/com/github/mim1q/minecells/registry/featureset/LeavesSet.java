@@ -2,9 +2,9 @@ package com.github.mim1q.minecells.registry.featureset;
 
 import com.github.mim1q.minecells.block.HangingLeavesBlock;
 import com.github.mim1q.minecells.block.WallLeavesBlock;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -21,7 +21,7 @@ public class LeavesSet extends FeatureSet {
 
   private final List<ItemStack> stacks = Stream.of(leaves, wallLeaves, hangingLeaves).map(b -> b.asItem().getDefaultStack()).toList();
 
-  public LeavesSet(Identifier identifier, Supplier<FabricItemSettings> defaultItemSettings, Supplier<FabricBlockSettings> defaultBlockSettings) {
+  public LeavesSet(Identifier identifier, Supplier<Item.Settings> defaultItemSettings, Supplier<AbstractBlock.Settings> defaultBlockSettings) {
     super(identifier, defaultItemSettings, defaultBlockSettings);
   }
 

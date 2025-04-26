@@ -38,6 +38,6 @@ public class ConciergeObeliskEntity extends BossObeliskEntity {
   protected void postProcessEntity(Entity entity) {
     var pos = getPos().add(getRotationVector().multiply(-5.0));
     entity.refreshPositionAndAngles(pos.x, pos.y + 0.5, pos.z, 0F, 0F);
-    ((MobEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.NATURAL, null, null);
+    ((MobEntity) entity).initialize((ServerWorldAccess) this.getWorld(), getWorld().getLocalDifficulty(this.getBlockPos()), SpawnReason.NATURAL, null);
   }
 }

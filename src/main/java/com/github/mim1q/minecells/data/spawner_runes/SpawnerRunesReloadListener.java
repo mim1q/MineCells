@@ -30,7 +30,7 @@ public class SpawnerRunesReloadListener implements SimpleSynchronousResourceRelo
     resources.forEach((id, resource) -> {
       try (var stream = resource.getInputStream()) {
         addResource(
-          new Identifier(
+          Identifier.of(
             id.getNamespace(),
             id.getPath().replace(".json", "").replace("spawner_runes/", "")),
           stream

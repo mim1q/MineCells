@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class ShieldbearerEntityRenderer extends MineCellsEntityRenderer<ShieldbearerEntity, ShieldbearerEntityModel> {
 
-  public static final Identifier TEXTURE = new Identifier("minecells:textures/entity/shieldbearer.png");
+  public static final Identifier TEXTURE = Identifier.of("minecells:textures/entity/shieldbearer.png");
 
   public ShieldbearerEntityRenderer(EntityRendererFactory.Context ctx) {
     super(ctx, new ShieldbearerEntityModel(ctx.getPart(MineCellsRenderers.SHIELDBEARER_LAYER)), 0.35f);

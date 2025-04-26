@@ -1,36 +1,38 @@
 package com.github.mim1q.minecells.network.s2c;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
-import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterRecipeList.DisplayedRecipe;
-import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterScreen;
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SendUnlockedCellCrafterRecipesS2CPacket extends PacketByteBuf {
-  public static final Identifier ID = MineCells.createId("send_unlocked_cell_crafter_recipes");
-
+public record SendUnlockedCellCrafterRecipesS2CPacket(
+  Map<Identifier, Boolean> requiredAdvancements
+) {
   public SendUnlockedCellCrafterRecipesS2CPacket(ServerPlayerEntity player) {
-    super(Unpooled.buffer());
+    this(
+      getRequiredAdvancements(
+        player,
+        player.server.getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE)
+      )
+    );
+  }
 
-    var recipes = player.server.getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE);
-    writeInt(recipes.size());
-
-    for (var recipe : recipes) {
-      writeIdentifier(recipe.getId());
-      writeBoolean(recipe.requiredAdvancement().map(it -> {
+  private static Map<Identifier, Boolean> getRequiredAdvancements(ServerPlayerEntity player, List<RecipeEntry<CellForgeRecipe>> recipes) {
+    var requiredAdvancements = new HashMap<Identifier, Boolean>();
+    for (var r : recipes) {
+      var recipe = r.value();
+      var entry = (recipe.requiredAdvancement().map(it -> {
         var advancement = player.server.getAdvancementLoader().get(it);
-        return advancement == null || player.getAdvancementTracker().getProgress(advancement).isDone();
-      }).orElse(true));
+        return new Pair<>(it, advancement == null || player.getAdvancementTracker().getProgress(advancement).isDone());
+      }));
+      entry.ifPresent(it -> requiredAdvancements.put(it.getLeft(), it.getRight()));
     }
+    return requiredAdvancements;
   }
 }

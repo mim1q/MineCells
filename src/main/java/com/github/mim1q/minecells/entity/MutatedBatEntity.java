@@ -47,16 +47,16 @@ public class MutatedBatEntity extends MineCellsEntity {
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     this.setPosition(this.getPos().add(0.0D, 3.0D, 0.0D));
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    return super.initialize(world, difficulty, spawnReason, entityData);
   }
 
   @Override
-  public void initDataTracker() {
-    super.initDataTracker();
-    this.dataTracker.startTracking(DASH_CHARGING, false);
-    this.dataTracker.startTracking(DASH_RELEASING, false);
+  public void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(DASH_CHARGING, false);
+    builder.add(DASH_RELEASING, false);
   }
 
   @Override

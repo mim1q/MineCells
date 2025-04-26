@@ -45,8 +45,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
   }
 
   @Inject(method = "initDataTracker", at = @At("TAIL"))
-  public void initDataTracker(CallbackInfo ci) {
-    this.dataTracker.startTracking(CELL_AMOUNT, 0);
+  public void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
+    builder.add(CELL_AMOUNT, 0);
   }
 
   public int getCells() {

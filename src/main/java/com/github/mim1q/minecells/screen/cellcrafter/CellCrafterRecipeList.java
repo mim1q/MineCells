@@ -407,8 +407,8 @@ public class CellCrafterRecipeList {
     }
 
     @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
-      super.renderButton(new DisableShadowDrawContext(context), mouseX, mouseY, delta);
+    public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+      super.renderWidget(new DisableShadowDrawContext(context), mouseX, mouseY, delta);
     }
   }
   //#endregion

@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -31,8 +32,15 @@ public class CellCrafterBlock extends BlockWithEntity {
 
   public static final EnumProperty<Status> STATUS = EnumProperty.of("status", Status.class);
 
+  private static final MapCodec<CellCrafterBlock> CODEC = Block.createCodec(CellCrafterBlock::new);
+
   public CellCrafterBlock(Settings settings) {
     super(settings);
+  }
+
+  @Override
+  protected MapCodec<? extends BlockWithEntity> getCodec() {
+    return CODEC;
   }
 
   @Override
@@ -57,7 +65,7 @@ public class CellCrafterBlock extends BlockWithEntity {
 
   @Override
   @SuppressWarnings("deprecation")
-  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+  public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
     if (world.isClient) {
       return ActionResult.SUCCESS;
     }
@@ -91,7 +99,7 @@ public class CellCrafterBlock extends BlockWithEntity {
   @Nullable
   @Override
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-    return checkType(type, MineCellsBlockEntities.CELL_CRAFTER, (entityWorld, pos, entityState, blockEntity) -> blockEntity.tick(entityWorld, pos, entityState));
+    return validateTicker(type, MineCellsBlockEntities.CELL_CRAFTER, (entityWorld, pos, entityState, blockEntity) -> blockEntity.tick(entityWorld, pos, entityState));
   }
 
   public enum Status implements StringIdentifiable {

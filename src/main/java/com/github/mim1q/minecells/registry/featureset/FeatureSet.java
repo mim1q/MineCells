@@ -1,7 +1,6 @@
 package com.github.mim1q.minecells.registry.featureset;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -14,15 +13,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 abstract class FeatureSet {
-  protected final Supplier<FabricItemSettings> defaultItemSettings;
-  protected final Supplier<FabricBlockSettings> defaultBlockSettings;
+  protected final Supplier<Item.Settings> defaultItemSettings;
+  protected final Supplier<AbstractBlock.Settings> defaultBlockSettings;
   protected final String name;
   protected final String namespace;
 
   public FeatureSet(
     Identifier identifier,
-    Supplier<FabricItemSettings> defaultItemSettings,
-    Supplier<FabricBlockSettings> defaultBlockSettings
+    Supplier<Item.Settings> defaultItemSettings,
+    Supplier<AbstractBlock.Settings> defaultBlockSettings
   ) {
     this.defaultItemSettings = defaultItemSettings;
     this.defaultBlockSettings = defaultBlockSettings;
@@ -30,7 +29,7 @@ abstract class FeatureSet {
     this.namespace = identifier.getNamespace();
   }
 
-  protected Identifier id(String name) { return new Identifier(namespace, name); }
+  protected Identifier id(String name) { return Identifier.of(namespace, name); }
 
   protected <I extends Item> I registerItem(String name, I item) {
     return Registry.register(Registries.ITEM, id(name), item);
@@ -45,11 +44,11 @@ abstract class FeatureSet {
     return registerBlock(name, block);
   }
 
-  protected FabricItemSettings defaultItemSettings() {
+  protected Item.Settings defaultItemSettings() {
     return defaultItemSettings.get();
   }
 
-  protected FabricBlockSettings defaultBlockSettings() {
+  protected AbstractBlock.Settings defaultBlockSettings() {
     return defaultBlockSettings.get();
   }
 

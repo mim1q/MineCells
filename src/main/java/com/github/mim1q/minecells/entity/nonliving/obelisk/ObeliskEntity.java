@@ -3,13 +3,13 @@ package com.github.mim1q.minecells.entity.nonliving.obelisk;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneController;
 import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.ObeliskActivationS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -26,6 +26,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -150,7 +151,8 @@ public abstract class ObeliskEntity extends Entity {
         if (getActivationItem() != null) {
           stack.setCount(stack.getCount() - 1);
         }
-        PlayerLookup.tracking(this).forEach((player) -> ServerPlayNetworking.send(player, ObeliskActivationS2CPacket.ID, new ObeliskActivationS2CPacket(this.getId())));
+        PlayerLookup.tracking(this).forEach((player) ->
+          ServerPacketHandler.CHANNEL.serverHandle(player).send(new ObeliskActivationS2CPacket(this.getId())));
       }
       return ActionResult.SUCCESS;
     }
@@ -188,8 +190,8 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   @Override
-  protected void initDataTracker() {
-    this.dataTracker.startTracking(HIDDEN, true);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    builder.add(HIDDEN, true);
   }
 
   public void setHidden(boolean hidden) {
@@ -215,7 +217,7 @@ public abstract class ObeliskEntity extends Entity {
   }
 
   @Override
-  public Packet<ClientPlayPacketListener> createSpawnPacket() {
-    return new EntitySpawnS2CPacket(this);
+  public Packet<ClientPlayPacketListener> createSpawnPacket(EntityTrackerEntry entityTrackerEntry) {
+    return new EntitySpawnS2CPacket(this, entityTrackerEntry);
   }
 }

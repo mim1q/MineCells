@@ -11,6 +11,7 @@ import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -19,8 +20,10 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,16 +37,39 @@ import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements LivingEntityAccessor {
-  @Shadow public abstract ItemStack getMainHandStack();
-  @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
-  @Shadow public abstract boolean damage(DamageSource source, float amount);
-  @Shadow public abstract void kill();
-  @Shadow public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
-  @Shadow public abstract ItemStack getOffHandStack();
-  @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
-  @Shadow public abstract LivingEntity getLastAttacker();
+  @Shadow
+  public abstract ItemStack getMainHandStack();
 
-  @Shadow private long lastDamageTime;
+  @Shadow
+  public abstract boolean addStatusEffect(StatusEffectInstance effect);
+
+  @Shadow
+  public abstract boolean damage(DamageSource source, float amount);
+
+  @Shadow
+  public abstract void kill();
+
+  @Shadow
+  public abstract Map<StatusEffect, StatusEffectInstance> getActiveStatusEffects();
+
+  @Shadow
+  public abstract ItemStack getOffHandStack();
+
+  @Shadow
+  public abstract LivingEntity getLastAttacker();
+
+  @Shadow
+  private long lastDamageTime;
+
+  @Shadow
+  public abstract AttributeContainer getAttributes();
+
+  @Shadow
+  @Nullable
+  public abstract StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
+
+  @Shadow
+  public abstract boolean removeStatusEffect(RegistryEntry<StatusEffect> effect);
 
   @Unique
   @SuppressWarnings("WrongEntityDataParameterClass")
@@ -53,9 +79,9 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
     super(type, world);
   }
 
-  @Inject(method = "initDataTracker()V", at = @At("TAIL"))
-  public void initDataTracker(CallbackInfo ci) {
-    this.dataTracker.startTracking(MINECELLS_FLAGS, 0);
+  @Inject(method = "initDataTracker", at = @At("TAIL"))
+  public void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
+    builder.add(MINECELLS_FLAGS, 0);
   }
 
   @Inject(method = "tick()V", at = @At("HEAD"))
@@ -103,6 +129,17 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
       }
     }
     return false;
+  }
+
+  @Inject(
+    method = "removeStatusEffectInternal",
+    at = @At("HEAD")
+  )
+  public void removeStatusEffectInternal(RegistryEntry<StatusEffect> effect, CallbackInfoReturnable<StatusEffectInstance> cir) {
+    if (effect instanceof MineCellsStatusEffect mineCellsStatusEffect) {
+      var entry = this.getStatusEffect(effect);
+      mineCellsStatusEffect.onRemoved((LivingEntity) (Object) this, this.getAttributes(), entry == null ? 0 : entry.getAmplifier());
+    }
   }
 
   @Override

@@ -187,27 +187,27 @@ public class ConciergeEntity extends MineCellsBossEntity {
   }
 
   @Override
-  protected void initDataTracker() {
-    super.initDataTracker();
-    dataTracker.startTracking(LEAP_CHARGING, false);
-    dataTracker.startTracking(LEAP_RELEASING, false);
-    dataTracker.startTracking(SHOCKWAVE_CHARGING, false);
-    dataTracker.startTracking(SHOCKWAVE_RELEASING, false);
-    dataTracker.startTracking(AURA_CHARGING, false);
-    dataTracker.startTracking(AURA_RELEASING, false);
-    dataTracker.startTracking(PUNCH_CHARGING, false);
-    dataTracker.startTracking(PUNCH_RELEASING, false);
-    dataTracker.startTracking(SCREAMING, false);
+  protected void initDataTracker(DataTracker.Builder builder) {
+    super.initDataTracker(builder);
+    builder.add(LEAP_CHARGING, false);
+    builder.add(LEAP_RELEASING, false);
+    builder.add(SHOCKWAVE_CHARGING, false);
+    builder.add(SHOCKWAVE_RELEASING, false);
+    builder.add(AURA_CHARGING, false);
+    builder.add(AURA_RELEASING, false);
+    builder.add(PUNCH_CHARGING, false);
+    builder.add(PUNCH_RELEASING, false);
+    builder.add(SCREAMING, false);
   }
 
   @Nullable
   @Override
-  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+  public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
     spawnPos = this.getBlockPos();
     setYaw(180F);
     setBodyYaw(180F);
     prevYaw = prevBodyYaw = prevHeadYaw = 180F;
-    return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    return super.initialize(world, difficulty, spawnReason, entityData);
   }
 
   @Override

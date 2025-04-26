@@ -9,17 +9,17 @@ import com.github.mim1q.minecells.particle.electric.ElectricParticleType;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.FlameParticle;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class MineCellsParticles {
 
-  public static final DefaultParticleType AURA = FabricParticleTypes.simple();
-  public static final DefaultParticleType EXPLOSION = FabricParticleTypes.simple();
-  public static final DefaultParticleType PROTECTOR = FabricParticleTypes.simple();
-  public static final DefaultParticleType CHARGE = FabricParticleTypes.simple();
-  public static final DefaultParticleType FLY = FabricParticleTypes.simple();
+  public static final SimpleParticleType AURA = FabricParticleTypes.simple();
+  public static final SimpleParticleType EXPLOSION = FabricParticleTypes.simple();
+  public static final SimpleParticleType PROTECTOR = FabricParticleTypes.simple();
+  public static final SimpleParticleType CHARGE = FabricParticleTypes.simple();
+  public static final SimpleParticleType FLY = FabricParticleTypes.simple();
   public static final ColoredParticleType SPECKLE = ColoredParticleType.create();
   public static final ColoredParticleType FALLING_LEAF = ColoredParticleType.create();
   public static final ElectricParticleType ELECTRICITY = ElectricParticleType.create();

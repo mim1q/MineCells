@@ -34,10 +34,10 @@ public abstract class AbstractGrenadeEntityRenderer<E extends GrenadeEntity> ext
       overlay = OverlayTexture.packUv(OverlayTexture.getU(1.0F), 10);
     }
     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(this.texture));
-    this.model.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+    this.model.render(matrices, vertexConsumer, light, overlay, 0xFFFFFFFF);
     if (glowTexture != null) {
       VertexConsumer vertexConsumerGlowing = vertexConsumers.getBuffer(RenderLayer.getEyes(this.glowTexture));
-      this.model.render(matrices, vertexConsumerGlowing, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumerGlowing, light, overlay, 0xFFFFFFFF);
     }
     matrices.pop();
   }

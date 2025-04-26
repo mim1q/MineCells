@@ -39,10 +39,10 @@ public class ObeliskEntityRenderer extends EntityRenderer<ObeliskEntity> {
       float animationProgress = entity.age + tickDelta;
       this.model.setAngles(entity, 0.0F, 0.0F, animationProgress, 0.0F, 0.0F);
       VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture));
-      this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+      this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 0xFFFFFFFF);
       VertexConsumer glowVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture));
       var glow = entity.glow.update(animationProgress);
-      this.model.renderGlow(matrices, glowVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, glow);
+      this.model.renderGlow(matrices, glowVertexConsumer, light, OverlayTexture.DEFAULT_UV, 0xFFFFFF | ((int)(glow * 255) << 24));
     }
     matrices.pop();
     if (entity.bury.getValue() < 0.1F) {

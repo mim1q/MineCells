@@ -20,7 +20,7 @@ public record RingDensityFunction(
   boolean offsetGrid
 ) implements DensityFunction {
   public static final CodecHolder<RingDensityFunction> CODEC_HOLDER = CodecHolder.of(
-    RecordCodecBuilder.create(instance -> instance.group(
+    RecordCodecBuilder.mapCodec(instance -> instance.group(
       Codec.INT.optionalFieldOf("grid_size", 1024).forGetter(it -> it.gridSize),
       Codec.INT.fieldOf("min_radius").forGetter(it -> it.minRadius),
       Codec.INT.optionalFieldOf("max_radius", 2048).forGetter(it -> it.maxRadius),

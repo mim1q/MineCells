@@ -2,7 +2,7 @@ package com.github.mim1q.minecells.particle;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import org.jetbrains.annotations.Nullable;
 
 public class FlyParticle extends SpriteBillboardParticle {
@@ -58,7 +58,7 @@ public class FlyParticle extends SpriteBillboardParticle {
     return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
   }
 
-  public static class Factory implements ParticleFactory<DefaultParticleType> {
+  public static class Factory implements ParticleFactory<SimpleParticleType> {
     private final SpriteProvider spriteProvider;
 
     public Factory(SpriteProvider spriteProvider) {
@@ -67,7 +67,7 @@ public class FlyParticle extends SpriteBillboardParticle {
 
     @Nullable
     @Override
-    public Particle createParticle(DefaultParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+    public Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
       FlyParticle particle = new FlyParticle(world, x, y, z, velocityY);
       particle.setSprite(this.spriteProvider);
       return particle;
