@@ -52,6 +52,7 @@ public class MineCellsEntity extends HostileEntity {
   public BlockPos spawnRunePos = null;
   private boolean recalculatedDimensions = false;
   private Identifier additionalLootTable = null;
+  private long disappearTime = -1;
 
   private int eliteAttackCooldown = 100;
 
@@ -109,6 +110,12 @@ public class MineCellsEntity extends HostileEntity {
     } else {
       decrementCooldowns();
       eliteAttackCooldown--;
+    }
+
+    if (!getWorld().isClient) {
+      if (disappearTime > 0 && getWorld().getTime() >= disappearTime) {
+        this.discard();
+      }
     }
   }
 
@@ -240,6 +247,9 @@ public class MineCellsEntity extends HostileEntity {
     return this.dataTracker.get(FOR_DISPLAY);
   }
 
+  public void setDisappearTime(long disappearTime) {
+    this.disappearTime = disappearTime;
+  }
 
   @Override
   public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -251,6 +261,7 @@ public class MineCellsEntity extends HostileEntity {
     if (additionalLootTable != null)
       nbt.putString("additionalLootTable", additionalLootTable.toString());
     nbt.putBoolean("forDisplay", this.dataTracker.get(FOR_DISPLAY));
+    nbt.putLong("disappear_time", disappearTime);
   }
 
   @Override
@@ -263,6 +274,7 @@ public class MineCellsEntity extends HostileEntity {
     if (nbt.contains("additionalLootTable"))
       additionalLootTable = Identifier.tryParse(nbt.getString("additionalLootTable"));
     if (nbt.contains("forDisplay")) this.dataTracker.set(FOR_DISPLAY, nbt.getBoolean("forDisplay"));
+    if (nbt.contains("disappear_time")) this.disappearTime = nbt.getLong("disappear_time");
 
     this.calculateDimensions();
     this.calculateBoundingBox();

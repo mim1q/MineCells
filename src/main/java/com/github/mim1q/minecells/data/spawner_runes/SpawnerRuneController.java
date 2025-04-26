@@ -3,6 +3,8 @@ package com.github.mim1q.minecells.data.spawner_runes;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRuneData.EntitySpawnData;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.entity.MineCellsEntity;
+import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
 import com.github.mim1q.minecells.network.ServerPacketHandler;
 import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
@@ -96,6 +98,13 @@ public class SpawnerRuneController {
         findPos(world, pos, data.spawnDistance()),
         pos,
         e -> {
+          if (
+            e instanceof MineCellsEntity mineCellsEntity
+              && !(e instanceof MineCellsBossEntity)
+              && !mineCellsEntity.isElite()
+          ) {
+            mineCellsEntity.setDisappearTime(world.getTime() + (long) (data.cooldown() * 20));
+          }
         }
       );
       if (entity instanceof HostileEntity hostile && hostile.canSee(spawningPlayer)) {
