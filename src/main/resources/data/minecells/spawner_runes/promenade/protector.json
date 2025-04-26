@@ -1,5 +1,6 @@
 {
   "playerDistance": 48.0,
+  "cooldown": 300.0,
   "pools": [
     {
       "rolls": 1,

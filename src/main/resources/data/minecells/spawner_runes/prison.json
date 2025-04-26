@@ -1,5 +1,5 @@
 {
-  "cooldown": 60.0,
+  "cooldown": 180.0,
   "spawnDistance": 1.0,
   "playerDistance": 12.0,
   "pools": [
