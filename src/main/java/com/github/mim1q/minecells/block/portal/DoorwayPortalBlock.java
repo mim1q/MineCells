@@ -2,7 +2,6 @@ package com.github.mim1q.minecells.block.portal;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import com.github.mim1q.minecells.item.DoorwayItem;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
@@ -17,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -83,7 +81,7 @@ public class DoorwayPortalBlock extends BlockWithEntity {
       var entity = entityShapeContext.getEntity();
       var blockEntity = world.getBlockEntity(pos, MineCellsBlockEntities.DOORWAY).orElse(null);
       if (entity instanceof PlayerEntity player && blockEntity != null) {
-        if (!blockEntity.canPlayerEnter(player)) {
+        if (!blockEntity.canPlayerEnter(player) || state.get(CLOSED)) {
           return getOutlineShape(state, world, pos, context);
         }
       }
@@ -196,12 +194,6 @@ public class DoorwayPortalBlock extends BlockWithEntity {
   @SuppressWarnings("deprecation")
   public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
     var stacks = super.getDroppedStacks(state, builder);
-    var blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
-    for (var stack : stacks) {
-      if (stack.getItem() instanceof DoorwayItem && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
-        doorway.setStackNbt(stack);
-      }
-    }
     return stacks;
   }
 

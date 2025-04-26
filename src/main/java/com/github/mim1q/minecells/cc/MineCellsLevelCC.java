@@ -67,13 +67,13 @@ public class MineCellsLevelCC implements ScoreboardComponentInitializer {
 
     @Override
     public boolean shouldSyncWith(ServerPlayerEntity player) {
-      return true;//portalMap.containsKey(player.getUuid());
+      return portalMap.containsKey(player.getUuid());
     }
 
     @Override
     public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
       var list = portalMap.get(recipient.getUuid());
-      if (list == null) return;
+      if (list == null) list = List.of();
 
       buf.writeVarInt(list.size());
       for (var portal : list) {

@@ -47,7 +47,7 @@ public class ClientPacketHandler {
         var blockEntity = world.getBlockEntity(msg.pos());
         if (blockEntity instanceof SpawnerRuneBlockEntity spawner) {
           spawner.controller.setLastActivationTime(msg.lastActivationTime());
-          spawner.controller.setDataId(world, msg.pos(), msg.dataId());
+          spawner.controller.setDummyData(msg.cooldown());
           return;
         }
         var box = Box.of(Vec3d.ofCenter(msg.pos()), 1.5, 1.5, 1.5);
@@ -59,7 +59,7 @@ public class ClientPacketHandler {
 
         entity.ifPresent(it -> {
           it.controller.setLastActivationTime(msg.lastActivationTime());
-          it.controller.setDataId(world, msg.pos(), msg.dataId());
+          it.controller.setDummyData(msg.cooldown());
         });
       }
     );
@@ -67,11 +67,7 @@ public class ClientPacketHandler {
     CHANNEL.registerClientbound(
       OpenDoorwayScreenS2CPacket.class,
       (msg, handler) -> {
-        var world = handler.netHandler().getWorld();
-        var blockEntity = world.getBlockEntity(msg.pos());
-//        if (blockEntity instanceof DoorwayPortalBlockEntity) {
         ScreenUtils.openDoorwaySelectionScreen(msg.pos(), msg.posOverride());
-//        }
       }
     );
 

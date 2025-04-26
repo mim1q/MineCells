@@ -9,7 +9,6 @@ import com.github.mim1q.minecells.network.s2c.OpenDoorwayScreenS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -113,29 +112,6 @@ public class DoorwayItem extends AliasedBlockItem {
     world.setBlockState(pos.add(rightVec).add(0, dy + 2, 0), frameBlock.getState(DoorwayPortalBlock.Frame.FillerType.TOP_RIGHT, direction));
 
     return true;
-  }
-
-  @Override
-  public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-    if (
-      !world.isClient
-      && selected
-      && entity instanceof ServerPlayerEntity player
-      && MineCellsDimension.of(world) == MineCellsDimension.OVERWORLD
-      && entity.age % 10 == 0
-    ) {
-      if (stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride")) {
-        return;
-      }
-      var x = Math.round(entity.getPos().x / 1024F) * 1024;
-      var z = Math.round(entity.getPos().z / 1024F) * 1024;
-      var area = "[x: " + x + ", z: " + z + "]";
-      // todo
-//      var message = ((PlayerEntityAccessor)player).getCurrentMineCellsPlayerData().hasVisitedDimension(doorwayBlock.type.dimension)
-//        ? TOOLTIP_VISITED
-//        : TOOLTIP_NOT_VISITED;
-//      player.sendMessage(Text.translatable(message, Text.translatable(doorwayBlock.type.dimension.translationKey), area), true);
-    }
   }
 
   @Override

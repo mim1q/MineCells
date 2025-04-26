@@ -8,7 +8,6 @@ import com.github.mim1q.minecells.network.s2c.SpawnRuneParticlesS2CPacket;
 import com.github.mim1q.minecells.network.s2c.SpawnerRuneUpdateS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
-import com.github.mim1q.minecells.util.client.ClientUtil;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
@@ -180,12 +179,19 @@ public class SpawnerRuneController {
     return pos;
   }
 
+  public void setDummyData(float cooldown) {
+    this.data = new SpawnerRuneData(
+      cooldown,
+      0,
+      0,
+      List.of()
+    );
+  }
+
   public void setDataId(World world, BlockPos pos, Identifier id) {
     var newData = MineCells.SPAWNER_RUNE_DATA.get(id);
     this.dataId = id;
-    this.data = MineCells.SPAWNER_RUNE_DATA.get(id);
 
-    if (world == null || world.isClient) return;
     if (newData == null) {
       MineCells.LOGGER.warn(
         "Tried to load unknown spawner rune data with id: {} at pos {} in dimension {}",
@@ -194,6 +200,8 @@ public class SpawnerRuneController {
         world.getRegistryKey().getValue().toString()
       );
     }
+    this.data = newData;
+    if (world == null || world.isClient) return;
 
     sendUpdatePacket(world, pos);
   }
@@ -203,9 +211,9 @@ public class SpawnerRuneController {
       var packet = new SpawnerRuneUpdateS2CPacket(
         pos,
         lastActivationTime,
-        dataId
+        data.cooldown()
       );
-      ServerPacketHandler.CLIENT_CHANNEL.serverHandle(serverWorld, pos)
+      ServerPacketHandler.CLIENT_CHANNEL.serverHandle(serverWorld.getPlayers())
         .send(packet);
     }
   }
