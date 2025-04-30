@@ -20,7 +20,7 @@ import org.joml.Vector3f;
 
 public class InquisitorEntityRenderer extends MineCellsEntityRenderer<InquisitorEntity, InquisitorEntityModel> {
 
-  public static final Identifier ORB_TEXTURE = MineCells.createId("textures/particle/magic_orb.png");
+  public static final Identifier ORB_TEXTURE = MineCells.createId("textures/misc/magic_orb.png");
   public static final Identifier TEXTURE = MineCells.createId("textures/entity/inquisitor.png");
   public static final RenderLayer ORB_LAYER = RenderLayer.getEntityCutout(ORB_TEXTURE);
 
@@ -53,7 +53,7 @@ public class InquisitorEntityRenderer extends MineCellsEntityRenderer<Inquisitor
       matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(30F)));
     } else {
       matrixStack.multiply(this.dispatcher.getRotation());
-      matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
+//      matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     }
     MatrixStack.Entry entry = matrixStack.peek();
     RenderUtils.produceVertex(vertexConsumer, entry, 0xF000F0, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, 255);

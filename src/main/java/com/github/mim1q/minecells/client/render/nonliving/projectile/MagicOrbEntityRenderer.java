@@ -15,7 +15,7 @@ import org.joml.Quaternionf;
 
 public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
 
-  public static final Identifier TEXTURE = MineCells.createId("textures/particle/magic_orb.png");
+  public static final Identifier TEXTURE = MineCells.createId("textures/misc/magic_orb.png");
   public static final RenderLayer LAYER = RenderLayer.getEntityCutout(TEXTURE);
 
   public MagicOrbEntityRenderer(EntityRendererFactory.Context ctx) {
@@ -28,7 +28,6 @@ public class MagicOrbEntityRenderer extends EntityRenderer<MagicOrbEntity> {
     matrixStack.translate(0.0F, 0.25F, 0.0F);
     matrixStack.scale(0.5F, 0.5F, 0.5F);
     matrixStack.multiply(this.dispatcher.getRotation());
-    matrixStack.multiply(new Quaternionf().rotationY(MathUtils.radians(180F)));
     MatrixStack.Entry entry = matrixStack.peek();
     VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(LAYER);
     produceVertex(vertexConsumer, entry, 0xF0, 0.0F, 0, 0, 1);
