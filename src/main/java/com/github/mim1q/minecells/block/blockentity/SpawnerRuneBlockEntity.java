@@ -28,7 +28,8 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
   public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
     super.readNbt(nbt, lookup);
     controller.setDataId(getWorld(), getPos(), Identifier.tryParse(nbt.getString("dataId")));
-    controller.setLastActivationTime(nbt.getLong("last_activation_time"));
+    if (nbt.contains("last_activation_time"))
+      controller.setLastActivationTime(nbt.getLong("last_activation_time"));
   }
 
 
