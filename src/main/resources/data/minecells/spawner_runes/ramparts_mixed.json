@@ -6,10 +6,9 @@
     {
       "rolls": {
         "type": "uniform",
-        "value": {
+
           "min_inclusive": 2,
           "max_inclusive": 3
-        }
       },
       "entries": [
         { "weight": 1, "entity": "minecells:shieldbearer" },

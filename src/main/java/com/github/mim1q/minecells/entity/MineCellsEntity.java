@@ -148,7 +148,7 @@ public class MineCellsEntity extends HostileEntity {
 
   @Override
   public EntityDimensions getBaseDimensions(EntityPose pose) {
-    var result = super.getDimensions(pose);
+    var result = super.getBaseDimensions(pose);
     if (isElite()) {
       return EntityDimensions.fixed(result.width() * ELITE_SCALE, result.height() * ELITE_SCALE);
     }

@@ -55,7 +55,7 @@ public class DimensionButton extends ButtonComponent {
 
   @Override
   public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-    super.render(context, mouseX, mouseY, delta);
+    super.renderWidget(context, mouseX, mouseY, delta);
   }
 
   public void setSelected(boolean selected) {
