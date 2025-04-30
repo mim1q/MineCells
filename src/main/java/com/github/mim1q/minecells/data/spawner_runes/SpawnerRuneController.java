@@ -38,7 +38,7 @@ public class SpawnerRuneController {
   private Identifier dataId = null;
   private SpawnerRuneData data = null;
   private boolean isVisible = false;
-  private long lastActivationTime = 0;
+  private long lastActivationTime = -100000000L;
 
   public void tick(BlockPos pos, World world) {
     if (!world.isClient && data != null) {
