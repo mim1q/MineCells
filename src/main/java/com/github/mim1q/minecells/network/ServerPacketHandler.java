@@ -21,17 +21,17 @@ import static com.github.mim1q.minecells.world.processor.SwitchBlockStructurePro
 
 public class ServerPacketHandler {
   public static OwoNetChannel CHANNEL = OwoNetChannel.create(MineCells.createId("main"));
-  public static OwoNetChannel CLIENT_CHANNEL = OwoNetChannel.create(MineCells.createId("client_main"));
 
   public static void init() {
-    CLIENT_CHANNEL.registerClientboundDeferred(SpawnerRuneUpdateS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(OpenDoorwayScreenS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(SpawnRuneParticlesS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(ObeliskActivationS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(ShockwaveClientEventS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(SendUnlockedCellCrafterRecipesS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(UpdateConjunctiviusBossBarS2CPacket.class);
-    CLIENT_CHANNEL.registerClientboundDeferred(CritS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(SpawnerRuneUpdateS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(OpenDoorwayScreenS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(SpawnRuneParticlesS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(ObeliskActivationS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(ShockwaveClientEventS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(SendUnlockedCellCrafterRecipesS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(UpdateConjunctiviusBossBarS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(CritS2CPacket.class);
+    CHANNEL.registerClientboundDeferred(ExplosionS2CPacket.class);
 
     CHANNEL.registerServerbound(UpdateDoorwayC2SPacket.class, (msg, ctx) -> {
       var world = ctx.player().getWorld();
@@ -92,7 +92,7 @@ public class ServerPacketHandler {
     });
 
     CHANNEL.registerServerbound(RequestUnlockedCellCrafterRecipesC2SPacket.class, ((msg, handler) -> {
-      CLIENT_CHANNEL.serverHandle(handler.player()).send(new SendUnlockedCellCrafterRecipesS2CPacket(handler.player()));
+      CHANNEL.serverHandle(handler.player()).send(new SendUnlockedCellCrafterRecipesS2CPacket(handler.player()));
     }));
 
     CHANNEL.registerServerbound(CellCrafterCraftRequestC2SPacket.class, (msg, handler) -> {

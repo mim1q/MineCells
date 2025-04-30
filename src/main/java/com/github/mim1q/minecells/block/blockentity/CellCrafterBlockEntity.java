@@ -113,7 +113,7 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Name
     for (var itemStack : this.craftedItems) {
       if (itemStack.isEmpty()) continue;
 
-      var itemStackNbt = ItemStack.CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
+      var itemStackNbt = ItemStack.OPTIONAL_CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
         .result().orElse(new NbtCompound());
 
       craftedItems.add(itemStackNbt);

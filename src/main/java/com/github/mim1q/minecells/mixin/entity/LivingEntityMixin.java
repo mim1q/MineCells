@@ -132,13 +132,12 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityAc
   }
 
   @Inject(
-    method = "removeStatusEffectInternal",
+    method = "onStatusEffectRemoved",
     at = @At("HEAD")
   )
-  public void removeStatusEffectInternal(RegistryEntry<StatusEffect> effect, CallbackInfoReturnable<StatusEffectInstance> cir) {
-    if (effect instanceof MineCellsStatusEffect mineCellsStatusEffect) {
-      var entry = this.getStatusEffect(effect);
-      mineCellsStatusEffect.onRemoved((LivingEntity) (Object) this, this.getAttributes(), entry == null ? 0 : entry.getAmplifier());
+  public void removeStatusEffectInternal(StatusEffectInstance effect, CallbackInfo ci) {
+    if (effect.getEffectType().value() instanceof MineCellsStatusEffect mineCellsStatusEffect) {
+      mineCellsStatusEffect.onRemoved((LivingEntity) (Object) this, this.getAttributes(), effect.getAmplifier());
     }
   }
 

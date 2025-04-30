@@ -18,7 +18,9 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKeys;
@@ -180,7 +182,7 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
 
   @Override
   protected ItemStack asItemStack() {
-    return item.copy();
+    return item == null ? Items.ARROW.getDefaultStack() : item.copy();
   }
 
   @Override

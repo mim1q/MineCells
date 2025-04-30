@@ -60,7 +60,7 @@ public class TentacleItem extends CustomMeleeWeapon implements WeaponWithAbility
           serverPlayer.getItemCooldownManager().set(this, cooldown);
         }
 
-        ServerPacketHandler.CLIENT_CHANNEL.clientHandle().send(new UseTentacleWeaponC2SPacket(pos));
+        ServerPacketHandler.CHANNEL.clientHandle().send(new UseTentacleWeaponC2SPacket(pos));
 
         return TypedActionResult.success(user.getStackInHand(hand));
       }

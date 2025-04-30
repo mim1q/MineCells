@@ -38,7 +38,7 @@ public record CellForgeRecipe(
 
   public static final MapCodec<CellForgeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
     Codec.unboundedMap(Registries.ITEM.getCodec(), Codec.INT).fieldOf("input").forGetter(CellForgeRecipe::ingredients),
-    ItemStack.CODEC.fieldOf("output").forGetter(CellForgeRecipe::output),
+    ItemStack.OPTIONAL_CODEC.fieldOf("output").forGetter(CellForgeRecipe::output),
     Identifier.CODEC.optionalFieldOf("advancement").forGetter(CellForgeRecipe::requiredAdvancement),
     Codec.INT.optionalFieldOf("priority", 0).forGetter(CellForgeRecipe::priority),
     StringIdentifiable.createCodec(Category::values).optionalFieldOf("category", Category.OTHER).forGetter(CellForgeRecipe::category)

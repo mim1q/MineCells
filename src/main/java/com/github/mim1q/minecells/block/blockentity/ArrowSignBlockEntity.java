@@ -69,7 +69,7 @@ public class ArrowSignBlockEntity extends MineCellsBlockEntity {
   @Override
   protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
     super.writeNbt(nbt, lookup);
-    var itemStackNbt = ItemStack.CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
+    var itemStackNbt = ItemStack.OPTIONAL_CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
       .result().orElse(new NbtCompound());
     nbt.put("itemStack", itemStackNbt);
     nbt.putInt("verticalRotation", verticalRotation);

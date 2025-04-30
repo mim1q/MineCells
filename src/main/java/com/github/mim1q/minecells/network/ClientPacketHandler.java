@@ -30,7 +30,7 @@ import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class ClientPacketHandler {
-  public static final OwoNetChannel CHANNEL = ServerPacketHandler.CLIENT_CHANNEL;
+  public static final OwoNetChannel CHANNEL = ServerPacketHandler.CHANNEL;
 
   public static void init() {
     CHANNEL.registerClientbound(
@@ -73,6 +73,11 @@ public class ClientPacketHandler {
     CHANNEL.registerClientbound(
       CritS2CPacket.class,
       ClientPacketHandler::handleCrit
+    );
+
+    CHANNEL.registerClientbound(
+      ExplosionS2CPacket.class,
+      ClientPacketHandler::handleExplosion
     );
   }
 

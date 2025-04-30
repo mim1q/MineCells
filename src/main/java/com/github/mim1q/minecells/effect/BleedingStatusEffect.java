@@ -30,7 +30,7 @@ public class BleedingStatusEffect extends MineCellsStatusEffect {
         0.1D
       );
     }
-    return false;
+    return true;
   }
 
   @Override

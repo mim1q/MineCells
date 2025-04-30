@@ -48,7 +48,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
     super(handler, inventory, title);
     recipeList = new CellCrafterRecipeList(this);
 
-    ServerPacketHandler.CLIENT_CHANNEL.clientHandle().send(new RequestUnlockedCellCrafterRecipesC2SPacket(inventory.player.getId()));
+    ServerPacketHandler.CHANNEL.clientHandle().send(new RequestUnlockedCellCrafterRecipesC2SPacket(inventory.player.getId()));
 
     handler.blockPos.observe(it -> blockPos = it);
 

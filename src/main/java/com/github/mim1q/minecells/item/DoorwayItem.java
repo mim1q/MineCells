@@ -96,7 +96,7 @@ public class DoorwayItem extends AliasedBlockItem {
     if (blockEntity instanceof DoorwayPortalBlockEntity doorway && context.getPlayer() != null) {
       var posOverride = MineCellsLevelCC.PortalsCC.getOrCreatePortal((ServerPlayerEntity) context.getPlayer()).runCenter();
       doorway.update(context.getPlayer(), posOverride, true);
-      ServerPacketHandler.CLIENT_CHANNEL.serverHandle(context.getPlayer())
+      ServerPacketHandler.CHANNEL.serverHandle(context.getPlayer())
         .send(new OpenDoorwayScreenS2CPacket(pos.add(0, dy + 1, 0), posOverride));
     }
 

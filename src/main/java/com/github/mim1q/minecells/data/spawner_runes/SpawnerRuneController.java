@@ -222,7 +222,7 @@ public class SpawnerRuneController {
         lastActivationTime,
         data.cooldown()
       );
-      ServerPacketHandler.CLIENT_CHANNEL.serverHandle(serverWorld.getPlayers())
+      ServerPacketHandler.CHANNEL.serverHandle(serverWorld.getPlayers())
         .send(packet);
     }
   }
