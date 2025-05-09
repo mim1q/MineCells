@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:flint"
+      "id": "minecells:flint"
     },
     "title": {
       "translate": "advancements.minecells.concierge"

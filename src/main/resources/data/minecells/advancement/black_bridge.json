@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:prison_bricks"
+      "id": "minecells:prison_bricks"
     },
     "title": {
       "translate": "advancements.minecells.black_bridge"

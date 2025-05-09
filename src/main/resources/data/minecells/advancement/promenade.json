@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:wilted_grass_block"
+      "id": "minecells:wilted_grass_block"
     },
     "title": {
       "translate": "advancements.minecells.promenade"

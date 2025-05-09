@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:ramparts_flag"
+      "id": "minecells:ramparts_flag"
     },
     "title": {
       "translate": "advancements.minecells.ramparts"

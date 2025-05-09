@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:cell_crafter"
+      "id": "minecells:cell_crafter"
     },
     "title": {
       "translate": "advancements.minecells.cell_crafter"

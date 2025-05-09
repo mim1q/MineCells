@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:iron_bars"
+      "id": "minecraft:iron_bars"
     },
     "title": {
       "translate": "advancements.minecells.prison"

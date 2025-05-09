@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:conjunctivius_respawn_rune"
+      "id": "minecells:conjunctivius_respawn_rune"
     },
     "title": {
       "translate": "advancements.minecells.respawn_boss"

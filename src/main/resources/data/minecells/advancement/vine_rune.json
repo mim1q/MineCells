@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:vine_rune"
+      "id": "minecells:vine_rune"
     },
     "title": {
       "translate": "advancements.minecells.vine_rune"

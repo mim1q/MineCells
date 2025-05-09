@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecells:elevator_assembler"
+      "id": "minecells:elevator_assembler"
     },
     "title": {
       "translate": "advancements.minecells.elevator"
