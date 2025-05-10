@@ -26,6 +26,9 @@
     ],
     "cardinal-components": [
       "com.github.mim1q.minecells.cc.MineCellsLevelCC"
+    ],
+    "fabric-datagen": [
+      "com.github.mim1q.minecells.datagen.MineCellsDatagen"
     ]
   },
   "mixins": [

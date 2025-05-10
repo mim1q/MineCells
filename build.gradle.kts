@@ -99,6 +99,10 @@ sourceSets {
   }
 }
 
+fabricApi {
+  configureDataGeneration()
+}
+
 // Access widener
 loom {
   accessWidenerPath.set(file("src/main/resources/minecells.accesswidener"))

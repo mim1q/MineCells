@@ -48,6 +48,10 @@ public class WoodSet extends FeatureSet {
     StrippableBlockRegistry.register(wood, strippedWood);
   }
 
+  public List<Block> getBlocks() {
+    return List.of(planks, log, strippedLog, wood, strippedWood, stairs, slab, door, trapdoor, fence, fenceGate, button, pressurePlate, sign, wallSign);
+  }
+
   @Override
   public List<ItemStack> getStacks() {
     return stacks;
