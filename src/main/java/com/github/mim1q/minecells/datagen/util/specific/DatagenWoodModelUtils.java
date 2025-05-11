@@ -1,35 +1,50 @@
 package com.github.mim1q.minecells.datagen.util.specific;
 
 import com.github.mim1q.minecells.datagen.util.DatagenModelUtils;
+import com.github.mim1q.minecells.datagen.util.DatagenTagUtils;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.block.*;
+import net.minecraft.client.render.item.ItemModels;
+import net.minecraft.client.render.model.json.ItemModelGenerator;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeManager;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.Identifier;
+
+import java.util.Optional;
 
 import static net.minecraft.data.client.BlockStateModelGenerator.createFenceBlockState;
 import static net.minecraft.data.client.BlockStateModelGenerator.createFenceGateBlockState;
+import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
+import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 
-public interface DatagenWoodModelUtils extends DatagenModelUtils {
+public interface DatagenWoodModelUtils extends DatagenModelUtils, DatagenTagUtils {
   default void addFence(FenceBlock block, Block base) {
-    getInitializers().blockState().add(it -> {
-      var texture = TextureMap.all(base);
-
-      var fencePost = Models.FENCE_POST.upload(block, texture, it.modelCollector);
-      var fenceSide = Models.FENCE_SIDE.upload(block, texture, it.modelCollector);
-
-      it.blockStateCollector.accept(createFenceBlockState(
-        block,
-        fencePost,
-        fenceSide
-      ));
-
-      var fenceInventory = Models.FENCE_INVENTORY.upload(block, texture, it.modelCollector);
-      it.registerParentedItemModel(block, fenceInventory);
-    });
+//    var texture = TextureMap.all(base);
+//    getInitializers().blockState().add(it -> {
+//
+//      var fencePost = Models.FENCE_POST.upload(block, texture, it.modelCollector);
+//      var fenceSide = Models.FENCE_SIDE.upload(block, texture, it.modelCollector);
+//
+//      it.blockStateCollector.accept(createFenceBlockState(
+//        block,
+//        fencePost,
+//        fenceSide
+//      ));
+//    });
+//
+//    getInitializers().itemModel().add(it -> {
+//      var fenceInventory = new Model(Optional.of(Identifier.of("block/fence_inventory")), Optional.of("inventory"), TextureKey.ALL);
+//      it.register(block.asItem(), fenceInventory);
+//    });
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createFenceRecipe(block, Ingredient.ofItems(base)).offerTo(it);
+      FabricRecipeProvider.createFenceRecipe(block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
@@ -53,7 +68,9 @@ public interface DatagenWoodModelUtils extends DatagenModelUtils {
     });
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createFenceGateRecipe(block, Ingredient.ofItems(base)).offerTo(it);
+      FabricRecipeProvider.createFenceGateRecipe(block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
@@ -62,8 +79,12 @@ public interface DatagenWoodModelUtils extends DatagenModelUtils {
     addParticleOnly(wallSign, base);
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createSignRecipe(block, Ingredient.ofItems(base)).offerTo(it);
+      FabricRecipeProvider.createSignRecipe(block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
+
+    addGeneratedItem(block);
   }
 
   default void addLeaves(LeavesBlock block, SaplingBlock sapling) {
@@ -78,5 +99,7 @@ public interface DatagenWoodModelUtils extends DatagenModelUtils {
     getInitializers().blockLootTable().add(it -> {
       it.addDrop(block, it.leavesDrops(block, sapling, 0.1f));
     });
+
+    addBlockTag(BlockTags.LEAVES, block);
   }
 }

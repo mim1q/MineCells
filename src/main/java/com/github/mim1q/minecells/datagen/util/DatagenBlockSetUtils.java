@@ -4,13 +4,16 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.ColoredTorchBlock;
 import com.github.mim1q.minecells.datagen.util.specific.DatagenWoodModelUtils;
 import com.github.mim1q.minecells.registry.featureset.FullStoneSet;
+import com.github.mim1q.minecells.registry.featureset.LeavesSet;
 import com.github.mim1q.minecells.registry.featureset.StoneSet;
 import com.github.mim1q.minecells.registry.featureset.WoodSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.block.SaplingBlock;
 import net.minecraft.data.client.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Optional;
 
@@ -22,8 +25,8 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
 
     addPillar(set.log);
     addPillar(set.strippedLog);
-    addPillar(set.wood);
-    addPillar(set.strippedWood);
+    addBlock(set.wood, set.log, "_side");
+    addBlock(set.strippedWood, set.strippedLog, "_side");
 
     addStairs(set.stairs, set.planks);
     addSlab(set.slab, set.planks);
@@ -72,6 +75,10 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     if (set.getClass() != StoneSet.class)
       throw new IllegalArgumentException("Subclasses of StoneSet must use specific methods");
 
+    _addStoneSet(set);
+  }
+
+  private void _addStoneSet(StoneSet set) {
     addBlock(set.block);
     addStairs(set.stairs, set.block);
     addSlab(set.slab, set.block);
@@ -83,7 +90,7 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
   }
 
   default void addFullStoneSet(FullStoneSet set) {
-    addStoneSet(set);
+    _addStoneSet(set);
 
     addButton(set.button, set.block);
     addPressurePlate(set.pressurePlate, set.block);
@@ -100,11 +107,23 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     //#endregion
   }
 
-  default void addColoredTorch(ColoredTorchBlock torch, String flame) {
+  default void addLeavesSet(LeavesSet set, SaplingBlock sapling) {
+    addLeaves(set.leaves, sapling);
+
+    getInitializers().blockState().add(it -> {
+      var zeroTextureKey = TextureKey.of("0");
+      var baseTextureKey = TextureKey.of("base");
+      var detailTextureKey = TextureKey.of("detail");
+
+
+    });
+  }
+
+  default void addColoredTorch(ColoredTorchBlock torch, String flameName) {
     getInitializers().blockState().add(it -> {
       var flameTextureKey = TextureKey.of("flame");
 
-      var flameTexture = MineCells.createId("block/colored_torch/" + flame);
+      var flameTexture = MineCells.createId("block/colored_torch/" + flameName);
       var baseModel = MineCells.createId("block/template/colored_torch");
       var baseModelStanding = MineCells.createId("block/template/colored_torch_standing");
 
@@ -113,12 +132,16 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
 
       var model = new Model(Optional.of(baseModel), Optional.empty(), flameTextureKey)
         .upload(torch, texture, it.modelCollector);
+      var modelStanding = new Model(Optional.of(baseModelStanding), Optional.empty(), flameTextureKey)
+        .upload(torch, texture, it.modelCollector);
 
       it.blockStateCollector.accept(VariantsBlockStateSupplier.create(torch)
         .coordinate(BlockStateVariantMap.create(ColoredTorchBlock.STANDING)
-          .register(true, BlockStateVariant.create().put(MODEL, baseModelStanding)))
-        .coordinate(DatagenModelUtils.createHorizontalRotateableCoordinates(baseModel))
+          .register(true, BlockStateVariant.create().put(MODEL, modelStanding)))
+        .coordinate(DatagenModelUtils.createHorizontalRotateableCoordinates(model))
       );
     });
+
+    addSimpleDrop(torch);
   }
 }

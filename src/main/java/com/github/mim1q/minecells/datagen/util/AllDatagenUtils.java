@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.server.recipe.RecipeExporter;
@@ -116,6 +117,17 @@ public abstract class AllDatagenUtils implements
       if (list != null) {
         list.forEach(it -> it.accept(lootTableBiConsumer));
       }
+    }
+  }
+
+  private class Advancement extends FabricAdvancementProvider {
+    protected Advancement(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+      super(output, registryLookup);
+    }
+
+    @Override
+    public void generateAdvancement(RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
+
     }
   }
 

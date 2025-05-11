@@ -32,7 +32,7 @@ fun deleteDir(directory: Path) {
     .forEach { it.delete() }
 }
 
-val generatedDir = projectDir.resolve("../src/main/generated")
+val generatedDir = projectDir.resolve("../src/main/generated_script")
 val langDir = projectDir.resolve("../src/main/resources")
 val langHelperDir = projectDir.resolve("../lang/missing")
 val enUsLangMap = projectDir.resolve("../lang/en_us_map.json5")

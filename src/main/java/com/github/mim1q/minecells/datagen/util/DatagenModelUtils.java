@@ -14,17 +14,32 @@ import net.minecraft.util.math.Direction;
 import static net.minecraft.data.client.BlockStateModelGenerator.*;
 import static net.minecraft.data.client.VariantSettings.MODEL;
 import static net.minecraft.data.client.VariantSettings.Y;
+import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
+import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 
 public interface DatagenModelUtils extends DatagenUtils {
-  default Identifier getId(Block block) {
+  default Identifier getBlockId(Block block) {
     return Registries.BLOCK.getId(block).withPrefixedPath("block/");
+  }
+
+  default Identifier getItemId(ItemConvertible item) {
+    return Registries.ITEM.getId(item.asItem()).withPrefixedPath("item/");
   }
 
   default void addBlock(Block block) {
     getInitializers().blockState().add(it -> {
       it.registerSimpleCubeAll(block);
 
-      it.registerParentedItemModel(block, getId(block));
+      it.registerParentedItemModel(block, getBlockId(block));
+    });
+  }
+
+  default void addBlock(Block block, Block base, String suffix) {
+    getInitializers().blockState().add(it -> {
+      var texture = TextureMap.all(getBlockId(base).withSuffixedPath(suffix));
+      Models.CUBE_ALL.upload(block, texture, it.modelCollector);
+
+      it.registerParentedItemModel(block, getBlockId(block));
     });
   }
 
@@ -52,9 +67,9 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
   }
 
-  default void addStairs(StairsBlock block, Block baseBlock) {
+  default void addStairs(StairsBlock block, Block base) {
     getInitializers().blockState().add(it -> {
-      var texture = TextureMap.all(baseBlock);
+      var texture = TextureMap.all(base);
       var model = Models.STAIRS.upload(block, texture, it.modelCollector);
       var innerModel = Models.INNER_STAIRS.upload(block, texture, it.modelCollector);
       var outerModel = Models.OUTER_STAIRS.upload(block, texture, it.modelCollector);
@@ -64,23 +79,27 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createStairsRecipe(block, Ingredient.ofItems(baseBlock)).offerTo(it);
+      FabricRecipeProvider.createStairsRecipe(block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
-  default void addSlab(SlabBlock block, Block baseBlock) {
+  default void addSlab(SlabBlock block, Block base) {
     getInitializers().blockState().add(it -> {
-      var texture = TextureMap.all(baseBlock);
+      var texture = TextureMap.all(base);
 
       var modelBottom = Models.SLAB.upload(block, texture, it.modelCollector);
-      var modelTop = Models.STAIRS.upload(block, texture, it.modelCollector);
+      var modelTop = Models.SLAB_TOP.upload(block, texture, it.modelCollector);
 
-      it.blockStateCollector.accept(createSlabBlockState(block, modelBottom, modelTop, getId(baseBlock)));
+      it.blockStateCollector.accept(createSlabBlockState(block, modelBottom, modelTop, getBlockId(base)));
       it.registerParentedItemModel(block, modelBottom);
     });
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, block, Ingredient.ofItems(baseBlock)).offerTo(it);
+      FabricRecipeProvider.createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
@@ -112,58 +131,33 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createPressurePlateRecipe(RecipeCategory.BUILDING_BLOCKS, block, Ingredient.ofItems(base)).offerTo(it);
+      FabricRecipeProvider.createPressurePlateRecipe(RecipeCategory.BUILDING_BLOCKS, block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
   default void addDoor(DoorBlock block, Block base) {
     getInitializers().blockState().add(it -> {
-      var texture = TextureMap.all(base);
-
-      var modelLeft = Models.DOOR_BOTTOM_LEFT.upload(block, texture, it.modelCollector);
-      var modelRight = Models.DOOR_BOTTOM_RIGHT.upload(block, texture, it.modelCollector);
-      var modelLeftTop = Models.DOOR_TOP_LEFT.upload(block, texture, it.modelCollector);
-      var modelRightTop = Models.DOOR_TOP_RIGHT.upload(block, texture, it.modelCollector);
-      var modelLeftOpen = Models.DOOR_BOTTOM_LEFT_OPEN.upload(block, texture, it.modelCollector);
-      var modelRightOpen = Models.DOOR_BOTTOM_RIGHT_OPEN.upload(block, texture, it.modelCollector);
-      var modelLeftTopOpen = Models.DOOR_TOP_LEFT_OPEN.upload(block, texture, it.modelCollector);
-      var modelRightTopOpen = Models.DOOR_TOP_RIGHT_OPEN.upload(block, texture, it.modelCollector);
-
-      it.blockStateCollector.accept(createDoorBlockState(
-        block,
-        modelLeft,
-        modelRight,
-        modelLeftTop,
-        modelRightTop,
-        modelLeftOpen,
-        modelRightOpen,
-        modelLeftTopOpen,
-        modelRightTopOpen
-      ));
-
+      it.registerDoor(block);
     });
 
-    addGeneratedItem(block);
-
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createDoorRecipe(block, Ingredient.ofItems(base)).offerTo(it);
+      FabricRecipeProvider.createDoorRecipe(block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
   default void addTrapdoor(TrapdoorBlock block, Block base) {
     getInitializers().blockState().add(it -> {
-      var texture = TextureMap.all(base);
-
-      var modelBottom = Models.TEMPLATE_ORIENTABLE_TRAPDOOR_BOTTOM.upload(block, texture, it.modelCollector);
-      var modelTop = Models.TEMPLATE_ORIENTABLE_TRAPDOOR_TOP.upload(block, texture, it.modelCollector);
-      var modelOpen = Models.TEMPLATE_ORIENTABLE_TRAPDOOR_OPEN.upload(block, texture, it.modelCollector);
-
-      it.blockStateCollector.accept(createTrapdoorBlockState(block, modelBottom, modelTop, modelOpen));
-      it.registerParentedItemModel(block, modelBottom);
+      it.registerTrapdoor(block);
     });
 
     getInitializers().recipe().add(it -> {
-      FabricRecipeProvider.createTrapdoorRecipe(block, Ingredient.ofItems(base)).offerTo(it);
+      FabricRecipeProvider.createTrapdoorRecipe(block, Ingredient.ofItems(base))
+        .criterion(hasItem(base), conditionsFromItem(base))
+        .offerTo(it);
     });
   }
 
@@ -173,10 +167,11 @@ public interface DatagenModelUtils extends DatagenUtils {
       var modelPost = Models.TEMPLATE_WALL_POST.upload(block, texture, it.modelCollector);
       var modelSide = Models.TEMPLATE_WALL_SIDE.upload(block, texture, it.modelCollector);
       var modelSideTall = Models.TEMPLATE_WALL_SIDE_TALL.upload(block, texture, it.modelCollector);
+      var modelInventory = Models.WALL_INVENTORY.upload(block, texture, it.modelCollector);
 
       it.blockStateCollector.accept(createWallBlockState(block, modelPost, modelSide, modelSideTall));
 
-      it.registerParentedItemModel(block, modelPost);
+      it.registerParentedItemModel(block, modelInventory);
     });
 
     getInitializers().recipe().add(it -> {

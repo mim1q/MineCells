@@ -94,7 +94,7 @@ tasks {
 sourceSets {
   main {
     resources {
-      srcDirs("src/main/generated")
+      srcDirs("src/main/generated", "src/main/generated_script")
     }
   }
 }
