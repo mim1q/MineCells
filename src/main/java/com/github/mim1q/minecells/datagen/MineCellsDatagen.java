@@ -1,16 +1,24 @@
 package com.github.mim1q.minecells.datagen;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import net.minecraft.data.client.Model;
+import net.minecraft.data.client.ModelIds;
+import net.minecraft.data.client.Models;
+import net.minecraft.data.client.TextureMap;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MineCellsDatagen extends AllDatagenUtils {
   @Override
   public void initialize() {
     initializeWoodSets();
     initializeStoneSets();
+    initializeLeavesSets();
+    initializeTorches();
 
     initializeCustomItemModels();
   }
@@ -34,12 +42,28 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS);
   }
 
+  private void initializeLeavesSets() {
+    addLeavesSet(MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.PUTRID_SAPLING);
+    addLeavesSet(MineCellsBlocks.ORANGE_WILTED_LEAVES, MineCellsBlocks.ORANGE_PUTRID_SAPLING);
+    addLeavesSet(MineCellsBlocks.RED_WILTED_LEAVES, MineCellsBlocks.RED_PUTRID_SAPLING);
+  }
+
+  private void initializeTorches() {
+    addColoredTorch(MineCellsBlocks.PRISON_TORCH, "prison");
+    addColoredTorch(MineCellsBlocks.PROMENADE_TORCH, "promenade");
+    addColoredTorch(MineCellsBlocks.RAMPARTS_TORCH, "ramparts");
+    addColoredTorch(MineCellsBlocks.SEWERS_TORCH, "sewers");
+    addColoredTorch(MineCellsBlocks.ANCIENT_SEWERS_TORCH, "ancient_sewers");
+  }
+
   private void initializeCustomItemModels() {
     initializeGeneratedItemModels();
   }
 
   private void initializeGeneratedItemModels() {
-    List.of(
+    var doorways = MineCellsItems.DOORWAY_COLORS.keySet();
+
+    var misc = List.of(
       MineCellsBlocks.CAGE.asItem(),
       MineCellsBlocks.BROKEN_CAGE.asItem(),
       MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE,
@@ -73,6 +97,15 @@ public class MineCellsDatagen extends AllDatagenUtils {
       MineCellsItems.TRANSPOSITION_CORE,
       MineCellsItems.BLOOD_BOTTLE,
       MineCellsItems.ARCANE_GOO
-    ).forEach(this::addGeneratedItem);
+    );
+
+    getInitializers().itemModel().add(it -> {
+      doorways.forEach(item -> {
+        var model = new Model(Optional.of(MineCells.createId("item/doorway")), Optional.of("inventory"));
+        model.upload(ModelIds.getItemModelId(item), new TextureMap(), it.writer);
+      });
+    });
+
+    misc.forEach(this::addGeneratedItem);
   }
 }

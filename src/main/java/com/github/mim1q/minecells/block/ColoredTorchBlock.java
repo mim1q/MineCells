@@ -53,7 +53,6 @@ public class ColoredTorchBlock extends Block {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
     if (state.get(STANDING)) {
       return direction == Direction.DOWN ? Blocks.AIR.getDefaultState() : state;

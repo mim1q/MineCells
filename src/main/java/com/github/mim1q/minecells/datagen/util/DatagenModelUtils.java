@@ -8,6 +8,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
@@ -54,6 +55,12 @@ public interface DatagenModelUtils extends DatagenUtils {
   default void addGeneratedItem(ItemConvertible item) {
     getInitializers().itemModel().add(it -> {
       it.register(item.asItem(), Models.GENERATED);
+    });
+  }
+
+  default void addGeneratedItem(ItemConvertible item, Identifier texture) {
+    getInitializers().itemModel().add(it -> {
+      Models.GENERATED.upload(ModelIds.getItemModelId(item.asItem()), TextureMap.layer0(texture), it.writer);
     });
   }
 
@@ -180,7 +187,7 @@ public interface DatagenModelUtils extends DatagenUtils {
   }
 
   static BlockStateVariantMap createHorizontalRotateableCoordinates(Identifier model) {
-    return BlockStateVariantMap.create(ColoredTorchBlock.FACING)
+    return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
       .register(Direction.NORTH, BlockStateVariant.create()
         .put(MODEL, model).put(Y, VariantSettings.Rotation.R0))
       .register(Direction.SOUTH, BlockStateVariant.create()
@@ -189,5 +196,14 @@ public interface DatagenModelUtils extends DatagenUtils {
         .put(MODEL, model).put(Y, VariantSettings.Rotation.R90))
       .register(Direction.WEST, BlockStateVariant.create()
         .put(MODEL, model).put(Y, VariantSettings.Rotation.R270));
+  }
+
+  static VariantSettings.Rotation rotationFromDir(Direction direction) {
+    return switch (direction) {
+      case EAST ->  VariantSettings.Rotation.R90;
+      case SOUTH -> VariantSettings.Rotation.R180;
+      case WEST -> VariantSettings.Rotation.R270;
+      default -> VariantSettings.Rotation.R0;
+    };
   }
 }

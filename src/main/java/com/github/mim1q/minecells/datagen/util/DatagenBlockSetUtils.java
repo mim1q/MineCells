@@ -13,11 +13,17 @@ import net.minecraft.block.SaplingBlock;
 import net.minecraft.data.client.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.List;
 import java.util.Optional;
 
-import static net.minecraft.data.client.VariantSettings.MODEL;
+import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.createHorizontalRotateableCoordinates;
+import static net.minecraft.data.client.BlockStateModelGenerator.*;
+import static net.minecraft.data.client.VariantSettings.*;
 
 public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagUtils, DatagenLootTableUtils {
   default void addWoodSet(WoodSet set) {
@@ -115,7 +121,24 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
       var baseTextureKey = TextureKey.of("base");
       var detailTextureKey = TextureKey.of("detail");
 
+      var wallModel = new Model(Optional.of(MineCells.createId("block/wall_leves")), Optional.empty(), baseTextureKey, detailTextureKey)
+        .upload(set.wallLeaves, TextureMap.of(baseTextureKey, getItemId(set.wallLeaves)).put(detailTextureKey, getItemId(set.wallLeaves).withSuffixedPath("_detail")), it.modelCollector);
 
+      var hangingModel = new Model(Optional.of(MineCells.createId("block/hanging_leaves")), Optional.empty(), zeroTextureKey)
+        .upload(set.hangingLeaves, TextureMap.of(zeroTextureKey, getItemId(set.hangingLeaves)), it.modelCollector);
+
+      it.blockStateCollector.accept(
+        VariantsBlockStateSupplier.create(set.wallLeaves)
+          .coordinate(createNorthDefaultRotationStates())
+      );
+
+      it.blockStateCollector.accept(
+        VariantsBlockStateSupplier.create(set.hangingLeaves)
+          .coordinate(createHorizontalRotateableCoordinates(hangingModel))
+      );
+
+      it.registerParentedItemModel(set.wallLeaves.asItem(), wallModel);
+      it.registerParentedItemModel(set.hangingLeaves.asItem(), hangingModel);
     });
   }
 
@@ -133,13 +156,21 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
       var model = new Model(Optional.of(baseModel), Optional.empty(), flameTextureKey)
         .upload(torch, texture, it.modelCollector);
       var modelStanding = new Model(Optional.of(baseModelStanding), Optional.empty(), flameTextureKey)
-        .upload(torch, texture, it.modelCollector);
+        .upload(torch, "_standing", texture, it.modelCollector);
 
       it.blockStateCollector.accept(VariantsBlockStateSupplier.create(torch)
-        .coordinate(BlockStateVariantMap.create(ColoredTorchBlock.STANDING)
-          .register(true, BlockStateVariant.create().put(MODEL, modelStanding)))
-        .coordinate(DatagenModelUtils.createHorizontalRotateableCoordinates(model))
-      );
+        .coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, ColoredTorchBlock.STANDING)
+          .registerVariants((dir, standing) -> {
+            var variant = BlockStateVariant.create()
+              .put(MODEL, standing ? modelStanding : model);
+            if (!standing) {
+              variant.put(Y, DatagenModelUtils.rotationFromDir(dir));
+            }
+            return List.of(variant);
+          })
+        ));
+
+      it.registerItemModel(torch);
     });
 
     addSimpleDrop(torch);
