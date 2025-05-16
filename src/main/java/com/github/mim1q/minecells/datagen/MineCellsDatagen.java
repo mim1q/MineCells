@@ -3,12 +3,16 @@ package com.github.mim1q.minecells.datagen;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +32,8 @@ public class MineCellsDatagen extends AllDatagenUtils {
   }
 
   private void initializeStoneSets() {
+    addSimpleSet(MineCellsBlocks.PUTRID_BOARD);
+
     // Prison Stone
     addFullStoneSet(MineCellsBlocks.PRISON_STONE);
     addStoneSet(MineCellsBlocks.PRISON_BRICKS);
@@ -40,6 +46,20 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addStoneSet(MineCellsBlocks.BLOOMROCK_BRICKS);
     addStoneSet(MineCellsBlocks.BLOOMROCK_TILES);
     addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS);
+
+    // Septite
+    addStoneSet(MineCellsBlocks.SEPTITE);
+    addStoneSet(MineCellsBlocks.COBBLED_SEPTITE);
+    addStoneSet(MineCellsBlocks.SEPTITE_BRICKS);
+    addStoneSet(MineCellsBlocks.POLISHED_SEPTITE);
+    addStoneSet(MineCellsBlocks.SMALL_SEPTITE_BRICKS);
+
+    // Ancient Septite
+    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE);
+    addStoneSet(MineCellsBlocks.COBBLED_ANCIENT_SEPTITE);
+    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS);
+    addStoneSet(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE);
+    addStoneSet(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS);
   }
 
   private void initializeLeavesSets() {
@@ -58,10 +78,15 @@ public class MineCellsDatagen extends AllDatagenUtils {
 
   private void initializeCustomItemModels() {
     initializeGeneratedItemModels();
+    initializeHandheldItemModels();
+
+    MineCellsItems.BOWS.forEach(this::addBow);
   }
 
   private void initializeGeneratedItemModels() {
     var doorways = MineCellsItems.DOORWAY_COLORS.keySet();
+    var spawnEggs = MineCellsEntities.SPAWN_EGGS;
+    var flags = MineCellsBlocks.FLAG_BLOCKS;
 
     var misc = List.of(
       MineCellsBlocks.CAGE.asItem(),
@@ -96,7 +121,9 @@ public class MineCellsDatagen extends AllDatagenUtils {
       MineCellsItems.COOKED_SEWER_CALAMARI,
       MineCellsItems.TRANSPOSITION_CORE,
       MineCellsItems.BLOOD_BOTTLE,
-      MineCellsItems.ARCANE_GOO
+      MineCellsItems.ARCANE_GOO,
+      MineCellsItems.PHASER,
+      MineCellsItems.FROST_BLAST
     );
 
     getInitializers().itemModel().add(it -> {
@@ -107,5 +134,30 @@ public class MineCellsDatagen extends AllDatagenUtils {
     });
 
     misc.forEach(this::addGeneratedItem);
+    flags.forEach(this::addFlag);
+
+    for (var egg : spawnEggs) {
+      var id = getItemId(egg, "spawn_eggs/");
+      addGeneratedItem(egg, Identifier.of(id.getNamespace(), id.getPath().substring(0, id.getPath().lastIndexOf("_spawn_egg"))));
+    }
+  }
+
+  private void initializeHandheldItemModels() {
+    var handheldItems = List.of(
+      MineCellsItems.ASSASSINS_DAGGER,
+      MineCellsItems.BLOOD_SWORD,
+      MineCellsItems.BROADSWORD,
+      MineCellsItems.BALANCED_BLADE,
+      MineCellsItems.CROWBAR,
+      MineCellsItems.NUTCRACKER,
+      MineCellsItems.CURSED_SWORD,
+      MineCellsItems.HATTORIS_KATANA,
+      MineCellsItems.TENTACLE,
+      MineCellsItems.SPITE_SWORD,
+      MineCellsItems.FLINT,
+      MineCellsItems.LIGHTNING_BOLT
+    );
+
+    handheldItems.forEach(this::addHandheldItem);
   }
 }

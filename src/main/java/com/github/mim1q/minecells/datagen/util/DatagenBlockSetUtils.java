@@ -2,30 +2,34 @@ package com.github.mim1q.minecells.datagen.util;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.ColoredTorchBlock;
+import com.github.mim1q.minecells.block.FlagBlock;
 import com.github.mim1q.minecells.datagen.util.specific.DatagenWoodModelUtils;
-import com.github.mim1q.minecells.registry.featureset.FullStoneSet;
-import com.github.mim1q.minecells.registry.featureset.LeavesSet;
-import com.github.mim1q.minecells.registry.featureset.StoneSet;
-import com.github.mim1q.minecells.registry.featureset.WoodSet;
+import com.github.mim1q.minecells.registry.featureset.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.data.client.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.Direction;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.createHorizontalRotateableCoordinates;
-import static net.minecraft.data.client.BlockStateModelGenerator.*;
-import static net.minecraft.data.client.VariantSettings.*;
+import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.createRotateableCoordinates;
+import static net.minecraft.data.client.VariantSettings.MODEL;
+import static net.minecraft.data.client.VariantSettings.Y;
 
 public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagUtils, DatagenLootTableUtils {
+  default void addSimpleSet(SimpleSet set) {
+    addBlock(set.block);
+    addSlab(set.slab, set.block);
+    addStairs(set.stairs, set.block);
+  }
+
   default void addWoodSet(WoodSet set) {
     addBlock(set.planks);
 
@@ -121,15 +125,15 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
       var baseTextureKey = TextureKey.of("base");
       var detailTextureKey = TextureKey.of("detail");
 
-      var wallModel = new Model(Optional.of(MineCells.createId("block/wall_leves")), Optional.empty(), baseTextureKey, detailTextureKey)
-        .upload(set.wallLeaves, TextureMap.of(baseTextureKey, getItemId(set.wallLeaves)).put(detailTextureKey, getItemId(set.wallLeaves).withSuffixedPath("_detail")), it.modelCollector);
+      var wallModel = new Model(Optional.of(MineCells.createId("block/wall_leaves")), Optional.empty(), baseTextureKey, detailTextureKey)
+        .upload(set.wallLeaves, TextureMap.of(baseTextureKey, getBlockId(set.wallLeaves)).put(detailTextureKey, getBlockId(set.wallLeaves).withSuffixedPath("_detail")), it.modelCollector);
 
       var hangingModel = new Model(Optional.of(MineCells.createId("block/hanging_leaves")), Optional.empty(), zeroTextureKey)
-        .upload(set.hangingLeaves, TextureMap.of(zeroTextureKey, getItemId(set.hangingLeaves)), it.modelCollector);
+        .upload(set.hangingLeaves, TextureMap.of(zeroTextureKey, getBlockId(set.hangingLeaves)), it.modelCollector);
 
       it.blockStateCollector.accept(
         VariantsBlockStateSupplier.create(set.wallLeaves)
-          .coordinate(createNorthDefaultRotationStates())
+          .coordinate(createRotateableCoordinates(wallModel))
       );
 
       it.blockStateCollector.accept(
@@ -139,6 +143,7 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
 
       it.registerParentedItemModel(set.wallLeaves.asItem(), wallModel);
       it.registerParentedItemModel(set.hangingLeaves.asItem(), hangingModel);
+      it.registerTintableCross(sapling, BlockStateModelGenerator.TintType.NOT_TINTED, TextureMap.of(TextureKey.CROSS, getBlockId(sapling)));
     });
   }
 
@@ -170,9 +175,25 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
           })
         ));
 
-      it.registerItemModel(torch);
+      it.registerParentedItemModel(torch, modelStanding);
     });
 
     addSimpleDrop(torch);
+  }
+
+  default void addFlag(FlagBlock flag) {
+    addParticleOnly(flag, Blocks.OAK_PLANKS);
+    addSimpleDrop(flag);
+
+    getInitializers().blockState().add(it -> {
+      var model = new Model(Optional.of(BUILTIN_ENTITY_MODEL), Optional.of("inventory"));
+      model.upload(getItemId(flag), new TextureMap(), it.modelCollector, (x, textures) -> {
+        var json = model.createJson(getItemId(flag), Map.of());
+        json.addProperty("gui_light", "front");
+        return json;
+      });
+    });
+
+    addBlockTag(BlockTags.AXE_MINEABLE, flag);
   }
 }

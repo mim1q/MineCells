@@ -1,6 +1,9 @@
 package com.github.mim1q.minecells.datagen.util;
 
-import com.github.mim1q.minecells.block.ColoredTorchBlock;
+import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.*;
 import net.minecraft.data.client.*;
@@ -10,7 +13,11 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
+
+import java.util.Map;
+import java.util.Optional;
 
 import static net.minecraft.data.client.BlockStateModelGenerator.*;
 import static net.minecraft.data.client.VariantSettings.MODEL;
@@ -19,12 +26,18 @@ import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem
 import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 
 public interface DatagenModelUtils extends DatagenUtils {
+  Identifier BUILTIN_ENTITY_MODEL = Identifier.of("builtin/entity");
+
   default Identifier getBlockId(Block block) {
     return Registries.BLOCK.getId(block).withPrefixedPath("block/");
   }
 
   default Identifier getItemId(ItemConvertible item) {
     return Registries.ITEM.getId(item.asItem()).withPrefixedPath("item/");
+  }
+
+  default Identifier getItemId(ItemConvertible item, String prefix) {
+    return Registries.ITEM.getId(item.asItem()).withPrefixedPath("item/" + prefix);
   }
 
   default void addBlock(Block block) {
@@ -55,6 +68,12 @@ public interface DatagenModelUtils extends DatagenUtils {
   default void addGeneratedItem(ItemConvertible item) {
     getInitializers().itemModel().add(it -> {
       it.register(item.asItem(), Models.GENERATED);
+    });
+  }
+
+  default void addHandheldItem(ItemConvertible item) {
+    getInitializers().itemModel().add(it -> {
+      it.register(item.asItem(), Models.HANDHELD);
     });
   }
 
@@ -186,6 +205,64 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
   }
 
+  default void addBow(CustomBowItem bow) {
+    getInitializers().itemModel().add(it -> {
+      var model = new Model(Optional.of(MineCells.createId("item/base_bow")), Optional.of("inventory"), TextureKey.LAYER0);
+
+      var modelPulling0 = model.upload(
+        getItemId(bow).withSuffixedPath("_pulling_0"),
+        TextureMap.layer0(getItemId(bow, "bow/").withSuffixedPath("_pulling_0")),
+        it.writer
+      );
+
+      var modelPulling1 = model.upload(
+        getItemId(bow).withSuffixedPath("_pulling_1"),
+        TextureMap.layer0(getItemId(bow, "bow/").withSuffixedPath("_pulling_1")),
+        it.writer
+      );
+
+      var modelPulling2 = model.upload(
+        getItemId(bow).withSuffixedPath("_pulling_2"),
+        TextureMap.layer0(getItemId(bow, "bow/").withSuffixedPath("_pulling_2")),
+        it.writer
+      );
+
+      var layer0Texture = getItemId(bow, "bow/");
+      model.upload(
+        getItemId(bow),
+        TextureMap.layer0(layer0Texture),
+        it.writer,
+        (id, textures) -> {
+          var json = model.createJson(id, Map.of(TextureKey.LAYER0, layer0Texture));
+          addPredicates(
+            json,
+            new Pair<>(Map.of("minecells:pulling", 1f), modelPulling0),
+            new Pair<>(Map.of("minecells:pulling", 1f, "minecells:pull", 0.5f), modelPulling1),
+            new Pair<>(Map.of("minecells:pulling", 1f, "minecells:pull", 1f), modelPulling2)
+          );
+          return json;
+        }
+      );
+    });
+  }
+
+  @SafeVarargs
+  static void addPredicates(JsonObject json, Pair<Map<String, Float>, Identifier>... predicates) {
+    var overrides = new JsonArray();
+    for (var predicate : predicates) {
+      var map = predicate.getLeft();
+      var model = predicate.getRight();
+      var overrideJson = new JsonObject();
+      var predicateJson = new JsonObject();
+      map.forEach(predicateJson::addProperty);
+      overrideJson.addProperty("model", model.toString());
+      overrideJson.add("predicate", predicateJson);
+      overrides.add(overrideJson);
+    }
+
+    json.add("overrides", overrides);
+  }
+
   static BlockStateVariantMap createHorizontalRotateableCoordinates(Identifier model) {
     return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
       .register(Direction.NORTH, BlockStateVariant.create()
@@ -200,10 +277,31 @@ public interface DatagenModelUtils extends DatagenUtils {
 
   static VariantSettings.Rotation rotationFromDir(Direction direction) {
     return switch (direction) {
-      case EAST ->  VariantSettings.Rotation.R90;
+      case EAST -> VariantSettings.Rotation.R90;
       case SOUTH -> VariantSettings.Rotation.R180;
       case WEST -> VariantSettings.Rotation.R270;
       default -> VariantSettings.Rotation.R0;
     };
+  }
+
+  static BlockStateVariantMap createRotateableCoordinates(Identifier model) {
+    return BlockStateVariantMap.create(Properties.FACING)
+      .register(Direction.DOWN, BlockStateVariant.create()
+        .put(MODEL, model)
+        .put(VariantSettings.X, VariantSettings.Rotation.R90))
+      .register(Direction.UP, BlockStateVariant.create()
+        .put(MODEL, model)
+        .put(VariantSettings.X, VariantSettings.Rotation.R270))
+      .register(Direction.NORTH, BlockStateVariant.create()
+        .put(MODEL, model))
+      .register(Direction.SOUTH, BlockStateVariant.create()
+        .put(MODEL, model)
+        .put(VariantSettings.Y, VariantSettings.Rotation.R180))
+      .register(Direction.WEST, BlockStateVariant.create()
+        .put(MODEL, model)
+        .put(VariantSettings.Y, VariantSettings.Rotation.R270))
+      .register(Direction.EAST, BlockStateVariant.create()
+        .put(MODEL, model)
+        .put(VariantSettings.Y, VariantSettings.Rotation.R90));
   }
 }

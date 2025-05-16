@@ -3,20 +3,12 @@ package com.github.mim1q.minecells.datagen.util.specific;
 import com.github.mim1q.minecells.datagen.util.DatagenModelUtils;
 import com.github.mim1q.minecells.datagen.util.DatagenTagUtils;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.block.*;
-import net.minecraft.client.render.item.ItemModels;
-import net.minecraft.client.render.model.json.ItemModelGenerator;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeManager;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.Identifier;
 
-import java.util.Optional;
-
-import static net.minecraft.data.client.BlockStateModelGenerator.createFenceBlockState;
 import static net.minecraft.data.client.BlockStateModelGenerator.createFenceGateBlockState;
 import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
 import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
