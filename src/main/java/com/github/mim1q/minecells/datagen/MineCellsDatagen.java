@@ -94,6 +94,7 @@ public class MineCellsDatagen extends AllDatagenUtils {
     initializeHandheldItemModels();
 
     MineCellsItems.BOWS.forEach(this::addBow);
+    MineCellsItems.CROSSBOWS.forEach(this::addCrossbow);
 
     var parented = List.of(
       MineCellsBlocks.FLAG_POLE,

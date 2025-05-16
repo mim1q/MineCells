@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.datagen.util;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -239,6 +240,52 @@ public interface DatagenModelUtils extends DatagenUtils {
             new Pair<>(Map.of("minecells:pulling", 1f), modelPulling0),
             new Pair<>(Map.of("minecells:pulling", 1f, "minecells:pull", 0.5f), modelPulling1),
             new Pair<>(Map.of("minecells:pulling", 1f, "minecells:pull", 1f), modelPulling2)
+          );
+          return json;
+        }
+      );
+    });
+  }
+
+  default void addCrossbow(CustomCrossbowItem crossbow) {
+    getInitializers().itemModel().add(it -> {
+      var model = new Model(Optional.of(MineCells.createId("item/base_crossbow")), Optional.of("inventory"), TextureKey.LAYER0);
+      var modelPulling0 = model.upload(
+        getItemId(crossbow).withSuffixedPath("_pulling_0"),
+        TextureMap.layer0(getItemId(crossbow, "bow/").withSuffixedPath("_pulling_0")),
+        it.writer
+      );
+
+      var modelPulling1 = model.upload(
+        getItemId(crossbow).withSuffixedPath("_pulling_1"),
+        TextureMap.layer0(getItemId(crossbow, "bow/").withSuffixedPath("_pulling_1")),
+        it.writer
+      );
+
+      var modelPulling2 = model.upload(
+        getItemId(crossbow).withSuffixedPath("_pulling_2"),
+        TextureMap.layer0(getItemId(crossbow, "bow/").withSuffixedPath("_pulling_2")),
+        it.writer
+      );
+
+      var modelCharged = model.upload(
+        getItemId(crossbow).withSuffixedPath("_charged"),
+        TextureMap.layer0(getItemId(crossbow, "bow/").withSuffixedPath("_pulling_2")),
+        it.writer
+      );
+
+      model.upload(
+        getItemId(crossbow),
+        TextureMap.layer0(getItemId(crossbow, "bow/")),
+        it.writer,
+        (id, textures) -> {
+          var json = model.createJson(id, Map.of(TextureKey.LAYER0, getItemId(crossbow, "bow/")));
+          addPredicates(
+            json,
+            new Pair<>(Map.of("minecells:pulling", 1f), modelPulling0),
+            new Pair<>(Map.of("minecells:pulling", 1f, "minecells:pull", 0.5f), modelPulling1),
+            new Pair<>(Map.of("minecells:pulling", 1f, "minecells:pull", 1f), modelPulling2),
+            new Pair<>(Map.of("minecells:charged", 1f), modelCharged)
           );
           return json;
         }

@@ -15,6 +15,8 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class CustomCrossbowItem extends CustomBowItem {
   public CustomCrossbowItem(Settings settings, CustomArrowType arrowType) {
     super(settings, arrowType);
@@ -50,7 +52,7 @@ public class CustomCrossbowItem extends CustomBowItem {
       this.arrowType.getAmmoItem().ifPresent(it ->
         stack.set(
           DataComponentTypes.CHARGED_PROJECTILES,
-          ChargedProjectilesComponent.of(getDefaultStack().copyWithCount(maxProjectileCount))
+          ChargedProjectilesComponent.of(List.of())
         )
       );
 
