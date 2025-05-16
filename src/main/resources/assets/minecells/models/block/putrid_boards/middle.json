@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "minecells:block/putrid_board_block",
-		"1": "minecells:block/putrid_wood",
+		"1": "minecells:block/putrid_log_side",
 		"particle": "minecells:block/putrid_board_block"
 	},
 	"elements": [

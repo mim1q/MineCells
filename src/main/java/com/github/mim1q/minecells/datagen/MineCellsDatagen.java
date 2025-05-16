@@ -7,24 +7,37 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.ModelIds;
-import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureMap;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class MineCellsDatagen extends AllDatagenUtils {
   @Override
   public void initialize() {
+    initializeSimpleBlocks();
     initializeWoodSets();
     initializeStoneSets();
     initializeLeavesSets();
     initializeTorches();
 
     initializeCustomItemModels();
+  }
+
+  private void initializeSimpleBlocks() {
+    var blocks = List.of(
+      MineCellsBlocks.ELEVATOR_ASSEMBLER,
+      MineCellsBlocks.CRATE,
+      MineCellsBlocks.HARDSTONE,
+      MineCellsBlocks.CHAIN_PILE_BLOCK
+    );
+
+    getInitializers().blockState().add(it -> {
+      blocks.forEach(it::registerSimpleCubeAll);
+    });
+
+    getInitializers().blockLootTable().add(it -> blocks.forEach(it::addDrop));
   }
 
   private void initializeWoodSets() {
@@ -81,6 +94,20 @@ public class MineCellsDatagen extends AllDatagenUtils {
     initializeHandheldItemModels();
 
     MineCellsItems.BOWS.forEach(this::addBow);
+
+    var parented = List.of(
+      MineCellsBlocks.FLAG_POLE,
+      MineCellsBlocks.BRITTLE_BARREL,
+      MineCellsBlocks.CELL_CRAFTER,
+      MineCellsBlocks.SKELETON,
+      MineCellsBlocks.CORPSE,
+      MineCellsBlocks.ROTTING_CORPSE
+    );
+
+    getInitializers().blockState().add(it -> {
+      parented.forEach(block -> it.registerParentedItemModel(block.asItem(), getBlockId(block)));
+      it.registerItemModel(MineCellsBlocks.SPIKES);
+    });
   }
 
   private void initializeGeneratedItemModels() {
