@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.ModelIds;
+import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.util.Identifier;
 
@@ -168,6 +169,10 @@ public class MineCellsDatagen extends AllDatagenUtils {
       var id = getItemId(egg, "spawn_eggs/");
       addGeneratedItem(egg, Identifier.of(id.getNamespace(), id.getPath().substring(0, id.getPath().lastIndexOf("_spawn_egg"))));
     }
+
+    getInitializers().itemModel().add(it -> {
+      Models.GENERATED.upload(MineCells.createId("item/minecells_guidebook"), TextureMap.layer0(MineCells.createId("item/minecells_guidebook")), it.writer);
+    });
   }
 
   private void initializeHandheldItemModels() {
