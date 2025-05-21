@@ -5,7 +5,10 @@ import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
-import net.minecraft.data.client.*;
+import net.minecraft.data.client.Model;
+import net.minecraft.data.client.ModelIds;
+import net.minecraft.data.client.Models;
+import net.minecraft.data.client.TextureMap;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
@@ -35,12 +38,10 @@ public class MineCellsDatagen extends AllDatagenUtils {
     getInitializers().blockState().add(it -> {
       blocks.forEach(it::registerSimpleCubeAll);
 
-      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(
-        MineCellsBlocks.SPAWNER_RUNE,
-        BlockStateVariant.create()
-          .put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.SPAWNER_RUNE))
-        ));
+      List.of(MineCellsBlocks.CELL_CRAFTER, MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER).forEach(it::registerNorthDefaultHorizontalRotation);
     });
+
+    addSingleBlockstate(MineCellsBlocks.SPAWNER_RUNE);
 
     getInitializers().blockLootTable().add(it -> blocks.forEach(it::addDrop));
   }

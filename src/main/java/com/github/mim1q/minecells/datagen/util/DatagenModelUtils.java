@@ -58,6 +58,20 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
   }
 
+  default void addSingleBlockstate(Block block, Identifier model) {
+    getInitializers().blockState().add(it -> {
+      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(
+        block,
+        BlockStateVariant.create()
+          .put(VariantSettings.MODEL, model)
+      ));
+    });
+  }
+
+  default void addSingleBlockstate(Block block) {
+    addSingleBlockstate(block, getBlockId(block));
+  }
+
   default void addParticleOnly(Block block, Block base) {
     getInitializers().blockState().add(it -> {
       var texture = TextureMap.particle(base);
