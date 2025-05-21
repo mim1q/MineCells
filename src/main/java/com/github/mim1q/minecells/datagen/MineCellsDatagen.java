@@ -5,10 +5,8 @@ import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
-import net.minecraft.data.client.Model;
-import net.minecraft.data.client.ModelIds;
-import net.minecraft.data.client.Models;
-import net.minecraft.data.client.TextureMap;
+import net.minecraft.data.client.*;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -36,6 +34,12 @@ public class MineCellsDatagen extends AllDatagenUtils {
 
     getInitializers().blockState().add(it -> {
       blocks.forEach(it::registerSimpleCubeAll);
+
+      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(
+        MineCellsBlocks.SPAWNER_RUNE,
+        BlockStateVariant.create()
+          .put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.SPAWNER_RUNE))
+        ));
     });
 
     getInitializers().blockLootTable().add(it -> blocks.forEach(it::addDrop));
@@ -54,12 +58,15 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addStoneSet(MineCellsBlocks.PRISON_COBBLESTONE);
     addStoneSet(MineCellsBlocks.CRACKED_PRISON_BRICKS);
     addStoneSet(MineCellsBlocks.SMALL_PRISON_BRICKS);
+    var grassOverlay = MineCells.createId("block/wilted_grass_block_overlay");
+    addGrass(MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.PRISON_STONE.block, grassOverlay);
 
     // Bloomrock
     addStoneSet(MineCellsBlocks.BLOOMROCK);
     addStoneSet(MineCellsBlocks.BLOOMROCK_BRICKS);
     addStoneSet(MineCellsBlocks.BLOOMROCK_TILES);
     addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS);
+    addGrass(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK.block, grassOverlay);
 
     // Septite
     addStoneSet(MineCellsBlocks.SEPTITE);
@@ -74,6 +81,12 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS);
     addStoneSet(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE);
     addStoneSet(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS);
+
+    // Corpses
+    addCorpse(MineCellsBlocks.CORPSE, MineCellsBlocks.HANGED_CORPSE, Items.ROTTEN_FLESH, MineCellsItems.GUTS);
+    addCorpse(MineCellsBlocks.SKELETON, MineCellsBlocks.HANGED_SKELETON, Items.BONE, Items.SKELETON_SKULL);
+    addCorpse(MineCellsBlocks.ROTTING_CORPSE, MineCellsBlocks.HANGED_ROTTING_CORPSE, Items.ROTTEN_FLESH, MineCellsItems.GUTS);
+
   }
 
   private void initializeLeavesSets() {
@@ -171,7 +184,7 @@ public class MineCellsDatagen extends AllDatagenUtils {
     }
 
     getInitializers().itemModel().add(it -> {
-      Models.GENERATED.upload(MineCells.createId("item/minecells_guidebook"), TextureMap.layer0(MineCells.createId("item/minecells_guidebook")), it.writer);
+      Models.GENERATED.upload(MineCells.createId("item/guidebook"), TextureMap.layer0(MineCells.createId("item/guidebook")), it.writer);
     });
   }
 

@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecells:block/hanged_corpse",
+	"textures": {
+		"0": "minecells:block/hanged_rotting_corpse",
+		"particle": "minecells:block/hanged_rotting_corpse"
+	}
+}

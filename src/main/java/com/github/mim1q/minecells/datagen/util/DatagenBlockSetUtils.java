@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.datagen.util;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.ColoredTorchBlock;
 import com.github.mim1q.minecells.block.FlagBlock;
+import com.github.mim1q.minecells.block.SkeletonDecorationBlock;
 import com.github.mim1q.minecells.datagen.util.specific.DatagenWoodModelUtils;
 import com.github.mim1q.minecells.registry.featureset.*;
 import net.minecraft.block.Block;
@@ -10,6 +11,13 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.data.client.*;
+import net.minecraft.item.Item;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.condition.RandomChanceLootCondition;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.LootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
@@ -195,5 +203,23 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     });
 
     addBlockTag(BlockTags.AXE_MINEABLE, flag);
+  }
+
+  default void addCorpse(SkeletonDecorationBlock sitting, SkeletonDecorationBlock hanging, Item drop, Item dropRare) {
+    getInitializers().blockState().add(it -> {
+      it.registerNorthDefaultHorizontalRotation(sitting);
+      it.registerNorthDefaultHorizontalRotation(hanging);
+    });
+
+    getInitializers().blockLootTable().add(it -> {
+      var dropBuilder = it.dropsWithSilkTouch(sitting)
+        .pool(LootPool.builder().conditionally(it.createSilkTouchCondition().invert())
+          .rolls(UniformLootNumberProvider.create(1F, 3F)).with(ItemEntry.builder(drop))
+          .rolls(ConstantLootNumberProvider.create(1F)).with(ItemEntry.builder(dropRare)).conditionally(RandomChanceLootCondition.builder(0.2f))
+        );
+
+      it.addDrop(sitting, dropBuilder);
+      it.addDrop(hanging, dropBuilder);
+    });
   }
 }

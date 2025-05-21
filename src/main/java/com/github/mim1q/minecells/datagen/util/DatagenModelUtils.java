@@ -293,23 +293,34 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
   }
 
-  //   fun grassBlock(id: String, stoneId: String, sideId: String = stoneId, overlayId: String = id) = Preset {
-  //    val (ns, name) = Id(id)
-  //    val (sNs, sName) = Id(stoneId)
-  //    val (sdNs, sdName) = Id(sideId)
-  //    val (oNs, oName) = Id(overlayId)
-  //    add(name, ParentedModel.block("minecraft:block/grass_block")
-  //      .texture("particle", "$sNs:block/$sName")
-  //      .texture("bottom", "$sNs:block/$sName")
-  //      .texture("side", "$sdNs:block/$sdName")
-  //      .texture("top", "minecraft:block/grass_block_top")
-  //      .texture("overlay", "$oNs:block/${oName}_overlay"))
-  //    add(name, BlockState.createSingle("$ns:block/$name"))
-  //    add(CommonModelPresets.itemBlockModel(id))
-  //    add(CommonDropPresets.silkTouchDrop(id, stoneId, id))
+  default void addGrass(Block grass, Block base, Identifier overlay) {
+    getInitializers().blockState().add(it -> {
+      var overlayKey = TextureKey.of("overlay");
+      var model = new Model(
+        Optional.of(Identifier.of("block/grass_block")),
+        Optional.empty(),
+        TextureKey.PARTICLE,
+        TextureKey.BOTTOM,
+        TextureKey.SIDE,
+        overlayKey
+      );
 
-  default void addGrass(GrassBlock grass, Block base, Identifier sideTexture, Identifier overlayTexture) {
+      it.registerSingleton(
+        grass,
+        TextureMap
+          .of(TextureKey.PARTICLE, getBlockId(base))
+          .put(TextureKey.BOTTOM, getBlockId(base))
+          .put(TextureKey.SIDE, getBlockId(grass))
+          .put(overlayKey, overlay),
+        model
+      );
 
+      it.registerParentedItemModel(grass, getBlockId(grass));
+    });
+
+    getInitializers().blockLootTable().add(it -> {
+      it.addDrop(grass, it.drops(grass, base));
+    });
   }
 
   @SafeVarargs
