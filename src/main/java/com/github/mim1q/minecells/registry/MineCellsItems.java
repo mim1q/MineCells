@@ -58,10 +58,10 @@ public class MineCellsItems {
     "vine_rune"
   );
 
-  public static final Item RESET_RUNE = register(
-    new ResetRuneItem(new FabricItemSettings().maxCount(1)),
-    "reset_rune"
-  );
+//  public static final Item RESET_RUNE = register(
+//    new ResetRuneItem(new FabricItemSettings().maxCount(1)),
+//    "reset_rune"
+//  );
 
   public static final Item GUTS = register(
     new Item(new FabricItemSettings().food(FoodComponents.BEEF)),

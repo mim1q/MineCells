@@ -115,7 +115,7 @@ public record CellForgeRecipe(
   public enum Category implements StringIdentifiable {
     GEAR("gear", MineCellsItems.BLOOD_SWORD),
     DECORATION("decoration", MineCellsBlocks.KINGS_CREST_FLAG),
-    OTHER("other", MineCellsItems.RESET_RUNE);
+    OTHER("other", MineCellsItems.CONCIERGE_RESPAWN_RUNE);
 
     private final String name;
     public final Item displayItem;
