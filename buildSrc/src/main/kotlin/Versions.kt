@@ -9,7 +9,7 @@ object Versions {
 
   // Required / embedded dependencies
   const val OWOLIB = "0.12.15.4+1.21"
-  const val GIMM1Q = "0.7.9+1.21.1"
+  const val GIMM1Q = "0.7.10+1.21.1"
   const val CARDINAL_COMPONENTS = "6.1.2"
 
   // Optional dependencies

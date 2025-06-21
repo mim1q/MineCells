@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.datagen.util;
 
-import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.advancement.AdvancementEntry;
@@ -17,7 +16,6 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.ArrayList;
 import java.util.HashMap;

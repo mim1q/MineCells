@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.datagen.util;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
+import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -305,6 +306,13 @@ public interface DatagenModelUtils extends DatagenUtils {
         }
       );
     });
+  }
+
+  default void addShield(CustomShieldItem shield) {
+      addGeneratedItem(shield, getItemId(shield, "shield/"));
+      getInitializers().itemModel().add(it -> {
+
+      });
   }
 
   default void addGrass(Block grass, Block base, Identifier overlay) {

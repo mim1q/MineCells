@@ -62,6 +62,9 @@ public abstract class AllDatagenUtils implements
     pack.addProvider(EntityTags::new);
     pack.addProvider(BlockEntityTags::new);
     pack.addProvider(EnchantmentTags::new);
+
+    // Advancements
+    pack.addProvider(Advancement::new);
   }
 
   private class Models extends FabricModelProvider {
@@ -127,7 +130,7 @@ public abstract class AllDatagenUtils implements
 
     @Override
     public void generateAdvancement(RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
-
+      getInitializers().advancements().forEach(consumer);
     }
   }
 
