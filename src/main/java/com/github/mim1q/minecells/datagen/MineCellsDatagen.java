@@ -170,6 +170,10 @@ public class MineCellsDatagen extends AllDatagenUtils {
       MineCellsItems.FROST_BLAST
     );
 
+    addGeneratedTexture(MineCells.createId("item/cell_holder/1"));
+    addGeneratedTexture(MineCells.createId("item/cell_holder/2"));
+    addGeneratedTexture(MineCells.createId("item/cell_holder/3"));
+
     getInitializers().itemModel().add(it -> {
       doorways.forEach(item -> {
         var model = new Model(Optional.of(MineCells.createId("item/doorway")), Optional.of("inventory"));

@@ -53,7 +53,7 @@ public interface DatagenModelUtils extends DatagenUtils {
   default void addBlock(Block block, Block base, String suffix) {
     getInitializers().blockState().add(it -> {
       var texture = TextureMap.all(getBlockId(base).withSuffixedPath(suffix));
-      Models.CUBE_ALL.upload(block, texture, it.modelCollector);
+      it.registerSingleton(block, texture, Models.CUBE_ALL);
 
       it.registerParentedItemModel(block, getBlockId(block));
     });
@@ -99,10 +99,32 @@ public interface DatagenModelUtils extends DatagenUtils {
     });
   }
 
+  default void addGeneratedTexture(Identifier id, Identifier texture) {
+    getInitializers().itemModel().add(it -> {
+      Models.GENERATED.upload(id, TextureMap.layer0(texture), it.writer);
+    });
+  }
+
+  default void addGeneratedTexture(Identifier texture) {
+    addGeneratedTexture(texture, texture);
+  }
+
   default void addPillar(Block block) {
     getInitializers().blockState().add(it -> {
       var texture = TextureMap.sideEnd(block);
       var model = Models.CUBE_COLUMN.upload(block, texture, it.modelCollector);
+      it.blockStateCollector.accept(createAxisRotatedBlockState(block, model));
+
+      it.registerParentedItemModel(block, model);
+    });
+  }
+
+  default void addPillar(Block block, Identifier texture) {
+    getInitializers().blockState().add(it -> {
+      var textureMap = new TextureMap()
+        .put(TextureKey.SIDE, texture)
+        .put(TextureKey.END, texture);
+      var model = Models.CUBE_COLUMN.upload(block, textureMap, it.modelCollector);
       it.blockStateCollector.accept(createAxisRotatedBlockState(block, model));
 
       it.registerParentedItemModel(block, model);
@@ -309,10 +331,10 @@ public interface DatagenModelUtils extends DatagenUtils {
   }
 
   default void addShield(CustomShieldItem shield) {
-      addGeneratedItem(shield, getItemId(shield, "shield/"));
-      getInitializers().itemModel().add(it -> {
+    addGeneratedItem(shield, getItemId(shield, "shield/"));
+    getInitializers().itemModel().add(it -> {
 
-      });
+    });
   }
 
   default void addGrass(Block grass, Block base, Identifier overlay) {

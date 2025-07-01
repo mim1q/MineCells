@@ -16,7 +16,6 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.loot.provider.number.LootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
@@ -43,8 +42,8 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
 
     addPillar(set.log);
     addPillar(set.strippedLog);
-    addBlock(set.wood, set.log, "_side");
-    addBlock(set.strippedWood, set.strippedLog, "_side");
+    addPillar(set.wood, getBlockId(set.log).withSuffixedPath("_side"));
+    addPillar(set.strippedWood, getBlockId(set.strippedLog).withSuffixedPath("_side"));
 
     addStairs(set.stairs, set.planks);
     addSlab(set.slab, set.planks);
