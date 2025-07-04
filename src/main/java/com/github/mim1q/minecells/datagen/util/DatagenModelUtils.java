@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.datagen.util;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
@@ -67,6 +68,10 @@ public interface DatagenModelUtils extends DatagenUtils {
           .put(VariantSettings.MODEL, model)
       ));
     });
+  }
+
+  default void addInvisibleBlock(Block block) {
+    addSingleBlockstate(block, getBlockId(Blocks.AIR));
   }
 
   default void addSingleBlockstate(Block block) {
@@ -364,6 +369,38 @@ public interface DatagenModelUtils extends DatagenUtils {
 
     getInitializers().blockLootTable().add(it -> {
       it.addDrop(grass, it.drops(grass, base));
+    });
+  }
+
+  default void addDoorway(DoorwayPortalBlock block) {
+    getInitializers().blockState().add(it -> {
+      var doorwayTextureKey = TextureKey.of("0");
+      var model = new Model(
+        Optional.of(MineCells.createId("block/template/doorway")),
+        Optional.empty(),
+        doorwayTextureKey
+      ).upload(
+        block,
+        TextureMap.of(doorwayTextureKey, MineCells.createId("block/doorway/" + block.type.dimension.key.getValue().getPath())),
+        it.modelCollector
+      );
+      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create()
+        .put(VariantSettings.MODEL, model)
+      ).coordinate(createNorthDefaultHorizontalRotationStates()));
+    });
+  }
+
+  default void addCrossModel(Identifier identifier) {
+    getInitializers().blockState().add(it -> {
+      new Model(
+        Optional.of(Identifier.ofVanilla("block/cross")),
+        Optional.empty(),
+        TextureKey.CROSS, TextureKey.PARTICLE
+      ).upload(
+        identifier,
+        TextureMap.of(TextureKey.CROSS, identifier).put(TextureKey.PARTICLE, identifier),
+        it.modelCollector
+      );
     });
   }
 

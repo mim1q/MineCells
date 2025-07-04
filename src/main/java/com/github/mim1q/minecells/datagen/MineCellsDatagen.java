@@ -1,19 +1,20 @@
 package com.github.mim1q.minecells.datagen;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.RunicVineBlock;
 import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
-import net.minecraft.data.client.Model;
-import net.minecraft.data.client.ModelIds;
-import net.minecraft.data.client.Models;
-import net.minecraft.data.client.TextureMap;
+import net.minecraft.block.Blocks;
+import net.minecraft.data.client.*;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Optional;
+
+import static net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates;
 
 public class MineCellsDatagen extends AllDatagenUtils {
   @Override
@@ -23,6 +24,8 @@ public class MineCellsDatagen extends AllDatagenUtils {
     initializeStoneSets();
     initializeLeavesSets();
     initializeTorches();
+    initializeDoorways();
+    initializeMiscBlocks();
 
     initializeCustomItemModels();
   }
@@ -32,16 +35,20 @@ public class MineCellsDatagen extends AllDatagenUtils {
       MineCellsBlocks.ELEVATOR_ASSEMBLER,
       MineCellsBlocks.CRATE,
       MineCellsBlocks.HARDSTONE,
-      MineCellsBlocks.CHAIN_PILE_BLOCK
+      MineCellsBlocks.CHAIN_PILE_BLOCK,
+      MineCellsBlocks.RUNIC_VINE_STONE
     );
 
     getInitializers().blockState().add(it -> {
       blocks.forEach(it::registerSimpleCubeAll);
 
-      List.of(MineCellsBlocks.CELL_CRAFTER, MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER).forEach(it::registerNorthDefaultHorizontalRotation);
+      it.registerNorthDefaultHorizontalRotation(MineCellsBlocks.CELL_CRAFTER);
+      it.blockStateCollector.accept(
+        VariantsBlockStateSupplier.create(
+            MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER,
+            BlockStateVariant.create().put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.CELL_CRAFTER)))
+          .coordinate(createNorthDefaultHorizontalRotationStates()));
     });
-
-    addSingleBlockstate(MineCellsBlocks.SPAWNER_RUNE);
 
     getInitializers().blockLootTable().add(it -> blocks.forEach(it::addDrop));
   }
@@ -90,6 +97,44 @@ public class MineCellsDatagen extends AllDatagenUtils {
 
   }
 
+  private void initializeMiscBlocks() {
+    getInitializers().blockState().add(it -> {
+      it.registerAxisRotated(MineCellsBlocks.UNBREAKABLE_CHAIN, getBlockId(Blocks.CHAIN));
+    });
+
+    addSingleBlockstate(MineCellsBlocks.RETURN_STONE);
+    addSingleBlockstate(MineCellsBlocks.RUNIC_VINE_PLANT);
+
+    addInvisibleBlock(MineCellsBlocks.SPAWNER_RUNE);
+    addInvisibleBlock(MineCellsBlocks.BARRIER_RUNE);
+    addInvisibleBlock(MineCellsBlocks.SOLID_BARRIER);
+    addInvisibleBlock(MineCellsBlocks.CONDITIONAL_BARRIER);
+    addInvisibleBlock(MineCellsBlocks.BOSS_ENTRY_BARRIER_CONTROLLER);
+    addInvisibleBlock(MineCellsBlocks.BOSS_BARRIER_CONTROLLER);
+    addInvisibleBlock(MineCellsBlocks.PLAYER_BARRIER_CONTROLLER);
+    addInvisibleBlock(MineCellsBlocks.CONJUNCTIVIUS_BOX);
+    addInvisibleBlock(MineCellsBlocks.CONCIERGE_BOX);
+    addInvisibleBlock(MineCellsBlocks.RIFT);
+    addInvisibleBlock(MineCellsBlocks.DOORWAY_FRAME);
+    addInvisibleBlock(MineCellsBlocks.UNBREAKABLE_DOORWAY_FRAME);
+    addInvisibleBlock(MineCellsBlocks.ARROW_SIGN);
+    addInvisibleBlock(MineCellsBlocks.BEAM_PLACER);
+    addInvisibleBlock(MineCellsBlocks.SEWAGE);
+    addInvisibleBlock(MineCellsBlocks.ANCIENT_SEWAGE);
+    addInvisibleBlock(MineCellsBlocks.KINGDOM_PORTAL_CORE);
+
+    addCrossModel(MineCells.createId("block/runic_vine"));
+    addCrossModel(MineCells.createId("block/runic_vine_top"));
+    getInitializers().blockState().add(it -> {
+      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(MineCellsBlocks.RUNIC_VINE)
+        .coordinate(BlockStateVariantMap.create(RunicVineBlock.TOP)
+          .register(false, BlockStateVariant.create().put(VariantSettings.MODEL, MineCells.createId("block/runic_vine")))
+          .register(true, BlockStateVariant.create().put(VariantSettings.MODEL, MineCells.createId("block/runic_vine_top")))
+        )
+      );
+    });
+  }
+
   private void initializeLeavesSets() {
     addLeavesSet(MineCellsBlocks.WILTED_LEAVES, MineCellsBlocks.PUTRID_SAPLING);
     addLeavesSet(MineCellsBlocks.ORANGE_WILTED_LEAVES, MineCellsBlocks.ORANGE_PUTRID_SAPLING);
@@ -102,6 +147,15 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addColoredTorch(MineCellsBlocks.RAMPARTS_TORCH, "ramparts");
     addColoredTorch(MineCellsBlocks.SEWERS_TORCH, "sewers");
     addColoredTorch(MineCellsBlocks.ANCIENT_SEWERS_TORCH, "ancient_sewers");
+  }
+
+  private void initializeDoorways() {
+    addDoorway(MineCellsBlocks.OVERWORLD_DOORWAY);
+    addDoorway(MineCellsBlocks.PRISON_DOORWAY);
+    addDoorway(MineCellsBlocks.PROMENADE_DOORWAY);
+    addDoorway(MineCellsBlocks.RAMPARTS_DOORWAY);
+    addDoorway(MineCellsBlocks.BLACK_BRIDGE_DOORWAY);
+    addDoorway(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY);
   }
 
   private void initializeCustomItemModels() {
@@ -124,6 +178,7 @@ public class MineCellsDatagen extends AllDatagenUtils {
     getInitializers().blockState().add(it -> {
       parented.forEach(block -> it.registerParentedItemModel(block.asItem(), getBlockId(block)));
       it.registerItemModel(MineCellsBlocks.SPIKES);
+      it.registerParentedItemModel(MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER, getBlockId(MineCellsBlocks.CELL_CRAFTER));
     });
   }
 
@@ -173,12 +228,14 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addGeneratedTexture(MineCells.createId("item/cell_holder/1"));
     addGeneratedTexture(MineCells.createId("item/cell_holder/2"));
     addGeneratedTexture(MineCells.createId("item/cell_holder/3"));
+    addGeneratedItem(MineCellsBlocks.SOLID_BARRIER, getItemId(MineCellsBlocks.BARRIER_RUNE));
 
     getInitializers().itemModel().add(it -> {
       doorways.forEach(item -> {
         var model = new Model(Optional.of(MineCells.createId("item/doorway")), Optional.of("inventory"));
         model.upload(ModelIds.getItemModelId(item), new TextureMap(), it.writer);
       });
+      Models.GENERATED.upload(MineCells.createId("item/guidebook"), TextureMap.layer0(MineCells.createId("item/guidebook")), it.writer);
     });
 
     misc.forEach(this::addGeneratedItem);
@@ -188,10 +245,6 @@ public class MineCellsDatagen extends AllDatagenUtils {
       var id = getItemId(egg, "spawn_eggs/");
       addGeneratedItem(egg, Identifier.of(id.getNamespace(), id.getPath().substring(0, id.getPath().lastIndexOf("_spawn_egg"))));
     }
-
-    getInitializers().itemModel().add(it -> {
-      Models.GENERATED.upload(MineCells.createId("item/guidebook"), TextureMap.layer0(MineCells.createId("item/guidebook")), it.writer);
-    });
   }
 
   private void initializeHandheldItemModels() {

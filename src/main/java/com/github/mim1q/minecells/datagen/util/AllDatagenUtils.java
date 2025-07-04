@@ -27,7 +27,7 @@ public abstract class AllDatagenUtils implements
 
   public abstract void initialize();
 
-  private final InitializerHolder initializers = InitializerHolder.createEmpty();
+  private InitializerHolder initializers = InitializerHolder.createEmpty();
 
   @Override
   public InitializerHolder getInitializers() {
@@ -36,6 +36,7 @@ public abstract class AllDatagenUtils implements
 
   @Override
   public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+    this.initializers = InitializerHolder.createEmpty();
     initialize();
 
     var pack = fabricDataGenerator.createPack();
