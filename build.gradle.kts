@@ -56,6 +56,7 @@ dependencies {
   modLocalRuntime("maven.modrinth:wayland-fix:1.1") // Lets me launch the game on Wayland :')
 
   include(modImplementation("dev.mim1q:gimm1q:${Versions.GIMM1Q}")!!)
+  modLocalRuntime("dev.mim1q:runtimedatagen:0.0.2")
 
   modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${Versions.REI}")
 

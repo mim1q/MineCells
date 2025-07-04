@@ -73,6 +73,8 @@ public class CellHolderItem extends Item {
   }
 
   public static void setCellCount(ItemStack stack, int count) {
-    LegacyUtil.getOrCreateNbt(stack).putInt("Cells", count);
+    var nbt = LegacyUtil.getOrCreateNbt(stack);
+    nbt.putInt("Cells", count);
+    LegacyUtil.writeNbt(stack, nbt);
   }
 }
