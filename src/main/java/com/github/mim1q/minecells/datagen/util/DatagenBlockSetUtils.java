@@ -72,7 +72,8 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     addBlockTag(BlockTags.WOODEN_TRAPDOORS, set.trapdoor);
     addBlockTag(BlockTags.WOODEN_DOORS, set.door);
     addBlockTag(BlockTags.WALL_SIGNS, set.wallSign);
-    addBlockTag(BlockTags.SIGNS, set.sign);
+    addBlockTag(BlockTags.STANDING_SIGNS, set.sign);
+    addBlockTag(BlockTags.SIGNS, set.wallSign, set.sign);
 
     addBlockTag(BlockTags.AXE_MINEABLE, set.getBlocks());
 
@@ -152,6 +153,11 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
       it.registerParentedItemModel(set.hangingLeaves.asItem(), hangingModel);
       it.registerTintableCross(sapling, BlockStateModelGenerator.TintType.NOT_TINTED, TextureMap.of(TextureKey.CROSS, getBlockId(sapling)));
     });
+
+    addBlockTag(BlockTags.LEAVES, set.leaves);
+    addItemTag(ItemTags.LEAVES, set.leaves);
+    addBlockTag(BlockTags.SAPLINGS, sapling);
+    addItemTag(ItemTags.SAPLINGS, sapling);
   }
 
   default void addColoredTorch(ColoredTorchBlock torch, String flameName) {

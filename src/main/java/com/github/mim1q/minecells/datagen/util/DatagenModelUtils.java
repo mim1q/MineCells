@@ -14,6 +14,8 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -28,7 +30,7 @@ import static net.minecraft.data.client.VariantSettings.Y;
 import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
 import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 
-public interface DatagenModelUtils extends DatagenUtils {
+public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
   Identifier BUILTIN_ENTITY_MODEL = Identifier.of("builtin/entity");
 
   default Identifier getBlockId(Block block) {
@@ -152,6 +154,9 @@ public interface DatagenModelUtils extends DatagenUtils {
         .criterion(hasItem(base), conditionsFromItem(base))
         .offerTo(it);
     });
+
+    addBlockTag(BlockTags.STAIRS, block);
+    addItemTag(ItemTags.STAIRS, block);
   }
 
   default void addSlab(SlabBlock block, Block base) {
@@ -170,6 +175,9 @@ public interface DatagenModelUtils extends DatagenUtils {
         .criterion(hasItem(base), conditionsFromItem(base))
         .offerTo(it);
     });
+
+    addBlockTag(BlockTags.SLABS, block);
+    addItemTag(ItemTags.SLABS, block);
   }
 
   default void addButton(ButtonBlock block, Block base) {
@@ -246,6 +254,9 @@ public interface DatagenModelUtils extends DatagenUtils {
     getInitializers().recipe().add(it -> {
       FabricRecipeProvider.offerWallRecipe(it, RecipeCategory.BUILDING_BLOCKS, block, base);
     });
+
+    addBlockTag(BlockTags.WALLS, block);
+    addItemTag(ItemTags.WALLS, block);
   }
 
   default void addBow(CustomBowItem bow) {

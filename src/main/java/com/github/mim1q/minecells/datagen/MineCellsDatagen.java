@@ -1,14 +1,17 @@
 package com.github.mim1q.minecells.datagen;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.block.RunicVineBlock;
 import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
+import com.github.mim1q.minecells.item.MineCellsItemTags;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Items;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -28,6 +31,8 @@ public class MineCellsDatagen extends AllDatagenUtils {
     initializeMiscBlocks();
 
     initializeCustomItemModels();
+
+    initializeTags();
   }
 
   private void initializeSimpleBlocks() {
@@ -264,5 +269,38 @@ public class MineCellsDatagen extends AllDatagenUtils {
     );
 
     handheldItems.forEach(this::addHandheldItem);
+  }
+
+  private void initializeTags() {
+    // Blocks
+    addBlockTag(MineCellsBlockTags.TREE_ROOT_REPLACEABLE,
+      Blocks.AIR, MineCellsBlocks.PRISON_STONE.block, MineCellsBlocks.PRISON_COBBLESTONE.block,
+      MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK
+    );
+
+    // Items
+    addItemTag(MineCellsItemTags.BOWS_ACCEPTING_INFINITY,
+      MineCellsItems.MULTIPLE_NOCKS_BOW, MineCellsItems.MARKSMANS_BOW, MineCellsItems.INFANTRY_BOW,
+      MineCellsItems.NERVES_OF_STEEL
+    );
+    addItemTag(MineCellsItemTags.BOWS_ACCEPTING_FLAME,
+      MineCellsItems.MULTIPLE_NOCKS_BOW, MineCellsItems.BOW_AND_ENDLESS_QUIVER, MineCellsItems.MARKSMANS_BOW,
+      MineCellsItems.INFANTRY_BOW, MineCellsItems.QUICK_BOW, MineCellsItems.NERVES_OF_STEEL
+    );
+    addItemTag(MineCellsItemTags.BOWS_ACCEPTING_POWER,
+      MineCellsItems.MULTIPLE_NOCKS_BOW, MineCellsItems.BOW_AND_ENDLESS_QUIVER, MineCellsItems.MARKSMANS_BOW,
+      MineCellsItems.INFANTRY_BOW, MineCellsItems.QUICK_BOW, MineCellsItems.ICE_BOW, MineCellsItems.NERVES_OF_STEEL
+    );
+    addItemTag(MineCellsItemTags.BOWS_ACCEPTING_PUNCH,
+      MineCellsItems.MULTIPLE_NOCKS_BOW, MineCellsItems.BOW_AND_ENDLESS_QUIVER, MineCellsItems.MARKSMANS_BOW,
+      MineCellsItems.INFANTRY_BOW, MineCellsItems.QUICK_BOW, MineCellsItems.ICE_BOW, MineCellsItems.NERVES_OF_STEEL
+    );
+    addItemTag(MineCellsItemTags.BOWS_ACCEPTING_QUICK_CHARGE,
+      MineCellsItems.MULTIPLE_NOCKS_BOW, MineCellsItems.BOW_AND_ENDLESS_QUIVER, MineCellsItems.MARKSMANS_BOW,
+      MineCellsItems.INFANTRY_BOW, MineCellsItems.ICE_BOW, MineCellsItems.HEAVY_CROSSBOW, MineCellsItems.EXPLOSIVE_CROSSBOW
+    );
+
+    addItemTag(ItemTags.STONE_TOOL_MATERIALS, MineCellsBlocks.PRISON_COBBLESTONE.block, MineCellsBlocks.BLOOMROCK.block);
+    addItemTag(ItemTags.STONE_CRAFTING_MATERIALS, MineCellsBlocks.PRISON_COBBLESTONE.block, MineCellsBlocks.BLOOMROCK.block);
   }
 }
