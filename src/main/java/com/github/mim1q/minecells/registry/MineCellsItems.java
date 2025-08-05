@@ -38,7 +38,7 @@ public class MineCellsItems {
   public static List<CustomBowItem> BOWS = new ArrayList<>();
   public static List<CustomCrossbowItem> CROSSBOWS = new ArrayList<>();
   public static List<Item> OTHER_RANGED = new ArrayList<>();
-  public static List<Item> SHIELDS = new ArrayList<>();
+  public static List<CustomShieldItem> SHIELDS = new ArrayList<>();
 
   public static final Item ELEVATOR_MECHANISM = register(
     new Item(new Item.Settings()),

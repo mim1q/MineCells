@@ -99,7 +99,7 @@ public class MineCellsStructurePoolBasedGenerator {
       poolStructurePiece.translate(0, k - l, 0);
       int m = k + vec3i.getY();
       return Optional.of(new Structure.StructurePosition(new BlockPos(i, m, j), (collector) -> {
-        List<PoolStructurePiece> list = Lists.newArrayList();
+        List<PoolStructurePiece> list = new ArrayList<>();
         list.add(poolStructurePiece);
         if (size > 0) {
           Box box = new Box(i - 128, m - 128, j - 128, i + 128 + 1, m + 128 + 1, j + 128 + 1);
@@ -218,7 +218,7 @@ public class MineCellsStructurePoolBasedGenerator {
               mutableObject2 = pieceShape;
             }
 
-            List<StructurePoolElement> list = Lists.newArrayList();
+            List<StructurePoolElement> list = new ArrayList<>();
             if (minY != this.maxSize) {
               list.addAll(optional.get().getElementIndicesInRandomOrder(this.random));
             }

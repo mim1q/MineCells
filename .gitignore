@@ -44,4 +44,5 @@ bin/
 run/
 publishing.properties
 src/main/generated/
+src/main/generated_script/
 lang/missing/generated/

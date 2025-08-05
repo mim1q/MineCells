@@ -39,99 +39,99 @@ fun main(args: Array<String>) {
     BeautifiedJsonFormatter
   ).apply {
     // Wood
-    add(BlockSets.basicWoodSet("minecells:putrid"))
-    add(CustomBlockSets.leaves("minecells:wilted", "minecells:putrid_sapling"))
-    add(CustomBlockSets.leaves("minecells:orange_wilted", "minecells:orange_putrid_sapling"))
-    add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
+//    add(BlockSets.basicWoodSet("minecells:putrid"))
+//    add(CustomBlockSets.leaves("minecells:wilted", "minecells:putrid_sapling"))
+//    add(CustomBlockSets.leaves("minecells:orange_wilted", "minecells:orange_putrid_sapling"))
+//    add(CustomBlockSets.leaves("minecells:red_wilted", "minecells:red_putrid_sapling"))
     // Stone
-    add(CustomBlockSets.stoneFamily("minecells:prison"))
-    add(BlockSets.basicStoneSet("minecells:cracked_prison_brick", baseSuffix = "s"))
-    add(BlockSets.basicStoneSet("minecells:bloomrock"))
-    add(BlockSets.basicStoneSet("minecells:bloomrock_tile", baseSuffix = "s"))
-    add(BlockSets.basicStoneSet("minecells:bloomrock_brick", baseSuffix = "s"))
-    add(BlockSets.basicStoneSet("minecells:cracked_bloomrock_brick", baseSuffix = "s"))
+//    add(CustomBlockSets.stoneFamily("minecells:prison"))
+//    add(BlockSets.basicStoneSet("minecells:cracked_prison_brick", baseSuffix = "s"))
+//    add(BlockSets.basicStoneSet("minecells:bloomrock"))
+//    add(BlockSets.basicStoneSet("minecells:bloomrock_tile", baseSuffix = "s"))
+//    add(BlockSets.basicStoneSet("minecells:bloomrock_brick", baseSuffix = "s"))
+//    add(BlockSets.basicStoneSet("minecells:cracked_bloomrock_brick", baseSuffix = "s"))
     // Sewers
-    listOf("ancient_", "").forEach {
-      add(BlockSets.basicStoneSet("minecells:${it}septite"))
-      add(BlockSets.basicStoneSet("minecells:cobbled_${it}septite"))
-      add(BlockSets.basicStoneSet("minecells:polished_${it}septite"))
-      add(BlockSets.basicStoneSet("minecells:${it}septite_brick", baseSuffix = "s"))
-      add(BlockSets.basicStoneSet("minecells:small_${it}septite_brick", baseSuffix = "s"))
-    }
+//    listOf("ancient_", "").forEach {
+//      add(BlockSets.basicStoneSet("minecells:${it}septite"))
+//      add(BlockSets.basicStoneSet("minecells:cobbled_${it}septite"))
+//      add(BlockSets.basicStoneSet("minecells:polished_${it}septite"))
+//      add(BlockSets.basicStoneSet("minecells:${it}septite_brick", baseSuffix = "s"))
+//      add(BlockSets.basicStoneSet("minecells:small_${it}septite_brick", baseSuffix = "s"))
+//    }
     // Torches
-    val torches = listOf("prison", "promenade", "ramparts")
-    torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
-    val copperTorches = listOf("sewers")
-    copperTorches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
-    // Other
-    add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
-    add(BlockSets.basicSet("minecells:putrid_board", "_block"))
-    add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone", "minecells:wilted_grass_block"))
-    add(CustomPresets.grassBlock("minecells:bloomrock_wilted_grass_block", "minecells:bloomrock", "minecells:bloomrock_wilted_grass_block", "minecells:wilted_grass_block"))
-    add(CustomPresets.corpse("minecells:corpse"))
-    add(CustomPresets.corpse("minecells:rotting_corpse", true))
-    add(CustomPresets.corpse("minecells:skeleton"))
-    listOf("elevator_assembler", "hardstone", "chain_pile_block", "runic_vine_stone").forEach {
-      add(CommonModelPresets.cubeAllBlock("minecells:$it"))
-    }
-    add(CommonModelPresets.pillarBlock("minecells:crate"))
-    add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
-    listOf("conjunctivius_box", "concierge_box", "beam_placer", "doorway_frame", "unbreakable_doorway_frame",
-      "solid_barrier_rune", "conditional_barrier", "boss_barrier_controller", "boss_entry_barrier_controller",
-      "player_barrier_controller", "rift", "arrow_sign"
-    ).forEach {
-      add(it, BlockState.createSingle("minecells:block/invisible_stone"))
-    }
-    listOf("spawner_rune", "runic_vine_plant").forEach {
-      add(it, BlockState.createSingle("minecells:block/$it"))
-    }
-    listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts", "black_bridge").forEach {
-      add(CustomPresets.doorway("minecells:$it"))
-      add("${it}_doorway", ParentedModel.item("minecells:item/doorway"))
-    }
-    listOf("runic_vine", "runic_vine_top").forEach {
-      add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
-    }
-    add("arrow_sign", BlockState.createSingle("minecells:block/putrid_planks"))
-    add(CommonModelPresets.horizontallyRotateableBlock("minecells:cell_crafter"))
-    add(CommonModelPresets.horizontallyRotateableBlock("minecells:unbreakable_cell_crafter", "minecells:cell_crafter"))
-    // Flags
-    listOf(
-      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt"
-    ).forEach {
-      add(CustomPresets.flag("minecells:${it}_flag"))
-    }
-    Constants.COLORS.forEach {
-      add(CustomPresets.coloredFlags(it))
-    }
-
-    add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
-    add(CustomPresets.customRecipes())
-    // Fluids
-    listOf("sewage", "ancient_sewage").forEach {
-      add(it, BlockState.createSingle("minecraft:block/water"))
-    }
-    // Item Models
-    add(ModItemModels.generated())
-    add(ModItemModels.handheld())
-    add(ModItemModels.spawnEggs())
-    add(ModItemModels.blockModels())
-    add(ModItemModels.bows())
-    add(ModItemModels.crossbows())
-    add(ModItemModels.shields())
-    add("weapon/flint", ParentedModel.item("minecells:item/weapon/balanced_blade").texture("layer0", "minecells:item/flint"))
-    add(ModItemModels.weaponCopies())
-    // Block drops
-    listOf(
-      "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
-      "big_chain", "broken_cage", "prison_doorway", "king_statue", "chain_pile",
-      "putrid_board_block", "arrow_sign", "cell_crafter"
-    ).forEach {
-      add(CommonDropPresets.simpleDrop("minecells:$it"))
-    }
-    listOf("alchemy_equipment_0", "alchemy_equipment_1", "alchemy_equipment_2").forEach {
-      add(CommonDropPresets.silkTouchOnlyDrop("minecells:$it"))
-    }
+//    val torches = listOf("prison", "promenade", "ramparts")
+//    torches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
+//    val copperTorches = listOf("sewers")
+//    copperTorches.forEach { add(CustomPresets.torch("minecells:$it", "minecells:block/colored_torch/$it")) }
+//    // Other
+//    add(CommonModelPresets.cubeAllBlock("minecells:kingdom_portal_core"))
+//    add(BlockSets.basicSet("minecells:putrid_board", "_block"))
+//    add(CustomPresets.grassBlock("minecells:wilted_grass_block", "minecells:prison_stone", "minecells:wilted_grass_block"))
+//    add(CustomPresets.grassBlock("minecells:bloomrock_wilted_grass_block", "minecells:bloomrock", "minecells:bloomrock_wilted_grass_block", "minecells:wilted_grass_block"))
+//    add(CustomPresets.corpse("minecells:corpse"))
+//    add(CustomPresets.corpse("minecells:rotting_corpse", true))
+//    add(CustomPresets.corpse("minecells:skeleton"))
+//    listOf("elevator_assembler", "hardstone", "chain_pile_block", "runic_vine_stone").forEach {
+//      add(CommonModelPresets.cubeAllBlock("minecells:$it"))
+//    }
+//    add(CommonModelPresets.pillarBlock("minecells:crate"))
+//    add("invisible_stone", ParentedModel.block("minecraft:block/air").texture("particle", "minecells:block/prison_stone"))
+//    listOf("conjunctivius_box", "concierge_box", "beam_placer", "doorway_frame", "unbreakable_doorway_frame",
+//      "solid_barrier_rune", "conditional_barrier", "boss_barrier_controller", "boss_entry_barrier_controller",
+//      "player_barrier_controller", "rift", "arrow_sign"
+//    ).forEach {
+//      add(it, BlockState.createSingle("minecells:block/invisible_stone"))
+//    }
+//    listOf("spawner_rune", "runic_vine_plant").forEach {
+//      add(it, BlockState.createSingle("minecells:block/$it"))
+//    }
+//    listOf("overworld", "prison", "promenade", "insufferable_crypt", "ramparts", "black_bridge").forEach {
+//      add(CustomPresets.doorway("minecells:$it"))
+//      add("${it}_doorway", ParentedModel.item("minecells:item/doorway"))
+//    }
+//    listOf("runic_vine", "runic_vine_top").forEach {
+//      add(it, ParentedModel.block("minecraft:block/cross").texture("cross", "minecells:block/$it"))
+//    }
+//    add("arrow_sign", BlockState.createSingle("minecells:block/putrid_planks"))
+//    add(CommonModelPresets.horizontallyRotateableBlock("minecells:cell_crafter"))
+//    add(CommonModelPresets.horizontallyRotateableBlock("minecells:unbreakable_cell_crafter", "minecells:cell_crafter"))
+//    // Flags
+//    listOf(
+//      "kings_crest", "torn_kings_crest", "promenade_of_the_condemned", "ramparts", "black_bridge", "insufferable_crypt"
+//    ).forEach {
+//      add(CustomPresets.flag("minecells:${it}_flag"))
+//    }
+//    Constants.COLORS.forEach {
+//      add(CustomPresets.coloredFlags(it))
+//    }
+//
+//    add(CommonModelPresets.horizontallyRotateableBlock("minecells:return_stone"))
+//    add(CustomPresets.customRecipes())
+//    // Fluids
+//    listOf("sewage", "ancient_sewage").forEach {
+//      add(it, BlockState.createSingle("minecraft:block/water"))
+//    }
+//    // Item Models
+//    add(ModItemModels.generated())
+//    add(ModItemModels.handheld())
+//    add(ModItemModels.spawnEggs())
+//    add(ModItemModels.blockModels())
+//    add(ModItemModels.bows())
+//    add(ModItemModels.crossbows())
+//    add(ModItemModels.shields())
+//    add("weapon/flint", ParentedModel.item("minecells:item/weapon/balanced_blade").texture("layer0", "minecells:item/flint"))
+//    add(ModItemModels.weaponCopies())
+//    // Block drops
+//    listOf(
+//      "elevator_assembler", "chain_pile_block", "putrid_boards", "crate", "small_crate", "brittle_barrel", "flag_pole",
+//      "big_chain", "broken_cage", "prison_doorway", "king_statue", "chain_pile",
+//      "putrid_board_block", "arrow_sign", "cell_crafter"
+//    ).forEach {
+//      add(CommonDropPresets.simpleDrop("minecells:$it"))
+//    }
+//    listOf("alchemy_equipment_0", "alchemy_equipment_1", "alchemy_equipment_2").forEach {
+//      add(CommonDropPresets.silkTouchOnlyDrop("minecells:$it"))
+//    }
     // Template Pools
     add(ModTemplatePools.common())
     add(ModTemplatePools.prisonersQuarters())
@@ -140,28 +140,28 @@ fun main(args: Array<String>) {
     add(ModTemplatePools.ramparts())
     add(ModTemplatePools.blackBridge())
     // Tags
-    TagManager.add("blocks/mineable/pickaxe",
-      "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
-      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue", "minecells:wilted_grass_block",
-      "minecells:bloomrock_wilted_grass_block"
-    )
-    TagManager.add("blocks/mineable/axe",
-      "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",
-      "minecells:small_crate", "minecells:brittle_barrel", "minecells:putrid_board_block", "minecells:putrid_board_slab",
-      "minecells:putrid_board_stairs", "minecells:arrow_sign"
-    )
-    TagManager.add("minecells:blocks/tree_root_replaceable",
-      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block",
-      "minecells:bloomrock_wilted_grass_block"
-    )
-    TagManager.add("minecells:items/discard_in_high_dimensions",
-      "minecraft:stick", "minecells:red_putrid_sapling"
-    )
-    bowTags()
-    // Loot Tables for Advancements
-    MINECELLS_DIMENSIONS.forEach {
-      add(CustomHardcodedPresets.advancementDrop(it, ""))
-    }
+//    TagManager.add("blocks/mineable/pickaxe",
+//      "minecells:big_chain", "minecells:chain_pile", "minecells:chain_pile_block", "minecells:cage",
+//      "minecells:broken_cage", "minecells:doorway_frame", "minecells:king_statue", "minecells:wilted_grass_block",
+//      "minecells:bloomrock_wilted_grass_block"
+//    )
+//    TagManager.add("blocks/mineable/axe",
+//      "minecells:flag_pole", "minecells:putrid_boards", "minecells:elevator_assembler", "minecells:crate",
+//      "minecells:small_crate", "minecells:brittle_barrel", "minecells:putrid_board_block", "minecells:putrid_board_slab",
+//      "minecells:putrid_board_stairs", "minecells:arrow_sign"
+//    )
+//    TagManager.add("minecells:blocks/tree_root_replaceable",
+//      "minecraft:air", "minecells:prison_stone", "minecells:prison_cobblestone", "minecells:wilted_grass_block",
+//      "minecells:bloomrock_wilted_grass_block"
+//    )
+//    TagManager.add("minecells:items/discard_in_high_dimensions",
+//      "minecraft:stick", "minecells:red_putrid_sapling"
+//    )
+//    bowTags()
+//    // Loot Tables for Advancements
+//    MINECELLS_DIMENSIONS.forEach {
+//      add(CustomHardcodedPresets.advancementDrop(it, ""))
+//    }
     // Sounds
     mineCellsSounds()
 

@@ -28,6 +28,10 @@ public class StoneSet extends FeatureSet {
     ).map(b -> b.asItem().getDefaultStack()).toList();
   }
 
+  public List<Block> getBlocks() {
+    return List.of(block, stairs, slab, wall);
+  }
+
   @Override
   public List<ItemStack> getStacks() {
     return stacks;
