@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/promenade"
+          "value": "minecells:chests/promenade"
         }
       ]
     },

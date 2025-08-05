@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/general_bad_junk"
+          "value": "minecells:chests/common/general_bad_junk"
         }
       ]
     },

@@ -6,8 +6,14 @@
     {
       "rolls": 1,
       "entries": [
-        { "weight": 3, "entity": "minecells:leaping_zombie" },
-        { "weight": 1, "entity": "minecells:shieldbearer" }
+        {
+          "weight": 3,
+          "entity": "minecells:leaping_zombie"
+        },
+        {
+          "weight": 1,
+          "entity": "minecells:shieldbearer"
+        }
       ]
     }
   ]

@@ -27,11 +27,22 @@
               "loot": {
                 "type": "minecraft:group",
                 "children": [
-                  { "type": "minecraft:item", "name": "minecells:explosive_crossbow" },
+                  {
+                    "type": "minecraft:item",
+                    "name": "minecells:explosive_crossbow"
+                  },
                   {
                     "type": "minecraft:item",
                     "name": "minecells:explosive_bolt",
-                    "functions": [{ "function": "minecraft:set_count", "count": { "min": 4, "max": 8 } }]
+                    "functions": [
+                      {
+                        "function": "minecraft:set_count",
+                        "count": {
+                          "min": 4,
+                          "max": 8
+                        }
+                      }
+                    ]
                   }
                 ]
               },
@@ -43,7 +54,15 @@
               "loot": {
                 "type": "minecraft:item",
                 "name": "minecells:firebrands",
-                "functions": [{ "function": "minecraft:set_count", "count": { "min": 12, "max": 16 } }]
+                "functions": [
+                  {
+                    "function": "minecraft:set_count",
+                    "count": {
+                      "min": 12,
+                      "max": 16
+                    }
+                  }
+                ]
               },
               "weight": 3,
               "dimension_level": 0
@@ -69,11 +88,22 @@
               "loot": {
                 "type": "minecraft:group",
                 "children": [
-                  { "type": "minecraft:item", "name": "minecells:ice_bow" },
+                  {
+                    "type": "minecraft:item",
+                    "name": "minecells:ice_bow"
+                  },
                   {
                     "type": "minecraft:item",
                     "name": "minecells:ice_arrow",
-                    "functions": [{ "function": "minecraft:set_count", "count": { "min": 16, "max": 32 } }]
+                    "functions": [
+                      {
+                        "function": "minecraft:set_count",
+                        "count": {
+                          "min": 16,
+                          "max": 32
+                        }
+                      }
+                    ]
                   }
                 ]
               },
@@ -138,7 +168,15 @@
               "loot": {
                 "type": "minecraft:item",
                 "name": "minecells:throwing_knife",
-                "functions": [{ "function": "minecraft:set_count", "count": { "min": 16, "max": 20 } }]
+                "functions": [
+                  {
+                    "function": "minecraft:set_count",
+                    "count": {
+                      "min": 16,
+                      "max": 20
+                    }
+                  }
+                ]
               },
               "weight": 5,
               "dimension_level": 0

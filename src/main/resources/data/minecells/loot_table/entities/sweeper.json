@@ -1,15 +1,34 @@
 {
   "pools": [
     {
-      "rolls": { "min": 0, "max": 1 },
-      "entries": [{ "type": "minecraft:item", "name": "minecells:monster_cell" }]
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monster_cell"
+        }
+      ]
     },
     {
-      "rolls": { "min": 0, "max": 1 },
-      "entries": [{ "type": "minecraft:item", "name": "minecells:guts" }]
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:guts"
+        }
+      ]
     },
     {
-      "rolls": { "min": 0, "max": 3 },
+      "rolls": {
+        "min": 0,
+        "max": 3
+      },
       "entries": [
         {
           "type": "minecraft:item",

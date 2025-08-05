@@ -13,8 +13,16 @@
       ]
     },
     {
-      "rolls": { "min": 0, "max": 1 },
-      "entries": [{ "type": "minecraft:item", "name": "minecells:guts" }]
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:guts"
+        }
+      ]
     },
     {
       "rolls": {
@@ -43,8 +51,18 @@
     },
     {
       "rolls": 1,
-      "entries": [{ "type": "minecraft:item", "name": "minecells:monsters_eye" }],
-      "conditions": [{ "condition": "minecraft:random_chance", "chance": 0.025 }]
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monsters_eye"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.025
+        }
+      ]
     }
   ]
 }

@@ -6,8 +6,14 @@
     {
       "rolls": 1,
       "entries": [
-        { "weight": 1, "entity": "minecells:grenadier" },
-        { "weight": 1, "entity": "minecells:undead_archer" }
+        {
+          "weight": 1,
+          "entity": "minecells:grenadier"
+        },
+        {
+          "weight": 1,
+          "entity": "minecells:undead_archer"
+        }
       ]
     }
   ]

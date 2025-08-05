@@ -5,18 +5,18 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/special/melee_weapons",
-          "weight": 2
+          "weight": 2,
+          "value": "minecells:chests/special/melee_weapons"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/special/ranged_weapons",
-          "weight": 2
+          "weight": 2,
+          "value": "minecells:chests/special/ranged_weapons"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/special/shields",
-          "weight": 1
+          "weight": 1,
+          "value": "minecells:chests/special/shields"
         }
       ]
     }

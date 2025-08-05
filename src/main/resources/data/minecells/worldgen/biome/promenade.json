@@ -27,10 +27,30 @@
   },
   "spawners": {
     "monster": [
-      { "type": "minecells:leaping_zombie", "weight": 12, "minCount": 1, "maxCount": 1 },
-      { "type": "minecells:grenadier",      "weight": 3,  "minCount": 1, "maxCount": 1 },
-      { "type": "minecells:mutated_bat",    "weight": 1,  "minCount": 1, "maxCount": 1 },
-      { "type": "minecells:runner",         "weight": 1,  "minCount": 1, "maxCount": 1 }
+      {
+        "type": "minecells:leaping_zombie",
+        "weight": 12,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecells:grenadier",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecells:mutated_bat",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecells:runner",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      }
     ]
   },
   "spawn_costs": {},

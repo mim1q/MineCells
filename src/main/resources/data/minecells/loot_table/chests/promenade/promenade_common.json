@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/general_bad_junk"
+          "value": "minecells:chests/common/general_bad_junk"
         }
       ]
     },
@@ -19,9 +19,16 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": { "type": "minecraft:uniform", "min": 1, "max": 2 },
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
               "conditions": [
-                { "condition": "minecraft:random_chance", "chance": 0.33 }
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.33
+                }
               ]
             }
           ]
@@ -33,7 +40,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/promenade_blocks"
+          "value": "minecells:chests/common/promenade_blocks"
         }
       ]
     }

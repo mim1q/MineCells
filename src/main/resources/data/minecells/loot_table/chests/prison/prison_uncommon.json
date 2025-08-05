@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/general_medium_junk"
+          "value": "minecells:chests/common/general_medium_junk"
         }
       ]
     },
@@ -54,7 +54,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/prison_blocks"
+          "value": "minecells:chests/common/prison_blocks"
         }
       ],
       "conditions": [
@@ -69,7 +69,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/special/all_weapons"
+          "value": "minecells:chests/special/all_weapons"
         }
       ],
       "conditions": [

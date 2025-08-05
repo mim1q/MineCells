@@ -7,25 +7,46 @@
       "rolls": {
         "type": "weighted_list",
         "distribution": [
-          { "weight": 4, "data": 1 },
-          { "weight": 1, "data": 0 }
+          {
+            "weight": 4,
+            "data": 1
+          },
+          {
+            "weight": 1,
+            "data": 0
+          }
         ]
       },
       "entries": [
-        { "weight": 1, "entity": "minecells:grenadier" }
+        {
+          "weight": 1,
+          "entity": "minecells:grenadier"
+        }
       ]
     },
     {
       "rolls": {
         "type": "weighted_list",
         "distribution": [
-          { "weight": 2, "data": 0 },
-          { "weight": 1, "data": 1 },
-          { "weight": 1, "data": 2 }
+          {
+            "weight": 2,
+            "data": 0
+          },
+          {
+            "weight": 1,
+            "data": 1
+          },
+          {
+            "weight": 1,
+            "data": 2
+          }
         ]
       },
       "entries": [
-        { "weight": 1, "entity": "minecells:mutated_bat" }
+        {
+          "weight": 1,
+          "entity": "minecells:mutated_bat"
+        }
       ]
     }
   ]

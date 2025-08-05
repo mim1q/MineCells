@@ -10,7 +10,6 @@
     "minecells:molten_chunk": 4,
     "minecells:monster_cell": 32,
     "minecells:boss_stem_cell": 1
-
   },
   "output": {
     "id": "minecells:flint",

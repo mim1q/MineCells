@@ -28,9 +28,24 @@
     "foliage_provider": {
       "type": "minecraft:weighted_state_provider",
       "entries": [
-        { "weight": 85, "data": { "Name": "minecells:red_wilted_leaves" } },
-        { "weight": 14, "data": { "Name": "minecells:orange_wilted_leaves" } },
-        { "weight": 1, "data": { "Name": "minecells:wilted_leaves" } }
+        {
+          "weight": 85,
+          "data": {
+            "Name": "minecells:red_wilted_leaves"
+          }
+        },
+        {
+          "weight": 14,
+          "data": {
+            "Name": "minecells:orange_wilted_leaves"
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "minecells:wilted_leaves"
+          }
+        }
       ]
     },
     "foliage_placer": {

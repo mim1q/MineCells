@@ -6,7 +6,10 @@
     {
       "rolls": 1,
       "entries": [
-        { "weight": 1, "entity": "minecells:sweeper" }
+        {
+          "weight": 1,
+          "entity": "minecells:sweeper"
+        }
       ]
     }
   ]

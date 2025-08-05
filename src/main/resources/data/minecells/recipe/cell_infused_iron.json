@@ -6,10 +6,14 @@
     " C "
   ],
   "key": {
-    "C": { "item": "minecells:monster_cell" },
-    "I": { "item": "minecraft:iron_ingot" }
+    "C": {
+      "item": "minecells:monster_cell"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
   },
   "result": {
-    "item": "minecells:cell_infused_steel"
+    "id": "minecells:cell_infused_steel"
   }
 }

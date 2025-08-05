@@ -66,34 +66,37 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addSimpleSet(MineCellsBlocks.PUTRID_BOARD);
 
     // Prison Stone
-    addFullStoneSet(MineCellsBlocks.PRISON_STONE);
-    addStoneSet(MineCellsBlocks.PRISON_BRICKS);
-    addStoneSet(MineCellsBlocks.PRISON_COBBLESTONE);
-    addStoneSet(MineCellsBlocks.CRACKED_PRISON_BRICKS);
-    addStoneSet(MineCellsBlocks.SMALL_PRISON_BRICKS);
+    addFullStoneSet(MineCellsBlocks.PRISON_STONE, false);
+    addSilkTouchDrop(MineCellsBlocks.PRISON_STONE.block, MineCellsBlocks.PRISON_COBBLESTONE.block);
+    addStoneSet(MineCellsBlocks.PRISON_BRICKS, true);
+    addStoneSet(MineCellsBlocks.PRISON_COBBLESTONE, true);
+    addStoneSet(MineCellsBlocks.CRACKED_PRISON_BRICKS, true);
+    addStoneSet(MineCellsBlocks.SMALL_PRISON_BRICKS, true);
     var grassOverlay = MineCells.createId("block/wilted_grass_block_overlay");
     addGrass(MineCellsBlocks.WILTED_GRASS_BLOCK, MineCellsBlocks.PRISON_STONE.block, grassOverlay);
 
     // Bloomrock
-    addStoneSet(MineCellsBlocks.BLOOMROCK);
-    addStoneSet(MineCellsBlocks.BLOOMROCK_BRICKS);
-    addStoneSet(MineCellsBlocks.BLOOMROCK_TILES);
-    addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS);
+    addStoneSet(MineCellsBlocks.BLOOMROCK, true);
+    addStoneSet(MineCellsBlocks.BLOOMROCK_BRICKS, true);
+    addStoneSet(MineCellsBlocks.BLOOMROCK_TILES, true);
+    addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS, true);
     addGrass(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK.block, grassOverlay);
 
     // Septite
-    addStoneSet(MineCellsBlocks.SEPTITE);
-    addStoneSet(MineCellsBlocks.COBBLED_SEPTITE);
-    addStoneSet(MineCellsBlocks.SEPTITE_BRICKS);
-    addStoneSet(MineCellsBlocks.POLISHED_SEPTITE);
-    addStoneSet(MineCellsBlocks.SMALL_SEPTITE_BRICKS);
+    addStoneSet(MineCellsBlocks.SEPTITE, false);
+    addSilkTouchDrop(MineCellsBlocks.SEPTITE.block, MineCellsBlocks.COBBLED_SEPTITE.block);
+    addStoneSet(MineCellsBlocks.COBBLED_SEPTITE, true);
+    addStoneSet(MineCellsBlocks.SEPTITE_BRICKS, true);
+    addStoneSet(MineCellsBlocks.POLISHED_SEPTITE, true);
+    addStoneSet(MineCellsBlocks.SMALL_SEPTITE_BRICKS, true);
 
     // Ancient Septite
-    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE);
-    addStoneSet(MineCellsBlocks.COBBLED_ANCIENT_SEPTITE);
-    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS);
-    addStoneSet(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE);
-    addStoneSet(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS);
+    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE, false);
+    addSilkTouchDrop(MineCellsBlocks.ANCIENT_SEPTITE.block, MineCellsBlocks.COBBLED_ANCIENT_SEPTITE.block);
+    addStoneSet(MineCellsBlocks.COBBLED_ANCIENT_SEPTITE, true);
+    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS, true);
+    addStoneSet(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE, true);
+    addStoneSet(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS, true);
 
     // Corpses
     addCorpse(MineCellsBlocks.CORPSE, MineCellsBlocks.HANGED_CORPSE, Items.ROTTEN_FLESH, MineCellsItems.GUTS);

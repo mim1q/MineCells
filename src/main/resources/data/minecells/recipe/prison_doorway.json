@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "BIB",
+    "BTB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecells:prison_bricks"
+    },
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "T": {
+      "item": "minecells:prison_torch"
+    }
+  },
+  "result": {
+    "id": "minecells:prison_doorway",
+    "count": 1
+  }
+}

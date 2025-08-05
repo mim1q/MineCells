@@ -6,12 +6,20 @@
     "CCC"
   ],
   "key": {
-    "B": { "item": "minecraft:writable_book" },
-    "T": { "item": "minecraft:crafting_table" },
-    "O": { "item": "minecells:monster_cell" },
-    "C": { "item": "minecraft:copper_ingot" }
+    "B": {
+      "item": "minecraft:writable_book"
+    },
+    "T": {
+      "item": "minecraft:crafting_table"
+    },
+    "O": {
+      "item": "minecells:monster_cell"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
   },
   "result": {
-    "item": "minecells:cell_crafter"
+    "id": "minecells:cell_crafter"
   }
 }

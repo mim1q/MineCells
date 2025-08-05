@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/common/general_treasure"
+          "value": "minecells:chests/common/general_treasure"
         }
       ]
     },
@@ -49,7 +49,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecells:chests/special/all_weapons"
+          "value": "minecells:chests/special/all_weapons"
         }
       ],
       "functions": [

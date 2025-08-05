@@ -6,12 +6,14 @@
     {
       "rolls": {
         "type": "uniform",
-
-          "min_inclusive": 1,
-          "max_inclusive": 2
+        "min_inclusive": 1,
+        "max_inclusive": 2
       },
       "entries": [
-        { "weight": 1, "entity": "minecells:buzzcutter" }
+        {
+          "weight": 1,
+          "entity": "minecells:buzzcutter"
+        }
       ]
     }
   ]

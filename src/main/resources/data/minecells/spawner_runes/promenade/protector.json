@@ -5,7 +5,10 @@
     {
       "rolls": 1,
       "entries": [
-        { "weight": 1, "entity": "minecells:protector" }
+        {
+          "weight": 1,
+          "entity": "minecells:protector"
+        }
       ]
     }
   ]
