@@ -33,15 +33,15 @@ import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
   Identifier BUILTIN_ENTITY_MODEL = Identifier.of("builtin/entity");
 
-  default Identifier getBlockId(Block block) {
+  static Identifier getBlockId(Block block) {
     return Registries.BLOCK.getId(block).withPrefixedPath("block/");
   }
 
-  default Identifier getItemId(ItemConvertible item) {
+  static Identifier getItemId(ItemConvertible item) {
     return Registries.ITEM.getId(item.asItem()).withPrefixedPath("item/");
   }
 
-  default Identifier getItemId(ItemConvertible item, String prefix) {
+  static Identifier getItemId(ItemConvertible item, String prefix) {
     return Registries.ITEM.getId(item.asItem()).withPrefixedPath("item/" + prefix);
   }
 
@@ -73,7 +73,14 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
   }
 
   default void addInvisibleBlock(Block block) {
-    addSingleBlockstate(block, getBlockId(Blocks.AIR));
+    getInitializers().blockState().add(it -> {
+      var model = Models.PARTICLE.upload(block, TextureMap.particle(Blocks.GLASS), it.modelCollector);
+      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(
+        block,
+        BlockStateVariant.create()
+          .put(VariantSettings.MODEL, model)
+      ));
+    });
   }
 
   default void addSingleBlockstate(Block block) {
@@ -84,7 +91,8 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
     getInitializers().blockState().add(it -> {
       var texture = TextureMap.particle(base);
       var model = Models.PARTICLE.upload(block, texture, it.modelCollector);
-      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, model)));
+      it.blockStateCollector.accept(
+        VariantsBlockStateSupplier.create(block, BlockStateVariant.create().put(VariantSettings.MODEL, model)));
     });
   }
 
@@ -261,7 +269,9 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
 
   default void addBow(CustomBowItem bow) {
     getInitializers().itemModel().add(it -> {
-      var model = new Model(Optional.of(MineCells.createId("item/base_bow")), Optional.of("inventory"), TextureKey.LAYER0);
+      var model = new Model(Optional.of(MineCells.createId("item/base_bow")), Optional.of("inventory"),
+        TextureKey.LAYER0
+      );
 
       var modelPulling0 = model.upload(
         getItemId(bow).withSuffixedPath("_pulling_0"),
@@ -302,7 +312,9 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
 
   default void addCrossbow(CustomCrossbowItem crossbow) {
     getInitializers().itemModel().add(it -> {
-      var model = new Model(Optional.of(MineCells.createId("item/base_crossbow")), Optional.of("inventory"), TextureKey.LAYER0);
+      var model = new Model(Optional.of(MineCells.createId("item/base_crossbow")), Optional.of("inventory"),
+        TextureKey.LAYER0
+      );
       var modelPulling0 = model.upload(
         getItemId(crossbow).withSuffixedPath("_pulling_0"),
         TextureMap.layer0(getItemId(crossbow, "bow/").withSuffixedPath("_pulling_0")),
@@ -392,7 +404,9 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
         doorwayTextureKey
       ).upload(
         block,
-        TextureMap.of(doorwayTextureKey, MineCells.createId("block/doorway/" + block.type.dimension.key.getValue().getPath())),
+        TextureMap.of(doorwayTextureKey,
+          MineCells.createId("block/doorway/" + block.type.dimension.key.getValue().getPath())
+        ),
         it.modelCollector
       );
       it.blockStateCollector.accept(VariantsBlockStateSupplier.create(block, BlockStateVariant.create()
@@ -435,13 +449,17 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
   static BlockStateVariantMap createHorizontalRotateableCoordinates(Identifier model) {
     return BlockStateVariantMap.create(Properties.HORIZONTAL_FACING)
       .register(Direction.NORTH, BlockStateVariant.create()
-        .put(MODEL, model).put(Y, VariantSettings.Rotation.R0))
+        .put(MODEL, model).put(Y, VariantSettings.Rotation.R0)
+      )
       .register(Direction.SOUTH, BlockStateVariant.create()
-        .put(MODEL, model).put(Y, VariantSettings.Rotation.R180))
+        .put(MODEL, model).put(Y, VariantSettings.Rotation.R180)
+      )
       .register(Direction.EAST, BlockStateVariant.create()
-        .put(MODEL, model).put(Y, VariantSettings.Rotation.R90))
+        .put(MODEL, model).put(Y, VariantSettings.Rotation.R90)
+      )
       .register(Direction.WEST, BlockStateVariant.create()
-        .put(MODEL, model).put(Y, VariantSettings.Rotation.R270));
+        .put(MODEL, model).put(Y, VariantSettings.Rotation.R270)
+      );
   }
 
   static VariantSettings.Rotation rotationFromDir(Direction direction) {
@@ -457,20 +475,26 @@ public interface DatagenModelUtils extends DatagenUtils, DatagenTagUtils {
     return BlockStateVariantMap.create(Properties.FACING)
       .register(Direction.DOWN, BlockStateVariant.create()
         .put(MODEL, model)
-        .put(VariantSettings.X, VariantSettings.Rotation.R90))
+        .put(VariantSettings.X, VariantSettings.Rotation.R90)
+      )
       .register(Direction.UP, BlockStateVariant.create()
         .put(MODEL, model)
-        .put(VariantSettings.X, VariantSettings.Rotation.R270))
+        .put(VariantSettings.X, VariantSettings.Rotation.R270)
+      )
       .register(Direction.NORTH, BlockStateVariant.create()
-        .put(MODEL, model))
+        .put(MODEL, model)
+      )
       .register(Direction.SOUTH, BlockStateVariant.create()
         .put(MODEL, model)
-        .put(VariantSettings.Y, VariantSettings.Rotation.R180))
+        .put(VariantSettings.Y, VariantSettings.Rotation.R180)
+      )
       .register(Direction.WEST, BlockStateVariant.create()
         .put(MODEL, model)
-        .put(VariantSettings.Y, VariantSettings.Rotation.R270))
+        .put(VariantSettings.Y, VariantSettings.Rotation.R270)
+      )
       .register(Direction.EAST, BlockStateVariant.create()
         .put(MODEL, model)
-        .put(VariantSettings.Y, VariantSettings.Rotation.R90));
+        .put(VariantSettings.Y, VariantSettings.Rotation.R90)
+      );
   }
 }

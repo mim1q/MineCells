@@ -90,6 +90,7 @@ public interface DatagenWoodModelUtils extends DatagenModelUtils, DatagenTagUtil
 
     getInitializers().blockLootTable().add(it -> {
       it.addDrop(block, it.leavesDrops(block, sapling, 0.1f));
+      it.addDrop(sapling);
     });
 
     addBlockTag(BlockTags.LEAVES, block);

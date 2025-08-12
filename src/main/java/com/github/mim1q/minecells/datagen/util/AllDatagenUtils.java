@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.datagen.util;
 
+import com.github.mim1q.minecells.datagen.util.specific.CellCrafterRecipeProvider;
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -13,6 +15,7 @@ import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.getItemId;
 
 public abstract class AllDatagenUtils implements
   DataGeneratorEntrypoint,
@@ -43,14 +48,17 @@ public abstract class AllDatagenUtils implements
 
     pack.addProvider(Models::new);
     pack.addProvider(Recipe::new);
+    pack.addProvider(CellCrafterRecipes::new);
 
     // Loot tables
     List.of(
       LootContextTypes.EMPTY, LootContextTypes.CHEST, LootContextTypes.COMMAND, LootContextTypes.SELECTOR,
       LootContextTypes.FISHING, LootContextTypes.ENTITY, LootContextTypes.EQUIPMENT, LootContextTypes.ARCHAEOLOGY,
       LootContextTypes.GIFT, LootContextTypes.BARTER, LootContextTypes.VAULT, LootContextTypes.ADVANCEMENT_REWARD,
-      LootContextTypes.ADVANCEMENT_ENTITY, LootContextTypes.ADVANCEMENT_LOCATION, LootContextTypes.BLOCK_USE, LootContextTypes.GENERIC,
-      LootContextTypes.BLOCK, LootContextTypes.SHEARING, LootContextTypes.ENCHANTED_DAMAGE, LootContextTypes.ENCHANTED_ITEM,
+      LootContextTypes.ADVANCEMENT_ENTITY, LootContextTypes.ADVANCEMENT_LOCATION, LootContextTypes.BLOCK_USE,
+      LootContextTypes.GENERIC,
+      LootContextTypes.BLOCK, LootContextTypes.SHEARING, LootContextTypes.ENCHANTED_DAMAGE,
+      LootContextTypes.ENCHANTED_ITEM,
       LootContextTypes.ENCHANTED_LOCATION, LootContextTypes.ENCHANTED_ENTITY, LootContextTypes.HIT_BLOCK
     ).forEach(it -> pack.addProvider(createOtherLootTable(it)));
 
@@ -96,7 +104,10 @@ public abstract class AllDatagenUtils implements
   }
 
   private class BlockLootTable extends FabricBlockLootTableProvider {
-    protected BlockLootTable(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    protected BlockLootTable(
+      FabricDataOutput dataOutput,
+      CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup
+    ) {
       super(dataOutput, registryLookup);
     }
 
@@ -106,12 +117,18 @@ public abstract class AllDatagenUtils implements
     }
   }
 
-  private FabricDataGenerator.Pack.RegistryDependentFactory<SimpleFabricLootTableProvider> createOtherLootTable(LootContextType type) {
+  private FabricDataGenerator.Pack.RegistryDependentFactory<SimpleFabricLootTableProvider> createOtherLootTable(
+    LootContextType type
+  ) {
     return (output, registryLookup) -> new OtherLootTable(output, registryLookup, type);
   }
 
   private class OtherLootTable extends SimpleFabricLootTableProvider {
-    public OtherLootTable(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup, LootContextType lootContextType) {
+    public OtherLootTable(
+      FabricDataOutput output,
+      CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup,
+      LootContextType lootContextType
+    ) {
       super(output, registryLookup, lootContextType);
     }
 
@@ -208,6 +225,22 @@ public abstract class AllDatagenUtils implements
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
       configureTags(this::getOrCreateTagBuilder, getInitializers().tags().entityTags);
+    }
+  }
+
+  private class CellCrafterRecipes extends CellCrafterRecipeProvider {
+    protected CellCrafterRecipes(
+      FabricDataOutput dataOutput,
+      CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture
+    ) {
+      super(dataOutput, registriesFuture);
+    }
+
+    @Override
+    protected void configure(BiConsumer<Identifier, CellForgeRecipe> provider, RegistryWrapper.WrapperLookup lookup) {
+      getInitializers().cellCrafterRecipes().forEach(it -> {
+        provider.accept(it.id(), it);
+      });
     }
   }
 }

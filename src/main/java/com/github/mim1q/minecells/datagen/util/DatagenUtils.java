@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.datagen.util;
 
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.advancement.AdvancementEntry;
@@ -33,6 +34,7 @@ public interface DatagenUtils {
     List<Consumer<RecipeExporter>> recipe,
     List<Consumer<FabricBlockLootTableProvider>> blockLootTable,
     Map<LootContextType, List<Consumer<BiConsumer<RegistryKey<LootTable>, LootTable.Builder>>>> otherLootTable,
+    List<CellForgeRecipe> cellCrafterRecipes,
     List<AdvancementEntry> advancements,
     TagInitializerHolder tags
   ) {
@@ -43,6 +45,7 @@ public interface DatagenUtils {
         new ArrayList<>(),
         new ArrayList<>(),
         new HashMap<>(),
+        new ArrayList<>(),
         new ArrayList<>(),
         new TagInitializerHolder()
       );

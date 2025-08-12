@@ -5,6 +5,7 @@ import com.github.mim1q.minecells.block.ColoredTorchBlock;
 import com.github.mim1q.minecells.block.FlagBlock;
 import com.github.mim1q.minecells.block.SkeletonDecorationBlock;
 import com.github.mim1q.minecells.datagen.util.specific.DatagenWoodModelUtils;
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.featureset.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -12,29 +13,35 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.createHorizontalRotateableCoordinates;
-import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.createRotateableCoordinates;
+import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.*;
 import static net.minecraft.data.client.VariantSettings.MODEL;
 import static net.minecraft.data.client.VariantSettings.Y;
 
-public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagUtils, DatagenLootTableUtils {
+public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagUtils, DatagenLootTableUtils, DatagenRecipeUtil {
   default void addSimpleSet(SimpleSet set) {
     addBlock(set.block);
     addSlab(set.slab, set.block);
     addStairs(set.stairs, set.block);
+
+    addSimpleDrop(set.block, set.slab, set.stairs);
   }
 
   default void addWoodSet(WoodSet set) {
@@ -89,26 +96,33 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     //#endregion
   }
 
-  default void addStoneSet(StoneSet set) {
+  default void addStoneSet(StoneSet set, boolean baseBlockDrop, StoneSet... baseSets) {
     if (set.getClass() != StoneSet.class)
       throw new IllegalArgumentException("Subclasses of StoneSet must use specific methods");
 
-    _addStoneSet(set);
+    _addStoneSet(set, baseBlockDrop, baseSets);
   }
 
-  private void _addStoneSet(StoneSet set) {
+  private void _addStoneSet(StoneSet set, boolean baseBlockDrop, StoneSet... baseSets) {
     addBlock(set.block);
     addStairs(set.stairs, set.block);
     addSlab(set.slab, set.block);
     addWall(set.wall, set.block);
 
+    if (baseBlockDrop) {
+      addSimpleDrop(set.block);
+    }
+    addSimpleDrop(set.stairs, set.slab, set.wall);
+
     //#region Tags
     addBlockTag(BlockTags.PICKAXE_MINEABLE, set.getBlocks());
     //#endregion
+
+    addStoneSetStonecutterRecipes(set, baseSets);
   }
 
-  default void addFullStoneSet(FullStoneSet set) {
-    _addStoneSet(set);
+  default void addFullStoneSet(FullStoneSet set, boolean baseBlockDrop, StoneSet... baseSets) {
+    _addStoneSet(set, baseBlockDrop, baseSets);
 
     addButton(set.button, set.block);
     addPressurePlate(set.pressurePlate, set.block);
@@ -123,6 +137,26 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     addItemTag(ItemTags.STONE_CRAFTING_MATERIALS, set.block);
     addItemTag(ItemTags.STONE_TOOL_MATERIALS, set.block);
     //#endregion
+
+    //#region Drops
+    addSimpleDrop(set.button, set.pressurePlate);
+    //#endregion
+  }
+
+  default void addStoneSetStonecutterRecipes(StoneSet set, StoneSet... baseSets) {
+    addStonecutterRecipe(set.block, set.stairs, 1);
+    addStonecutterRecipe(set.block, set.slab, 2);
+    addStonecutterRecipe(set.block, set.wall, 1);
+
+    for (var baseSet : baseSets) {
+      addStonecutterRecipe(baseSet.block, set.block, 1);
+      addStonecutterRecipe(baseSet.block, set.stairs, 1);
+      addStonecutterRecipe(baseSet.stairs, set.stairs, 1);
+      addStonecutterRecipe(baseSet.block, set.slab, 2);
+      addStonecutterRecipe(baseSet.slab, set.slab, 1);
+      addStonecutterRecipe(baseSet.block, set.wall, 1);
+      addStonecutterRecipe(baseSet.wall, set.wall, 1);
+    }
   }
 
   default void addLeavesSet(LeavesSet set, SaplingBlock sapling) {
@@ -133,11 +167,20 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
       var baseTextureKey = TextureKey.of("base");
       var detailTextureKey = TextureKey.of("detail");
 
-      var wallModel = new Model(Optional.of(MineCells.createId("block/wall_leaves")), Optional.empty(), baseTextureKey, detailTextureKey)
-        .upload(set.wallLeaves, TextureMap.of(baseTextureKey, getBlockId(set.wallLeaves)).put(detailTextureKey, getBlockId(set.wallLeaves).withSuffixedPath("_detail")), it.modelCollector);
+      var wallModel = new Model(Optional.of(MineCells.createId("block/wall_leaves")), Optional.empty(),
+        baseTextureKey, detailTextureKey
+      )
+        .upload(set.wallLeaves, TextureMap.of(baseTextureKey, getBlockId(set.wallLeaves)).put(detailTextureKey,
+            getBlockId(set.wallLeaves).withSuffixedPath("_detail")
+          ), it.modelCollector
+        );
 
-      var hangingModel = new Model(Optional.of(MineCells.createId("block/hanging_leaves")), Optional.empty(), zeroTextureKey)
-        .upload(set.hangingLeaves, TextureMap.of(zeroTextureKey, getBlockId(set.hangingLeaves)), it.modelCollector);
+      var hangingModel = new Model(Optional.of(MineCells.createId("block/hanging_leaves")), Optional.empty(),
+        zeroTextureKey
+      )
+        .upload(set.hangingLeaves, TextureMap.of(zeroTextureKey, getBlockId(set.hangingLeaves)),
+          it.modelCollector
+        );
 
       it.blockStateCollector.accept(
         VariantsBlockStateSupplier.create(set.wallLeaves)
@@ -151,7 +194,9 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
 
       it.registerParentedItemModel(set.wallLeaves.asItem(), wallModel);
       it.registerParentedItemModel(set.hangingLeaves.asItem(), hangingModel);
-      it.registerTintableCross(sapling, BlockStateModelGenerator.TintType.NOT_TINTED, TextureMap.of(TextureKey.CROSS, getBlockId(sapling)));
+      it.registerTintableCross(sapling, BlockStateModelGenerator.TintType.NOT_TINTED,
+        TextureMap.of(TextureKey.CROSS, getBlockId(sapling))
+      );
     });
 
     addBlockTag(BlockTags.LEAVES, set.leaves);
@@ -194,18 +239,31 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
     addSimpleDrop(torch);
   }
 
-  default void addFlag(FlagBlock flag) {
+  default void addFlag(FlagBlock flag, ItemConvertible ingredient, @Nullable Identifier advancement) {
     addParticleOnly(flag, Blocks.OAK_PLANKS);
     addSimpleDrop(flag);
 
     getInitializers().blockState().add(it -> {
       var model = new Model(Optional.of(BUILTIN_ENTITY_MODEL), Optional.of("inventory"));
       model.upload(getItemId(flag), new TextureMap(), it.modelCollector, (x, textures) -> {
-        var json = model.createJson(getItemId(flag), Map.of());
-        json.addProperty("gui_light", "front");
-        return json;
-      });
+          var json = model.createJson(getItemId(flag), Map.of());
+          json.addProperty("gui_light", "front");
+          return json;
+        }
+      );
     });
+
+    getInitializers().cellCrafterRecipes().add(new CellForgeRecipe(
+      Registries.ITEM.getId(flag.asItem()),
+      Map.of(
+        ingredient.asItem(), 2,
+        Items.STICK, 1
+      ),
+      flag.asItem().getDefaultStack(),
+      Optional.ofNullable(advancement),
+      100,
+      CellForgeRecipe.Category.DECORATION
+    ));
 
     addBlockTag(BlockTags.AXE_MINEABLE, flag);
   }
@@ -220,7 +278,8 @@ public interface DatagenBlockSetUtils extends DatagenWoodModelUtils, DatagenTagU
       var dropBuilder = it.dropsWithSilkTouch(sitting)
         .pool(LootPool.builder().conditionally(it.createSilkTouchCondition().invert())
           .rolls(UniformLootNumberProvider.create(1F, 3F)).with(ItemEntry.builder(drop))
-          .rolls(ConstantLootNumberProvider.create(1F)).with(ItemEntry.builder(dropRare)).conditionally(RandomChanceLootCondition.builder(0.2f))
+          .rolls(ConstantLootNumberProvider.create(1F)).with(ItemEntry.builder(dropRare)).conditionally(
+            RandomChanceLootCondition.builder(0.2f))
         );
 
       it.addDrop(sitting, dropBuilder);

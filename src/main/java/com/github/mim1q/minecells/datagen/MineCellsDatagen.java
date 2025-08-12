@@ -4,6 +4,7 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.block.RunicVineBlock;
 import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
+import com.github.mim1q.minecells.datagen.util.specific.ItemConversionUtils;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
@@ -17,6 +18,10 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 import java.util.Optional;
 
+import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.getBlockId;
+import static com.github.mim1q.minecells.datagen.util.DatagenModelUtils.getItemId;
+import static com.github.mim1q.minecells.registry.MineCellsBlocks.LARGE_RIBBON_FLAGS;
+import static com.github.mim1q.minecells.registry.MineCellsBlocks.RIBBON_FLAGS;
 import static net.minecraft.data.client.BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates;
 
 public class MineCellsDatagen extends AllDatagenUtils {
@@ -51,7 +56,8 @@ public class MineCellsDatagen extends AllDatagenUtils {
       it.blockStateCollector.accept(
         VariantsBlockStateSupplier.create(
             MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER,
-            BlockStateVariant.create().put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.CELL_CRAFTER)))
+            BlockStateVariant.create().put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.CELL_CRAFTER))
+          )
           .coordinate(createNorthDefaultHorizontalRotationStates()));
     });
 
@@ -77,31 +83,33 @@ public class MineCellsDatagen extends AllDatagenUtils {
 
     // Bloomrock
     addStoneSet(MineCellsBlocks.BLOOMROCK, true);
-    addStoneSet(MineCellsBlocks.BLOOMROCK_BRICKS, true);
-    addStoneSet(MineCellsBlocks.BLOOMROCK_TILES, true);
-    addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS, true);
+    addStoneSet(MineCellsBlocks.BLOOMROCK_BRICKS, true, MineCellsBlocks.BLOOMROCK);
+    addStoneSet(MineCellsBlocks.BLOOMROCK_TILES, true, MineCellsBlocks.BLOOMROCK);
+    addStoneSet(MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS, true, MineCellsBlocks.BLOOMROCK);
     addGrass(MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK, MineCellsBlocks.BLOOMROCK.block, grassOverlay);
 
     // Septite
     addStoneSet(MineCellsBlocks.SEPTITE, false);
     addSilkTouchDrop(MineCellsBlocks.SEPTITE.block, MineCellsBlocks.COBBLED_SEPTITE.block);
-    addStoneSet(MineCellsBlocks.COBBLED_SEPTITE, true);
-    addStoneSet(MineCellsBlocks.SEPTITE_BRICKS, true);
-    addStoneSet(MineCellsBlocks.POLISHED_SEPTITE, true);
-    addStoneSet(MineCellsBlocks.SMALL_SEPTITE_BRICKS, true);
+    addStoneSet(MineCellsBlocks.COBBLED_SEPTITE, true, MineCellsBlocks.SEPTITE);
+    addStoneSet(MineCellsBlocks.SEPTITE_BRICKS, true, MineCellsBlocks.SEPTITE);
+    addStoneSet(MineCellsBlocks.POLISHED_SEPTITE, true, MineCellsBlocks.SEPTITE);
+    addStoneSet(MineCellsBlocks.SMALL_SEPTITE_BRICKS, true, MineCellsBlocks.SEPTITE);
 
     // Ancient Septite
     addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE, false);
     addSilkTouchDrop(MineCellsBlocks.ANCIENT_SEPTITE.block, MineCellsBlocks.COBBLED_ANCIENT_SEPTITE.block);
-    addStoneSet(MineCellsBlocks.COBBLED_ANCIENT_SEPTITE, true);
-    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS, true);
-    addStoneSet(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE, true);
-    addStoneSet(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS, true);
+    addStoneSet(MineCellsBlocks.COBBLED_ANCIENT_SEPTITE, true, MineCellsBlocks.ANCIENT_SEPTITE);
+    addStoneSet(MineCellsBlocks.ANCIENT_SEPTITE_BRICKS, true, MineCellsBlocks.ANCIENT_SEPTITE);
+    addStoneSet(MineCellsBlocks.POLISHED_ANCIENT_SEPTITE, true, MineCellsBlocks.ANCIENT_SEPTITE);
+    addStoneSet(MineCellsBlocks.SMALL_ANCIENT_SEPTITE_BRICKS, true, MineCellsBlocks.ANCIENT_SEPTITE);
 
     // Corpses
     addCorpse(MineCellsBlocks.CORPSE, MineCellsBlocks.HANGED_CORPSE, Items.ROTTEN_FLESH, MineCellsItems.GUTS);
     addCorpse(MineCellsBlocks.SKELETON, MineCellsBlocks.HANGED_SKELETON, Items.BONE, Items.SKELETON_SKULL);
-    addCorpse(MineCellsBlocks.ROTTING_CORPSE, MineCellsBlocks.HANGED_ROTTING_CORPSE, Items.ROTTEN_FLESH, MineCellsItems.GUTS);
+    addCorpse(MineCellsBlocks.ROTTING_CORPSE, MineCellsBlocks.HANGED_ROTTING_CORPSE, Items.ROTTEN_FLESH,
+      MineCellsItems.GUTS
+    );
 
   }
 
@@ -113,7 +121,6 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addSingleBlockstate(MineCellsBlocks.RETURN_STONE);
     addSingleBlockstate(MineCellsBlocks.RUNIC_VINE_PLANT);
 
-    addInvisibleBlock(MineCellsBlocks.SPAWNER_RUNE);
     addInvisibleBlock(MineCellsBlocks.BARRIER_RUNE);
     addInvisibleBlock(MineCellsBlocks.SOLID_BARRIER);
     addInvisibleBlock(MineCellsBlocks.CONDITIONAL_BARRIER);
@@ -134,10 +141,16 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addCrossModel(MineCells.createId("block/runic_vine"));
     addCrossModel(MineCells.createId("block/runic_vine_top"));
     getInitializers().blockState().add(it -> {
+      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(MineCellsBlocks.SPAWNER_RUNE, BlockStateVariant.create()
+        .put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.SPAWNER_RUNE))));
       it.blockStateCollector.accept(VariantsBlockStateSupplier.create(MineCellsBlocks.RUNIC_VINE)
         .coordinate(BlockStateVariantMap.create(RunicVineBlock.TOP)
-          .register(false, BlockStateVariant.create().put(VariantSettings.MODEL, MineCells.createId("block/runic_vine")))
-          .register(true, BlockStateVariant.create().put(VariantSettings.MODEL, MineCells.createId("block/runic_vine_top")))
+          .register(false,
+            BlockStateVariant.create().put(VariantSettings.MODEL, MineCells.createId("block/runic_vine"))
+          )
+          .register(true,
+            BlockStateVariant.create().put(VariantSettings.MODEL, MineCells.createId("block/runic_vine_top"))
+          )
         )
       );
     });
@@ -193,7 +206,6 @@ public class MineCellsDatagen extends AllDatagenUtils {
   private void initializeGeneratedItemModels() {
     var doorways = MineCellsItems.DOORWAY_COLORS.keySet();
     var spawnEggs = MineCellsEntities.SPAWN_EGGS;
-    var flags = MineCellsBlocks.FLAG_BLOCKS;
 
     var misc = List.of(
       MineCellsBlocks.CAGE.asItem(),
@@ -243,15 +255,27 @@ public class MineCellsDatagen extends AllDatagenUtils {
         var model = new Model(Optional.of(MineCells.createId("item/doorway")), Optional.of("inventory"));
         model.upload(ModelIds.getItemModelId(item), new TextureMap(), it.writer);
       });
-      Models.GENERATED.upload(MineCells.createId("item/guidebook"), TextureMap.layer0(MineCells.createId("item/guidebook")), it.writer);
+      Models.GENERATED.upload(MineCells.createId("item/guidebook"),
+        TextureMap.layer0(MineCells.createId("item/guidebook")), it.writer
+      );
     });
 
     misc.forEach(this::addGeneratedItem);
-    flags.forEach(this::addFlag);
+    LARGE_RIBBON_FLAGS.forEach((dye, it) -> addFlag(it, ItemConversionUtils.DYE_TO_WOOL.get(dye), null));
+    RIBBON_FLAGS.forEach((dye, it) -> addFlag(it, ItemConversionUtils.DYE_TO_WOOL.get(dye), null));
+
+    addFlag(MineCellsBlocks.KINGS_CREST_FLAG, Blocks.BLUE_WOOL, null);
+    addFlag(MineCellsBlocks.TORN_KINGS_CREST_FLAG, Blocks.BLUE_WOOL, null);
+    addFlag(MineCellsBlocks.PROMENADE_OF_THE_CONDEMNED_FLAG, Blocks.BLUE_WOOL, MineCells.createId("promenade"));
+    addFlag(MineCellsBlocks.RAMPARTS_FLAG, Blocks.YELLOW_WOOL, MineCells.createId("ramparts"));
+    addFlag(MineCellsBlocks.INSUFFERABLE_CRYPT_FLAG, Blocks.GREEN_WOOL, MineCells.createId("insufferable_crypt"));
+    addFlag(MineCellsBlocks.BLACK_BRIDGE_FLAG, Blocks.PURPLE_WOOL, MineCells.createId("black_bridge"));
 
     for (var egg : spawnEggs) {
       var id = getItemId(egg, "spawn_eggs/");
-      addGeneratedItem(egg, Identifier.of(id.getNamespace(), id.getPath().substring(0, id.getPath().lastIndexOf("_spawn_egg"))));
+      addGeneratedItem(egg,
+        Identifier.of(id.getNamespace(), id.getPath().substring(0, id.getPath().lastIndexOf("_spawn_egg")))
+      );
     }
   }
 
@@ -300,10 +324,15 @@ public class MineCellsDatagen extends AllDatagenUtils {
     );
     addItemTag(MineCellsItemTags.BOWS_ACCEPTING_QUICK_CHARGE,
       MineCellsItems.MULTIPLE_NOCKS_BOW, MineCellsItems.BOW_AND_ENDLESS_QUIVER, MineCellsItems.MARKSMANS_BOW,
-      MineCellsItems.INFANTRY_BOW, MineCellsItems.ICE_BOW, MineCellsItems.HEAVY_CROSSBOW, MineCellsItems.EXPLOSIVE_CROSSBOW
+      MineCellsItems.INFANTRY_BOW, MineCellsItems.ICE_BOW, MineCellsItems.HEAVY_CROSSBOW,
+      MineCellsItems.EXPLOSIVE_CROSSBOW
     );
 
-    addItemTag(ItemTags.STONE_TOOL_MATERIALS, MineCellsBlocks.PRISON_COBBLESTONE.block, MineCellsBlocks.BLOOMROCK.block);
-    addItemTag(ItemTags.STONE_CRAFTING_MATERIALS, MineCellsBlocks.PRISON_COBBLESTONE.block, MineCellsBlocks.BLOOMROCK.block);
+    addItemTag(ItemTags.STONE_TOOL_MATERIALS, MineCellsBlocks.PRISON_COBBLESTONE.block,
+      MineCellsBlocks.BLOOMROCK.block
+    );
+    addItemTag(ItemTags.STONE_CRAFTING_MATERIALS, MineCellsBlocks.PRISON_COBBLESTONE.block,
+      MineCellsBlocks.BLOOMROCK.block
+    );
   }
 }
