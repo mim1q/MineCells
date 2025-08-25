@@ -138,6 +138,7 @@ public class SpawnerRuneController {
   private static Entity spawnEntity(ServerWorld world, EntitySpawnData entityData, BlockPos pos, BlockPos runePos, Consumer<Entity> entityConsumer) {
     Entity spawnedEntity = entityData.entityType().create(world);
     if (spawnedEntity == null) return null;
+    spawnedEntity.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
     if (spawnedEntity instanceof LivingEntity livingEntity) {
       for (ServerPlayerEntity player : PlayerLookup.tracking(world, runePos)) {
         ServerPacketHandler.CHANNEL.serverHandle(player).send(new SpawnRuneParticlesS2CPacket(livingEntity.getBoundingBox().expand(0.5D)));

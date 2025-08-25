@@ -17,6 +17,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Quaternionf;
 
@@ -46,12 +47,14 @@ public class MineCellsEffectsFeatureRenderer<E extends LivingEntity, M extends E
     if (entityAccessor.getMineCellsFlag(MineCellsEffectFlags.STUNNED)) {
       VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(STUNNED_STAR));
       float theta = animationProgress * 20F;
+      matrices.push();
       for (int i = 0; i < 3; i++) {
         float dy = MathHelper.sin(MathUtils.radians(-theta));
         float dx = MathHelper.cos(MathUtils.radians(-theta));
         drawBillboard(entity, consumer, matrices, new Vec3d(dx * 0.2, dy * 0.2, 0));
         theta += 120.0F;
       }
+      matrices.pop();
     }
   }
 
