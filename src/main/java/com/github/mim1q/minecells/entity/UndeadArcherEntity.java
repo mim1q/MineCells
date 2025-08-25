@@ -15,8 +15,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -187,14 +185,15 @@ public class UndeadArcherEntity extends MineCellsEntity implements IShootEntity 
     @Override
     public void shoot(LivingEntity target) {
       super.shoot(target);
-      PersistentProjectileEntity persistentProjectileEntity = new ArrowEntity(EntityType.ARROW, this.entity.getWorld());
-      persistentProjectileEntity.setOwner(this.entity);
+      var arrow = EntityType.ARROW.create(target.getWorld());
+      if (arrow == null) return;
+      arrow.setPos(this.entity.getX(), this.entity.getEyeY(), this.entity.getZ());
       double d = target.getX() - this.entity.getX();
-      double e = target.getBodyY(0.33D) - persistentProjectileEntity.getY();
+      double e = target.getBodyY(0.33D) - arrow.getY();
       double f = target.getZ() - this.entity.getZ();
       double g = Math.sqrt(d * d + f * f);
-      persistentProjectileEntity.setVelocity(d, e + g * 0.2D, f, 1.6F, 1.0F);
-      this.entity.getWorld().spawnEntity(persistentProjectileEntity);
+      arrow.setVelocity(d, e + g * 0.2D, f, 1.6F, 1.0F);
+      this.entity.getWorld().spawnEntity(arrow);
     }
 
     @Override
