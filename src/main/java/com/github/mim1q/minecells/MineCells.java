@@ -2,7 +2,6 @@ package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.config.MineCellsCommonConfig;
 import com.github.mim1q.minecells.data.spawner_runes.SpawnerRunesReloadListener;
-import com.github.mim1q.minecells.dimension.MineCellsDimensionGraph;
 import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.misc.SpecialWeaponLootEntry;
 import com.github.mim1q.minecells.network.ServerPacketHandler;

@@ -18,7 +18,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -62,6 +61,11 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
     this.item = EnchantmentHelper.getLevel(enchant, bow) > 0
       ? ItemStack.EMPTY
       : arrowType.getAmmoItem().map(ItemStack::new).orElse(ItemStack.EMPTY);
+  }
+
+  @Override
+  protected double getGravity() {
+    return 0.035;
   }
 
   @Override
@@ -136,12 +140,17 @@ public class CustomArrowEntity extends PersistentProjectileEntity {
       target.damage(source, damage);
       var knockback = this.getKnockback(target, source);
 
-      if (knockback.leftDouble() > 0.0 || knockback.rightDouble() > 0.0) {
+      if (knockback.leftDouble() != 0.0 || knockback.rightDouble() != 0.0) {
+        var punchEnchant = getWorld().getRegistryManager().get(RegistryKeys.ENCHANTMENT)
+          .getEntry(Enchantments.PUNCH)
+          .orElseThrow();
+        var punch = 0.8 + EnchantmentHelper.getLevel(punchEnchant, bow) * 1.2;
         double d = Math.max(0.0, 1.0 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
-        Vec3d vec3d = this.getVelocity()
-          .multiply(1.0, 0.0, 1.0)
-          .normalize()
-          .multiply(knockback.leftDouble() * 0.6 * d, 0.0, knockback.rightDouble() * 0.6 * d);
+        var vec3d = new Vec3d(
+          knockback.leftDouble() * 0.3 * d * punch,
+          0.0,
+          knockback.rightDouble() * 0.3 * d * punch
+        );
         if (vec3d.lengthSquared() > 0.0) {
           target.addVelocity(vec3d.x, 0.1, vec3d.z);
         }

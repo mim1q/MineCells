@@ -5,6 +5,9 @@ import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.LegacyUtil;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorContext;
 import dev.mim1q.gimm1q.valuecalculators.parameters.ValueCalculatorParameter;
+import net.fabricmc.fabric.api.item.v1.EnchantingContext;
+import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,6 +17,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -23,6 +27,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
+
+import static com.github.mim1q.minecells.item.MineCellsItemTags.*;
 
 public class CustomBowItem extends RangedWeaponItem implements CustomArrowShooter {
   private final static int MAX_USE_TIME = 60 * 60 * 20;
@@ -167,6 +173,26 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
     return 1.0f - multiplier * 0.15f;
   }
 
+  @Override
+  public boolean canBeEnchantedWith(
+    ItemStack stack,
+    RegistryEntry<Enchantment> enchantment,
+    EnchantingContext context
+  ) {
+    var enchantId = enchantment.getKey().orElseThrow();
+    if (
+      enchantId == Enchantments.INFINITY && stack.isIn(BOWS_ACCEPTING_INFINITY)
+        || enchantId == Enchantments.PUNCH && stack.isIn(BOWS_ACCEPTING_PUNCH)
+        || enchantId == Enchantments.POWER && stack.isIn(BOWS_ACCEPTING_POWER)
+        || enchantId == Enchantments.FLAME && stack.isIn(BOWS_ACCEPTING_FLAME)
+        || enchantId == Enchantments.QUICK_CHARGE && stack.isIn(BOWS_ACCEPTING_QUICK_CHARGE)
+    ) {
+      return true;
+    }
+
+    return super.canBeEnchantedWith(stack, enchantment, context);
+  }
+
   public static int getLoadedProjectiles(ItemStack bow) {
     var bowItem = (CustomBowItem) bow.getItem();
     return bowItem.maxProjectileCount == 1 ? 1 : LegacyUtil.getOrCreateNbt(bow).getInt("LoadedProjectiles");
@@ -175,7 +201,9 @@ public class CustomBowItem extends RangedWeaponItem implements CustomArrowShoote
   public static void setLoadedProjectiles(ItemStack bow, int count) {
     var bowItem = (CustomBowItem) bow.getItem();
     if (bowItem.maxProjectileCount == 1) return;
-    LegacyUtil.getOrCreateNbt(bow).putInt("LoadedProjectiles", count);
+    var nbt = LegacyUtil.getOrCreateNbt(bow);
+    nbt.putInt("LoadedProjectiles", count);
+    LegacyUtil.writeNbt(bow, nbt);
   }
 
   @Override
