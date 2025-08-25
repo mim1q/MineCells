@@ -61,7 +61,10 @@ public class ArrowSignBlockEntity extends MineCellsBlockEntity {
   @Override
   public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
     super.readNbt(nbt, lookup);
-    itemStack = ItemStack.fromNbt(lookup, nbt.getCompound("itemStack")).orElse(ItemStack.EMPTY);
+    var itemStackNbt = nbt.getCompound("itemStack");
+    if (!itemStackNbt.isEmpty()) {
+      itemStack = ItemStack.OPTIONAL_CODEC.parse(NbtOps.INSTANCE, nbt.getCompound("itemStack")).result().orElse(ItemStack.EMPTY);
+    }
     verticalRotation = nbt.getInt("verticalRotation");
     chainState = BlockState.CODEC.parse(NbtOps.INSTANCE, nbt.get("chainState")).result().orElse(Blocks.AIR.getDefaultState());
   }
@@ -71,7 +74,10 @@ public class ArrowSignBlockEntity extends MineCellsBlockEntity {
     super.writeNbt(nbt, lookup);
     var itemStackNbt = ItemStack.OPTIONAL_CODEC.encode(itemStack, NbtOps.INSTANCE, new NbtCompound())
       .result().orElse(new NbtCompound());
-    nbt.put("itemStack", itemStackNbt);
+
+    if (!((NbtCompound)itemStackNbt).isEmpty()) {
+      nbt.put("itemStack", itemStackNbt);
+    }
     nbt.putInt("verticalRotation", verticalRotation);
     nbt.put("chainState", BlockState.CODEC.encodeStart(NbtOps.INSTANCE, chainState).result().orElse(new NbtCompound()));
   }

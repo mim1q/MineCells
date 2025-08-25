@@ -19,6 +19,7 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
@@ -146,12 +147,11 @@ public class CustomShieldType {
   public static final CustomShieldType GREED = new CustomShieldType("greed", it -> {
     it.onMeleeParry = context -> {
       var serverWorld = (ServerWorld) context.player().getWorld();
-      var lootTable = serverWorld
-        .getRegistryManager()
-        .get(RegistryKeys.LOOT_TABLE)
-        .getEntry(MineCells.createId("gameplay/greed_shield_parry"));
+      var lootTable = serverWorld.getServer()
+        .getReloadableRegistries()
+        .getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, MineCells.createId("gameplay/greed_shield_parry")));
 
-      if (lootTable.isEmpty()) return;
+      if (lootTable == null) return;
 
       var attacker = context.attacker();
 
@@ -163,7 +163,7 @@ public class CustomShieldType {
         .addOptional(LootContextParameters.DIRECT_ATTACKING_ENTITY, context.player())
         .build(LootContextTypes.ENTITY);
 
-      lootTable.get().value().generateLoot(lootContext, stack -> {
+      lootTable.generateLoot(lootContext, stack -> {
         var item = new ItemEntity(serverWorld, attacker.getX(), attacker.getY() + attacker.getHeight() / 2.0, attacker.getZ(), stack);
         item.setPickupDelay(20);
         serverWorld.spawnEntity(item);

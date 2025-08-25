@@ -23,6 +23,7 @@ import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -78,7 +79,8 @@ public class MineCellsEntity extends HostileEntity {
           settings.actionTick = 40;
           settings.damage = (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
           settings.chance = 0.05F;
-        }, Objects::nonNull)
+        }, Objects::nonNull
+        )
       );
     }
 
@@ -169,7 +171,9 @@ public class MineCellsEntity extends HostileEntity {
       return false;
     }
     BlockState blockBelow = world.getBlockState(this.getBlockPos().down());
-    return blockBelow.isSideSolidFullSquare(world, this.getBlockPos().down(), Direction.UP) && blockBelow.getBlock() != Blocks.BEDROCK;
+    return blockBelow.isSideSolidFullSquare(world, this.getBlockPos().down(),
+      Direction.UP
+    ) && blockBelow.getBlock() != Blocks.BEDROCK;
   }
 
   @Override
@@ -179,7 +183,8 @@ public class MineCellsEntity extends HostileEntity {
       var server = this.getWorld().getServer();
       if (server == null) return;
 
-      var lootTable = server.getRegistryManager().get(RegistryKeys.LOOT_TABLE).get(additionalLootTable);
+      var lootTable = server.getReloadableRegistries().getLootTable(
+        RegistryKey.of(RegistryKeys.LOOT_TABLE, additionalLootTable));
       if (lootTable == null) return;
 
       LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld) this.getWorld())
@@ -195,7 +200,8 @@ public class MineCellsEntity extends HostileEntity {
       }
 
       if (getLastAttacker() != null && getLastAttacker().isPlayer() && this.attackingPlayer != null) {
-        builder = builder.add(LootContextParameters.LAST_DAMAGE_PLAYER, this.attackingPlayer).luck(this.attackingPlayer.getLuck());
+        builder = builder.add(LootContextParameters.LAST_DAMAGE_PLAYER, this.attackingPlayer).luck(
+          this.attackingPlayer.getLuck());
       }
 
       LootContextParameterSet lootContextParameterSet = builder.build(LootContextTypes.ENTITY);
@@ -283,14 +289,22 @@ public class MineCellsEntity extends HostileEntity {
     this.initGoals();
   }
 
-  protected void handleStateChange(State state, boolean value, TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
+  protected void handleStateChange(
+    State state,
+    boolean value,
+    TrackedData<Boolean> charging,
+    TrackedData<Boolean> releasing
+  ) {
     switch (state) {
       case CHARGE -> this.dataTracker.set(charging, value);
       case RELEASE -> this.dataTracker.set(releasing, value);
     }
   }
 
-  protected BiConsumer<State, Boolean> handleStateChange(TrackedData<Boolean> charging, TrackedData<Boolean> releasing) {
+  protected BiConsumer<State, Boolean> handleStateChange(
+    TrackedData<Boolean> charging,
+    TrackedData<Boolean> releasing
+  ) {
     return (state, value) -> this.handleStateChange(state, value, charging, releasing);
   }
 
