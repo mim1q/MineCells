@@ -14,7 +14,9 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -164,6 +166,9 @@ public class SpawnerRuneController {
         0.05 + random.nextDouble() * 0.05,
         (random.nextDouble() - 0.5) * 0.1
       );
+      if (livingEntity instanceof MobEntity mob) {
+        mob.initialize(world, world.getLocalDifficulty(pos), SpawnReason.SPAWNER, null);
+      }
     }
     world.spawnEntity(spawnedEntity);
     return spawnedEntity;

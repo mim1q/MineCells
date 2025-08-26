@@ -305,8 +305,18 @@ public class DoorwayPortalBlock extends BlockWithEntity {
       var portalPos = getBreakPos(state, pos);
       var portal = world.getBlockState(portalPos);
 
+      if (portalPos.equals(pos)) return ActionResult.PASS;
+
       if (portal.getBlock() instanceof DoorwayPortalBlock || portal.getBlock() instanceof Frame) {
-        return portal.onUse(world, player, hit);
+        return portal.onUse(
+          world,
+          player,
+          new BlockHitResult(
+            portalPos.toCenterPos(),
+            hit.getSide(),
+            portalPos,
+            hit.isInsideBlock()
+        ));
       }
 
       return ActionResult.PASS;
