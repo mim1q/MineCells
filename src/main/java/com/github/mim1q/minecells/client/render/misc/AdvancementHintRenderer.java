@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 import org.joml.Quaternionf;
@@ -28,7 +29,12 @@ public class AdvancementHintRenderer {
   private final int color;
   private final Item item;
 
-  public AdvancementHintRenderer(Identifier advancementId, ItemRenderer itemRenderer, int argb, @Nullable ItemConvertible item) {
+  public AdvancementHintRenderer(
+    Identifier advancementId,
+    ItemRenderer itemRenderer,
+    int argb,
+    @Nullable ItemConvertible item
+  ) {
     this.advancementId = advancementId;
     this.itemRenderer = itemRenderer;
     this.color = argb;
@@ -50,7 +56,7 @@ public class AdvancementHintRenderer {
         .getEulerAnglesYXZ(new Vector3f())
         .y;
 
-      matrixStack.multiply(new Quaternionf().rotationY(rotationAngle));
+      matrixStack.multiply(new Quaternionf().rotationY(MathHelper.PI + rotationAngle));
 
       matrixStack.translate(-1 / 16f, 0.25f, 0f);
       var yOffset = Math.sin(animationProgress * 0.33f) * 0.05;
@@ -60,7 +66,9 @@ public class AdvancementHintRenderer {
       if (item != null) {
         matrixStack.translate(1 / 16f, 0.5f - yOffset * 0.25f, 0.0f);
         matrixStack.scale(0.5f, 0.5f, 0.5f);
-        itemRenderer.renderItem(item.getDefaultStack(), ModelTransformationMode.FIXED, 0xF000F0, 0xFFFFFFFF, matrixStack, vertexConsumerProvider, null, 0);
+        itemRenderer.renderItem(item.getDefaultStack(), ModelTransformationMode.FIXED, 0xF000F0, 0xFFFFFFFF,
+          matrixStack, vertexConsumerProvider, null, 0
+        );
       }
     }
     matrixStack.pop();

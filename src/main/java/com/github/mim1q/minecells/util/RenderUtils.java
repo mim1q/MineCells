@@ -46,10 +46,10 @@ public class RenderUtils {
   public static void drawBillboard(VertexConsumer consumer, MatrixStack matrices, int light, float minX, float maxX, float minY, float maxY, float minU, float maxU, float minV, float maxV, int argb, int overlay) {
     var entry = matrices.peek();
 
-    RenderUtils.produceVertex(consumer, entry, light, argb, minX, minY, 0F, minU, maxV, overlay);
-    RenderUtils.produceVertex(consumer, entry, light, argb, maxX, minY, 0F, maxU, maxV, overlay);
-    RenderUtils.produceVertex(consumer, entry, light, argb, maxX, maxY, 0F, maxU, minV, overlay);
     RenderUtils.produceVertex(consumer, entry, light, argb, minX, maxY, 0F, minU, minV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, maxX, maxY, 0F, maxU, minV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, maxX, minY, 0F, maxU, maxV, overlay);
+    RenderUtils.produceVertex(consumer, entry, light, argb, minX, minY, 0F, minU, maxV, overlay);
   }
 
   public static void renderBakedModel(

@@ -6,6 +6,7 @@ import com.github.mim1q.minecells.block.RunicVineBlock;
 import com.github.mim1q.minecells.datagen.util.AllDatagenUtils;
 import com.github.mim1q.minecells.datagen.util.specific.ItemConversionUtils;
 import com.github.mim1q.minecells.item.MineCellsItemTags;
+import com.github.mim1q.minecells.item.weapon.melee.CustomMeleeWeapon;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsItems;
@@ -141,8 +142,10 @@ public class MineCellsDatagen extends AllDatagenUtils {
     addCrossModel(MineCells.createId("block/runic_vine"));
     addCrossModel(MineCells.createId("block/runic_vine_top"));
     getInitializers().blockState().add(it -> {
-      it.blockStateCollector.accept(VariantsBlockStateSupplier.create(MineCellsBlocks.SPAWNER_RUNE, BlockStateVariant.create()
-        .put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.SPAWNER_RUNE))));
+      it.blockStateCollector.accept(
+        VariantsBlockStateSupplier.create(MineCellsBlocks.SPAWNER_RUNE, BlockStateVariant.create()
+          .put(VariantSettings.MODEL, getBlockId(MineCellsBlocks.SPAWNER_RUNE))
+        ));
       it.blockStateCollector.accept(VariantsBlockStateSupplier.create(MineCellsBlocks.RUNIC_VINE)
         .coordinate(BlockStateVariantMap.create(RunicVineBlock.TOP)
           .register(false,
@@ -182,6 +185,7 @@ public class MineCellsDatagen extends AllDatagenUtils {
   private void initializeCustomItemModels() {
     initializeGeneratedItemModels();
     initializeHandheldItemModels();
+    initializeWeaponCopies();
 
     MineCellsItems.BOWS.forEach(this::addBow);
     MineCellsItems.CROSSBOWS.forEach(this::addCrossbow);
@@ -200,6 +204,20 @@ public class MineCellsDatagen extends AllDatagenUtils {
       parented.forEach(block -> it.registerParentedItemModel(block.asItem(), getBlockId(block)));
       it.registerItemModel(MineCellsBlocks.SPIKES);
       it.registerParentedItemModel(MineCellsBlocks.UNBREAKABLE_CELL_CRAFTER, getBlockId(MineCellsBlocks.CELL_CRAFTER));
+    });
+  }
+
+  private void initializeWeaponCopies() {
+    var handheldItems = CustomMeleeWeapon.getAllMeleeWeapons();
+    getInitializers().itemModel().add(it -> {
+      for (var item : handheldItems) {
+        var id = getItemId(item);
+        var newId = Identifier.of(
+          id.getNamespace(),
+          id.getPath().replace("item/", "item/weapon/")
+        );
+        new Model(Optional.of(newId), Optional.empty()).upload(id, new TextureMap(), it.writer);
+      }
     });
   }
 
@@ -281,17 +299,6 @@ public class MineCellsDatagen extends AllDatagenUtils {
 
   private void initializeHandheldItemModels() {
     var handheldItems = List.of(
-      MineCellsItems.ASSASSINS_DAGGER,
-      MineCellsItems.BLOOD_SWORD,
-      MineCellsItems.BROADSWORD,
-      MineCellsItems.BALANCED_BLADE,
-      MineCellsItems.CROWBAR,
-      MineCellsItems.NUTCRACKER,
-      MineCellsItems.CURSED_SWORD,
-      MineCellsItems.HATTORIS_KATANA,
-      MineCellsItems.TENTACLE,
-      MineCellsItems.SPITE_SWORD,
-      MineCellsItems.FLINT,
       MineCellsItems.LIGHTNING_BOLT
     );
 
