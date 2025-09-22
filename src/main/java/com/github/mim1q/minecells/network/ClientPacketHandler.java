@@ -218,14 +218,16 @@ public class ClientPacketHandler {
 
   public static void applySendUnlockedCellCrafterRecipes(SendUnlockedCellCrafterRecipesS2CPacket msg, ClientAccess handler) {
     var recipes = msg.requiredAdvancements();
-
     var recipeManager = handler.netHandler().getRecipeManager();
 
     handler.runtime().execute(() -> {
       var screen = handler.runtime().currentScreen;
       if (screen instanceof CellCrafterScreen cellCrafterScreen) {
-        cellCrafterScreen.updateRecipes(recipes.entrySet().stream().map(entry -> new CellCrafterRecipeList.DisplayedRecipe(
-          (CellForgeRecipe) recipeManager.get(entry.getKey()).get().value(), entry.getValue())
+        cellCrafterScreen.updateRecipes(recipes.entrySet().stream().map(entry -> {
+            var recipe = (CellForgeRecipe) recipeManager.get(entry.getKey()).get().value();
+            recipe = recipe.withId(entry.getKey());
+            return new CellCrafterRecipeList.DisplayedRecipe(recipe, entry.getValue());
+          }
         ).toList());
       }
     });

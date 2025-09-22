@@ -112,7 +112,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
             .showOverlay(true)
             .sizing(Sizing.fixed(16))
             .positioning(Positioning.absolute(100, 44))
-            .tooltip(selectedRecipe.output().getTooltip(Item.TooltipContext.create(this.handler.entity.getWorld()), this.handler.player(), TooltipType.BASIC))
+            .tooltip(selectedRecipe.output().getTooltip(Item.TooltipContext.DEFAULT, this.handler.player(), TooltipType.BASIC))
         );
 
         container.child(
@@ -237,7 +237,7 @@ public class CellCrafterScreen extends BaseOwoHandledScreen<FlowLayout, CellCraf
       for (var entry : itemLabels.entrySet()) {
         var ingredient = entry.getKey();
 
-        var tooltip = ingredient.getTooltip(null, MinecraftClient.getInstance().player, TooltipType.BASIC);
+        var tooltip = ingredient.getTooltip(Item.TooltipContext.DEFAULT, MinecraftClient.getInstance().player, TooltipType.BASIC);
         var itemComponent = entry.getValue().getLeft();
         var label = entry.getValue().getRight();
 

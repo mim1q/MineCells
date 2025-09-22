@@ -29,7 +29,7 @@ public record SendUnlockedCellCrafterRecipesS2CPacket(
       var recipe = r.value();
       var entry = (recipe.requiredAdvancement().map(it -> {
         var advancement = player.server.getAdvancementLoader().get(it);
-        return new Pair<>(it, advancement == null || player.getAdvancementTracker().getProgress(advancement).isDone());
+        return new Pair<>(r.id(), advancement == null || player.getAdvancementTracker().getProgress(advancement).isDone());
       }));
       entry.ifPresent(it -> requiredAdvancements.put(it.getLeft(), it.getRight()));
     }
