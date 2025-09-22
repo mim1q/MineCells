@@ -327,8 +327,9 @@ public class CellCrafterRecipeList {
         context.drawTexture(RECIPES_SCREEN_TEXTURE, x(), y(), 192, 64, 16, 16);
         matrices.pop();
 
-        if (this.hovered) {
-          var advancementKey = Util.createTranslationKey("advancements", recipe.recipe().requiredAdvancement().orElseThrow()) + ".description";
+        var requiredAdvancement = recipe.recipe().requiredAdvancement().orElse(null);
+        if (this.hovered && requiredAdvancement != null) {
+          var advancementKey = Util.createTranslationKey("advancements", requiredAdvancement) + ".description";
           var advancementName = Text.translatable(advancementKey).getString();
           context.drawOrderedTooltip(
             textRenderer,

@@ -5,7 +5,6 @@ import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,23 +15,23 @@ public record SendUnlockedCellCrafterRecipesS2CPacket(
 ) {
   public SendUnlockedCellCrafterRecipesS2CPacket(ServerPlayerEntity player) {
     this(
-      getRequiredAdvancements(
+      getRecipesWithUnlockStatus(
         player,
         player.server.getRecipeManager().listAllOfType(MineCellsRecipeTypes.CELL_FORGE_RECIPE_TYPE)
       )
     );
   }
 
-  private static Map<Identifier, Boolean> getRequiredAdvancements(ServerPlayerEntity player, List<RecipeEntry<CellForgeRecipe>> recipes) {
-    var requiredAdvancements = new HashMap<Identifier, Boolean>();
-    for (var r : recipes) {
-      var recipe = r.value();
-      var entry = (recipe.requiredAdvancement().map(it -> {
-        var advancement = player.server.getAdvancementLoader().get(it);
-        return new Pair<>(r.id(), advancement == null || player.getAdvancementTracker().getProgress(advancement).isDone());
+  private static Map<Identifier, Boolean> getRecipesWithUnlockStatus(ServerPlayerEntity player, List<RecipeEntry<CellForgeRecipe>> recipes) {
+    var recipesMap = new HashMap<Identifier, Boolean>();
+    for (var recipeEntry : recipes) {
+      var recipe = recipeEntry.value();
+      var isUnlocked = (recipe.requiredAdvancement().map(it -> {
+        var advancementEntry = player.server.getAdvancementLoader().get(it);
+        return advancementEntry == null || player.getAdvancementTracker().getProgress(advancementEntry).isDone();
       }));
-      entry.ifPresent(it -> requiredAdvancements.put(it.getLeft(), it.getRight()));
+      recipesMap.put(recipeEntry.id(), isUnlocked.orElse(true));
     }
-    return requiredAdvancements;
+    return recipesMap;
   }
 }
