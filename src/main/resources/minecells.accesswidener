@@ -3,3 +3,5 @@ accessWidener v2 named
 extendable class net/minecraft/world/gen/foliage/FoliagePlacer$TreeNode
 # Access current boss bars on the client
 accessible field net/minecraft/client/gui/hud/BossBarHud bossBars Ljava/util/Map;
+# Block settings offsetter - should fix Sinytra Connector crash
+accessible field net/minecraft/block/AbstractBlock$Settings offsetter Lnet/minecraft/block/AbstractBlock$Offsetter;

@@ -9,7 +9,6 @@ import com.github.mim1q.minecells.block.setupblocks.BeamPlacerBlock;
 import com.github.mim1q.minecells.block.setupblocks.ElevatorAssemblerBlock;
 import com.github.mim1q.minecells.block.setupblocks.MonsterBoxBlock;
 import com.github.mim1q.minecells.registry.featureset.*;
-import net.fabricmc.fabric.mixin.object.builder.AbstractBlockSettingsAccessor;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
@@ -234,7 +233,7 @@ public class MineCellsBlocks {
 
   @SuppressWarnings("UnstableApiUsage")
   private static AbstractBlock.Settings preventZFighting(AbstractBlock.Settings settings) {
-    ((AbstractBlockSettingsAccessor) settings).setOffsetter((state, world, pos) -> {
+    settings.offsetter = ((state, world, pos) -> {
       var x = pos.getX() % 3;
       var y = pos.getY() % 3;
       var z = pos.getZ() % 3;
@@ -250,7 +249,7 @@ public class MineCellsBlocks {
 
   @SuppressWarnings({"UnstableApiUsage", "deprecation"})
   public static AbstractBlock.Settings wallLeafOffset(AbstractBlock.Settings settings) {
-    ((AbstractBlockSettingsAccessor) settings).setOffsetter((state, world, pos) -> {
+    settings.offsetter = ((state, world, pos) -> {
       long l = MathHelper.hashCode(pos.getX(), pos.getY(), pos.getZ());
       var offset = 0.3f;
       var localZScale = 0.2f;
