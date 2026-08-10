@@ -116,15 +116,17 @@ public class DoorwayItem extends AliasedBlockItem {
 
   @Override
   public boolean hasGlint(ItemStack stack) {
-    return super.hasGlint(stack) || stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride");
+    var blockEntityTag = stack.getSubNbt("BlockEntityTag");
+    return super.hasGlint(stack) || (blockEntityTag != null && blockEntityTag.contains("posOverride"));
   }
 
   @Override
   public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
     super.appendTooltip(stack, world, tooltip, context);
     tooltip.add(Text.translatable(DESCRIPTION).formatted(Formatting.DARK_GRAY));
-    if (stack.getOrCreateSubNbt("BlockEntityTag").contains("posOverride")) {
-      var posOverride = BlockPos.fromLong(stack.getOrCreateSubNbt("BlockEntityTag").getLong("posOverride"));
+    var blockEntityTag = stack.getSubNbt("BlockEntityTag");
+    if (blockEntityTag != null && blockEntityTag.contains("posOverride")) {
+      var posOverride = BlockPos.fromLong(blockEntityTag.getLong("posOverride"));
       var x = posOverride.getX();
       var z = posOverride.getZ();
       var area = "[x: " + x + ", z: " + z + "]";
